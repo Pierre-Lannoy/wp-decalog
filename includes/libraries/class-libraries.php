@@ -61,7 +61,7 @@ class Libraries {
 		self::$psr4_libraries['monolog']   = [
 			'name'    => 'Monolog',
 			'prefix'  => 'Monolog',
-			'base'    => DECALOG_VENDOR_DIR . 'Monolog/',
+			'base'    => DECALOG_VENDOR_DIR . 'monolog/',
 			'version' => '2.0.0-beta-2',
 			// phpcs:ignore
 			'author'  => sprintf( __( '%s & contributors', 'decalog' ), 'Jordi Boggiano' ),
