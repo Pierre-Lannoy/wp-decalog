@@ -58,6 +58,17 @@ class Libraries {
 	 */
 	public static function init() {
 		self::$psr4_libraries              = [];
+		self::$psr4_libraries['monolog']   = [
+			'name'    => 'Monolog',
+			'prefix'  => 'Monolog',
+			'base'    => DECALOG_VENDOR_DIR . 'Monolog/',
+			'version' => '2.0.0-beta-2',
+			// phpcs:ignore
+			'author'  => sprintf( __( '%s & contributors', 'decalog' ), 'Jordi Boggiano' ),
+			'url'     => 'https://github.com/Seldaek/monolog',
+			'license' => 'mit',
+			'langs'   => 'en',
+		];
 		self::$mono_libraries              = [];
 		self::$mono_libraries['parsedown'] = [
 			'name'    => 'Parsedown',
