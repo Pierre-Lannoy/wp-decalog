@@ -50,7 +50,7 @@ class Nag {
 	 */
 	public static function init() {
 		if ( defined( 'DISABLE_NAG_NOTICES' ) ) {
-			self::$allowed = DISABLE_NAG_NOTICES;
+			self::$allowed = ! DISABLE_NAG_NOTICES;
 		}
 		if ( self::$allowed ) {
 			self::$allowed = Option::get( 'display_nag' );

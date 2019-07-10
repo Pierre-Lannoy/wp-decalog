@@ -37,13 +37,13 @@ class Option {
 	 * @since 1.0.0
 	 */
 	public static function init() {
-		$defaults['use_cdn']          = false;
-		$defaults['script_in_footer'] = false;
-		$defaults['auto_update']      = true;
-		$defaults['display_nag']      = true;
-		$defaults['nags']             = [];
-		$defaults['version']          = '0.0.0';
-		$defaults['loggers']          = [];
+		self::$defaults['use_cdn']          = false;
+		self::$defaults['script_in_footer'] = false;
+		self::$defaults['auto_update']      = true;
+		self::$defaults['display_nag']      = true;
+		self::$defaults['nags']             = [];
+		self::$defaults['version']          = '0.0.0';
+		self::$defaults['loggers']          = [];
 	}
 
 	/**
