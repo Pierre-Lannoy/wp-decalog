@@ -164,6 +164,9 @@ class Updater {
 		$result   = $markdown->text( $content );
 		if ( $clean ) {
 			$result = preg_replace( '/<h1>.*<\/h1>/iU', '', $result );
+			for ( $i = 8; $i > 1; $i-- ) {
+				$result = str_replace( array( '<h' . $i . '>', '</h' . $i . '>' ), array( '<h' . (string) ( $i + 1 ) . '>', '</h' . (string) ( $i + 1 ) . '>' ), $result );
+			}
 		}
 		return wp_kses(
 			$result,

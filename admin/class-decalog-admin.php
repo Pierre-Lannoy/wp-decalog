@@ -62,6 +62,7 @@ class Decalog_Admin {
 	 * @since 1.0.0
 	 */
 	public function init_admin_menus() {
+		add_submenu_page( 'options-general.php', sprintf( __( '%s Settings', 'decalog' ), DECALOG_PRODUCT_NAME ), DECALOG_PRODUCT_NAME, apply_filters( 'adr_manage_options_capability', 'manage_options' ), 'decalog-settings', array( $this, 'get_settings_page' ) );
 	}
 
 	/**
@@ -70,6 +71,19 @@ class Decalog_Admin {
 	 * @since 1.0.0
 	 */
 	public function init_settings_sections() {
+	}
+
+	/**
+	 * Get the content of the settings page.
+	 *
+	 * @since 1.0.0
+	 */
+	public function get_settings_page() {
+		if ( ! ( $tab = filter_input( INPUT_GET, 'tab' ) ) ) {
+			$tab = filter_input( INPUT_POST, 'tab' );
+		}
+		$view = 'decalog-admin-settings-main';
+		include DECALOG_ADMIN_DIR . 'partials/' . $view . '.php';
 	}
 
 }
