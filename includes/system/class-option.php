@@ -43,6 +43,7 @@ class Option {
 		$defaults['display_nag']      = true;
 		$defaults['nags']             = [];
 		$defaults['version']          = '0.0.0';
+		$defaults['loggers']             = [];
 	}
 
 	/**
