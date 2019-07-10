@@ -10,13 +10,13 @@
  * @since   1.0.0
  */
 
-namespace WPPluginBoilerplate\Plugin;
+namespace Decalog\Plugin;
 
-use WPPluginBoilerplate\System\Loader;
-use WPPluginBoilerplate\System\I18n;
-use WPPluginBoilerplate\System\Assets;
-use WPPluginBoilerplate\Libraries\Libraries;
-use WPPluginBoilerplate\System\Nag;
+use Decalog\System\Loader;
+use Decalog\System\I18n;
+use Decalog\System\Assets;
+use Decalog\Libraries\Libraries;
+use Decalog\System\Nag;
 
 /**
  * The core plugin class.
@@ -83,8 +83,8 @@ class Core {
 		$libraries = new Libraries();
 		$this->loader->add_action( 'wp_head', $assets, 'prefetch' );
 		$this->loader->add_action( 'auto_update_plugin', $updater, 'auto_update_plugin', 10, 2 );
-		add_shortcode( 'wppb-changelog', [ $updater, 'sc_get_changelog' ] );
-		add_shortcode( 'wppb-libraries', [ $libraries, 'sc_get_list' ] );
+		add_shortcode( 'decalog-changelog', [ $updater, 'sc_get_changelog' ] );
+		add_shortcode( 'decalog-libraries', [ $libraries, 'sc_get_list' ] );
 	}
 
 	/**
@@ -95,14 +95,14 @@ class Core {
 	 * @access private
 	 */
 	private function define_admin_hooks() {
-		$plugin_admin = new Wp_Plugin_Boilerplate_Admin();
+		$plugin_admin = new Decalog_Admin();
 		$nag          = new Nag();
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'init_admin_menus' );
 		$this->loader->add_action( 'admin_init', $plugin_admin, 'init_settings_sections' );
 		$this->loader->add_action( 'admin_notices', $nag, 'display' );
-		$this->loader->add_action( 'wp_ajax_hide_wppb_nag', $nag, 'hide_callback' );
+		$this->loader->add_action( 'wp_ajax_hide_decalog_nag', $nag, 'hide_callback' );
 	}
 
 	/**
@@ -113,7 +113,7 @@ class Core {
 	 * @access private
 	 */
 	private function define_public_hooks() {
-		$plugin_public = new Wp_Plugin_Boilerplate_Public();
+		$plugin_public = new Decalog_Public();
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 	}

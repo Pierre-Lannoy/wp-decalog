@@ -9,7 +9,7 @@
  * @since   1.0.0
  */
 
-namespace WPPluginBoilerplate\System;
+namespace Decalog\System;
 
 /**
  * Define the options functionality.
@@ -59,7 +59,7 @@ class Option {
 		if ( array_key_exists( $option, self::$defaults ) ) {
 			$default = self::$defaults[ $option ];
 		}
-		return get_option( WPPB_PRODUCT_ABBREVIATION . '_' . $option, $default );
+		return get_option( DECALOG_PRODUCT_ABBREVIATION . '_' . $option, $default );
 	}
 
 	/**
@@ -75,7 +75,7 @@ class Option {
 	 * @since 1.0.0
 	 */
 	public static function set( $option, $value, $autoload = null ) {
-		return update_option( WPPB_PRODUCT_ABBREVIATION . '_' . $option, $value, $autoload );
+		return update_option( DECALOG_PRODUCT_ABBREVIATION . '_' . $option, $value, $autoload );
 	}
 
 	/**
@@ -88,7 +88,7 @@ class Option {
 		global $wpdb;
 		$result = 0;
 		// phpcs:ignore
-		$delete = $wpdb->get_col( "SELECT option_name FROM {$wpdb->options} WHERE option_name LIKE '" . WPPB_PRODUCT_ABBREVIATION . '_%' . "';" );
+		$delete = $wpdb->get_col( "SELECT option_name FROM {$wpdb->options} WHERE option_name LIKE '" . DECALOG_PRODUCT_ABBREVIATION . '_%' . "';" );
 		foreach ( $delete as $option ) {
 			if ( delete_option( $option ) ) {
 				++$result;

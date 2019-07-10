@@ -8,7 +8,7 @@
  * @noinspection PhpCSValidationInspection
  */
 
-namespace WPPluginBoilerplate\System;
+namespace Decalog\System;
 
 /**
  * The class responsible to handle cache management.
@@ -27,7 +27,7 @@ class Cache {
 	 * @access private
 	 * @var    string    $pool_name    The pool's name.
 	 */
-	private static $pool_name = WPPB_SLUG;
+	private static $pool_name = DECALOG_SLUG;
 
 	/**
 	 * Differentiates cache items by blogs.

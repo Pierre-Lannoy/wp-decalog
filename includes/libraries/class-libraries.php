@@ -9,9 +9,9 @@
  * @since   1.0.0
  */
 
-namespace WPPluginBoilerplate\Libraries;
+namespace Decalog\Libraries;
 
-use WPPluginBoilerplate\System\L10n;
+use Decalog\System\L10n;
 
 /**
  * Define the libraries functionality.
@@ -62,10 +62,10 @@ class Libraries {
 		self::$mono_libraries['parsedown'] = [
 			'name'    => 'Parsedown',
 			'detect'  => 'Parsedown',
-			'base'    => WPPB_VENDOR_DIR . 'parsedown/',
+			'base'    => DECALOG_VENDOR_DIR . 'parsedown/',
 			'version' => '1.8.0-beta-7',
 			// phpcs:ignore
-			'author'  => sprintf( __( '%s & contributors', 'wp-plugin-boilerplate' ), 'Emanuil Rusev' ),
+			'author'  => sprintf( __( '%s & contributors', 'decalog' ), 'Emanuil Rusev' ),
 			'url'     => 'https://parsedown.org',
 			'license' => 'mit',
 			'langs'   => 'en',
@@ -114,13 +114,13 @@ class Libraries {
 	private function license_name( $license ) {
 		switch ( $license ) {
 			case 'mit':
-				$result = esc_html( __( 'MIT license', 'wp-plugin-boilerplate' ) );
+				$result = esc_html( __( 'MIT license', 'decalog' ) );
 				break;
 			case 'gpl2':
-				$result = esc_html( __( 'GPL-2.0 license', 'wp-plugin-boilerplate' ) );
+				$result = esc_html( __( 'GPL-2.0 license', 'decalog' ) );
 				break;
 			default:
-				$result = esc_html( __( 'unknown license', 'wp-plugin-boilerplate' ) );
+				$result = esc_html( __( 'unknown license', 'decalog' ) );
 				break;
 		}
 		return $result;
@@ -157,7 +157,7 @@ class Libraries {
 		$item['name']    = 'Plugin Boilerplate';
 		$item['version'] = '';
 		$item['author']  = 'Pierre Lannoy';
-		$item['url']     = 'https://github.com/Pierre-Lannoy/wp-plugin-boilerplate';
+		$item['url']     = 'https://github.com/Pierre-Lannoy/decalog';
 		$item['license'] = $this->license_name( 'gpl2' );
 		$item['langs']   = L10n::get_language_markup( [ 'en' ] );
 		$list[]          = $item;
@@ -166,7 +166,7 @@ class Libraries {
 			$items = [];
 			foreach ( $list as $library ) {
 				/* translators: as in the sentence "Product W version X by author Y (license Z)" */
-				$items[] = sprintf( __( '<a href="%1$s">%2$s %3$s</a>%4$s by %5$s (%6$s)', 'wp-plugin-boilerplate' ), $library['url'], $library['name'], $library['version'], $library['langs'], $library['author'], $library['license'] );
+				$items[] = sprintf( __( '<a href="%1$s">%2$s %3$s</a>%4$s by %5$s (%6$s)', 'decalog' ), $library['url'], $library['name'], $library['version'], $library['langs'], $library['author'], $library['license'] );
 			}
 			$result = implode( ', ', $items );
 		}

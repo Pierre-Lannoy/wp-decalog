@@ -7,7 +7,7 @@
  * @since   1.0.0
  */
 
-namespace WPPluginBoilerplate\Plugin;
+namespace Decalog\Plugin;
 
 /**
  * Fired during plugin activation.

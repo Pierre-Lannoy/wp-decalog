@@ -7,15 +7,15 @@
  * @since   1.0.0
  */
 
-define( 'WPPB_PRODUCT_NAME', 'WordPress Plugin Boilerplate' );
-define( 'WPPB_PRODUCT_URL', 'https://github.com/Pierre-Lannoy' );
-define( 'WPPB_PRODUCT_SHORTNAME', 'PluginBoilerplate' );
-define( 'WPPB_PRODUCT_ABBREVIATION', 'wppb' );
-define( 'WPPB_SLUG', 'wp-plugin-boilerplate' );
-define( 'WPPB_VERSION', '1.0.0' );
-define( 'WPPB_CODENAME', '"-"' );
+define( 'DECALOG_PRODUCT_NAME', 'DecaLog' );
+define( 'DECALOG_PRODUCT_URL', 'https://github.com/Pierre-Lannoy/wp-decalog' );
+define( 'DECALOG_PRODUCT_SHORTNAME', 'DecaLog' );
+define( 'DECALOG_PRODUCT_ABBREVIATION', 'decalog' );
+define( 'DECALOG_SLUG', 'decalog' );
+define( 'DECALOG_VERSION', '1.0.0' );
+define( 'DECALOG_CODENAME', '"-"' );
 
-define( 'WPPB_MINIMUM_WP_VERSION', '4.9' );
-define( 'WPPB_MINIMUM_PHP_VERSION', '7.2' );
+define( 'DECALOG_MINIMUM_WP_VERSION', '5.2' );
+define( 'DECALOG_MINIMUM_PHP_VERSION', '7.2' );
 
-define( 'WPPB_CDN_AVAILABLE', true );
+define( 'DECALOG_CDN_AVAILABLE', true );

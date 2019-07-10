@@ -11,7 +11,7 @@
  * @since   1.0.0
  */
 
-namespace WPPluginBoilerplate\System;
+namespace Decalog\System;
 
 /**
  * Define the nag functionality.
@@ -108,7 +108,7 @@ class Nag {
 				$nonce_action = sanitize_key( $key );
 				$nonce_name   = str_replace( [ '-', '_' ], '', $nonce_action );
 				$nonce        = wp_nonce_field( $nonce_action, $nonce_name, false, false );
-				$div_id       = 'wppb-' . $nonce_name;
+				$div_id       = 'decalog-' . $nonce_name;
 				$div_class    = 'notice notice-' . $nag['type'] . ' is-dismissible';
 				$text         = wp_kses(
 					$nag['value'],
@@ -122,7 +122,7 @@ class Nag {
 					]
 				);
 				$html         = '<div id="' . $div_id . '" class="' . $div_class . '">' . $nonce . '<p>' . $text . '</p></div>';
-				$js           = '<script>jQuery(document).ready(function($){$("#' . $div_id . '").on("click", ".notice-dismiss", function(event){$.post(ajaxurl,{action: "hide_wppb_nag",' . $nonce_name . ': $("#' . $nonce_name . '").val()});});});</script>';
+				$js           = '<script>jQuery(document).ready(function($){$("#' . $div_id . '").on("click", ".notice-dismiss", function(event){$.post(ajaxurl,{action: "hide_decalog_nag",' . $nonce_name . ': $("#' . $nonce_name . '").val()});});});</script>';
 				// phpcs:ignore
 				print( $html . $js );
 			}

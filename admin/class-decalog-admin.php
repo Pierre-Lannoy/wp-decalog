@@ -7,9 +7,9 @@
  * @since   1.0.0
  */
 
-namespace WPPluginBoilerplate\Plugin;
+namespace Decalog\Plugin;
 
-use WPPluginBoilerplate\System\Assets;
+use Decalog\System\Assets;
 
 /**
  * The admin-specific functionality of the plugin.
@@ -18,7 +18,7 @@ use WPPluginBoilerplate\System\Assets;
  * @author  Pierre Lannoy <https://pierre.lannoy.fr/>.
  * @since   1.0.0
  */
-class Wp_Plugin_Boilerplate_Admin {
+class Decalog_Admin {
 
 	/**
 	 * The assets manager that's responsible for handling all assets of the plugin.
@@ -44,7 +44,7 @@ class Wp_Plugin_Boilerplate_Admin {
 	 * @since 1.0.0
 	 */
 	public function enqueue_styles() {
-		$this->assets->register_style( WPPB_ASSETS_ID, WPPB_ADMIN_URL, 'css/wp-plugin-boilerplate.min.css' );
+		$this->assets->register_style( DECALOG_ASSETS_ID, DECALOG_ADMIN_URL, 'css/decalog.min.css' );
 	}
 
 	/**
@@ -53,7 +53,7 @@ class Wp_Plugin_Boilerplate_Admin {
 	 * @since 1.0.0
 	 */
 	public function enqueue_scripts() {
-		$this->assets->register_script( WPPB_ASSETS_ID, WPPB_ADMIN_URL, 'js/wp-plugin-boilerplate.min.js', [ 'jquery' ] );
+		$this->assets->register_script( DECALOG_ASSETS_ID, DECALOG_ADMIN_URL, 'js/decalog.min.js', [ 'jquery' ] );
 	}
 
 	/**

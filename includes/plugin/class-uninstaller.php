@@ -7,10 +7,10 @@
  * @since   1.0.0
  */
 
-namespace WPPluginBoilerplate\Plugin;
+namespace Decalog\Plugin;
 
-use WPPluginBoilerplate\System\Option;
-use WPPluginBoilerplate\System\User;
+use Decalog\System\Option;
+use Decalog\System\User;
 
 /**
  * Fired during plugin deletion.

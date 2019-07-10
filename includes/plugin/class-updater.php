@@ -7,11 +7,11 @@
  * @since   1.0.0
  */
 
-namespace WPPluginBoilerplate\Plugin;
+namespace Decalog\Plugin;
 
 use Parsedown;
-use WPPluginBoilerplate\System\Nag;
-use WPPluginBoilerplate\System\Option;
+use Decalog\System\Nag;
+use Decalog\System\Option;
 use Exception;
 
 /**
@@ -33,18 +33,18 @@ class Updater {
 	 */
 	public function __construct() {
 		$old = Option::get( 'version' );
-		if ( WPPB_VERSION !== $old ) {
+		if ( DECALOG_VERSION !== $old ) {
 			if ( '0.0.0' === $old ) {
 				$this->install();
 				// phpcs:ignore
-				$message = sprintf( __( '%1$s has been correctly installed.', 'wp-plugin-boilerplate' ), WPPB_PRODUCT_NAME );
+				$message = sprintf( __( '%1$s has been correctly installed.', 'decalog' ), DECALOG_PRODUCT_NAME );
 			} else {
 				$this->update( $old );
 				// phpcs:ignore
-				$message = sprintf( __( '%1$s has been correctly updated from version %2$s to version %3$s.', 'wp-plugin-boilerplate' ), WPPB_PRODUCT_NAME, $old, WPPB_VERSION );
+				$message = sprintf( __( '%1$s has been correctly updated from version %2$s to version %3$s.', 'decalog' ), DECALOG_PRODUCT_NAME, $old, DECALOG_VERSION );
 			}
 			Nag::add( 'update', 'info', $message );
-			Option::set( 'version', WPPB_VERSION );
+			Option::set( 'version', DECALOG_VERSION );
 		}
 	}
 
@@ -103,7 +103,7 @@ class Updater {
 	 * @since 1.0.0
 	 */
 	public function auto_update_plugin( $update, $item ) {
-		if ( ( WPPB_SLUG === $item->slug ) && $this->is_autoupdatable() ) {
+		if ( ( DECALOG_SLUG === $item->slug ) && $this->is_autoupdatable() ) {
 			return true;
 		} else {
 			return $update;
@@ -128,9 +128,9 @@ class Updater {
 		);
 		$style       = $_attributes['style'];
 		$mode        = $_attributes['mode'];
-		$error       = __( 'Sorry, unable to find or read changelog file.', 'wp-plugin-boilerplate' );
+		$error       = __( 'Sorry, unable to find or read changelog file.', 'decalog' );
 		$result      = esc_html( $error );
-		$changelog   = WPPB_PLUGIN_DIR . 'CHANGELOG.md';
+		$changelog   = DECALOG_PLUGIN_DIR . 'CHANGELOG.md';
 		if ( file_exists( $changelog ) ) {
 			try {
 				// phpcs:ignore

@@ -7,7 +7,7 @@
  * @since   1.0.0
  */
 
-namespace WPPluginBoilerplate\System;
+namespace Decalog\System;
 
 use Exception;
 
@@ -34,24 +34,24 @@ class Environment {
 	 * @since 1.0.0
 	 */
 	public static function init() {
-		$plugin_path         = str_replace( WPPB_SLUG . '/includes/system/', WPPB_SLUG . '/', plugin_dir_path( __FILE__ ) );
-		$plugin_url          = str_replace( WPPB_SLUG . '/includes/system/', WPPB_SLUG . '/', plugin_dir_url( __FILE__ ) );
+		$plugin_path         = str_replace( DECALOG_SLUG . '/includes/system/', DECALOG_SLUG . '/', plugin_dir_path( __FILE__ ) );
+		$plugin_url          = str_replace( DECALOG_SLUG . '/includes/system/', DECALOG_SLUG . '/', plugin_dir_url( __FILE__ ) );
 		$plugin_relative_url = str_replace( get_site_url() . '/', '', $plugin_url );
-		define( 'WPPB_PLUGIN_DIR', $plugin_path );
-		define( 'WPPB_PLUGIN_URL', $plugin_url );
-		define( 'WPPB_PLUGIN_RELATIVE_URL', $plugin_relative_url );
-		define( 'WPPB_ADMIN_DIR', WPPB_PLUGIN_DIR . 'admin/' );
-		define( 'WPPB_ADMIN_URL', WPPB_PLUGIN_URL . 'admin/' );
-		define( 'WPPB_PUBLIC_DIR', WPPB_PLUGIN_DIR . 'public/' );
-		define( 'WPPB_PUBLIC_URL', WPPB_PLUGIN_URL . 'public/' );
-		define( 'WPPB_INCLUDES_DIR', WPPB_PLUGIN_DIR . 'includes/' );
-		define( 'WPPB_VENDOR_DIR', WPPB_PLUGIN_DIR . 'includes/libraries/' );
-		define( 'WPPB_LANGUAGES_DIR', WPPB_PLUGIN_DIR . 'languages/' );
-		define( 'WPPB_ADMIN_RELATIVE_URL', self::admin_relative_url() );
-		define( 'WPPB_AJAX_RELATIVE_URL', self::ajax_relative_url() );
-		define( 'WPPB_PLUGIN_SIGNATURE', WPPB_PRODUCT_NAME . ' v' . WPPB_VERSION );
-		define( 'WPPB_PLUGIN_AGENT', WPPB_PRODUCT_NAME . ' (' . self::wordpress_version_id() . '; ' . self::plugin_version_id() . '; +' . WPPB_PRODUCT_URL . ')' );
-		define( 'WPPB_ASSETS_ID', WPPB_PRODUCT_ABBREVIATION . '-assets' );
+		define( 'DECALOG_PLUGIN_DIR', $plugin_path );
+		define( 'DECALOG_PLUGIN_URL', $plugin_url );
+		define( 'DECALOG_PLUGIN_RELATIVE_URL', $plugin_relative_url );
+		define( 'DECALOG_ADMIN_DIR', DECALOG_PLUGIN_DIR . 'admin/' );
+		define( 'DECALOG_ADMIN_URL', DECALOG_PLUGIN_URL . 'admin/' );
+		define( 'DECALOG_PUBLIC_DIR', DECALOG_PLUGIN_DIR . 'public/' );
+		define( 'DECALOG_PUBLIC_URL', DECALOG_PLUGIN_URL . 'public/' );
+		define( 'DECALOG_INCLUDES_DIR', DECALOG_PLUGIN_DIR . 'includes/' );
+		define( 'DECALOG_VENDOR_DIR', DECALOG_PLUGIN_DIR . 'includes/libraries/' );
+		define( 'DECALOG_LANGUAGES_DIR', DECALOG_PLUGIN_DIR . 'languages/' );
+		define( 'DECALOG_ADMIN_RELATIVE_URL', self::admin_relative_url() );
+		define( 'DECALOG_AJAX_RELATIVE_URL', self::ajax_relative_url() );
+		define( 'DECALOG_PLUGIN_SIGNATURE', DECALOG_PRODUCT_NAME . ' v' . DECALOG_VERSION );
+		define( 'DECALOG_PLUGIN_AGENT', DECALOG_PRODUCT_NAME . ' (' . self::wordpress_version_id() . '; ' . self::plugin_version_id() . '; +' . DECALOG_PRODUCT_URL . ')' );
+		define( 'DECALOG_ASSETS_ID', DECALOG_PRODUCT_ABBREVIATION . '-assets' );
 	}
 
 	/**
@@ -61,7 +61,7 @@ class Environment {
 	 * @return string The major version number.
 	 * @since  1.0.0
 	 */
-	public static function major_version( $version = WPPB_VERSION ) {
+	public static function major_version( $version = DECALOG_VERSION ) {
 		try {
 			$result = substr( $version, 0, strpos( $version, '.' ) );
 		} catch ( Exception $ex ) {
@@ -77,7 +77,7 @@ class Environment {
 	 * @return string The major version number.
 	 * @since  1.0.0
 	 */
-	public static function minor_version( $version = WPPB_VERSION ) {
+	public static function minor_version( $version = DECALOG_VERSION ) {
 		try {
 			$result = substr( $version, strpos( $version, '.' ) + 1, 1000 );
 			$result = substr( $result, 0, strpos( $result, '.' ) );
@@ -94,7 +94,7 @@ class Environment {
 	 * @return string The major version number.
 	 * @since  1.0.0
 	 */
-	public static function patch_version( $version = WPPB_VERSION ) {
+	public static function patch_version( $version = DECALOG_VERSION ) {
 		try {
 			$result = substr( $version, strpos( $version, '.' ) + 1, 1000 );
 			$result = substr( $result, strpos( $result, '.' ) + 1, 1000 );
@@ -115,7 +115,7 @@ class Environment {
 	 */
 	public static function is_wordpress_version_ok() {
 		global $wp_version;
-		return ( ! version_compare( $wp_version, WPPB_MINIMUM_WP_VERSION, '<' ) );
+		return ( ! version_compare( $wp_version, DECALOG_MINIMUM_WP_VERSION, '<' ) );
 	}
 
 	/**
@@ -159,18 +159,18 @@ class Environment {
 				$debug = true;
 				if ( defined( 'WP_DEBUG_LOG' ) ) {
 					if ( WP_DEBUG_LOG ) {
-						$opt[] = __( 'log', 'wp-plugin-boilerplate' );
+						$opt[] = __( 'log', 'decalog' );
 					}
 				}
 				if ( defined( 'WP_DEBUG_DISPLAY' ) ) {
 					if ( WP_DEBUG_DISPLAY ) {
-						$opt[] = __( 'display', 'wp-plugin-boilerplate' );
+						$opt[] = __( 'display', 'decalog' );
 					}
 				}
 				$s = implode( ', ', $opt );
 			}
 		}
-		return ( $debug ? __( 'Debug enabled', 'wp-plugin-boilerplate' ) . ( '' !== $s ? ' (' . $s . ')' : '' ) : __( 'Debug disabled', 'wp-plugin-boilerplate' ) );
+		return ( $debug ? __( 'Debug enabled', 'decalog' ) . ( '' !== $s ? ' (' . $s . ')' : '' ) : __( 'Debug disabled', 'decalog' ) );
 	}
 
 	/**
@@ -180,7 +180,7 @@ class Environment {
 	 * @since  1.0.0
 	 */
 	public static function plugin_version_id() {
-		return WPPB_PRODUCT_SHORTNAME . '/' . WPPB_VERSION;
+		return DECALOG_PRODUCT_SHORTNAME . '/' . DECALOG_VERSION;
 	}
 
 	/**
@@ -190,10 +190,10 @@ class Environment {
 	 * @since  1.0.0
 	 */
 	public static function plugin_version_text() {
-		$s = WPPB_PRODUCT_NAME . ' ' . WPPB_VERSION;
-		if ( defined( 'WPPB_CODENAME' ) ) {
-			if ( WPPB_CODENAME !== '"-"' ) {
-				$s .= ' ' . WPPB_CODENAME;
+		$s = DECALOG_PRODUCT_NAME . ' ' . DECALOG_VERSION;
+		if ( defined( 'DECALOG_CODENAME' ) ) {
+			if ( DECALOG_CODENAME !== '"-"' ) {
+				$s .= ' ' . DECALOG_CODENAME;
 			}
 		}
 		return $s;
@@ -206,7 +206,7 @@ class Environment {
 	 * @since  1.0.0
 	 */
 	public static function is_plugin_in_dev_mode() {
-		return ( strpos( WPPB_VERSION, 'dev' ) > 0 );
+		return ( strpos( DECALOG_VERSION, 'dev' ) > 0 );
 	}
 
 	/**
@@ -216,7 +216,7 @@ class Environment {
 	 * @since  1.0.0
 	 */
 	public static function is_plugin_in_rc_mode() {
-		return ( strpos( WPPB_VERSION, 'rc' ) > 0 );
+		return ( strpos( DECALOG_VERSION, 'rc' ) > 0 );
 	}
 
 	/**
@@ -236,7 +236,7 @@ class Environment {
 	 * @since  1.0.0
 	 */
 	public static function is_php_version_ok() {
-		return ( ! version_compare( PHP_VERSION, WPPB_MINIMUM_PHP_VERSION, '<' ) );
+		return ( ! version_compare( PHP_VERSION, DECALOG_MINIMUM_PHP_VERSION, '<' ) );
 	}
 
 	/**

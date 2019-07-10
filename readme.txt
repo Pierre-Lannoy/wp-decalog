@@ -1,8 +1,8 @@
-=== WordPress plugin boiler plate ===
+=== DecaLog ===
 Contributors: PierreLannoy
 Tags: tag1, tag2, tag3, tag4, tag5
-Requires at least: 4.9
-Requires PHP: 7.1
+Requires at least: 5.2
+Requires PHP: 7.2
 Tested up to: 5.2
 Stable tag: 0.0.0
 License: GPLv2 or later
