@@ -15,7 +15,7 @@ namespace Decalog\Plugin;
 use Decalog\System\Loader;
 use Decalog\System\I18n;
 use Decalog\System\Assets;
-use Decalog\Libraries\Libraries;
+use Decalog\Library\Libraries;
 use Decalog\System\Nag;
 
 /**

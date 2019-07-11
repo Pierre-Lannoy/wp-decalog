@@ -22,7 +22,10 @@ spl_autoload_register(
 			if ( strpos( $class, 'Decalog\Plugin\\' ) === 0 ) {
 				$filepath = DECALOG_INCLUDES_DIR . 'plugin/';
 			}
-			if ( strpos( $class, 'Decalog\Libraries\\' ) === 0 ) {
+			if ( strpos( $class, 'WPPluginBoilerplate\Plugin\Feature\\' ) === 0 ) {
+				$filepath = WPPB_INCLUDES_DIR . 'features/';
+			}
+			if ( strpos( $class, 'Decalog\Library\\' ) === 0 ) {
 				$filepath = DECALOG_VENDOR_DIR;
 			}
 			if ( strpos( $filename, '-public' ) !== false ) {

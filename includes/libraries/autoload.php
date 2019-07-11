@@ -10,14 +10,14 @@
 spl_autoload_register(
 	function ( $class ) {
 		$file = '';
-		foreach ( Decalog\Libraries\Libraries::get_psr4() as $library ) {
+		foreach ( Decalog\Library\Libraries::get_psr4() as $library ) {
 			$len = strlen( $library['prefix'] );
 			if ( strncmp( $library['prefix'], $class, $len ) === 0 ) {
 				$file = $library['base'] . str_replace( '\\', '/', substr( $class, $len ) ) . '.php';
 			}
 		}
 		if ( '' === $file ) {
-			foreach ( Decalog\Libraries\Libraries::get_mono() as $library ) {
+			foreach ( Decalog\Library\Libraries::get_mono() as $library ) {
 				if ( $library['detect'] === $class ) {
 					$file = $library['base'] . $library['detect'] . '.php';
 				}
