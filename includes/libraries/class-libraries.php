@@ -69,6 +69,16 @@ class Libraries {
 			'license' => 'mit',
 			'langs'   => 'en',
 		];
+		self::$psr4_libraries['psr-3']   = [
+			'name'    => 'PSR-3',
+			'prefix'  => 'Psr\\Log',
+			'base'    => DECALOG_VENDOR_DIR . 'psr/log/',
+			'version' => '',
+			'author'  => 'PHP Framework Interop Group',
+			'url'     => 'https://www.php-fig.org/',
+			'license' => 'mit',
+			'langs'   => 'en',
+		];
 		self::$mono_libraries              = [];
 		self::$mono_libraries['parsedown'] = [
 			'name'    => 'Parsedown',
