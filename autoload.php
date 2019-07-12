@@ -24,6 +24,9 @@ spl_autoload_register(
 			} elseif ( strpos( $class, 'Decalog\Plugin\\' ) === 0 ) {
 				$filepath = DECALOG_INCLUDES_DIR . 'plugin/';
 			}
+			if ( strpos( $class, 'Decalog\Processor\\' ) === 0 ) {
+				$filepath = DECALOG_INCLUDES_DIR . 'processors/';
+			}
 			if ( strpos( $class, 'Decalog\Library\\' ) === 0 ) {
 				$filepath = DECALOG_VENDOR_DIR;
 			}

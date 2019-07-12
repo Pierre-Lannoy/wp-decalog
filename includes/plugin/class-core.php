@@ -81,6 +81,7 @@ class Core {
 		$assets    = new Assets();
 		$updater   = new Updater();
 		$libraries = new Libraries();
+		$this->loader->add_action( 'init', '\Decalog\Plugin\Initializer', 'initialize' );
 		$this->loader->add_action( 'wp_head', $assets, 'prefetch' );
 		$this->loader->add_action( 'auto_update_plugin', $updater, 'auto_update_plugin', 10, 2 );
 		add_shortcode( 'decalog-changelog', [ $updater, 'sc_get_changelog' ] );

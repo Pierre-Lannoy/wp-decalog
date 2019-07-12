@@ -119,6 +119,16 @@ class Environment {
 	}
 
 	/**
+	 * Verification of WP MU.
+	 *
+	 * @return boolean     True if MU, false otherwise.
+	 * @since  1.0.0
+	 */
+	public static function is_wordpress_multisite() {
+		return is_multisite();
+	}
+
+	/**
 	 * Get the WordPress version ID.
 	 *
 	 * @return string  The WordPress version ID.

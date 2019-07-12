@@ -11,8 +11,6 @@
 
 namespace Decalog\System;
 
-use WP_User;
-
 /**
  * Define the user functionality.
  *
@@ -33,23 +31,48 @@ class User {
 	}
 
 	/**
+	 * Get a user nice name.
+	 *
+	 * @param   integer $id         Optional. The user id.
+	 * @param   string  $default    Optional. Default value to return if user is not detected.
+	 * @return  string  The user nice name if detected, $default otherwise.
+	 * @since   1.0.0
+	 */
+	public static function get_user_name( $id = null, $default = 'anonymous' ) {
+		if ( $id && is_numeric($id) && $id >0) {
+			$user_info = get_userdata( $id );
+			return $user_info->display_name;
+
+		} else {
+			return $default;
+		}
+	}
+
+	/**
 	 * Get the current user id.
 	 *
-	 * @return null|integer The user id if detected, null otherwise.
-	 * @since  3.0.8
+	 * @param   mixed   $default    Optional. Default value to return if user is not detected.
+	 * @return  mixed|integer The user id if detected, null otherwise.
+	 * @since   1.0.0
 	 */
-	public static function get_current_user_id() {
-		$user_id = null;
-		global $current_user;
-		if ( ! empty( $current_user ) ) {
-			if ( $current_user instanceof WP_User ) {
-				$user_id = $current_user->ID;
-			}
-			if ( is_object( $current_user ) && isset( $current_user->ID ) ) {
-				$user_id = $current_user->ID;
-			}
+	public static function get_current_user_id($default = null) {
+		$user_id = $default;
+		$id = get_current_user_id();
+		if ( $id && is_numeric($id) && $id >0) {
+			$user_id = $id;
 		}
 		return $user_id;
+	}
+
+	/**
+	 * Get the current user nice name.
+	 *
+	 * @param   string  $default    Optional. Default value to return if user is not detected.
+	 * @return  string  The current user nice name if detected, "anonymous" otherwise.
+	 * @since   1.0.0
+	 */
+	public static function get_current_user_name($default = 'anonymous' ) {
+		return self::get_user_name( self::get_current_user_id(), $default );
 	}
 
 	/**
