@@ -55,6 +55,37 @@ class Environment {
 	}
 
 	/**
+	 * Get the current execution mode.
+	 *
+	 * @return  integer The current execution mode.
+	 * @since 1.0.0
+	 */
+	public static function exec_mode() {
+		$id = 0;
+		$req_uri = filter_input( INPUT_SERVER, 'REQUEST_URI' );
+		if ( defined( 'WP_CLI' ) && WP_CLI ) {
+			$id = 1;
+		} elseif (wp_doing_cron()){
+			$id = 2;
+		} elseif (wp_doing_ajax()){
+			$id = 3;
+		} elseif ( defined('XMLRPC_REQUEST') && XMLRPC_REQUEST ){
+			$id = 4;
+		} elseif ( defined( 'REST_REQUEST ' ) && REST_REQUEST ) {
+			$id = 5;
+		} elseif ( $req_uri ? 0 === strpos(strtolower($req_uri), '/wp-json/') : false ) {
+			$id = 5;
+		} elseif ( $req_uri ? 0 === strpos(strtolower($req_uri), '/feed/') : false ) {
+			$id = 6;
+		} elseif ( is_admin() ) {
+			$id = 7;
+		} else {
+			$id = 8;
+		}
+		return $id;
+	}
+
+	/**
 	 * Get the major version number.
 	 *
 	 * @param  string $version Optional. The full version string.
