@@ -79,12 +79,11 @@ class Core {
 	 * @access private
 	 */
 	private function define_global_hooks() {
-		$bootstrap  = new Initializer(false);
+		$bootstrap  = new Initializer();
 		$assets    = new Assets();
 		$updater   = new Updater();
 		$libraries = new Libraries();
-		$this->loader->add_action( 'plugins_loaded', $bootstrap, 'start', 0 );
-		$this->loader->add_action( 'plugins_loaded', $bootstrap, 'self_register', 0 );
+		$this->loader->add_action( 'plugins_loaded', $bootstrap, 'initialize', 0 );
 		$this->loader->add_action( 'wp_head', $assets, 'prefetch' );
 		$this->loader->add_action( 'auto_update_plugin', $updater, 'auto_update_plugin', 10, 2 );
 		add_shortcode( 'decalog-changelog', [ $updater, 'sc_get_changelog' ] );

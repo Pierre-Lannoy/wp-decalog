@@ -9,6 +9,7 @@
 
 namespace Decalog\Plugin;
 
+use Decalog\Log;
 use Decalog\System\Assets;
 
 /**
@@ -30,12 +31,22 @@ class Decalog_Admin {
 	protected $assets;
 
 	/**
+	 * The internal logger.
+	 *
+	 * @since  1.0.0
+	 * @access protected
+	 * @var    DLogger    $logger    The plugin admin logger.
+	 */
+	protected $logger;
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since 1.0.0
 	 */
 	public function __construct() {
 		$this->assets = new Assets();
+		$this->logger = Log::bootstrap('plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION);
 	}
 
 	/**
