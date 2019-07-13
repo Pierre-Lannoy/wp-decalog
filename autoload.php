@@ -18,17 +18,18 @@ spl_autoload_register(
 			$filename = 'class-' . str_replace( '_', '-', strtolower( $classname ) ) . '.php';
 			if ( strpos( $class, 'Decalog\System\\' ) === 0 ) {
 				$filepath = DECALOG_INCLUDES_DIR . 'system/';
-			}
-			if ( strpos( $class, 'Decalog\Plugin\Feature\\' ) === 0 ) {
+			} elseif ( strpos( $class, 'Decalog\Plugin\Feature\\' ) === 0 ) {
 				$filepath = DECALOG_INCLUDES_DIR . 'features/';
 			} elseif ( strpos( $class, 'Decalog\Plugin\\' ) === 0 ) {
 				$filepath = DECALOG_INCLUDES_DIR . 'plugin/';
-			}
-			if ( strpos( $class, 'Decalog\Processor\\' ) === 0 ) {
+			} elseif ( strpos( $class, 'Decalog\Processor\\' ) === 0 ) {
 				$filepath = DECALOG_INCLUDES_DIR . 'processors/';
-			}
-			if ( strpos( $class, 'Decalog\Library\\' ) === 0 ) {
+			} elseif ( strpos( $class, 'Decalog\Library\\' ) === 0 ) {
 				$filepath = DECALOG_VENDOR_DIR;
+			} elseif ( strpos( $class, 'Decalog\API\\' ) === 0 ) {
+				$filepath = DECALOG_INCLUDES_DIR . 'api/';
+			} elseif ( strpos( $class, 'Decalog\\' ) === 0 ) {
+				$filepath = DECALOG_INCLUDES_DIR . 'api/';
 			}
 			if ( strpos( $filename, '-public' ) !== false ) {
 				$filepath = DECALOG_PUBLIC_DIR;

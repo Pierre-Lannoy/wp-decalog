@@ -104,8 +104,8 @@ class Initializer {
 		$log->pushHandler( $handler );
 
 		// add records to the log
-		$log->warning( 'FooFooFooFoo'/*, array('username' => 'Seldaek')*/ );
-		$log->error( 'BarBarBarBar' );
+		//$log->warning( 'FooFooFooFoo'/*, array('username' => 'Seldaek')*/ );
+		//$log->error( 'BarBarBarBar' );
 	}
 
 	/**
