@@ -11,6 +11,8 @@
 
 namespace Decalog\Plugin\Feature;
 
+use Decalog\System\Option;
+
 if ( ! class_exists( 'WP_List_Table' ) ) {
 	require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
 }
@@ -27,13 +29,13 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
 class Loggers extends \WP_List_Table {
 
 	/**
-	 * The domain options handler.
+	 * The loggers options handler.
 	 *
 	 * @since    1.0.0
 	 * @access   private
-	 * @var      object    $domains    The Adr_Sync_Options_Domains instance.
+	 * @var      array    $domains    The loggers list.
 	 */
-	private $domains = null;
+	private $loggers = null;
 
 	/**
 	 * Initialize the class and set its properties.
@@ -52,7 +54,11 @@ class Loggers extends \WP_List_Table {
 		if ( version_compare( $wp_version, '4.2-z', '>=' ) && $this->compat_fields && is_array( $this->compat_fields ) ) {
 			array_push( $this->compat_fields, 'all_items' );
 		}
-		//$this->domains = new Adr_Sync_Options_Domains( ADRS_SLUG, ADRS_VERSION );
+		$this->loggers = [];
+		foreach (Option::get('loggers') as $key=>$logger) {
+			$logger['uuid'] = $key;
+			$this->loggers[] = $logger;
+		}
 	}
 
 	/**
@@ -73,9 +79,9 @@ class Loggers extends \WP_List_Table {
 	 */
 	public function get_columns() {
 		$columns = array(
-			'name'       => __( 'Name', 'adr-sync' ),
-			'repository' => __( 'GitHub repository', 'adr-sync' ),
-			'term'       => __( 'Domain', 'adr-sync' ),
+			'name'       => __( 'Name', 'decalog' ),
+			//'repository' => __( 'GitHub repository', 'decalog' ),
+			//'term'       => __( 'Domain', 'decalog' ),
 		);
 		return $columns;
 	}
@@ -99,7 +105,7 @@ class Loggers extends \WP_List_Table {
 	protected function get_sortable_columns() {
 		$sortable_columns = array(
 			'name' => array( 'name', true ),
-			'term' => array( 'term', false ),
+			//'term' => array( 'term', false ),
 		);
 		return $sortable_columns;
 	}
@@ -131,8 +137,7 @@ class Loggers extends \WP_List_Table {
 		$hidden                = $this->get_hidden_columns();
 		$sortable              = $this->get_sortable_columns();
 		$this->_column_headers = array( $columns, $hidden, $sortable );
-		$data = [];
-		//$data                  = $this->domains->get_list();
+		$data                  = $this->loggers;
 		usort( $data, array( $this, 'usort_reorder' ) );
 		$this->items = $data;
 	}

@@ -170,6 +170,20 @@ class DLogger {
 		// $handler->pushProcessor(new WWWProcessor());
 		// $handler->pushProcessor(new IntrospectionProcessor());
 		$this->logger->pushHandler( $handler );
+
+
+
+		$a=[];
+		$a['fa67ce0b-bc20-4304-9647-afedf7aa04b1']['id'] = 'Main Error Log file';
+		$a['fa67ce0b-bc20-4304-9647-afedf7aa04b1']['name'] = 'Main Error Log file';
+		$a['fa67ce0b-bc20-4304-9647-afedf7aa04b1']['running'] = true;
+		$a['fa67ce0b-bc20-4304-9647-afedf7aa04b1']['handler'] = 'ErrorLogHandler';
+		$a['fa67ce0b-bc20-4304-9647-afedf7aa04b1']['level'] = Logger::DEBUG;
+		$a['fa67ce0b-bc20-4304-9647-afedf7aa04b1']['privacy']['obfuscation'] = true;
+		$a['fa67ce0b-bc20-4304-9647-afedf7aa04b1']['privacy']['pseudonymization'] = true;
+		$a['fa67ce0b-bc20-4304-9647-afedf7aa04b1']['processors'] = ['WordpressProcessor'];
+		//Option::set('loggers', $a);
+
 	}
 
 	/**

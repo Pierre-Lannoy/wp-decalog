@@ -77,10 +77,10 @@ class LoggerFactory {
 	public function check( $logger ) {
 		$logger = $this->standard_check( $logger );
 		$handler = $this->handler_types->get($logger['handler']);
-		if (in_array('privacy', $handler['params'])) {
+		if ($handler && in_array('privacy', $handler['params'])) {
 			$logger = $this->privacy_check( $logger );
 		}
-		if (in_array('processors', $handler['params'])) {
+		if ($handler && in_array('processors', $handler['params'])) {
 			$logger = $this->processor_check( $logger );
 		}
 		return $logger;

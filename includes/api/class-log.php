@@ -10,6 +10,7 @@
 namespace Decalog;
 
 use Decalog\API\DLogger;
+use Monolog\Logger;
 
 
 /**
@@ -22,6 +23,22 @@ use Decalog\API\DLogger;
  * @since   1.0.0
  */
 class Log {
+
+	/**
+	 * List of the available level names.
+	 *
+	 * @var string[] $level_names Logging levels names
+	 */
+	private static $level_names = [
+		Logger::DEBUG     => 'DEBUG',
+		Logger::INFO      => 'INFO',
+		Logger::NOTICE    => 'NOTICE',
+		Logger::WARNING   => 'WARNING',
+		Logger::ERROR     => 'ERROR',
+		Logger::CRITICAL  => 'CRITICAL',
+		Logger::ALERT     => 'ALERT',
+		Logger::EMERGENCY => 'EMERGENCY',
+	];
 
 	/**
 	 * Initialize the class and set its properties.
@@ -42,6 +59,21 @@ class Log {
 	 */
 	public static function bootstrap( $class, $name = null , $version=null) {
 		return new DLogger( $class, $name, $version );
+	}
+
+	/**
+	 * Get a level name.
+	 *
+	 * @param   integer $level The level value.
+	 * @return  string The level name.
+	 * @since   1.0.0
+	 */
+	public static function level_name( $level) {
+		$result = 'UNKNOWN';
+		if (array_key_exists($level, self::$level_names)) {
+			$result = self::$level_names[$delvel];
+		}
+		return $result;
 	}
 
 }

@@ -26,9 +26,9 @@ class HandlerTypes {
 	 * The array of available types.
 	 *
 	 * @since  1.0.0
-	 * @var    array    $types    The available types.
+	 * @var    array    $handlers    The available types.
 	 */
-	private $types = [];
+	private $handlers = [];
 
 	/**
 	 * Initialize the class and set its properties.
@@ -36,7 +36,7 @@ class HandlerTypes {
 	 * @since    1.0.0
 	 */
 	public function __construct() {
-		$this->types[] = [
+		$this->handlers[] = [
 			'id' => 'NullLogHandler',
 			'class'  => 'null',
 			'name'   => esc_html__('Blackhole', 'decalog'),
@@ -44,7 +44,7 @@ class HandlerTypes {
 			'icon'   => $this->get_base64_php_icon() ,
 			'params' => [] ,
 		];
-		$this->types[] = [
+		$this->handlers[] = [
 			'id' => 'ErrorLogHandler',
 			'class'  => 'file',
 			'name'   => esc_html__('PHP error log', 'decalog'),
@@ -52,7 +52,7 @@ class HandlerTypes {
 			'icon'   => $this->get_base64_php_icon() ,
 			'params' => ['processors', 'privacy'] ,
 		];
-		$this->types[] = [
+		$this->handlers[] = [
 			'id' => 'WordpressProcessor',
 			'class' => 'file',
 			'name' => esc_html__('WordPress events log', 'decalog'),
@@ -70,7 +70,7 @@ class HandlerTypes {
 	 * @since    1.0.0
 	 */
 	public function get_all() {
-		return $this->types;
+		return $this->handlers;
 	}
 
 	/**
@@ -81,8 +81,8 @@ class HandlerTypes {
 	 */
 	public function get_list() {
 		$result = [];
-		foreach ($this->types as $type) {
-			$result[] = $type['id'];
+		foreach ($this->handlers as $handler) {
+			$result[] = $handler['id'];
 		}
 		return $result;
 	}
