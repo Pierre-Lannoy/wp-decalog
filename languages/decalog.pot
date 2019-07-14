@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: DecaLog\n"
-"POT-Creation-Date: 2019-07-10 16:19+0200\n"
+"POT-Creation-Date: 2019-07-14 20:44+0200\n"
 "PO-Revision-Date: 2019-07-08 14:07+0200\n"
 "Last-Translator: Pierre Lannoy <pierre@lannoy.fr>\n"
 "Language-Team: Pierre Lannoy <pierre@lannoy.fr>\n"
@@ -21,25 +21,156 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: includes/libraries/class-libraries.php:68
+#: admin/class-decalog-admin.php:76
+#: admin/partials/decalog-admin-settings-main.php:19
+#, php-format
+msgid "%s Settings"
+msgstr ""
+
+#: admin/partials/decalog-admin-settings-about.php:16
+#, php-format
+msgid ""
+"This version of %s is not production-ready. It is a development preview. "
+"Use it at your own risk!"
+msgstr ""
+
+#: admin/partials/decalog-admin-settings-about.php:19
+#, php-format
+msgid ""
+"This version of %s is a release candidate. Although ready for production, "
+"this version is not officially supported in production environments."
+msgstr ""
+
+#: admin/partials/decalog-admin-settings-about.php:22
+#, php-format
+msgid ""
+"%1$s is a free and open source plugin for WordPress. It integrates other "
+"free and open source works (as-is or modified) like: %2$s."
+msgstr ""
+
+#: admin/partials/decalog-admin-settings-about.php:23
+msgid ""
+"All brands, icons and graphic illustrations are registered trademarks of "
+"their respective owners."
+msgstr ""
+
+#: admin/partials/decalog-admin-settings-about.php:25
+#, php-format
+msgid ""
+"This plugin is not an official software from %s and, as such, is not "
+"endorsed or supported by these companies."
+msgstr ""
+
+#: admin/partials/decalog-admin-settings-about.php:31
+msgid "Disclaimer"
+msgstr ""
+
+#: admin/partials/decalog-admin-settings-about.php:35
+msgid "Changelog"
+msgstr ""
+
+#: admin/partials/decalog-admin-settings-logger-choose.php:20
+msgid "Please, select the type of logger you want to add"
+msgstr ""
+
+#: admin/partials/decalog-admin-settings-loggers.php:17
+msgid "Add a Logger"
+msgstr ""
+
+#: admin/partials/decalog-admin-settings-main.php:23
+msgid "Loggers"
+msgstr ""
+
+#: admin/partials/decalog-admin-settings-main.php:24
+msgid "Options"
+msgstr ""
+
+#: admin/partials/decalog-admin-settings-main.php:25
+msgid "About"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:42
+msgid "Blackhole"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:43
+msgid "Any record it can handle will be thrown away."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:50
+msgid "PHP error log"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:51
+msgid ""
+"An events log stored in the standard PHP error log, as with the "
+"error_log() function."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:58
+msgid "WordPress events log"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:59
+msgid ""
+"An events log stored in your WordPress database and available right in "
+"your admin dashboard."
+msgstr ""
+
+#: includes/features/class-loggerfactory.php:98
+msgid "Unnamed logger"
+msgstr ""
+
+#: includes/features/class-loggers.php:82
+msgid "Name"
+msgstr ""
+
+#: includes/features/class-processortypes.php:41
+msgid "PHP introspection"
+msgstr ""
+
+#: includes/features/class-processortypes.php:42
+msgid "Allows to log line, file, class and function generating the event."
+msgstr ""
+
+#: includes/features/class-processortypes.php:47
+msgid "HTTP request"
+msgstr ""
+
+#: includes/features/class-processortypes.php:48
+msgid ""
+"Allows to log url, method, referrer and remote IP of the current web "
+"request."
+msgstr ""
+
+#: includes/features/class-processortypes.php:53
+msgid "WordPress "
+msgstr ""
+
+#: includes/features/class-processortypes.php:54
+msgid "Allows to log site, user and remote IP of the current request."
+msgstr ""
+
+#: includes/libraries/class-libraries.php:67
+#: includes/libraries/class-libraries.php:89
 #, php-format
 msgid "%s & contributors"
 msgstr ""
 
-#: includes/libraries/class-libraries.php:117
+#: includes/libraries/class-libraries.php:138
 msgid "MIT license"
 msgstr ""
 
-#: includes/libraries/class-libraries.php:120
+#: includes/libraries/class-libraries.php:141
 msgid "GPL-2.0 license"
 msgstr ""
 
-#: includes/libraries/class-libraries.php:123
+#: includes/libraries/class-libraries.php:144
 msgid "unknown license"
 msgstr ""
 
 #. translators: as in the sentence "Product W version X by author Y (license Z)"
-#: includes/libraries/class-libraries.php:169
+#: includes/libraries/class-libraries.php:190
 #, php-format
 msgid "<a href=\"%1$s\">%2$s %3$s</a>%4$s by %5$s (%6$s)"
 msgstr ""
@@ -58,19 +189,19 @@ msgstr ""
 msgid "Sorry, unable to find or read changelog file."
 msgstr ""
 
-#: includes/system/class-environment.php:162
+#: includes/system/class-environment.php:203
 msgid "log"
 msgstr ""
 
-#: includes/system/class-environment.php:167
+#: includes/system/class-environment.php:208
 msgid "display"
 msgstr ""
 
-#: includes/system/class-environment.php:173
+#: includes/system/class-environment.php:214
 msgid "Debug enabled"
 msgstr ""
 
-#: includes/system/class-environment.php:173
+#: includes/system/class-environment.php:214
 msgid "Debug disabled"
 msgstr ""
 
