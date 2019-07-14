@@ -25,7 +25,9 @@ $logger_types = new HandlerTypes();
 					.actionable {border-radius:6px;cursor:pointer; -moz-transition: all .4s ease-in; -o-transition: all .4s ease-in; -webkit-transition: all .4s ease-in; transition: all .4s ease-in; background: transparent;border:1px solid transparent;filter: grayscale(100%) opacity(66%);}
 				</style>
 				<?php foreach ($logger_types->get_all() as $logger) { ?>
-					<div style="flex:auto;padding:14px;"><img id="<?php echo $logger['id']; ?>" class="actionable" style="width:80px;" src="<?php echo $logger['icon']; ?>"/></div>
+                    <?php if ('null' !== $logger['class']) { ?>
+                        <div style="flex:auto;padding:14px;"><img id="<?php echo $logger['id']; ?>" class="actionable" style="width:80px;" src="<?php echo $logger['icon']; ?>"/></div>
+                    <?php } ?>
 				<?php } ?>
 			</div>
 		</div>

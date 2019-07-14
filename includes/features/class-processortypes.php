@@ -28,7 +28,7 @@ class ProcessorTypes {
 	 * @since  1.0.0
 	 * @var    array    $processors    The available processors.
 	 */
-	private $processors = [ 'IntrospectionProcessor', 'WWWProcessor', 'WordpressProcessor' ];
+	private $processors = [];
 
 	/**
 	 * Initialize the class and set its properties.
@@ -52,8 +52,18 @@ class ProcessorTypes {
 			'id'     => 'WordpressProcessor',
 			'name'   => esc_html__( 'WordPress ', 'decalog' ),
 			'help'   => esc_html__( 'Allows to log site, user and remote IP of the current request.', 'decalog' ),
-			'params' => [ 'pseudonymisation', 'obfuscation' ],
+			'params' => [ 'pseudonymization', 'obfuscation' ],
 		];
+	}
+
+	/**
+	 * Get the processors definition.
+	 *
+	 * @return  array   A list of all available processors definitions.
+	 * @since    1.0.0
+	 */
+	public function get_all() {
+		return $this->processors;
 	}
 
 	/**
@@ -62,8 +72,12 @@ class ProcessorTypes {
 	 * @return  array   A list of all available processors.
 	 * @since    1.0.0
 	 */
-	public function get_all() {
-		return $this->processors;
+	public function get_list() {
+		$result = [];
+		foreach ($this->processors as $processor) {
+			$result[] = $processor['id'];
+		}
+		return $result;
 	}
 
 	/**

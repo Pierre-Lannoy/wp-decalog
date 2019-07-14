@@ -37,6 +37,14 @@ class HandlerTypes {
 	 */
 	public function __construct() {
 		$this->types[] = [
+			'id' => 'NullLogHandler',
+			'class'  => 'null',
+			'name'   => esc_html__('Blackhole', 'decalog'),
+			'help'   => esc_html__('Any record it can handle will be thrown away.', 'decalog'),
+			'icon'   => $this->get_base64_php_icon() ,
+			'params' => [] ,
+		];
+		$this->types[] = [
 			'id' => 'ErrorLogHandler',
 			'class'  => 'file',
 			'name'   => esc_html__('PHP error log', 'decalog'),
@@ -56,13 +64,27 @@ class HandlerTypes {
 	}
 
 	/**
+	 * Get the types definition.
+	 *
+	 * @return  array   A list of all available types definitions.
+	 * @since    1.0.0
+	 */
+	public function get_all() {
+		return $this->types;
+	}
+
+	/**
 	 * Get the types list.
 	 *
 	 * @return  array   A list of all available types.
 	 * @since    1.0.0
 	 */
-	public function get_all() {
-		return $this->types;
+	public function get_list() {
+		$result = [];
+		foreach ($this->types as $type) {
+			$result[] = $type['id'];
+		}
+		return $result;
 	}
 
 	/**

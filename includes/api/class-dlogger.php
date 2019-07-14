@@ -11,7 +11,7 @@ namespace Decalog\API;
 
 use Decalog\System\Environment;
 use Decalog\System\Option;
-use Decalog\Plugin\Feature\HandlerTypes;
+use Decalog\Plugin\Feature\LoggerFactory;
 
 use Monolog\Logger;
 use Monolog\Handler\ErrorLogHandler;
@@ -152,10 +152,14 @@ class DLogger {
 	 * @since 1.0.0
 	 */
 	private function init() {
+		$consistency = new LoggerFactory();
 		$this->logger = new Logger( $this->current_channel_tag() );
 		$loggers = Option::get('loggers');
 		foreach ( $loggers as $logger ) {
+			$logger = $consistency->check($logger);
+			if ($logger['running']) {
 
+			}
 		}
 
 
