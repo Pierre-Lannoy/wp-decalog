@@ -20,7 +20,7 @@ namespace Decalog\Plugin\Feature;
  * @author  Pierre Lannoy <https://pierre.lannoy.fr/>.
  * @since   1.0.0
  */
-class LoggerTypes {
+class HandlerTypes {
 
 	/**
 	 * The array of available types.
@@ -36,20 +36,21 @@ class LoggerTypes {
 	 * @since    1.0.0
 	 */
 	public function __construct() {
-		$gcolor = '#666';
 		$this->types[] = [
-			'id' => 'php',
-			'class' => 'file',
-			'name' => esc_html__('PHP error log', 'decalog'),
-			'help' => esc_html__('an events log stored in the standard PHP error log, as with the error_log() function.', 'decalog'),
-			'icon' => $this->get_base64_php_icon() ,
+			'id' => 'ErrorLogHandler',
+			'class'  => 'file',
+			'name'   => esc_html__('PHP error log', 'decalog'),
+			'help'   => esc_html__('An events log stored in the standard PHP error log, as with the error_log() function.', 'decalog'),
+			'icon'   => $this->get_base64_php_icon() ,
+			'params' => ['processors', 'privacy'] ,
 		];
 		$this->types[] = [
-			'id' => 'wordpress',
+			'id' => 'WordpressProcessor',
 			'class' => 'file',
 			'name' => esc_html__('WordPress events log', 'decalog'),
-			'help' => esc_html__('an events log stored in your WordPress database and available right in your admin dashboard.', 'decalog'),
+			'help' => esc_html__('An events log stored in your WordPress database and available right in your admin dashboard.', 'decalog'),
 			'icon' => $this->get_base64_wordpress_icon() ,
+			'params' => ['processors', 'privacy'] ,
 		];
 
 	}
@@ -62,6 +63,22 @@ class LoggerTypes {
 	 */
 	public function get_all() {
 		return $this->types;
+	}
+
+	/**
+	 * Get a specific handler.
+	 *
+	 * @param   string  The handler id.
+	 * @return  null|array   The detail of the handler, null if not found.
+	 * @since    1.0.0
+	 */
+	public function get( $id ) {
+		foreach ( $this->handlers as $handler ) {
+			if ( $handler['id'] === $id ) {
+				return $handler;
+			}
+		}
+		return null;
 	}
 
 	/**

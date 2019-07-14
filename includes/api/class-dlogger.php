@@ -11,9 +11,11 @@ namespace Decalog\API;
 
 use Decalog\System\Environment;
 use Decalog\System\Option;
+use Decalog\Plugin\Feature\HandlerTypes;
 
 use Monolog\Logger;
 use Monolog\Handler\ErrorLogHandler;
+use Monolog\Handler\BrowserConsoleHandler;
 
 use Monolog\Processor\IntrospectionProcessor;
 use Decalog\Processor\WWWProcessor;
@@ -141,7 +143,7 @@ class DLogger {
 			$this->version = $version;
 		}
 		$this->init();
-		$this->debug( 'A new instance of Decalog logger is initialized and operational.' );
+		$this->debug( 'A new instance of DecaLog logger is initialized and operational.' );
 	}
 
 	/**
@@ -150,11 +152,17 @@ class DLogger {
 	 * @since 1.0.0
 	 */
 	private function init() {
-		// create a log channel
 		$this->logger = new Logger( $this->current_channel_tag() );
+		$loggers = Option::get('loggers');
+		foreach ( $loggers as $logger ) {
+
+		}
+
+
 
 		$handler = new ErrorLogHandler();
 		$handler->pushProcessor( new WordpressProcessor() );
+		//$handler->pushProcessor( new BrowserConsoleHandler() );
 		// $handler->pushProcessor(new WWWProcessor());
 		// $handler->pushProcessor(new IntrospectionProcessor());
 		$this->logger->pushHandler( $handler );
