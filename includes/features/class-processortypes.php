@@ -46,13 +46,13 @@ class ProcessorTypes {
 			'id'     => 'WWWProcessor',
 			'name'   => esc_html__( 'HTTP request', 'decalog' ),
 			'help'   => esc_html__( 'Allows to log url, method, referrer and remote IP of the current web request.', 'decalog' ),
-			'params' => [ 'null', 'null', 'obfuscation' ],
+			'params' => [ 'null', 'null', 'privacy:obfuscation' ],
 		];
 		$this->processors[] = [
 			'id'     => 'WordpressProcessor',
 			'name'   => esc_html__( 'WordPress ', 'decalog' ),
 			'help'   => esc_html__( 'Allows to log site, user and remote IP of the current request.', 'decalog' ),
-			'params' => [ 'pseudonymization', 'obfuscation' ],
+			'params' => [ 'privacy:pseudonymization', 'privacy:obfuscation' ],
 		];
 	}
 

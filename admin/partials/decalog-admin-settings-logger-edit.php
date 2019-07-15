@@ -9,17 +9,12 @@
  * @since   1.0.0
  */
 
-
 ?>
 
 <div class="wrap">
-
-	<h2><?php esc_html( sprintf( __( '%s Settings', 'decalog' ), DECALOG_PRODUCT_NAME ) ); ?></h2>
-
-	<form action="<?php echo esc_url(add_query_arg(array('page' => 'adr-settings', 'action' => 'do-edit', 'tab' => 'misc'), admin_url('options-general.php'))); ?>" method="POST">
+	<form action="<?php echo esc_url(add_query_arg(array('page' => 'decalog-settings', 'action' => 'do-edit', 'tab' => 'loggers', 'uuid' => $current_logger['uuid']), admin_url('options-general.php'))); ?>" method="POST">
 		<?php do_settings_sections('decalog_logger_privacy_section'); ?>
-		<?php wp_nonce_field('adr-settings-misc'); ?>
+		<?php wp_nonce_field('decalog-logger-edit'); ?>
 		<?php echo get_submit_button();?>
 	</form>
-
 </div>

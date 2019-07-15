@@ -72,11 +72,11 @@ class Loggers extends \WP_List_Table {
 			array_push( $this->compat_fields, 'all_items' );
 		}
 		$this->loggers = [];
-		foreach (Option::get('loggers') as $key=>$logger) {
-			$logger['uuid'] = $key;
+		foreach ( Option::get( 'loggers' ) as $key => $logger ) {
+			$logger['uuid']  = $key;
 			$this->loggers[] = $logger;
 		}
-		$this->handler_types = new HandlerTypes();
+		$this->handler_types   = new HandlerTypes();
 		$this->processor_types = new ProcessorTypes();
 	}
 
@@ -90,33 +90,78 @@ class Loggers extends \WP_List_Table {
 		return $item[ $column_name ];
 	}
 
-	protected function column_name($item){
-		$handler = $this->handler_types->get($item['handler']);
-		$icon = '<img style="width:34px;float:left;padding-right:6px;" src="' . $handler['icon'] . '" />';
-		$type = $handler['name'] . ' - <strong>' . ($item['running'] ? __('running', 'decalog') : __('paused', 'decalog')) . '</strong>';
-		$actions['edit'] = sprintf('<a href="?page=decalog-settings&action=form-edit&tab=loggers&uuid=%s">'.__('Edit', 'decalog').'</a>', $item['uuid']);
-		$actions['delete'] = sprintf('<a href="?page=decalog-settings&action=form-delete&tab=loggers&uuid=%s">'.__('Remove', 'decalog').'</a>', $item['uuid']);
-		if ($item['running']) {
-			$actions['pause'] = sprintf('<a href="?page=decalog-settings&action=pause&tab=loggers&uuid=%s">'.__('Pause', 'decalog').'</a>', $item['uuid']);
+	protected function column_name( $item ) {
+		$edit   = esc_url(
+			add_query_arg(
+				array(
+					'page'   => 'decalog-settings',
+					'action' => 'form-edit',
+					'tab'    => 'loggers',
+					'uuid'   => $item['uuid'],
+				),
+				admin_url( 'options-general.php' )
+			)
+		);
+		$delete = esc_url(
+			add_query_arg(
+				array(
+					'page'   => 'decalog-settings',
+					'action' => 'form-delete',
+					'tab'    => 'loggers',
+					'uuid'   => $item['uuid'],
+				),
+				admin_url( 'options-general.php' )
+			)
+		);
+		$pause  = esc_url(
+			add_query_arg(
+				array(
+					'page'   => 'decalog-settings',
+					'action' => 'pause',
+					'tab'    => 'loggers',
+					'uuid'   => $item['uuid'],
+				),
+				admin_url( 'options-general.php' )
+			)
+		);
+		$start  = esc_url(
+			add_query_arg(
+				array(
+					'page'   => 'decalog-settings',
+					'action' => 'start',
+					'tab'    => 'loggers',
+					'uuid'   => $item['uuid'],
+				),
+				admin_url( 'options-general.php' )
+			)
+		);
+
+		$handler           = $this->handler_types->get( $item['handler'] );
+		$icon              = '<img style="width:34px;float:left;padding-right:6px;" src="' . $handler['icon'] . '" />';
+		$type              = $handler['name'] . ' - <strong>' . ( $item['running'] ? __( 'running', 'decalog' ) : __( 'paused', 'decalog' ) ) . '</strong>';
+		$actions['edit']   = sprintf( '<a href="%s">' . __( 'Edit', 'decalog' ) . '</a>', $edit );
+		$actions['delete'] = sprintf( '<a href="%s">' . __( 'Remove', 'decalog' ) . '</a>', $delete );
+		if ( $item['running'] ) {
+			$actions['pause'] = sprintf( '<a href="%s">' . __( 'Pause', 'decalog' ) . '</a>', $pause );
 		} else {
-			$actions['start'] = sprintf('<a href="?page=decalog-settings&action=start&tab=loggers&uuid=%s">'.__('Start', 'decalog').'</a>', $item['uuid']);
+			$actions['start'] = sprintf( '<a href="%s">' . __( 'Start', 'decalog' ) . '</a>', $start );
 		}
-		return $icon . '&nbsp;' . sprintf('%1$s <br /><span style="color:silver">&nbsp;%2$s</span>%3$s', $item['name'], $type, $this->row_actions($actions));
+		return $icon . '&nbsp;' . sprintf( '%1$s <br /><span style="color:silver">&nbsp;%2$s</span>%3$s', $item['name'], $type, $this->row_actions( $actions ) );
 	}
 
-	protected function column_details($item){
-		$list = [__('Standard', 'decalog')];
-		foreach ($item['processors'] as $processor) {
-			$list[] = $this->processor_types->get($processor)['name'];
+	protected function column_details( $item ) {
+		$list = [ __( 'Standard', 'decalog' ) ];
+		foreach ( $item['processors'] as $processor ) {
+			$list[] = $this->processor_types->get( $processor )['name'];
 		}
-		return implode(', ', $list);
+		return implode( ', ', $list );
 	}
 
-	protected function column_level($item){
-		$name = Log::level_name($item['level']);
-		$list = [__('Standard', 'decalog')];
-		foreach ($item['processors'] as $processor) {
-			$list[] = $this->processor_types->get($processor)['name'];
+	protected function column_level( $item ) {
+		$name = Log::level_name( $item['level'] );
+		$list = [ __( 'Standard', 'decalog' ) ];
+		foreach ( $item['processors'] as $processor ) {
+			$list[] = $this->processor_types->get( $processor )['name'];
 		}
 		return $name;
 	}
@@ -129,9 +174,9 @@ class Loggers extends \WP_List_Table {
 	 */
 	public function get_columns() {
 		$columns = array(
-			'name'       => __( 'Logger', 'decalog' ),
-			'level' => __( 'Minimal Level', 'decalog' ),
-			'details' => __( 'Collected Details', 'decalog' )
+			'name'    => __( 'Logger', 'decalog' ),
+			'level'   => __( 'Minimal Level', 'decalog' ),
+			'details' => __( 'Collected Details', 'decalog' ),
 		);
 		return $columns;
 	}
@@ -155,7 +200,7 @@ class Loggers extends \WP_List_Table {
 	protected function get_sortable_columns() {
 		$sortable_columns = array(
 			'name' => array( 'name', true ),
-			//'term' => array( 'term', false ),
+			// 'term' => array( 'term', false ),
 		);
 		return $sortable_columns;
 	}

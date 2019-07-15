@@ -159,12 +159,14 @@ class Decalog_Admin {
 					switch ( $action ) {
 						case 'form-edit':
 							$current_logger = $this->current_logger;
-							$args           = compact( 'current_logger' );
+							$current_handler = $this->current_handler;
+							$args           = compact( 'current_logger' , 'current_handler');
 							$view           = 'decalog-admin-settings-logger-edit';
 							break;
 						case 'form-delete':
 							$current_logger = $this->current_logger;
-							$args           = compact( 'current_logger' );
+							$current_handler = $this->current_handler;
+							$args           = compact( 'current_logger' , 'current_handler');
 							$view           = 'decalog-admin-settings-logger-delete';
 							break;
 						case 'do-edit':
