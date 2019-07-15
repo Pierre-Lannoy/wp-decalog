@@ -15,6 +15,7 @@ use Decalog\Plugin\Feature\LoggerFactory;
 use Decalog\System\Assets;
 use Decalog\System\UUID;
 use Decalog\System\Option;
+use Decalog\System\Form;
 
 /**
  * The admin-specific functionality of the plugin.
@@ -95,7 +96,7 @@ class Decalog_Admin {
 	 * @since 1.0.0
 	 */
 	public function init_admin_menus() {
-		add_submenu_page( 'options-general.php', sprintf( __( '%s Settings', 'decalog' ), DECALOG_PRODUCT_NAME ), DECALOG_PRODUCT_NAME, apply_filters( 'adr_manage_options_capability', 'manage_options' ), 'decalog-settings', array( $this, 'get_settings_page' ) );
+		add_submenu_page( 'options-general.php', sprintf( __( '%s Settings', 'decalog' ), DECALOG_PRODUCT_NAME ), DECALOG_PRODUCT_NAME, apply_filters( 'adr_manage_options_capability', 'manage_options' ), 'decalog-settings', [ $this, 'get_settings_page' ] );
 	}
 
 	/**
@@ -104,6 +105,7 @@ class Decalog_Admin {
 	 * @since 1.0.0
 	 */
 	public function init_settings_sections() {
+		add_settings_section( 'decalog_logger_privacy_section', __( 'Privacy Options', 'decalog' ), [ $this, 'logger_privacy_section_callback' ], 'decalog_logger_privacy_section' );
 	}
 
 	/**
@@ -145,7 +147,7 @@ class Decalog_Admin {
 				'uuid'    => $uuid = UUID::generate_v4(),
 				'name'    => __( 'New logger', 'decalog' ),
 				'handler' => $this->current_handler['id'],
-				'running' => Option::get('logger_autostart'),
+				'running' => Option::get( 'logger_autostart' ),
 			];
 			$factory              = new LoggerFactory();
 			$this->current_logger = $factory->check( $this->current_logger );
@@ -156,9 +158,14 @@ class Decalog_Admin {
 				case 'loggers':
 					switch ( $action ) {
 						case 'form-edit':
-							add_settings_section( 'decalog_handler_privacy_option', null, array( $this, 'handler_privacy_option_callback' ), 'decalog_settings' );
+							$current_logger = $this->current_logger;
+							$args           = compact( 'current_logger' );
+							$view           = 'decalog-admin-settings-logger-edit';
 							break;
 						case 'form-delete':
+							$current_logger = $this->current_logger;
+							$args           = compact( 'current_logger' );
+							$view           = 'decalog-admin-settings-logger-delete';
 							break;
 						case 'do-edit':
 							break;
@@ -192,6 +199,48 @@ class Decalog_Admin {
 			}
 		}
 		include DECALOG_ADMIN_DIR . 'partials/' . $view . '.php';
+	}
+
+	/**
+	 * Callback for logger privacy section.
+	 *
+	 * @since 1.0.0
+	 */
+	public function logger_privacy_section_callback() {
+		$form = new Form();
+		add_settings_field(
+			'decalog_logger_privacy_ip',
+			__( 'Remote IPs', 'decalog' ),
+			[ $form, 'echo_field_checkbox' ],
+			'decalog_logger_privacy_section',
+			'decalog_logger_privacy_section',
+			[
+				'text'        => __( 'Obfuscation', 'decalog' ),
+				'id'          => 'decalog_logger_privacy_ip',
+				'checked'     => $this->current_logger['privacy']['obfuscation'],
+				'description' => __( 'If checked, log will contain hash instead of real IPs.', 'decalog' ),
+				'full_width'  => true,
+				'enabled'     => true,
+			]
+		);
+		register_setting( 'decalog_logger_privacy_section', 'decalog_logger_privacy_ip' );
+
+		add_settings_field(
+			'decalog_logger_privacy_name',
+			__( 'Users', 'decalog' ),
+			[ $form, 'echo_field_checkbox' ],
+			'decalog_logger_privacy_section',
+			'decalog_logger_privacy_section',
+			[
+				'text'        => __( 'Pseudonymisation', 'decalog' ),
+				'id'          => 'decalog_logger_privacy_name',
+				'checked'     => $this->current_logger['privacy']['pseudonymization'],
+				'description' => __( 'If checked, log will contain hashes instead of user IDs & names.', 'decalog' ),
+				'full_width'  => true,
+				'enabled'     => true,
+			]
+		);
+		register_setting( 'decalog_logger_privacy_section', 'decalog_logger_privacy_name' );
 	}
 
 }
