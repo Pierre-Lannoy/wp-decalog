@@ -71,7 +71,7 @@ class Log {
 	public static function level_name( $level) {
 		$result = 'UNKNOWN';
 		if (array_key_exists($level, self::$level_names)) {
-			$result = self::$level_names[$delvel];
+			$result = self::$level_names[$level];
 		}
 		return $result;
 	}

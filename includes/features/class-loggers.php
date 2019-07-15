@@ -12,6 +12,7 @@
 namespace Decalog\Plugin\Feature;
 
 use Decalog\System\Option;
+use Decalog\Log;
 
 if ( ! class_exists( 'WP_List_Table' ) ) {
 	require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
@@ -35,7 +36,23 @@ class Loggers extends \WP_List_Table {
 	 * @access   private
 	 * @var      array    $domains    The loggers list.
 	 */
-	private $loggers = null;
+	private $loggers = [];
+
+	/**
+	 * The HandlerTypes instance.
+	 *
+	 * @since  1.0.0
+	 * @var    HandlerTypes    $handler_types    The handlers types.
+	 */
+	private $handler_types;
+
+	/**
+	 * The ProcessorTypes instance.
+	 *
+	 * @since  1.0.0
+	 * @var    HandlerTypes    $processor_types    The processors types.
+	 */
+	private $processor_types;
 
 	/**
 	 * Initialize the class and set its properties.
@@ -59,6 +76,8 @@ class Loggers extends \WP_List_Table {
 			$logger['uuid'] = $key;
 			$this->loggers[] = $logger;
 		}
+		$this->handler_types = new HandlerTypes();
+		$this->processor_types = new ProcessorTypes();
 	}
 
 	/**
@@ -71,6 +90,40 @@ class Loggers extends \WP_List_Table {
 		return $item[ $column_name ];
 	}
 
+	protected function column_name($item){
+		$handler = $this->handler_types->get($item['handler']);
+		$icon = '<img style="width:34px;float:left;padding-right:6px;" src="' . $handler['icon'] . '" />';
+		$type = $handler['name'] . ' - <strong>' . ($item['running'] ? __('running', 'decalog') : __('paused', 'decalog')) . '</strong>';
+
+		$actions['view'] = 'bbbbbbb';
+
+		//$type = strtolower($this->get_service_name(100 + $item['type']));
+		//$actions['view'] = sprintf('<a href="?page=lws-maps&action=form&tab=view&service=' . $type . '&mid=%s">'.__('View', 'live-weather-station').'</a>', $item['id']);
+		//$actions['edit'] = sprintf('<a href="?page=lws-maps&action=form&tab=add-edit&service=' . $type . '&mid=%s">'.__('Modify', 'live-weather-station').'</a>', $item['id']);
+		//$actions['delete'] = sprintf('<a href="?page=lws-maps&action=form&tab=delete&service=map&mid=%s">'.__('Remove', 'live-weather-station').'</a>', $item['id']);
+		//$id = sprintf(__('Map ID #%s'), $item['id']);
+		//$name = sprintf('<a class="row-title" href="?page=lws-maps&action=form&tab=add-edit&service=' . $type . '&mid=%s"' . ((bool)get_option('live_weather_station_redirect_internal_links') ? ' target="_blank" ' : '') . '>' . $item['name'] . '</a>', $item['id']);
+		return $icon . '&nbsp;' . sprintf('%1$s <br /><span style="color:silver">&nbsp;%2$s</span>%3$s', $item['name'], $type, $this->row_actions($actions));
+	}
+
+	protected function column_details($item){
+		$list = [__('Standard', 'decalog')];
+		foreach ($item['processors'] as $processor) {
+			$list[] = $this->processor_types->get($processor)['name'];
+		}
+		return implode(', ', $list);
+	}
+
+	protected function column_level($item){
+		$name = Log::level_name($item['level']);
+		$list = [__('Standard', 'decalog')];
+		foreach ($item['processors'] as $processor) {
+			$list[] = $this->processor_types->get($processor)['name'];
+		}
+		return $name;
+		return $icon . '&nbsp;' . sprintf('%1$s <br /><span style="color:silver">&nbsp;%2$s</span>', $item['name'], $type);
+	}
+
 	/**
 	 * Enumerates columns.
 	 *
@@ -79,9 +132,9 @@ class Loggers extends \WP_List_Table {
 	 */
 	public function get_columns() {
 		$columns = array(
-			'name'       => __( 'Name', 'decalog' ),
-			//'repository' => __( 'GitHub repository', 'decalog' ),
-			//'term'       => __( 'Domain', 'decalog' ),
+			'name'       => __( 'Logger', 'decalog' ),
+			'level' => __( 'Minimal Level', 'decalog' ),
+			'details' => __( 'Collected Details', 'decalog' )
 		);
 		return $columns;
 	}
