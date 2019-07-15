@@ -146,7 +146,7 @@ class Loggers extends \WP_List_Table {
 		} else {
 			$actions['start'] = sprintf( '<a href="%s">' . __( 'Start', 'decalog' ) . '</a>', $start );
 		}
-		return $icon . '&nbsp;' . sprintf( '%1$s <br /><span style="color:silver">&nbsp;%2$s</span>%3$s', $item['name'], $type, $this->row_actions( $actions ) );
+		return $icon . '&nbsp;' . sprintf( '<a href="%1$s">%2$s</a><br /><span style="color:silver">&nbsp;%3$s</span>%4$s', $edit, $item['name'], $type, $this->row_actions( $actions ) );
 	}
 
 	protected function column_details( $item ) {

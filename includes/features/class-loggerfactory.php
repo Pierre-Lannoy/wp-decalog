@@ -149,7 +149,7 @@ class LoggerFactory {
 		if ( ! array_key_exists( 'processors', $logger ) ) {
 			$logger['processors'] = [];
 		}
-		if ('WordpressProcessor' === $logger['handler']) {
+		if ('WordpressHandler' === $logger['handler']) {
 			$logger['processors'] = ['IntrospectionProcessor', 'WWWProcessor', 'WordpressProcessor'];
 		} else {
 			$processors = [];

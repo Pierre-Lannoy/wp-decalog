@@ -107,6 +107,7 @@ class Decalog_Admin {
 	 */
 	public function init_settings_sections() {
 		add_settings_section( 'decalog_logger_misc_section', null, [ $this, 'logger_misc_section_callback' ], 'decalog_logger_misc_section' );
+		add_settings_section( 'decalog_logger_specific_section', null, [ $this, 'logger_specific_section_callback' ], 'decalog_logger_specific_section' );
 		add_settings_section( 'decalog_logger_privacy_section', __( 'Privacy options', 'decalog' ), [ $this, 'logger_privacy_section_callback' ], 'decalog_logger_privacy_section' );
 		add_settings_section( 'decalog_logger_details_section', __( 'Reported details', 'decalog' ), [ $this, 'logger_details_section_callback' ], 'decalog_logger_details_section' );
 	}
@@ -212,6 +213,9 @@ class Decalog_Admin {
 	 * @since 1.0.0
 	 */
 	public function logger_misc_section_callback() {
+		$icon = '<img style="vertical-align:middle;width:34px;margin-top: -2px;padding-right:6px;" src="' . $this->current_handler['icon'] . '" />';
+		$title = $this->current_handler['name'];
+		echo '<h2>' . $icon . '&nbsp;' . $title . '</h2>';
 		$form = new Form();
 		add_settings_field(
 			'decalog_logger_misc_name',
@@ -244,6 +248,32 @@ class Decalog_Admin {
 			]
 		);
 		register_setting( 'decalog_logger_misc_section', 'decalog_logger_misc_level' );
+	}
+
+	/**
+	 * Callback for logger specific section.
+	 *
+	 * @since 1.0.0
+	 */
+	public function logger_specific_section_callback() {
+		$form = new Form();
+		if ('ErrorLogHandler' === $this->current_logger['handler']) {
+			add_settings_field(
+				'decalog_logger_specific_dummy',
+				__( 'Log file', 'decalog' ),
+				[ $form, 'echo_field_input_text' ],
+				'decalog_logger_specific_section',
+				'decalog_logger_specific_section',
+				[
+					'id'          => 'decalog_logger_specific_dummy',
+					'value'       => ini_get('error_log'),
+					'description' => __( 'Value set in php.ini file.', 'decalog' ),
+					'full_width'  => true,
+					'enabled'     => false,
+				]
+			);
+			register_setting( 'decalog_logger_specific_section', 'decalog_logger_specific_dummy' );
+		}
 	}
 
 	/**
@@ -302,7 +332,7 @@ class Decalog_Admin {
 			'decalog_logger_details_section',
 			'decalog_logger_details_section',
 			[
-				'text'        => __( 'Include', 'decalog' ),
+				'text'        => __( 'Included', 'decalog' ),
 				'id'          => $id,
 				'checked'     => true,
 				'description' => __( 'Allows to log standard DecaLog information.', 'decalog' ),
@@ -322,7 +352,7 @@ class Decalog_Admin {
 				'decalog_logger_details_section',
 				'decalog_logger_details_section',
 				[
-					'text'        => __( 'Include', 'decalog' ),
+					'text'        => __( 'Included', 'decalog' ),
 					'id'          => $id,
 					'checked'     => in_array( $processor['id'], $this->current_logger['processors'] ),
 					'description' => $processor['help'],
