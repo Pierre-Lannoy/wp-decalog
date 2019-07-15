@@ -45,6 +45,7 @@ class Option {
 		self::$defaults['version']          = '0.0.0';
 		self::$defaults['loggers']          = [];
 		self::$defaults['respect_wp_debug'] = false;
+		self::$defaults['logger_autostart'] = true;
 	}
 
 	/**

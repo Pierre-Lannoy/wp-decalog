@@ -46,7 +46,7 @@ $logger_types = new HandlerTypes();
 	                $("#tip-text").html("<strong><?php echo $logger['name']; ?></strong> - <?php echo ucfirst($logger['help']); ?>");
 	            });
 	            $("#<?php echo $logger['id']; ?>").click(function() {
-	                window.open('<?php echo "aaa"; ?>', '_self');
+	                window.open('<?php echo "?page=decalog-settings&action=form-edit&tab=loggers&handler=" . $logger['id']; ?>', '_self');
 	            });
 	        <?php } ?>
         });
