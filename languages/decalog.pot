@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: DecaLog\n"
-"POT-Creation-Date: 2019-07-14 20:44+0200\n"
+"POT-Creation-Date: 2019-07-16 00:16+0200\n"
 "PO-Revision-Date: 2019-07-08 14:07+0200\n"
 "Last-Translator: Pierre Lannoy <pierre@lannoy.fr>\n"
 "Language-Team: Pierre Lannoy <pierre@lannoy.fr>\n"
@@ -21,10 +21,95 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: admin/class-decalog-admin.php:76
+#: admin/class-decalog-admin.php:100
 #: admin/partials/decalog-admin-settings-main.php:19
 #, php-format
 msgid "%s Settings"
+msgstr ""
+
+#: admin/class-decalog-admin.php:111
+msgid "Privacy options"
+msgstr ""
+
+#: admin/class-decalog-admin.php:112 includes/features/class-loggers.php:179
+msgid "Reported details"
+msgstr ""
+
+#: admin/class-decalog-admin.php:152
+msgid "New logger"
+msgstr ""
+
+#: admin/class-decalog-admin.php:185
+#, php-format
+msgid "Logger %s has started."
+msgstr ""
+
+#: admin/class-decalog-admin.php:194
+#, php-format
+msgid "Logger %s has been paused."
+msgstr ""
+
+#: admin/class-decalog-admin.php:222
+msgid "Name"
+msgstr ""
+
+#: admin/class-decalog-admin.php:229
+msgid "Used only in admin dashboard."
+msgstr ""
+
+#: admin/class-decalog-admin.php:237 includes/features/class-loggers.php:178
+msgid "Minimal level"
+msgstr ""
+
+#: admin/class-decalog-admin.php:245
+msgid ""
+"Minimal reported level. May be overridden by the \"respect WP_DEBUG "
+"directive\" option."
+msgstr ""
+
+#: admin/class-decalog-admin.php:263
+msgid "Log file"
+msgstr ""
+
+#: admin/class-decalog-admin.php:270
+msgid "Value set in php.ini file."
+msgstr ""
+
+#: admin/class-decalog-admin.php:288
+msgid "Remote IPs"
+msgstr ""
+
+#: admin/class-decalog-admin.php:293
+msgid "Obfuscation"
+msgstr ""
+
+#: admin/class-decalog-admin.php:296
+msgid "If checked, log will contain hash instead of real IPs."
+msgstr ""
+
+#: admin/class-decalog-admin.php:304
+msgid "Users"
+msgstr ""
+
+#: admin/class-decalog-admin.php:309
+msgid "Pseudonymisation"
+msgstr ""
+
+#: admin/class-decalog-admin.php:312
+msgid "If checked, log will contain hashes instead of user IDs & names."
+msgstr ""
+
+#: admin/class-decalog-admin.php:330 includes/features/class-loggers.php:153
+#: includes/features/class-loggers.php:162
+msgid "Standard"
+msgstr ""
+
+#: admin/class-decalog-admin.php:335 admin/class-decalog-admin.php:355
+msgid "Included"
+msgstr ""
+
+#: admin/class-decalog-admin.php:338
+msgid "Allows to log standard DecaLog information."
 msgstr ""
 
 #: admin/partials/decalog-admin-settings-about.php:16
@@ -97,32 +182,72 @@ msgstr ""
 msgid "Any record it can handle will be thrown away."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:50
+#: includes/features/class-handlertypes.php:52
 msgid "PHP error log"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:51
+#: includes/features/class-handlertypes.php:53
 msgid ""
 "An events log stored in the standard PHP error log, as with the "
 "error_log() function."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:58
+#: includes/features/class-handlertypes.php:62
 msgid "WordPress events log"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:59
+#: includes/features/class-handlertypes.php:63
 msgid ""
 "An events log stored in your WordPress database and available right in "
 "your admin dashboard."
 msgstr ""
 
-#: includes/features/class-loggerfactory.php:98
+#: includes/features/class-handlertypes.php:69
+msgid "Events"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:70
+msgid "Maximum number of events stored in this events log."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:76
+msgid "Days"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:77
+msgid "Maximum age of events stored in this events log."
+msgstr ""
+
+#: includes/features/class-loggerfactory.php:101
 msgid "Unnamed logger"
 msgstr ""
 
-#: includes/features/class-loggers.php:82
-msgid "Name"
+#: includes/features/class-loggers.php:141
+msgid "running"
+msgstr ""
+
+#: includes/features/class-loggers.php:141
+msgid "paused"
+msgstr ""
+
+#: includes/features/class-loggers.php:142
+msgid "Edit"
+msgstr ""
+
+#: includes/features/class-loggers.php:143
+msgid "Remove"
+msgstr ""
+
+#: includes/features/class-loggers.php:145
+msgid "Pause"
+msgstr ""
+
+#: includes/features/class-loggers.php:147
+msgid "Start"
+msgstr ""
+
+#: includes/features/class-loggers.php:177
+msgid "Logger"
 msgstr ""
 
 #: includes/features/class-processortypes.php:41
