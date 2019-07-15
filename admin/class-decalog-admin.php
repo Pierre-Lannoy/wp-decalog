@@ -11,6 +11,8 @@ namespace Decalog\Plugin;
 
 use Decalog\Log;
 use Decalog\System\Assets;
+use Decalog\System\UUID;
+use Decalog\System\Option;
 
 /**
  * The admin-specific functionality of the plugin.
@@ -90,10 +92,57 @@ class Decalog_Admin {
 	 * @since 1.0.0
 	 */
 	public function get_settings_page() {
-		if ( ! ( $tab = filter_input( INPUT_GET, 'tab' ) ) ) {
-			$tab = filter_input( INPUT_POST, 'tab' );
+		if (!($action = filter_input(INPUT_GET, 'action'))) {
+			$action = filter_input(INPUT_POST, 'action');
+		}
+		if (!($tab = filter_input(INPUT_GET, 'tab'))) {
+			$tab = filter_input(INPUT_POST, 'tab');
+		}
+		if (!($uuid = filter_input(INPUT_GET, 'uuid'))) {
+			if (!($uuid = filter_input(INPUT_POST, 'uuid'))) {
+				$uuid = UUID::generate_v4();
+			}
 		}
 		$view = 'decalog-admin-settings-main';
+		if ($action && $tab) {
+			switch ( $tab ) {
+				case 'loggers':
+					switch ( $action ) {
+						case 'form-edit':
+							break;
+						case 'form-delete':
+							break;
+						case 'do-edit':
+							break;
+						case 'do-delete':
+							break;
+						case 'start':
+							$loggers = Option::get('loggers');
+							if (array_key_exists($uuid, $loggers)) {
+								$loggers[$uuid]['running'] = true;
+								Option::set('loggers', $loggers);
+								$message = sprintf(__('Logger %s has started.', 'decalog'), '<em>' . $loggers[$uuid]['name'] . '</em>');
+								$code = 0;
+								add_settings_error('decalog_no_error', $code, $message, 'updated');
+								$this->logger->info(sprintf('Logger "%s" has started.', $loggers[$uuid]['name']), $code);
+							}
+							break;
+						case 'pause':
+							$loggers = Option::get('loggers');
+							if (array_key_exists($uuid, $loggers)) {
+								$message = sprintf(__('Logger %s has been paused.', 'decalog'), '<em>' . $loggers[$uuid]['name'] . '</em>');
+								$code = 0;
+								$this->logger->info(sprintf('Logger "%s" has been paused.', $loggers[$uuid]['name']), $code);
+								$loggers[$uuid]['running'] = false;
+								Option::set('loggers', $loggers);
+								add_settings_error('decalog_no_error', $code, $message, 'updated');
+							}
+					}
+					break;
+				case 'misc':
+					break;
+			}
+		}
 		include DECALOG_ADMIN_DIR . 'partials/' . $view . '.php';
 	}
 

@@ -94,15 +94,13 @@ class Loggers extends \WP_List_Table {
 		$handler = $this->handler_types->get($item['handler']);
 		$icon = '<img style="width:34px;float:left;padding-right:6px;" src="' . $handler['icon'] . '" />';
 		$type = $handler['name'] . ' - <strong>' . ($item['running'] ? __('running', 'decalog') : __('paused', 'decalog')) . '</strong>';
-
-		$actions['view'] = 'bbbbbbb';
-
-		//$type = strtolower($this->get_service_name(100 + $item['type']));
-		//$actions['view'] = sprintf('<a href="?page=lws-maps&action=form&tab=view&service=' . $type . '&mid=%s">'.__('View', 'live-weather-station').'</a>', $item['id']);
-		//$actions['edit'] = sprintf('<a href="?page=lws-maps&action=form&tab=add-edit&service=' . $type . '&mid=%s">'.__('Modify', 'live-weather-station').'</a>', $item['id']);
-		//$actions['delete'] = sprintf('<a href="?page=lws-maps&action=form&tab=delete&service=map&mid=%s">'.__('Remove', 'live-weather-station').'</a>', $item['id']);
-		//$id = sprintf(__('Map ID #%s'), $item['id']);
-		//$name = sprintf('<a class="row-title" href="?page=lws-maps&action=form&tab=add-edit&service=' . $type . '&mid=%s"' . ((bool)get_option('live_weather_station_redirect_internal_links') ? ' target="_blank" ' : '') . '>' . $item['name'] . '</a>', $item['id']);
+		$actions['edit'] = sprintf('<a href="?page=decalog-settings&action=form-edit&tab=loggers&uuid=%s">'.__('Edit', 'decalog').'</a>', $item['uuid']);
+		$actions['delete'] = sprintf('<a href="?page=decalog-settings&action=form-delete&tab=loggers&uuid=%s">'.__('Remove', 'decalog').'</a>', $item['uuid']);
+		if ($item['running']) {
+			$actions['pause'] = sprintf('<a href="?page=decalog-settings&action=pause&tab=loggers&uuid=%s">'.__('Pause', 'decalog').'</a>', $item['uuid']);
+		} else {
+			$actions['start'] = sprintf('<a href="?page=decalog-settings&action=start&tab=loggers&uuid=%s">'.__('Start', 'decalog').'</a>', $item['uuid']);
+		}
 		return $icon . '&nbsp;' . sprintf('%1$s <br /><span style="color:silver">&nbsp;%2$s</span>%3$s', $item['name'], $type, $this->row_actions($actions));
 	}
 
@@ -121,7 +119,6 @@ class Loggers extends \WP_List_Table {
 			$list[] = $this->processor_types->get($processor)['name'];
 		}
 		return $name;
-		return $icon . '&nbsp;' . sprintf('%1$s <br /><span style="color:silver">&nbsp;%2$s</span>', $item['name'], $type);
 	}
 
 	/**
