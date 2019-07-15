@@ -175,8 +175,8 @@ class Loggers extends \WP_List_Table {
 	public function get_columns() {
 		$columns = array(
 			'name'    => __( 'Logger', 'decalog' ),
-			'level'   => __( 'Minimal Level', 'decalog' ),
-			'details' => __( 'Collected Details', 'decalog' ),
+			'level'   => __( 'Minimal level', 'decalog' ),
+			'details' => __( 'Reported details', 'decalog' ),
 		);
 		return $columns;
 	}

@@ -57,7 +57,7 @@ class HandlerTypes {
 			'defaults'      => [],
 		];
 		$this->handlers[] = [
-			'id'            => 'WordpressProcessor',
+			'id'            => 'WordpressHandler',
 			'class'         => 'file',
 			'name'          => esc_html__( 'WordPress events log', 'decalog' ),
 			'help'          => esc_html__( 'An events log stored in your WordPress database and available right in your admin dashboard.', 'decalog' ),

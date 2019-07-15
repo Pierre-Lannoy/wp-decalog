@@ -76,4 +76,18 @@ class Log {
 		return $result;
 	}
 
+	/**
+	 * Get the levels list.
+	 *
+	 * @return  array The level list.
+	 * @since   1.0.0
+	 */
+	public static function get_levels() {
+		$result = [];
+		foreach (self::$level_names as $key=>$name) {
+			$result[] = [$key, $name];
+		}
+		return array_reverse($result);
+	}
+
 }

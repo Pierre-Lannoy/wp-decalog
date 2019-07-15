@@ -52,7 +52,7 @@ class Form {
 		} else {
 			$width = '';
 		}
-		$html = '<input name="' . $id . '" type="number" step="' . $step . '" min="' . $min . '" max="' . $max . '"id="' . $id . '" value="' . $value . '"' . $width . '/>';
+		$html = '<input' . ( $enabled ? '' : ' disabled' ) . ' name="' . $id . '" type="number" step="' . $step . '" min="' . $min . '" max="' . $max . '"id="' . $id . '" value="' . $value . '"' . $width . '/>';
 		if ( isset( $unit ) ) {
 			$html .= '&nbsp;<label for="' . $id . '">' . $unit . '</label>';
 		}
@@ -89,7 +89,7 @@ class Form {
 		} else {
 			$width = '';
 		}
-		$html = '<input name="' . $id . '" type="text" id="' . $id . '" value="' . $value . '"' . $width . '/>';
+		$html = '<input' . ( $enabled ? '' : ' disabled' ) . ' name="' . $id . '" type="text" id="' . $id . '" value="' . $value . '"' . $width . '/>';
 		if ( isset( $description ) ) {
 			$html .= '<p class="description">' . $description . '</p>';
 		}
@@ -123,7 +123,7 @@ class Form {
 		} else {
 			$width = '';
 		}
-		$html = '<input name="' . $id . '" type="text" id="' . $id . '" value="' . $value . '"' . $width . '/>';
+		$html = '<input' . ( $enabled ? '' : ' disabled' ) . ' name="' . $id . '" type="text" id="' . $id . '" value="' . $value . '"' . $width . '/>';
 		if ( isset( $description ) ) {
 			$html .= '<p class="description">' . $description . '</p>';
 		}
@@ -148,7 +148,7 @@ class Form {
 	 * @param   int|string $value  The string to put in the text field.
 	 * @param   string     $description    Optional. A description to display.
 	 * @param   boolean    $full_width Optional. Is the control full width?
-	 * @param   boolean $enabled     Optional. Is the control enabled?
+	 * @param   boolean    $enabled     Optional. Is the control enabled?
 	 * @return  string  The HTML string ready to print.
 	 * @since  1.0.0
 	 */
@@ -162,7 +162,7 @@ class Form {
 		foreach ( $list as $val ) {
 			$html .= '<option value="' . $val[0] . '"' . ( $val[0] === $value ? ' selected="selected"' : '' ) . '>' . $val[1] . '</option>';
 		}
-		$html = '<select' . $width . ' name="' . $id . '" id="' . $id . '">' . $html . '</select>';
+		$html = '<select' . $width . ( $enabled ? '' : ' disabled' ) . ' name="' . $id . '" id="' . $id . '">' . $html . '</select>';
 		if ( isset( $description ) ) {
 			$html .= '<p class="description">' . $description . '</p>';
 		}
@@ -187,7 +187,7 @@ class Form {
 	 * @param   int|string $value  The string to put in the text field.
 	 * @param   string     $description    Optional. A description to display.
 	 * @param   boolean    $full_width Optional. Is the control full width?
-	 * @param   boolean $enabled     Optional. Is the control enabled?
+	 * @param   boolean    $enabled     Optional. Is the control enabled?
 	 * @return  string  The HTML string ready to print.
 	 * @since  1.0.0
 	 */
@@ -199,7 +199,7 @@ class Form {
 		}
 		$html = '';
 		foreach ( $list as $val ) {
-			$html .= '<label><input id="' . $id . '" name="' . $id . '" type="radio" value="' . $val[0] . '"' . ( $val[0] == $value ? ' checked="checked"' : '' ) . '/>' . $val[1] . '</label>';
+			$html .= '<label><input' . ( $enabled ? '' : ' disabled' ) . ' id="' . $id . '" name="' . $id . '" type="radio" value="' . $val[0] . '"' . ( $val[0] == $value ? ' checked="checked"' : '' ) . '/>' . $val[1] . '</label>';
 			if ( $val !== end( $list ) ) {
 				$html .= '<br/>';
 			}
@@ -239,7 +239,7 @@ class Form {
 		} else {
 			$width = '';
 		}
-		$html = '<fieldset' . $width . '><label><input name="' . $id . '" type="checkbox" value="1"' . ( $checked ? ' checked="checked"' : '' ) . '/>' . $text . '</label></fieldset>';
+		$html = '<fieldset' . $width . '><label><input' . ( $enabled ? '' : ' disabled' ) . ' name="' . $id . '" type="checkbox" value="1"' . ( $checked ? ' checked="checked"' : '' ) . '/>' . $text . '</label></fieldset>';
 		if ( isset( $description ) ) {
 			$html .= '<p class="description">' . $description . '</p>';
 		}

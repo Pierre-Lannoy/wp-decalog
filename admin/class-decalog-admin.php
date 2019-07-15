@@ -11,6 +11,7 @@ namespace Decalog\Plugin;
 
 use Decalog\Log;
 use Decalog\Plugin\Feature\HandlerTypes;
+use Decalog\Plugin\Feature\ProcessorTypes;
 use Decalog\Plugin\Feature\LoggerFactory;
 use Decalog\System\Assets;
 use Decalog\System\UUID;
@@ -105,7 +106,9 @@ class Decalog_Admin {
 	 * @since 1.0.0
 	 */
 	public function init_settings_sections() {
-		add_settings_section( 'decalog_logger_privacy_section', __( 'Privacy Options', 'decalog' ), [ $this, 'logger_privacy_section_callback' ], 'decalog_logger_privacy_section' );
+		add_settings_section( 'decalog_logger_misc_section', null, [ $this, 'logger_misc_section_callback' ], 'decalog_logger_misc_section' );
+		add_settings_section( 'decalog_logger_privacy_section', __( 'Privacy options', 'decalog' ), [ $this, 'logger_privacy_section_callback' ], 'decalog_logger_privacy_section' );
+		add_settings_section( 'decalog_logger_details_section', __( 'Reported details', 'decalog' ), [ $this, 'logger_details_section_callback' ], 'decalog_logger_details_section' );
 	}
 
 	/**
@@ -158,16 +161,16 @@ class Decalog_Admin {
 				case 'loggers':
 					switch ( $action ) {
 						case 'form-edit':
-							$current_logger = $this->current_logger;
+							$current_logger  = $this->current_logger;
 							$current_handler = $this->current_handler;
-							$args           = compact( 'current_logger' , 'current_handler');
-							$view           = 'decalog-admin-settings-logger-edit';
+							$args            = compact( 'current_logger', 'current_handler' );
+							$view            = 'decalog-admin-settings-logger-edit';
 							break;
 						case 'form-delete':
-							$current_logger = $this->current_logger;
+							$current_logger  = $this->current_logger;
 							$current_handler = $this->current_handler;
-							$args           = compact( 'current_logger' , 'current_handler');
-							$view           = 'decalog-admin-settings-logger-delete';
+							$args            = compact( 'current_logger', 'current_handler' );
+							$view            = 'decalog-admin-settings-logger-delete';
 							break;
 						case 'do-edit':
 							break;
@@ -204,6 +207,46 @@ class Decalog_Admin {
 	}
 
 	/**
+	 * Callback for logger misc section.
+	 *
+	 * @since 1.0.0
+	 */
+	public function logger_misc_section_callback() {
+		$form = new Form();
+		add_settings_field(
+			'decalog_logger_misc_name',
+			__( 'Name', 'decalog' ),
+			[ $form, 'echo_field_input_text' ],
+			'decalog_logger_misc_section',
+			'decalog_logger_misc_section',
+			[
+				'id'          => 'decalog_logger_misc_name',
+				'value'       => $this->current_logger['name'],
+				'description' => __( 'Used only in admin dashboard.', 'decalog' ),
+				'full_width'  => true,
+				'enabled'     => true,
+			]
+		);
+		register_setting( 'decalog_logger_misc_section', 'decalog_logger_misc_name' );
+		add_settings_field(
+			'decalog_logger_misc_level',
+			__( 'Minimal level', 'decalog' ),
+			[ $form, 'echo_field_select' ],
+			'decalog_logger_misc_section',
+			'decalog_logger_misc_section',
+			[
+				'list'        => Log::get_levels(),
+				'id'          => 'decalog_logger_misc_level',
+				'value'       => $this->current_logger['level'],
+				'description' => __( 'Minimal reported level. May be overridden by the "respect WP_DEBUG directive" option.', 'decalog' ),
+				'full_width'  => true,
+				'enabled'     => true,
+			]
+		);
+		register_setting( 'decalog_logger_misc_section', 'decalog_logger_misc_level' );
+	}
+
+	/**
 	 * Callback for logger privacy section.
 	 *
 	 * @since 1.0.0
@@ -226,7 +269,6 @@ class Decalog_Admin {
 			]
 		);
 		register_setting( 'decalog_logger_privacy_section', 'decalog_logger_privacy_ip' );
-
 		add_settings_field(
 			'decalog_logger_privacy_name',
 			__( 'Users', 'decalog' ),
@@ -243,6 +285,53 @@ class Decalog_Admin {
 			]
 		);
 		register_setting( 'decalog_logger_privacy_section', 'decalog_logger_privacy_name' );
+	}
+
+	/**
+	 * Callback for logger privacy section.
+	 *
+	 * @since 1.0.0
+	 */
+	public function logger_details_section_callback() {
+		$form = new Form();
+		$id   = 'decalog_logger_details_dummy';
+		add_settings_field(
+			$id,
+			__( 'Standard', 'decalog' ),
+			[ $form, 'echo_field_checkbox' ],
+			'decalog_logger_details_section',
+			'decalog_logger_details_section',
+			[
+				'text'        => __( 'Include', 'decalog' ),
+				'id'          => $id,
+				'checked'     => true,
+				'description' => __( 'Allows to log standard DecaLog information.', 'decalog' ),
+				'full_width'  => true,
+				'enabled'     => false,
+			]
+		);
+		register_setting( 'decalog_logger_details_section', $id );
+		$proc       = new ProcessorTypes();
+		$processors = array_reverse( $proc->get_all() );
+		foreach ( $processors as $processor ) {
+			$id = 'decalog_logger_details_' . strtolower( $processor['id'] );
+			add_settings_field(
+				$id,
+				$processor['name'],
+				[ $form, 'echo_field_checkbox' ],
+				'decalog_logger_details_section',
+				'decalog_logger_details_section',
+				[
+					'text'        => __( 'Include', 'decalog' ),
+					'id'          => $id,
+					'checked'     => in_array( $processor['id'], $this->current_logger['processors'] ),
+					'description' => $processor['help'],
+					'full_width'  => true,
+					'enabled'     => 'WordpressHandler' !== $this->current_logger['handler'],
+				]
+			);
+			register_setting( 'decalog_logger_details_section', $id );
+		}
 	}
 
 }
