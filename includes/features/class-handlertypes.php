@@ -37,28 +37,48 @@ class HandlerTypes {
 	 */
 	public function __construct() {
 		$this->handlers[] = [
-			'id' => 'NullLogHandler',
-			'class'  => 'null',
-			'name'   => esc_html__('Blackhole', 'decalog'),
-			'help'   => esc_html__('Any record it can handle will be thrown away.', 'decalog'),
-			'icon'   => $this->get_base64_php_icon() ,
-			'params' => [] ,
+			'id'            => 'NullLogHandler',
+			'class'         => 'null',
+			'name'          => esc_html__( 'Blackhole', 'decalog' ),
+			'help'          => esc_html__( 'Any record it can handle will be thrown away.', 'decalog' ),
+			'icon'          => $this->get_base64_php_icon(),
+			'params'        => [],
+			'configuration' => [],
+			'defaults'      => [],
 		];
 		$this->handlers[] = [
-			'id' => 'ErrorLogHandler',
-			'class'  => 'file',
-			'name'   => esc_html__('PHP error log', 'decalog'),
-			'help'   => esc_html__('An events log stored in the standard PHP error log, as with the error_log() function.', 'decalog'),
-			'icon'   => $this->get_base64_php_icon() ,
-			'params' => ['processors', 'privacy'] ,
+			'id'            => 'ErrorLogHandler',
+			'class'         => 'file',
+			'name'          => esc_html__( 'PHP error log', 'decalog' ),
+			'help'          => esc_html__( 'An events log stored in the standard PHP error log, as with the error_log() function.', 'decalog' ),
+			'icon'          => $this->get_base64_php_icon(),
+			'params'        => [ 'processors', 'privacy' ],
+			'configuration' => [],
+			'defaults'      => [],
 		];
 		$this->handlers[] = [
-			'id' => 'WordpressProcessor',
-			'class' => 'file',
-			'name' => esc_html__('WordPress events log', 'decalog'),
-			'help' => esc_html__('An events log stored in your WordPress database and available right in your admin dashboard.', 'decalog'),
-			'icon' => $this->get_base64_wordpress_icon() ,
-			'params' => ['processors', 'privacy'] ,
+			'id'            => 'WordpressProcessor',
+			'class'         => 'file',
+			'name'          => esc_html__( 'WordPress events log', 'decalog' ),
+			'help'          => esc_html__( 'An events log stored in your WordPress database and available right in your admin dashboard.', 'decalog' ),
+			'icon'          => $this->get_base64_wordpress_icon(),
+			'params'        => [ 'processors', 'privacy' ],
+			'configuration' => [
+				'rotate' => [
+					'type' => 'integer',
+					'name' => esc_html__( 'Events', 'decalog' ),
+					'help' => esc_html__( 'Maximum number of events stored in this events log.', 'decalog' ),
+					'default' => 10000,
+					'control' => ['type' =>'input_number', 'min' => 100, 'max' => 10000000, 'step' => 100],
+				],
+				'purge'  => [
+					'type' => 'integer',
+					'name' => esc_html__( 'Days', 'decalog' ),
+					'help' => esc_html__( 'Maximum age of events stored in this events log.', 'decalog' ),
+					'default' => 15,
+					'control' => ['type' =>'input_number', 'min' => 1, 'max' => 730, 'step' => 1],
+				],
+			]
 		];
 
 	}
@@ -81,7 +101,7 @@ class HandlerTypes {
 	 */
 	public function get_list() {
 		$result = [];
-		foreach ($this->handlers as $handler) {
+		foreach ( $this->handlers as $handler ) {
 			$result[] = $handler['id'];
 		}
 		return $result;

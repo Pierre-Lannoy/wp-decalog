@@ -70,7 +70,7 @@ class LoggerFactory {
 	/**
 	 * Check if logger definition is compliant.
 	 *
-	 * @param   array  The logger definition.
+	 * @param   array  $logger  The logger definition.
 	 * @return  array   The checked logger definition.
 	 * @since    1.0.0
 	 */
@@ -83,13 +83,16 @@ class LoggerFactory {
 		if ($handler && in_array('processors', $handler['params'])) {
 			$logger = $this->processor_check( $logger );
 		}
+		if ($handler && in_array('configuration', $handler)) {
+			$logger = $this->configuration_check( $logger , $handler['configuration']);
+		}
 		return $logger;
 	}
 
 	/**
 	 * Check the standard part of the logger.
 	 *
-	 * @param   array  The logger definition.
+	 * @param   array  $logger  The logger definition.
 	 * @return  array   The checked logger definition.
 	 * @since    1.0.0
 	 */
@@ -116,7 +119,7 @@ class LoggerFactory {
 	/**
 	 * Check the privacy part of the logger.
 	 *
-	 * @param   array  The logger definition.
+	 * @param   array  $logger  The logger definition.
 	 * @return  array   The checked logger definition.
 	 * @since    1.0.0
 	 */
@@ -138,7 +141,7 @@ class LoggerFactory {
 	/**
 	 * Check the processor part of the logger.
 	 *
-	 * @param   array  The logger definition.
+	 * @param   array  $logger  The logger definition.
 	 * @return  array   The checked logger definition.
 	 * @since    1.0.0
 	 */
@@ -156,6 +159,26 @@ class LoggerFactory {
 				}
 			}
 			$logger['processors'] = $processors;
+		}
+		return $logger;
+	}
+
+	/**
+	 * Check the configuration part of the logger.
+	 *
+	 * @param   array  $logger  The logger definition.
+	 * @param   array  $configuration   The configuration definition.
+	 * @return  array   The checked logger definition.
+	 * @since    1.0.0
+	 */
+	private function configuration_check( $logger, $configuration ) {
+		if (!array_key_exists('configuration', $logger)) {
+			$logger['configuration'] = [];
+		}
+		foreach ($configuration as $key=>$conf) {
+			if (!array_key_exists($key, $logger['configuration'])) {
+				$logger['configuration'][$key] = $conf[$key]['default'];
+			}
 		}
 		return $logger;
 	}

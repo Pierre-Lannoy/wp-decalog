@@ -124,7 +124,7 @@ class Decalog_Admin {
 								$message = sprintf(__('Logger %s has started.', 'decalog'), '<em>' . $loggers[$uuid]['name'] . '</em>');
 								$code = 0;
 								add_settings_error('decalog_no_error', $code, $message, 'updated');
-								$this->logger->info(sprintf('Logger "%s" has started.', $loggers[$uuid]['name']), $code);
+								$this->logger->notice(sprintf('Logger "%s" has started.', $loggers[$uuid]['name']), $code);
 							}
 							break;
 						case 'pause':
@@ -132,7 +132,7 @@ class Decalog_Admin {
 							if (array_key_exists($uuid, $loggers)) {
 								$message = sprintf(__('Logger %s has been paused.', 'decalog'), '<em>' . $loggers[$uuid]['name'] . '</em>');
 								$code = 0;
-								$this->logger->info(sprintf('Logger "%s" has been paused.', $loggers[$uuid]['name']), $code);
+								$this->logger->notice(sprintf('Logger "%s" has been paused.', $loggers[$uuid]['name']), $code);
 								$loggers[$uuid]['running'] = false;
 								Option::set('loggers', $loggers);
 								add_settings_error('decalog_no_error', $code, $message, 'updated');
