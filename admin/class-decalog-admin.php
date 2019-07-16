@@ -139,6 +139,9 @@ class Decalog_Admin {
 				$this->current_logger['uuid'] = $uuid;
 			}
 		}
+
+		$this->logger->error( '---' . $handler . '---' );
+
 		if ( $handler ) {
 			$handlers              = new HandlerTypes();
 			$this->current_handler = $handlers->get( $handler );
@@ -224,13 +227,11 @@ class Decalog_Admin {
 					$this->current_logger['privacy']['pseudonymization'] = (array_key_exists('decalog_logger_privacy_name', $_POST) ? true : false);
 					$this->current_logger['processors'] = [];
 					$proc       = new ProcessorTypes();
-					$processors = $proc->get_all();
-					foreach ( $processors as $processor ) {
+					foreach ( array_reverse( $proc->get_all() ) as $processor ) {
 						if (array_key_exists('decalog_logger_details_' . strtolower( $processor['id'] ), $_POST)) {
 							$this->current_logger['processors'][] = $processor['id'];
 						}
 					}
-
 					foreach ( $this->current_handler['configuration'] as $key => $configuration ) {
 						$id   = 'decalog_logger_details_' . strtolower( $key );
 						if ('boolean' === $configuration['control']['cast']) {
@@ -454,8 +455,7 @@ class Decalog_Admin {
 		);
 		register_setting( 'decalog_logger_details_section', $id );
 		$proc       = new ProcessorTypes();
-		$processors = array_reverse( $proc->get_all() );
-		foreach ( $processors as $processor ) {
+		foreach ( array_reverse( $proc->get_all() ) as $processor ) {
 			$id = 'decalog_logger_details_' . strtolower( $processor['id'] );
 			add_settings_field(
 				$id,

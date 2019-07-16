@@ -12,7 +12,7 @@
 ?>
 
 <div class="wrap">
-	<form action="<?php echo esc_url(add_query_arg(array('page' => 'decalog-settings', 'action' => 'do-edit', 'tab' => 'loggers', 'uuid' => $current_logger['uuid']), admin_url('options-general.php'))); ?>" method="POST">
+	<form action="<?php echo esc_url(add_query_arg(array('page' => 'decalog-settings', 'action' => 'do-edit', 'tab' => 'loggers', 'handler' => $current_logger['handler'], 'uuid' => $current_logger['uuid']), admin_url('options-general.php'))); ?>" method="POST">
 		<?php do_settings_sections('decalog_logger_misc_section'); ?>
 		<?php do_settings_sections('decalog_logger_specific_section'); ?>
 		<?php do_settings_sections('decalog_logger_privacy_section'); ?>
