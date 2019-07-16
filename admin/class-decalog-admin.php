@@ -303,6 +303,7 @@ class Decalog_Admin {
 		$icon  = '<img style="vertical-align:middle;width:34px;margin-top: -2px;padding-right:6px;" src="' . $this->current_handler['icon'] . '" />';
 		$title = $this->current_handler['name'];
 		echo '<h2>' . $icon . '&nbsp;' . $title . '</h2>';
+		echo '<p style="margin-top: -10px;margin-left: 6px;">' . $this->current_handler['help'] . '</p>';
 		$form = new Form();
 		add_settings_field(
 			'decalog_logger_misc_name',
@@ -346,6 +347,7 @@ class Decalog_Admin {
 		$icon  = '<img style="vertical-align:middle;width:34px;margin-top: -2px;padding-right:6px;" src="' . $this->current_handler['icon'] . '" />';
 		$title = $this->current_handler['name'];
 		echo '<h2>' . $icon . '&nbsp;' . $title . '</h2>';
+		echo '<p style="margin-top: -10px;margin-left: 6px;">' . $this->current_handler['help'] . '</p>';
 		$form = new Form();
 		add_settings_field(
 			'decalog_logger_delete_name',

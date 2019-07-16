@@ -36,7 +36,7 @@ $logger_types = new HandlerTypes();
 			<div class="clear"></div>
 		</div>
 	</div>
-	<script language="javascript" type="text/javascript">
+	<script type="text/javascript">
 		jQuery(document).ready(function($) {
 			$(".actionable").mouseout(function() {
 				$("#tip-text").html("&nbsp;");
@@ -46,19 +46,8 @@ $logger_types = new HandlerTypes();
 					$("#tip-text").html("<strong><?php echo $logger['name']; ?></strong> - <?php echo ucfirst( $logger['help'] ); ?>");
 				});
 				$("#<?php echo $logger['id']; ?>").click(function() {
-					window.open('
-					<?php
-					echo add_query_arg(
-						array(
-							'page'    => 'decalog-settings',
-							'action'  => 'form-edit',
-							'tab'     => 'loggers',
-							'handler' => $logger['id'],
-						),
-						admin_url( 'options-general.php' )
-					);
-					?>
-									', '_self');
+					<?php // phpcs:ignore ?>
+					window.open('<?php echo add_query_arg( array( 'page'    => 'decalog-settings', 'action'  => 'form-edit', 'tab'     => 'loggers', 'handler' => $logger['id'], ), admin_url( 'options-general.php' ) );?>', '_self');
 				});
 			<?php } ?>
 		});

@@ -16,7 +16,8 @@ use Decalog\Plugin\Feature\LoggerFactory;
 use Monolog\Logger;
 use Monolog\Handler\ErrorLogHandler;
 use Monolog\Handler\BrowserConsoleHandler;
-
+use Monolog\Handler\ChromePHPHandler;
+use Monolog\Handler\FirePHPHandler;
 use Monolog\Processor\IntrospectionProcessor;
 use Decalog\Processor\WWWProcessor;
 use Decalog\Processor\WordpressProcessor;
@@ -166,24 +167,14 @@ class DLogger {
 
 		$handler = new ErrorLogHandler();
 		$handler->pushProcessor( new WordpressProcessor() );
-		//$handler->pushProcessor( new BrowserConsoleHandler() );
 		// $handler->pushProcessor(new WWWProcessor());
 		// $handler->pushProcessor(new IntrospectionProcessor());
 		$this->logger->pushHandler( $handler );
 
 
-
-		$a=[];
-		$a['fa67ce0b-bc20-4304-9647-afedf7aa04b1']['id'] = 'Main Error Log file';
-		$a['fa67ce0b-bc20-4304-9647-afedf7aa04b1']['name'] = 'Main Error Log file';
-		$a['fa67ce0b-bc20-4304-9647-afedf7aa04b1']['running'] = true;
-		$a['fa67ce0b-bc20-4304-9647-afedf7aa04b1']['handler'] = 'ErrorLogHandler';
-		$a['fa67ce0b-bc20-4304-9647-afedf7aa04b1']['level'] = Logger::DEBUG;
-		$a['fa67ce0b-bc20-4304-9647-afedf7aa04b1']['privacy']['obfuscation'] = true;
-		$a['fa67ce0b-bc20-4304-9647-afedf7aa04b1']['privacy']['pseudonymization'] = true;
-		$a['fa67ce0b-bc20-4304-9647-afedf7aa04b1']['processors'] = ['WordpressProcessor'];
-		//Option::set('loggers', $a);
-
+		$handler = new FirePHPHandler();
+		$handler->pushProcessor( new WordpressProcessor() );
+		$this->logger->pushHandler( $handler );
 	}
 
 	/**
