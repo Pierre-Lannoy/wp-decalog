@@ -45,7 +45,7 @@ class Form {
 	 * @return  string  The HTML string ready to print.
 	 * @since   1.0.0
 	 */
-	public function field_input_integer( $id, $value, $min, $max, $step, $description = null, $unit = null, $full_width = true, $enabled = true ) {
+	public function field_input_integer( $id, $value, $min, $max, $step, $description = null, $full_width = true, $enabled = true, $unit = null ) {
 
 		if ( $full_width ) {
 			$width = ' style="width:100%;"';

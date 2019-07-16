@@ -174,8 +174,10 @@ class Decalog_Admin {
 							$view            = 'decalog-admin-settings-logger-delete';
 							break;
 						case 'do-edit':
+							$this->save_current();
 							break;
 						case 'do-delete':
+							$this->delete_current();
 							break;
 						case 'start':
 							$loggers = Option::get( 'loggers' );
@@ -208,12 +210,30 @@ class Decalog_Admin {
 	}
 
 	/**
+	 * Save the current logger as new or modified logger.
+	 *
+	 * @since 1.0.0
+	 */
+	private function save_current() {
+
+	}
+
+	/**
+	 * Delete the current logger.
+	 *
+	 * @since 1.0.0
+	 */
+	private function delete_current() {
+
+	}
+
+	/**
 	 * Callback for logger misc section.
 	 *
 	 * @since 1.0.0
 	 */
 	public function logger_misc_section_callback() {
-		$icon = '<img style="vertical-align:middle;width:34px;margin-top: -2px;padding-right:6px;" src="' . $this->current_handler['icon'] . '" />';
+		$icon  = '<img style="vertical-align:middle;width:34px;margin-top: -2px;padding-right:6px;" src="' . $this->current_handler['icon'] . '" />';
 		$title = $this->current_handler['name'];
 		echo '<h2>' . $icon . '&nbsp;' . $title . '</h2>';
 		$form = new Form();
@@ -257,7 +277,7 @@ class Decalog_Admin {
 	 */
 	public function logger_specific_section_callback() {
 		$form = new Form();
-		if ('ErrorLogHandler' === $this->current_logger['handler']) {
+		if ( 'ErrorLogHandler' === $this->current_logger['handler'] ) {
 			add_settings_field(
 				'decalog_logger_specific_dummy',
 				__( 'Log file', 'decalog' ),
@@ -266,13 +286,37 @@ class Decalog_Admin {
 				'decalog_logger_specific_section',
 				[
 					'id'          => 'decalog_logger_specific_dummy',
-					'value'       => ini_get('error_log'),
+					'value'       => ini_get( 'error_log' ),
 					'description' => __( 'Value set in php.ini file.', 'decalog' ),
 					'full_width'  => true,
 					'enabled'     => false,
 				]
 			);
 			register_setting( 'decalog_logger_specific_section', 'decalog_logger_specific_dummy' );
+		}
+		foreach ( $this->current_handler['configuration'] as $key => $configuration ) {
+			$id   = $id = 'decalog_logger_details_' . strtolower( $key );
+			$args = [
+				'id'          => $id,
+				'value'       => $this->current_logger['configuration'][ $key ],
+				'description' => $configuration['help'],
+				'full_width'  => true,
+				'enabled'     => $configuration['control']['enabled'],
+			];
+			foreach ( $configuration['control'] as $key => $control ) {
+				if ( 'type' !== $key ) {
+					$args[ $key ] = $control;
+				}
+			}
+			add_settings_field(
+				$id,
+				$configuration['name'],
+				[ $form, 'echo_' . $configuration['control']['type'] ],
+				'decalog_logger_specific_section',
+				'decalog_logger_specific_section',
+				$args
+			);
+			register_setting( 'decalog_logger_specific_section', $id );
 		}
 	}
 

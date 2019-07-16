@@ -83,7 +83,7 @@ class LoggerFactory {
 		if ($handler && in_array('processors', $handler['params'])) {
 			$logger = $this->processor_check( $logger );
 		}
-		if ($handler && in_array('configuration', $handler)) {
+		if ($handler && array_key_exists('configuration', $handler)) {
 			$logger = $this->configuration_check( $logger , $handler['configuration']);
 		}
 		return $logger;
@@ -177,7 +177,7 @@ class LoggerFactory {
 		}
 		foreach ($configuration as $key=>$conf) {
 			if (!array_key_exists($key, $logger['configuration'])) {
-				$logger['configuration'][$key] = $conf[$key]['default'];
+				$logger['configuration'][$key] = $conf['default'];
 			}
 		}
 		return $logger;

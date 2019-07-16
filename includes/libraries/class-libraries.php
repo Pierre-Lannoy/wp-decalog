@@ -178,7 +178,7 @@ class Libraries {
 		$item['name']    = 'Plugin Boilerplate';
 		$item['version'] = '';
 		$item['author']  = 'Pierre Lannoy';
-		$item['url']     = 'https://github.com/Pierre-Lannoy/decalog';
+		$item['url']     = 'https://github.com/Pierre-Lannoy/wp-' . 'plugin-' . 'boilerplate';
 		$item['license'] = $this->license_name( 'gpl2' );
 		$item['langs']   = L10n::get_language_markup( [ 'en' ] );
 		$list[]          = $item;
