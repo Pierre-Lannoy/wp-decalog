@@ -14,27 +14,27 @@ use Decalog\Plugin\Feature\Loggers;
 $loggers = new Loggers();
 $loggers->prepare_items();
 
-$button = '<a href="#" class="page-title-action add-trigger">' . __('Add a Logger', 'decalog') . '</a>'
+$button = '<a href="#" class="page-title-action add-trigger">' . __( 'Add a Logger', 'decalog' ) . '</a>'
 
 ?>
 
 <style>.tablenav{display:none !important;}</style>
 
 <p>&nbsp;</p>
-<p><?php echo $button ?></p>
+<p><?php echo $button; ?></p>
 <div class="add-text" style="display:none;">
-    <div id="wpcom-stats-meta-box-container" class="metabox-holder">
-        <div class="postbox-container" style="width: 100%;margin-right: 10px;">
-            <?php include(DECALOG_ADMIN_DIR.'partials/decalog-admin-settings-logger-choose.php'); ?>
-        </div>
-    </div>
+	<div id="wpcom-stats-meta-box-container" class="metabox-holder">
+		<div class="postbox-container" style="width: 100%;margin-right: 10px;">
+			<?php require DECALOG_ADMIN_DIR . 'partials/decalog-admin-settings-logger-choose.php'; ?>
+		</div>
+	</div>
 </div>
 <?php $loggers->display(); ?>
 
 <script type="text/javascript">
-    jQuery(document).ready(function($) {
-        $(".add-trigger").click(function() {
-            $(".add-text").slideToggle(400);
-        });
-    });
+	jQuery(document).ready(function($) {
+		$(".add-trigger").click(function() {
+			$(".add-text").slideToggle(400);
+		});
+	});
 </script>

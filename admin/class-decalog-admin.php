@@ -107,6 +107,7 @@ class Decalog_Admin {
 	 */
 	public function init_settings_sections() {
 		add_settings_section( 'decalog_logger_misc_section', null, [ $this, 'logger_misc_section_callback' ], 'decalog_logger_misc_section' );
+		add_settings_section( 'decalog_logger_delete_section', null, [ $this, 'logger_delete_section_callback' ], 'decalog_logger_delete_section' );
 		add_settings_section( 'decalog_logger_specific_section', null, [ $this, 'logger_specific_section_callback' ], 'decalog_logger_specific_section' );
 		add_settings_section( 'decalog_logger_privacy_section', __( 'Privacy options', 'decalog' ), [ $this, 'logger_privacy_section_callback' ], 'decalog_logger_privacy_section' );
 		add_settings_section( 'decalog_logger_details_section', __( 'Reported details', 'decalog' ), [ $this, 'logger_details_section_callback' ], 'decalog_logger_details_section' );
@@ -139,9 +140,6 @@ class Decalog_Admin {
 				$this->current_logger['uuid'] = $uuid;
 			}
 		}
-
-		$this->logger->error( '---' . $handler . '---' );
-
 		if ( $handler ) {
 			$handlers              = new HandlerTypes();
 			$this->current_handler = $handlers->get( $handler );
@@ -337,6 +335,49 @@ class Decalog_Admin {
 			]
 		);
 		register_setting( 'decalog_logger_misc_section', 'decalog_logger_misc_level' );
+	}
+
+	/**
+	 * Callback for logger delete section.
+	 *
+	 * @since 1.0.0
+	 */
+	public function logger_delete_section_callback() {
+		$icon  = '<img style="vertical-align:middle;width:34px;margin-top: -2px;padding-right:6px;" src="' . $this->current_handler['icon'] . '" />';
+		$title = $this->current_handler['name'];
+		echo '<h2>' . $icon . '&nbsp;' . $title . '</h2>';
+		$form = new Form();
+		add_settings_field(
+			'decalog_logger_delete_name',
+			__( 'Name', 'decalog' ),
+			[ $form, 'echo_field_input_text' ],
+			'decalog_logger_delete_section',
+			'decalog_logger_delete_section',
+			[
+				'id'          => 'decalog_logger_delete_name',
+				'value'       => $this->current_logger['name'],
+				'description' => null,
+				'full_width'  => true,
+				'enabled'     => false,
+			]
+		);
+		register_setting( 'decalog_logger_delete_section', 'decalog_logger_delete_name' );
+		add_settings_field(
+			'decalog_logger_delete_level',
+			__( 'Minimal level', 'decalog' ),
+			[ $form, 'echo_field_select' ],
+			'decalog_logger_delete_section',
+			'decalog_logger_delete_section',
+			[
+				'list'        => Log::get_levels(),
+				'id'          => 'decalog_logger_delete_level',
+				'value'       => $this->current_logger['level'],
+				'description' => null,
+				'full_width'  => true,
+				'enabled'     => false,
+			]
+		);
+		register_setting( 'decalog_logger_delete_section', 'decalog_logger_delete_level' );
 	}
 
 	/**
