@@ -273,7 +273,26 @@ class Decalog_Admin {
 	 * @since 1.0.0
 	 */
 	private function delete_current() {
-
+		if (!empty($_POST)) {
+			if (array_key_exists('_wpnonce', $_POST) && wp_verify_nonce($_POST['_wpnonce'], 'decalog-logger-delete')) {
+				if (array_key_exists('submit', $_POST)) {
+					$uuid = $this->current_logger['uuid'];
+					$loggers = Option::get('loggers');
+					unset($loggers[$uuid]);
+					Option::set( 'loggers', $loggers );
+					$message = sprintf( __( 'Logger %s has been removed.', 'decalog' ), '<em>' . $this->current_logger['name'] . '</em>' );
+					$code    = 0;
+					add_settings_error( 'decalog_no_error', $code, $message, 'updated' );
+					$this->logger->notice( sprintf( 'Logger "%s" has been removed.', $this->current_logger['name'] ), $code );
+				}
+			}
+			else {
+				$message = sprintf( __( 'Logger %s has not been removed. Please try again.', 'decalog' ), '<em>' . $this->current_logger['name'] . '</em>' );
+				$code    = 2;
+				add_settings_error( 'adr_nonce_error', $code, $message, 'error' );
+				$this->logger->warning( sprintf( 'Logger "%s" has not been removed.', $this->current_logger['name'] ), $code );
+			}
+		}
 	}
 
 	/**
