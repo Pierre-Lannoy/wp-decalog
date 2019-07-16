@@ -69,14 +69,14 @@ class HandlerTypes {
 					'name' => esc_html__( 'Events', 'decalog' ),
 					'help' => esc_html__( 'Maximum number of events stored in this events log.', 'decalog' ),
 					'default' => 10000,
-					'control' => ['type' =>'field_input_integer', 'min' => 100, 'max' => 10000000, 'step' => 100, 'enabled' => true],
+					'control' => ['type' =>'field_input_integer', 'cast' => 'integer', 'min' => 100, 'max' => 10000000, 'step' => 100, 'enabled' => true],
 				],
 				'purge'  => [
 					'type' => 'integer',
 					'name' => esc_html__( 'Days', 'decalog' ),
 					'help' => esc_html__( 'Maximum age of events stored in this events log.', 'decalog' ),
 					'default' => 15,
-					'control' => ['type' =>'field_input_integer', 'min' => 1, 'max' => 730, 'step' => 1, 'enabled' => true],
+					'control' => ['type' =>'field_input_integer', 'cast' => 'integer', 'min' => 1, 'max' => 730, 'step' => 1, 'enabled' => true],
 				],
 			]
 		];

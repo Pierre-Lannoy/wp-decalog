@@ -18,6 +18,6 @@
 		<?php do_settings_sections('decalog_logger_privacy_section'); ?>
 		<?php do_settings_sections('decalog_logger_details_section'); ?>
 		<?php wp_nonce_field('decalog-logger-edit'); ?>
-		<?php echo get_submit_button();?>
+        <p><?php echo get_submit_button(__('Cancel', 'decalog'), 'secondary', 'cancel', false);?>&nbsp;&nbsp;&nbsp;<?php echo get_submit_button(null, 'primary', 'submit', false);?></p>
 	</form>
 </div>
