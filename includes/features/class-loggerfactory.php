@@ -21,10 +21,10 @@ use Monolog\Handler\BrowserConsoleHandler;
 use Monolog\Handler\ChromePHPHandler;
 use Monolog\Handler\ErrorLogHandler;
 
+use Monolog\Handler\SyslogUdpHandler;
 
 
 
-use Monolog\Handler\FirePHPHandler;
 
 
 /**

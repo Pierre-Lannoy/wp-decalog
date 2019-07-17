@@ -198,7 +198,106 @@ class HandlerTypes {
 			'help'          => esc_html__( 'An events log sent to a remote syslogd server.', 'decalog' ),
 			'icon'          => $this->get_base64_syslog_icon(),
 			'params'        => [ 'processors', 'privacy' ],
-			'configuration' => [],
+			'configuration' => [
+				'host' => [
+					'type'    => 'string',
+					'name'    => esc_html__( 'Host', 'decalog' ),
+					'help'    => esc_html__( 'The remote host receiving syslog messages.', 'decalog' ),
+					'default' => '127.0.0.1',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
+				'proto' => [
+					'type'    => 'string',
+					'name'    => esc_html__( 'Protocol', 'decalog' ),
+					'help'    => esc_html__( 'The used syslog protocol.', 'decalog' ),
+					'default' => 'UDP',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => false,
+					],
+				],
+				'port'  => [
+					'type'    => 'integer',
+					'name'    => esc_html__( 'Port', 'decalog' ),
+					'help'    => esc_html__( 'The opened port on remote host to receive syslog messages.', 'decalog' ),
+					'default' => 514,
+					'control' => [
+						'type'    => 'field_input_integer',
+						'cast'    => 'integer',
+						'min'     => 1,
+						'max'     => 64738,
+						'step'    => 1,
+						'enabled' => true,
+					],
+				],
+				'facility' => [
+					'type'    => 'string',
+					'name'    => esc_html__( 'Facility', 'decalog' ),
+					'help'    => esc_html__( 'The syslog facility for messages sent by DecaLog.', 'decalog' ),
+					'default' => 'LOG_USER',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => false,
+					],
+				],
+				'ident' => [
+					'type'    => 'string',
+					'name'    => esc_html__( 'Identifier', 'decalog' ),
+					'help'    => esc_html__( 'The program identifier for messages sent by DecaLog.', 'decalog' ),
+					'default' => 'DecaLog',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
+				'format'  => [
+					'type'    => 'integer',
+					'name'    => esc_html__( 'Time format', 'decalog' ),
+					'help'    => esc_html__( 'The time format standard to use.', 'decalog' ),
+					'default' => 514,
+					'control' => [
+						'type'    => 'field_select',
+						'cast'    => 'integer',
+						'enabled' => true,
+						'list'    => [[0,'BSD (RFC 3164)'],[1,'IETF (RFC 5424)']],
+					],
+				],
+			],
+			'init'          => [
+				[
+					'type'  => 'configuration',
+					'value' => 'host',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'port',
+				],
+				[
+					'type'  => 'literal',
+					'value' => 8,
+				],
+				[ 'type' => 'level' ],
+				[
+					'type'  => 'literal',
+					'value' => true,
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'ident',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'format',
+				],
+
+			],
 		];
 		$this->handlers[] = [
 			'id'            => 'WordpressHandler',

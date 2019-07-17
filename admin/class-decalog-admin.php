@@ -422,6 +422,7 @@ class Decalog_Admin {
 				'description' => $configuration['help'],
 				'full_width'  => true,
 				'enabled'     => $configuration['control']['enabled'],
+				'list'        => (array_key_exists('list', $configuration['control'])?$configuration['control']['list']:[])
 			];
 			foreach ( $configuration['control'] as $key => $control ) {
 				if ( 'type' !== $key  && 'cast' !== $key ) {
