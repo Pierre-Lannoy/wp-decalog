@@ -185,6 +185,7 @@ class Decalog_Admin {
 							if ( array_key_exists( $uuid, $loggers ) ) {
 								$loggers[ $uuid ]['running'] = true;
 								Option::set( 'loggers', $loggers );
+								$this->logger = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
 								$message = sprintf( __( 'Logger %s has started.', 'decalog' ), '<em>' . $loggers[ $uuid ]['name'] . '</em>' );
 								$code    = 0;
 								add_settings_error( 'decalog_no_error', $code, $message, 'updated' );
@@ -199,6 +200,7 @@ class Decalog_Admin {
 								$this->logger->notice( sprintf( 'Logger "%s" has been paused.', $loggers[ $uuid ]['name'] ), $code );
 								$loggers[ $uuid ]['running'] = false;
 								Option::set( 'loggers', $loggers );
+								$this->logger = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
 								add_settings_error( 'decalog_no_error', $code, $message, 'updated' );
 							}
 					}
@@ -251,6 +253,7 @@ class Decalog_Admin {
 					$factory = new LoggerFactory();
 					$loggers[$uuid] = $factory->check( $this->current_logger );
 					Option::set( 'loggers', $loggers );
+					$this->logger = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
 					$message = sprintf( __( 'Logger %s has been saved.', 'decalog' ), '<em>' . $this->current_logger['name'] . '</em>' );
 					$code    = 0;
 					add_settings_error( 'decalog_no_error', $code, $message, 'updated' );
@@ -283,6 +286,7 @@ class Decalog_Admin {
 					$code    = 0;
 					add_settings_error( 'decalog_no_error', $code, $message, 'updated' );
 					$this->logger->notice( sprintf( 'Logger "%s" has been removed.', $this->current_logger['name'] ), $code );
+					$this->logger = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
 				}
 			}
 			else {

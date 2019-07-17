@@ -48,33 +48,58 @@ class HandlerTypes {
 		];
 		$this->handlers[] = [
 			'id'            => 'BrowserConsoleHandler',
-			'namespace'     => 'Monolog\Handler',
+			'namespace'     => 'Monolog\\Handler',
 			'class'         => 'browser',
 			'name'          => esc_html__( 'Browser console', 'decalog' ),
 			'help'          => esc_html__( 'An events log sent to browser\'s javascript console with no browser extension required.', 'decalog' ),
 			'icon'          => $this->get_base64_browserconsole_icon(),
 			'params'        => [ 'processors', 'privacy' ],
 			'configuration' => [],
+			'init'          => [
+				[ 'type' => 'level' ],
+				[
+					'type'  => 'literal',
+					'value' => true,
+				],
+			],
 		];
 		$this->handlers[] = [
 			'id'            => 'ChromePHPHandler',
-			'namespace'     => 'Monolog\Handler',
+			'namespace'     => 'Monolog\\Handler',
 			'class'         => 'browser',
 			'name'          => esc_html__( 'ChromePHP', 'decalog' ),
 			'help'          => esc_html__( 'An events log sent to the ChromePHP extension (http://www.chromephp.com/).', 'decalog' ),
 			'icon'          => $this->get_base64_chrome_icon(),
 			'params'        => [ 'processors', 'privacy' ],
 			'configuration' => [],
+			'init'          => [
+				[ 'type' => 'level' ],
+				[
+					'type'  => 'literal',
+					'value' => true,
+				],
+			],
 		];
 		$this->handlers[] = [
 			'id'            => 'ErrorLogHandler',
-			'namespace'     => 'Monolog\Handler',
+			'namespace'     => 'Monolog\\Handler',
 			'class'         => 'file',
 			'name'          => esc_html__( 'PHP error log', 'decalog' ),
 			'help'          => esc_html__( 'An events log stored in the standard PHP error log, as with the error_log() function.', 'decalog' ),
 			'icon'          => $this->get_base64_php_icon(),
 			'params'        => [ 'processors', 'privacy' ],
 			'configuration' => [],
+			'init'          => [
+				[
+					'type'  => 'literal',
+					'value' => 0,
+				],
+				[ 'type' => 'level' ],
+				[
+					'type'  => 'literal',
+					'value' => true,
+				],
+			],
 		];
 		$this->handlers[] = [
 			'id'            => 'SlackWebhookHandler',
@@ -116,20 +141,34 @@ class HandlerTypes {
 			'params'        => [ 'processors', 'privacy' ],
 			'configuration' => [
 				'rotate' => [
-					'type' => 'integer',
-					'name' => esc_html__( 'Events', 'decalog' ),
-					'help' => esc_html__( 'Maximum number of events stored in this events log.', 'decalog' ),
+					'type'    => 'integer',
+					'name'    => esc_html__( 'Events', 'decalog' ),
+					'help'    => esc_html__( 'Maximum number of events stored in this events log.', 'decalog' ),
 					'default' => 10000,
-					'control' => ['type' =>'field_input_integer', 'cast' => 'integer', 'min' => 100, 'max' => 10000000, 'step' => 100, 'enabled' => true],
+					'control' => [
+						'type'    => 'field_input_integer',
+						'cast'    => 'integer',
+						'min'     => 100,
+						'max'     => 10000000,
+						'step'    => 100,
+						'enabled' => true,
+					],
 				],
 				'purge'  => [
-					'type' => 'integer',
-					'name' => esc_html__( 'Days', 'decalog' ),
-					'help' => esc_html__( 'Maximum age of events stored in this events log.', 'decalog' ),
+					'type'    => 'integer',
+					'name'    => esc_html__( 'Days', 'decalog' ),
+					'help'    => esc_html__( 'Maximum age of events stored in this events log.', 'decalog' ),
 					'default' => 15,
-					'control' => ['type' =>'field_input_integer', 'cast' => 'integer', 'min' => 1, 'max' => 730, 'step' => 1, 'enabled' => true],
+					'control' => [
+						'type'    => 'field_input_integer',
+						'cast'    => 'integer',
+						'min'     => 1,
+						'max'     => 730,
+						'step'    => 1,
+						'enabled' => true,
+					],
 				],
-			]
+			],
 		];
 
 	}

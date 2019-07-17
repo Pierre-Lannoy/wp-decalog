@@ -9,18 +9,11 @@
 
 namespace Decalog\API;
 
+use Monolog\Logger;
 use Decalog\System\Environment;
 use Decalog\System\Option;
 use Decalog\Plugin\Feature\LoggerFactory;
 
-use Monolog\Logger;
-use Monolog\Handler\ErrorLogHandler;
-use Monolog\Handler\BrowserConsoleHandler;
-use Monolog\Handler\ChromePHPHandler;
-use Monolog\Handler\FirePHPHandler;
-use Monolog\Processor\IntrospectionProcessor;
-use Decalog\Processor\WWWProcessor;
-use Decalog\Processor\WordpressProcessor;
 
 
 /**
@@ -147,34 +140,22 @@ class DLogger {
 		$this->debug( 'A new instance of DecaLog logger is initialized and operational.' );
 	}
 
+
+
 	/**
 	 * Init the logger.
 	 *
 	 * @since 1.0.0
 	 */
 	private function init() {
-		$consistency = new LoggerFactory();
+		$factory = new LoggerFactory();
 		$this->logger = new Logger( $this->current_channel_tag() );
-		$loggers = Option::get('loggers');
-		foreach ( $loggers as $logger ) {
-			$logger = $consistency->check($logger);
-			if ($logger['running']) {
-
+		foreach ( Option::get('loggers') as $logger ) {
+			$handler = $factory->create_logger($logger);
+			if ($handler) {
+				$this->logger->pushHandler( $handler );
 			}
 		}
-
-
-
-		$handler = new ErrorLogHandler();
-		$handler->pushProcessor( new WordpressProcessor() );
-		// $handler->pushProcessor(new WWWProcessor());
-		// $handler->pushProcessor(new IntrospectionProcessor());
-		$this->logger->pushHandler( $handler );
-
-
-		$handler = new FirePHPHandler();
-		$handler->pushProcessor( new WordpressProcessor() );
-		$this->logger->pushHandler( $handler );
 	}
 
 	/**

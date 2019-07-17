@@ -37,22 +37,32 @@ class ProcessorTypes {
 	 */
 	public function __construct() {
 		$this->processors[] = [
-			'id'     => 'IntrospectionProcessor',
-			'name'   => esc_html__( 'PHP introspection', 'decalog' ),
-			'help'   => esc_html__( 'Allows to log line, file, class and function generating the event.', 'decalog' ),
-			'params' => [],
+			'id'        => 'IntrospectionProcessor',
+			'namespace' => 'Monolog\\Processor',
+			'name'      => esc_html__( 'PHP introspection', 'decalog' ),
+			'help'      => esc_html__( 'Allows to log line, file, class and function generating the event.', 'decalog' ),
+			'init'      => [],
 		];
 		$this->processors[] = [
-			'id'     => 'WWWProcessor',
-			'name'   => esc_html__( 'HTTP request', 'decalog' ),
-			'help'   => esc_html__( 'Allows to log url, method, referrer and remote IP of the current web request.', 'decalog' ),
-			'params' => [ 'null', 'null', 'privacy:obfuscation' ],
+			'id'        => 'WWWProcessor',
+			'namespace' => 'Decalog\\Processor',
+			'name'      => esc_html__( 'HTTP request', 'decalog' ),
+			'help'      => esc_html__( 'Allows to log url, method, referrer and remote IP of the current web request.', 'decalog' ),
+			'init'      => [
+				['type'=>'literal','value' => null],
+				['type'=>'literal','value' => null],
+				['type'=>'privacy','value' => 'obfuscation'],
+			],
 		];
 		$this->processors[] = [
-			'id'     => 'WordpressProcessor',
-			'name'   => esc_html__( 'WordPress ', 'decalog' ),
-			'help'   => esc_html__( 'Allows to log site, user and remote IP of the current request.', 'decalog' ),
-			'params' => [ 'privacy:pseudonymization', 'privacy:obfuscation' ],
+			'id'        => 'WordpressProcessor',
+			'namespace' => 'Decalog\\Processor',
+			'name'      => esc_html__( 'WordPress ', 'decalog' ),
+			'help'      => esc_html__( 'Allows to log site, user and remote IP of the current request.', 'decalog' ),
+			'init'      => [
+				['type'=>'privacy','value' => 'pseudonymization'],
+				['type'=>'privacy','value' => 'obfuscation'],
+			],
 		];
 	}
 
@@ -74,7 +84,7 @@ class ProcessorTypes {
 	 */
 	public function get_list() {
 		$result = [];
-		foreach ($this->processors as $processor) {
+		foreach ( $this->processors as $processor ) {
 			$result[] = $processor['id'];
 		}
 		return $result;

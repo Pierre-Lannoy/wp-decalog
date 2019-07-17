@@ -13,6 +13,20 @@ namespace Decalog\Plugin\Feature;
 
 use Monolog\Logger;
 
+use Monolog\Processor\IntrospectionProcessor;
+use Decalog\Processor\WWWProcessor;
+use Decalog\Processor\WordpressProcessor;
+
+use Monolog\Handler\BrowserConsoleHandler;
+use Monolog\Handler\ChromePHPHandler;
+use Monolog\Handler\ErrorLogHandler;
+
+
+
+
+use Monolog\Handler\FirePHPHandler;
+
+
 /**
  * Define the logger consistency functionality.
  *
@@ -63,28 +77,103 @@ class LoggerFactory {
 	 * @since    1.0.0
 	 */
 	public function __construct() {
-		$this->handler_types = new HandlerTypes();
+		$this->handler_types   = new HandlerTypes();
 		$this->processor_types = new ProcessorTypes();
+	}
+
+	/**
+	 * Create an instance of .$class_name.
+	 *
+	 * @param   string $class_name The class name.
+	 * @param   array  $args   The param of the constructor for $class_name class.
+	 * @return  null|object The instance of the class if creation was possible, null otherwise.
+	 * @since    1.0.0
+	 */
+	private function create_instance( $class_name, $args = [] ) {
+		if ( class_exists( $class_name ) ) {
+			$reflection = new \ReflectionClass( $class_name );
+			return $reflection->newInstanceArgs( $args );
+		}
+		return false;
+	}
+
+	/**
+	 * Create an instance of logger.
+	 *
+	 * @param   array $logger   The logger parameters.
+	 * @return  null|object The instance of logger if creation was possible, null otherwise.
+	 * @since    1.0.0
+	 */
+	public function create_logger( $logger ) {
+		$logger  = $this->check( $logger );
+		$handler = null;
+		if ( $logger['running'] ) {
+			$handler_def = $this->handler_types->get( $logger['handler'] );
+			if ( $handler_def ) {
+				$classname = $handler_def['namespace'] . '\\' . $handler_def['id'];
+				if ( class_exists( $classname ) ) {
+					$args = [];
+					foreach ( $handler_def['init'] as $p ) {
+						switch ( $p['type'] ) {
+							case 'level':
+								$args[] = (int) $logger['level'];
+								break;
+							case 'literal':
+								$args[] = $p['value'];
+								break;
+						}
+					}
+					$handler = $this->create_instance( $classname, $args );
+				}
+			}
+			if ( $handler ) {
+				foreach ( array_reverse($logger['processors']) as $processor ) {
+					$p_instance    = null;
+					$processor_def = $this->processor_types->get( $processor );
+					if ( $processor_def ) {
+						$classname = $processor_def['namespace'] . '\\' . $processor_def['id'];
+						if ( class_exists( $classname ) ) {
+							$args = [];
+							foreach ( $processor_def['init'] as $p ) {
+								switch ( $p['type'] ) {
+									case 'privacy':
+										$args[] = (bool) $logger[ 'privacy' ][ $p['value'] ];
+										break;
+									case 'literal':
+										$args[] = $p['value'];
+										break;
+								}
+							}
+							$p_instance = $this->create_instance( $classname, $args );
+						}
+					}
+					if ( $p_instance ) {
+						$handler->pushProcessor( $p_instance );
+					}
+				}
+			}
+		}
+		return $handler;
 	}
 
 	/**
 	 * Check if logger definition is compliant.
 	 *
-	 * @param   array  $logger  The logger definition.
+	 * @param   array $logger  The logger definition.
 	 * @return  array   The checked logger definition.
 	 * @since    1.0.0
 	 */
 	public function check( $logger ) {
-		$logger = $this->standard_check( $logger );
-		$handler = $this->handler_types->get($logger['handler']);
-		if ($handler && in_array('privacy', $handler['params'])) {
+		$logger  = $this->standard_check( $logger );
+		$handler = $this->handler_types->get( $logger['handler'] );
+		if ( $handler && in_array( 'privacy', $handler['params'] ) ) {
 			$logger = $this->privacy_check( $logger );
 		}
-		if ($handler && in_array('processors', $handler['params'])) {
+		if ( $handler && in_array( 'processors', $handler['params'] ) ) {
 			$logger = $this->processor_check( $logger );
 		}
-		if ($handler && array_key_exists('configuration', $handler)) {
-			$logger = $this->configuration_check( $logger , $handler['configuration']);
+		if ( $handler && array_key_exists( 'configuration', $handler ) ) {
+			$logger = $this->configuration_check( $logger, $handler['configuration'] );
 		}
 		return $logger;
 	}
@@ -92,7 +181,7 @@ class LoggerFactory {
 	/**
 	 * Check the standard part of the logger.
 	 *
-	 * @param   array  $logger  The logger definition.
+	 * @param   array $logger  The logger definition.
 	 * @return  array   The checked logger definition.
 	 * @since    1.0.0
 	 */
@@ -119,7 +208,7 @@ class LoggerFactory {
 	/**
 	 * Check the privacy part of the logger.
 	 *
-	 * @param   array  $logger  The logger definition.
+	 * @param   array $logger  The logger definition.
 	 * @return  array   The checked logger definition.
 	 * @since    1.0.0
 	 */
@@ -132,7 +221,7 @@ class LoggerFactory {
 				$logger['privacy']['pseudonymization'] = false;
 			}
 		} else {
-			$logger['privacy']['obfuscation'] = false;
+			$logger['privacy']['obfuscation']      = false;
 			$logger['privacy']['pseudonymization'] = false;
 		}
 		return $logger;
@@ -141,7 +230,7 @@ class LoggerFactory {
 	/**
 	 * Check the processor part of the logger.
 	 *
-	 * @param   array  $logger  The logger definition.
+	 * @param   array $logger  The logger definition.
 	 * @return  array   The checked logger definition.
 	 * @since    1.0.0
 	 */
@@ -149,12 +238,12 @@ class LoggerFactory {
 		if ( ! array_key_exists( 'processors', $logger ) ) {
 			$logger['processors'] = [];
 		}
-		if ('WordpressHandler' === $logger['handler']) {
+		if ( 'WordpressHandler' === $logger['handler'] ) {
 			$logger['processors'] = [ 'WordpressProcessor', 'WWWProcessor', 'IntrospectionProcessor' ];
 		} else {
 			$processors = [];
-			foreach ($logger['processors'] as $processor) {
-				if (in_array($processor, $this->processor_types->get_list())) {
+			foreach ( $logger['processors'] as $processor ) {
+				if ( in_array( $processor, $this->processor_types->get_list() ) ) {
 					$processors[] = $processor;
 				}
 			}
@@ -166,18 +255,18 @@ class LoggerFactory {
 	/**
 	 * Check the configuration part of the logger.
 	 *
-	 * @param   array  $logger  The logger definition.
-	 * @param   array  $configuration   The configuration definition.
+	 * @param   array $logger  The logger definition.
+	 * @param   array $configuration   The configuration definition.
 	 * @return  array   The checked logger definition.
 	 * @since    1.0.0
 	 */
 	private function configuration_check( $logger, $configuration ) {
-		if (!array_key_exists('configuration', $logger)) {
+		if ( ! array_key_exists( 'configuration', $logger ) ) {
 			$logger['configuration'] = [];
 		}
-		foreach ($configuration as $key=>$conf) {
-			if (!array_key_exists($key, $logger['configuration'])) {
-				$logger['configuration'][$key] = $conf['default'];
+		foreach ( $configuration as $key => $conf ) {
+			if ( ! array_key_exists( $key, $logger['configuration'] ) ) {
+				$logger['configuration'][ $key ] = $conf['default'];
 			}
 		}
 		return $logger;
