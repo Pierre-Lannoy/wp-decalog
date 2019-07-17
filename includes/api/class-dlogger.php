@@ -12,6 +12,7 @@ namespace Decalog\API;
 use Monolog\Logger;
 use Decalog\System\Environment;
 use Decalog\System\Option;
+use Decalog\System\Timezone;
 use Decalog\Plugin\Feature\LoggerFactory;
 
 
@@ -149,7 +150,7 @@ class DLogger {
 	 */
 	private function init() {
 		$factory = new LoggerFactory();
-		$this->logger = new Logger( $this->current_channel_tag() );
+		$this->logger = new Logger( $this->current_channel_tag(), [], [], Timezone::get_wp() );
 		foreach ( Option::get('loggers') as $logger ) {
 			$handler = $factory->create_logger($logger);
 			if ($handler) {
