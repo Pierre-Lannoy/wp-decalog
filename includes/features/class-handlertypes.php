@@ -109,7 +109,76 @@ class HandlerTypes {
 			'help'          => esc_html__( 'An events log sent through Slack Webhooks.', 'decalog' ),
 			'icon'          => $this->get_base64_slack_icon(),
 			'params'        => [ 'processors', 'privacy' ],
-			'configuration' => [],
+			'configuration' => [
+				'webhook' => [
+					'type'    => 'string',
+					'name'    => esc_html__( 'Webhook URL', 'decalog' ),
+					'help'    => esc_html__( 'The Webhook URL set in the Slack application.', 'decalog' ),
+					'default' => 'https://hooks.slack.com/services/...',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
+				'short' => [
+					'type'    => 'boolean',
+					'name'    => esc_html__( 'Short attachment', 'decalog' ),
+					'help'    => esc_html__( 'Use a shortened version for attachments sent in channel.', 'decalog' ),
+					'default' => false,
+					'control' => [
+						'type'    => 'field_checkbox',
+						'cast'    => 'boolean',
+						'enabled' => true,
+					],
+				],
+				'data' => [
+					'type'    => 'boolean',
+					'name'    => esc_html__( 'Full data', 'decalog' ),
+					'help'    => esc_html__( 'Whether the attachments should include context and extra data.', 'decalog' ),
+					'default' => true,
+					'control' => [
+						'type'    => 'field_checkbox',
+						'cast'    => 'boolean',
+						'enabled' => true,
+					],
+				],
+			],
+			'init'          => [
+				[
+					'type'  => 'configuration',
+					'value' => 'webhook',
+				],
+				[
+					'type'  => 'literal',
+					'value' => null,
+				],
+				[
+					'type'  => 'literal',
+					'value' => null,
+				],
+				[
+					'type'  => 'literal',
+					'value' => true,
+				],
+				[
+					'type'  => 'literal',
+					'value' => null,
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'short',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'data',
+				],
+				[ 'type' => 'level' ],
+				[
+					'type'  => 'literal',
+					'value' => true,
+				],
+			],
 		];
 		$this->handlers[] = [
 			'id'            => 'StackdriverHandler',

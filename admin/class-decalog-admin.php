@@ -154,6 +154,8 @@ class Decalog_Admin {
 				'handler' => $this->current_handler['id'],
 				'running' => Option::get( 'logger_autostart' ),
 			];
+		}
+		if ( $this->current_logger ) {
 			$factory              = new LoggerFactory();
 			$this->current_logger = $factory->check( $this->current_logger );
 		}
@@ -414,6 +416,8 @@ class Decalog_Admin {
 			$id   = 'decalog_logger_details_' . strtolower( $key );
 			$args = [
 				'id'          => $id,
+				'text'        => __('Enabled', 'decalog'),
+				'checked'     => (bool)$this->current_logger['configuration'][ $key ],
 				'value'       => $this->current_logger['configuration'][ $key ],
 				'description' => $configuration['help'],
 				'full_width'  => true,
