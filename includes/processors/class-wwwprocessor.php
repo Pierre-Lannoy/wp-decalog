@@ -11,6 +11,7 @@
 
 namespace Decalog\Processor;
 
+use Decalog\System\Hash;
 use Monolog\Processor\WebProcessor;
 
 /**
@@ -56,7 +57,7 @@ class WWWProcessor extends WebProcessor {
 		$record = parent::__invoke( $record );
 		if ( self::$obfuscation ) {
 			if ( array_key_exists( 'ip', $record['extra'] ) ) {
-				$record['extra']['ip'] = 'obf:' . md5( (string) $record['extra']['ip'] );
+				$record['extra']['ip'] = Hash::simple_hash($record['extra']['userid'] );
 			}
 		}
 		return $record;

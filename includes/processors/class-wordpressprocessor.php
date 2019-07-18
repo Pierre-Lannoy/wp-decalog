@@ -12,8 +12,9 @@
 namespace Decalog\Processor;
 
 use Monolog\Processor\ProcessorInterface;
-use Decalog\System\User;
 use Decalog\System\Blog;
+use Decalog\System\Hash;
+use Decalog\System\User;
 
 /**
  * Define the WordPress processor functionality.
@@ -72,17 +73,17 @@ class WordpressProcessor implements ProcessorInterface {
 		}
 		if ( self::$obfuscation ) {
 			if ( array_key_exists( 'ip', $record['extra'] ) ) {
-				$record['extra']['ip'] = 'obf:' . md5( (string) $record['extra']['ip'] );
+				$record['extra']['ip'] = Hash::simple_hash($record['extra']['ip'] );
 			}
 		}
 		if ( self::$pseudonymize ) {
 			if ( array_key_exists( 'userid', $record['extra'] ) ) {
 				if ( 0 !== $record['extra']['userid'] ) {
-					$record['extra']['userid'] = 'obf:' . md5( (string) $record['extra']['userid'] );
+					$record['extra']['userid'] = Hash::simple_hash($record['extra']['userid'] );
 				}
 				if ( array_key_exists( 'username', $record['extra'] ) ) {
 					if ( 0 !== $record['extra']['userid'] ) {
-						$record['extra']['username'] = 'obf:' . md5( (string) $record['extra']['username'] );
+						$record['extra']['username'] = Hash::simple_hash($record['extra']['username'] );
 					}
 				}
 			}
