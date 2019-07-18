@@ -122,7 +122,7 @@ class LoggerFactory {
 								$args[] = $p['value'];
 								break;
 							case 'configuration':
-								$args[] = $logger['configuration'][$p['value']];
+								$args[] = $logger['configuration'][ $p['value'] ];
 								break;
 						}
 					}
@@ -130,7 +130,7 @@ class LoggerFactory {
 				}
 			}
 			if ( $handler ) {
-				foreach ( array_reverse($logger['processors']) as $processor ) {
+				foreach ( array_reverse( $logger['processors'] ) as $processor ) {
 					$p_instance    = null;
 					$processor_def = $this->processor_types->get( $processor );
 					if ( $processor_def ) {
@@ -140,7 +140,7 @@ class LoggerFactory {
 							foreach ( $processor_def['init'] as $p ) {
 								switch ( $p['type'] ) {
 									case 'privacy':
-										$args[] = (bool) $logger[ 'privacy' ][ $p['value'] ];
+										$args[] = (bool) $logger['privacy'][ $p['value'] ];
 										break;
 									case 'literal':
 										$args[] = $p['value'];
@@ -167,7 +167,7 @@ class LoggerFactory {
 	 * @return  array   The checked logger definition.
 	 * @since    1.0.0
 	 */
-	public function check( $logger, $init_handler=false ) {
+	public function check( $logger, $init_handler = false ) {
 		$logger  = $this->standard_check( $logger );
 		$handler = $this->handler_types->get( $logger['handler'] );
 		if ( $handler && in_array( 'privacy', $handler['params'] ) ) {
@@ -179,14 +179,32 @@ class LoggerFactory {
 		if ( $handler && array_key_exists( 'configuration', $handler ) ) {
 			$logger = $this->configuration_check( $logger, $handler['configuration'] );
 		}
-		if ($init_handler && array_key_exists('uuid', $logger)) {
+		if ( $init_handler && array_key_exists( 'uuid', $logger ) ) {
 			$classname = 'Decalog\Plugin\Feature\\' . $logger['handler'];
-			if (class_exists($classname)) {
-				$instance = $this->create_instance( $classname, $logger );
+			if ( class_exists( $classname ) ) {
+				$instance = $this->create_instance( $classname );
+				$instance->set_logger( $logger );
 				$instance->initialize();
 			}
 		}
 		return $logger;
+	}
+
+	/**
+	 * Clean the logger.
+	 *
+	 * @param   array $logger  The logger definition.
+	 * @since    1.0.0
+	 */
+	public function clean( $logger ) {
+		if ( array_key_exists( 'uuid', $logger ) ) {
+			$classname = 'Decalog\Plugin\Feature\\' . $logger['handler'];
+			if ( class_exists( $classname ) ) {
+				$instance = $this->create_instance( $classname );
+				$instance->set_logger( $logger );
+				$instance->finalize();
+			}
+		}
 	}
 
 	/**

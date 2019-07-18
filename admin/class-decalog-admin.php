@@ -188,8 +188,8 @@ class Decalog_Admin {
 								$loggers[ $uuid ]['running'] = true;
 								Option::set( 'loggers', $loggers );
 								$this->logger = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
-								$message = sprintf( __( 'Logger %s has started.', 'decalog' ), '<em>' . $loggers[ $uuid ]['name'] . '</em>' );
-								$code    = 0;
+								$message      = sprintf( __( 'Logger %s has started.', 'decalog' ), '<em>' . $loggers[ $uuid ]['name'] . '</em>' );
+								$code         = 0;
 								add_settings_error( 'decalog_no_error', $code, $message, 'updated' );
 								$this->logger->notice( sprintf( 'Logger "%s" has started.', $loggers[ $uuid ]['name'] ), $code );
 							}
@@ -220,51 +220,50 @@ class Decalog_Admin {
 	 * @since 1.0.0
 	 */
 	private function save_current() {
-		if (!empty($_POST)) {
-			if (array_key_exists('_wpnonce', $_POST) && wp_verify_nonce($_POST['_wpnonce'], 'decalog-logger-edit')) {
-				if (array_key_exists('submit', $_POST)) {
-					$this->current_logger['name'] = (array_key_exists('decalog_logger_misc_name', $_POST) ? filter_input(INPUT_POST, 'decalog_logger_misc_name', FILTER_SANITIZE_STRING) : $this->current_logger['name']);
-					$this->current_logger['level'] = (array_key_exists('decalog_logger_misc_level', $_POST) ? filter_input(INPUT_POST, 'decalog_logger_misc_level', FILTER_SANITIZE_NUMBER_INT) : $this->current_logger['level']);
-					$this->current_logger['privacy']['obfuscation'] = (array_key_exists('decalog_logger_privacy_ip', $_POST) ? true : false);
-					$this->current_logger['privacy']['pseudonymization'] = (array_key_exists('decalog_logger_privacy_name', $_POST) ? true : false);
-					$this->current_logger['processors'] = [];
-					$proc       = new ProcessorTypes();
+		if ( ! empty( $_POST ) ) {
+			if ( array_key_exists( '_wpnonce', $_POST ) && wp_verify_nonce( $_POST['_wpnonce'], 'decalog-logger-edit' ) ) {
+				if ( array_key_exists( 'submit', $_POST ) ) {
+					$this->current_logger['name']                        = ( array_key_exists( 'decalog_logger_misc_name', $_POST ) ? filter_input( INPUT_POST, 'decalog_logger_misc_name', FILTER_SANITIZE_STRING ) : $this->current_logger['name'] );
+					$this->current_logger['level']                       = ( array_key_exists( 'decalog_logger_misc_level', $_POST ) ? filter_input( INPUT_POST, 'decalog_logger_misc_level', FILTER_SANITIZE_NUMBER_INT ) : $this->current_logger['level'] );
+					$this->current_logger['privacy']['obfuscation']      = ( array_key_exists( 'decalog_logger_privacy_ip', $_POST ) ? true : false );
+					$this->current_logger['privacy']['pseudonymization'] = ( array_key_exists( 'decalog_logger_privacy_name', $_POST ) ? true : false );
+					$this->current_logger['processors']                  = [];
+					$proc = new ProcessorTypes();
 					foreach ( array_reverse( $proc->get_all() ) as $processor ) {
-						if (array_key_exists('decalog_logger_details_' . strtolower( $processor['id'] ), $_POST)) {
+						if ( array_key_exists( 'decalog_logger_details_' . strtolower( $processor['id'] ), $_POST ) ) {
 							$this->current_logger['processors'][] = $processor['id'];
 						}
 					}
 					foreach ( $this->current_handler['configuration'] as $key => $configuration ) {
-						$id   = 'decalog_logger_details_' . strtolower( $key );
-						if ('boolean' === $configuration['control']['cast']) {
-							$this->current_logger['configuration'][ $key ] = (array_key_exists($id, $_POST) ? true : false);
+						$id = 'decalog_logger_details_' . strtolower( $key );
+						if ( 'boolean' === $configuration['control']['cast'] ) {
+							$this->current_logger['configuration'][ $key ] = ( array_key_exists( $id, $_POST ) ? true : false );
 						}
-						if ('integer' === $configuration['control']['cast']) {
-							$this->current_logger['configuration'][ $key ] = (array_key_exists($id, $_POST) ? filter_input(INPUT_POST, $id, FILTER_SANITIZE_NUMBER_INT) : $this->current_logger['configuration'][ $key ]);
+						if ( 'integer' === $configuration['control']['cast'] ) {
+							$this->current_logger['configuration'][ $key ] = ( array_key_exists( $id, $_POST ) ? filter_input( INPUT_POST, $id, FILTER_SANITIZE_NUMBER_INT ) : $this->current_logger['configuration'][ $key ] );
 						}
-						if ('string' === $configuration['control']['cast']) {
-							$this->current_logger['configuration'][ $key ] = (array_key_exists($id, $_POST) ? filter_input(INPUT_POST, $id, FILTER_SANITIZE_STRING) : $this->current_logger['configuration'][ $key ]);
+						if ( 'string' === $configuration['control']['cast'] ) {
+							$this->current_logger['configuration'][ $key ] = ( array_key_exists( $id, $_POST ) ? filter_input( INPUT_POST, $id, FILTER_SANITIZE_STRING ) : $this->current_logger['configuration'][ $key ] );
 						}
-						if ('password' === $configuration['control']['cast']) {
-							$this->current_logger['configuration'][ $key ] = (array_key_exists($id, $_POST) ? filter_input(INPUT_POST, $id, FILTER_UNSAFE_RAW) : $this->current_logger['configuration'][ $key ]);
+						if ( 'password' === $configuration['control']['cast'] ) {
+							$this->current_logger['configuration'][ $key ] = ( array_key_exists( $id, $_POST ) ? filter_input( INPUT_POST, $id, FILTER_UNSAFE_RAW ) : $this->current_logger['configuration'][ $key ] );
 						}
 					}
-					$uuid = $this->current_logger['uuid'];
-					$loggers = Option::get('loggers');
-					$factory = new LoggerFactory();
-					$loggers[$uuid] = $factory->check( $this->current_logger, true );
-					if (array_key_exists('uuid', $loggers[$uuid])) {
-						unset($loggers[$uuid]['uuid']);
+					$uuid             = $this->current_logger['uuid'];
+					$loggers          = Option::get( 'loggers' );
+					$factory          = new LoggerFactory();
+					$loggers[ $uuid ] = $factory->check( $this->current_logger, true );
+					if ( array_key_exists( 'uuid', $loggers[ $uuid ] ) ) {
+						unset( $loggers[ $uuid ]['uuid'] );
 					}
 					Option::set( 'loggers', $loggers );
 					$this->logger = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
-					$message = sprintf( __( 'Logger %s has been saved.', 'decalog' ), '<em>' . $this->current_logger['name'] . '</em>' );
-					$code    = 0;
+					$message      = sprintf( __( 'Logger %s has been saved.', 'decalog' ), '<em>' . $this->current_logger['name'] . '</em>' );
+					$code         = 0;
 					add_settings_error( 'decalog_no_error', $code, $message, 'updated' );
 					$this->logger->notice( sprintf( 'Logger "%s" has been saved.', $this->current_logger['name'] ), $code );
 				}
-			}
-			else {
+			} else {
 				$message = sprintf( __( 'Logger %s has not been saved. Please try again.', 'decalog' ), '<em>' . $this->current_logger['name'] . '</em>' );
 				$code    = 2;
 				add_settings_error( 'adr_nonce_error', $code, $message, 'error' );
@@ -279,21 +278,23 @@ class Decalog_Admin {
 	 * @since 1.0.0
 	 */
 	private function delete_current() {
-		if (!empty($_POST)) {
-			if (array_key_exists('_wpnonce', $_POST) && wp_verify_nonce($_POST['_wpnonce'], 'decalog-logger-delete')) {
-				if (array_key_exists('submit', $_POST)) {
-					$uuid = $this->current_logger['uuid'];
-					$loggers = Option::get('loggers');
-					unset($loggers[$uuid]);
-					$message = sprintf( __( 'Logger %s has been removed.', 'decalog' ), '<em>' . $this->current_logger['name'] . '</em>' );
-					$code    = 0;
-					$this->logger->notice( sprintf( 'Logger "%s" has been removed.', $this->current_logger['name'] ), $code );
+		if ( ! empty( $_POST ) ) {
+			if ( array_key_exists( '_wpnonce', $_POST ) && wp_verify_nonce( $_POST['_wpnonce'], 'decalog-logger-delete' ) ) {
+				if ( array_key_exists( 'submit', $_POST ) ) {
+					$uuid    = $this->current_logger['uuid'];
+					$loggers = Option::get( 'loggers' );
+					$factory = new LoggerFactory();
+					$factory->clean( $this->current_logger );
+					unset( $loggers[ $uuid ] );
 					Option::set( 'loggers', $loggers );
-					add_settings_error( 'decalog_no_error', $code, $message, 'updated' );
 					$this->logger = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
+					$message      = sprintf( __( 'Logger %s has been removed.', 'decalog' ), '<em>' . $this->current_logger['name'] . '</em>' );
+					$code         = 0;
+					add_settings_error( 'decalog_no_error', $code, $message, 'updated' );
+					$this->logger->notice( sprintf( 'Logger "%s" has been removed.', $this->current_logger['name'] ), $code );
+
 				}
-			}
-			else {
+			} else {
 				$message = sprintf( __( 'Logger %s has not been removed. Please try again.', 'decalog' ), '<em>' . $this->current_logger['name'] . '</em>' );
 				$code    = 2;
 				add_settings_error( 'adr_nonce_error', $code, $message, 'error' );
@@ -418,16 +419,16 @@ class Decalog_Admin {
 			$id   = 'decalog_logger_details_' . strtolower( $key );
 			$args = [
 				'id'          => $id,
-				'text'        => __('Enabled', 'decalog'),
-				'checked'     => (bool)$this->current_logger['configuration'][ $key ],
+				'text'        => __( 'Enabled', 'decalog' ),
+				'checked'     => (bool) $this->current_logger['configuration'][ $key ],
 				'value'       => $this->current_logger['configuration'][ $key ],
 				'description' => $configuration['help'],
 				'full_width'  => true,
 				'enabled'     => $configuration['control']['enabled'],
-				'list'        => (array_key_exists('list', $configuration['control'])?$configuration['control']['list']:[])
+				'list'        => ( array_key_exists( 'list', $configuration['control'] ) ? $configuration['control']['list'] : [] ),
 			];
 			foreach ( $configuration['control'] as $key => $control ) {
-				if ( 'type' !== $key  && 'cast' !== $key ) {
+				if ( 'type' !== $key && 'cast' !== $key ) {
 					$args[ $key ] = $control;
 				}
 			}
@@ -508,7 +509,7 @@ class Decalog_Admin {
 			]
 		);
 		register_setting( 'decalog_logger_details_section', $id );
-		$proc       = new ProcessorTypes();
+		$proc = new ProcessorTypes();
 		foreach ( array_reverse( $proc->get_all() ) as $processor ) {
 			$id = 'decalog_logger_details_' . strtolower( $processor['id'] );
 			add_settings_field(
