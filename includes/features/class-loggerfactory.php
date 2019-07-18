@@ -162,11 +162,12 @@ class LoggerFactory {
 	/**
 	 * Check if logger definition is compliant.
 	 *
-	 * @param   array $logger  The logger definition.
+	 * @param   array   $logger  The logger definition.
+	 * @param   boolean $init_handler   Optional. Init handlers needing it.
 	 * @return  array   The checked logger definition.
 	 * @since    1.0.0
 	 */
-	public function check( $logger ) {
+	public function check( $logger, $init_handler=false ) {
 		$logger  = $this->standard_check( $logger );
 		$handler = $this->handler_types->get( $logger['handler'] );
 		if ( $handler && in_array( 'privacy', $handler['params'] ) ) {
@@ -177,6 +178,13 @@ class LoggerFactory {
 		}
 		if ( $handler && array_key_exists( 'configuration', $handler ) ) {
 			$logger = $this->configuration_check( $logger, $handler['configuration'] );
+		}
+		if ($init_handler && array_key_exists('uuid', $logger)) {
+			$classname = 'Decalog\Plugin\Feature\\' . $logger['handler'];
+			if (class_exists($classname)) {
+				$instance = $this->create_instance( $classname, $logger );
+				$instance->initialize();
+			}
 		}
 		return $logger;
 	}

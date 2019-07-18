@@ -250,10 +250,12 @@ class Decalog_Admin {
 						}
 					}
 					$uuid = $this->current_logger['uuid'];
-					unset($this->current_logger['uuid']);
 					$loggers = Option::get('loggers');
 					$factory = new LoggerFactory();
-					$loggers[$uuid] = $factory->check( $this->current_logger );
+					$loggers[$uuid] = $factory->check( $this->current_logger, true );
+					if (array_key_exists('uuid', $loggers[$uuid])) {
+						unset($loggers[$uuid]['uuid']);
+					}
 					Option::set( 'loggers', $loggers );
 					$this->logger = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
 					$message = sprintf( __( 'Logger %s has been saved.', 'decalog' ), '<em>' . $this->current_logger['name'] . '</em>' );
@@ -283,11 +285,11 @@ class Decalog_Admin {
 					$uuid = $this->current_logger['uuid'];
 					$loggers = Option::get('loggers');
 					unset($loggers[$uuid]);
-					Option::set( 'loggers', $loggers );
 					$message = sprintf( __( 'Logger %s has been removed.', 'decalog' ), '<em>' . $this->current_logger['name'] . '</em>' );
 					$code    = 0;
-					add_settings_error( 'decalog_no_error', $code, $message, 'updated' );
 					$this->logger->notice( sprintf( 'Logger "%s" has been removed.', $this->current_logger['name'] ), $code );
+					Option::set( 'loggers', $loggers );
+					add_settings_error( 'decalog_no_error', $code, $message, 'updated' );
 					$this->logger = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
 				}
 			}

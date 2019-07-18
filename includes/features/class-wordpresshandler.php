@@ -57,9 +57,11 @@ class WordpressHandler {
 	 * @since    1.0.0
 	 */
 	public function set_logger($logger) {
+		error_log(print_r($logger, true));
+
 		global $wpdb;
 		$this->logger = $logger;
-		$this->table = $wpdb->prefix . '_decalog_' . str_replace('-', '', $logger['uuid']);
+		$this->table = $wpdb->prefix . 'decalog_' . str_replace('-', '', $logger['uuid']);
 	}
 
 	/**
@@ -92,7 +94,7 @@ class WordpressHandler {
 			$sql .= " `referrer` varchar(250) NOT NULL DEFAULT '-',";
 			$sql .= " `file` varchar(250) NOT NULL DEFAULT 'unknown',";
 			$sql .= " `line` int(11) UNSIGNED NOT NULL DEFAULT '0',";
-			$sql .= " `class` varchar(250) NOT NULL DEFAULT 'unknown',";
+			$sql .= " `classname` varchar(250) NOT NULL DEFAULT 'unknown',";
 			$sql .= " `function` varchar(250) NOT NULL DEFAULT 'unknown',";
 			$sql .= " `stack` varchar(15000),";
 			$sql .= " PRIMARY KEY (`id`)";
