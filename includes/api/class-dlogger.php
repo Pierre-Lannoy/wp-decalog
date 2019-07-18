@@ -142,7 +142,6 @@ class DLogger {
 	}
 
 
-
 	/**
 	 * Init the logger.
 	 *
