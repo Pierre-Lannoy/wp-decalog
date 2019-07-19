@@ -337,6 +337,18 @@ class HandlerTypes {
 					],
 				],
 			],
+			'init'          => [
+				[
+					'type'  => 'compute',
+					'value' => 'tablename',
+				],
+				[ 'type' => 'level' ],
+				[
+					'type'  => 'literal',
+					'value' => true,
+				],
+
+			],
 		];
 
 	}

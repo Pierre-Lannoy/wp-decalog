@@ -54,7 +54,7 @@ class WordpressHandler extends AbstractProcessingHandler {
 	 */
 	protected function getDefaultFormatter(): FormatterInterface
 	{
-		return new MongoDBFormatter;
+		return new WordpressFormatter;
 	}
 
 	/**

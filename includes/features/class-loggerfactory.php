@@ -124,6 +124,13 @@ class LoggerFactory {
 							case 'configuration':
 								$args[] = $logger['configuration'][ $p['value'] ];
 								break;
+							case 'compute':
+								switch ($p['value']) {
+									case 'tablename':
+										$args[] = '';
+										break;
+								}
+								break;
 						}
 					}
 					$handler = $this->create_instance( $classname, $args );
