@@ -71,6 +71,11 @@ class WordpressHandler {
 	 */
 	public function initialize() {
 		global $wpdb;
+		$cl = [];
+		foreach (ClassTypes::$classes as $c) {
+			$cl[] = "'" . $c . "'";
+		}
+		$classes = implode(',', $cl);
 		if ( '' != $this->table ) {
 			$charset_collate = $wpdb->get_charset_collate();
 			$sql             = 'CREATE TABLE IF NOT EXISTS ' . $this->table;
@@ -78,7 +83,7 @@ class WordpressHandler {
 			$sql            .= " `timestamp` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',";
 			$sql            .= " `level` enum('emergency','alert','critical','error','warning','notice','info','debug','unknown') NOT NULL DEFAULT 'unknown',";
 			$sql            .= " `channel` enum('cli','cron','ajax','xmlrpc','api','feed','wback','wfront','unknown') NOT NULL DEFAULT 'unknown',";
-			$sql            .= " `class` enum('plugin','theme','unknown') NOT NULL DEFAULT 'unknown',";
+			$sql            .= " `class` enum(" . $classes . ") NOT NULL DEFAULT 'unknown',";
 			$sql            .= " `component` varchar(26) NOT NULL DEFAULT 'Unknown',";
 			$sql            .= " `version` varchar(13) NOT NULL DEFAULT 'N/A',";
 			$sql            .= " `code` int(11) UNSIGNED NOT NULL DEFAULT '0',";

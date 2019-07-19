@@ -14,6 +14,7 @@ use Decalog\System\Environment;
 use Decalog\System\Option;
 use Decalog\System\Timezone;
 use Decalog\Plugin\Feature\LoggerFactory;
+use Decalog\Plugin\Feature\ClassTypes;
 
 
 
@@ -75,15 +76,6 @@ class DLogger {
 	];
 
 	/**
-	 * The list of available classes.
-	 *
-	 * @since  1.0.0
-	 * @access protected
-	 * @var    array    $classes    Maintains the classes list.
-	 */
-	protected $classes = [ 'plugin', 'theme' ];
-
-	/**
 	 * The class of the component.
 	 *
 	 * @since  1.0.0
@@ -128,7 +120,7 @@ class DLogger {
 	 * @since   1.0.0
 	 */
 	public function __construct( $class, $name = null, $version = null ) {
-		if ( in_array( $class, $this->classes ) ) {
+		if ( in_array( $class, ClassTypes::$classes ) ) {
 			$this->class = $class;
 		}
 		if ( $name && is_string( $name ) ) {
@@ -150,7 +142,8 @@ class DLogger {
 	private function init() {
 		$factory = new LoggerFactory();
 		$this->logger = new Logger( $this->current_channel_tag(), [], [], Timezone::get_wp() );
-		foreach ( Option::get('loggers') as $logger ) {
+		foreach ( Option::get('loggers') as $key => $logger ) {
+			$logger['uuid'] = $key;
 			$handler = $factory->create_logger($logger);
 			if ($handler) {
 				$this->logger->pushHandler( $handler );

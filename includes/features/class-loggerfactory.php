@@ -127,7 +127,8 @@ class LoggerFactory {
 							case 'compute':
 								switch ($p['value']) {
 									case 'tablename':
-										$args[] = '';
+										global $wpdb;
+										$args[] = $wpdb->prefix . 'decalog_' . str_replace( '-', '', $logger['uuid'] );
 										break;
 								}
 								break;
