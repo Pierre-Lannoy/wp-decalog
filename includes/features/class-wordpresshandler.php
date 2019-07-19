@@ -12,6 +12,7 @@
 namespace Decalog\Plugin\Feature;
 
 use Decalog\Log;
+use Decalog\System\Http;
 
 /**
  * Define the WordPress handler functionality.
@@ -76,6 +77,11 @@ class WordpressHandler {
 			$cl[] = "'" . $c . "'";
 		}
 		$classes = implode(',', $cl);
+		$cl = [];
+		foreach (Http::$verbs as $c) {
+			$cl[] = "'" . $c . "'";
+		}
+		$verbs = implode(',', $cl);
 		if ( '' != $this->table ) {
 			$charset_collate = $wpdb->get_charset_collate();
 			$sql             = 'CREATE TABLE IF NOT EXISTS ' . $this->table;
@@ -94,7 +100,7 @@ class WordpressHandler {
 			$sql            .= " `user_name` varchar(250) NOT NULL DEFAULT 'Unknown',";
 			$sql            .= " `remote_ip` varchar(66) NOT NULL DEFAULT '0',";  // Needed by SHA-256 obfuscation.
 			$sql            .= " `url` varchar(2083) NOT NULL DEFAULT '-',";
-			$sql            .= " `http_method` enum('get','head','post','put','delete','connect','options','trace','patch','unknown') NOT NULL DEFAULT 'unknown',";
+			$sql            .= " `verb` enum(" . $verbs . ") NOT NULL DEFAULT 'unknown',";
 			$sql            .= " `server` varchar(250) NOT NULL DEFAULT 'unknown',";
 			$sql            .= " `referrer` varchar(250) NOT NULL DEFAULT '-',";
 			$sql            .= " `file` varchar(250) NOT NULL DEFAULT 'unknown',";

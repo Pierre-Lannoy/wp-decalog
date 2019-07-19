@@ -70,15 +70,5 @@ class WordpressHandler extends AbstractProcessingHandler {
 				error_log(print_r($message, true));
 			}
 		}
-
-
-
-		/*
-				$this->statement->execute(array(
-					'channel' => $record['channel'],
-					'level' => $record['level'],
-					'message' => $record['formatted'],
-					'time' => $record['datetime']->format('U'),
-				));*/
 	}
 }

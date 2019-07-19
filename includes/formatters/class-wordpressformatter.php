@@ -11,6 +11,8 @@
 
 namespace Decalog\Formatter;
 
+use Decalog\Plugin\Feature\ClassTypes;
+use Decalog\System\Http;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Logger;
 
@@ -61,8 +63,62 @@ class WordpressFormatter implements FormatterInterface {
 		if (array_key_exists('channel', $record)) {
 			$values['channel'] = strtolower($record['channel']);
 		}
+		if (array_key_exists('message', $record)) {
+			$values['message'] = substr($record['message'], 0, 1000);
+		}
+		// Context formatting.
+		if (array_key_exists('context', $record)) {
+			$context = $record['context'];
+			if (array_key_exists('class', $context)) {
+				if (in_array($context['class'], ClassTypes::$classes)) {
+					$values['class'] = strtolower($context['class']);
+				}
+			}
+			if (array_key_exists('component', $context)) {
+				$values['component'] = substr($context['component'], 0, 26);
+			}
+			if (array_key_exists('version', $context)) {
+				$values['version'] = substr($context['version'], 0, 13);
+			}
+			if (array_key_exists('code', $context)) {
+				$values['code'] = (integer)$context['code'];
+			}
+		}
+		// Extra formatting.
+		if (array_key_exists('extra', $record)) {
+			$extra = $record['extra'];
+			if (array_key_exists('siteid', $extra)) {
+				$values['siteid'] = (integer)$extra['siteid'];
+			}
+			if (array_key_exists('sitename', $extra)) {
+				$values['sitename'] = substr($extra['sitename'], 0, 250);
+			}
+			if (array_key_exists('userid', $extra)) {
+				$values['userid'] = substr((string)$extra['userid'], 0, 66);
+			}
+			if (array_key_exists('username', $extra)) {
+				$values['username'] = substr($extra['username'], 0, 250);
+			}
+			if (array_key_exists('ip', $extra)) {
+				$values['remote_ip'] = substr($extra['ip'], 0, 66);
+			}
+			if (array_key_exists('url', $extra)) {
+				$values['url'] = substr($extra['url'], 0, 2083);
+			}
+			if (array_key_exists('http_method', $extra)) {
+				if (in_array(strtolower($extra['http_method']), Http::$verbs)) {
+					$values['verb'] = strtolower($extra['http_method']);
+				}
+			}
 
 
+
+
+
+
+
+
+		}
 		$message[] = $values;
 		return serialize( $message );
 	}
