@@ -116,6 +116,26 @@ class WordpressFormatter implements FormatterInterface {
 			if ( array_key_exists( 'referrer', $extra ) && $extra['referrer'] ) {
 				$values['referrer'] = substr( $extra['referrer'], 0, 250 );
 			}
+			if ( array_key_exists( 'file', $extra ) && $extra['file'] ) {
+				$values['file'] = substr( $extra['file'], 0, 250 );
+			}
+			if ( array_key_exists( 'line', $extra ) && $extra['line'] ) {
+				$values['line'] = (int) $extra['line'];
+			}
+			if ( array_key_exists( 'class', $extra ) && $extra['class'] ) {
+				$values['classname'] = substr( $extra['class'], 0, 100 );
+			}
+			if ( array_key_exists( 'function', $extra ) && $extra['function'] ) {
+				$values['function'] = substr( $extra['function'], 0, 100 );
+			}
+			if ( array_key_exists( 'stack', $extra ) && $extra['stack'] ) {
+				$s = serialize($extra['stack']);
+				if (strlen($s) < 1000) {
+					$values['stack'] = $s;
+				} else {
+					$values['stack'] = seralize(['This backtrace was not recorded: size exceeds limit.']);
+				}
+			}
 		}
 		$message[] = $values;
 		return serialize( $message );

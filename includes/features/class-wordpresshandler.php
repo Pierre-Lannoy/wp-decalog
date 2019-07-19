@@ -105,8 +105,8 @@ class WordpressHandler {
 			$sql            .= " `referrer` varchar(250) NOT NULL DEFAULT '-',";
 			$sql            .= " `file` varchar(250) NOT NULL DEFAULT 'unknown',";
 			$sql            .= " `line` int(11) UNSIGNED NOT NULL DEFAULT '0',";
-			$sql            .= " `classname` varchar(250) NOT NULL DEFAULT 'unknown',";
-			$sql            .= " `function` varchar(250) NOT NULL DEFAULT 'unknown',";
+			$sql            .= " `classname` varchar(100) NOT NULL DEFAULT 'unknown',";
+			$sql            .= " `function` varchar(100) NOT NULL DEFAULT 'unknown',";
 			$sql            .= ' `stack` varchar(10000),';
 			$sql            .= ' PRIMARY KEY (`id`)';
 			$sql            .= ") $charset_collate;";
