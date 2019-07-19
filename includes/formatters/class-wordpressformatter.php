@@ -52,72 +52,70 @@ class WordpressFormatter implements FormatterInterface {
 	 * @since   1.0.0
 	 */
 	public function format( array $record ): string {
-		$message = [];
+		$message             = [];
 		$values              = array();
 		$values['timestamp'] = date( 'Y-m-d H:i:s' );
-		if (array_key_exists('level', $record)) {
-			if (array_key_exists($record['level'], self::$levels)) {
-				$values['level'] = strtolower(self::$levels[$record['level']]);
+		if ( array_key_exists( 'level', $record ) ) {
+			if ( array_key_exists( $record['level'], self::$levels ) ) {
+				$values['level'] = strtolower( self::$levels[ $record['level'] ] );
 			}
 		}
-		if (array_key_exists('channel', $record)) {
-			$values['channel'] = strtolower($record['channel']);
+		if ( array_key_exists( 'channel', $record ) ) {
+			$values['channel'] = strtolower( $record['channel'] );
 		}
-		if (array_key_exists('message', $record)) {
-			$values['message'] = substr($record['message'], 0, 1000);
+		if ( array_key_exists( 'message', $record ) ) {
+			$values['message'] = substr( $record['message'], 0, 1000 );
 		}
 		// Context formatting.
-		if (array_key_exists('context', $record)) {
+		if ( array_key_exists( 'context', $record ) ) {
 			$context = $record['context'];
-			if (array_key_exists('class', $context)) {
-				if (in_array($context['class'], ClassTypes::$classes)) {
-					$values['class'] = strtolower($context['class']);
+			if ( array_key_exists( 'class', $context ) ) {
+				if ( in_array( $context['class'], ClassTypes::$classes ) ) {
+					$values['class'] = strtolower( $context['class'] );
 				}
 			}
-			if (array_key_exists('component', $context)) {
-				$values['component'] = substr($context['component'], 0, 26);
+			if ( array_key_exists( 'component', $context ) ) {
+				$values['component'] = substr( $context['component'], 0, 26 );
 			}
-			if (array_key_exists('version', $context)) {
-				$values['version'] = substr($context['version'], 0, 13);
+			if ( array_key_exists( 'version', $context ) ) {
+				$values['version'] = substr( $context['version'], 0, 13 );
 			}
-			if (array_key_exists('code', $context)) {
-				$values['code'] = (integer)$context['code'];
+			if ( array_key_exists( 'code', $context ) ) {
+				$values['code'] = (int) $context['code'];
 			}
 		}
 		// Extra formatting.
-		if (array_key_exists('extra', $record)) {
+		if ( array_key_exists( 'extra', $record ) ) {
 			$extra = $record['extra'];
-			if (array_key_exists('siteid', $extra)) {
-				$values['siteid'] = (integer)$extra['siteid'];
+			if ( array_key_exists( 'siteid', $extra ) ) {
+				$values['site_id'] = (int) $extra['siteid'];
 			}
-			if (array_key_exists('sitename', $extra)) {
-				$values['sitename'] = substr($extra['sitename'], 0, 250);
+			if ( array_key_exists( 'sitename', $extra ) ) {
+				$values['site_name'] = substr( $extra['sitename'], 0, 250 );
 			}
-			if (array_key_exists('userid', $extra)) {
-				$values['userid'] = substr((string)$extra['userid'], 0, 66);
+			if ( array_key_exists( 'userid', $extra ) ) {
+				$values['user_id'] = substr( (string) $extra['userid'], 0, 66 );
 			}
-			if (array_key_exists('username', $extra)) {
-				$values['username'] = substr($extra['username'], 0, 250);
+			if ( array_key_exists( 'username', $extra ) ) {
+				$values['user_name'] = substr( $extra['username'], 0, 250 );
 			}
-			if (array_key_exists('ip', $extra)) {
-				$values['remote_ip'] = substr($extra['ip'], 0, 66);
+			if ( array_key_exists( 'ip', $extra ) ) {
+				$values['remote_ip'] = substr( $extra['ip'], 0, 66 );
 			}
-			if (array_key_exists('url', $extra)) {
-				$values['url'] = substr($extra['url'], 0, 2083);
+			if ( array_key_exists( 'url', $extra ) ) {
+				$values['url'] = substr( $extra['url'], 0, 2083 );
 			}
-			if (array_key_exists('http_method', $extra)) {
-				if (in_array(strtolower($extra['http_method']), Http::$verbs)) {
-					$values['verb'] = strtolower($extra['http_method']);
+			if ( array_key_exists( 'http_method', $extra ) ) {
+				if ( in_array( strtolower( $extra['http_method'] ), Http::$verbs ) ) {
+					$values['verb'] = strtolower( $extra['http_method'] );
 				}
 			}
-
-
-
-
-
-
-
-
+			if ( array_key_exists( 'server', $extra ) ) {
+				$values['server'] = substr( $extra['server'], 0, 250 );
+			}
+			if ( array_key_exists( 'referrer', $extra ) && $extra['referrer'] ) {
+				$values['referrer'] = substr( $extra['referrer'], 0, 250 );
+			}
 		}
 		$message[] = $values;
 		return serialize( $message );

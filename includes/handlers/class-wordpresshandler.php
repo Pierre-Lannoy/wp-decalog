@@ -52,9 +52,23 @@ class WordpressHandler extends AbstractProcessingHandler {
 	/**
 	 * {@inheritDoc}
 	 */
-	protected function getDefaultFormatter(): FormatterInterface
-	{
-		return new WordpressFormatter;
+	protected function getDefaultFormatter(): FormatterInterface {
+		return new WordpressFormatter();
+	}
+
+	/**
+	 * Update table with current message.
+	 *
+	 * @param   array $value  The values to update or insert in the table.
+	 * @return integer The inserted id if anny.
+	 * @since    1.0.0
+	 */
+	private function insert_value( $value ) {
+		global $wpdb;
+		if ( $wpdb->insert( $this->table, $value ) ) {
+			return $wpdb->insert_id;
+		}
+		return 0;
 	}
 
 	/**
@@ -64,10 +78,12 @@ class WordpressHandler extends AbstractProcessingHandler {
 	 * @since    1.0.0
 	 */
 	protected function write( array $record ): void {
-		$messages = unserialize($record['formatted']);
-		foreach ( $messages as $message ) {
-			if (is_array($message)) {
-				error_log(print_r($message, true));
+		$messages = unserialize( $record['formatted'] );
+		if ( is_array( $messages ) ) {
+			foreach ( $messages as $message ) {
+				if ( is_array( $message ) ) {
+					$this->insert_value( $message );
+				}
 			}
 		}
 	}
