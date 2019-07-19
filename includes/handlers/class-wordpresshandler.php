@@ -14,6 +14,8 @@ namespace Decalog\Handler;
 
 use Monolog\Logger;
 use Monolog\Handler\AbstractProcessingHandler;
+use Monolog\Formatter\FormatterInterface;
+use Decalog\Formatter\WordpressFormatter;
 
 /**
  * Define the Monolog WordPress handler.
@@ -48,6 +50,14 @@ class WordpressHandler extends AbstractProcessingHandler {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 */
+	protected function getDefaultFormatter(): FormatterInterface
+	{
+		return new MongoDBFormatter;
+	}
+
+	/**
 	 * Write the record in the table.
 	 *
 	 * @param   array $record    The record to write.
@@ -55,6 +65,12 @@ class WordpressHandler extends AbstractProcessingHandler {
 	 */
 	protected function write( array $record ): void {
 
-
+		/*
+				$this->statement->execute(array(
+					'channel' => $record['channel'],
+					'level' => $record['level'],
+					'message' => $record['formatted'],
+					'time' => $record['datetime']->format('U'),
+				));*/
 	}
 }
