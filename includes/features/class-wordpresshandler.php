@@ -44,12 +44,20 @@ class WordpressHandler {
 	private $log = null;
 
 	/**
-	 * The table name.
+	 * The full table name.
 	 *
 	 * @since  1.0.0
-	 * @var    array    $table    The table name.
+	 * @var    array    $table    The full table name.
 	 */
 	private $table = '';
+
+	/**
+	 * The simple table name.
+	 *
+	 * @since  1.0.0
+	 * @var    array    $table_name    The simple table name.
+	 */
+	private $table_name = '';
 
 	/**
 	 * Initialize the class and set its properties.
@@ -73,7 +81,8 @@ class WordpressHandler {
 	public function set_logger( $logger ) {
 		global $wpdb;
 		$this->logger = $logger;
-		$this->table  = $wpdb->prefix . 'decalog_' . str_replace( '-', '', $logger['uuid'] );
+		$this->table_name  = 'decalog_' . str_replace( '-', '', $logger['uuid'] );
+		$this->table  = $wpdb->prefix . $this->table_name;
 	}
 
 	/**
@@ -147,15 +156,15 @@ class WordpressHandler {
 	 */
 	public function cron_clean() {
 		global $wpdb;
-		if ( '' != $this->table ) {
+		if ( '' != $this->table_name ) {
 			$count    = 0;
 			$database = new Database();
-			if ( $hour_done = $database->purge( $this->table, 'timestamp', 24 * (integer)$this->logger['configuration']['purge'] ) ) {
+			if ( $hour_done = $database->purge( $this->table_name, 'timestamp', 24 * (integer)$this->logger['configuration']['purge'] ) ) {
 				$count += $hour_done;
 			}
-			$limit = $database->count_lines( $this->table ) - (integer)$this->logger['configuration']['rotate'];
+			$limit = $database->count_lines( $this->table_name ) - (integer)$this->logger['configuration']['rotate'];
 			if ( $limit > 0 ) {
-				if ( $max_done = $database->rotate( $this->table, 'id', $limit ) ) {
+				if ( $max_done = $database->rotate( $this->table_name, 'id', $limit ) ) {
 					$count += $max_done;
 				}
 			}
