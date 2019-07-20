@@ -120,6 +120,7 @@ class Loggers extends \WP_List_Table {
 					'action' => 'pause',
 					'tab'    => 'loggers',
 					'uuid'   => $item['uuid'],
+					'nonce'  => wp_create_nonce('decalog-logger-pause-' . $item['uuid']),
 				),
 				admin_url( 'options-general.php' )
 			)
@@ -131,6 +132,7 @@ class Loggers extends \WP_List_Table {
 					'action' => 'start',
 					'tab'    => 'loggers',
 					'uuid'   => $item['uuid'],
+					'nonce'  => wp_create_nonce('decalog-logger-start-' . $item['uuid']),
 				),
 				admin_url( 'options-general.php' )
 			)

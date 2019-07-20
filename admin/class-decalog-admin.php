@@ -133,6 +133,7 @@ class Decalog_Admin {
 		if ( ! ( $uuid = filter_input( INPUT_GET, 'uuid' ) ) ) {
 			$uuid = filter_input( INPUT_POST, 'uuid' );
 		}
+		$nonce = filter_input( INPUT_GET, 'nonce' );
 		if ( $uuid ) {
 			$loggers = Option::get( 'loggers' );
 			if ( array_key_exists( $uuid, $loggers ) ) {
@@ -183,27 +184,31 @@ class Decalog_Admin {
 							$this->delete_current();
 							break;
 						case 'start':
-							$loggers = Option::get( 'loggers' );
-							if ( array_key_exists( $uuid, $loggers ) ) {
-								$loggers[ $uuid ]['running'] = true;
-								Option::set( 'loggers', $loggers );
-								$this->logger = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
-								$message      = sprintf( __( 'Logger %s has started.', 'decalog' ), '<em>' . $loggers[ $uuid ]['name'] . '</em>' );
-								$code         = 0;
-								add_settings_error( 'decalog_no_error', $code, $message, 'updated' );
-								$this->logger->notice( sprintf( 'Logger "%s" has started.', $loggers[ $uuid ]['name'] ), $code );
+							if ($nonce && $uuid && wp_verify_nonce( $nonce, 'decalog-logger-start-' . $uuid )) {
+								$loggers = Option::get( 'loggers' );
+								if ( array_key_exists( $uuid, $loggers ) ) {
+									$loggers[ $uuid ]['running'] = true;
+									Option::set( 'loggers', $loggers );
+									$this->logger = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
+									$message      = sprintf( __( 'Logger %s has started.', 'decalog' ), '<em>' . $loggers[ $uuid ]['name'] . '</em>' );
+									$code         = 0;
+									add_settings_error( 'decalog_no_error', $code, $message, 'updated' );
+									$this->logger->notice( sprintf( 'Logger "%s" has started.', $loggers[ $uuid ]['name'] ), $code );
+								}
 							}
 							break;
 						case 'pause':
-							$loggers = Option::get( 'loggers' );
-							if ( array_key_exists( $uuid, $loggers ) ) {
-								$message = sprintf( __( 'Logger %s has been paused.', 'decalog' ), '<em>' . $loggers[ $uuid ]['name'] . '</em>' );
-								$code    = 0;
-								$this->logger->notice( sprintf( 'Logger "%s" has been paused.', $loggers[ $uuid ]['name'] ), $code );
-								$loggers[ $uuid ]['running'] = false;
-								Option::set( 'loggers', $loggers );
-								$this->logger = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
-								add_settings_error( 'decalog_no_error', $code, $message, 'updated' );
+							if ($nonce && $uuid && wp_verify_nonce( $nonce, 'decalog-logger-pause-' . $uuid )) {
+								$loggers = Option::get( 'loggers' );
+								if ( array_key_exists( $uuid, $loggers ) ) {
+									$message = sprintf( __( 'Logger %s has been paused.', 'decalog' ), '<em>' . $loggers[ $uuid ]['name'] . '</em>' );
+									$code    = 0;
+									$this->logger->notice( sprintf( 'Logger "%s" has been paused.', $loggers[ $uuid ]['name'] ), $code );
+									$loggers[ $uuid ]['running'] = false;
+									Option::set( 'loggers', $loggers );
+									$this->logger = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
+									add_settings_error( 'decalog_no_error', $code, $message, 'updated' );
+								}
 							}
 					}
 					break;
