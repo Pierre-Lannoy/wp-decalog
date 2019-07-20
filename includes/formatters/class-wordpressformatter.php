@@ -130,7 +130,7 @@ class WordpressFormatter implements FormatterInterface {
 			}
 			if ( array_key_exists( 'stack', $extra ) && $extra['stack'] ) {
 				$s = serialize($extra['stack']);
-				if (strlen($s) < 1000) {
+				if (strlen($s) < 10000) {
 					$values['stack'] = $s;
 				} else {
 					$values['stack'] = seralize(['This backtrace was not recorded: size exceeds limit.']);
