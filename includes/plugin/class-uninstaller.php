@@ -32,6 +32,8 @@ class Uninstaller {
 		Option::delete_all();
 		User::delete_all_meta();
 		// Delete cache?
+
+		// Delete tables!
 	}
 
 }

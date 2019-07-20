@@ -14,6 +14,7 @@ define( 'DECALOG_PRODUCT_ABBREVIATION', 'decalog' );
 define( 'DECALOG_SLUG', 'decalog' );
 define( 'DECALOG_VERSION', '1.0.0-dev3' );
 define( 'DECALOG_CODENAME', '"-"' );
+define( 'DECALOG_CRON_NAME', 'decalog_clean_database' );
 
 define( 'DECALOG_MINIMUM_WP_VERSION', '5.2' );
 define( 'DECALOG_MINIMUM_PHP_VERSION', '7.2' );

@@ -82,7 +82,7 @@ class LoggerFactory {
 	}
 
 	/**
-	 * Create an instance of .$class_name.
+	 * Create an instance of $class_name.
 	 *
 	 * @param   string $class_name The class name.
 	 * @param   array  $args   The param of the constructor for $class_name class.
