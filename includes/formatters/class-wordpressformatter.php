@@ -128,12 +128,12 @@ class WordpressFormatter implements FormatterInterface {
 			if ( array_key_exists( 'function', $extra ) && $extra['function'] ) {
 				$values['function'] = substr( $extra['function'], 0, 100 );
 			}
-			if ( array_key_exists( 'stack', $extra ) && $extra['stack'] ) {
-				$s = serialize($extra['stack']);
+			if ( array_key_exists( 'trace', $extra ) && $extra['trace'] ) {
+				$s = serialize($extra['trace']);
 				if (strlen($s) < 10000) {
-					$values['stack'] = $s;
+					$values['trace'] = $s;
 				} else {
-					$values['stack'] = seralize(['This backtrace was not recorded: size exceeds limit.']);
+					$values['trace'] = seralize(['This backtrace was not recorded: size exceeds limit.']);
 				}
 			}
 		}

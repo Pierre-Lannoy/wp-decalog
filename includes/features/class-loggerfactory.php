@@ -147,6 +147,9 @@ class LoggerFactory {
 							$args = [];
 							foreach ( $processor_def['init'] as $p ) {
 								switch ( $p['type'] ) {
+									case 'level':
+										$args[] = (int) $logger['level'];
+										break;
 									case 'privacy':
 										$args[] = (bool) $logger['privacy'][ $p['value'] ];
 										break;
@@ -276,7 +279,7 @@ class LoggerFactory {
 			$logger['processors'] = [];
 		}
 		if ( 'WordpressHandler' === $logger['handler'] ) {
-			$logger['processors'] = [ 'WordpressProcessor', 'WWWProcessor', 'IntrospectionProcessor' ];
+			$logger['processors'] = array_merge( [ 'WordpressProcessor', 'WWWProcessor', 'IntrospectionProcessor' ], $logger['processors']);
 		} else {
 			$processors = [];
 			foreach ( $logger['processors'] as $processor ) {

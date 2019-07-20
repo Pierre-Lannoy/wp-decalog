@@ -529,7 +529,7 @@ class Decalog_Admin {
 					'checked'     => in_array( $processor['id'], $this->current_logger['processors'] ),
 					'description' => $processor['help'],
 					'full_width'  => true,
-					'enabled'     => 'WordpressHandler' !== $this->current_logger['handler'],
+					'enabled'     => 'WordpressHandler' !== $this->current_logger['handler'] || 'BacktraceProcessor' === $processor['id'],
 				]
 			);
 			register_setting( 'decalog_logger_details_section', $id );

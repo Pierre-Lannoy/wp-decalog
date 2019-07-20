@@ -127,7 +127,7 @@ class WordpressHandler {
 			$sql            .= " `line` int(11) UNSIGNED NOT NULL DEFAULT '0',";
 			$sql            .= " `classname` varchar(100) NOT NULL DEFAULT 'unknown',";
 			$sql            .= " `function` varchar(100) NOT NULL DEFAULT 'unknown',";
-			$sql            .= ' `stack` varchar(10000),';
+			$sql            .= ' `trace` varchar(10000),';
 			$sql            .= ' PRIMARY KEY (`id`)';
 			$sql            .= ") $charset_collate;";
 			$wpdb->query( $sql );

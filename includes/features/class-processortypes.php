@@ -37,11 +37,26 @@ class ProcessorTypes {
 	 */
 	public function __construct() {
 		$this->processors[] = [
+			'id'        => 'BacktraceProcessor',
+			'namespace' => 'Decalog\\Processor',
+			'name'      => esc_html__( 'PHP backtrace', 'decalog' ),
+			'help'      => esc_html__( 'Allows to log the full call stack.', 'decalog' ),
+			'init'      => [
+				[ 'type' => 'level' ],
+			],
+		];
+		$this->processors[] = [
 			'id'        => 'IntrospectionProcessor',
 			'namespace' => 'Monolog\\Processor',
 			'name'      => esc_html__( 'PHP introspection', 'decalog' ),
 			'help'      => esc_html__( 'Allows to log line, file, class and function generating the event.', 'decalog' ),
-			'init'      => [],
+			'init'      => [
+				[ 'type' => 'level' ],
+				[
+					'type'  => 'literal',
+					'value' => [ 'Decalog\\' ],
+				],
+			],
 		];
 		$this->processors[] = [
 			'id'        => 'WWWProcessor',
@@ -49,9 +64,18 @@ class ProcessorTypes {
 			'name'      => esc_html__( 'HTTP request', 'decalog' ),
 			'help'      => esc_html__( 'Allows to log url, method, referrer and remote IP of the current web request.', 'decalog' ),
 			'init'      => [
-				['type'=>'literal','value' => null],
-				['type'=>'literal','value' => null],
-				['type'=>'privacy','value' => 'obfuscation'],
+				[
+					'type'  => 'literal',
+					'value' => null,
+				],
+				[
+					'type'  => 'literal',
+					'value' => null,
+				],
+				[
+					'type'  => 'privacy',
+					'value' => 'obfuscation',
+				],
 			],
 		];
 		$this->processors[] = [
@@ -60,8 +84,14 @@ class ProcessorTypes {
 			'name'      => esc_html__( 'WordPress ', 'decalog' ),
 			'help'      => esc_html__( 'Allows to log site, user and remote IP of the current request.', 'decalog' ),
 			'init'      => [
-				['type'=>'privacy','value' => 'pseudonymization'],
-				['type'=>'privacy','value' => 'obfuscation'],
+				[
+					'type'  => 'privacy',
+					'value' => 'pseudonymization',
+				],
+				[
+					'type'  => 'privacy',
+					'value' => 'obfuscation',
+				],
 			],
 		];
 	}
