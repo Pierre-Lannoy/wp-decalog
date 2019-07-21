@@ -43,72 +43,59 @@ class BacktraceProcessor implements ProcessorInterface {
 		$this->level = Logger::toMonologLevel( $level );
 	}
 
-	private function niceDebugBacktrace($d)
-	{
-
-
-		$out = '';
-		$c1width = strlen((string)(count($d) + 1));
-		$c2width = 0;
-		foreach ($d as &$f) {
-			if (!isset($f['file'])) $f['file'] = '';
-			if (!isset($f['line'])) $f['line'] = '';
-			if (!isset($f['class'])) $f['class'] = '';
-			if (!isset($f['type'])) $f['type'] = '';
-			$f['file_rel'] = str_replace(BP . DS, '', $f['file']);
-			$thisLen = strlen($f['file_rel'] . ':' . $f['line']);
-			if ($c2width < $thisLen) $c2width = $thisLen;
-		}
-		foreach ($d as $i => $f) {
-			$args = '';
-			if (isset($f['args'])) {
-				$args = array();
-				foreach ($f['args'] as $arg) {
-					if (is_object($arg)) {
-						$str = get_class($arg);
-					} elseif (is_array($arg)) {
-						$str = 'Array';
-					} elseif (is_numeric($arg)) {
-						$str = $arg;
-					} else {
-						$str = "'$arg'";
-					}
-					$args[] = $str;
+	/**
+	 * Invocation of the processor.
+	 *
+	 * @param   array $trace  A "cleaned" value returned by debug_backtrace().
+	 * @@return array   The pretty traces.
+	 * @since   1.0.0
+	 */
+	private function pretty_backtrace( $trace ) {
+		$result = [];
+		foreach ( $trace as $index => $call ) {
+			$file     = ( array_key_exists( 'file', $call ) ? $call['file'] : '' );
+			$file     = './' . str_replace( wp_normalize_path( ABSPATH ), '', wp_normalize_path( $file ) );
+			$line     = ( array_key_exists( 'line', $call ) ? ':' . $call['line'] : '' );
+			$class    = ( array_key_exists( 'class', $call ) ? $call['class'] : '' );
+			$type     = ( array_key_exists( 'type', $call ) ? $call['type'] : '' );
+			$function = ( array_key_exists( 'function', $call ) ? $call['function'] : '' );
+			$args     = [];
+			foreach ( array_key_exists( 'args', $call ) ? $call['args'] : [] as $arg ) {
+				if ( is_object( $arg ) ) {
+					$str = get_class( $arg );
+				} elseif ( is_array( $arg ) ) {
+					$str = 'Array';
+				} elseif ( is_numeric( $arg ) ) {
+					$str = $arg;
+				} else {
+					$str = "'$arg'";
 				}
-				$args = implode(', ', $args);
+				$args[] = $str;
 			}
-			$out .= sprintf(
-				"[%{$c1width}s] %-{$c2width}s %s%s%s(%s)\n",
-				$i,
-				$f['file_rel'] . ':' . $f['line'],
-				$f['class'],
-				$f['type'],
-				$f['function'],
-				$args
-			);
+
+			$result[ $index ]['file'] = $file . $line;
+			$result[ $index ]['call'] = $class . $type . $function . '(' . implode( ', ', $args ) . ')';
 		}
-		return $out;
+		error_log( print_r( $result, true ) );
+		return $result;
 	}
 
 	/**
 	 * Invocation of the processor.
 	 *
-	 * @since   1.0.0
 	 * @param   array $record  Array or added records.
 	 * @@return array   The modified records.
+	 * @since   1.0.0
 	 */
 	public function __invoke( array $record ): array {
 		if ( $record['level'] < $this->level ) {
 			return $record;
 		}
-		$trace = debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS );
+		$trace = debug_backtrace( DEBUG_BACKTRACE_PROVIDE_OBJECT );
 		array_shift( $trace ); // skip first since it's always the current method.
 		array_shift( $trace ); // the call_user_func call is also skipped.
-		$trace = array_reverse( $trace );
-
-		$record['extra']['trace']['callstack'] = $this->niceDebugBacktrace($trace);
-
-		$record['extra']['trace']['wordpress'] = wp_debug_backtrace_summary(null, 0, false);
+		$record['extra']['trace']['callstack'] = $this->pretty_backtrace( array_reverse( $trace ) );
+		$record['extra']['trace']['wordpress'] = wp_debug_backtrace_summary( null, 0, false );
 		return $record;
 	}
 }
