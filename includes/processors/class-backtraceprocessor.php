@@ -43,6 +43,53 @@ class BacktraceProcessor implements ProcessorInterface {
 		$this->level = Logger::toMonologLevel( $level );
 	}
 
+	private function niceDebugBacktrace($d)
+	{
+
+
+		$out = '';
+		$c1width = strlen((string)(count($d) + 1));
+		$c2width = 0;
+		foreach ($d as &$f) {
+			if (!isset($f['file'])) $f['file'] = '';
+			if (!isset($f['line'])) $f['line'] = '';
+			if (!isset($f['class'])) $f['class'] = '';
+			if (!isset($f['type'])) $f['type'] = '';
+			$f['file_rel'] = str_replace(BP . DS, '', $f['file']);
+			$thisLen = strlen($f['file_rel'] . ':' . $f['line']);
+			if ($c2width < $thisLen) $c2width = $thisLen;
+		}
+		foreach ($d as $i => $f) {
+			$args = '';
+			if (isset($f['args'])) {
+				$args = array();
+				foreach ($f['args'] as $arg) {
+					if (is_object($arg)) {
+						$str = get_class($arg);
+					} elseif (is_array($arg)) {
+						$str = 'Array';
+					} elseif (is_numeric($arg)) {
+						$str = $arg;
+					} else {
+						$str = "'$arg'";
+					}
+					$args[] = $str;
+				}
+				$args = implode(', ', $args);
+			}
+			$out .= sprintf(
+				"[%{$c1width}s] %-{$c2width}s %s%s%s(%s)\n",
+				$i,
+				$f['file_rel'] . ':' . $f['line'],
+				$f['class'],
+				$f['type'],
+				$f['function'],
+				$args
+			);
+		}
+		return $out;
+	}
+
 	/**
 	 * Invocation of the processor.
 	 *
@@ -59,7 +106,9 @@ class BacktraceProcessor implements ProcessorInterface {
 		array_shift( $trace ); // the call_user_func call is also skipped.
 		$trace = array_reverse( $trace );
 
-		$record['extra']['trace'] = $trace;
+		$record['extra']['trace']['callstack'] = $this->niceDebugBacktrace($trace);
+
+		$record['extra']['trace']['wordpress'] = wp_debug_backtrace_summary(null, 0, false);
 		return $record;
 	}
 }
