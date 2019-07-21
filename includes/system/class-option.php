@@ -37,15 +37,15 @@ class Option {
 	 * @since 1.0.0
 	 */
 	public static function init() {
-		self::$defaults['use_cdn']          = false;
-		self::$defaults['script_in_footer'] = false;
-		self::$defaults['auto_update']      = true;
-		self::$defaults['display_nag']      = true;
-		self::$defaults['nags']             = [];
-		self::$defaults['version']          = '0.0.0';
-		self::$defaults['loggers']          = [];
-		self::$defaults['respect_wp_debug'] = false;
-		self::$defaults['logger_autostart'] = true;
+		self::$defaults['use_cdn']              = false;
+		self::$defaults['script_in_footer']     = false;
+		self::$defaults['auto_update']          = true;
+		self::$defaults['display_nag']          = true;
+		self::$defaults['nags']                 = [];
+		self::$defaults['version']              = '0.0.0';
+		self::$defaults['loggers']              = [];
+		self::$defaults['respect_wp_debug']     = false;
+		self::$defaults['logger_autostart']     = true;
 	}
 
 	/**

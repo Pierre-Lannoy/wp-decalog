@@ -17,6 +17,7 @@ use Decalog\System\Assets;
 use Decalog\System\UUID;
 use Decalog\System\Option;
 use Decalog\System\Form;
+use Decalog\System\Role;
 
 /**
  * The admin-specific functionality of the plugin.
@@ -97,7 +98,10 @@ class Decalog_Admin {
 	 * @since 1.0.0
 	 */
 	public function init_admin_menus() {
-		add_submenu_page( 'options-general.php', sprintf( __( '%s Settings', 'decalog' ), DECALOG_PRODUCT_NAME ), DECALOG_PRODUCT_NAME, apply_filters( 'adr_manage_options_capability', 'manage_options' ), 'decalog-settings', [ $this, 'get_settings_page' ] );
+		if (Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type()) {
+			add_submenu_page( 'options-general.php', sprintf( __( '%s Settings', 'decalog' ), DECALOG_PRODUCT_NAME ), DECALOG_PRODUCT_NAME, 'manage_options' , 'decalog-settings', [ $this, 'get_settings_page' ] );
+		}
+
 	}
 
 	/**
@@ -166,48 +170,60 @@ class Decalog_Admin {
 				case 'loggers':
 					switch ( $action ) {
 						case 'form-edit':
-							$current_logger  = $this->current_logger;
-							$current_handler = $this->current_handler;
-							$args            = compact( 'current_logger', 'current_handler' );
-							$view            = 'decalog-admin-settings-logger-edit';
+							if (Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type()) {
+								$current_logger  = $this->current_logger;
+								$current_handler = $this->current_handler;
+								$args            = compact( 'current_logger', 'current_handler' );
+								$view            = 'decalog-admin-settings-logger-edit';
+							}
 							break;
 						case 'form-delete':
-							$current_logger  = $this->current_logger;
-							$current_handler = $this->current_handler;
-							$args            = compact( 'current_logger', 'current_handler' );
-							$view            = 'decalog-admin-settings-logger-delete';
+							if (Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type()) {
+								$current_logger  = $this->current_logger;
+								$current_handler = $this->current_handler;
+								$args            = compact( 'current_logger', 'current_handler' );
+								$view            = 'decalog-admin-settings-logger-delete';
+							}
 							break;
 						case 'do-edit':
-							$this->save_current();
+							if (Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type()) {
+								$this->save_current();
+							}
 							break;
 						case 'do-delete':
-							$this->delete_current();
+							if (Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type()) {
+								$this->delete_current();
+							}
 							break;
 						case 'start':
-							if ($nonce && $uuid && wp_verify_nonce( $nonce, 'decalog-logger-start-' . $uuid )) {
-								$loggers = Option::get( 'loggers' );
-								if ( array_key_exists( $uuid, $loggers ) ) {
-									$loggers[ $uuid ]['running'] = true;
-									Option::set( 'loggers', $loggers );
-									$this->logger = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
-									$message      = sprintf( __( 'Logger %s has started.', 'decalog' ), '<em>' . $loggers[ $uuid ]['name'] . '</em>' );
-									$code         = 0;
-									add_settings_error( 'decalog_no_error', $code, $message, 'updated' );
-									$this->logger->notice( sprintf( 'Logger "%s" has started.', $loggers[ $uuid ]['name'] ), $code );
+							if (Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type()) {
+								if ( $nonce && $uuid && wp_verify_nonce( $nonce, 'decalog-logger-start-' . $uuid ) ) {
+									$loggers = Option::get( 'loggers' );
+									if ( array_key_exists( $uuid, $loggers ) ) {
+										$loggers[ $uuid ]['running'] = true;
+										Option::set( 'loggers', $loggers );
+										$this->logger = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
+										$message      = sprintf( __( 'Logger %s has started.', 'decalog' ), '<em>' . $loggers[ $uuid ]['name'] . '</em>' );
+										$code         = 0;
+										add_settings_error( 'decalog_no_error', $code, $message, 'updated' );
+										$this->logger->notice( sprintf( 'Logger "%s" has started.', $loggers[ $uuid ]['name'] ), $code );
+									}
 								}
 							}
 							break;
 						case 'pause':
-							if ($nonce && $uuid && wp_verify_nonce( $nonce, 'decalog-logger-pause-' . $uuid )) {
-								$loggers = Option::get( 'loggers' );
-								if ( array_key_exists( $uuid, $loggers ) ) {
-									$message = sprintf( __( 'Logger %s has been paused.', 'decalog' ), '<em>' . $loggers[ $uuid ]['name'] . '</em>' );
-									$code    = 0;
-									$this->logger->notice( sprintf( 'Logger "%s" has been paused.', $loggers[ $uuid ]['name'] ), $code );
-									$loggers[ $uuid ]['running'] = false;
-									Option::set( 'loggers', $loggers );
-									$this->logger = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
-									add_settings_error( 'decalog_no_error', $code, $message, 'updated' );
+							if (Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type()) {
+								if ( $nonce && $uuid && wp_verify_nonce( $nonce, 'decalog-logger-pause-' . $uuid ) ) {
+									$loggers = Option::get( 'loggers' );
+									if ( array_key_exists( $uuid, $loggers ) ) {
+										$message = sprintf( __( 'Logger %s has been paused.', 'decalog' ), '<em>' . $loggers[ $uuid ]['name'] . '</em>' );
+										$code    = 0;
+										$this->logger->notice( sprintf( 'Logger "%s" has been paused.', $loggers[ $uuid ]['name'] ), $code );
+										$loggers[ $uuid ]['running'] = false;
+										Option::set( 'loggers', $loggers );
+										$this->logger = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
+										add_settings_error( 'decalog_no_error', $code, $message, 'updated' );
+									}
 								}
 							}
 					}
@@ -297,7 +313,6 @@ class Decalog_Admin {
 					$code         = 0;
 					add_settings_error( 'decalog_no_error', $code, $message, 'updated' );
 					$this->logger->notice( sprintf( 'Logger "%s" has been removed.', $this->current_logger['name'] ), $code );
-
 				}
 			} else {
 				$message = sprintf( __( 'Logger %s has not been removed. Please try again.', 'decalog' ), '<em>' . $this->current_logger['name'] . '</em>' );
