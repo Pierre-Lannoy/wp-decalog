@@ -98,8 +98,8 @@ class Decalog_Admin {
 	 * @since 1.0.0
 	 */
 	public function init_admin_menus() {
-		if (Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type()) {
-			add_submenu_page( 'options-general.php', sprintf( __( '%s Settings', 'decalog' ), DECALOG_PRODUCT_NAME ), DECALOG_PRODUCT_NAME, 'manage_options' , 'decalog-settings', [ $this, 'get_settings_page' ] );
+		if ( Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type() ) {
+			add_submenu_page( 'options-general.php', sprintf( __( '%s Settings', 'decalog' ), DECALOG_PRODUCT_NAME ), DECALOG_PRODUCT_NAME, 'manage_options', 'decalog-settings', [ $this, 'get_settings_page' ] );
 		}
 
 	}
@@ -170,7 +170,7 @@ class Decalog_Admin {
 				case 'loggers':
 					switch ( $action ) {
 						case 'form-edit':
-							if (Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type()) {
+							if ( Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type() ) {
 								$current_logger  = $this->current_logger;
 								$current_handler = $this->current_handler;
 								$args            = compact( 'current_logger', 'current_handler' );
@@ -178,7 +178,7 @@ class Decalog_Admin {
 							}
 							break;
 						case 'form-delete':
-							if (Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type()) {
+							if ( Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type() ) {
 								$current_logger  = $this->current_logger;
 								$current_handler = $this->current_handler;
 								$args            = compact( 'current_logger', 'current_handler' );
@@ -186,17 +186,17 @@ class Decalog_Admin {
 							}
 							break;
 						case 'do-edit':
-							if (Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type()) {
+							if ( Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type() ) {
 								$this->save_current();
 							}
 							break;
 						case 'do-delete':
-							if (Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type()) {
+							if ( Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type() ) {
 								$this->delete_current();
 							}
 							break;
 						case 'start':
-							if (Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type()) {
+							if ( Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type() ) {
 								if ( $nonce && $uuid && wp_verify_nonce( $nonce, 'decalog-logger-start-' . $uuid ) ) {
 									$loggers = Option::get( 'loggers' );
 									if ( array_key_exists( $uuid, $loggers ) ) {
@@ -212,7 +212,7 @@ class Decalog_Admin {
 							}
 							break;
 						case 'pause':
-							if (Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type()) {
+							if ( Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type() ) {
 								if ( $nonce && $uuid && wp_verify_nonce( $nonce, 'decalog-logger-pause-' . $uuid ) ) {
 									$loggers = Option::get( 'loggers' );
 									if ( array_key_exists( $uuid, $loggers ) ) {
@@ -436,6 +436,9 @@ class Decalog_Admin {
 			register_setting( 'decalog_logger_specific_section', 'decalog_logger_specific_dummy' );
 		}
 		foreach ( $this->current_handler['configuration'] as $key => $configuration ) {
+			if ( ! $configuration['show'] ) {
+				continue;
+			}
 			$id   = 'decalog_logger_details_' . strtolower( $key );
 			$args = [
 				'id'          => $id,
@@ -447,9 +450,9 @@ class Decalog_Admin {
 				'enabled'     => $configuration['control']['enabled'],
 				'list'        => ( array_key_exists( 'list', $configuration['control'] ) ? $configuration['control']['list'] : [] ),
 			];
-			foreach ( $configuration['control'] as $key => $control ) {
-				if ( 'type' !== $key && 'cast' !== $key ) {
-					$args[ $key ] = $control;
+			foreach ( $configuration['control'] as $index => $control ) {
+				if ( 'type' !== $index && 'cast' !== $index ) {
+					$args[ $index ] = $control;
 				}
 			}
 			add_settings_field(

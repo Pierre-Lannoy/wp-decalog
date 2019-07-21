@@ -112,6 +112,7 @@ class HandlerTypes {
 			'configuration' => [
 				'webhook' => [
 					'type'    => 'string',
+					'show'    => true,
 					'name'    => esc_html__( 'Webhook URL', 'decalog' ),
 					'help'    => esc_html__( 'The Webhook URL set in the Slack application.', 'decalog' ),
 					'default' => 'https://hooks.slack.com/services/...',
@@ -123,6 +124,7 @@ class HandlerTypes {
 				],
 				'short' => [
 					'type'    => 'boolean',
+					'show'    => true,
 					'name'    => esc_html__( 'Short attachment', 'decalog' ),
 					'help'    => esc_html__( 'Use a shortened version for attachments sent in channel.', 'decalog' ),
 					'default' => false,
@@ -134,6 +136,7 @@ class HandlerTypes {
 				],
 				'data' => [
 					'type'    => 'boolean',
+					'show'    => true,
 					'name'    => esc_html__( 'Full data', 'decalog' ),
 					'help'    => esc_html__( 'Whether the attachments should include context and extra data.', 'decalog' ),
 					'default' => true,
@@ -201,6 +204,7 @@ class HandlerTypes {
 			'configuration' => [
 				'host' => [
 					'type'    => 'string',
+					'show'    => true,
 					'name'    => esc_html__( 'Host', 'decalog' ),
 					'help'    => esc_html__( 'The remote host receiving syslog messages.', 'decalog' ),
 					'default' => '127.0.0.1',
@@ -212,6 +216,7 @@ class HandlerTypes {
 				],
 				'proto' => [
 					'type'    => 'string',
+					'show'    => true,
 					'name'    => esc_html__( 'Protocol', 'decalog' ),
 					'help'    => esc_html__( 'The used syslog protocol.', 'decalog' ),
 					'default' => 'UDP',
@@ -223,6 +228,7 @@ class HandlerTypes {
 				],
 				'port'  => [
 					'type'    => 'integer',
+					'show'    => true,
 					'name'    => esc_html__( 'Port', 'decalog' ),
 					'help'    => esc_html__( 'The opened port on remote host to receive syslog messages.', 'decalog' ),
 					'default' => 514,
@@ -237,6 +243,7 @@ class HandlerTypes {
 				],
 				'facility' => [
 					'type'    => 'string',
+					'show'    => true,
 					'name'    => esc_html__( 'Facility', 'decalog' ),
 					'help'    => esc_html__( 'The syslog facility for messages sent by DecaLog.', 'decalog' ),
 					'default' => 'LOG_USER',
@@ -248,6 +255,7 @@ class HandlerTypes {
 				],
 				'ident' => [
 					'type'    => 'string',
+					'show'    => true,
 					'name'    => esc_html__( 'Identifier', 'decalog' ),
 					'help'    => esc_html__( 'The program identifier for messages sent by DecaLog.', 'decalog' ),
 					'default' => 'DecaLog',
@@ -259,6 +267,7 @@ class HandlerTypes {
 				],
 				'format'  => [
 					'type'    => 'integer',
+					'show'    => true,
 					'name'    => esc_html__( 'Time format', 'decalog' ),
 					'help'    => esc_html__( 'The time format standard to use.', 'decalog' ),
 					'default' => 514,
@@ -310,6 +319,7 @@ class HandlerTypes {
 			'configuration' => [
 				'rotate' => [
 					'type'    => 'integer',
+					'show'    => true,
 					'name'    => esc_html__( 'Events', 'decalog' ),
 					'help'    => esc_html__( 'Maximum number of events stored in this events log (0 for no limit).', 'decalog' ),
 					'default' => 10000,
@@ -324,6 +334,7 @@ class HandlerTypes {
 				],
 				'purge'  => [
 					'type'    => 'integer',
+					'show'    => true,
 					'name'    => esc_html__( 'Days', 'decalog' ),
 					'help'    => esc_html__( 'Maximum age of events stored in this events log (0 for no limit).', 'decalog' ),
 					'default' => 15,
@@ -333,6 +344,18 @@ class HandlerTypes {
 						'min'     => 0,
 						'max'     => 730,
 						'step'    => 1,
+						'enabled' => true,
+					],
+				],
+				'local'  => [
+					'type'    => 'boolean',
+					'show'    => is_multisite(),
+					'name'    => esc_html__( 'Multisite partitioning', 'decalog' ),
+					'help'    => esc_html__( 'Local administrators can view events that relate to their site.', 'decalog' ),
+					'default' => false,
+					'control' => [
+						'type'    => 'field_checkbox',
+						'cast'    => 'boolean',
 						'enabled' => true,
 					],
 				],
