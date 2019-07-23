@@ -13,6 +13,7 @@ use Decalog\Log;
 use Decalog\Plugin\Feature\HandlerTypes;
 use Decalog\Plugin\Feature\ProcessorTypes;
 use Decalog\Plugin\Feature\LoggerFactory;
+use Decalog\Plugin\Feature\Events;
 use Decalog\System\Assets;
 use Decalog\System\UUID;
 use Decalog\System\Option;
@@ -101,7 +102,12 @@ class Decalog_Admin {
 		if ( Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type() ) {
 			add_submenu_page( 'options-general.php', sprintf( __( '%s Settings', 'decalog' ), DECALOG_PRODUCT_NAME ), DECALOG_PRODUCT_NAME, 'manage_options', 'decalog-settings', [ $this, 'get_settings_page' ] );
 		}
-
+		if ( Events::loggers_count() > 0) {
+			add_submenu_page( 'tools.php', sprintf( __( '%s Viewer', 'decalog' ), DECALOG_PRODUCT_NAME ), DECALOG_PRODUCT_NAME, 'manage_options', 'decalog-viewer', array(
+				$this,
+				'get_tools_page'
+			) );
+		}
 	}
 
 	/**
@@ -115,6 +121,26 @@ class Decalog_Admin {
 		add_settings_section( 'decalog_logger_specific_section', null, [ $this, 'logger_specific_section_callback' ], 'decalog_logger_specific_section' );
 		add_settings_section( 'decalog_logger_privacy_section', __( 'Privacy options', 'decalog' ), [ $this, 'logger_privacy_section_callback' ], 'decalog_logger_privacy_section' );
 		add_settings_section( 'decalog_logger_details_section', __( 'Reported details', 'decalog' ), [ $this, 'logger_details_section_callback' ], 'decalog_logger_details_section' );
+	}
+
+	/**
+	 * Get the content of the settings page.
+	 *
+	 * @since 1.0.0
+	 */
+	public function get_tools_page() {
+		$logid = filter_input(INPUT_GET, 'logid', FILTER_SANITIZE_STRING);
+		$eventid = filter_input(INPUT_GET, 'eventid', FILTER_SANITIZE_NUMBER_INT);
+		if (isset($logid) && isset($eventid) && $eventid != 0) {
+			$view = 'decalog-admin-view-event-details';
+
+		}
+		else {
+			$view = 'decalog-admin-view-events';
+			$event = array();
+		}
+		$args = compact('event');
+		include DECALOG_ADMIN_DIR . 'partials/' . $view . '.php';
 	}
 
 	/**

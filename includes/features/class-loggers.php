@@ -34,7 +34,7 @@ class Loggers extends \WP_List_Table {
 	 *
 	 * @since    1.0.0
 	 * @access   private
-	 * @var      array    $domains    The loggers list.
+	 * @var      array    $loggers    The loggers list.
 	 */
 	private $loggers = [];
 
