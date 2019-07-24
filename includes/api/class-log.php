@@ -11,6 +11,7 @@ namespace Decalog;
 
 use Decalog\API\DLogger;
 use Monolog\Logger;
+use Decalog\Plugin\Feature\EventTypes;
 
 
 /**
@@ -23,22 +24,6 @@ use Monolog\Logger;
  * @since   1.0.0
  */
 class Log {
-
-	/**
-	 * List of the available level names.
-	 *
-	 * @var string[] $level_names Logging levels names
-	 */
-	private static $level_names = [
-		Logger::DEBUG     => 'DEBUG',
-		Logger::INFO      => 'INFO',
-		Logger::NOTICE    => 'NOTICE',
-		Logger::WARNING   => 'WARNING',
-		Logger::ERROR     => 'ERROR',
-		Logger::CRITICAL  => 'CRITICAL',
-		Logger::ALERT     => 'ALERT',
-		Logger::EMERGENCY => 'EMERGENCY',
-	];
 
 	/**
 	 * Initialize the class and set its properties.
@@ -70,8 +55,8 @@ class Log {
 	 */
 	public static function level_name( $level) {
 		$result = 'UNKNOWN';
-		if (array_key_exists($level, self::$level_names)) {
-			$result = self::$level_names[$level];
+		if (array_key_exists($level, EventTypes::$level_names)) {
+			$result = EventTypes::$level_names[$level];
 		}
 		return $result;
 	}
@@ -84,7 +69,7 @@ class Log {
 	 */
 	public static function get_levels() {
 		$result = [];
-		foreach (self::$level_names as $key=>$name) {
+		foreach (EventTypes::$level_names as $key=>$name) {
 			$result[] = [$key, $name];
 		}
 		return array_reverse($result);

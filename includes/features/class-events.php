@@ -38,10 +38,17 @@ class Events extends \WP_List_Table {
 	 * The available events logs.
 	 *
 	 * @since    1.0.0
-	 * @access   private
 	 * @var      array    $logs    The loggers list.
 	 */
 	private static $logs = [];
+
+	/**
+	 * The events types icons.
+	 *
+	 * @since    1.0.0
+	 * @var      array    $icons    The icons list.
+	 */
+	private $icons = [];
 
 	private $limit        = 25;
 	private $logger       = null;
@@ -49,22 +56,7 @@ class Events extends \WP_List_Table {
 	private $force_siteid = null;
 	private $name         = null;
 
-	/**
-	 * List of the available levels.
-	 *
-	 * @since    1.0.0
-	 * @var string[] $levels Logging levels.
-	 */
-	private static $levels = [
-		'debug' => Logger::DEBUG,
-		'info' => Logger::INFO,
-		'notice' => Logger::NOTICE,
-		'warning' => Logger::WARNING,
-		'error' => Logger::ERROR,
-		'critical' => Logger::CRITICAL,
-		'alert' => Logger::ALERT,
-		'emergency' => Logger::EMERGENCY,
-	];
+
 
 	/**
 	 * Initialize the class and set its properties.
@@ -92,8 +84,8 @@ class Events extends \WP_List_Table {
 	}
 
 	protected function column_event($item){
-		$icon = Feather\Icons::get_base64('alert-octagon');
-		$icon = '<img style="width:20px;float:left;padding-right:6px;" src="' . $icon . '" />';
+		$icon = Feather\Icons::get_base64('ewdfxcrsfwv', '#BBBBBBFF', '#FF0000', 2);
+		$icon = '<img style="width:18px;float:left;padding-right:6px;" src="' . $icon . '" />';
 		$name = sprintf(esc_html__('%1$s : %2$s (%3$s)', 'decalog'), strtoupper($item['channel']), $item['component'], $item['class']);
 		$result = $icon . $name;
 		$result .= '<br /><span style="color:silver">' . sprintf(esc_html__('Event #%1$s / %2$s code %3$s', 'decalog'), $item['id'], ucfirst($item['level']), $item['code'] ) . '</span>';
@@ -169,7 +161,7 @@ class Events extends \WP_List_Table {
 		}
 		$this->filters = [];
 		$level = filter_input( INPUT_GET, 'level', FILTER_SANITIZE_STRING );
-		if ($level && array_key_exists(strtolower($level), self::$levels) && 'debug' !== strtolower($level)) {
+		if ($level && array_key_exists(strtolower($level), EventTypes::$levels) && 'debug' !== strtolower($level)) {
 			$this->filters['level'] = strtolower($level);
 		}
 		/*
@@ -456,8 +448,8 @@ class Events extends \WP_List_Table {
 			if ( $filter ) {
 				if ( $key == 'level' ) {
 					$l =[];
-					foreach ( self::$levels as $str => $val ) {
-						if ( self::$levels[$filter] <=  $val ) {
+					foreach ( EventTypes::$levels as $str => $val ) {
+						if ( EventTypes::$levels[$filter] <=  $val ) {
 							$l[] = "'" . $str . "'";
 						}
 					}

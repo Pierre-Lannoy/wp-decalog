@@ -55,23 +55,6 @@ class LoggerFactory {
 	private $processor_types;
 
 	/**
-	 * List of the available levels.
-	 *
-	 * @since    1.0.0
-	 * @var string[] $levels Logging levels.
-	 */
-	protected $levels = [
-		Logger::DEBUG,
-		Logger::INFO,
-		Logger::NOTICE,
-		Logger::WARNING,
-		Logger::ERROR,
-		Logger::CRITICAL,
-		Logger::ALERT,
-		Logger::EMERGENCY,
-	];
-
-	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
@@ -239,7 +222,7 @@ class LoggerFactory {
 		}
 		if ( ! array_key_exists( 'level', $logger ) ) {
 			$logger['level'] = Logger::DEBUG;
-		} elseif ( ! in_array( $logger['level'], $this->levels ) ) {
+		} elseif ( ! in_array( $logger['level'], EventTypes::$level_values ) ) {
 			$logger['level'] = Logger::DEBUG;
 		}
 		return $logger;
