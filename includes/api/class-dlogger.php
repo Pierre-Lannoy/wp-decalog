@@ -15,6 +15,7 @@ use Decalog\System\Option;
 use Decalog\System\Timezone;
 use Decalog\Plugin\Feature\LoggerFactory;
 use Decalog\Plugin\Feature\ClassTypes;
+use Decalog\Plugin\Feature\ChannelTypes;
 
 
 
@@ -28,52 +29,6 @@ use Decalog\Plugin\Feature\ClassTypes;
  * @since   1.0.0
  */
 class DLogger {
-
-	/**
-	 * The list of available channels.
-	 *
-	 * @since  1.0.0
-	 * @access protected
-	 * @var    array    $channels    Maintains the channels definitions.
-	 */
-	protected $channels = [
-		[
-			'tag'  => 'UNKNOWN',
-			'name' => 'Unknown',
-		],
-		[
-			'tag'  => 'CLI',
-			'name' => 'Command Line Interface',
-		],
-		[
-			'tag'  => 'CRON',
-			'name' => 'Cron Job',
-		],
-		[
-			'tag'  => 'AJAX',
-			'name' => 'Ajax Request',
-		],
-		[
-			'tag'  => 'XMLRPC',
-			'name' => 'XML-RPC Request',
-		],
-		[
-			'tag'  => 'API',
-			'name' => 'Rest API Request',
-		],
-		[
-			'tag'  => 'FEED',
-			'name' => 'Atom/RDF/RSS Feed',
-		],
-		[
-			'tag'  => 'WBACK',
-			'name' => 'Site Backend',
-		],
-		[
-			'tag'  => 'WFRONT',
-			'name' => 'Site Frontend',
-		],
-	];
 
 	/**
 	 * The class of the component.
@@ -169,10 +124,10 @@ class DLogger {
 	 * @since 1.0.0
 	 */
 	public function channel_tag( $id = 0 ) {
-		if ( ! array_key_exists( $id, $this->channels ) ) {
+		if ( ! array_key_exists( $id, ChannelTypes::$channels ) ) {
 			$id = 0;
 		}
-		return $this->channels[ $id ]['tag'];
+		return ChannelTypes::$channels[ $id ]['tag'];
 	}
 
 	/**
@@ -183,10 +138,10 @@ class DLogger {
 	 * @since 1.0.0
 	 */
 	public function channel_name( $id = 0 ) {
-		if ( ! array_key_exists( $id, $this->channels ) ) {
+		if ( ! array_key_exists( $id, ChannelTypes::$channels ) ) {
 			$id = 0;
 		}
-		return $this->channels[ $id ]['name'];
+		return ChannelTypes::$channels[ $id ]['name'];
 	}
 
 	/**

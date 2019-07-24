@@ -51,9 +51,16 @@ class EventTypes {
 	public static $icons = [];
 
 	/**
+	 * List of the available level texts.
+	 *
+	 * @var string[] $level_names Logging levels texts.
+	 */
+	public static $level_texts = [];
+
+	/**
 	 * List of the available level names.
 	 *
-	 * @var string[] $level_names Logging levels names
+	 * @var string[] $level_names Logging levels names.
 	 */
 	public static $level_names = [
 		Logger::DEBUG     => 'DEBUG',
@@ -99,6 +106,16 @@ class EventTypes {
 		self::$icons['critical'] = Feather\Icons::get_base64('alert-circle', '#FFB7B7', '#FF0000');
 		self::$icons['alert'] = Feather\Icons::get_base64('x-circle', '#FFB7B7', '#DD0000');
 		self::$icons['emergency'] = Feather\Icons::get_base64('x-circle', '#FFB7B7', '#AA0000');
+		self::$level_texts = [];
+		self::$level_texts['unknown'] = esc_html__('unknown', 'decalog');
+		self::$level_texts['debug'] = esc_html__('debug', 'decalog');
+		self::$level_texts['info'] = esc_html__('information', 'decalog');
+		self::$level_texts['notice'] = esc_html__('notice', 'decalog');
+		self::$level_texts['warning'] = esc_html__('warning', 'decalog');
+		self::$level_texts['error'] = esc_html__('error', 'decalog');
+		self::$level_texts['critical'] = esc_html__('critical error', 'decalog');
+		self::$level_texts['alert'] = esc_html__('alert', 'decalog');
+		self::$level_texts['emergency'] = esc_html__('emergency', 'decalog');
 	}
 
 }

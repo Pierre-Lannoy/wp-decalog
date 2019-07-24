@@ -88,7 +88,6 @@ class Events extends \WP_List_Table {
 		$name = sprintf(esc_html__('%1$s : %2$s (%3$s)', 'decalog'), strtoupper($item['channel']), $item['component'], $item['class']);
 		$result = $icon . $name;
 		$result .= '<br /><span style="color:silver">' . sprintf(esc_html__('Event #%1$s / %2$s code %3$s', 'decalog'), $item['id'], ucfirst($item['level']), $item['code'] ) . '</span>';
-
 		return $result;
 	}
 
@@ -483,6 +482,7 @@ class Events extends \WP_List_Table {
 					if ( Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type() || ( Role::LOCAL_ADMIN === Role::admin_type() && $local ) ) {
 						self::$logs[] = [
 							'name'  => $logger['name'],
+							'running'  => $logger['running'],
 							'id'    => $key,
 							'limit' => ( Role::LOCAL_ADMIN === Role::admin_type() ? [ get_current_blog_id() ] : [] ),
 						];
