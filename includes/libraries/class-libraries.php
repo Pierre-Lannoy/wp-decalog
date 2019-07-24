@@ -64,8 +64,19 @@ class Libraries {
 			'base'    => DECALOG_VENDOR_DIR . 'monolog/',
 			'version' => '2.0.0-beta-2',
 			// phpcs:ignore
-			'author'  => sprintf( __( '%s & contributors', 'decalog' ), 'Jordi Boggiano' ),
+			'author'  => sprintf( esc_html__( '%s & contributors', 'decalog' ), 'Jordi Boggiano' ),
 			'url'     => 'https://github.com/Seldaek/monolog',
+			'license' => 'mit',
+			'langs'   => 'en',
+		];
+		self::$psr4_libraries['feather']   = [
+			'name'    => 'Feather',
+			'prefix'  => 'Feather',
+			'base'    => DECALOG_VENDOR_DIR . 'feather/',
+			'version' => '4.22.1',
+			// phpcs:ignore
+			'author'  => sprintf( esc_html__( '%s & contributors', 'decalog' ), 'Cole Bemis' ),
+			'url'     => 'https://feathericons.com',
 			'license' => 'mit',
 			'langs'   => 'en',
 		];
@@ -86,7 +97,7 @@ class Libraries {
 			'base'    => DECALOG_VENDOR_DIR . 'parsedown/',
 			'version' => '1.8.0-beta-7',
 			// phpcs:ignore
-			'author'  => sprintf( __( '%s & contributors', 'decalog' ), 'Emanuil Rusev' ),
+			'author'  => sprintf( esc_html__( '%s & contributors', 'decalog' ), 'Emanuil Rusev' ),
 			'url'     => 'https://parsedown.org',
 			'license' => 'mit',
 			'langs'   => 'en',
