@@ -85,9 +85,16 @@ class Events extends \WP_List_Table {
 
 	protected function column_event($item){
 		$icon = '<img style="width:18px;float:left;padding-right:6px;" src="' . EventTypes::$icons[$item['level']] . '" />';
-		$name = sprintf(esc_html__('%1$s : %2$s (%3$s)', 'decalog'), strtoupper($item['channel']), $item['component'], $item['class']);
+		//$name = sprintf(esc_html__('%1$s : %2$s (%3$s)', 'decalog'), strtoupper($item['channel']), $item['component'], $item['class']);
+		$name = ChannelTypes::$channel_names[strtoupper($item['channel'])] . ' - ' . ucfirst($item['level']);
 		$result = $icon . $name;
 		$result .= '<br /><span style="color:silver">' . sprintf(esc_html__('Event #%1$s / %2$s code %3$s', 'decalog'), $item['id'], ucfirst($item['level']), $item['code'] ) . '</span>';
+		return $result;
+	}
+
+	protected function column_component($item){
+		$name = $item['component'] . ' <span style="color:silver">' . $item['version'] . '</span>';
+		$result = $name . '<br /><span style="color:silver">' . $item['class'] . '</span>';
 		return $result;
 	}
 
@@ -113,20 +120,22 @@ class Events extends \WP_List_Table {
 	public function get_columns() {
 		if (is_multisite() && Role::LOCAL_ADMIN !== Role::admin_type()) {
 			$columns = [
-				'event'       => __( 'Event', 'decalog' ),
-				'time'        => __( 'Time', 'decalog' ),
-				'site'        => __( 'Site', 'decalog' ),
-				'user'        => __( 'User', 'decalog' ),
-				'ip'          => __( 'IP', 'decalog' ),
-				'message'     => __( 'Message', 'decalog' ),
+				'event'       => esc_html__( 'Event', 'decalog' ),
+				'component'   => esc_html__( 'Component', 'decalog' ),
+				'time'        => esc_html__( 'Time', 'decalog' ),
+				'site'        => esc_html__( 'Site', 'decalog' ),
+				'user'        => esc_html__( 'User', 'decalog' ),
+				'ip'          => esc_html__( 'IP', 'decalog' ),
+				'message'     => esc_html__( 'Message', 'decalog' ),
 			];
 		} else {
 			$columns = [
-				'event'       => __( 'Event', 'decalog' ),
-				'time'        => __( 'Time', 'decalog' ),
-				'user'        => __( 'User', 'decalog' ),
-				'ip'          => __( 'IP', 'decalog' ),
-				'message'     => __( 'Message', 'decalog' ),
+				'event'       => esc_html__( 'Event', 'decalog' ),
+				'component'   => esc_html__( 'Component', 'decalog' ),
+				'time'        => esc_html__( 'Time', 'decalog' ),
+				'user'        => esc_html__( 'User', 'decalog' ),
+				'ip'          => esc_html__( 'IP', 'decalog' ),
+				'message'     => esc_html__( 'Message', 'decalog' ),
 			];
 		}
 

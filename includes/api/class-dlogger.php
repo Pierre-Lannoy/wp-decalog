@@ -124,24 +124,10 @@ class DLogger {
 	 * @since 1.0.0
 	 */
 	public function channel_tag( $id = 0 ) {
-		if ( ! array_key_exists( $id, ChannelTypes::$channels ) ) {
+		if ( $id >= count(ChannelTypes::$channels ) ) {
 			$id = 0;
 		}
-		return ChannelTypes::$channels[ $id ]['tag'];
-	}
-
-	/**
-	 * Get the channel name.
-	 *
-	 * @param   integer $id Optional. The channel id (execution mode).
-	 * @return  string The channel name.
-	 * @since 1.0.0
-	 */
-	public function channel_name( $id = 0 ) {
-		if ( ! array_key_exists( $id, ChannelTypes::$channels ) ) {
-			$id = 0;
-		}
-		return ChannelTypes::$channels[ $id ]['name'];
+		return ChannelTypes::$channels[ $id ];
 	}
 
 	/**
