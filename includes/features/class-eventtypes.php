@@ -12,6 +12,7 @@
 namespace Decalog\Plugin\Feature;
 
 use Monolog\Logger;
+use Feather;
 
 /**
  * Define the event types functionality.
@@ -42,6 +43,14 @@ class EventTypes {
 	];
 
 	/**
+	 * List of the available icons.
+	 *
+	 * @since    1.0.0
+	 * @var string[] $icons Logging levels.
+	 */
+	public static $icons = [];
+
+	/**
 	 * List of the available level names.
 	 *
 	 * @var string[] $level_names Logging levels names
@@ -61,7 +70,7 @@ class EventTypes {
 	 * List of the available levels.
 	 *
 	 * @since    1.0.0
-	 * @var string[] $levels Logging levels.
+	 * @var string[] $level_values Logging levels.
 	 */
 	public static $level_values = [
 		Logger::DEBUG,
@@ -74,7 +83,24 @@ class EventTypes {
 		Logger::EMERGENCY,
 	];
 
-
-
+	/**
+	 * Initialize the meta class and set its properties.
+	 *
+	 * @since    1.0.0
+	 */
+	public static function init() {
+		self::$icons = [];
+		self::$icons['unknown'] = Feather\Icons::get_base64('circle', '#F0F0F0', '#CCCCCC');
+		self::$icons['debug'] = Feather\Icons::get_base64('info', '#F0F0F0', '#CCCCCC');
+		self::$icons['info'] = Feather\Icons::get_base64('info', '#EEEEFF', '#9999FF');
+		self::$icons['notice'] = Feather\Icons::get_base64('info', '#DDDDFF', '#5555FF');
+		self::$icons['warning'] = Feather\Icons::get_base64('alert-circle', '#FFFFC4', '#FFAB10');
+		self::$icons['error'] = Feather\Icons::get_base64('alert-circle', '#FFD2A8', '#FB7B00');
+		self::$icons['critical'] = Feather\Icons::get_base64('alert-circle', '#FFB7B7', '#FF0000');
+		self::$icons['alert'] = Feather\Icons::get_base64('x-circle', '#FFB7B7', '#DD0000');
+		self::$icons['emergency'] = Feather\Icons::get_base64('x-circle', '#FFB7B7', '#AA0000');
+	}
 
 }
+
+EventTypes::init();

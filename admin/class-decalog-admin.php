@@ -308,7 +308,7 @@ class Decalog_Admin {
 					$message      = sprintf( __( 'Logger %s has been saved.', 'decalog' ), '<em>' . $this->current_logger['name'] . '</em>' );
 					$code         = 0;
 					add_settings_error( 'decalog_no_error', $code, $message, 'updated' );
-					$this->logger->notice( sprintf( 'Logger "%s" has been saved.', $this->current_logger['name'] ), $code );
+					$this->logger->debug( sprintf( 'Logger "%s" has been saved.', $this->current_logger['name'] ), $code );
 				}
 			} else {
 				$message = sprintf( __( 'Logger %s has not been saved. Please try again.', 'decalog' ), '<em>' . $this->current_logger['name'] . '</em>' );

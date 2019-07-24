@@ -17,7 +17,7 @@ use Decalog\System\Role;
 use Decalog\System\Timezone;
 use Decalog\Log;
 use Monolog\Logger;
-use Feather;
+
 
 if ( ! class_exists( 'WP_List_Table' ) ) {
 	require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
@@ -84,8 +84,7 @@ class Events extends \WP_List_Table {
 	}
 
 	protected function column_event($item){
-		$icon = Feather\Icons::get_base64('ewdfxcrsfwv', '#BBBBBBFF', '#FF0000', 2);
-		$icon = '<img style="width:18px;float:left;padding-right:6px;" src="' . $icon . '" />';
+		$icon = '<img style="width:18px;float:left;padding-right:6px;" src="' . EventTypes::$icons[$item['level']] . '" />';
 		$name = sprintf(esc_html__('%1$s : %2$s (%3$s)', 'decalog'), strtoupper($item['channel']), $item['component'], $item['class']);
 		$result = $icon . $name;
 		$result .= '<br /><span style="color:silver">' . sprintf(esc_html__('Event #%1$s / %2$s code %3$s', 'decalog'), $item['id'], ucfirst($item['level']), $item['code'] ) . '</span>';
