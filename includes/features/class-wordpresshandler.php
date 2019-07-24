@@ -131,7 +131,7 @@ class WordpressHandler {
 			$sql            .= ' PRIMARY KEY (`id`)';
 			$sql            .= ") $charset_collate;";
 			$wpdb->query( $sql );
-			$this->log->debug( sprintf( 'Table "%s" created.', $this->table ) );
+			$this->log->debug( sprintf( 'Table "%s" updated or created.', $this->table ) );
 		}
 	}
 

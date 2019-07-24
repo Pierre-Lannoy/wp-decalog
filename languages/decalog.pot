@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: DecaLog\n"
-"POT-Creation-Date: 2019-07-16 00:16+0200\n"
+"POT-Creation-Date: 2019-07-24 21:29+0200\n"
 "PO-Revision-Date: 2019-07-08 14:07+0200\n"
 "Last-Translator: Pierre Lannoy <pierre@lannoy.fr>\n"
 "Language-Team: Pierre Lannoy <pierre@lannoy.fr>\n"
@@ -21,94 +21,125 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: admin/class-decalog-admin.php:100
+#: admin/class-decalog-admin.php:103
 #: admin/partials/decalog-admin-settings-main.php:19
 #, php-format
 msgid "%s Settings"
 msgstr ""
 
-#: admin/class-decalog-admin.php:111
+#: admin/class-decalog-admin.php:106
+#: admin/partials/decalog-admin-view-events.php:20
+#, php-format
+msgid "%s Viewer"
+msgstr ""
+
+#: admin/class-decalog-admin.php:122
 msgid "Privacy options"
 msgstr ""
 
-#: admin/class-decalog-admin.php:112 includes/features/class-loggers.php:179
+#: admin/class-decalog-admin.php:123 includes/features/class-loggers.php:181
 msgid "Reported details"
 msgstr ""
 
-#: admin/class-decalog-admin.php:152
+#: admin/class-decalog-admin.php:184
 msgid "New logger"
 msgstr ""
 
-#: admin/class-decalog-admin.php:185
+#: admin/class-decalog-admin.php:232
 #, php-format
 msgid "Logger %s has started."
 msgstr ""
 
-#: admin/class-decalog-admin.php:194
+#: admin/class-decalog-admin.php:245
 #, php-format
 msgid "Logger %s has been paused."
 msgstr ""
 
-#: admin/class-decalog-admin.php:222
+#: admin/class-decalog-admin.php:308
+#, php-format
+msgid "Logger %s has been saved."
+msgstr ""
+
+#: admin/class-decalog-admin.php:314
+#, php-format
+msgid "Logger %s has not been saved. Please try again."
+msgstr ""
+
+#: admin/class-decalog-admin.php:338
+#, php-format
+msgid "Logger %s has been removed."
+msgstr ""
+
+#: admin/class-decalog-admin.php:344
+#, php-format
+msgid "Logger %s has not been removed. Please try again."
+msgstr ""
+
+#: admin/class-decalog-admin.php:365 admin/class-decalog-admin.php:409
 msgid "Name"
 msgstr ""
 
-#: admin/class-decalog-admin.php:229
+#: admin/class-decalog-admin.php:372
 msgid "Used only in admin dashboard."
 msgstr ""
 
-#: admin/class-decalog-admin.php:237 includes/features/class-loggers.php:178
+#: admin/class-decalog-admin.php:380 admin/class-decalog-admin.php:424
+#: includes/features/class-loggers.php:180
 msgid "Minimal level"
 msgstr ""
 
-#: admin/class-decalog-admin.php:245
+#: admin/class-decalog-admin.php:388
 msgid ""
 "Minimal reported level. May be overridden by the \"respect WP_DEBUG "
 "directive\" option."
 msgstr ""
 
-#: admin/class-decalog-admin.php:263
+#: admin/class-decalog-admin.php:450
 msgid "Log file"
 msgstr ""
 
-#: admin/class-decalog-admin.php:270
+#: admin/class-decalog-admin.php:457
 msgid "Value set in php.ini file."
 msgstr ""
 
-#: admin/class-decalog-admin.php:288
+#: admin/class-decalog-admin.php:471
+msgid "Enabled"
+msgstr ""
+
+#: admin/class-decalog-admin.php:505
 msgid "Remote IPs"
 msgstr ""
 
-#: admin/class-decalog-admin.php:293
+#: admin/class-decalog-admin.php:510
 msgid "Obfuscation"
 msgstr ""
 
-#: admin/class-decalog-admin.php:296
+#: admin/class-decalog-admin.php:513
 msgid "If checked, log will contain hash instead of real IPs."
 msgstr ""
 
-#: admin/class-decalog-admin.php:304
+#: admin/class-decalog-admin.php:521
 msgid "Users"
 msgstr ""
 
-#: admin/class-decalog-admin.php:309
+#: admin/class-decalog-admin.php:526
 msgid "Pseudonymisation"
 msgstr ""
 
-#: admin/class-decalog-admin.php:312
+#: admin/class-decalog-admin.php:529
 msgid "If checked, log will contain hashes instead of user IDs & names."
 msgstr ""
 
-#: admin/class-decalog-admin.php:330 includes/features/class-loggers.php:153
-#: includes/features/class-loggers.php:162
+#: admin/class-decalog-admin.php:547 includes/features/class-loggers.php:155
+#: includes/features/class-loggers.php:164
 msgid "Standard"
 msgstr ""
 
-#: admin/class-decalog-admin.php:335 admin/class-decalog-admin.php:355
+#: admin/class-decalog-admin.php:552 admin/class-decalog-admin.php:571
 msgid "Included"
 msgstr ""
 
-#: admin/class-decalog-admin.php:338
+#: admin/class-decalog-admin.php:555
 msgid "Allows to log standard DecaLog information."
 msgstr ""
 
@@ -158,144 +189,361 @@ msgstr ""
 msgid "Please, select the type of logger you want to add"
 msgstr ""
 
+#: admin/partials/decalog-admin-settings-logger-delete.php:32
+msgid "Are you sure you want to permanently remove this logger?"
+msgstr ""
+
+#: admin/partials/decalog-admin-settings-logger-delete.php:33
+msgid "Abort"
+msgstr ""
+
+#: admin/partials/decalog-admin-settings-logger-delete.php:33
+msgid "Remove Permanently"
+msgstr ""
+
+#: admin/partials/decalog-admin-settings-logger-edit.php:36
+msgid "Cancel"
+msgstr ""
+
 #: admin/partials/decalog-admin-settings-loggers.php:17
 msgid "Add a Logger"
 msgstr ""
 
-#: admin/partials/decalog-admin-settings-main.php:23
+#: admin/partials/decalog-admin-settings-main.php:35
 msgid "Loggers"
 msgstr ""
 
-#: admin/partials/decalog-admin-settings-main.php:24
+#: admin/partials/decalog-admin-settings-main.php:48
 msgid "Options"
 msgstr ""
 
-#: admin/partials/decalog-admin-settings-main.php:25
+#: admin/partials/decalog-admin-settings-main.php:61
 msgid "About"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:42
-msgid "Blackhole"
+#: admin/partials/decalog-admin-view-events-bottom.php:15
+msgid "Number of lines to display"
+msgstr ""
+
+#: admin/partials/decalog-admin-view-events-bottom.php:21
+#: admin/partials/decalog-admin-view-events-top.php:21
+msgid "Apply"
+msgstr ""
+
+#: admin/partials/decalog-admin-view-events-top.php:15
+msgid "Choose events log to display"
+msgstr ""
+
+#: includes/features/class-events.php:88
+#, php-format
+msgid "%1$s : %2$s (%3$s)"
+msgstr ""
+
+#: includes/features/class-events.php:90
+#, php-format
+msgid "Event #%1$s / %2$s code %3$s"
+msgstr ""
+
+#: includes/features/class-events.php:117
+#: includes/features/class-events.php:126
+msgid "Event"
+msgstr ""
+
+#: includes/features/class-events.php:118
+#: includes/features/class-events.php:127
+msgid "Time"
+msgstr ""
+
+#: includes/features/class-events.php:119
+msgid "Site"
+msgstr ""
+
+#: includes/features/class-events.php:120
+#: includes/features/class-events.php:128
+msgid "User"
+msgstr ""
+
+#: includes/features/class-events.php:121
+#: includes/features/class-events.php:129
+msgid "IP"
+msgstr ""
+
+#: includes/features/class-events.php:122
+#: includes/features/class-events.php:130
+msgid "Message"
+msgstr ""
+
+#: includes/features/class-events.php:307
+msgid "All"
+msgstr ""
+
+#: includes/features/class-events.php:309
+msgid "Notices &amp; beyond"
+msgstr ""
+
+#: includes/features/class-events.php:311
+msgid "Errors &amp; beyond"
+msgstr ""
+
+#: includes/features/class-events.php:348
+#, php-format
+msgid "Show %d lines per page"
 msgstr ""
 
 #: includes/features/class-handlertypes.php:43
+msgid "Blackhole"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:44
 msgid "Any record it can handle will be thrown away."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:52
+#: includes/features/class-handlertypes.php:53
+msgid "Browser console"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:54
+msgid ""
+"An events log sent to browser's javascript console with no browser "
+"extension required."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:70
+msgid "ChromePHP"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:71
+msgid ""
+"An events log sent to the ChromePHP extension (http://www.chromephp.com/)."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:87
 msgid "PHP error log"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:53
+#: includes/features/class-handlertypes.php:88
 msgid ""
 "An events log stored in the standard PHP error log, as with the "
 "error_log() function."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:62
+#: includes/features/class-handlertypes.php:108
+msgid "Slack"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:109
+msgid "An events log sent through Slack Webhooks."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:116
+msgid "Webhook URL"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:117
+msgid "The Webhook URL set in the Slack application."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:128
+msgid "Short attachment"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:129
+msgid "Use a shortened version for attachments sent in channel."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:140
+msgid "Full data"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:141
+msgid "Whether the attachments should include context and extra data."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:190
+msgid "Stackdriver"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:191
+msgid "An events log sent to a Stackdriver project."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:200
+msgid "Syslog server"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:201
+msgid "An events log sent to a remote syslogd server."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:208
+msgid "Host"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:209
+msgid "The remote host receiving syslog messages."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:220
+msgid "Protocol"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:221
+msgid "The used syslog protocol."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:232
+msgid "Port"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:233
+msgid "The opened port on remote host to receive syslog messages."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:247
+msgid "Facility"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:248
+msgid "The syslog facility for messages sent by DecaLog."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:259
+msgid "Identifier"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:260
+msgid "The program identifier for messages sent by DecaLog."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:271
+msgid "Time format"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:272
+msgid "The time format standard to use."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:315
 msgid "WordPress events log"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:63
+#: includes/features/class-handlertypes.php:316
 msgid ""
 "An events log stored in your WordPress database and available right in "
 "your admin dashboard."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:69
+#: includes/features/class-handlertypes.php:323
 msgid "Events"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:70
-msgid "Maximum number of events stored in this events log."
+#: includes/features/class-handlertypes.php:324
+msgid "Maximum number of events stored in this events log (0 for no limit)."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:76
+#: includes/features/class-handlertypes.php:338
 msgid "Days"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:77
-msgid "Maximum age of events stored in this events log."
+#: includes/features/class-handlertypes.php:339
+msgid "Maximum age of events stored in this events log (0 for no limit)."
 msgstr ""
 
-#: includes/features/class-loggerfactory.php:101
+#: includes/features/class-handlertypes.php:353
+msgid "Multisite partitioning"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:354
+msgid "Local administrators can view events that relate to their site."
+msgstr ""
+
+#: includes/features/class-loggerfactory.php:213
 msgid "Unnamed logger"
 msgstr ""
 
-#: includes/features/class-loggers.php:141
+#: includes/features/class-loggers.php:143
 msgid "running"
 msgstr ""
 
-#: includes/features/class-loggers.php:141
+#: includes/features/class-loggers.php:143
 msgid "paused"
 msgstr ""
 
-#: includes/features/class-loggers.php:142
+#: includes/features/class-loggers.php:144
 msgid "Edit"
 msgstr ""
 
-#: includes/features/class-loggers.php:143
+#: includes/features/class-loggers.php:145
 msgid "Remove"
 msgstr ""
 
-#: includes/features/class-loggers.php:145
+#: includes/features/class-loggers.php:147
 msgid "Pause"
 msgstr ""
 
-#: includes/features/class-loggers.php:147
+#: includes/features/class-loggers.php:149
 msgid "Start"
 msgstr ""
 
-#: includes/features/class-loggers.php:177
+#: includes/features/class-loggers.php:179
 msgid "Logger"
 msgstr ""
 
-#: includes/features/class-processortypes.php:41
+#: includes/features/class-processortypes.php:42
+msgid "PHP backtrace"
+msgstr ""
+
+#: includes/features/class-processortypes.php:43
+msgid "Allows to log the full call stack."
+msgstr ""
+
+#: includes/features/class-processortypes.php:51
 msgid "PHP introspection"
 msgstr ""
 
-#: includes/features/class-processortypes.php:42
+#: includes/features/class-processortypes.php:52
 msgid "Allows to log line, file, class and function generating the event."
 msgstr ""
 
-#: includes/features/class-processortypes.php:47
+#: includes/features/class-processortypes.php:64
 msgid "HTTP request"
 msgstr ""
 
-#: includes/features/class-processortypes.php:48
+#: includes/features/class-processortypes.php:65
 msgid ""
 "Allows to log url, method, referrer and remote IP of the current web "
 "request."
 msgstr ""
 
-#: includes/features/class-processortypes.php:53
+#: includes/features/class-processortypes.php:84
 msgid "WordPress "
 msgstr ""
 
-#: includes/features/class-processortypes.php:54
+#: includes/features/class-processortypes.php:85
 msgid "Allows to log site, user and remote IP of the current request."
 msgstr ""
 
 #: includes/libraries/class-libraries.php:67
-#: includes/libraries/class-libraries.php:89
+#: includes/libraries/class-libraries.php:78
+#: includes/libraries/class-libraries.php:100
 #, php-format
 msgid "%s & contributors"
 msgstr ""
 
-#: includes/libraries/class-libraries.php:138
+#: includes/libraries/class-libraries.php:149
 msgid "MIT license"
 msgstr ""
 
-#: includes/libraries/class-libraries.php:141
+#: includes/libraries/class-libraries.php:152
 msgid "GPL-2.0 license"
 msgstr ""
 
-#: includes/libraries/class-libraries.php:144
+#: includes/libraries/class-libraries.php:155
 msgid "unknown license"
 msgstr ""
 
 #. translators: as in the sentence "Product W version X by author Y (license Z)"
-#: includes/libraries/class-libraries.php:190
+#: includes/libraries/class-libraries.php:201
 #, php-format
 msgid "<a href=\"%1$s\">%2$s %3$s</a>%4$s by %5$s (%6$s)"
 msgstr ""
@@ -312,6 +560,20 @@ msgstr ""
 
 #: includes/plugin/class-updater.php:131
 msgid "Sorry, unable to find or read changelog file."
+msgstr ""
+
+#: includes/system/class-date.php:57 includes/system/class-date.php:73
+#, php-format
+msgid "%s ago"
+msgstr ""
+
+#: includes/system/class-date.php:60
+msgid "currently"
+msgstr ""
+
+#: includes/system/class-date.php:76
+#, php-format
+msgid "in %s"
 msgstr ""
 
 #: includes/system/class-environment.php:203
