@@ -99,7 +99,7 @@ class Events extends \WP_List_Table {
 	}
 
 	protected function column_user($item){
-		$result = '';
+		$result = $item['user_name'];
 		//$result = Date::get_date_from_mysql_utc($item['timestamp'], Timezone::get_wp()->getName(), 'Y-m-d H:i:s') ;
 		//$result .='<br /><span style="color:silver">' . Date::get_positive_time_diff_from_mysql_utc($item['timestamp']) . '</span>';
 		return $result;

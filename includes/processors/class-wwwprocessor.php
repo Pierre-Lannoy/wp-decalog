@@ -31,7 +31,7 @@ class WWWProcessor extends WebProcessor {
 	 * @since  1.0.0
 	 * @var    boolean    $obfuscation    Is obfuscation activated?
 	 */
-	private static $obfuscation = false;
+	private $obfuscation = false;
 
 	/**
 	 * Initializes the class and set its properties.
@@ -43,7 +43,7 @@ class WWWProcessor extends WebProcessor {
 	 */
 	public function __construct( $serverData = null, array $extraFields = null, $obfuscation = false ) {
 		parent::__construct( $serverData, $extraFields );
-		self::$obfuscation = $obfuscation;
+		$this->obfuscation = $obfuscation;
 	}
 
 	/**
@@ -55,7 +55,7 @@ class WWWProcessor extends WebProcessor {
 	 */
 	public function __invoke( array $record ): array {
 		$record = parent::__invoke( $record );
-		if ( self::$obfuscation ) {
+		if ( $this->obfuscation ) {
 			if ( array_key_exists( 'ip', $record['extra'] ) ) {
 				$record['extra']['ip'] = Hash::simple_hash($record['extra']['userid'] );
 			}

@@ -76,7 +76,6 @@ class BacktraceProcessor implements ProcessorInterface {
 			$result[ $index ]['file'] = $file . $line;
 			$result[ $index ]['call'] = $class . $type . $function . '(' . implode( ', ', $args ) . ')';
 		}
-		error_log( print_r( $result, true ) );
 		return $result;
 	}
 

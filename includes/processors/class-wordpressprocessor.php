@@ -33,7 +33,7 @@ class WordpressProcessor implements ProcessorInterface {
 	 * @since  1.0.0
 	 * @var    boolean    $pseudonymize    Is pseudonymization activated?
 	 */
-	private static $pseudonymize = false;
+	private $pseudonymize = false;
 
 	/**
 	 * Obfuscation switch.
@@ -41,7 +41,7 @@ class WordpressProcessor implements ProcessorInterface {
 	 * @since  1.0.0
 	 * @var    boolean    $obfuscation    Is obfuscation activated?
 	 */
-	private static $obfuscation = false;
+	private $obfuscation = false;
 
 	/**
 	 * Initializes the class and set its properties.
@@ -50,9 +50,9 @@ class WordpressProcessor implements ProcessorInterface {
 	 * @param   boolean $pseudonymize Optional. Is pseudonymization activated?
 	 * @param   boolean $obfuscation Optional. Is obfuscation activated?
 	 */
-	public function __construct( $pseudonymize = false, $obfuscation = false ) {
-		self::$pseudonymize = $pseudonymize;
-		self::$obfuscation  = $obfuscation;
+	public function __construct( $pseudonymize = true, $obfuscation = true ) {
+		$this->pseudonymize = $pseudonymize;
+		$this->obfuscation  = $obfuscation;
 	}
 
 	/**
@@ -71,12 +71,12 @@ class WordpressProcessor implements ProcessorInterface {
 		if ( $ip ) {
 			$record['extra']['ip'] = $ip;
 		}
-		if ( self::$obfuscation ) {
+		if ( $this->obfuscation ) {
 			if ( array_key_exists( 'ip', $record['extra'] ) ) {
 				$record['extra']['ip'] = Hash::simple_hash($record['extra']['ip'] );
 			}
 		}
-		if ( self::$pseudonymize ) {
+		if ( $this->pseudonymize ) {
 			if ( array_key_exists( 'userid', $record['extra'] ) ) {
 				if ( 0 !== $record['extra']['userid'] ) {
 					$record['extra']['userid'] = Hash::simple_hash($record['extra']['userid'] );
