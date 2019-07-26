@@ -512,7 +512,7 @@ class Decalog_Admin {
 				'text'        => __( 'Obfuscation', 'decalog' ),
 				'id'          => 'decalog_logger_privacy_ip',
 				'checked'     => $this->current_logger['privacy']['obfuscation'],
-				'description' => __( 'If checked, log will contain hash instead of real IPs.', 'decalog' ),
+				'description' => __( 'If checked, log will contain hashes instead of real IPs.', 'decalog' ),
 				'full_width'  => true,
 				'enabled'     => true,
 			]

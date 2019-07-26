@@ -58,7 +58,7 @@ class User {
 	public static function get_current_user_id($default = null) {
 		$user_id = $default;
 		$id = get_current_user_id();
-		if ( $id && is_numeric($id) && $id >0) {
+		if ( $id && is_numeric($id) && $id > 0 ) {
 			$user_id = $id;
 		}
 		return $user_id;

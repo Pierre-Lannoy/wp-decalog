@@ -65,7 +65,7 @@ class WordpressHandler extends AbstractProcessingHandler {
 	 */
 	private function insert_value( $value ) {
 		global $wpdb;
-		if ( $wpdb->insert( $this->table, $value ) ) {
+		if ( $wpdb->insert( $this->table, $value, '%s' ) ) {
 			return $wpdb->insert_id;
 		}
 		return 0;

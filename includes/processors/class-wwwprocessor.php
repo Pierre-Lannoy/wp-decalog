@@ -57,7 +57,7 @@ class WWWProcessor extends WebProcessor {
 		$record = parent::__invoke( $record );
 		if ( $this->obfuscation ) {
 			if ( array_key_exists( 'ip', $record['extra'] ) ) {
-				$record['extra']['ip'] = Hash::simple_hash($record['extra']['userid'] );
+				$record['extra']['ip'] = Hash::simple_hash($record['extra']['ip'] );
 			}
 		}
 		return $record;
