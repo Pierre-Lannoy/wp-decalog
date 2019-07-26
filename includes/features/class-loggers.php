@@ -137,6 +137,15 @@ class Loggers extends \WP_List_Table {
 				admin_url( 'options-general.php' )
 			)
 		);
+		$view  = esc_url(
+			add_query_arg(
+				array(
+					'page'   => 'decalog-viewer',
+					'logger_id'   => $item['uuid'],
+				),
+				admin_url( 'tools.php' )
+			)
+		);
 
 		$handler           = $this->handler_types->get( $item['handler'] );
 		$icon              = '<img style="width:34px;float:left;padding-right:6px;" src="' . $handler['icon'] . '" />';
@@ -147,6 +156,9 @@ class Loggers extends \WP_List_Table {
 			$actions['pause'] = sprintf( '<a href="%s">' . __( 'Pause', 'decalog' ) . '</a>', $pause );
 		} else {
 			$actions['start'] = sprintf( '<a href="%s">' . __( 'Start', 'decalog' ) . '</a>', $start );
+		}
+		if ('WordpressHandler' === $handler['id']) {
+			$actions['view'] = sprintf( '<a href="%s">' . __( 'View', 'decalog' ) . '</a>', $view );
 		}
 		return $icon . '&nbsp;' . sprintf( '<a href="%1$s">%2$s</a><br /><span style="color:silver">&nbsp;%3$s</span>%4$s', $edit, $item['name'], $type, $this->row_actions( $actions ) );
 	}
@@ -202,7 +214,6 @@ class Loggers extends \WP_List_Table {
 	protected function get_sortable_columns() {
 		$sortable_columns = array(
 			'name' => array( 'name', true ),
-			// 'term' => array( 'term', false ),
 		);
 		return $sortable_columns;
 	}
