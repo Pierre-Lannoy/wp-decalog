@@ -67,6 +67,14 @@ class Events extends \WP_List_Table {
 	private static $user_columns = [];
 
 	/**
+	 * The order of the columns.
+	 *
+	 * @since    1.0.0
+	 * @var      array    $columns_order    The order of the columns.
+	 */
+	private static $columns_order = [];
+
+	/**
 	 * The events types icons.
 	 *
 	 * @since    1.0.0
@@ -152,6 +160,20 @@ class Events extends \WP_List_Table {
 	}
 
 	/**
+	 * "site" column formatter.
+	 *
+	 * @param   object  $item   The current item to render.
+	 * @return  string  The cell formatted, ready to print.
+	 * @since   1.0.0
+	 */
+	protected function column_site($item){
+		$result = $item['site_name'];
+		//$result = Date::get_date_from_mysql_utc($item['timestamp'], Timezone::get_wp()->getName(), 'Y-m-d H:i:s') ;
+		//$result .='<br /><span style="color:silver">' . Date::get_positive_time_diff_from_mysql_utc($item['timestamp']) . '</span>';
+		return $result;
+	}
+
+	/**
 	 * "user" column formatter.
 	 *
 	 * @param   object  $item   The current item to render.
@@ -179,27 +201,14 @@ class Events extends \WP_List_Table {
 	}
 
 	public function get_columns() {
-		if (is_multisite() && Role::LOCAL_ADMIN !== Role::admin_type()) {
-			$columns = [
-				'event'       => esc_html__( 'Event', 'decalog' ),
-				'component'   => esc_html__( 'Component', 'decalog' ),
-				'time'        => esc_html__( 'Time', 'decalog' ),
-				'site'        => esc_html__( 'Site', 'decalog' ),
-				'user'        => esc_html__( 'User', 'decalog' ),
-				'ip'          => esc_html__( 'IP', 'decalog' ),
-				'message'     => esc_html__( 'Message', 'decalog' ),
-			];
-		} else {
-			$columns = [
-				'event'       => esc_html__( 'Event', 'decalog' ),
-				'component'   => esc_html__( 'Component', 'decalog' ),
-				'time'        => esc_html__( 'Time', 'decalog' ),
-				'user'        => esc_html__( 'User', 'decalog' ),
-				'ip'          => esc_html__( 'IP', 'decalog' ),
-				'message'     => esc_html__( 'Message', 'decalog' ),
-			];
+		$columns = [];
+		foreach (self::$columns_order as $column) {
+			if (array_key_exists($column, self::$standard_columns)) {
+				$columns[$column] = self::$standard_columns[$column];
+			} elseif (array_key_exists($column, self::$extra_columns) && in_array($column, self::$user_columns)) {
+				$columns[$column] = self::$extra_columns[$column];
+			}
 		}
-
 		return $columns;
 	}
 
@@ -543,10 +552,7 @@ class Events extends \WP_List_Table {
 	public static function save_screen_option( $status, $option, $value ) {
 		if ( isset( $_POST['wp_screen_options_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['wp_screen_options_nonce'] ) ), 'wp_screen_options_nonce' ) ) {
 			if ( 'decalog_options' === $option ) {
-				$value = filter_input( INPUT_POST, 'decalog', FILTER_FORCE_ARRAY );//isset( $_POST['decalog'] ) && is_array( $_POST['decalog'] ) ? $_POST['decalog'] : []; // WPCS: Sanitization ok.
-				$user = wp_get_current_user();
-				update_user_meta( $user->ID, $option, $value );
-				$value = false;
+				$value = isset( $_POST['decalog'] ) && is_array( $_POST['decalog'] ) ? $_POST['decalog'] : []; // WPCS: Sanitization ok.
 			}
 		}
 		return $value;
@@ -620,13 +626,13 @@ class Events extends \WP_List_Table {
 		self::$extra_columns['component'] = esc_html__( 'Component', 'decalog' );
 		self::$extra_columns['site'] = esc_html__( 'Site', 'decalog' );
 		self::$extra_columns['user'] = esc_html__( 'User', 'decalog' );
-		self::$extra_columns['ip'] = esc_html__( 'IP', 'decalog' );
-		$user_meta = get_user_meta( get_current_user_id() );
-		error_log(print_r($user_meta, true));
+		self::$extra_columns['ip'] = esc_html__( 'Remote IP', 'decalog' );
+		self::$columns_order = ['event', 'component', 'time', 'site', 'user', 'ip', 'message'];
+		$user_meta = get_user_meta( get_current_user_id(), 'decalog_options');
 		self::$user_columns = [];
 		if ( $user_meta ) {
 			foreach (self::$extra_columns as $key=>$extra_column) {
-				if (array_key_exists( $key, $user_meta )) {
+				if (array_key_exists( $key, $user_meta[0] )) {
 					self::$user_columns[] = $key;
 				}
 			}
