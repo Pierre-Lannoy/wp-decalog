@@ -139,7 +139,7 @@ class Decalog_Admin {
 		}
 		else {
 			$view = 'decalog-admin-view-events';
-			$event = array();
+			$event = [];
 		}
 		$args = compact('event');
 		include DECALOG_ADMIN_DIR . 'partials/' . $view . '.php';
