@@ -11,8 +11,6 @@
 
 namespace Decalog\Plugin\Feature;
 
-use Monolog\Logger;
-
 /**
  * Define the channel types functionality.
  *

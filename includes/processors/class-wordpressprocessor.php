@@ -73,17 +73,15 @@ class WordpressProcessor implements ProcessorInterface {
 		}
 		if ( $this->obfuscation ) {
 			if ( array_key_exists( 'ip', $record['extra'] ) ) {
-				$record['extra']['ip'] = Hash::simple_hash($record['extra']['ip'] );
+				$record['extra']['ip'] = Hash::simple_hash( $record['extra']['ip'] );
 			}
 		}
 		if ( $this->pseudonymize ) {
 			if ( array_key_exists( 'userid', $record['extra'] ) ) {
-				if ( 0 !== $record['extra']['userid'] ) {
-					$record['extra']['userid'] = Hash::simple_hash($record['extra']['userid'] );
-				}
-				if ( array_key_exists( 'username', $record['extra'] ) ) {
-					if ( 0 !== $record['extra']['userid'] ) {
-						$record['extra']['username'] = Hash::simple_hash($record['extra']['username'] );
+				if ( 0 !== (int) $record['extra']['userid'] ) {
+					$record['extra']['userid'] = Hash::simple_hash( $record['extra']['userid'] );
+					if ( array_key_exists( 'username', $record['extra'] ) ) {
+						$record['extra']['username'] = Hash::simple_hash( $record['extra']['username'] );
 					}
 				}
 			}

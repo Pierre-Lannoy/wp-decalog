@@ -26,10 +26,30 @@ class ClassTypes {
 	 * The list of available classes.
 	 *
 	 * @since  1.0.0
-	 * @access protected
 	 * @var    array    $classes    Maintains the classes list.
 	 */
 	public static $classes = [ 'plugin', 'theme', 'unknown' ];
 
+	/**
+	 * The list of classes names.
+	 *
+	 * @since  1.0.0
+	 * @var    array    $classe_names    Maintains the classes list.
+	 */
+	public static $classe_names = [];
+
+	/**
+	 * Initialize the meta class and set its properties.
+	 *
+	 * @since    1.0.0
+	 */
+	public static function init() {
+		self::$classe_names['plugin']  = esc_html__( 'Plugin', 'decalog' );
+		self::$classe_names['theme']   = esc_html__( 'Theme', 'decalog' );
+		self::$classe_names['unknown'] = esc_html__( 'Unknown', 'decalog' );
+
+	}
 
 }
+
+ClassTypes::init();
