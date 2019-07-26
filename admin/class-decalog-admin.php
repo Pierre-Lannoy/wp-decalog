@@ -103,10 +103,12 @@ class Decalog_Admin {
 			add_submenu_page( 'options-general.php', sprintf( __( '%s Settings', 'decalog' ), DECALOG_PRODUCT_NAME ), DECALOG_PRODUCT_NAME, 'manage_options', 'decalog-settings', [ $this, 'get_settings_page' ] );
 		}
 		if ( Events::loggers_count() > 0) {
-			add_submenu_page( 'tools.php', sprintf( __( '%s Viewer', 'decalog' ), DECALOG_PRODUCT_NAME ), DECALOG_PRODUCT_NAME, 'manage_options', 'decalog-viewer', array(
+			$name = add_submenu_page( 'tools.php', sprintf( __( '%s Viewer', 'decalog' ), DECALOG_PRODUCT_NAME ), DECALOG_PRODUCT_NAME, 'manage_options', 'decalog-viewer', array(
 				$this,
 				'get_tools_page'
 			) );
+			add_action('load-' . $name, ['Decalog\Plugin\Feature\Events', 'add_column_options']);
+			add_filter('screen_settings', ['Decalog\Plugin\Feature\Events', 'display_screen_settings'], 10, 2);
 		}
 	}
 

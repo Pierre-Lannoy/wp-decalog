@@ -35,7 +35,7 @@ class Initializer {
 	 * @since 1.0.0
 	 */
 	public function initialize() {
-
+		add_filter('set-screen-option', [ 'Decalog\Plugin\Feature\Events', 'save_screen_option' ], 10, 3 );
 	}
 
 }

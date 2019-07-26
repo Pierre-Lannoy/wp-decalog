@@ -43,6 +43,30 @@ class Events extends \WP_List_Table {
 	private static $logs = [];
 
 	/**
+	 * The columns always shown.
+	 *
+	 * @since    1.0.0
+	 * @var      array    $standard_columns    The columns always shown.
+	 */
+	private static $standard_columns = [];
+
+	/**
+	 * The columns which may be shown.
+	 *
+	 * @since    1.0.0
+	 * @var      array    $extra_columns    The columns which may be shown.
+	 */
+	private static $extra_columns = [];
+
+	/**
+	 * The columns which must be shown to the current user.
+	 *
+	 * @since    1.0.0
+	 * @var      array    $extra_columns    The columns which must be shown to the current user.
+	 */
+	private static $user_columns = [];
+
+	/**
 	 * The events types icons.
 	 *
 	 * @since    1.0.0
@@ -76,13 +100,22 @@ class Events extends \WP_List_Table {
 	/**
 	 * Default column formatter.
 	 *
-	 * @return      string   The cell formatted, ready to print.
-	 * @since    1.0.0
+	 * @param   object  $item   The current item to render.
+	 * @param   string  $column_name    The name of the current rendered column.
+	 * @return  string  The cell formatted, ready to print.
+	 * @since   1.0.0
 	 */
 	protected function column_default( $item, $column_name ) {
 		return $item[ $column_name ];
 	}
 
+	/**
+	 * "event" column formatter.
+	 *
+	 * @param   object  $item   The current item to render.
+	 * @return  string  The cell formatted, ready to print.
+	 * @since   1.0.0
+	 */
 	protected function column_event($item){
 		$icon = '<img style="width:18px;float:left;padding-right:6px;" src="' . EventTypes::$icons[$item['level']] . '" />';
 		//$name = sprintf(esc_html__('%1$s : %2$s (%3$s)', 'decalog'), strtoupper($item['channel']), $item['component'], $item['class']);
@@ -92,18 +125,39 @@ class Events extends \WP_List_Table {
 		return $result;
 	}
 
+	/**
+	 * "component" column formatter.
+	 *
+	 * @param   object  $item   The current item to render.
+	 * @return  string  The cell formatted, ready to print.
+	 * @since   1.0.0
+	 */
 	protected function column_component($item){
 		$name = $item['component'] . ' <span style="color:silver">' . $item['version'] . '</span>';
 		$result = $name . '<br /><span style="color:silver">' . $item['class'] . '</span>';
 		return $result;
 	}
 
+	/**
+	 * "time" column formatter.
+	 *
+	 * @param   object  $item   The current item to render.
+	 * @return  string  The cell formatted, ready to print.
+	 * @since   1.0.0
+	 */
 	protected function column_time($item){
 		$result = Date::get_date_from_mysql_utc($item['timestamp'], Timezone::get_wp()->getName(), 'Y-m-d H:i:s') ;
 		$result .='<br /><span style="color:silver">' . Date::get_positive_time_diff_from_mysql_utc($item['timestamp']) . '</span>';
 		return $result;
 	}
 
+	/**
+	 * "user" column formatter.
+	 *
+	 * @param   object  $item   The current item to render.
+	 * @return  string  The cell formatted, ready to print.
+	 * @since   1.0.0
+	 */
 	protected function column_user($item){
 		$result = $item['user_name'];
 		//$result = Date::get_date_from_mysql_utc($item['timestamp'], Timezone::get_wp()->getName(), 'Y-m-d H:i:s') ;
@@ -111,6 +165,13 @@ class Events extends \WP_List_Table {
 		return $result;
 	}
 
+	/**
+	 * "ip" column formatter.
+	 *
+	 * @param   object  $item   The current item to render.
+	 * @return  string  The cell formatted, ready to print.
+	 * @since   1.0.0
+	 */
 	protected function column_ip($item){
 		$result = $item['remote_ip'];
 		//$result .='<br /><span style="color:silver">' . Date::get_positive_time_diff_from_mysql_utc($item['timestamp']) . '</span>';
@@ -473,6 +534,106 @@ class Events extends \WP_List_Table {
 	}
 
 	/**
+	 * Save the screen option setting.
+	 *
+	 * @param string $status The default value for the filter. Using anything other than false assumes you are handling saving the option.
+	 * @param string $option The option name.
+	 * @param array  $value  Whatever option you're setting.
+	 */
+	public static function save_screen_option( $status, $option, $value ) {
+		if ( isset( $_POST['wp_screen_options_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['wp_screen_options_nonce'] ) ), 'wp_screen_options_nonce' ) ) {
+			if ( 'decalog_options' === $option ) {
+				$value = filter_input( INPUT_POST, 'decalog', FILTER_FORCE_ARRAY );//isset( $_POST['decalog'] ) && is_array( $_POST['decalog'] ) ? $_POST['decalog'] : []; // WPCS: Sanitization ok.
+				$user = wp_get_current_user();
+				update_user_meta( $user->ID, $option, $value );
+				$value = false;
+			}
+		}
+		return $value;
+	}
+
+	/**
+	 * Get the column options checkboxes.
+	 *
+	 * @return string The HTML code to append.
+	 * @since 1.0.0
+	 */
+	public static function get_column_options() {
+		$result = '';
+		foreach ( self::$extra_columns as $key=>$extra_column ) {
+			$result .= '<label for="decalog_' . $key . '" ><input name="decalog[' . $key . ']" type="checkbox" id="decalog_' . $key . '" ' . (in_array($key, self::$user_columns) ? ' checked="checked"' : '') . ' />' . $extra_column . '</label>';
+		}
+		return $result;
+	}
+
+	/**
+	 * Append custom panel HTML to the "Screen Options" box of the current page.
+	 * Callback for the 'screen_settings' filter.
+	 *
+	 * @param string $current Current content.
+	 * @param \WP_Screen $screen Screen object.
+	 * @return string The HTML code to append to "Screen Options".
+	 * @since 1.0.0
+	 */
+	public static function display_screen_settings($current, $screen){
+		if(!is_object($screen) || 'tools_page_decalog-viewer' !== $screen->id ) {
+			return $current;
+		}
+		$current .= '<fieldset>';
+		$current .= '<input type="hidden" name="wp_screen_options_nonce" value="' . wp_create_nonce('wp_screen_options_nonce') . '" />';
+		$current .= '<legend>' . esc_html__('Extra columns', 'decalog') . '</legend>';
+		$current .= '<div class="metabox-prefs">';
+		$current .= '<div><input type="hidden" name="wp_screen_options[option]" value="decalog_options"></div>';
+		$current .= '<div><input type="hidden" name="wp_screen_options[value]" value="yes"></div>';
+		$current .= '<div class="decalog_custom_fields">' . self::get_column_options() . '</div>';
+		$current .= '</div>';
+		$current .= get_submit_button( __( 'Apply', 'decalog' ), 'primary', 'screen-options-apply' );
+		return $current ;
+	}
+
+	/**
+	 * Adds the extra-columns options.
+	 *
+	 * @since 1.0.0
+	 */
+	public static function add_column_options() {
+		$screen = get_current_screen();
+		if(!is_object($screen) || 'tools_page_decalog-viewer' !== $screen->id ) {
+			return;
+		}
+		foreach ( self::$extra_columns as $key=>$extra_column ) {
+			add_screen_option( 'decalog_' . $key, ['option' => $extra_column, 'value' => false ]);
+		}
+	}
+
+	/**
+	 * Initialize the meta class and set its columns properties.
+	 *
+	 * @since    1.0.0
+	 */
+	private static function load_columns() {
+		self::$standard_columns = [];
+		self::$standard_columns['event'] = esc_html__( 'Event', 'decalog' );
+		self::$standard_columns['time'] = esc_html__( 'Time', 'decalog' );
+		self::$standard_columns['message'] = esc_html__( 'Message', 'decalog' );
+		self::$extra_columns = [];
+		self::$extra_columns['component'] = esc_html__( 'Component', 'decalog' );
+		self::$extra_columns['site'] = esc_html__( 'Site', 'decalog' );
+		self::$extra_columns['user'] = esc_html__( 'User', 'decalog' );
+		self::$extra_columns['ip'] = esc_html__( 'IP', 'decalog' );
+		$user_meta = get_user_meta( get_current_user_id() );
+		error_log(print_r($user_meta, true));
+		self::$user_columns = [];
+		if ( $user_meta ) {
+			foreach (self::$extra_columns as $key=>$extra_column) {
+				if (array_key_exists( $key, $user_meta )) {
+					self::$user_columns[] = $key;
+				}
+			}
+		}
+	}
+
+	/**
 	 * Initialize the meta class and set its properties.
 	 *
 	 * @since    1.0.0
@@ -499,6 +660,7 @@ class Events extends \WP_List_Table {
 				}
 			}
 		}
+		self::load_columns();
 	}
 
 	/**
