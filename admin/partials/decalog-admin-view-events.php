@@ -21,14 +21,6 @@ $eventListTable->prepare_items();
 	<?php $eventListTable->views(); ?>
 	<form id="events-filter" method="get" action="<?php echo admin_url('tools.php'); ?>">
 		<input type="hidden" name="page" value="decalog-viewer" />
-
-
-		<?php /*if ($logListTable->get_level() != '') : ?>
-			<input type="hidden" name="level" value="<?php echo $logListTable->get_level(); ?>" />
-		<?php endif; */?>
-
-
-
 		<?php $eventListTable->display(); ?>
 	</form>
 </div>

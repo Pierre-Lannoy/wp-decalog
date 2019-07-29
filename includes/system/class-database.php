@@ -89,6 +89,24 @@ class Database {
 	}
 
 	/**
+	 * Load some lines from a table.
+	 *
+	 * @param string $table_name The table to load.
+	 * @param string $field_name The name of the field containing ids.
+	 * @param array  $value  The list of id to load.
+	 * @param string $sep Optional. Separator.
+	 * @return array The loaded lines.
+	 * @since 1.0.0
+	 */
+	public function load_lines( $table_name, $field_name, $value, $sep = '' ) {
+		global $wpdb;
+		$table_name = $wpdb->prefix . $table_name;
+		$sql        = 'SELECT * FROM ' . $table_name . ' WHERE ' . $field_name . ' IN (' . $sep . implode( $sep . ',' . $sep, $value ) . $sep . ')';
+		// phpcs:ignore
+		return $wpdb->query( $sql );
+	}
+
+	/**
 	 * Update table with current value line.
 	 *
 	 * @param string $table_name The table name.

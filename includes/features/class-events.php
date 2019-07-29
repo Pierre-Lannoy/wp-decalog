@@ -700,7 +700,6 @@ class Events extends \WP_List_Table {
 					} else {
 						$local = false;
 					}
-
 					if ( Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type() || ( Role::LOCAL_ADMIN === Role::admin_type() && $local ) ) {
 						self::$logs[] = [
 							'name'    => $logger['name'],

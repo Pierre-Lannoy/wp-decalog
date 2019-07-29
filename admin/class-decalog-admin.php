@@ -10,6 +10,7 @@
 namespace Decalog\Plugin;
 
 use Decalog\Log;
+use Decalog\Plugin\Feature\EventViewer;
 use Decalog\Plugin\Feature\HandlerTypes;
 use Decalog\Plugin\Feature\ProcessorTypes;
 use Decalog\Plugin\Feature\LoggerFactory;
@@ -134,15 +135,12 @@ class Decalog_Admin {
 		$logid = filter_input(INPUT_GET, 'logid', FILTER_SANITIZE_STRING);
 		$eventid = filter_input(INPUT_GET, 'eventid', FILTER_SANITIZE_NUMBER_INT);
 		if (isset($logid) && isset($eventid) && $eventid != 0) {
-			$view = 'decalog-admin-view-event-details';
-
+			$view = new EventViewer( $logid, $eventid );
+			$view->get();
 		}
 		else {
-			$view = 'decalog-admin-view-events';
-			$event = [];
+			include DECALOG_ADMIN_DIR . 'partials/decalog-admin-view-events.php';
 		}
-		$args = compact('event');
-		include DECALOG_ADMIN_DIR . 'partials/' . $view . '.php';
 	}
 
 	/**
