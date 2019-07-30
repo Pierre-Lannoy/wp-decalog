@@ -103,7 +103,7 @@ class Database {
 		$table_name = $wpdb->prefix . $table_name;
 		$sql        = 'SELECT * FROM ' . $table_name . ' WHERE ' . $field_name . ' IN (' . $sep . implode( $sep . ',' . $sep, $value ) . $sep . ')';
 		// phpcs:ignore
-		return $wpdb->query( $sql );
+		return $wpdb->get_results( $sql, ARRAY_A );
 	}
 
 	/**
@@ -114,9 +114,9 @@ class Database {
 	 * @since 1.0.0
 	 */
 	public function insert_update( $table_name, $value ) {
-		$field_insert = array();
-		$value_insert = array();
-		$value_update = array();
+		$field_insert = [];
+		$value_insert = [];
+		$value_update = [];
 		foreach ( $value as $k => $v ) {
 			$field_insert[] = '`' . $k . '`';
 			$value_insert[] = "'" . $v . "'";
@@ -141,8 +141,8 @@ class Database {
 	 * @since 1.0.0
 	 */
 	public function insert_ignore( $table_name, $value ) {
-		$field_insert = array();
-		$value_insert = array();
+		$field_insert = [];
+		$value_insert = [];
 		foreach ( $value as $k => $v ) {
 			$field_insert[] = '`' . $k . '`';
 			$value_insert[] = "'" . $v . "'";

@@ -439,6 +439,16 @@ class Events extends \WP_List_Table {
 	}
 
 	/**
+	 * Get the available events logs.
+	 *
+	 * @return  array   The list of available events logs.
+	 * @since    1.0.0
+	 */
+	public static function get() {
+		return self::$logs;
+	}
+
+	/**
 	 * Get the current events log id.
 	 *
 	 * @return  string   The current events log id.
