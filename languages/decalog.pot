@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: DecaLog\n"
-"POT-Creation-Date: 2019-07-24 21:29+0200\n"
+"POT-Creation-Date: 2019-07-30 23:20+0200\n"
 "PO-Revision-Date: 2019-07-08 14:07+0200\n"
 "Last-Translator: Pierre Lannoy <pierre@lannoy.fr>\n"
 "Language-Team: Pierre Lannoy <pierre@lannoy.fr>\n"
@@ -21,23 +21,23 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: admin/class-decalog-admin.php:103
+#: admin/class-decalog-admin.php:104
 #: admin/partials/decalog-admin-settings-main.php:19
 #, php-format
 msgid "%s Settings"
 msgstr ""
 
-#: admin/class-decalog-admin.php:106
+#: admin/class-decalog-admin.php:107
 #: admin/partials/decalog-admin-view-events.php:20
 #, php-format
 msgid "%s Viewer"
 msgstr ""
 
-#: admin/class-decalog-admin.php:122
+#: admin/class-decalog-admin.php:125
 msgid "Privacy options"
 msgstr ""
 
-#: admin/class-decalog-admin.php:123 includes/features/class-loggers.php:181
+#: admin/class-decalog-admin.php:126 includes/features/class-loggers.php:193
 msgid "Reported details"
 msgstr ""
 
@@ -84,7 +84,7 @@ msgid "Used only in admin dashboard."
 msgstr ""
 
 #: admin/class-decalog-admin.php:380 admin/class-decalog-admin.php:424
-#: includes/features/class-loggers.php:180
+#: includes/features/class-loggers.php:192
 msgid "Minimal level"
 msgstr ""
 
@@ -115,7 +115,7 @@ msgid "Obfuscation"
 msgstr ""
 
 #: admin/class-decalog-admin.php:513
-msgid "If checked, log will contain hash instead of real IPs."
+msgid "If checked, log will contain hashes instead of real IPs."
 msgstr ""
 
 #: admin/class-decalog-admin.php:521
@@ -130,8 +130,8 @@ msgstr ""
 msgid "If checked, log will contain hashes instead of user IDs & names."
 msgstr ""
 
-#: admin/class-decalog-admin.php:547 includes/features/class-loggers.php:155
-#: includes/features/class-loggers.php:164
+#: admin/class-decalog-admin.php:547 includes/features/class-loggers.php:167
+#: includes/features/class-loggers.php:176
 msgid "Standard"
 msgstr ""
 
@@ -227,6 +227,7 @@ msgstr ""
 
 #: admin/partials/decalog-admin-view-events-bottom.php:21
 #: admin/partials/decalog-admin-view-events-top.php:21
+#: includes/features/class-events.php:646
 msgid "Apply"
 msgstr ""
 
@@ -234,60 +235,180 @@ msgstr ""
 msgid "Choose events log to display"
 msgstr ""
 
-#: includes/features/class-events.php:88
+#: admin/partials/decalog-admin-view-events-top.php:18
+#: includes/features/class-loggers.php:152
+msgid "running"
+msgstr ""
+
+#: admin/partials/decalog-admin-view-events-top.php:18
+#: includes/features/class-loggers.php:152
+msgid "paused"
+msgstr ""
+
+#: includes/features/class-channeltypes.php:47
+#: includes/features/class-classtypes.php:49
+msgid "Unknown"
+msgstr ""
+
+#: includes/features/class-channeltypes.php:48
+msgid "Command Line Interface"
+msgstr ""
+
+#: includes/features/class-channeltypes.php:49
+msgid "Cron Job"
+msgstr ""
+
+#: includes/features/class-channeltypes.php:50
+msgid "Ajax Request"
+msgstr ""
+
+#: includes/features/class-channeltypes.php:51
+msgid "XML-RPC Request"
+msgstr ""
+
+#: includes/features/class-channeltypes.php:52
+msgid "Rest API Request"
+msgstr ""
+
+#: includes/features/class-channeltypes.php:53
+msgid "Atom/RDF/RSS Feed"
+msgstr ""
+
+#: includes/features/class-channeltypes.php:54
+msgid "Site Backend"
+msgstr ""
+
+#: includes/features/class-channeltypes.php:55
+msgid "Site Frontend"
+msgstr ""
+
+#: includes/features/class-classtypes.php:47
+msgid "Plugin"
+msgstr ""
+
+#: includes/features/class-classtypes.php:48
+msgid "Theme"
+msgstr ""
+
+#. translators: as in the sentence "Error code 501" or "Alert code 0"
+#: includes/features/class-events.php:159
 #, php-format
-msgid "%1$s : %2$s (%3$s)"
+msgid "%1$s code %2$s"
 msgstr ""
 
-#: includes/features/class-events.php:90
+#: includes/features/class-events.php:200
 #, php-format
-msgid "Event #%1$s / %2$s code %3$s"
+msgid "Site ID %s"
 msgstr ""
 
-#: includes/features/class-events.php:117
-#: includes/features/class-events.php:126
-msgid "Event"
+#: includes/features/class-events.php:214
+msgid "Anonymous user"
 msgstr ""
 
-#: includes/features/class-events.php:118
-#: includes/features/class-events.php:127
-msgid "Time"
+#: includes/features/class-events.php:218
+msgid "Pseudonymized user"
 msgstr ""
 
-#: includes/features/class-events.php:119
-msgid "Site"
+#: includes/features/class-events.php:221
+#, php-format
+msgid "User ID %s"
 msgstr ""
 
-#: includes/features/class-events.php:120
-#: includes/features/class-events.php:128
-msgid "User"
-msgstr ""
-
-#: includes/features/class-events.php:121
-#: includes/features/class-events.php:129
-msgid "IP"
-msgstr ""
-
-#: includes/features/class-events.php:122
-#: includes/features/class-events.php:130
-msgid "Message"
-msgstr ""
-
-#: includes/features/class-events.php:307
-msgid "All"
+#: includes/features/class-events.php:237
+msgid "Obfuscated"
 msgstr ""
 
 #: includes/features/class-events.php:309
+msgid "Remove this filter"
+msgstr ""
+
+#: includes/features/class-events.php:315
+msgid "Add as filter"
+msgstr ""
+
+#: includes/features/class-events.php:417
+msgid "All"
+msgstr ""
+
+#: includes/features/class-events.php:419
 msgid "Notices &amp; beyond"
 msgstr ""
 
-#: includes/features/class-events.php:311
+#: includes/features/class-events.php:421
 msgid "Errors &amp; beyond"
 msgstr ""
 
-#: includes/features/class-events.php:348
+#: includes/features/class-events.php:473
 #, php-format
 msgid "Show %d lines per page"
+msgstr ""
+
+#: includes/features/class-events.php:640
+msgid "Extra columns"
+msgstr ""
+
+#: includes/features/class-events.php:678
+msgid "Event"
+msgstr ""
+
+#: includes/features/class-events.php:679
+msgid "Time"
+msgstr ""
+
+#: includes/features/class-events.php:680
+msgid "Message"
+msgstr ""
+
+#: includes/features/class-events.php:682
+msgid "Component"
+msgstr ""
+
+#: includes/features/class-events.php:683
+msgid "Site"
+msgstr ""
+
+#: includes/features/class-events.php:684
+msgid "User"
+msgstr ""
+
+#: includes/features/class-events.php:685
+msgid "Remote IP"
+msgstr ""
+
+#: includes/features/class-eventtypes.php:110
+msgid "unknown"
+msgstr ""
+
+#: includes/features/class-eventtypes.php:111
+msgid "debug"
+msgstr ""
+
+#: includes/features/class-eventtypes.php:112
+msgid "information"
+msgstr ""
+
+#: includes/features/class-eventtypes.php:113
+msgid "notice"
+msgstr ""
+
+#: includes/features/class-eventtypes.php:114
+msgid "warning"
+msgstr ""
+
+#: includes/features/class-eventtypes.php:115
+msgid "error"
+msgstr ""
+
+#: includes/features/class-eventtypes.php:116
+msgid "critical error"
+msgstr ""
+
+#: includes/features/class-eventtypes.php:117
+msgid "alert"
+msgstr ""
+
+#: includes/features/class-eventtypes.php:118
+msgid "emergency"
 msgstr ""
 
 #: includes/features/class-handlertypes.php:43
@@ -461,31 +582,27 @@ msgstr ""
 msgid "Unnamed logger"
 msgstr ""
 
-#: includes/features/class-loggers.php:143
-msgid "running"
-msgstr ""
-
-#: includes/features/class-loggers.php:143
-msgid "paused"
-msgstr ""
-
-#: includes/features/class-loggers.php:144
+#: includes/features/class-loggers.php:153
 msgid "Edit"
 msgstr ""
 
-#: includes/features/class-loggers.php:145
+#: includes/features/class-loggers.php:154
 msgid "Remove"
 msgstr ""
 
-#: includes/features/class-loggers.php:147
+#: includes/features/class-loggers.php:156
 msgid "Pause"
 msgstr ""
 
-#: includes/features/class-loggers.php:149
+#: includes/features/class-loggers.php:158
 msgid "Start"
 msgstr ""
 
-#: includes/features/class-loggers.php:179
+#: includes/features/class-loggers.php:161
+msgid "View"
+msgstr ""
+
+#: includes/features/class-loggers.php:191
 msgid "Logger"
 msgstr ""
 
