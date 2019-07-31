@@ -67,6 +67,15 @@ class Decalog_Admin {
 	protected $current_handler;
 
 	/**
+	 * The current view.
+	 *
+	 * @since  1.0.0
+	 * @access protected
+	 * @var    object    $current_view    The current view.
+	 */
+	protected $current_view = null;
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since 1.0.0
@@ -100,6 +109,7 @@ class Decalog_Admin {
 	 * @since 1.0.0
 	 */
 	public function init_admin_menus() {
+		$this->current_view = null;
 		if ( Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type() ) {
 			add_submenu_page( 'options-general.php', sprintf( __( '%s Settings', 'decalog' ), DECALOG_PRODUCT_NAME ), DECALOG_PRODUCT_NAME, 'manage_options', 'decalog-settings', [ $this, 'get_settings_page' ] );
 		}
@@ -108,8 +118,17 @@ class Decalog_Admin {
 				$this,
 				'get_tools_page'
 			) );
-			add_action('load-' . $name, ['Decalog\Plugin\Feature\Events', 'add_column_options']);
-			add_filter('screen_settings', ['Decalog\Plugin\Feature\Events', 'display_screen_settings'], 10, 2);
+			$logid = filter_input(INPUT_GET, 'logid', FILTER_SANITIZE_STRING);
+			$eventid = filter_input(INPUT_GET, 'eventid', FILTER_SANITIZE_NUMBER_INT);
+			if (isset($logid) && isset($eventid) && $eventid != 0) {
+				$this->current_view = new EventViewer( $logid, $eventid );
+				add_action('load-' . $name, [$this->current_view, 'add_metaboxes_options']);
+				add_action('admin_footer-' . $name, [$this->current_view, 'add_footer']);
+				add_filter('screen_settings', [$this->current_view, 'display_screen_settings'], 10, 2);
+			} else {
+				add_action('load-' . $name, ['Decalog\Plugin\Feature\Events', 'add_column_options']);
+				add_filter('screen_settings', ['Decalog\Plugin\Feature\Events', 'display_screen_settings'], 10, 2);
+			}
 		}
 	}
 
@@ -132,11 +151,8 @@ class Decalog_Admin {
 	 * @since 1.0.0
 	 */
 	public function get_tools_page() {
-		$logid = filter_input(INPUT_GET, 'logid', FILTER_SANITIZE_STRING);
-		$eventid = filter_input(INPUT_GET, 'eventid', FILTER_SANITIZE_NUMBER_INT);
-		if (isset($logid) && isset($eventid) && $eventid != 0) {
-			$view = new EventViewer( $logid, $eventid );
-			$view->get();
+		if (isset($this->current_view)) {
+			$this->current_view->get();
 		}
 		else {
 			include DECALOG_ADMIN_DIR . 'partials/decalog-admin-view-events.php';
