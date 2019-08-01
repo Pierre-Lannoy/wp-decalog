@@ -293,7 +293,7 @@ class EventViewer {
 		$hour = $this->get_section($content);
 
 		// Event message.
-		$content = '<span style="width:100%;cursor: default;">' . $this->get_icon('message-square') . $this->event['message']. $this->event['message']. $this->event['message']. $this->event['message']. $this->event['message']. $this->event['message']. $this->event['message'] . '</span>';
+		$content = '<span style="width:100%;cursor: default;">' . $this->get_icon('message-square') . $this->event['message'] . '</span> <span style="color:silver">' . esc_html__('Code:', 'decalog') . ' ' . $this->event['code'] . '.</span>';
 		$message = $this->get_section($content);
 		$this->output_activity_block($event . $hour . $message);
 	}
