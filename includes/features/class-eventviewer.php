@@ -11,6 +11,8 @@
 
 namespace Decalog\Plugin\Feature;
 
+use Decalog\System\Date;
+use Decalog\System\Timezone;
 use Feather;
 use Decalog\System\Database;
 
@@ -236,12 +238,64 @@ class EventViewer {
 	}
 
 	/**
+	 * Print an activity block.
+	 *
+	 * @param   string $content The content of the block.
+	 * @since 1.0.0
+	 */
+	private function output_activity_block($content) {
+		echo '<div class="activity-block" style="padding-bottom: 0px;padding-top: 0px;">';
+		echo $content;
+		echo '</div>';
+	}
+
+	/**
+	 * Get a section to include in a block.
+	 *
+	 * @param   string $content The content of the section.
+	 * @return  string  The section, ready to print.
+	 * @since 1.0.0
+	 */
+	private function get_section($content) {
+		return '<div style="margin-bottom: 10px;">' . $content . '</div>';
+	}
+
+	/**
+	 * Get an icon.
+	 *
+	 * @param   string $icon_name The name of the icon.
+	 * @param   string $background The background color.
+	 * @return  string  The icon, as image, ready to print.
+	 * @since 1.0.0
+	 */
+	private function get_icon($icon_name, $background = '#F9F9F9') {
+		return '<img style="width:18px;float:left;padding-right:6px;" src="' . Feather\Icons::get_base64($icon_name, $background, '#9999BB') . '" />';
+	}
+
+	/**
 	 * Get content of the event widget box.
 	 *
 	 * @since 1.0.0
 	 */
 	public function event_widget() {
-		echo 'AAA';
+		// Event type.
+		$icon = '<img style="width:18px;float:left;padding-right:6px;" src="' . EventTypes::$icons[ $this->event['level'] ] . '" />';
+		$level = ucwords(EventTypes::$level_texts[ $this->event['level'] ]);
+		$channel = ChannelTypes::$channel_names[ strtoupper($this->event['channel']) ];
+		$content = '<span style="width:40%;cursor: default;float:left">' . $icon . $level . '</span>';
+		$content .= '<span style="width:60%;cursor: default;">' . $this->get_icon('activity', 'none') . $channel . '</span>';
+		$event = $this->get_section($content);
+
+		// Event time.
+		$time = Date::get_date_from_mysql_utc( $this->event['timestamp'], Timezone::get_wp()->getName(), 'Y-m-d H:i:s' );
+		$dif = Date::get_positive_time_diff_from_mysql_utc( $this->event['timestamp'] );
+		$content = '<span style="width:100%;cursor: default;">' . $this->get_icon('clock') . $time . '</span> <span style="color:silver">(' . $dif . ')</span>';
+		$hour = $this->get_section($content);
+
+		// Event message.
+		$content = '<span style="width:100%;cursor: default;">' . $this->get_icon('message-square') . $this->event['message']. $this->event['message']. $this->event['message']. $this->event['message']. $this->event['message']. $this->event['message']. $this->event['message'] . '</span>';
+		$message = $this->get_section($content);
+		$this->output_activity_block($event . $hour . $message);
 	}
 
 	/**
