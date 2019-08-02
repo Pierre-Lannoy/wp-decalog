@@ -285,17 +285,22 @@ class EventViewer {
 		$content = '<span style="width:40%;cursor: default;float:left">' . $icon . $level . '</span>';
 		$content .= '<span style="width:60%;cursor: default;">' . $this->get_icon('activity', 'none') . $channel . '</span>';
 		$event = $this->get_section($content);
-
 		// Event time.
 		$time = Date::get_date_from_mysql_utc( $this->event['timestamp'], Timezone::get_wp()->getName(), 'Y-m-d H:i:s' );
 		$dif = Date::get_positive_time_diff_from_mysql_utc( $this->event['timestamp'] );
 		$content = '<span style="width:100%;cursor: default;">' . $this->get_icon('clock') . $time . '</span> <span style="color:silver">(' . $dif . ')</span>';
 		$hour = $this->get_section($content);
-
+		// Event source.
+		$class = ClassTypes::$classe_names[strtolower($this->event['class'])];
+		$component = $this->event['component'] . ' ' . $this->event['version'];
+		$content = '<span style="width:40%;cursor: default;float:left">' . $this->get_icon('folder') . $class . '</span>';
+		$content .= '<span style="width:60%;cursor: default;">' . $this->get_icon('box') . $component . '</span>';
+		$source = $this->get_section($content);
 		// Event message.
 		$content = '<span style="width:100%;cursor: default;">' . $this->get_icon('message-square') . $this->event['message'] . '</span> <span style="color:silver">' . esc_html__('Code:', 'decalog') . ' ' . $this->event['code'] . '.</span>';
 		$message = $this->get_section($content);
-		$this->output_activity_block($event . $hour . $message);
+
+		$this->output_activity_block($event . $hour . $source . $message);
 	}
 
 	/**
@@ -304,7 +309,26 @@ class EventViewer {
 	 * @since 1.0.0
 	 */
 	public function wordpress_widget() {
-		echo 'AAA';
+		// User detail.
+		$user_name = $this->event['user_name'];
+		if ( 'anonymous' === $user_name ) {
+			$user_name = esc_html__( 'Anonymous user', 'decalog' );
+		}
+		$user_id = '-';
+		if ( 0 === strpos( $this->event['user_name'], '{' ) ) {
+			$user_name = esc_html__( 'Pseudonymized user', 'decalog' );
+		} elseif ( 0 !== (int) $this->event['user_id'] ) {
+			// phpcs:ignore
+			$user_id = sprintf( esc_html__( 'User ID %s', 'decalog' ), $this->event[ 'user_id' ] );
+		}
+		$content = '<span style="width:40%;cursor: default;float:left">' . $this->get_icon('user') . $user_id . '</span>';
+		$content .= '<span style="width:60%;cursor: default;">' . $this->get_icon('user-check') . $user_name . '</span>';
+		$user = $this->get_section($content);
+		// Site detail.
+		$content = '<span style="width:100%;cursor: default;">' . $this->get_icon('layout') . $this->event['site_name'] . '</span>';
+		$site = $this->get_section($content);
+
+		$this->output_activity_block($user . $site);
 	}
 
 	/**
