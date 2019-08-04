@@ -337,7 +337,28 @@ class EventViewer {
 	 * @since 1.0.0
 	 */
 	public function http_widget() {
-		echo 'AAA';
+		// Server detail.
+		$ip = $this->event['remote_ip'];
+		if ( 0 === strpos( $ip, '{' ) ) {
+			$ip = esc_html__( 'obfuscated IP', 'decalog' );
+		}
+		$ip = sprintf(esc_html__('from %s.', 'decalog'), $ip);
+		$content = '<span style="width:100%;cursor: default;">' . $this->get_icon('layout') . $this->event['server'] . ' ' . $ip . '</span>';
+		$server = $this->get_section($content);
+		// Request detail.
+		$verb = $this->event['verb'];
+		if ('-' !== $verb) {
+			$verb = '<span style="vertical-align: middle;font-size:8px;padding:2px 6px;text-transform:uppercase;font-weight: bold;background-color:#9999BB;color:#F9F9F9;border-radius:2px;cursor: default;">' . $verb . '</span>';
+		} else {
+			$verb = '';
+		}
+		$content = '<span style="width:100%;cursor: default;">' . $this->get_icon('server') . $this->event['url'] . '&nbsp;' . $verb . '</span>';
+		$request = $this->get_section($content);
+		// referrer detail.
+		$content = '<span style="width:100%;cursor: default;">' . $this->get_icon('arrow-left-circle') . $this->event['referrer'] . '</span>';
+		$referrer = $this->get_section($content);
+
+		$this->output_activity_block($server.$request.$referrer);
 	}
 
 	/**
@@ -364,7 +385,17 @@ class EventViewer {
 	 * @since 1.0.0
 	 */
 	public function wpbacktrace_widget() {
-		echo 'AAA';
+		$trace = unserialize($this->event['trace']);
+		$content = '';
+		foreach ( array_reverse($trace['wordpress']) as $idx => $item ) {
+			if ($idx < 10) {
+				$element = '<span style="font-family:monospace;font-size:8px;font-weight: bold;vertical-align: middle;padding:3px 5px;background-color:#F9F9F9;color:#9999BB;border:2px solid #9999BB;border-radius:50%;cursor: default;">' . $idx . '</span> &nbsp;' . $item ;
+			} else {
+				$element = '<span style="font-family:monospace;font-size:8px;font-weight: bold;vertical-align: middle;padding:3px;background-color:#F9F9F9;color:#9999BB;border:2px solid #9999BB;border-radius:50%;cursor: default;">' . $idx . '</span> &nbsp;' . $item ;
+			}
+			$content .= $this->get_section($element);
+		}
+		$this->output_activity_block($content);
 	}
 
 }
