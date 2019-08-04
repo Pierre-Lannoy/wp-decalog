@@ -229,12 +229,12 @@ class EventViewer {
 	public function add_metaboxes() {
 		// Left column
 		add_meta_box('decalog-main', __('Event', 'live-weather-station' ), [$this, 'event_widget'], self::$screen_id, 'advanced');
+		add_meta_box('decalog-wordpress', 'WordPress', [$this, 'wordpress_widget'], self::$screen_id, 'advanced');
+		add_meta_box('decalog-http', __('HTTP request', 'live-weather-station' ), [$this, 'http_widget'], self::$screen_id, 'advanced');
 		add_meta_box('decalog-php', __('PHP introspection', 'live-weather-station' ), [$this, 'php_widget'], self::$screen_id, 'advanced');
-		add_meta_box('decalog-phpbacktrace', __('PHP backtrace', 'live-weather-station' ), [$this, 'phpbacktrace_widget'], self::$screen_id, 'advanced');
 		// Right column
-		add_meta_box('decalog-wordpress', 'WordPress', [$this, 'wordpress_widget'], self::$screen_id, 'side');
-		add_meta_box('decalog-http', __('HTTP request', 'live-weather-station' ), [$this, 'http_widget'], self::$screen_id, 'side');
 		add_meta_box('decalog-wpbacktrace', __('WordPress backtrace', 'live-weather-station' ), [$this, 'wpbacktrace_widget'], self::$screen_id, 'side');
+		add_meta_box('decalog-phpbacktrace', __('PHP backtrace', 'live-weather-station' ), [$this, 'phpbacktrace_widget'], self::$screen_id, 'side');
 	}
 
 	/**
