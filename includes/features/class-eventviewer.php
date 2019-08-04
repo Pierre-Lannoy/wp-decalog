@@ -387,13 +387,18 @@ class EventViewer {
 	public function wpbacktrace_widget() {
 		$trace = unserialize($this->event['trace']);
 		$content = '';
-		foreach ( array_reverse($trace['wordpress']) as $idx => $item ) {
-			if ($idx < 10) {
-				$element = '<span style="font-family:monospace;font-size:8px;font-weight: bold;vertical-align: middle;padding:3px 5px;background-color:#F9F9F9;color:#9999BB;border:2px solid #9999BB;border-radius:50%;cursor: default;">' . $idx . '</span> &nbsp;' . $item ;
-			} else {
-				$element = '<span style="font-family:monospace;font-size:8px;font-weight: bold;vertical-align: middle;padding:3px;background-color:#F9F9F9;color:#9999BB;border:2px solid #9999BB;border-radius:50%;cursor: default;">' . $idx . '</span> &nbsp;' . $item ;
+		if (array_key_exists('error', $trace)) {
+			$error = '<span style="width:100%;cursor: default;">' . $this->get_icon('alert-triangle') . $trace['error'] . '</span>';
+			$content = $this->get_section( $error );
+		} else {
+			foreach ( array_reverse( $trace['wordpress'] ) as $idx => $item ) {
+				if ( $idx < 10 ) {
+					$element = '<span style="font-family:monospace;font-size:8px;font-weight: bold;vertical-align: middle;padding:3px 5px;background-color:#F9F9F9;color:#9999BB;border:2px solid #9999BB;border-radius:50%;cursor: default;">' . $idx . '</span> &nbsp;' . $item;
+				} else {
+					$element = '<span style="font-family:monospace;font-size:8px;font-weight: bold;vertical-align: middle;padding:3px;background-color:#F9F9F9;color:#9999BB;border:2px solid #9999BB;border-radius:50%;cursor: default;">' . $idx . '</span> &nbsp;' . $item;
+				}
+				$content .= $this->get_section( $element );
 			}
-			$content .= $this->get_section($element);
 		}
 		$this->output_activity_block($content);
 	}

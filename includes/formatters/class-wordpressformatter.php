@@ -133,7 +133,9 @@ class WordpressFormatter implements FormatterInterface {
 				if (strlen($s) < 10000) {
 					$values['trace'] = $s;
 				} else {
-					$values['trace'] = serialize(['This backtrace was not recorded: size exceeds limit.']);
+					$s =[];
+					$s['error'] = 'This backtrace was not recorded: size exceeds limit.';
+					$values['trace'] = serialize($s);
 				}
 			}
 		}
