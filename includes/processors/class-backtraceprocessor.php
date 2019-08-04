@@ -90,11 +90,27 @@ class BacktraceProcessor implements ProcessorInterface {
 		if ( $record['level'] < $this->level ) {
 			return $record;
 		}
-		$trace = debug_backtrace( DEBUG_BACKTRACE_PROVIDE_OBJECT );
-		array_shift( $trace ); // skip first since it's always the current method.
-		array_shift( $trace ); // the call_user_func call is also skipped.
-		$record['extra']['trace']['callstack'] = $this->pretty_backtrace( $trace );
-		$record['extra']['trace']['wordpress'] = wp_debug_backtrace_summary( null, 0, false );
+		$trace = [];
+		foreach (array_reverse(debug_backtrace( DEBUG_BACKTRACE_PROVIDE_OBJECT )) as $t) {
+			$trace[] = $t;
+			if (array_key_exists('class', $t) && 'Decalog\API\DLogger' === $t['class']) {
+				if (array_key_exists('function', $t) && in_array($t['function'], ['emergency','alert','critical','error','warning','notice','info','debug'])) {
+					break;
+				}
+			}
+		}
+		$wptrace = [];
+		$detect = 'Decalog\API\DLogger';
+		foreach (array_reverse(wp_debug_backtrace_summary( null, 0, false )) as $t) {
+			$wptrace[] = $t;
+			if (0 === strpos($t, $detect)) {
+				if (in_array(substr( $t, strlen($detect),20), ['->emergency','->alert','->critical','->error','->warning','->notice','->info','->debug'])) {
+					break;
+				}
+			}
+		}
+		$record['extra']['trace']['callstack'] = $this->pretty_backtrace( array_reverse($trace) );
+		$record['extra']['trace']['wordpress'] = array_reverse($wptrace);
 		return $record;
 	}
 }
