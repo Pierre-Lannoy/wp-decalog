@@ -93,7 +93,7 @@ class BacktraceProcessor implements ProcessorInterface {
 		$trace = debug_backtrace( DEBUG_BACKTRACE_PROVIDE_OBJECT );
 		array_shift( $trace ); // skip first since it's always the current method.
 		array_shift( $trace ); // the call_user_func call is also skipped.
-		$record['extra']['trace']['callstack'] = $this->pretty_backtrace( array_reverse( $trace ) );
+		$record['extra']['trace']['callstack'] = $this->pretty_backtrace( $trace );
 		$record['extra']['trace']['wordpress'] = wp_debug_backtrace_summary( null, 0, false );
 		return $record;
 	}
