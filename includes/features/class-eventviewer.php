@@ -367,7 +367,18 @@ class EventViewer {
 	 * @since 1.0.0
 	 */
 	public function php_widget() {
-		echo 'AAA';
+		// File detail.
+		$element = './' . str_replace( wp_normalize_path( ABSPATH ), '', wp_normalize_path( $this->event['file'] ) );
+		$element = '<span style="width:100%;cursor: default;">' . $this->get_icon('file-text') . $element . ':' . $this->event['line'] . '</span>';
+		$file = $this->get_section( $element );
+		// Function detail.
+		$element = '<span style="width:100%;cursor: default;">' . $this->get_icon('code', 'none') . $this->event['function'] . '</span>';
+		$function = $this->get_section( $element );
+		// Function detail.
+		$element = '<span style="width:100%;cursor: default;">' . $this->get_icon('layers') . $this->event['classname'] . '</span>';
+		$class = $this->get_section( $element );
+
+		$this->output_activity_block($class . $function . $file);
 	}
 
 	/**
