@@ -11,6 +11,8 @@
 
 namespace Decalog\System;
 
+use Decalog\System\Hash;
+
 /**
  * Define the user functionality.
  *
@@ -46,6 +48,29 @@ class User {
 		} else {
 			return $default;
 		}
+	}
+
+	/**
+	 * Get a user string representation.
+	 *
+	 * @param   integer $id         Optional. The user id.
+	 * @param   boolean $pseudonymize   Optional. Has this user to be pseudonymized.
+	 * @return  string  The user string representation, ready to be inserted in a log.
+	 * @since   1.0.0
+	 */
+	public static function get_user_string( $id = null, $pseudonymize = false) {
+		if ( $id && is_numeric($id) && $id >0 && !$pseudonymize) {
+			$user_info = get_userdata( $id );
+			$name = $user_info->display_name;
+		} else {
+			if ($pseudonymize) {
+				$name = 'pseudonymized user';
+				$id = Hash::simple_hash( (string)$id );
+			} else {
+				return 'anonymous user';
+			}
+		}
+		return sprintf( '%s (user ID %s)', $name, $id);
 	}
 
 	/**

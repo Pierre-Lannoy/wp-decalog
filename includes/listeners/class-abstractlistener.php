@@ -14,6 +14,9 @@ namespace Decalog\Listener;
 
 use Decalog\Log;
 use Decalog\System\Option;
+use Decalog\System\User;
+use WP_User;
+use function GuzzleHttp\Promise\is_settled;
 
 /**
  * Listener stub for DecaLog.
@@ -40,7 +43,7 @@ abstract class AbstractListener {
 	 * @since  1.0.0
 	 * @var    DLogger    $logger    An instance of DLogger to log listener events.
 	 */
-	private $logger = null;
+	protected $logger = null;
 
 	/**
 	 * The listener id.
@@ -102,9 +105,32 @@ abstract class AbstractListener {
 			if ($launch && $this->launch()) {
 				$this->logger = Log::bootstrap( $this->class, $this->product, $this->version );
 				$this->log->debug( sprintf( 'Listener for %s is launched.', $this->name ) );
-				$this->logger->debug( sprintf( 'Listener launched and operational.', $this->name ) );
+				$this->logger->debug( 'Listener launched and operational.' );
 			}
 		}
+	}
+
+	/**
+	 * Initialize the class and set its properties.
+	 *
+	 * @param    mixed    $user    The user.
+	 * @return  string  The user string, pseudonymized if needed.
+	 * @since    1.0.0
+	 */
+	protected function get_user($user) {
+		$id = 0;
+		if (isset($user) && is_numeric($user)) {
+			$id = $user;
+		}
+		if ( 0 === $id && ! empty( $user ) ) {
+			if ( $user instanceof WP_User ) {
+				return $user->ID;
+			}
+			if ( is_object( $user ) && isset( $user->ID ) ) {
+				return $user->ID;
+			}
+		}
+		return User::get_user_string($id, true);
 	}
 
 	/**
