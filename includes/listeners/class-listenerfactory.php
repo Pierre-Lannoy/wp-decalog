@@ -47,21 +47,38 @@ class ListenerFactory {
 	 * @since    1.0.0
 	 */
 	public function launch() {
-		$a = new CoreListener($this->log);
+		foreach (
+			array_diff( scandir( DECALOG_LISTENERS_DIR ), array(
+				'..',
+				'.',
+				'index.php',
+				'class-abstractlistener.php',
+				'class-listenerfactory.php'
+			) ) as $item
+		) {
+			if ( ! is_dir( DECALOG_LISTENERS_DIR . $item ) ) {
+				$classname = str_replace( [ 'class-', '.php' ], '', $item );
+				$classname = str_replace( 'listener', 'Listener', strtolower( $classname ) );
+				$classname = lcfirst( $classname );
+				if ( ! $this->create_listener_instance( $classname ) ) {
+					$this->log->error( sprintf( 'Trying to launch a wrong listener: %s.', $classname ) );
+				}
+			}
+		}
 	}
 
 	/**
 	 * Create an instance of $class_name.
 	 *
 	 * @param   string $class_name The class name.
-	 * @param   array  $args   The param of the constructor for $class_name class.
 	 * @return  null|object The instance of the class if creation was possible, null otherwise.
 	 * @since    1.0.0
 	 */
-	private function create_instance( $class_name, $args = [] ) {
+	private function create_listener_instance( $class_name ) {
+		$class_name = 'Decalog\Listener\\' . $class_name;
 		if ( class_exists( $class_name ) ) {
 			$reflection = new \ReflectionClass( $class_name );
-			return $reflection->newInstanceArgs( $args );
+			return $reflection->newInstanceArgs( [$this->log] );
 		}
 		return false;
 	}
