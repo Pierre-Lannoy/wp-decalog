@@ -47,6 +47,7 @@ class Option {
 		self::$defaults['respect_wp_debug']     = false;
 		self::$defaults['logger_autostart']     = true;
 		self::$defaults['autolisteners']        = true;
+		self::$defaults['listeners']            = [];
 	}
 
 	/**

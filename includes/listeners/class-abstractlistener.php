@@ -94,7 +94,10 @@ abstract class AbstractListener {
 		if ($this->is_needed()) {
 			$launch = Option::get('autolisteners');
 			if (!$launch) {
-
+				$listeners = Option::get('listeners');
+				if (array_key_exists($this->id, $listeners)) {
+					$launch = $listeners[$this->id];
+				}
 			}
 			if ($launch && $this->launch()) {
 				$this->logger = Log::bootstrap( $this->class, $this->product, $this->version );
