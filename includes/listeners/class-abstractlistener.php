@@ -93,6 +93,9 @@ abstract class AbstractListener {
 		$this->init();
 		if ($this->is_needed()) {
 			$launch = Option::get('autolisteners');
+			if (!$launch) {
+
+			}
 			if ($launch && $this->launch()) {
 				$this->logger = Log::bootstrap( $this->class, $this->product, $this->version );
 				$this->log->debug( sprintf( 'Listener for %s is launched.', $this->name ) );

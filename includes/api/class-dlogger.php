@@ -37,7 +37,7 @@ class DLogger {
 	 * @access protected
 	 * @var    string    $class    Maintains the class of the component.
 	 */
-	protected $class = 'other';
+	protected $class = 'unknwon';
 
 	/**
 	 * The name of the component.
