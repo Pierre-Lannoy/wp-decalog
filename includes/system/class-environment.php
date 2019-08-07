@@ -46,6 +46,7 @@ class Environment {
 		define( 'DECALOG_PUBLIC_URL', DECALOG_PLUGIN_URL . 'public/' );
 		define( 'DECALOG_INCLUDES_DIR', DECALOG_PLUGIN_DIR . 'includes/' );
 		define( 'DECALOG_VENDOR_DIR', DECALOG_PLUGIN_DIR . 'includes/libraries/' );
+		define( 'DECALOG_LISTENERS_DIR', DECALOG_PLUGIN_DIR . 'includes/listeners/' );
 		define( 'DECALOG_LANGUAGES_DIR', DECALOG_PLUGIN_DIR . 'languages/' );
 		define( 'DECALOG_ADMIN_RELATIVE_URL', self::admin_relative_url() );
 		define( 'DECALOG_AJAX_RELATIVE_URL', self::ajax_relative_url() );

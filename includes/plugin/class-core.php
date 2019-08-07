@@ -19,6 +19,7 @@ use Decalog\System\Assets;
 use Decalog\Library\Libraries;
 use Decalog\System\Nag;
 use Decalog\Plugin\Feature\LoggerMaintainer;
+use Decalog\Listener\ListenerFactory;
 
 /**
  * The core plugin class.
@@ -80,11 +81,13 @@ class Core {
 	 * @access private
 	 */
 	private function define_global_hooks() {
-		$bootstrap  = new Initializer();
+		$bootstrap = new Initializer();
 		$assets    = new Assets();
 		$updater   = new Updater();
 		$libraries = new Libraries();
+		$listeners = new ListenerFactory();
 		$this->loader->add_action( 'plugins_loaded', $bootstrap, 'initialize', 0 );
+		$this->loader->add_action( 'plugins_loaded', $listeners, 'launch', 1 );
 		$this->loader->add_action( 'wp_head', $assets, 'prefetch' );
 		$this->loader->add_action( 'auto_update_plugin', $updater, 'auto_update_plugin', 10, 2 );
 		add_shortcode( 'decalog-changelog', [ $updater, 'sc_get_changelog' ] );
