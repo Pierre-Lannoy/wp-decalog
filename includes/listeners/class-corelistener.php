@@ -12,6 +12,8 @@
 
 namespace Decalog\Listener;
 
+use Decalog\System\Option;
+
 /**
  * WP core listener for DecaLog.
  *
@@ -72,10 +74,30 @@ class CoreListener extends AbstractListener {
 		// Comment, Ping, and Trackback.
 
 
+		// Feed.
+
+
+		// Template.
+
+
+		// Administrative.
+		add_action( 'added_option', [$this, 'added_option'], 10, 2 );
+		add_action( 'updated_option', [$this, 'updated_option'], 10, 3 );
+		add_action( 'deleted_option', [$this, 'deleted_option'], 10, 1 );
+		add_action( 'delete_user', [$this, 'delete_user'], 10, 2 );
+		add_action( 'wpmu_delete_user', [$this, 'wpmu_delete_user'], 10, 1 );
+		add_action( 'user_register', [$this, 'user_register'], 10, 1 );
+		add_action( 'wpmu_new_user', [$this, 'user_register'], 10, 1 );
+		add_action( 'lostpassword_post', [$this, 'lostpassword_post'], 10, 1 );
+		add_action( 'password_reset', [$this, 'password_reset'], 10, 2 );
+		add_action( 'wp_logout', [$this, 'wp_logout'], 10, 0 );
+		add_action( 'wp_login_failed', [$this, 'wp_login_failed'], 10, 1 );
+		add_action( 'wp_login', [$this, 'wp_login'], 10, 2 );
+
 		// Advanced.
 		add_action( 'activated_plugin', [$this, 'activated_plugin'], 10, 2 );
 		add_action( 'deactivated_plugin', [$this, 'deactivated_plugin'], 10, 2 );
-		add_action( 'generate_rewrite_rules', [$this, 'generate_rewrite_rules'], 10 );
+		add_action( 'generate_rewrite_rules', [$this, 'generate_rewrite_rules'], 10, 1 );
 		add_action( 'upgrader_process_complete', [$this, 'upgrader_process_complete'], 10, 2 );
 
 		return true;
@@ -150,6 +172,167 @@ class CoreListener extends AbstractListener {
 			$this->logger->debug( sprintf( 'Validated authentication cookie for %s.', $this->get_user($user->ID) ) );
 		}
 	}
+
+
+	/**
+	 * "added_option" event.
+	 *
+	 * @since    1.0.0
+	 */
+	public function added_option($option, $value) {
+		$word = 'Option';
+		if (0 === strpos($option, '_transient')) {
+			$word = 'Transient';
+		}
+		if (isset($this->logger)) {
+			$this->logger->debug( sprintf( '%s "%s" added.', $word, $option ) );
+		}
+	}
+
+	/**
+	 * "updated_option" event.
+	 *
+	 * @since    1.0.0
+	 */
+	public function updated_option($option, $old_value, $value) {
+		$word = 'Option';
+		if (0 === strpos($option, '_transient')) {
+			$word = 'Transient';
+		}
+		if (isset($this->logger)) {
+			$this->logger->debug( sprintf( '%s "%s" updated.', $word, $option ) );
+		}
+	}
+
+	/**
+	 * "deleted_option" event.
+	 *
+	 * @since    1.0.0
+	 */
+	public function deleted_option($option) {
+		$word = 'Option';
+		if (0 === strpos($option, '_transient')) {
+			$word = 'Transient';
+		}
+		if (isset($this->logger)) {
+			$this->logger->debug( sprintf( '%s "%s" deleted.', $word, $option ) );
+		}
+	}
+
+	/**
+	 * "delete_user" event.
+	 *
+	 * @since    1.0.0
+	 */
+	public function delete_user($id, $reassign) {
+		if (isset($this->logger)) {
+			$this->logger->notice( sprintf( 'User %s deleted.', $this->get_user($id) ) );
+		}
+	}
+
+	/**
+	 * "wpmu_delete_user" event.
+	 *
+	 * @since    1.0.0
+	 */
+	public function wpmu_delete_user($id) {
+		if (isset($this->logger)) {
+			$this->logger->notice( sprintf( 'User %s deleted.', $this->get_user($id) ) );
+		}
+	}
+
+	/**
+	 * "user_register" and "wpmu_new_user" events.
+	 *
+	 * @since    1.0.0
+	 */
+	public function user_register($id) {
+		if (isset($this->logger)) {
+			$this->logger->notice( sprintf( 'User %s created.', $this->get_user($id) ) );
+		}
+	}
+
+	/**
+	 * "lostpassword_post" event.
+	 *
+	 * @since    1.0.0
+	 */
+	public function lostpassword_post($errors) {
+		if (isset($this->logger)) {
+			if (is_wp_error( $errors )) {
+				$this->logger->info( sprintf( 'Lost password form submitted with error "%s".', wp_kses($errors->get_error_message(), []) ), $errors->get_error_code() );
+			} else {
+				$this->logger->info( 'Lost password form submitted.' );
+			}
+		}
+	}
+
+	/**
+	 * "password_reset" event.
+	 *
+	 * @since    1.0.0
+	 */
+	public function password_reset($user, $new_pass) {
+		if ( $user instanceof WP_User ) {
+			$id = $user->ID;
+		} else {
+			$id = 0;
+		}
+		if (isset($this->logger)) {
+			$this->logger->info( sprintf( 'Password reset for %s.', $this->get_user($id) ) );
+		}
+	}
+
+	/**
+	 * "wp_logout" event.
+	 *
+	 * @since    1.0.0
+	 */
+	public function wp_logout() {
+		if (isset($this->logger)) {
+			$this->logger->info( 'User is logged-out.' );
+		}
+	}
+
+	/**
+	 * "wp_login_failed" event.
+	 *
+	 * @since    1.0.0
+	 */
+	public function wp_login_failed($username) {
+		$name = $username;
+		if (Option::get('pseudonymization')) {
+			$name = 'somebody';
+		}
+		if (isset($this->logger)) {
+			$this->logger->notice( sprintf( 'Failed login for %s.', $username ) );
+		}
+	}
+
+	/**
+	 * "wp_login" event.
+	 *
+	 * @since    1.0.0
+	 */
+	public function wp_login($user_login, $user) {
+		if ( $user instanceof WP_User ) {
+			$id = $user->ID;
+		} else {
+			$id = 0;
+		}
+		if (isset($this->logger)) {
+			$this->logger->info( sprintf( 'User %s is logged-in.', $this->get_user($id) ) );
+		}
+	}
+
+
+
+
+
+
+
+
+
 
 	/**
 	 * "activated_plugin" event.
