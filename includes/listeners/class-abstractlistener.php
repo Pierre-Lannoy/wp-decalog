@@ -16,7 +16,6 @@ use Decalog\Log;
 use Decalog\System\Option;
 use Decalog\System\User;
 use WP_User;
-use function GuzzleHttp\Promise\is_settled;
 
 /**
  * Listener stub for DecaLog.
@@ -130,7 +129,7 @@ abstract class AbstractListener {
 				return $user->ID;
 			}
 		}
-		return User::get_user_string($id, true);
+		return User::get_user_string($id, Option::get('pseudonymization'));
 	}
 
 	/**

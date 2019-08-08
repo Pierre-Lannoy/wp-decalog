@@ -55,12 +55,28 @@ class CoreListener extends AbstractListener {
 	 */
 	protected function launch() {
 		$max = 999999999;
+		// Request.
 		//add_action( 'plugins_loaded', [$this, 'plugins_loaded'],$max );
 		//add_action( 'load_textdomain', [$this, 'load_textdomain'],10, 2 );
 		//add_action( 'after_setup_theme', [$this, 'after_setup_theme'], $max );
 		//add_action( 'wp_loaded', [$this, 'wp_loaded'] );
 		//add_action( 'auth_cookie_malformed', [$this, 'auth_cookie_malformed'], 10, 2 );
-		add_action( 'auth_cookie_valid', [$this, 'auth_cookie_valid'], 10, 2 );
+		//add_action( 'auth_cookie_valid', [$this, 'auth_cookie_valid'], 10, 2 );
+
+		// Post, Page, Attachment, and Category.
+
+
+		// Taxonomy and Terms.
+
+
+		// Comment, Ping, and Trackback.
+
+
+		// Advanced.
+		add_action( 'activated_plugin', [$this, 'activated_plugin'], 10, 2 );
+		add_action( 'deactivated_plugin', [$this, 'deactivated_plugin'], 10, 2 );
+		add_action( 'generate_rewrite_rules', [$this, 'generate_rewrite_rules'], 10 );
+		add_action( 'upgrader_process_complete', [$this, 'upgrader_process_complete'], 10, 2 );
 
 		return true;
 	}
@@ -71,7 +87,9 @@ class CoreListener extends AbstractListener {
 	 * @since    1.0.0
 	 */
 	public function plugins_loaded() {
-		$this->logger->debug( 'All plugins are loaded.' );
+		if (isset($this->logger)) {
+			$this->logger->debug( 'All plugins are loaded.' );
+		}
 	}
 
 	/**
@@ -81,7 +99,9 @@ class CoreListener extends AbstractListener {
 	 */
 	public function load_textdomain($domain, $mofile) {
 		$mofile = './' . str_replace( wp_normalize_path( ABSPATH ), '', wp_normalize_path( $mofile ) );
-		$this->logger->debug( sprintf( 'Text domain "%s" loaded from %s.', $domain, $mofile ) );
+		if (isset($this->logger)) {
+			$this->logger->debug( sprintf( 'Text domain "%s" loaded from %s.', $domain, $mofile ) );
+		}
 	}
 
 	/**
@@ -90,7 +110,9 @@ class CoreListener extends AbstractListener {
 	 * @since    1.0.0
 	 */
 	public function wp_loaded() {
-		$this->logger->debug( 'WordPress core, plugins and theme fully loaded and instantiated.');
+		if (isset($this->logger)) {
+			$this->logger->debug( 'WordPress core, plugins and theme fully loaded and instantiated.' );
+		}
 	}
 
 	/**
@@ -99,7 +121,9 @@ class CoreListener extends AbstractListener {
 	 * @since    1.0.0
 	 */
 	public function after_setup_theme() {
-		$this->logger->debug( 'Theme initialized and set-up.');
+		if (isset($this->logger)) {
+			$this->logger->debug( 'Theme initialized and set-up.' );
+		}
 	}
 
 	/**
@@ -111,7 +135,9 @@ class CoreListener extends AbstractListener {
 		if (!$scheme || !is_string($scheme)) {
 			$scheme = '<none>';
 		}
-		$this->logger->debug( sprintf( 'Malformed authentication cookie for "%s" scheme.', $domain, $mofile ) );
+		if (isset($this->logger)) {
+			$this->logger->debug( sprintf( 'Malformed authentication cookie for "%s" scheme.', $domain, $mofile ) );
+		}
 	}
 
 	/**
@@ -125,6 +151,66 @@ class CoreListener extends AbstractListener {
 		}
 	}
 
+	/**
+	 * "activated_plugin" event.
+	 *
+	 * @since    1.0.0
+	 */
+	public function activated_plugin( $plugin, $network_activation ) {
+		if (isset($this->logger)) {
+			if ($network_activation) {
+				$this->logger->warning( sprintf( 'Plugin network activation from %s file.', $plugin ) );
+			} else {
+				$this->logger->warning( sprintf( 'Plugin activation from %s file.', $plugin ) );
+			}
+		}
+	}
 
+	/**
+	 * "deactivated_plugin" event.
+	 *
+	 * @since    1.0.0
+	 */
+	public function deactivated_plugin( $plugin, $network_activation ) {
+		if (isset($this->logger)) {
+			if ($network_activation) {
+				$this->logger->warning( sprintf( 'Plugin network deactivation for %s file.', $plugin ) );
+			} else {
+				$this->logger->warning( sprintf( 'Plugin deactivation for %s file.', $plugin ) );
+			}
+		}
+	}
+
+	/**
+	 * "generate_rewrite_rules" event.
+	 *
+	 * @since    1.0.0
+	 */
+	public function generate_rewrite_rules($wp_rewrite) {
+		if (isset($this->logger) && is_array($wp_rewrite)) {
+			$this->logger->info( sprintf( '%s rewrite rules generated.', count($wp_rewrite) ) );
+		}
+	}
+
+	/**
+	 * "upgrader_process_complete" event.
+	 *
+	 * @since    1.0.0
+	 */
+	public function upgrader_process_complete($upgrader, $data) {
+		$action = (array_key_exists('action', $data) ? $data['action'] : '');
+		$type = (array_key_exists('type', $data) ? ucfirst($data['type']) : '');
+		$plugins = '(unknown package)';
+		if (array_key_exists('plugins', $data)) {
+			if (is_array($data['plugins'])) {
+				$plugins = 'for ' . implode (', ', $data['plugins']);
+			} elseif (is_string($data['plugins'])) {
+				$plugins = 'for ' . $data['plugins'];
+			}
+		}
+		if (isset($this->logger)) {
+			$this->logger->warning( sprintf( '%s %s %s.', $type, $action, $plugins ) );
+		}
+	}
 
 }
