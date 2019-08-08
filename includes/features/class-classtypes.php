@@ -28,7 +28,7 @@ class ClassTypes {
 	 * @since  1.0.0
 	 * @var    array    $classes    Maintains the classes list.
 	 */
-	public static $classes = [ 'core', 'plugin', 'theme', 'unknown' ];
+	public static $classes = [ 'core', 'plugin', 'theme', 'db', 'php', 'unknown' ];
 
 	/**
 	 * The list of classes names.
@@ -44,9 +44,11 @@ class ClassTypes {
 	 * @since    1.0.0
 	 */
 	public static function init() {
-		self::$classe_names['core']  = esc_html__( 'Core', 'decalog' );
+		self::$classe_names['core']    = esc_html__( 'Core', 'decalog' );
 		self::$classe_names['plugin']  = esc_html__( 'Plugin', 'decalog' );
 		self::$classe_names['theme']   = esc_html__( 'Theme', 'decalog' );
+		self::$classe_names['db']      = esc_html__( 'Database', 'decalog' );
+		self::$classe_names['php']     = esc_html__( 'PHP', 'decalog' );
 		self::$classe_names['unknown'] = esc_html__( 'Unknown', 'decalog' );
 
 	}
