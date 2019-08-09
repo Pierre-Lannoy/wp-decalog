@@ -55,6 +55,12 @@ class DatabaseListener extends AbstractListener {
 	 */
 	protected function launch() {
 		add_action( 'shutdown', [$this, 'shutdown'], 10, 0 );
+		add_filter( 'wp_die_ajax_handler', [$this, 'wp_die_handler'], 10, 1 );
+		add_filter( 'wp_die_xmlrpc_handler', [$this, 'wp_die_handler'], 10, 1 );
+		add_filter( 'wp_die_handler', [$this, 'wp_die_handler'], 10, 1 );
+		add_filter( 'wp_die_json_handler', [$this, 'wp_die_handler'], 10, 1 );
+		add_filter( 'wp_die_jsonp_handler', [$this, 'wp_die_handler'], 10, 1 );
+		add_filter( 'wp_die_xml_handler', [$this, 'wp_die_handler'], 10, 1 );
 		return true;
 	}
 
@@ -74,6 +80,34 @@ class DatabaseListener extends AbstractListener {
 				$this->logger->critical( sprintf( '%s database errors were detected during the page rendering. The last one is "%s" in the query "%s"', count($EZSQL_ERROR), $last[ 'error_str' ], $last[ 'query' ] ) );
 			}
 		}
+	}
+
+	/**
+	 * "wp_die_*" events.
+	 *
+	 * @since    1.0.0
+	 */
+	public function wp_die_handler($handler) {
+		$stacktrace = debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS, 6 );
+		$dberror = array_filter( $stacktrace, [ $this, 'stacktrace_item_has_db_error' ] );
+		if ( ! $handler || ! is_callable( $handler ) || ! $dberror ) {
+			return $handler;
+		}
+		$this->logger->alert( print_r($stacktrace) );
+		$this->logger->alert( print_r($dberror) );
+	}
+
+	/**
+	 * @param array $item
+	 *
+	 * @return bool
+	 */
+	private function stacktrace_item_has_db_error( $item ) {
+		return
+			isset( $item[ 'function' ] )
+			&& isset( $item[ 'class' ] )
+			&& ( $item[ 'function' ] === 'bail' || $item[ 'function' ] === 'print_error' )
+			&& $item[ 'class' ] === 'wpdb';
 	}
 
 }
