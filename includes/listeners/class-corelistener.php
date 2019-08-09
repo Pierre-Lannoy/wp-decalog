@@ -305,7 +305,7 @@ class CoreListener extends AbstractListener {
 			$name = 'somebody';
 		}
 		if (isset($this->logger)) {
-			$this->logger->notice( sprintf( 'Failed login for %s.', $username ) );
+			$this->logger->notice( sprintf( 'Failed login for "%s".', $username ) );
 		}
 	}
 

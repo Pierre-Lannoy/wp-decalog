@@ -88,26 +88,20 @@ class DatabaseListener extends AbstractListener {
 	 * @since    1.0.0
 	 */
 	public function wp_die_handler($handler) {
-		$stacktrace = debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS, 6 );
-		$dberror = array_filter( $stacktrace, [ $this, 'stacktrace_item_has_db_error' ] );
+		$dberror = array_filter( debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS, 6 ), function ( $item ) {
+			return
+				isset( $item[ 'function' ] )
+				&& isset( $item[ 'class' ] )
+				&& ( $item[ 'function' ] === 'bail' || $item[ 'function' ] === 'print_error' )
+				&& $item[ 'class' ] === 'wpdb';
+		} );
 		if ( ! $handler || ! is_callable( $handler ) || ! $dberror ) {
 			return $handler;
 		}
-		$this->logger->alert( print_r($stacktrace) );
-		$this->logger->alert( print_r($dberror) );
-	}
-
-	/**
-	 * @param array $item
-	 *
-	 * @return bool
-	 */
-	private function stacktrace_item_has_db_error( $item ) {
-		return
-			isset( $item[ 'function' ] )
-			&& isset( $item[ 'class' ] )
-			&& ( $item[ 'function' ] === 'bail' || $item[ 'function' ] === 'print_error' )
-			&& $item[ 'class' ] === 'wpdb';
+		return function ( $message, $title = '', $args = [] ) use ( $handler ) {
+			$this->logger->critical( sprintf('Database error: %s.'), $message );
+			return $handler( $message, $title, $args );
+		};
 	}
 
 }

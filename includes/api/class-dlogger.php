@@ -165,7 +165,7 @@ class DLogger {
 			if ( $this->logger->getName() !== $channel ) {
 				$this->logger = $this->logger->withName( $channel );
 			}
-			$this->logger->debug( $message, $context );
+			$this->logger->debug( filter_var( $message, FILTER_SANITIZE_STRING ), $context );
 		}
 	}
 
@@ -187,7 +187,7 @@ class DLogger {
 		if ( $this->logger->getName() !== $channel ) {
 			$this->logger = $this->logger->withName( $channel );
 		}
-		$this->logger->info( $message, $context );
+		$this->logger->info( filter_var( $message, FILTER_SANITIZE_STRING ), $context );
 	}
 
 	/**
@@ -208,7 +208,7 @@ class DLogger {
 		if ( $this->logger->getName() !== $channel ) {
 			$this->logger = $this->logger->withName( $channel );
 		}
-		$this->logger->notice( $message, $context );
+		$this->logger->notice( filter_var( $message, FILTER_SANITIZE_STRING ), $context );
 	}
 
 	/**
@@ -229,7 +229,7 @@ class DLogger {
 		if ( $this->logger->getName() !== $channel ) {
 			$this->logger = $this->logger->withName( $channel );
 		}
-		$this->logger->warning( $message, $context );
+		$this->logger->warning( filter_var( $message, FILTER_SANITIZE_STRING ), $context );
 	}
 
 	/**
@@ -250,7 +250,7 @@ class DLogger {
 		if ( $this->logger->getName() !== $channel ) {
 			$this->logger = $this->logger->withName( $channel );
 		}
-		$this->logger->error( $message, $context );
+		$this->logger->error( filter_var( $message, FILTER_SANITIZE_STRING ), $context );
 	}
 
 	/**
@@ -271,7 +271,7 @@ class DLogger {
 		if ( $this->logger->getName() !== $channel ) {
 			$this->logger = $this->logger->withName( $channel );
 		}
-		$this->logger->critical( $message, $context );
+		$this->logger->critical( filter_var( $message, FILTER_SANITIZE_STRING ), $context );
 	}
 
 	/**
@@ -292,7 +292,7 @@ class DLogger {
 		if ( $this->logger->getName() !== $channel ) {
 			$this->logger = $this->logger->withName( $channel );
 		}
-		$this->logger->alert( $message, $context );
+		$this->logger->alert( filter_var( $message, FILTER_SANITIZE_STRING ), $context );
 	}
 
 	/**
@@ -313,7 +313,7 @@ class DLogger {
 		if ( $this->logger->getName() !== $channel ) {
 			$this->logger = $this->logger->withName( $channel );
 		}
-		$this->logger->emergency( $message, $context );
+		$this->logger->emergency( filter_var( $message, FILTER_SANITIZE_STRING ), $context );
 	}
 
 }
