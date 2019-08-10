@@ -61,7 +61,7 @@ class CoreListener extends AbstractListener {
 		// Request.
 		add_action( 'plugins_loaded', [$this, 'plugins_loaded'],$max );
 		add_action( 'load_textdomain', [$this, 'load_textdomain'],10, 2 );
-		add_action( 'after_setup_theme', [$this, 'after_setup_theme'], $max );
+
 		add_action( 'wp_loaded', [$this, 'wp_loaded'] );
 		add_action( 'auth_cookie_malformed', [$this, 'auth_cookie_malformed'], 10, 2 );
 		add_action( 'auth_cookie_valid', [$this, 'auth_cookie_valid'], 10, 2 );
@@ -79,7 +79,8 @@ class CoreListener extends AbstractListener {
 
 
 		// Template.
-
+		add_action( 'after_setup_theme', [$this, 'after_setup_theme'], $max );
+		add_action( 'switch_theme', [$this, 'switch_theme'], 10, 3 );
 
 		// Mail.
 		add_action( 'phpmailer_init', [$this, 'phpmailer_init'], 10, 1 );
@@ -148,17 +149,6 @@ class CoreListener extends AbstractListener {
 	public function wp_loaded() {
 		if (isset($this->logger)) {
 			$this->logger->debug( 'WordPress core, plugins and theme fully loaded and instantiated.' );
-		}
-	}
-
-	/**
-	 * "after_setup_theme" event.
-	 *
-	 * @since    1.0.0
-	 */
-	public function after_setup_theme() {
-		if (isset($this->logger)) {
-			$this->logger->debug( 'Theme initialized and set-up.' );
 		}
 	}
 
@@ -345,7 +335,32 @@ class CoreListener extends AbstractListener {
 
 
 
+	/**
+	 * "after_setup_theme" event.
+	 *
+	 * @since    1.0.0
+	 */
+	public function after_setup_theme() {
+		if (isset($this->logger)) {
+			$this->logger->debug( 'Theme initialized and set-up.' );
+		}
+	}
 
+	/**
+	 * "switch_theme" event.
+	 *
+	 * @since    1.0.0
+	 */
+	public function switch_theme($new_name, $new_theme, $old_theme) {
+		if ( $old_theme instanceof \WP_Theme && $new_theme instanceof \WP_Theme ) {
+			$message = sprintf('Theme switched from "%s" to "%s".', $old_theme->name, $new_theme->name);
+		} else {
+			$message = sprintf('Theme "%s" activated.', $new_name);
+		}
+		if (isset($this->logger)) {
+			$this->logger->notice( $message );
+		}
+	}
 
 
 	/**
