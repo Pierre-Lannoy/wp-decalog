@@ -13,6 +13,7 @@
 namespace Decalog\Listener;
 
 use Decalog\System\Option;
+use Decalog\System\Http;
 
 /**
  * WP core listener for DecaLog.
@@ -58,12 +59,12 @@ class CoreListener extends AbstractListener {
 	protected function launch() {
 		$max = 999999999;
 		// Request.
-		//add_action( 'plugins_loaded', [$this, 'plugins_loaded'],$max );
-		//add_action( 'load_textdomain', [$this, 'load_textdomain'],10, 2 );
-		//add_action( 'after_setup_theme', [$this, 'after_setup_theme'], $max );
-		//add_action( 'wp_loaded', [$this, 'wp_loaded'] );
-		//add_action( 'auth_cookie_malformed', [$this, 'auth_cookie_malformed'], 10, 2 );
-		//add_action( 'auth_cookie_valid', [$this, 'auth_cookie_valid'], 10, 2 );
+		add_action( 'plugins_loaded', [$this, 'plugins_loaded'],$max );
+		add_action( 'load_textdomain', [$this, 'load_textdomain'],10, 2 );
+		add_action( 'after_setup_theme', [$this, 'after_setup_theme'], $max );
+		add_action( 'wp_loaded', [$this, 'wp_loaded'] );
+		add_action( 'auth_cookie_malformed', [$this, 'auth_cookie_malformed'], 10, 2 );
+		add_action( 'auth_cookie_valid', [$this, 'auth_cookie_valid'], 10, 2 );
 
 		// Post, Page, Attachment, and Category.
 
@@ -107,7 +108,8 @@ class CoreListener extends AbstractListener {
 		add_filter( 'wp_die_json_handler', [$this, 'wp_die_handler'], 10, 1 );
 		add_filter( 'wp_die_jsonp_handler', [$this, 'wp_die_handler'], 10, 1 );
 		add_filter( 'wp_die_xml_handler', [$this, 'wp_die_handler'], 10, 1 );
-
+		add_filter( 'wp', [$this, 'wp'], 10, 1 );
+		add_filter( 'http_api_debug', [$this, 'http_api_debug'], 10, 5 );
 		return true;
 	}
 
@@ -434,6 +436,75 @@ class CoreListener extends AbstractListener {
 			$this->logger->critical( $errors );
 			return $handler( $message, $title, $args );
 		};
+	}
+
+	/**
+	 * "wp" event.
+	 *
+	 * @since    1.0.0
+	 */
+	public function wp($wp) {
+		if ( $wp instanceof \WP ) {
+			if (isset( $wp->query_vars[ 'error' ] )) {
+				$this->logger->error( $wp->query_vars[ 'error' ] );
+			}
+			if (is_404()) {
+				$this->logger->warning( '404 Page not found', 404 );
+			}
+		}
+	}
+
+	/**
+	 * "http_api_debug" event.
+	 *
+	 * @since    1.0.0
+	 */
+	public function http_api_debug($response, $context, $class, $request, $url) {
+		$error = false;
+		$code = 200;
+		if ( is_wp_error( $response ) ) {
+			$error = true;
+			$message = ucfirst($response->get_error_message()) . ': ';
+			$code = $response->get_error_code();
+		} elseif ( isset( $response[ 'response' ][ 'code' ] ) ) {
+			$code = (int) $response[ 'response' ][ 'code' ];
+			$error = ! in_array( $code, Http::$http_success_codes );
+			if ( isset($response[ 'message' ]) && is_string( $response[ 'message' ] ) ) {
+				$message = ucfirst($response[ 'message' ]) . ': ';
+			} elseif ($error) {
+				if (array_key_exists($code, Http::$http_status_codes)) {
+					$message = Http::$http_status_codes[$code] . ': ';
+				} else {
+					$message = 'Unknown error: ';
+				}
+
+			} else {
+				$message = '';
+			}
+		} elseif ( array_key_exists( 'blocking', $request ) && ! $request[ 'blocking' ] ) {
+			$error = false;
+			if ( isset($response[ 'message' ]) && is_string( $response[ 'message' ] ) ) {
+				$message = ucfirst($response[ 'message' ]) . ': ';
+			} else {
+				$message = '';
+			}
+		} elseif ( ! is_numeric( $response[ 'response' ][ 'code' ] ) ) {
+			$error = false;
+			if ( isset($response[ 'message' ]) && is_string( $response[ 'message' ] ) ) {
+				$message = ucfirst($response[ 'message' ]) . ': ';
+			} else {
+				$message = '';
+			}
+		}
+		if (is_array($request)) {
+			$verb = array_key_exists('method', $request) ? $request['method'] : '';
+			$message .= $verb . ' ' . $url;
+		}
+		if ( $error ) {
+			$this->logger->error( $message, $code);
+		} else {
+			$this->logger->debug( $message, $code );
+		}
 	}
 
 }
