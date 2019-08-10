@@ -73,10 +73,7 @@ class CoreListener extends AbstractListener {
 
 
 		// Comment, Ping, and Trackback.
-
-
-		// Feed.
-
+		add_action( 'comment_flood_trigger', [$this, 'comment_flood_trigger'], 10, 2 );
 
 		// Template.
 		add_action( 'after_setup_theme', [$this, 'after_setup_theme'], $max );
@@ -334,6 +331,18 @@ class CoreListener extends AbstractListener {
 
 
 
+
+
+	/**
+	 * "comment_flood_trigger" event.
+	 *
+	 * @since    1.0.0
+	 */
+	public function comment_flood_trigger($time_lastcomment, int $time_newcomment) {
+		if (isset($this->logger)) {
+			$this->logger->warning( 'Comment flood triggered.' );
+		}
+	}
 
 	/**
 	 * "after_setup_theme" event.
