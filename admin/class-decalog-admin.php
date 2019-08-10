@@ -121,7 +121,7 @@ class Decalog_Admin {
 			$logid = filter_input(INPUT_GET, 'logid', FILTER_SANITIZE_STRING);
 			$eventid = filter_input(INPUT_GET, 'eventid', FILTER_SANITIZE_NUMBER_INT);
 			if (isset($logid) && isset($eventid) && $eventid != 0) {
-				$this->current_view = new EventViewer( $logid, $eventid );
+				$this->current_view = new EventViewer( $logid, $eventid, $this->logger );
 				add_action('load-' . $name, [$this->current_view, 'add_metaboxes_options']);
 				add_action('admin_footer-' . $name, [$this->current_view, 'add_footer']);
 				add_filter('screen_settings', [$this->current_view, 'display_screen_settings'], 10, 2);

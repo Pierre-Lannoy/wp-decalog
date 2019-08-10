@@ -28,6 +28,15 @@ use Decalog\System\Database;
 class EventViewer {
 
 	/**
+	 * The internal logger.
+	 *
+	 * @since  1.0.0
+	 * @access protected
+	 * @var    DLogger    $logger    The plugin admin logger.
+	 */
+	protected $logger;
+
+	/**
 	 * The screen id.
 	 *
 	 * @since  1.0.0
@@ -64,10 +73,12 @@ class EventViewer {
 	 *
 	 * @param   string  $logid      The events log id.
 	 * @param   string  $eventid    The specific event id.
+	 * @param   DLogger $logger     The internal logger.
 	 * @since    1.0.0
 	 */
-	public function __construct($logid, $eventid) {
+	public function __construct($logid, $eventid, $logger) {
 		$this->logid = $logid;
+		$this->logger = $logger;
 		$this->eventid = $eventid;
 		$this->event = null;
 		$database = new Database();
@@ -201,6 +212,7 @@ class EventViewer {
 			echo '<li>' . sprintf(esc_html('Event: %s', 'decalog'), '<code>' . $this->eventid . '</code>') . '</li>';
 			echo '</ul>';
 			echo '</p>';
+			$this->logger->warning(sprintf('Trying to access out of scope event #%s from events log {%s}.', $this->eventid, $this->logid), 403);
 		}
 		echo '</div>';
 	}
