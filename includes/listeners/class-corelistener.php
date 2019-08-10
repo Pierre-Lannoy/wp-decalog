@@ -81,6 +81,10 @@ class CoreListener extends AbstractListener {
 		// Template.
 
 
+		// Mail.
+		add_action( 'phpmailer_init', [$this, 'phpmailer_init'], 10, 1 );
+		add_action( 'wp_mail_failed', [$this, 'wp_mail_failed'], 10, 1 );
+
 		// Administrative.
 		add_action( 'added_option', [$this, 'added_option'], 10, 2 );
 		add_action( 'updated_option', [$this, 'updated_option'], 10, 3 );
@@ -345,6 +349,36 @@ class CoreListener extends AbstractListener {
 
 
 	/**
+	 * "phpmailer_init" event.
+	 *
+	 * @since    1.0.0
+	 */
+	public function phpmailer_init( $phpmailer ) {
+		if ( $phpmailer instanceof \PHPMailer ) {
+			$phpmailer->SMTPDebug   = 2;
+			$self = $this;
+			$phpmailer->Debugoutput = function ( $message ) use ( $self ){
+				if (isset($self->logger)) {
+					$self->logger->debug( $message );
+				}
+			};
+		}
+	}
+
+	/**
+	 * "wp_mail_failed" event.
+	 *
+	 * @since    1.0.0
+	 */
+	public function wp_mail_failed( $error ) {
+		if ( function_exists( 'is_wp_error' ) && is_wp_error( $error ) ) {
+			if (isset($this->logger)) {
+				$this->logger->error( $error->get_error_message(), $error->get_error_code() );
+			}
+		}
+	}
+
+	/**
 	 * "activated_plugin" event.
 	 *
 	 * @since    1.0.0
@@ -462,7 +496,7 @@ class CoreListener extends AbstractListener {
 	public function http_api_debug($response, $context, $class, $request, $url) {
 		$error = false;
 		$code = 200;
-		if ( is_wp_error( $response ) ) {
+		if ( function_exists( 'is_wp_error' ) && is_wp_error( $response ) ) {
 			$error = true;
 			$message = ucfirst($response->get_error_message()) . ': ';
 			$code = $response->get_error_code();
