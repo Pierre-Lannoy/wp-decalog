@@ -100,6 +100,14 @@ class CoreListener extends AbstractListener {
 		add_action( 'generate_rewrite_rules', [$this, 'generate_rewrite_rules'], 10, 1 );
 		add_action( 'upgrader_process_complete', [$this, 'upgrader_process_complete'], 10, 2 );
 
+		// Errors.
+		add_filter( 'wp_die_ajax_handler', [$this, 'wp_die_handler'], 10, 1 );
+		add_filter( 'wp_die_xmlrpc_handler', [$this, 'wp_die_handler'], 10, 1 );
+		add_filter( 'wp_die_handler', [$this, 'wp_die_handler'], 10, 1 );
+		add_filter( 'wp_die_json_handler', [$this, 'wp_die_handler'], 10, 1 );
+		add_filter( 'wp_die_jsonp_handler', [$this, 'wp_die_handler'], 10, 1 );
+		add_filter( 'wp_die_xml_handler', [$this, 'wp_die_handler'], 10, 1 );
+
 		return true;
 	}
 
@@ -394,6 +402,38 @@ class CoreListener extends AbstractListener {
 		if (isset($this->logger)) {
 			$this->logger->warning( sprintf( '%s %s %s.', $type, $action, $plugins ) );
 		}
+	}
+
+	/**
+	 * "wp_die_*" events.
+	 *
+	 * @since    1.0.0
+	 */
+	public function wp_die_handler($handler) {
+		$dberror = array_filter( debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS, 6 ), function ( $item ) {
+			return
+				isset( $item[ 'function' ] )
+				&& isset( $item[ 'class' ] )
+				&& ( $item[ 'function' ] === 'bail' || $item[ 'function' ] === 'print_error' )
+				&& $item[ 'class' ] === 'wpdb';
+		} );
+		if ( ! $handler || ! is_callable( $handler ) || $dberror ) {
+			return $handler;
+		}
+		return function ( $message, $title = '', $args = [] ) use ( $handler ) {
+			if ( function_exists( 'is_wp_error' ) && is_wp_error( $message ) ) {
+				$errors = $message->get_error_messages();
+				if (is_array($errors)) {
+					$errors = sprintf('WordPress error(s): %s.', implode( '", "', $errors));
+				} else {
+					$errors = sprintf('WordPress error: %s.', $errors);
+				}
+			} else {
+				$errors = sprintf('WordPress error: %s.', $message);
+			}
+			$this->logger->critical( $errors );
+			return $handler( $message, $title, $args );
+		};
 	}
 
 }
