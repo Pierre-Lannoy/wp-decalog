@@ -74,6 +74,7 @@ class CoreListener extends AbstractListener {
 
 		// Comment, Ping, and Trackback.
 		add_action( 'comment_flood_trigger', [$this, 'comment_flood_trigger'], 10, 2 );
+		add_action( 'comment_post', [$this, 'comment_post'], 10, 3 );
 
 		// Template.
 		add_action( 'after_setup_theme', [$this, 'after_setup_theme'], $max );
@@ -159,7 +160,7 @@ class CoreListener extends AbstractListener {
 			$scheme = '<none>';
 		}
 		if (isset($this->logger)) {
-			$this->logger->debug( sprintf( 'Malformed authentication cookie for "%s" scheme.', $domain, $mofile ) );
+			$this->logger->debug( sprintf( 'Malformed authentication cookie for "%s" scheme.', $scheme ) );
 		}
 	}
 
@@ -274,7 +275,7 @@ class CoreListener extends AbstractListener {
 	 * @since    1.0.0
 	 */
 	public function password_reset($user, $new_pass) {
-		if ( $user instanceof WP_User ) {
+		if ( $user instanceof \WP_User ) {
 			$id = $user->ID;
 		} else {
 			$id = 0;
@@ -316,7 +317,7 @@ class CoreListener extends AbstractListener {
 	 * @since    1.0.0
 	 */
 	public function wp_login($user_login, $user) {
-		if ( $user instanceof WP_User ) {
+		if ( $user instanceof \WP_User ) {
 			$id = $user->ID;
 		} else {
 			$id = 0;
@@ -334,11 +335,28 @@ class CoreListener extends AbstractListener {
 
 
 	/**
+	 * "comment_post" event.
+	 *
+	 * @since    1.0.0
+	 */
+	public function comment_post($comment_ID, $comment_approved, $commentdata) {
+		$status = 'unknown status';
+		if (is_string($comment_approved)) {
+			$status = $comment_approved;
+		} elseif (is_numeric($comment_approved)) {
+			$status = 1 === $comment_approved ? 'approved' : 'not approved';
+		}
+		if (isset($this->logger)) {
+			$this->logger->info( sprintf('New comment: %s.', $status ));
+		}
+	}
+
+	/**
 	 * "comment_flood_trigger" event.
 	 *
 	 * @since    1.0.0
 	 */
-	public function comment_flood_trigger($time_lastcomment, int $time_newcomment) {
+	public function comment_flood_trigger($time_lastcomment, $time_newcomment) {
 		if (isset($this->logger)) {
 			$this->logger->warning( 'Comment flood triggered.' );
 		}
@@ -520,6 +538,7 @@ class CoreListener extends AbstractListener {
 	public function http_api_debug($response, $context, $class, $request, $url) {
 		$error = false;
 		$code = 200;
+		$message = '';
 		if ( function_exists( 'is_wp_error' ) && is_wp_error( $response ) ) {
 			$error = true;
 			$message = ucfirst($response->get_error_message()) . ': ';
@@ -536,22 +555,16 @@ class CoreListener extends AbstractListener {
 					$message = 'Unknown error: ';
 				}
 
-			} else {
-				$message = '';
 			}
 		} elseif ( array_key_exists( 'blocking', $request ) && ! $request[ 'blocking' ] ) {
 			$error = false;
 			if ( isset($response[ 'message' ]) && is_string( $response[ 'message' ] ) ) {
 				$message = ucfirst($response[ 'message' ]) . ': ';
-			} else {
-				$message = '';
 			}
 		} elseif ( ! is_numeric( $response[ 'response' ][ 'code' ] ) ) {
 			$error = false;
 			if ( isset($response[ 'message' ]) && is_string( $response[ 'message' ] ) ) {
 				$message = ucfirst($response[ 'message' ]) . ': ';
-			} else {
-				$message = '';
 			}
 		}
 		if (is_array($request)) {
