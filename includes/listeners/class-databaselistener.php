@@ -99,17 +99,24 @@ class DatabaseListener extends AbstractListener {
 			return $handler;
 		}
 		return function ( $message, $title = '', $args = [] ) use ( $handler ) {
-			if ( function_exists( 'is_wp_error' ) && is_wp_error( $message ) ) {
-				$errors = $message->get_error_messages();
-				if (is_array($errors)) {
-					$errors = sprintf('Database error(s): %s.', implode( '", "', $errors));
-				} else {
-					$errors = sprintf('Database error: %s.', $errors);
-				}
-			} else {
-				$errors = sprintf('Database error: %s.', $message);
+			$msg = '';
+			$code = 0;
+			if (is_string($title) && '' !== $title) {
+				$title = '"' . $title . '", ';
 			}
-			$this->logger->critical( $errors );
+			if (is_numeric($title)) {
+				$code = $title;
+				$title = '';
+			}
+			if ( function_exists( 'is_wp_error' ) && is_wp_error( $message ) ) {
+				$msg = $title . $message->get_error_message();
+				$code = $message->get_error_code();
+			} elseif (is_string($message)) {
+				$msg = $title . $message;
+			}
+			if ('' !== $msg) {
+				$this->logger->critical( sprintf('Database error: %s.', wp_kses($msg, [])), $code );
+			}
 			return $handler( $message, $title, $args );
 		};
 	}

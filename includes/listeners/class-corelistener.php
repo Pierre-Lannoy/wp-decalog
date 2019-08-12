@@ -58,15 +58,13 @@ class CoreListener extends AbstractListener {
 	 */
 	protected function launch() {
 		$max = 999999999;
-		// Request.
-		add_action( 'plugins_loaded', [$this, 'plugins_loaded'],$max );
-		add_action( 'load_textdomain', [$this, 'load_textdomain'],10, 2 );
 
-		add_action( 'wp_loaded', [$this, 'wp_loaded'] );
-		add_action( 'auth_cookie_malformed', [$this, 'auth_cookie_malformed'], 10, 2 );
-		add_action( 'auth_cookie_valid', [$this, 'auth_cookie_valid'], 10, 2 );
+		// Attachments.
+		add_action( 'add_attachment', [$this, 'add_attachment'], 10, 1 );
+		add_action( 'delete_attachment', [$this, 'delete_attachment'], 10, 1 );
+		add_action( 'edit_attachment', [$this, 'edit_attachment'], 10, 1 );
 
-		// Post, Page, Attachment, and Category.
+		// Posts and Pages.
 
 
 		// Taxonomy and Terms.
@@ -75,15 +73,12 @@ class CoreListener extends AbstractListener {
 		// Comment, Ping, and Trackback.
 		add_action( 'comment_flood_trigger', [$this, 'comment_flood_trigger'], 10, 2 );
 		add_action( 'comment_post', [$this, 'comment_post'], 10, 3 );
-
 		// Template.
 		add_action( 'after_setup_theme', [$this, 'after_setup_theme'], $max );
 		add_action( 'switch_theme', [$this, 'switch_theme'], 10, 3 );
-
 		// Mail.
 		add_action( 'phpmailer_init', [$this, 'phpmailer_init'], 10, 1 );
 		add_action( 'wp_mail_failed', [$this, 'wp_mail_failed'], 10, 1 );
-
 		// Administrative.
 		add_action( 'added_option', [$this, 'added_option'], 10, 2 );
 		add_action( 'updated_option', [$this, 'updated_option'], 10, 3 );
@@ -97,13 +92,16 @@ class CoreListener extends AbstractListener {
 		add_action( 'wp_logout', [$this, 'wp_logout'], 10, 0 );
 		add_action( 'wp_login_failed', [$this, 'wp_login_failed'], 10, 1 );
 		add_action( 'wp_login', [$this, 'wp_login'], 10, 2 );
-
 		// Advanced.
+		add_action( 'plugins_loaded', [$this, 'plugins_loaded'],$max );
+		add_action( 'load_textdomain', [$this, 'load_textdomain'],10, 2 );
+		add_action( 'wp_loaded', [$this, 'wp_loaded'] );
+		add_action( 'auth_cookie_malformed', [$this, 'auth_cookie_malformed'], 10, 2 );
+		add_action( 'auth_cookie_valid', [$this, 'auth_cookie_valid'], 10, 2 );
 		add_action( 'activated_plugin', [$this, 'activated_plugin'], 10, 2 );
 		add_action( 'deactivated_plugin', [$this, 'deactivated_plugin'], 10, 2 );
 		add_action( 'generate_rewrite_rules', [$this, 'generate_rewrite_rules'], 10, 1 );
 		add_action( 'upgrader_process_complete', [$this, 'upgrader_process_complete'], 10, 2 );
-
 		// Errors.
 		add_filter( 'wp_die_ajax_handler', [$this, 'wp_die_handler'], 10, 1 );
 		add_filter( 'wp_die_xmlrpc_handler', [$this, 'wp_die_handler'], 10, 1 );
@@ -117,63 +115,54 @@ class CoreListener extends AbstractListener {
 	}
 
 	/**
-	 * "plugins_loaded" event.
+	 * "add_attachment" event.
 	 *
 	 * @since    1.0.0
 	 */
-	public function plugins_loaded() {
+	public function add_attachment($post_ID) {
+		$message = 'Attachment added.';
+		if ($att = wp_get_attachment_metadata($post_ID)) {
+			$message = sprintf('Attachment "%s" added.', $att['file']);
+		}
 		if (isset($this->logger)) {
-			$this->logger->debug( 'All plugins are loaded.' );
+			$this->logger->info( $message );
 		}
 	}
 
 	/**
-	 * "load_textdomain" event.
+	 * "delete_attachment" event.
 	 *
 	 * @since    1.0.0
 	 */
-	public function load_textdomain($domain, $mofile) {
-		$mofile = './' . str_replace( wp_normalize_path( ABSPATH ), '', wp_normalize_path( $mofile ) );
+	public function delete_attachment($post_ID) {
+		$message = 'Attachment deleted.';
+		if ($att = wp_get_attachment_metadata($post_ID)) {
+			$message = sprintf('Attachment "%s" deleted.', $att['file']);
+		}
 		if (isset($this->logger)) {
-			$this->logger->debug( sprintf( 'Text domain "%s" loaded from %s.', $domain, $mofile ) );
+			$this->logger->info( $message );
 		}
 	}
 
 	/**
-	 * "wp_loaded" event.
+	 * "edit_attachment" event.
 	 *
 	 * @since    1.0.0
 	 */
-	public function wp_loaded() {
+	public function edit_attachment($post_ID) {
+		$message = 'Attachment updated.';
+		if ($att = wp_get_attachment_metadata($post_ID)) {
+			$message = sprintf('Attachment "%s" updated.', $att['file']);
+		}
 		if (isset($this->logger)) {
-			$this->logger->debug( 'WordPress core, plugins and theme fully loaded and instantiated.' );
+			$this->logger->info( $message );
 		}
 	}
 
-	/**
-	 * "auth_cookie_malformed" event.
-	 *
-	 * @since    1.0.0
-	 */
-	public function auth_cookie_malformed($cookie, $scheme) {
-		if (!$scheme || !is_string($scheme)) {
-			$scheme = '<none>';
-		}
-		if (isset($this->logger)) {
-			$this->logger->debug( sprintf( 'Malformed authentication cookie for "%s" scheme.', $scheme ) );
-		}
-	}
 
-	/**
-	 * "auth_cookie_valid" event.
-	 *
-	 * @since    1.0.0
-	 */
-	public function auth_cookie_valid($cookie, $user) {
-		if (isset($this->logger)) {
-			$this->logger->debug( sprintf( 'Validated authentication cookie for %s.', $this->get_user($user->ID) ) );
-		}
-	}
+
+
+
 
 
 	/**
@@ -421,6 +410,65 @@ class CoreListener extends AbstractListener {
 	}
 
 	/**
+	 * "auth_cookie_malformed" event.
+	 *
+	 * @since    1.0.0
+	 */
+	public function auth_cookie_malformed($cookie, $scheme) {
+		if (!$scheme || !is_string($scheme)) {
+			$scheme = '<none>';
+		}
+		if (isset($this->logger)) {
+			$this->logger->debug( sprintf( 'Malformed authentication cookie for "%s" scheme.', $scheme ) );
+		}
+	}
+
+	/**
+	 * "auth_cookie_valid" event.
+	 *
+	 * @since    1.0.0
+	 */
+	public function auth_cookie_valid($cookie, $user) {
+		if (isset($this->logger)) {
+			$this->logger->debug( sprintf( 'Validated authentication cookie for %s.', $this->get_user($user->ID) ) );
+		}
+	}
+
+	/**
+	 * "plugins_loaded" event.
+	 *
+	 * @since    1.0.0
+	 */
+	public function plugins_loaded() {
+		if (isset($this->logger)) {
+			$this->logger->debug( 'All plugins are loaded.' );
+		}
+	}
+
+	/**
+	 * "load_textdomain" event.
+	 *
+	 * @since    1.0.0
+	 */
+	public function load_textdomain($domain, $mofile) {
+		$mofile = './' . str_replace( wp_normalize_path( ABSPATH ), '', wp_normalize_path( $mofile ) );
+		if (isset($this->logger)) {
+			$this->logger->debug( sprintf( 'Text domain "%s" loaded from %s.', $domain, $mofile ) );
+		}
+	}
+
+	/**
+	 * "wp_loaded" event.
+	 *
+	 * @since    1.0.0
+	 */
+	public function wp_loaded() {
+		if (isset($this->logger)) {
+			$this->logger->debug( 'WordPress core, plugins and theme fully loaded and instantiated.' );
+		}
+	}
+
+	/**
 	 * "activated_plugin" event.
 	 *
 	 * @since    1.0.0
@@ -488,28 +536,28 @@ class CoreListener extends AbstractListener {
 	 * @since    1.0.0
 	 */
 	public function wp_die_handler($handler) {
-		$dberror = array_filter( debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS, 6 ), function ( $item ) {
-			return
-				isset( $item[ 'function' ] )
-				&& isset( $item[ 'class' ] )
-				&& ( $item[ 'function' ] === 'bail' || $item[ 'function' ] === 'print_error' )
-				&& $item[ 'class' ] === 'wpdb';
-		} );
-		if ( ! $handler || ! is_callable( $handler ) || $dberror ) {
+		if ( ! $handler || ! is_callable( $handler )) {
 			return $handler;
 		}
 		return function ( $message, $title = '', $args = [] ) use ( $handler ) {
-			if ( function_exists( 'is_wp_error' ) && is_wp_error( $message ) ) {
-				$errors = $message->get_error_messages();
-				if (is_array($errors)) {
-					$errors = sprintf('WordPress error(s): %s.', implode( '", "', $errors));
-				} else {
-					$errors = sprintf('WordPress error: %s.', $errors);
-				}
-			} else {
-				$errors = sprintf('WordPress error: %s.', $message);
+			$msg = '';
+			$code = 0;
+			if (is_string($title) && '' !== $title) {
+				$title .= ': ';
 			}
-			$this->logger->critical( $errors );
+			if (is_numeric($title)) {
+				$code = $title;
+				$title = '';
+			}
+			if ( function_exists( 'is_wp_error' ) && is_wp_error( $message ) ) {
+				$msg = $title . $message->get_error_message();
+				$code = $message->get_error_code();
+			} elseif (is_string($message)) {
+				$msg = $title . $message;
+			}
+			if ('' !== $msg) {
+				$this->logger->critical( wp_kses($msg, []), $code );
+			}
 			return $handler( $message, $title, $args );
 		};
 	}
