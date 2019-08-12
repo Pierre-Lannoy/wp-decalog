@@ -57,8 +57,6 @@ class CoreListener extends AbstractListener {
 	 * @since    1.0.0
 	 */
 	protected function launch() {
-		$max = 999999999;
-
 		// Attachments.
 		add_action( 'add_attachment', [$this, 'add_attachment'], 10, 1 );
 		add_action( 'delete_attachment', [$this, 'delete_attachment'], 10, 1 );
@@ -71,15 +69,15 @@ class CoreListener extends AbstractListener {
 		add_action( 'save_post', [$this, 'save_post'], 10, 3 );
 		add_action( 'publish_post', [$this, 'publish_post'], 10, 1 );
 		add_action( 'publish_future_post', [$this, 'publish_future_post'], 10, 1 );
-
-		// Taxonomy and Terms.
-
-
-		// Comment, Ping, and Trackback.
+		// Terms.
+		add_action( 'edited_terms', [$this, 'edited_terms'], 10, 2 );
+		add_action( 'created_term', [$this, 'created_term'], 10, 3 );
+		add_action( 'delete_term', [$this, 'delete_term'], 10, 5 );
+		// Comments.
 		add_action( 'comment_flood_trigger', [$this, 'comment_flood_trigger'], 10, 2 );
 		add_action( 'comment_post', [$this, 'comment_post'], 10, 3 );
 		// Template.
-		add_action( 'after_setup_theme', [$this, 'after_setup_theme'], $max );
+		add_action( 'after_setup_theme', [$this, 'after_setup_theme'], PHP_INT_MAX );
 		add_action( 'switch_theme', [$this, 'switch_theme'], 10, 3 );
 		// Mail.
 		add_action( 'phpmailer_init', [$this, 'phpmailer_init'], 10, 1 );
@@ -98,7 +96,7 @@ class CoreListener extends AbstractListener {
 		add_action( 'wp_login_failed', [$this, 'wp_login_failed'], 10, 1 );
 		add_action( 'wp_login', [$this, 'wp_login'], 10, 2 );
 		// Advanced.
-		add_action( 'plugins_loaded', [$this, 'plugins_loaded'],$max );
+		add_action( 'plugins_loaded', [$this, 'plugins_loaded'],PHP_INT_MAX );
 		add_action( 'load_textdomain', [$this, 'load_textdomain'],10, 2 );
 		add_action( 'wp_loaded', [$this, 'wp_loaded'] );
 		add_action( 'auth_cookie_malformed', [$this, 'auth_cookie_malformed'], 10, 2 );
@@ -269,9 +267,50 @@ class CoreListener extends AbstractListener {
 		}
 	}
 
+	/**
+	 * "edited_terms" event.
+	 *
+	 * @since    1.0.0
+	 */
+	public function edited_terms($term_id, $taxonomy) {
+		$message = 'Term updated.';
+		if ($term = get_term( $term_id, $taxonomy)) {
+			$message = sprintf('Term "%s" from "%s" updated.', $term->name, $term->taxonomy );
+		}
+		if (isset($this->logger)) {
+			$this->logger->debug( $message );
+		}
+	}
 
+	/**
+	 * "created_term" event.
+	 *
+	 * @since    1.0.0
+	 */
+	public function created_term($term_id, $tt_id, $taxonomy) {
+		$message = 'Term created.';
+		if ($term = get_term( $term_id, $taxonomy)) {
+			$message = sprintf('Term "%s" from "%s" created.', $term->name, $term->taxonomy );
+		}
+		if (isset($this->logger)) {
+			$this->logger->debug( $message );
+		}
+	}
 
-
+	/**
+	 * "delete_term" event.
+	 *
+	 * @since    1.0.0
+	 */
+	public function delete_term($term_id, $tt_id, $taxonomy, $deleted_term, $object_ids) {
+		$message = 'Term deleted.';
+		if (!is_wp_error($deleted_term)) {
+			$message = sprintf('Term "%s" from "%s" deleted.', $deleted_term->name, $deleted_term->taxonomy );
+		}
+		if (isset($this->logger)) {
+			$this->logger->debug( $message );
+		}
+	}
 
 	/**
 	 * "added_option" event.
