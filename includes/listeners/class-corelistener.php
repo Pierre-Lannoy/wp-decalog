@@ -63,9 +63,14 @@ class CoreListener extends AbstractListener {
 		add_action( 'add_attachment', [$this, 'add_attachment'], 10, 1 );
 		add_action( 'delete_attachment', [$this, 'delete_attachment'], 10, 1 );
 		add_action( 'edit_attachment', [$this, 'edit_attachment'], 10, 1 );
-
 		// Posts and Pages.
-
+		add_action( 'trashed_post', [$this, 'trashed_post'], 10, 1 );
+		add_action( 'untrashed_post', [$this, 'untrashed_post'], 10, 1 );
+		add_action( 'delete_post', [$this, 'deleted_post'], 10, 1 );
+		add_action( 'post_updated', [$this, 'post_updated'], 10, 3 );
+		add_action( 'save_post', [$this, 'save_post'], 10, 3 );
+		add_action( 'publish_post', [$this, 'publish_post'], 10, 1 );
+		add_action( 'publish_future_post', [$this, 'publish_future_post'], 10, 1 );
 
 		// Taxonomy and Terms.
 
@@ -159,7 +164,110 @@ class CoreListener extends AbstractListener {
 		}
 	}
 
+	/**
+	 * "trashed_post" event.
+	 *
+	 * @since    1.0.0
+	 */
+	public function trashed_post($post_ID) {
+		$message = 'Post trashed.';
+		if ($post = get_post($post_ID)) {
+			$message = sprintf('Post "%s" by %s trashed.', $post->post_title, $this->get_user($post->post_author) );
+		}
+		if (isset($this->logger)) {
+			$this->logger->info( $message );
+		}
+	}
 
+	/**
+	 * "untrashed_post" event.
+	 *
+	 * @since    1.0.0
+	 */
+	public function untrashed_post($post_ID) {
+		$message = 'Post untrashed.';
+		if ($post = get_post($post_ID)) {
+			$message = sprintf('Post "%s" by %s untrashed.', $post->post_title, $this->get_user($post->post_author) );
+		}
+		if (isset($this->logger)) {
+			$this->logger->info( $message );
+		}
+	}
+
+	/**
+	 * "delete_post" event.
+	 *
+	 * @since    1.0.0
+	 */
+	public function delete_post($post_ID) {
+		$message = 'Post deleted.';
+		if ($post = get_post($post_ID)) {
+			$message = sprintf('Post "%s" by %s deleted.', $post->post_title, $this->get_user($post->post_author) );
+		}
+		if (isset($this->logger)) {
+			$this->logger->info( $message );
+		}
+	}
+
+	/**
+	 * "publish_post" event.
+	 *
+	 * @since    1.0.0
+	 */
+	public function publish_post($post_ID) {
+		$message = 'Post published.';
+		if ($post = get_post($post_ID)) {
+			$message = sprintf('Post "%s" by %s published.', $post->post_title, $this->get_user($post->post_author) );
+		}
+		if (isset($this->logger)) {
+			$this->logger->info( $message );
+		}
+	}
+
+	/**
+	 * "publish_future_post" event.
+	 *
+	 * @since    1.0.0
+	 */
+	public function publish_future_post($post_ID) {
+		$message = 'Post scheduled for publish.';
+		if ($post = get_post($post_ID)) {
+			$message = sprintf('Post "%s" by %s scheduled for publish.', $post->post_title, $this->get_user($post->post_author) );
+		}
+		if (isset($this->logger)) {
+			$this->logger->info( $message );
+		}
+	}
+
+	/**
+	 * "post_updated" event.
+	 *
+	 * @since    1.0.0
+	 */
+	public function post_updated($post_ID, $post_after, $post_before) {
+		$message = 'Post updated.';
+		if ($post = get_post($post_ID)) {
+			$message = sprintf('Post "%s" by %s updated.', $post->post_title, $this->get_user($post->post_author) );
+		}
+		if (isset($this->logger)) {
+			$this->logger->info( $message );
+		}
+	}
+
+	/**
+	 * "save_post" event.
+	 *
+	 * @since    1.0.0
+	 */
+	public function save_post($post_ID, $post, $update) {
+		$message = 'Post saved.';
+		if ($post = get_post($post_ID)) {
+			$message = sprintf('Post "%s" by %s saved.', $post->post_title, $this->get_user($post->post_author) );
+		}
+		if (isset($this->logger)) {
+			$this->logger->debug( $message );
+		}
+	}
 
 
 
@@ -620,7 +728,7 @@ class CoreListener extends AbstractListener {
 			$message .= $verb . ' ' . $url;
 		}
 		if ( $error ) {
-			$this->logger->error( $message, $code);
+			$this->logger->warning( $message, $code);
 		} else {
 			$this->logger->debug( $message, $code );
 		}

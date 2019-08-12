@@ -48,7 +48,7 @@ class Option {
 		self::$defaults['logger_autostart']     = true;
 		self::$defaults['autolisteners']        = true;
 		self::$defaults['listeners']            = [];
-		self::$defaults['pseudonymization']     = true;
+		self::$defaults['pseudonymization']     = false;
 	}
 
 	/**
