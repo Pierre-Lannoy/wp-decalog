@@ -138,6 +138,8 @@ class Decalog_Admin {
 	 * @since 1.0.0
 	 */
 	public function init_settings_sections() {
+		add_settings_section( 'decalog_loggers_options_section', __( 'Loggers options', 'decalog' ), [ $this, 'loggers_options_section_callback' ], 'decalog_loggers_options_section' );
+		add_settings_section( 'decalog_plugin_options_section', __( 'Plugin options', 'decalog' ), [ $this, 'plugin_options_section_callback' ], 'decalog_plugin_options_section' );
 		add_settings_section( 'decalog_logger_misc_section', null, [ $this, 'logger_misc_section_callback' ], 'decalog_logger_misc_section' );
 		add_settings_section( 'decalog_logger_delete_section', null, [ $this, 'logger_delete_section_callback' ], 'decalog_logger_delete_section' );
 		add_settings_section( 'decalog_logger_specific_section', null, [ $this, 'logger_specific_section_callback' ], 'decalog_logger_specific_section' );
@@ -271,10 +273,69 @@ class Decalog_Admin {
 					}
 					break;
 				case 'misc':
+					switch ( $action ) {
+						case 'do-save':
+							if ( Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type() ) {
+								if ( ! empty( $_POST ) && array_key_exists( 'submit', $_POST ) ) {
+									$this->save_options();
+								} elseif ( ! empty( $_POST ) && array_key_exists( 'reset-to-defaults', $_POST ) ) {
+									$this->reset_options();
+								}
+							}
+							break;
+					}
 					break;
 			}
 		}
 		include DECALOG_ADMIN_DIR . 'partials/' . $view . '.php';
+	}
+
+	/**
+	 * Save the plugin options.
+	 *
+	 * @since 1.0.0
+	 */
+	private function save_options() {
+		if ( ! empty( $_POST ) ) {
+			if ( array_key_exists( '_wpnonce', $_POST ) && wp_verify_nonce( $_POST['_wpnonce'], 'decalog-plugin-options' ) ) {
+				Option::set('auto_update', array_key_exists( 'decalog_plugin_options_autoupdate', $_POST ) );
+				Option::set('display_nag', array_key_exists( 'decalog_plugin_options_nag', $_POST ) );
+				Option::set('logger_autostart', array_key_exists( 'decalog_loggers_options_autostart', $_POST ) );
+				Option::set('pseudonymization', array_key_exists( 'decalog_loggers_options_pseudonymization', $_POST ) );
+				Option::set('respect_wp_debug', array_key_exists( 'decalog_loggers_options_wpdebug', $_POST ) );
+				$message      = __( 'Plugin settings have been saved.', 'decalog' );
+				$code         = 0;
+				add_settings_error( 'decalog_no_error', $code, $message, 'updated' );
+				$this->logger->info( 'Plugin settings updated.', $code);
+			} else {
+				$message = __( 'Plugin settings have not been saved. Please try again.', 'decalog' );
+				$code    = 2;
+				add_settings_error( 'adr_nonce_error', $code, $message, 'error' );
+				$this->logger->warning( 'Plugin settings not updated.', $code);
+			}
+		}
+	}
+
+	/**
+	 * Reset the plugin options.
+	 *
+	 * @since 1.0.0
+	 */
+	private function reset_options() {
+		if ( ! empty( $_POST ) ) {
+			if ( array_key_exists( '_wpnonce', $_POST ) && wp_verify_nonce( $_POST['_wpnonce'], 'decalog-plugin-options' ) ) {
+				Option::reset_to_defaults();
+				$message      = __( 'Plugin settings have been reset to defaults.', 'decalog' );
+				$code         = 0;
+				add_settings_error( 'decalog_no_error', $code, $message, 'updated' );
+				$this->logger->info( 'Plugin settings reset to defaults.', $code);
+			} else {
+				$message = __( 'Plugin settings have not been reset to defaults. Please try again.', 'decalog' );
+				$code    = 2;
+				add_settings_error( 'adr_nonce_error', $code, $message, 'error' );
+				$this->logger->warning( 'Plugin settings not reset to defaults.', $code);
+			}
+		}
 	}
 
 	/**
@@ -363,6 +424,104 @@ class Decalog_Admin {
 				$this->logger->warning( sprintf( 'Logger "%s" has not been removed.', $this->current_logger['name'] ), $code );
 			}
 		}
+	}
+
+	/**
+	 * Callback for loggers options section.
+	 *
+	 * @since 1.0.0
+	 */
+	public function loggers_options_section_callback() {
+		$form = new Form();
+		add_settings_field(
+			'decalog_loggers_options_autostart',
+			__( 'New logger', 'decalog' ),
+			[ $form, 'echo_field_checkbox' ],
+			'decalog_loggers_options_section',
+			'decalog_loggers_options_section',
+			[
+				'text'        => __( 'Auto-start', 'decalog' ),
+				'id'          => 'decalog_loggers_options_autostart',
+				'checked'     => Option::get('logger_autostart'),
+				'description' => __( 'If checked, when a new logger is added it automatically starts.', 'decalog' ),
+				'full_width'  => true,
+				'enabled'     => true,
+			]
+		);
+		register_setting( 'decalog_loggers_options_section', 'decalog_loggers_options_autostart' );
+		add_settings_field(
+			'decalog_loggers_options_pseudonymization',
+			__( 'Events messages', 'decalog' ),
+			[ $form, 'echo_field_checkbox' ],
+			'decalog_loggers_options_section',
+			'decalog_loggers_options_section',
+			[
+				'text'        => __( 'Pseudonymization', 'decalog' ),
+				'id'          => 'decalog_loggers_options_pseudonymization',
+				'checked'     => Option::get('pseudonymization'),
+				'description' => __( 'If checked, DecaLog will try to pseudonymize user names and ID in events messages.', 'decalog' ),
+				'full_width'  => true,
+				'enabled'     => true,
+			]
+		);
+		register_setting( 'decalog_loggers_options_section', 'decalog_loggers_options_pseudonymization' );
+		add_settings_field(
+			'decalog_loggers_options_wpdebug',
+			__( 'Rules', 'decalog' ),
+			[ $form, 'echo_field_checkbox' ],
+			'decalog_loggers_options_section',
+			'decalog_loggers_options_section',
+			[
+				'text'        => __( 'Respect WP_DEBUG', 'decalog' ),
+				'id'          => 'decalog_loggers_options_wpdebug',
+				'checked'     => Option::get('respect_wp_debug'),
+				'description' => __( 'If checked, the value of WP_DEBUG will override each logger\'s settings for minimal level of logging.', 'decalog' ),
+				'full_width'  => true,
+				'enabled'     => true,
+			]
+		);
+		register_setting( 'decalog_loggers_options_section', 'decalog_loggers_options_wpdebug' );
+	}
+
+	/**
+	 * Callback for plugin options section.
+	 *
+	 * @since 1.0.0
+	 */
+	public function plugin_options_section_callback() {
+		$form = new Form();
+		add_settings_field(
+			'decalog_plugin_options_autoupdate',
+			__( 'Plugin updates', 'decalog' ),
+			[ $form, 'echo_field_checkbox' ],
+			'decalog_plugin_options_section',
+			'decalog_plugin_options_section',
+			[
+				'text'        => __( 'Automatic (recommended)', 'decalog' ),
+				'id'          => 'decalog_plugin_options_autoupdate',
+				'checked'     => Option::get('auto_update'),
+				'description' => __( 'If checked, DecaLog will update itself as soon as a new version is available.', 'decalog' ),
+				'full_width'  => true,
+				'enabled'     => true,
+			]
+		);
+		register_setting( 'decalog_plugin_options_section', 'decalog_plugin_options_autoupdate' );
+		add_settings_field(
+			'decalog_plugin_options_nag',
+			__( 'Admin notices', 'decalog' ),
+			[ $form, 'echo_field_checkbox' ],
+			'decalog_plugin_options_section',
+			'decalog_plugin_options_section',
+			[
+				'text'        => __( 'Display', 'decalog' ),
+				'id'          => 'decalog_plugin_options_nag',
+				'checked'     => Option::get('display_nag'),
+				'description' => __( 'Allows DecaLog to display admin notices outside the plugin screens.', 'decalog' ),
+				'full_width'  => true,
+				'enabled'     => true,
+			]
+		);
+		register_setting( 'decalog_plugin_options_section', 'decalog_plugin_options_nag' );
 	}
 
 	/**

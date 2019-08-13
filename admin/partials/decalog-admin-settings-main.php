@@ -65,7 +65,7 @@ $active_tab = ( isset( $_GET['tab'] ) ? $_GET['tab'] : 'loggers' );
 		<?php include __DIR__ . '/decalog-admin-settings-loggers.php'; ?>
 	<?php } ?>
 	<?php if ( 'misc' === $active_tab ) { ?>
-		<?php include __DIR__ . '/decalog-admin-settings-misc.php'; ?>
+		<?php include __DIR__ . '/decalog-admin-settings-options.php'; ?>
 	<?php } ?>
 	<?php if ( 'about' === $active_tab ) { ?>
 		<?php include __DIR__ . '/decalog-admin-settings-about.php'; ?>

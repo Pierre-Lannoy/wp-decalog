@@ -39,16 +39,16 @@ class Option {
 	public static function init() {
 		self::$defaults['use_cdn']              = false;
 		self::$defaults['script_in_footer']     = false;
-		self::$defaults['auto_update']          = true;
-		self::$defaults['display_nag']          = true;
+		self::$defaults['auto_update']          = true;  // In plugin settings.
+		self::$defaults['display_nag']          = true;  // In plugin settings.
 		self::$defaults['nags']                 = [];
 		self::$defaults['version']              = '0.0.0';
 		self::$defaults['loggers']              = [];
-		self::$defaults['respect_wp_debug']     = false;
-		self::$defaults['logger_autostart']     = true;
-		self::$defaults['autolisteners']        = true;
-		self::$defaults['listeners']            = [];
-		self::$defaults['pseudonymization']     = false;
+		self::$defaults['respect_wp_debug']     = false; // In plugin settings.
+		self::$defaults['logger_autostart']     = true;  // In plugin settings.
+		self::$defaults['autolisteners']        = true;  // In plugin settings.
+		self::$defaults['listeners']            = [];    // In plugin settings.
+		self::$defaults['pseudonymization']     = false; // In plugin settings.
 	}
 
 	/**
@@ -101,6 +101,22 @@ class Option {
 			}
 		}
 		return $result;
+	}
+
+	/**
+	 * Reset some options to their defaults.
+	 *
+	 * @since 1.0.0
+	 */
+	public static function reset_to_defaults() {
+		self::set('use_cdn', self::$defaults['use_cdn'] ); 
+		self::set('script_in_footer', self::$defaults['script_in_footer'] ); 
+		self::set('auto_update', self::$defaults['auto_update'] ); 
+		self::set('display_nag', self::$defaults['display_nag'] ); 
+		self::set('respect_wp_debug', self::$defaults['respect_wp_debug'] ); 
+		self::set('logger_autostart', self::$defaults['logger_autostart'] ); 
+		self::set('autolisteners', self::$defaults['autolisteners'] ); 
+		self::set('pseudonymization', self::$defaults['pseudonymization'] ); 
 	}
 
 	/**
