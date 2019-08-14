@@ -96,9 +96,8 @@ abstract class AbstractListener {
 		if ($this->is_available()) {
 			$launch = Option::get('autolisteners');
 			if (!$launch) {
-				$listeners = Option::get('listeners');
-				if (array_key_exists($this->id, $listeners)) {
-					$launch = $listeners[$this->id];
+				if (in_array($this->id, Option::get('listeners'))) {
+					$launch = true;
 				}
 			}
 			if ($launch && $this->launch()) {
@@ -122,6 +121,8 @@ abstract class AbstractListener {
 		$result['product'] = $this->product;
 		$result['class'] = $this->class;
 		$result['version'] = $this->version;
+		$result['available'] = $this->is_available();
+		return $result;
 	}
 
 	/**

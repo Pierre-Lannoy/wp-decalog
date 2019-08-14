@@ -15,6 +15,7 @@ use Decalog\Plugin\Feature\HandlerTypes;
 use Decalog\Plugin\Feature\ProcessorTypes;
 use Decalog\Plugin\Feature\LoggerFactory;
 use Decalog\Plugin\Feature\Events;
+use Decalog\Listener\ListenerFactory;
 use Decalog\System\Assets;
 use Decalog\System\UUID;
 use Decalog\System\Option;
@@ -140,6 +141,8 @@ class Decalog_Admin {
 	public function init_settings_sections() {
 		add_settings_section( 'decalog_loggers_options_section', __( 'Loggers options', 'decalog' ), [ $this, 'loggers_options_section_callback' ], 'decalog_loggers_options_section' );
 		add_settings_section( 'decalog_plugin_options_section', __( 'Plugin options', 'decalog' ), [ $this, 'plugin_options_section_callback' ], 'decalog_plugin_options_section' );
+		add_settings_section( 'decalog_listeners_options_section', null, [ $this, 'listeners_options_section_callback' ], 'decalog_listeners_options_section' );
+		add_settings_section( 'decalog_listeners_settings_section', null, [ $this, 'listeners_settings_section_callback' ], 'decalog_listeners_settings_section' );
 		add_settings_section( 'decalog_logger_misc_section', null, [ $this, 'logger_misc_section_callback' ], 'decalog_logger_misc_section' );
 		add_settings_section( 'decalog_logger_delete_section', null, [ $this, 'logger_delete_section_callback' ], 'decalog_logger_delete_section' );
 		add_settings_section( 'decalog_logger_specific_section', null, [ $this, 'logger_specific_section_callback' ], 'decalog_logger_specific_section' );
@@ -285,9 +288,70 @@ class Decalog_Admin {
 							break;
 					}
 					break;
+				case 'listeners':
+					switch ( $action ) {
+						case 'do-save':
+							if ( Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type() ) {
+								if ( ! empty( $_POST ) && array_key_exists( 'submit', $_POST ) ) {
+									$this->save_listeners();
+								} elseif ( ! empty( $_POST ) && array_key_exists( 'reset-to-defaults', $_POST ) ) {
+									$this->reset_listeners();
+								}
+							}
+							break;
+					}
+					break;
 			}
 		}
 		include DECALOG_ADMIN_DIR . 'partials/' . $view . '.php';
+	}
+
+	/**
+	 * Save the listeners options.
+	 *
+	 * @since 1.0.0
+	 */
+	private function save_listeners() {
+		if ( ! empty( $_POST ) ) {
+			if ( array_key_exists( '_wpnonce', $_POST ) && wp_verify_nonce( $_POST['_wpnonce'], 'decalog-listeners-options' ) ) {
+				Option::set('autolisteners', 'auto' === filter_input(INPUT_POST, 'decalog_listeners_options_auto'));
+
+
+
+
+				$message      = __( 'Listeners settings have been saved.', 'decalog' );
+				$code         = 0;
+				add_settings_error( 'decalog_no_error', $code, $message, 'updated' );
+				$this->logger->info( 'Listeners settings updated.', $code);
+			} else {
+				$message = __( 'Listeners settings have not been saved. Please try again.', 'decalog' );
+				$code    = 2;
+				add_settings_error( 'adr_nonce_error', $code, $message, 'error' );
+				$this->logger->warning( 'Listeners settings not updated.', $code);
+			}
+		}
+	}
+
+	/**
+	 * Reset the listeners options.
+	 *
+	 * @since 1.0.0
+	 */
+	private function reset_listeners() {
+		if ( ! empty( $_POST ) ) {
+			if ( array_key_exists( '_wpnonce', $_POST ) && wp_verify_nonce( $_POST['_wpnonce'], 'decalog-listeners-options' ) ) {
+				Option::set('autolisteners', true);
+				$message      = __( 'Listeners settings have been reset to defaults.', 'decalog' );
+				$code         = 0;
+				add_settings_error( 'decalog_no_error', $code, $message, 'updated' );
+				$this->logger->info( 'Listeners settings reset to defaults.', $code);
+			} else {
+				$message = __( 'Listeners settings have not been reset to defaults. Please try again.', 'decalog' );
+				$code    = 2;
+				add_settings_error( 'adr_nonce_error', $code, $message, 'error' );
+				$this->logger->warning( 'Listeners settings not reset to defaults.', $code);
+			}
+		}
 	}
 
 	/**
@@ -426,6 +490,77 @@ class Decalog_Admin {
 		}
 	}
 
+	/**
+	 * Callback for listeners options section.
+	 *
+	 * @since 1.0.0
+	 */
+	public function listeners_options_section_callback() {
+		$form = new Form();
+		add_settings_field(
+			'decalog_listeners_options_auto',
+			__( 'Activate', 'decalog' ),
+			[ $form, 'echo_field_select' ],
+			'decalog_listeners_options_section',
+			'decalog_listeners_options_section',
+			[
+				'list'        => [0=>['manual', esc_html__('Selected listeners', 'decalog')], 1=>['auto', esc_html__('All available listeners (recommended)', 'decalog')]],
+				'id'          => 'decalog_listeners_options_auto',
+				'value'       => Option::get('autolisteners') ? 'auto' : 'manual',
+				'description' => esc_html__( '', 'decalog' ),
+				'full_width'  => true,
+				'enabled'     => true,
+			]
+		);
+		register_setting( 'decalog_listeners_options_section', 'decalog_listeners_options_autostart' );
+	}
+
+	/**
+	 * Callback for settings options section.
+	 *
+	 * @since 1.0.0
+	 */
+	public function listeners_settings_section_callback() {
+		$standard = [];
+		$plugin = [];
+		$theme = [];
+		$listeners = ListenerFactory::$infos;
+		usort( $listeners, function($a, $b) { return strcmp( strtolower( $a['name'] ), strtolower( $b['name'] ) ); } );
+		foreach ($listeners as $listener) {
+			if ('plugin' === $listener['class'] && $listener['available']) {
+				$plugin[] = $listener;
+			} elseif ('theme' === $listener['class'] && $listener['available']) {
+				$theme[] = $listener;
+			} elseif ($listener['available']) {
+				$standard[] = $listener;
+			}
+		}
+		$main = [esc_html__( 'Standard listeners', 'decalog' ) => $standard, esc_html__( 'Plugin listeners', 'decalog' ) => $plugin, esc_html__( 'Theme listeners', 'decalog' ) => $theme];
+		$form = new Form();
+		foreach ($main as $name=>$items) {
+			$title = true;
+			foreach ( $items as $item ) {
+				add_settings_field(
+					'decalog_listeners_settings_' . $item['id'],
+					$title ? $name : null,
+					[ $form, 'echo_field_checkbox' ],
+					'decalog_listeners_settings_section',
+					'decalog_listeners_settings_section',
+					[
+						'text'        => sprintf('%s (%s %s)', $item['name'], $item['product'], $item['version']),
+						'id'          => 'decalog_listeners_settings_' . $item['id'],
+						'checked'     => in_array( $item['id'], Option::get( 'listeners' ) ),
+						'description' => null,
+						'full_width'  => true,
+						'enabled'     => true,
+					]
+				);
+				register_setting( 'decalog_listeners_settings_section', 'decalog_listeners_settings_' . $item['id'] );
+				$title = false;
+			}
+		}
+	}
+	
 	/**
 	 * Callback for loggers options section.
 	 *

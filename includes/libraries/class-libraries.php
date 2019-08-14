@@ -193,7 +193,7 @@ class Libraries {
 		$item['license'] = $this->license_name( 'gpl2' );
 		$item['langs']   = L10n::get_language_markup( [ 'en' ] );
 		$list[]          = $item;
-		usort( $list, [ $this, 'reorder_list' ] );
+		usort( $list, function ( $a, $b ) { return strcmp( strtolower( $a['name'] ), strtolower( $b['name'] ) );} );
 		if ( 'html' === $style ) {
 			$items = [];
 			foreach ( $list as $library ) {

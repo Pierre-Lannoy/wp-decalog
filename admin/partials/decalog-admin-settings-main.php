@@ -33,6 +33,19 @@ $active_tab = ( isset( $_GET['tab'] ) ? $_GET['tab'] : 'loggers' );
 		);
 		?>
 		" class="nav-tab <?php echo 'loggers' === $active_tab ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( 'Loggers', 'decalog' ); ?></a>
+        <a href="
+		<?php
+		echo esc_url(
+			add_query_arg(
+				array(
+					'page' => 'decalog-settings',
+					'tab'  => 'listeners',
+				),
+				admin_url( 'options-general.php' )
+			)
+		);
+		?>
+        " class="nav-tab <?php echo 'listeners' === $active_tab ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( 'Listeners', 'decalog' ); ?></a>
 		<a href="
 		<?php
 		echo esc_url(
@@ -63,6 +76,9 @@ $active_tab = ( isset( $_GET['tab'] ) ? $_GET['tab'] : 'loggers' );
 
 	<?php if ( 'loggers' === $active_tab ) { ?>
 		<?php include __DIR__ . '/decalog-admin-settings-loggers.php'; ?>
+	<?php } ?>
+	<?php if ( 'listeners' === $active_tab ) { ?>
+		<?php include __DIR__ . '/decalog-admin-settings-listeners.php'; ?>
 	<?php } ?>
 	<?php if ( 'misc' === $active_tab ) { ?>
 		<?php include __DIR__ . '/decalog-admin-settings-options.php'; ?>
