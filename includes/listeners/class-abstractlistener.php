@@ -88,10 +88,9 @@ abstract class AbstractListener {
 	 * Initialize the class and set its properties.
 	 *
 	 * @param    DLogger    $internal_logger    An instance of DLogger to log internal events.
-	 * @param    boolean    $start    Optional. Starts the listener.
 	 * @since    1.0.0
 	 */
-	public function __construct($internal_logger, $start=true) {
+	public function __construct($internal_logger) {
 		$this->log = $internal_logger;
 		$this->init();
 		if ($this->is_available()) {
@@ -102,7 +101,7 @@ abstract class AbstractListener {
 					$launch = $listeners[$this->id];
 				}
 			}
-			if ($start && $launch && $this->launch()) {
+			if ($launch && $this->launch()) {
 				$this->logger = Log::bootstrap( $this->class, $this->product, $this->version );
 				$this->log->debug( sprintf( 'Listener for %s is launched.', $this->name ) );
 				$this->logger->debug( 'Listener launched and operational.' );

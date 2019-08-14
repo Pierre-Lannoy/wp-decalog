@@ -33,6 +33,26 @@ class ListenerFactory {
 	private $log = null;
 
 	/**
+	 * Excluded files from listeners auto loading.
+	 *
+	 * @since  1.0.0
+	 * @var    array    $excluded_files    The list of excluded files.
+	 */
+	private $excluded_files = ['..',
+		'.',
+		'index.php',
+		'class-abstractlistener.php',
+		'class-listenerfactory.php'];
+
+	/**
+	 * Infos on all loadable listeners.
+	 *
+	 * @since  1.0.0
+	 * @var    array    $excluded_files    The list of all loadable listeners.
+	 */
+	public static $infos = [];
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
@@ -47,71 +67,35 @@ class ListenerFactory {
 	 * @since    1.0.0
 	 */
 	public function launch() {
+		self::$infos = [];
 		foreach (
-			array_diff( scandir( DECALOG_LISTENERS_DIR ), array(
-				'..',
-				'.',
-				'index.php',
-				'class-abstractlistener.php',
-				'class-listenerfactory.php'
-			) ) as $item
-		) {
+			array_diff( scandir( DECALOG_LISTENERS_DIR ), $this->excluded_files ) as $item ) {
 			if ( ! is_dir( DECALOG_LISTENERS_DIR . $item ) ) {
 				$classname = str_replace( [ 'class-', '.php' ], '', $item );
 				$classname = str_replace( 'listener', 'Listener', strtolower( $classname ) );
 				$classname = lcfirst( $classname );
-				if ( ! $this->create_listener_instance( $classname ) ) {
-					$this->log->error( sprintf( 'Trying to launch a wrong listener: %s.', $classname ) );
-				}
-			}
-		}
-	}
-
-	/**
-	 * List the listeners.
-	 *
-	 * @return  array   The list of listeners.
-	 * @since    1.0.0
-	 */
-	public function list() {
-		$result = [];
-		foreach (
-			array_diff( scandir( DECALOG_LISTENERS_DIR ), array(
-				'..',
-				'.',
-				'index.php',
-				'class-abstractlistener.php',
-				'class-listenerfactory.php'
-			) ) as $item
-		) {
-			if ( ! is_dir( DECALOG_LISTENERS_DIR . $item ) ) {
-				$classname = str_replace( [ 'class-', '.php' ], '', $item );
-				$classname = str_replace( 'listener', 'Listener', strtolower( $classname ) );
-				$classname = lcfirst( $classname );
-				$instance = $this->create_listener_instance( $classname, false );
+				$instance = $this->create_listener_instance( $classname );
 				if ( $instance ) {
-					$result[] = $instance->get_info();
+					self::$infos[] = $instance->get_info();
 				} else {
-					$this->log->error( sprintf( 'Trying to launch a wrong listener: %s.', $classname ) );
+					$this->log->error( sprintf( 'Trying to load a wrong listener: %s.', $classname ) );
 				}
 			}
 		}
-		return $result;
 	}
 
 	/**
 	 * Create an instance of a listener.
 	 *
 	 * @param   string $class_name The class name.
-	 * @param   boolean    $start    Optional. Starts the listener.
 	 * @return  null|object The instance of the class if creation was possible, null otherwise.
 	 * @since    1.0.0
 	 */
-	private function create_listener_instance( $class_name, $start=true ) {
+	private function create_listener_instance( $class_name) {
 		$class_name = 'Decalog\Listener\\' . $class_name;
 		if ( class_exists( $class_name ) ) {
 			$reflection = new \ReflectionClass( $class_name );
-			return $reflection->newInstanceArgs( [$this->log,$start] );
+			return $reflection->newInstanceArgs( [$this->log] );
 		}
 		return false;
 	}
