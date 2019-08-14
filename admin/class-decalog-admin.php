@@ -516,7 +516,7 @@ class Decalog_Admin {
 				'text'        => __( 'Display', 'decalog' ),
 				'id'          => 'decalog_plugin_options_nag',
 				'checked'     => Option::get('display_nag'),
-				'description' => __( 'Allows DecaLog to display admin notices outside the plugin screens.', 'decalog' ),
+				'description' => __( 'Allows DecaLog to display admin notices throughout the admin dashboard.', 'decalog' ),
 				'full_width'  => true,
 				'enabled'     => true,
 			]
