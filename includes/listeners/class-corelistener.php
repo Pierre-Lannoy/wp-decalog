@@ -46,7 +46,7 @@ class CoreListener extends AbstractListener {
 	 * @return  boolean     True if listener is needed, false otherwise.
 	 * @since    1.0.0
 	 */
-	protected function is_needed() {
+	protected function is_available() {
 		return true;
 	}
 

@@ -68,6 +68,38 @@ class ListenerFactory {
 	}
 
 	/**
+	 * List the listeners.
+	 *
+	 * @return  array   The list of listeners.
+	 * @since    1.0.0
+	 */
+	public function list() {
+		$result = [];
+		foreach (
+			array_diff( scandir( DECALOG_LISTENERS_DIR ), array(
+				'..',
+				'.',
+				'index.php',
+				'class-abstractlistener.php',
+				'class-listenerfactory.php'
+			) ) as $item
+		) {
+			if ( ! is_dir( DECALOG_LISTENERS_DIR . $item ) ) {
+				$classname = str_replace( [ 'class-', '.php' ], '', $item );
+				$classname = str_replace( 'listener', 'Listener', strtolower( $classname ) );
+				$classname = lcfirst( $classname );
+				$instance = $this->create_listener_instance( $classname, false );
+				if ( $instance ) {
+					$result[] = $instance->get_info();
+				} else {
+					$this->log->error( sprintf( 'Trying to launch a wrong listener: %s.', $classname ) );
+				}
+			}
+		}
+		return $result;
+	}
+
+	/**
 	 * Create an instance of a listener.
 	 *
 	 * @param   string $class_name The class name.

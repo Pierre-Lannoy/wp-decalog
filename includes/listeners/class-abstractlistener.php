@@ -94,7 +94,7 @@ abstract class AbstractListener {
 	public function __construct($internal_logger, $start=true) {
 		$this->log = $internal_logger;
 		$this->init();
-		if ($this->is_needed()) {
+		if ($this->is_available()) {
 			$launch = Option::get('autolisteners');
 			if (!$launch) {
 				$listeners = Option::get('listeners');
@@ -111,7 +111,22 @@ abstract class AbstractListener {
 	}
 
 	/**
-	 * Initialize the class and set its properties.
+	 * Get info about the listener.
+	 *
+	 * @return  array  The infos about the listener.
+	 * @since    1.0.0
+	 */
+	public function get_info() {
+		$result = [];
+		$result['id'] = $this->id;
+		$result['name'] = $this->name;
+		$result['product'] = $this->product;
+		$result['class'] = $this->class;
+		$result['version'] = $this->version;
+	}
+
+	/**
+	 * Pseudonymizes user if needed.
 	 *
 	 * @param    mixed    $user    The user.
 	 * @return  string  The user string, pseudonymized if needed.
@@ -146,7 +161,7 @@ abstract class AbstractListener {
 	 * @return  boolean     True if listener is needed, false otherwise.
 	 * @since    1.0.0
 	 */
-	abstract protected function is_needed();
+	abstract protected function is_available();
 
 	/**
 	 * "Launch" the listener.
