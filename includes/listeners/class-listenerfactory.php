@@ -68,17 +68,18 @@ class ListenerFactory {
 	}
 
 	/**
-	 * Create an instance of $class_name.
+	 * Create an instance of a listener.
 	 *
 	 * @param   string $class_name The class name.
+	 * @param   boolean    $start    Optional. Starts the listener.
 	 * @return  null|object The instance of the class if creation was possible, null otherwise.
 	 * @since    1.0.0
 	 */
-	private function create_listener_instance( $class_name ) {
+	private function create_listener_instance( $class_name, $start=true ) {
 		$class_name = 'Decalog\Listener\\' . $class_name;
 		if ( class_exists( $class_name ) ) {
 			$reflection = new \ReflectionClass( $class_name );
-			return $reflection->newInstanceArgs( [$this->log] );
+			return $reflection->newInstanceArgs( [$this->log,$start] );
 		}
 		return false;
 	}
