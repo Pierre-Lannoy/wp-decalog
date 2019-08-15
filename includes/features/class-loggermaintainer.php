@@ -37,13 +37,17 @@ class LoggerMaintainer {
 	 *
 	 * @param   string $class_name The class name.
 	 * @param   array  $args   The param of the constructor for $class_name class.
-	 * @return  null|object The instance of the class if creation was possible, null otherwise.
+	 * @return  boolean|object The instance of the class if creation was possible, null otherwise.
 	 * @since    1.0.0
 	 */
 	private function create_instance( $class_name, $args = [] ) {
 		if ( class_exists( $class_name ) ) {
-			$reflection = new \ReflectionClass( $class_name );
-			return $reflection->newInstanceArgs( $args );
+			try {
+				$reflection = new \ReflectionClass( $class_name );
+				return $reflection->newInstanceArgs( $args );
+			} catch ( \Exception $e ) {
+				return false;
+			}
 		}
 		return false;
 	}
@@ -54,11 +58,11 @@ class LoggerMaintainer {
 	 * @since    1.0.0
 	 */
 	public function cron_clean() {
-		foreach (Option::get('loggers') as $key=>$logger) {
+		foreach ( Option::get( 'loggers' ) as $key => $logger ) {
 			$classname = 'Decalog\Plugin\Feature\\' . $logger['handler'];
 			if ( class_exists( $classname ) ) {
 				$logger['uuid'] = $key;
-				$instance = $this->create_instance( $classname );
+				$instance       = $this->create_instance( $classname );
 				$instance->set_logger( $logger );
 				$instance->cron_clean();
 			}

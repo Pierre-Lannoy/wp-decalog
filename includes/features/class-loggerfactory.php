@@ -23,10 +23,6 @@ use Monolog\Handler\ErrorLogHandler;
 
 use Monolog\Handler\SyslogUdpHandler;
 
-
-
-
-
 /**
  * Define the logger consistency functionality.
  *
@@ -69,13 +65,17 @@ class LoggerFactory {
 	 *
 	 * @param   string $class_name The class name.
 	 * @param   array  $args   The param of the constructor for $class_name class.
-	 * @return  null|object The instance of the class if creation was possible, null otherwise.
+	 * @return  boolean|object The instance of the class if creation was possible, null otherwise.
 	 * @since    1.0.0
 	 */
 	private function create_instance( $class_name, $args = [] ) {
 		if ( class_exists( $class_name ) ) {
-			$reflection = new \ReflectionClass( $class_name );
-			return $reflection->newInstanceArgs( $args );
+			try {
+				$reflection = new \ReflectionClass( $class_name );
+				return $reflection->newInstanceArgs( $args );
+			} catch ( \Exception $ex ) {
+				return false;
+			}
 		}
 		return false;
 	}
@@ -108,7 +108,7 @@ class LoggerFactory {
 								$args[] = $logger['configuration'][ $p['value'] ];
 								break;
 							case 'compute':
-								switch ($p['value']) {
+								switch ( $p['value'] ) {
 									case 'tablename':
 										global $wpdb;
 										$args[] = $wpdb->prefix . 'decalog_' . str_replace( '-', '', $logger['uuid'] );
@@ -262,7 +262,7 @@ class LoggerFactory {
 			$logger['processors'] = [];
 		}
 		if ( 'WordpressHandler' === $logger['handler'] ) {
-			$logger['processors'] = array_merge( [ 'WordpressProcessor', 'WWWProcessor', 'IntrospectionProcessor' ], $logger['processors']);
+			$logger['processors'] = array_merge( [ 'WordpressProcessor', 'WWWProcessor', 'IntrospectionProcessor' ], $logger['processors'] );
 		} else {
 			$processors = [];
 			foreach ( $logger['processors'] as $processor ) {
