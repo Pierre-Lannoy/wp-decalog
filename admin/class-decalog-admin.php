@@ -43,7 +43,7 @@ class Decalog_Admin {
 	 * The internal logger.
 	 *
 	 * @since  1.0.0
-	 * @var    API\DLogger    $logger    The plugin admin logger.
+	 * @var    DLogger    $logger    The plugin admin logger.
 	 */
 	protected $logger;
 
@@ -109,21 +109,28 @@ class Decalog_Admin {
 		if ( Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type() ) {
 			add_submenu_page( 'options-general.php', sprintf( __( '%s Settings', 'decalog' ), DECALOG_PRODUCT_NAME ), DECALOG_PRODUCT_NAME, 'manage_options', 'decalog-settings', [ $this, 'get_settings_page' ] );
 		}
-		if ( Events::loggers_count() > 0) {
-			$name = add_submenu_page( 'tools.php', sprintf( __( '%s Viewer', 'decalog' ), DECALOG_PRODUCT_NAME ), DECALOG_PRODUCT_NAME, 'manage_options', 'decalog-viewer', array(
-				$this,
-				'get_tools_page'
-			) );
-			$logid = filter_input(INPUT_GET, 'logid', FILTER_SANITIZE_STRING);
-			$eventid = filter_input(INPUT_GET, 'eventid', FILTER_SANITIZE_NUMBER_INT);
-			if (isset($logid) && isset($eventid) && $eventid != 0) {
+		if ( Events::loggers_count() > 0 ) {
+			$name    = add_submenu_page(
+				'tools.php',
+				sprintf( __( '%s Viewer', 'decalog' ), DECALOG_PRODUCT_NAME ),
+				DECALOG_PRODUCT_NAME,
+				'manage_options',
+				'decalog-viewer',
+				array(
+					$this,
+					'get_tools_page',
+				)
+			);
+			$logid   = filter_input( INPUT_GET, 'logid', FILTER_SANITIZE_STRING );
+			$eventid = filter_input( INPUT_GET, 'eventid', FILTER_SANITIZE_NUMBER_INT );
+			if ( isset( $logid ) && isset( $eventid ) && 0 !== $eventid ) {
 				$this->current_view = new EventViewer( $logid, $eventid, $this->logger );
-				add_action('load-' . $name, [$this->current_view, 'add_metaboxes_options']);
-				add_action('admin_footer-' . $name, [$this->current_view, 'add_footer']);
-				add_filter('screen_settings', [$this->current_view, 'display_screen_settings'], 10, 2);
+				add_action( 'load-' . $name, [ $this->current_view, 'add_metaboxes_options' ] );
+				add_action( 'admin_footer-' . $name, [ $this->current_view, 'add_footer' ] );
+				add_filter( 'screen_settings', [ $this->current_view, 'display_screen_settings' ], 10, 2 );
 			} else {
-				add_action('load-' . $name, ['Decalog\Plugin\Feature\Events', 'add_column_options']);
-				add_filter('screen_settings', ['Decalog\Plugin\Feature\Events', 'display_screen_settings'], 10, 2);
+				add_action( 'load-' . $name, [ 'Decalog\Plugin\Feature\Events', 'add_column_options' ] );
+				add_filter( 'screen_settings', [ 'Decalog\Plugin\Feature\Events', 'display_screen_settings' ], 10, 2 );
 			}
 		}
 	}
@@ -151,10 +158,9 @@ class Decalog_Admin {
 	 * @since 1.0.0
 	 */
 	public function get_tools_page() {
-		if (isset($this->current_view)) {
+		if ( isset( $this->current_view ) ) {
 			$this->current_view->get();
-		}
-		else {
+		} else {
 			include DECALOG_ADMIN_DIR . 'partials/decalog-admin-view-events.php';
 		}
 	}
@@ -309,24 +315,24 @@ class Decalog_Admin {
 	private function save_listeners() {
 		if ( ! empty( $_POST ) ) {
 			if ( array_key_exists( '_wpnonce', $_POST ) && wp_verify_nonce( $_POST['_wpnonce'], 'decalog-listeners-options' ) ) {
-				Option::set('autolisteners', 'auto' === filter_input(INPUT_POST, 'decalog_listeners_options_auto'));
-				$list = [];
+				Option::set( 'autolisteners', 'auto' === filter_input( INPUT_POST, 'decalog_listeners_options_auto' ) );
+				$list      = [];
 				$listeners = ListenerFactory::$infos;
-				foreach ($listeners as $listener) {
-					if (array_key_exists( 'decalog_listeners_settings_' . $listener['id'], $_POST )) {
+				foreach ( $listeners as $listener ) {
+					if ( array_key_exists( 'decalog_listeners_settings_' . $listener['id'], $_POST ) ) {
 						$list[] = $listener['id'];
 					}
 				}
-				Option::set('listeners', $list);
-				$message      = __( 'Listeners settings have been saved.', 'decalog' );
-				$code         = 0;
+				Option::set( 'listeners', $list );
+				$message = __( 'Listeners settings have been saved.', 'decalog' );
+				$code    = 0;
 				add_settings_error( 'decalog_no_error', $code, $message, 'updated' );
-				$this->logger->info( 'Listeners settings updated.', $code);
+				$this->logger->info( 'Listeners settings updated.', $code );
 			} else {
 				$message = __( 'Listeners settings have not been saved. Please try again.', 'decalog' );
 				$code    = 2;
 				add_settings_error( 'decalog_nonce_error', $code, $message, 'error' );
-				$this->logger->warning( 'Listeners settings not updated.', $code);
+				$this->logger->warning( 'Listeners settings not updated.', $code );
 			}
 		}
 	}
@@ -339,16 +345,16 @@ class Decalog_Admin {
 	private function reset_listeners() {
 		if ( ! empty( $_POST ) ) {
 			if ( array_key_exists( '_wpnonce', $_POST ) && wp_verify_nonce( $_POST['_wpnonce'], 'decalog-listeners-options' ) ) {
-				Option::set('autolisteners', true);
-				$message      = __( 'Listeners settings have been reset to defaults.', 'decalog' );
-				$code         = 0;
+				Option::set( 'autolisteners', true );
+				$message = __( 'Listeners settings have been reset to defaults.', 'decalog' );
+				$code    = 0;
 				add_settings_error( 'decalog_no_error', $code, $message, 'updated' );
-				$this->logger->info( 'Listeners settings reset to defaults.', $code);
+				$this->logger->info( 'Listeners settings reset to defaults.', $code );
 			} else {
 				$message = __( 'Listeners settings have not been reset to defaults. Please try again.', 'decalog' );
 				$code    = 2;
 				add_settings_error( 'decalog_nonce_error', $code, $message, 'error' );
-				$this->logger->warning( 'Listeners settings not reset to defaults.', $code);
+				$this->logger->warning( 'Listeners settings not reset to defaults.', $code );
 			}
 		}
 	}
@@ -361,20 +367,20 @@ class Decalog_Admin {
 	private function save_options() {
 		if ( ! empty( $_POST ) ) {
 			if ( array_key_exists( '_wpnonce', $_POST ) && wp_verify_nonce( $_POST['_wpnonce'], 'decalog-plugin-options' ) ) {
-				Option::set('auto_update', array_key_exists( 'decalog_plugin_options_autoupdate', $_POST ) );
-				Option::set('display_nag', array_key_exists( 'decalog_plugin_options_nag', $_POST ) );
-				Option::set('logger_autostart', array_key_exists( 'decalog_loggers_options_autostart', $_POST ) );
-				Option::set('pseudonymization', array_key_exists( 'decalog_loggers_options_pseudonymization', $_POST ) );
-				Option::set('respect_wp_debug', array_key_exists( 'decalog_loggers_options_wpdebug', $_POST ) );
-				$message      = __( 'Plugin settings have been saved.', 'decalog' );
-				$code         = 0;
+				Option::set( 'auto_update', array_key_exists( 'decalog_plugin_options_autoupdate', $_POST ) );
+				Option::set( 'display_nag', array_key_exists( 'decalog_plugin_options_nag', $_POST ) );
+				Option::set( 'logger_autostart', array_key_exists( 'decalog_loggers_options_autostart', $_POST ) );
+				Option::set( 'pseudonymization', array_key_exists( 'decalog_loggers_options_pseudonymization', $_POST ) );
+				Option::set( 'respect_wp_debug', array_key_exists( 'decalog_loggers_options_wpdebug', $_POST ) );
+				$message = __( 'Plugin settings have been saved.', 'decalog' );
+				$code    = 0;
 				add_settings_error( 'decalog_no_error', $code, $message, 'updated' );
-				$this->logger->info( 'Plugin settings updated.', $code);
+				$this->logger->info( 'Plugin settings updated.', $code );
 			} else {
 				$message = __( 'Plugin settings have not been saved. Please try again.', 'decalog' );
 				$code    = 2;
 				add_settings_error( 'decalog_nonce_error', $code, $message, 'error' );
-				$this->logger->warning( 'Plugin settings not updated.', $code);
+				$this->logger->warning( 'Plugin settings not updated.', $code );
 			}
 		}
 	}
@@ -388,15 +394,15 @@ class Decalog_Admin {
 		if ( ! empty( $_POST ) ) {
 			if ( array_key_exists( '_wpnonce', $_POST ) && wp_verify_nonce( $_POST['_wpnonce'], 'decalog-plugin-options' ) ) {
 				Option::reset_to_defaults();
-				$message      = __( 'Plugin settings have been reset to defaults.', 'decalog' );
-				$code         = 0;
+				$message = __( 'Plugin settings have been reset to defaults.', 'decalog' );
+				$code    = 0;
 				add_settings_error( 'decalog_no_error', $code, $message, 'updated' );
-				$this->logger->info( 'Plugin settings reset to defaults.', $code);
+				$this->logger->info( 'Plugin settings reset to defaults.', $code );
 			} else {
 				$message = __( 'Plugin settings have not been reset to defaults. Please try again.', 'decalog' );
 				$code    = 2;
 				add_settings_error( 'decalog_nonce_error', $code, $message, 'error' );
-				$this->logger->warning( 'Plugin settings not reset to defaults.', $code);
+				$this->logger->warning( 'Plugin settings not reset to defaults.', $code );
 			}
 		}
 	}
@@ -503,9 +509,12 @@ class Decalog_Admin {
 			'decalog_listeners_options_section',
 			'decalog_listeners_options_section',
 			[
-				'list'        => [0=>['manual', esc_html__('Selected listeners', 'decalog')], 1=>['auto', esc_html__('All available listeners (recommended)', 'decalog')]],
+				'list'        => [
+					0 => [ 'manual', esc_html__( 'Selected listeners', 'decalog' ) ],
+					1 => [ 'auto', esc_html__( 'All available listeners (recommended)', 'decalog' ) ],
+				],
 				'id'          => 'decalog_listeners_options_auto',
-				'value'       => Option::get('autolisteners') ? 'auto' : 'manual',
+				'value'       => Option::get( 'autolisteners' ) ? 'auto' : 'manual',
 				'description' => esc_html__( '', 'decalog' ),
 				'full_width'  => true,
 				'enabled'     => true,
@@ -520,23 +529,32 @@ class Decalog_Admin {
 	 * @since 1.0.0
 	 */
 	public function listeners_settings_section_callback() {
-		$standard = [];
-		$plugin = [];
-		$theme = [];
+		$standard  = [];
+		$plugin    = [];
+		$theme     = [];
 		$listeners = ListenerFactory::$infos;
-		usort( $listeners, function($a, $b) { return strcmp( strtolower( $a['name'] ), strtolower( $b['name'] ) ); } );
-		foreach ($listeners as $listener) {
-			if ('plugin' === $listener['class'] && $listener['available']) {
+		usort(
+			$listeners,
+			function( $a, $b ) {
+				return strcmp( strtolower( $a['name'] ), strtolower( $b['name'] ) );
+			}
+		);
+		foreach ( $listeners as $listener ) {
+			if ( 'plugin' === $listener['class'] && $listener['available'] ) {
 				$plugin[] = $listener;
-			} elseif ('theme' === $listener['class'] && $listener['available']) {
+			} elseif ( 'theme' === $listener['class'] && $listener['available'] ) {
 				$theme[] = $listener;
-			} elseif ($listener['available']) {
+			} elseif ( $listener['available'] ) {
 				$standard[] = $listener;
 			}
 		}
-		$main = [esc_html__( 'Standard listeners', 'decalog' ) => $standard, esc_html__( 'Plugin listeners', 'decalog' ) => $plugin, esc_html__( 'Theme listeners', 'decalog' ) => $theme];
+		$main = [
+			esc_html__( 'Standard listeners', 'decalog' ) => $standard,
+			esc_html__( 'Plugin listeners', 'decalog' )   => $plugin,
+			esc_html__( 'Theme listeners', 'decalog' )    => $theme,
+		];
 		$form = new Form();
-		foreach ($main as $name=>$items) {
+		foreach ( $main as $name => $items ) {
 			$title = true;
 			foreach ( $items as $item ) {
 				add_settings_field(
@@ -546,7 +564,7 @@ class Decalog_Admin {
 					'decalog_listeners_settings_section',
 					'decalog_listeners_settings_section',
 					[
-						'text'        => sprintf('%s (%s %s)', $item['name'], $item['product'], $item['version']),
+						'text'        => sprintf( '%s (%s %s)', $item['name'], $item['product'], $item['version'] ),
 						'id'          => 'decalog_listeners_settings_' . $item['id'],
 						'checked'     => in_array( $item['id'], Option::get( 'listeners' ) ),
 						'description' => null,
@@ -559,7 +577,7 @@ class Decalog_Admin {
 			}
 		}
 	}
-	
+
 	/**
 	 * Callback for loggers options section.
 	 *
@@ -576,7 +594,7 @@ class Decalog_Admin {
 			[
 				'text'        => __( 'Auto-start', 'decalog' ),
 				'id'          => 'decalog_loggers_options_autostart',
-				'checked'     => Option::get('logger_autostart'),
+				'checked'     => Option::get( 'logger_autostart' ),
 				'description' => __( 'If checked, when a new logger is added it automatically starts.', 'decalog' ),
 				'full_width'  => true,
 				'enabled'     => true,
@@ -592,7 +610,7 @@ class Decalog_Admin {
 			[
 				'text'        => __( 'Pseudonymization', 'decalog' ),
 				'id'          => 'decalog_loggers_options_pseudonymization',
-				'checked'     => Option::get('pseudonymization'),
+				'checked'     => Option::get( 'pseudonymization' ),
 				'description' => __( 'If checked, DecaLog will try to pseudonymize user names and ID in events messages.', 'decalog' ),
 				'full_width'  => true,
 				'enabled'     => true,
@@ -608,7 +626,7 @@ class Decalog_Admin {
 			[
 				'text'        => __( 'Respect WP_DEBUG', 'decalog' ),
 				'id'          => 'decalog_loggers_options_wpdebug',
-				'checked'     => Option::get('respect_wp_debug'),
+				'checked'     => Option::get( 'respect_wp_debug' ),
 				'description' => __( 'If checked, the value of WP_DEBUG will override each logger\'s settings for minimal level of logging.', 'decalog' ),
 				'full_width'  => true,
 				'enabled'     => true,
@@ -633,7 +651,7 @@ class Decalog_Admin {
 			[
 				'text'        => __( 'Automatic (recommended)', 'decalog' ),
 				'id'          => 'decalog_plugin_options_autoupdate',
-				'checked'     => Option::get('auto_update'),
+				'checked'     => Option::get( 'auto_update' ),
 				'description' => __( 'If checked, DecaLog will update itself as soon as a new version is available.', 'decalog' ),
 				'full_width'  => true,
 				'enabled'     => true,
@@ -649,7 +667,7 @@ class Decalog_Admin {
 			[
 				'text'        => __( 'Display', 'decalog' ),
 				'id'          => 'decalog_plugin_options_nag',
-				'checked'     => Option::get('display_nag'),
+				'checked'     => Option::get( 'display_nag' ),
 				'description' => __( 'Allows DecaLog to display admin notices throughout the admin dashboard.', 'decalog' ),
 				'full_width'  => true,
 				'enabled'     => true,
