@@ -24,7 +24,6 @@ class Cache {
 	 * The pool's name, specific to the calling plugin.
 	 *
 	 * @since  1.0.0
-	 * @access private
 	 * @var    string    $pool_name    The pool's name.
 	 */
 	private static $pool_name = DECALOG_SLUG;
@@ -33,7 +32,6 @@ class Cache {
 	 * Differentiates cache items by blogs.
 	 *
 	 * @since  1.0.0
-	 * @access private
 	 * @var    boolean    $blog_aware    Is the item id must contain the blog id?
 	 */
 	private static $blog_aware = true;
@@ -42,7 +40,6 @@ class Cache {
 	 * Differentiates cache items by current locale.
 	 *
 	 * @since  1.0.0
-	 * @access private
 	 * @var    boolean    $blog_aware    Is the item id must contain the locale id?
 	 */
 	private static $locale_aware = true;
@@ -51,7 +48,6 @@ class Cache {
 	 * Differentiates cache items by current user.
 	 *
 	 * @since  1.0.0
-	 * @access private
 	 * @var    boolean    $blog_aware    Is the item id must contain the user id?
 	 */
 	private static $user_aware = true;
@@ -60,7 +56,6 @@ class Cache {
 	 * Available TTLs.
 	 *
 	 * @since  1.0.0
-	 * @access private
 	 * @var    array    $ttls    The TTLs array.
 	 */
 	private static $ttls;
@@ -69,7 +64,6 @@ class Cache {
 	 * Default TTL.
 	 *
 	 * @since  1.0.0
-	 * @access private
 	 * @var    integer    $default_ttl    The default TTL in seconds.
 	 */
 	private static $default_ttl = 3600;

@@ -25,7 +25,6 @@ class Decalog_Public {
 	 * The assets manager that's responsible for handling all assets of the plugin.
 	 *
 	 * @since  1.0.0
-	 * @access protected
 	 * @var    Assets    $assets    The plugin assets manager.
 	 */
 	protected $assets;

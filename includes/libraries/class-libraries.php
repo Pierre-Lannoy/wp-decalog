@@ -28,7 +28,6 @@ class Libraries {
 	 * The array of PSR-4 libraries used by the plugin.
 	 *
 	 * @since  1.0.0
-	 * @access private
 	 * @var    array    $libraries    The PSR-4 libraries used by the plugin.
 	 */
 	private static $psr4_libraries;
@@ -37,7 +36,6 @@ class Libraries {
 	 * The array of mono libraries used by the plugin.
 	 *
 	 * @since  1.0.0
-	 * @access private
 	 * @var    array    $libraries    The mono libraries used by the plugin.
 	 */
 	private static $mono_libraries;

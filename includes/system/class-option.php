@@ -26,7 +26,6 @@ class Option {
 	 * The list of defaults options.
 	 *
 	 * @since  1.0.0
-	 * @access private
 	 * @var    array    $defaults    The $defaults list.
 	 */
 	private static $defaults = [];

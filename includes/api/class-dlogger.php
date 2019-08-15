@@ -34,7 +34,6 @@ class DLogger {
 	 * The class of the component.
 	 *
 	 * @since  1.0.0
-	 * @access protected
 	 * @var    string    $class    Maintains the class of the component.
 	 */
 	protected $class = 'unknwon';
@@ -43,7 +42,6 @@ class DLogger {
 	 * The name of the component.
 	 *
 	 * @since  1.0.0
-	 * @access protected
 	 * @var    string    $class    Maintains the name of the component.
 	 */
 	protected $name = 'unknown';
@@ -52,7 +50,6 @@ class DLogger {
 	 * The version of the component.
 	 *
 	 * @since  1.0.0
-	 * @access protected
 	 * @var    string    $version    Maintains the version of the component.
 	 */
 	protected $version = '-';
@@ -61,7 +58,6 @@ class DLogger {
 	 * The monolog logger.
 	 *
 	 * @since  1.0.0
-	 * @access protected
 	 * @var    object    $logger    Maintains the logger.
 	 */
 	protected $logger = null;

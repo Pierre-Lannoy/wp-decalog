@@ -39,7 +39,6 @@ class Core {
 	 * the plugin.
 	 *
 	 * @since  1.0.0
-	 * @access protected
 	 * @var    Loader    $loader    Maintains and registers all hooks for the plugin.
 	 */
 	protected $loader;
@@ -67,7 +66,6 @@ class Core {
 	 * with WordPress.
 	 *
 	 * @since  1.0.0
-	 * @access private
 	 */
 	private function set_locale() {
 		$plugin_i18n = new I18n();
@@ -78,7 +76,6 @@ class Core {
 	 * Register all of the hooks related to the features of the plugin.
 	 *
 	 * @since  1.0.0
-	 * @access private
 	 */
 	private function define_global_hooks() {
 		$bootstrap = new Initializer();
@@ -104,7 +101,6 @@ class Core {
 	 * of the plugin.
 	 *
 	 * @since  1.0.0
-	 * @access private
 	 */
 	private function define_admin_hooks() {
 		$plugin_admin = new Decalog_Admin();
@@ -122,7 +118,6 @@ class Core {
 	 * of the plugin.
 	 *
 	 * @since  1.0.0
-	 * @access private
 	 */
 	private function define_public_hooks() {
 		$plugin_public = new Decalog_Public();

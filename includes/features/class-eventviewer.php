@@ -31,7 +31,6 @@ class EventViewer {
 	 * The internal logger.
 	 *
 	 * @since  1.0.0
-	 * @access protected
 	 * @var    DLogger    $logger    The plugin admin logger.
 	 */
 	protected $logger;

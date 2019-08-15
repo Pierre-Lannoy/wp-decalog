@@ -196,7 +196,6 @@ class Database {
 	 *
 	 * @param string $table_name The table to drop.
 	 * @since 1.0.0
-	 * @access protected
 	 */
 	protected static function drop( $table_name ) {
 		global $wpdb;

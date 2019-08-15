@@ -29,7 +29,6 @@ class Nag {
 	 * The nags list.
 	 *
 	 * @since  1.0.0
-	 * @access private
 	 * @var    array    $nags    The nags list.
 	 */
 	private static $nags = [];
@@ -38,7 +37,6 @@ class Nag {
 	 * Indicates whether nags are allowed or not.
 	 *
 	 * @since  1.0.0
-	 * @access private
 	 * @var    boolean    $allowed    Is nags allowed?
 	 */
 	private static $allowed = true;

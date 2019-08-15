@@ -27,7 +27,6 @@ class Loader {
 	 * The array of actions registered with WordPress.
 	 *
 	 * @since  1.0.0
-	 * @access private
 	 * @var    array    $actions    The actions registered with WordPress to fire when the plugin loads.
 	 */
 	private $actions;
@@ -36,7 +35,6 @@ class Loader {
 	 * The array of filters registered with WordPress.
 	 *
 	 * @since  1.0.0
-	 * @access private
 	 * @var    array    $filters    The filters registered with WordPress to fire when the plugin loads.
 	 */
 	private $filters;
@@ -84,7 +82,6 @@ class Loader {
 	 * collection.
 	 *
 	 * @since  1.0.0
-	 * @access private
 	 * @param  array  $hooks         The collection of hooks that is being registered (that is, actions or filters).
 	 * @param  string $hook          The name of the WordPress filter that is being registered.
 	 * @param  object $component     A reference to the instance of the object on which the filter is defined.
