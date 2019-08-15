@@ -61,11 +61,11 @@ class Loggers extends \WP_List_Table {
 	 */
 	public function __construct() {
 		parent::__construct(
-			array(
+			[
 				'singular' => 'logger',
 				'plural'   => 'loggers',
 				'ajax'     => true,
-			)
+			]
 		);
 		global $wp_version;
 		if ( version_compare( $wp_version, '4.2-z', '>=' ) && $this->compat_fields && is_array( $this->compat_fields ) ) {
@@ -93,56 +93,56 @@ class Loggers extends \WP_List_Table {
 	protected function column_name( $item ) {
 		$edit   = esc_url(
 			add_query_arg(
-				array(
+				[
 					'page'   => 'decalog-settings',
 					'action' => 'form-edit',
 					'tab'    => 'loggers',
 					'uuid'   => $item['uuid'],
-				),
+				],
 				admin_url( 'options-general.php' )
 			)
 		);
 		$delete = esc_url(
 			add_query_arg(
-				array(
+				[
 					'page'   => 'decalog-settings',
 					'action' => 'form-delete',
 					'tab'    => 'loggers',
 					'uuid'   => $item['uuid'],
-				),
+				],
 				admin_url( 'options-general.php' )
 			)
 		);
 		$pause  = esc_url(
 			add_query_arg(
-				array(
+				[
 					'page'   => 'decalog-settings',
 					'action' => 'pause',
 					'tab'    => 'loggers',
 					'uuid'   => $item['uuid'],
 					'nonce'  => wp_create_nonce('decalog-logger-pause-' . $item['uuid']),
-				),
+				],
 				admin_url( 'options-general.php' )
 			)
 		);
 		$start  = esc_url(
 			add_query_arg(
-				array(
+				[
 					'page'   => 'decalog-settings',
 					'action' => 'start',
 					'tab'    => 'loggers',
 					'uuid'   => $item['uuid'],
 					'nonce'  => wp_create_nonce('decalog-logger-start-' . $item['uuid']),
-				),
+				],
 				admin_url( 'options-general.php' )
 			)
 		);
 		$view  = esc_url(
 			add_query_arg(
-				array(
+				[
 					'page'   => 'decalog-viewer',
 					'logger_id'   => $item['uuid'],
-				),
+				],
 				admin_url( 'tools.php' )
 			)
 		);
@@ -187,11 +187,11 @@ class Loggers extends \WP_List_Table {
 	 * @since    1.0.0
 	 */
 	public function get_columns() {
-		$columns = array(
+		$columns = [
 			'name'    => __( 'Logger', 'decalog' ),
 			'level'   => __( 'Minimal level', 'decalog' ),
 			'details' => __( 'Reported details', 'decalog' ),
-		);
+		];
 		return $columns;
 	}
 
@@ -202,7 +202,7 @@ class Loggers extends \WP_List_Table {
 	 * @since    1.0.0
 	 */
 	protected function get_hidden_columns() {
-		return array();
+		return [];
 	}
 
 	/**
@@ -212,9 +212,9 @@ class Loggers extends \WP_List_Table {
 	 * @since    1.0.0
 	 */
 	protected function get_sortable_columns() {
-		$sortable_columns = array(
-			'name' => array( 'name', true ),
-		);
+		$sortable_columns = [
+			'name' => [ 'name', true ],
+		];
 		return $sortable_columns;
 	}
 
@@ -225,7 +225,7 @@ class Loggers extends \WP_List_Table {
 	 * @since    1.0.0
 	 */
 	public function get_bulk_actions() {
-		return array();
+		return [];
 	}
 
 	public function usort_reorder( $a, $b ) {
@@ -244,9 +244,9 @@ class Loggers extends \WP_List_Table {
 		$columns               = $this->get_columns();
 		$hidden                = $this->get_hidden_columns();
 		$sortable              = $this->get_sortable_columns();
-		$this->_column_headers = array( $columns, $hidden, $sortable );
+		$this->_column_headers = [ $columns, $hidden, $sortable ];
 		$data                  = $this->loggers;
-		usort( $data, array( $this, 'usort_reorder' ) );
+		usort( $data, [ $this, 'usort_reorder' ] );
 		$this->items = $data;
 	}
 
