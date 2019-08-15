@@ -42,7 +42,7 @@ class Log {
 	 * @return  DLogger The DecaLog logger instance.
 	 * @since   1.0.0
 	 */
-	public static function bootstrap( $class, $name = null , $version=null) {
+	public static function bootstrap( $class, $name = null, $version = null ) {
 		return new DLogger( $class, $name, $version );
 	}
 
@@ -53,10 +53,10 @@ class Log {
 	 * @return  string The level name.
 	 * @since   1.0.0
 	 */
-	public static function level_name( $level) {
+	public static function level_name( $level ) {
 		$result = 'UNKNOWN';
-		if (array_key_exists($level, EventTypes::$level_names)) {
-			$result = EventTypes::$level_names[$level];
+		if ( array_key_exists( $level, EventTypes::$level_names ) ) {
+			$result = EventTypes::$level_names[ $level ];
 		}
 		return $result;
 	}
@@ -69,10 +69,10 @@ class Log {
 	 */
 	public static function get_levels() {
 		$result = [];
-		foreach (EventTypes::$level_names as $key=>$name) {
-			$result[] = [$key, $name];
+		foreach ( EventTypes::$level_names as $key => $name ) {
+			$result[] = [ $key, $name ];
 		}
-		return array_reverse($result);
+		return array_reverse( $result );
 	}
 
 }

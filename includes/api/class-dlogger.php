@@ -95,12 +95,12 @@ class DLogger {
 	 * @since 1.0.0
 	 */
 	private function init() {
-		$factory = new LoggerFactory();
+		$factory      = new LoggerFactory();
 		$this->logger = new Logger( $this->current_channel_tag(), [], [], Timezone::get_wp() );
-		foreach ( Option::get('loggers') as $key => $logger ) {
+		foreach ( Option::get( 'loggers' ) as $key => $logger ) {
 			$logger['uuid'] = $key;
-			$handler = $factory->create_logger($logger);
-			if ($handler) {
+			$handler        = $factory->create_logger( $logger );
+			if ( $handler ) {
 				$this->logger->pushHandler( $handler );
 			}
 		}
@@ -124,7 +124,7 @@ class DLogger {
 	 * @since 1.0.0
 	 */
 	public function channel_tag( $id = 0 ) {
-		if ( $id >= count(ChannelTypes::$channels ) ) {
+		if ( $id >= count( ChannelTypes::$channels ) ) {
 			$id = 0;
 		}
 		return ChannelTypes::$channels[ $id ];
@@ -150,7 +150,7 @@ class DLogger {
 	 * Adds a log record at the DEBUG level.
 	 *
 	 * @param string  $message The log message.
-	 * @param integer $context Optional. The log code.
+	 * @param integer $code Optional. The log code.
 	 * @since 1.0.0
 	 */
 	public function debug( $message, $code = 0 ) {
@@ -173,7 +173,7 @@ class DLogger {
 	 * Adds a log record at the INFO level.
 	 *
 	 * @param string  $message The log message.
-	 * @param integer $context Optional. The log code.
+	 * @param integer $code Optional. The log code.
 	 * @since 1.0.0
 	 */
 	public function info( $message, $code = 0 ) {
@@ -194,7 +194,7 @@ class DLogger {
 	 * Adds a log record at the NOTICE level.
 	 *
 	 * @param string  $message The log message.
-	 * @param integer $context Optional. The log code.
+	 * @param integer $code Optional. The log code.
 	 * @since 1.0.0
 	 */
 	public function notice( $message, $code = 0 ) {
@@ -215,7 +215,7 @@ class DLogger {
 	 * Adds a log record at the WARNING level.
 	 *
 	 * @param string  $message The log message.
-	 * @param integer $context Optional. The log code.
+	 * @param integer $code Optional. The log code.
 	 * @since 1.0.0
 	 */
 	public function warning( $message, $code = 0 ) {
@@ -236,7 +236,7 @@ class DLogger {
 	 * Adds a log record at the ERROR level.
 	 *
 	 * @param string  $message The log message.
-	 * @param integer $context Optional. The log code.
+	 * @param integer $code Optional. The log code.
 	 * @since 1.0.0
 	 */
 	public function error( $message, $code = 0 ) {
@@ -257,7 +257,7 @@ class DLogger {
 	 * Adds a log record at the CRITICAL level.
 	 *
 	 * @param string  $message The log message.
-	 * @param integer $context Optional. The log code.
+	 * @param integer $code Optional. The log code.
 	 * @since 1.0.0
 	 */
 	public function critical( $message, $code = 0 ) {
@@ -278,7 +278,7 @@ class DLogger {
 	 * Adds a log record at the ALERT level.
 	 *
 	 * @param string  $message The log message.
-	 * @param integer $context Optional. The log code.
+	 * @param integer $code Optional. The log code.
 	 * @since 1.0.0
 	 */
 	public function alert( $message, $code = 0 ) {
@@ -299,7 +299,7 @@ class DLogger {
 	 * Adds a log record at the EMERGENCY level.
 	 *
 	 * @param string  $message The log message.
-	 * @param integer $context Optional. The log code.
+	 * @param integer $code Optional. The log code.
 	 * @since 1.0.0
 	 */
 	public function emergency( $message, $code = 0 ) {
