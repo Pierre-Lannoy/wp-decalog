@@ -44,7 +44,7 @@ class Decalog_Public {
 	 *
 	 * @since 1.0.0
 	 */
-	public function enqueue_styles() {
+	public function register_styles() {
 		$this->assets->register_style( DECALOG_ASSETS_ID, DECALOG_PUBLIC_URL, 'css/decalog.min.css' );
 	}
 
@@ -53,7 +53,7 @@ class Decalog_Public {
 	 *
 	 * @since 1.0.0
 	 */
-	public function enqueue_scripts() {
+	public function register_scripts() {
 		$this->assets->register_script( DECALOG_ASSETS_ID, DECALOG_PUBLIC_URL, 'js/decalog.min.js', [ 'jquery' ] );
 	}
 

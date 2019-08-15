@@ -35,7 +35,6 @@ class Decalog_Admin {
 	 * The assets manager that's responsible for handling all assets of the plugin.
 	 *
 	 * @since  1.0.0
-	 * @access protected
 	 * @var    Assets    $assets    The plugin assets manager.
 	 */
 	protected $assets;
@@ -44,8 +43,7 @@ class Decalog_Admin {
 	 * The internal logger.
 	 *
 	 * @since  1.0.0
-	 * @access protected
-	 * @var    DLogger    $logger    The plugin admin logger.
+	 * @var    API\DLogger    $logger    The plugin admin logger.
 	 */
 	protected $logger;
 
@@ -53,7 +51,6 @@ class Decalog_Admin {
 	 * The current logger.
 	 *
 	 * @since  1.0.0
-	 * @access protected
 	 * @var    array    $current_logger    The current logger.
 	 */
 	protected $current_logger;
@@ -62,7 +59,6 @@ class Decalog_Admin {
 	 * The current handler.
 	 *
 	 * @since  1.0.0
-	 * @access protected
 	 * @var    array    $current_handler    The current handler.
 	 */
 	protected $current_handler;
@@ -71,7 +67,6 @@ class Decalog_Admin {
 	 * The current view.
 	 *
 	 * @since  1.0.0
-	 * @access protected
 	 * @var    object    $current_view    The current view.
 	 */
 	protected $current_view = null;
@@ -91,7 +86,7 @@ class Decalog_Admin {
 	 *
 	 * @since 1.0.0
 	 */
-	public function enqueue_styles() {
+	public function register_styles() {
 		$this->assets->register_style( DECALOG_ASSETS_ID, DECALOG_ADMIN_URL, 'css/decalog.min.css' );
 	}
 
@@ -100,7 +95,7 @@ class Decalog_Admin {
 	 *
 	 * @since 1.0.0
 	 */
-	public function enqueue_scripts() {
+	public function register_scripts() {
 		$this->assets->register_script( DECALOG_ASSETS_ID, DECALOG_ADMIN_URL, 'js/decalog.min.js', [ 'jquery' ] );
 	}
 
@@ -151,7 +146,7 @@ class Decalog_Admin {
 	}
 
 	/**
-	 * Get the content of the settings page.
+	 * Get the content of the tools page.
 	 *
 	 * @since 1.0.0
 	 */
@@ -520,7 +515,7 @@ class Decalog_Admin {
 	}
 
 	/**
-	 * Callback for settings options section.
+	 * Callback for listeners settings section.
 	 *
 	 * @since 1.0.0
 	 */

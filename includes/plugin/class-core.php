@@ -109,8 +109,8 @@ class Core {
 	private function define_admin_hooks() {
 		$plugin_admin = new Decalog_Admin();
 		$nag          = new Nag();
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'register_styles' );
+		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'register_scripts' );
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'init_admin_menus' );
 		$this->loader->add_action( 'admin_init', $plugin_admin, 'init_settings_sections' );
 		$this->loader->add_action( 'admin_notices', $nag, 'display' );
@@ -126,8 +126,8 @@ class Core {
 	 */
 	private function define_public_hooks() {
 		$plugin_public = new Decalog_Public();
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'register_styles' );
+		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'register_scripts' );
 	}
 
 	/**
