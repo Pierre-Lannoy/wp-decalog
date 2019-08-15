@@ -315,10 +315,14 @@ class Decalog_Admin {
 		if ( ! empty( $_POST ) ) {
 			if ( array_key_exists( '_wpnonce', $_POST ) && wp_verify_nonce( $_POST['_wpnonce'], 'decalog-listeners-options' ) ) {
 				Option::set('autolisteners', 'auto' === filter_input(INPUT_POST, 'decalog_listeners_options_auto'));
-
-
-
-
+				$list = [];
+				$listeners = ListenerFactory::$infos;
+				foreach ($listeners as $listener) {
+					if (array_key_exists( 'decalog_listeners_settings_' . $listener['id'], $_POST )) {
+						$list[] = $listener['id'];
+					}
+				}
+				Option::set('listeners', $list);
 				$message      = __( 'Listeners settings have been saved.', 'decalog' );
 				$code         = 0;
 				add_settings_error( 'decalog_no_error', $code, $message, 'updated' );
