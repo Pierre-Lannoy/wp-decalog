@@ -269,7 +269,7 @@ class Loggers extends \WP_List_Table {
 				//phpcs:ignore
 				$order  = ( ! empty( $_REQUEST['order'] ) ) ? $_REQUEST['order'] : 'desc';
 				$result = strcmp( strtolower( $a[ $orderby ] ), strtolower( $b[ $orderby ] ) );
-				return ( 'asc' === $order ) ? $result : -$result;
+				return ( 'asc' === $order ) ? -$result : $result;
 			}
 		);
 		$this->items = $data;
