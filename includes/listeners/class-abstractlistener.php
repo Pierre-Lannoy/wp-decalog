@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Listener stub for DecaLog.
  *
@@ -87,20 +86,20 @@ abstract class AbstractListener {
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @param    DLogger    $internal_logger    An instance of DLogger to log internal events.
+	 * @param    DLogger $internal_logger    An instance of DLogger to log internal events.
 	 * @since    1.0.0
 	 */
-	public function __construct($internal_logger) {
+	public function __construct( $internal_logger ) {
 		$this->log = $internal_logger;
 		$this->init();
-		if ($this->is_available()) {
-			$launch = Option::get('autolisteners');
-			if (!$launch) {
-				if (in_array($this->id, Option::get('listeners'))) {
+		if ( $this->is_available() ) {
+			$launch = Option::get( 'autolisteners' );
+			if ( ! $launch ) {
+				if ( in_array( $this->id, Option::get( 'listeners' ) ) ) {
 					$launch = true;
 				}
 			}
-			if ($launch && $this->launch()) {
+			if ( $launch && $this->launch() ) {
 				$this->logger = Log::bootstrap( $this->class, $this->product, $this->version );
 				$this->log->debug( sprintf( 'Listener for %s is launched.', $this->name ) );
 				$this->logger->debug( 'Listener launched and operational.' );
@@ -115,12 +114,12 @@ abstract class AbstractListener {
 	 * @since    1.0.0
 	 */
 	public function get_info() {
-		$result = [];
-		$result['id'] = $this->id;
-		$result['name'] = $this->name;
-		$result['product'] = $this->product;
-		$result['class'] = $this->class;
-		$result['version'] = $this->version;
+		$result              = [];
+		$result['id']        = $this->id;
+		$result['name']      = $this->name;
+		$result['product']   = $this->product;
+		$result['class']     = $this->class;
+		$result['version']   = $this->version;
 		$result['available'] = $this->is_available();
 		return $result;
 	}
@@ -128,13 +127,13 @@ abstract class AbstractListener {
 	/**
 	 * Pseudonymizes user if needed.
 	 *
-	 * @param    mixed    $user    The user.
+	 * @param    mixed $user    The user.
 	 * @return  string  The user string, pseudonymized if needed.
 	 * @since    1.0.0
 	 */
-	protected function get_user($user) {
+	protected function get_user( $user ) {
 		$id = 0;
-		if (isset($user) && is_numeric($user)) {
+		if ( isset( $user ) && is_numeric( $user ) ) {
 			$id = $user;
 		}
 		if ( 0 === $id && ! empty( $user ) ) {
@@ -145,7 +144,7 @@ abstract class AbstractListener {
 				return $user->ID;
 			}
 		}
-		return User::get_user_string($id, Option::get('pseudonymization'));
+		return User::get_user_string( $id, Option::get( 'pseudonymization' ) );
 	}
 
 	/**

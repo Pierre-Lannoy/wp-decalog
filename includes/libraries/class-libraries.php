@@ -78,7 +78,7 @@ class Libraries {
 			'license' => 'mit',
 			'langs'   => 'en',
 		];
-		self::$psr4_libraries['psr-3']   = [
+		self::$psr4_libraries['psr-3']     = [
 			'name'    => 'PSR-3',
 			'prefix'  => 'Psr\\Log',
 			'base'    => DECALOG_VENDOR_DIR . 'psr/log/',
@@ -187,11 +187,17 @@ class Libraries {
 		$item['name']    = 'Plugin Boilerplate';
 		$item['version'] = '';
 		$item['author']  = 'Pierre Lannoy';
+		// phpcs:ignore
 		$item['url']     = 'https://github.com/Pierre-Lannoy/wp-' . 'plugin-' . 'boilerplate';
 		$item['license'] = $this->license_name( 'gpl2' );
 		$item['langs']   = L10n::get_language_markup( [ 'en' ] );
 		$list[]          = $item;
-		usort( $list, function ( $a, $b ) { return strcmp( strtolower( $a['name'] ), strtolower( $b['name'] ) );} );
+		usort(
+			$list,
+			function ( $a, $b ) {
+				return strcmp( strtolower( $a['name'] ), strtolower( $b['name'] ) );
+			}
+		);
 		if ( 'html' === $style ) {
 			$items = [];
 			foreach ( $list as $library ) {

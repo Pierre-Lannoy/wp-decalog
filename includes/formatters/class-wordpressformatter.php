@@ -129,13 +129,13 @@ class WordpressFormatter implements FormatterInterface {
 				$values['function'] = substr( $extra['function'], 0, 100 );
 			}
 			if ( array_key_exists( 'trace', $extra ) && $extra['trace'] ) {
-				$s = serialize($extra['trace']);
-				if (strlen($s) < 10000) {
+				$s = serialize( $extra['trace'] );
+				if ( strlen( $s ) < 10000 ) {
 					$values['trace'] = $s;
 				} else {
-					$s =[];
-					$s['error'] = 'This backtrace was not recorded: size exceeds limit.';
-					$values['trace'] = serialize($s);
+					$s               = [];
+					$s['error']      = 'This backtrace was not recorded: size exceeds limit.';
+					$values['trace'] = serialize( $s );
 				}
 			}
 		}
@@ -152,7 +152,7 @@ class WordpressFormatter implements FormatterInterface {
 	public function formatBatch( array $records ): string {
 		$messages = [];
 		foreach ( $records as $record ) {
-			$a = $this->format( $record );
+			$a = unserialize( $this->format( $record ) );
 			if ( 1 === count( $a ) ) {
 				$messages[] = $a[0];
 			}

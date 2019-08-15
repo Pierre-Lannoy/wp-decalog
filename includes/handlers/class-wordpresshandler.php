@@ -1,5 +1,4 @@
 <?php
-
 /**
  * WordPress handler for Monolog
  *
@@ -41,7 +40,7 @@ class WordpressHandler extends AbstractProcessingHandler {
 	 *
 	 * @param   string  $table    The table name.
 	 * @param   integer $level    Optional. The min level to log.
-	 * @param   boolean $bubble   Optional. Has the record to bubble?
+	 * @param   boolean $bubble   Optional. Has the record to bubble?.
 	 * @since    1.0.0
 	 */
 	public function __construct( string $table, $level = Logger::DEBUG, bool $bubble = true ) {
@@ -65,6 +64,7 @@ class WordpressHandler extends AbstractProcessingHandler {
 	 */
 	private function insert_value( $value ) {
 		global $wpdb;
+		// phpcs:ignore
 		if ( $wpdb->insert( $this->table, $value, '%s' ) ) {
 			return $wpdb->insert_id;
 		}

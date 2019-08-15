@@ -43,8 +43,8 @@ class Updater {
 				$this->update( $old );
 				// phpcs:ignore
 				$message = sprintf( __( '%1$s has been correctly updated from version %2$s to version %3$s.', 'decalog' ), DECALOG_PRODUCT_NAME, $old, DECALOG_VERSION );
-				$logger = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
-				$logger->notice($message);
+				$logger  = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
+				$logger->notice( $message );
 			}
 			Nag::add( 'update', 'info', $message );
 			Option::set( 'version', DECALOG_VERSION );
