@@ -414,11 +414,11 @@ class Events extends \WP_List_Table {
 		$filters = $this->filters;
 		$level   = array_key_exists( 'level', $this->filters ) ? $this->filters['level'] : '';
 		unset( $this->filters['level'] );
-		$s1                     = '<a href="' . $this->get_page_url() . '"' . ( '' === $level ? ' class="current"' : '' ) . '>' . __( 'All', 'live-weather-station' ) . ' <span class="count">(' . $this->get_count() . ')</span></a>';
+		$s1                     = '<a href="' . $this->get_page_url() . '"' . ( '' === $level ? ' class="current"' : '' ) . '>' . __( 'All', 'decalog' ) . ' <span class="count">(' . $this->get_count() . ')</span></a>';
 		$this->filters['level'] = 'notice';
-		$s2                     = '<a href="' . $this->get_page_url() . '"' . ( 'notice' === $level ? ' class="current"' : '' ) . '>' . __( 'Notices &amp; beyond', 'live-weather-station' ) . ' <span class="count">(' . $this->get_count() . ')</span></a>';
+		$s2                     = '<a href="' . $this->get_page_url() . '"' . ( 'notice' === $level ? ' class="current"' : '' ) . '>' . __( 'Notices &amp; beyond', 'decalog' ) . ' <span class="count">(' . $this->get_count() . ')</span></a>';
 		$this->filters['level'] = 'error';
-		$s3                     = '<a href="' . $this->get_page_url() . '"' . ( 'error' === $level ? ' class="current"' : '' ) . '>' . __( 'Errors &amp; beyond', 'live-weather-station' ) . ' <span class="count">(' . $this->get_count() . ')</span></a>';
+		$s3                     = '<a href="' . $this->get_page_url() . '"' . ( 'error' === $level ? ' class="current"' : '' ) . '>' . __( 'Errors &amp; beyond', 'decalog' ) . ' <span class="count">(' . $this->get_count() . ')</span></a>';
 		$status_links           = [
 			'all'     => $s1,
 			'notices' => $s2,

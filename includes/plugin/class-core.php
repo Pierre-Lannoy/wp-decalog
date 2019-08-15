@@ -63,7 +63,7 @@ class Core {
 	/**
 	 * Define the locale for this plugin for internationalization.
 	 *
-	 * Uses the Adr_Sync_i18n class in order to set the domain and to register the hook
+	 * Uses the i18n class in order to set the domain and to register the hook
 	 * with WordPress.
 	 *
 	 * @since  1.0.0

@@ -330,7 +330,7 @@ class Decalog_Admin {
 			} else {
 				$message = __( 'Listeners settings have not been saved. Please try again.', 'decalog' );
 				$code    = 2;
-				add_settings_error( 'adr_nonce_error', $code, $message, 'error' );
+				add_settings_error( 'decalog_nonce_error', $code, $message, 'error' );
 				$this->logger->warning( 'Listeners settings not updated.', $code);
 			}
 		}
@@ -352,7 +352,7 @@ class Decalog_Admin {
 			} else {
 				$message = __( 'Listeners settings have not been reset to defaults. Please try again.', 'decalog' );
 				$code    = 2;
-				add_settings_error( 'adr_nonce_error', $code, $message, 'error' );
+				add_settings_error( 'decalog_nonce_error', $code, $message, 'error' );
 				$this->logger->warning( 'Listeners settings not reset to defaults.', $code);
 			}
 		}
@@ -378,7 +378,7 @@ class Decalog_Admin {
 			} else {
 				$message = __( 'Plugin settings have not been saved. Please try again.', 'decalog' );
 				$code    = 2;
-				add_settings_error( 'adr_nonce_error', $code, $message, 'error' );
+				add_settings_error( 'decalog_nonce_error', $code, $message, 'error' );
 				$this->logger->warning( 'Plugin settings not updated.', $code);
 			}
 		}
@@ -400,7 +400,7 @@ class Decalog_Admin {
 			} else {
 				$message = __( 'Plugin settings have not been reset to defaults. Please try again.', 'decalog' );
 				$code    = 2;
-				add_settings_error( 'adr_nonce_error', $code, $message, 'error' );
+				add_settings_error( 'decalog_nonce_error', $code, $message, 'error' );
 				$this->logger->warning( 'Plugin settings not reset to defaults.', $code);
 			}
 		}
@@ -458,7 +458,7 @@ class Decalog_Admin {
 			} else {
 				$message = sprintf( __( 'Logger %s has not been saved. Please try again.', 'decalog' ), '<em>' . $this->current_logger['name'] . '</em>' );
 				$code    = 2;
-				add_settings_error( 'adr_nonce_error', $code, $message, 'error' );
+				add_settings_error( 'decalog_nonce_error', $code, $message, 'error' );
 				$this->logger->warning( sprintf( 'Logger "%s" has not been saved.', $this->current_logger['name'] ), $code );
 			}
 		}
@@ -488,7 +488,7 @@ class Decalog_Admin {
 			} else {
 				$message = sprintf( __( 'Logger %s has not been removed. Please try again.', 'decalog' ), '<em>' . $this->current_logger['name'] . '</em>' );
 				$code    = 2;
-				add_settings_error( 'adr_nonce_error', $code, $message, 'error' );
+				add_settings_error( 'decalog_nonce_error', $code, $message, 'error' );
 				$this->logger->warning( sprintf( 'Logger "%s" has not been removed.', $this->current_logger['name'] ), $code );
 			}
 		}
