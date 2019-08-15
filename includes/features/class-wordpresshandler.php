@@ -47,7 +47,7 @@ class WordpressHandler {
 	 * The full table name.
 	 *
 	 * @since  1.0.0
-	 * @var    array    $table    The full table name.
+	 * @var    string    $table    The full table name.
 	 */
 	private $table = '';
 
@@ -55,7 +55,7 @@ class WordpressHandler {
 	 * The simple table name.
 	 *
 	 * @since  1.0.0
-	 * @var    array    $table_name    The simple table name.
+	 * @var    string    $table_name    The simple table name.
 	 */
 	private $table_name = '';
 
@@ -66,7 +66,7 @@ class WordpressHandler {
 	 * @since    1.0.0
 	 */
 	public function __construct( $logger = [] ) {
-		if ( [] != $logger ) {
+		if ( [] !== $logger ) {
 			$this->set_logger( $logger );
 		}
 		$this->log = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
@@ -80,9 +80,9 @@ class WordpressHandler {
 	 */
 	public function set_logger( $logger ) {
 		global $wpdb;
-		$this->logger = $logger;
-		$this->table_name  = 'decalog_' . str_replace( '-', '', $logger['uuid'] );
-		$this->table  = $wpdb->prefix . $this->table_name;
+		$this->logger     = $logger;
+		$this->table_name = 'decalog_' . str_replace( '-', '', $logger['uuid'] );
+		$this->table      = $wpdb->prefix . $this->table_name;
 	}
 
 	/**
@@ -102,7 +102,7 @@ class WordpressHandler {
 			$cl[] = "'" . $c . "'";
 		}
 		$verbs = implode( ',', $cl );
-		if ( '' != $this->table ) {
+		if ( '' !== $this->table ) {
 			$charset_collate = $wpdb->get_charset_collate();
 			$sql             = 'CREATE TABLE IF NOT EXISTS ' . $this->table;
 			$sql            .= ' (`id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,';
@@ -130,6 +130,7 @@ class WordpressHandler {
 			$sql            .= ' `trace` varchar(10000),';
 			$sql            .= ' PRIMARY KEY (`id`)';
 			$sql            .= ") $charset_collate;";
+			// phpcs:ignore
 			$wpdb->query( $sql );
 			$this->log->debug( sprintf( 'Table "%s" updated or created.', $this->table ) );
 		}
@@ -142,9 +143,10 @@ class WordpressHandler {
 	 */
 	public function finalize() {
 		global $wpdb;
-		if ( '' != $this->table ) {
+		if ( '' !== $this->table ) {
 			$this->log->debug( sprintf( 'Table "%s" dropped.', $this->table ) );
 			$sql = 'DROP TABLE IF EXISTS ' . $this->table;
+			// phpcs:ignore
 			$wpdb->query( $sql );
 		}
 	}
@@ -155,14 +157,13 @@ class WordpressHandler {
 	 * @since    1.0.0
 	 */
 	public function cron_clean() {
-		global $wpdb;
-		if ( '' != $this->table_name ) {
+		if ( '' !== $this->table_name ) {
 			$count    = 0;
 			$database = new Database();
-			if ( $hour_done = $database->purge( $this->table_name, 'timestamp', 24 * (integer)$this->logger['configuration']['purge'] ) ) {
+			if ( $hour_done = $database->purge( $this->table_name, 'timestamp', 24 * (int) $this->logger['configuration']['purge'] ) ) {
 				$count += $hour_done;
 			}
-			$limit = $database->count_lines( $this->table_name ) - (integer)$this->logger['configuration']['rotate'];
+			$limit = $database->count_lines( $this->table_name ) - (int) $this->logger['configuration']['rotate'];
 			if ( $limit > 0 ) {
 				if ( $max_done = $database->rotate( $this->table_name, 'id', $limit ) ) {
 					$count += $max_done;
@@ -173,7 +174,7 @@ class WordpressHandler {
 			} elseif ( 1 === $count ) {
 				$this->log->info( sprintf( '1 old record deleted for logger "%s".', $this->logger['name'] ) );
 			} else {
-				$this->log->info( sprintf( '%1$s old records deleted for logger "%1$s".', $count, $this->logger['name'] ) );
+				$this->log->info( sprintf( '%1$s old records deleted for logger "%2$s".', $count, $this->logger['name'] ) );
 			}
 		}
 	}

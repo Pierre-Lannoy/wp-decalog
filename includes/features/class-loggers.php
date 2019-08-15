@@ -82,13 +82,22 @@ class Loggers extends \WP_List_Table {
 	/**
 	 * Default column formatter.
 	 *
-	 * @return      string   The cell formatted, ready to print.
+	 * @param   array  $item   The current item.
+	 * @param   string $column_name The current column name.
+	 * @return  string  The cell formatted, ready to print.
 	 * @since    1.0.0
 	 */
 	protected function column_default( $item, $column_name ) {
 		return $item[ $column_name ];
 	}
 
+	/**
+	 * "name" column formatter.
+	 *
+	 * @param   array $item   The current item.
+	 * @return  string  The cell formatted, ready to print.
+	 * @since    1.0.0
+	 */
 	protected function column_name( $item ) {
 		$edit   = esc_url(
 			add_query_arg(
@@ -119,7 +128,7 @@ class Loggers extends \WP_List_Table {
 					'action' => 'pause',
 					'tab'    => 'loggers',
 					'uuid'   => $item['uuid'],
-					'nonce'  => wp_create_nonce('decalog-logger-pause-' . $item['uuid']),
+					'nonce'  => wp_create_nonce( 'decalog-logger-pause-' . $item['uuid'] ),
 				],
 				admin_url( 'options-general.php' )
 			)
@@ -131,16 +140,16 @@ class Loggers extends \WP_List_Table {
 					'action' => 'start',
 					'tab'    => 'loggers',
 					'uuid'   => $item['uuid'],
-					'nonce'  => wp_create_nonce('decalog-logger-start-' . $item['uuid']),
+					'nonce'  => wp_create_nonce( 'decalog-logger-start-' . $item['uuid'] ),
 				],
 				admin_url( 'options-general.php' )
 			)
 		);
-		$view  = esc_url(
+		$view   = esc_url(
 			add_query_arg(
 				[
-					'page'   => 'decalog-viewer',
-					'logger_id'   => $item['uuid'],
+					'page'      => 'decalog-viewer',
+					'logger_id' => $item['uuid'],
 				],
 				admin_url( 'tools.php' )
 			)
@@ -156,12 +165,19 @@ class Loggers extends \WP_List_Table {
 		} else {
 			$actions['start'] = sprintf( '<a href="%s">' . __( 'Start', 'decalog' ) . '</a>', $start );
 		}
-		if ('WordpressHandler' === $handler['id']) {
+		if ( 'WordpressHandler' === $handler['id'] ) {
 			$actions['view'] = sprintf( '<a href="%s">' . __( 'View', 'decalog' ) . '</a>', $view );
 		}
 		return $icon . '&nbsp;' . sprintf( '<a href="%1$s">%2$s</a><br /><span style="color:silver">&nbsp;%3$s</span>%4$s', $edit, $item['name'], $type, $this->row_actions( $actions ) );
 	}
 
+	/**
+	 * "details" column formatter.
+	 *
+	 * @param   array $item   The current item.
+	 * @return  string  The cell formatted, ready to print.
+	 * @since    1.0.0
+	 */
 	protected function column_details( $item ) {
 		$list = [ __( 'Standard', 'decalog' ) ];
 		foreach ( $item['processors'] as $processor ) {
@@ -170,6 +186,13 @@ class Loggers extends \WP_List_Table {
 		return implode( ', ', $list );
 	}
 
+	/**
+	 * "minimal level" column formatter.
+	 *
+	 * @param   array $item   The current item.
+	 * @return  string  The cell formatted, ready to print.
+	 * @since    1.0.0
+	 */
 	protected function column_level( $item ) {
 		$name = Log::level_name( $item['level'] );
 		$list = [ __( 'Standard', 'decalog' ) ];
@@ -227,13 +250,6 @@ class Loggers extends \WP_List_Table {
 		return [];
 	}
 
-	public function usort_reorder( $a, $b ) {
-		$orderby = ( ! empty( $_REQUEST['orderby'] ) ) ? $_REQUEST['orderby'] : 'name';
-		$order   = ( ! empty( $_REQUEST['order'] ) ) ? $_REQUEST['order'] : 'desc';
-		$result  = strcmp( strtolower( $a[ $orderby ] ), strtolower( $b[ $orderby ] ) );
-		return ( $order === 'asc' ) ? $result : -$result;
-	}
-
 	/**
 	 * Prepares the list to be displayed.
 	 *
@@ -245,7 +261,17 @@ class Loggers extends \WP_List_Table {
 		$sortable              = $this->get_sortable_columns();
 		$this->_column_headers = [ $columns, $hidden, $sortable ];
 		$data                  = $this->loggers;
-		usort( $data, [ $this, 'usort_reorder' ] );
+		usort(
+			$data,
+			function ( $a, $b ) {
+				//phpcs:ignore
+				$orderby = ( ! empty( $_REQUEST['orderby'] ) ) ? $_REQUEST['orderby'] : 'name';
+				//phpcs:ignore
+				$order  = ( ! empty( $_REQUEST['order'] ) ) ? $_REQUEST['order'] : 'desc';
+				$result = strcmp( strtolower( $a[ $orderby ] ), strtolower( $b[ $orderby ] ) );
+				return ( 'asc' === $order ) ? $result : -$result;
+			}
+		);
 		$this->items = $data;
 	}
 

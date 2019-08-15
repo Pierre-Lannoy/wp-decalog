@@ -123,7 +123,7 @@ class ProcessorTypes {
 	/**
 	 * Get a specific processor.
 	 *
-	 * @param   string  The processor id.
+	 * @param   string $id The processor id.
 	 * @return  null|array   The detail of the processor, null if not found.
 	 * @since    1.0.0
 	 */
