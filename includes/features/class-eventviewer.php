@@ -31,6 +31,7 @@ class EventViewer {
 	 * The internal logger.
 	 *
 	 * @since  1.0.0
+	 * @access protected
 	 * @var    DLogger    $logger    The plugin admin logger.
 	 */
 	protected $logger;
@@ -202,13 +203,13 @@ class EventViewer {
 			echo '</div>';
 			echo '</form>';
 		} else {
-			echo '<h2>' . esc_html('Forbidden', 'decalog') . '</h2>';
+			echo '<h2>' . esc_html__('Forbidden', 'decalog') . '</h2>';
 			settings_errors();
-			echo '<p>' . esc_html('The event or events log you tried to access is out of your scope.', 'decalog') . '</p>';
-			echo '<p>' . esc_html('If you think this is an error, please contact the network administrator with these details:.', 'decalog');
+			echo '<p>' . esc_html__('The event or events log you tried to access is out of your scope.', 'decalog') . '</p>';
+			echo '<p>' . esc_html__('If you think this is an error, please contact the network administrator with these details:.', 'decalog');
 			echo '<ul>';
-			echo '<li>' . sprintf(esc_html('Events log: %s', 'decalog'), '<code>' . $this->logid . '</code>') . '</li>';
-			echo '<li>' . sprintf(esc_html('Event: %s', 'decalog'), '<code>' . $this->eventid . '</code>') . '</li>';
+			echo '<li>' . sprintf(esc_html__('Events log: %s', 'decalog'), '<code>' . $this->logid . '</code>') . '</li>';
+			echo '<li>' . sprintf(esc_html__('Event: %s', 'decalog'), '<code>' . $this->eventid . '</code>') . '</li>';
 			echo '</ul>';
 			echo '</p>';
 			$this->logger->warning(sprintf('Trying to access out of scope event #%s from events log {%s}.', $this->eventid, $this->logid), 403);
@@ -222,7 +223,7 @@ class EventViewer {
 	 * @since 1.0.0
 	 */
 	public function add_footer() {
-		$result = '<script language="javascript" type="text/javascript">';
+		$result = '<script>';
 		$result .= "    jQuery(document).ready( function($) {";
 		$result .= "        $('.if-js-closed').removeClass('if-js-closed').addClass('closed');";
 		$result .= "        if(typeof postboxes !== 'undefined')";
@@ -255,7 +256,7 @@ class EventViewer {
 	 * @since 1.0.0
 	 */
 	private function output_activity_block($content) {
-		echo '<div class="activity-block" style="padding-bottom: 0px;padding-top: 0px;">';
+		echo '<div class="activity-block" style="padding-bottom: 0;padding-top: 0;">';
 		echo $content;
 		echo '</div>';
 	}

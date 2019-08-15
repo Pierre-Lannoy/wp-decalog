@@ -148,13 +148,13 @@ class Events extends \WP_List_Table {
 	 * @since   1.0.0
 	 */
 	protected function column_event( $item ) {
-		$args = [];
-		$args['page'] = 'decalog-viewer';
-		$args['logid'] = $this->logger;
+		$args            = [];
+		$args['page']    = 'decalog-viewer';
+		$args['logid']   = $this->logger;
 		$args['eventid'] = $item['id'];
-		$url = add_query_arg( $args, admin_url( 'tools.php' ) );
-		$icon = '<img style="width:18px;float:left;padding-right:6px;" src="' . EventTypes::$icons[ $item['level'] ] . '" />';
-		$name = '<a href="' . $url . '">' . ChannelTypes::$channel_names[ strtoupper( $item['channel'] ) ] . '</a>' . $this->get_filter( 'channel', $item['channel'] ) . '&nbsp;<span style="color:silver">#' . $item['id'] . '</span>';
+		$url             = add_query_arg( $args, admin_url( 'tools.php' ) );
+		$icon            = '<img style="width:18px;float:left;padding-right:6px;" src="' . EventTypes::$icons[ $item['level'] ] . '" />';
+		$name            = '<a href="' . $url . '">' . ChannelTypes::$channel_names[ strtoupper( $item['channel'] ) ] . '</a>' . $this->get_filter( 'channel', $item['channel'] ) . '&nbsp;<span style="color:silver">#' . $item['id'] . '</span>';
 		/* translators: as in the sentence "Error code 501" or "Alert code 0" */
 		$code   = '<br /><span style="color:silver">' . sprintf( esc_html__( '%1$s code %2$s', 'decalog' ), ucfirst( $item['level'] ), $item['code'] ) . '</span>';
 		$result = $icon . $name . $code;
