@@ -79,7 +79,7 @@ class WordpressProcessor implements ProcessorInterface {
 		if ( $this->pseudonymize ) {
 			if ( array_key_exists( 'userid', $record['extra'] ) ) {
 				if ( $record['extra']['userid'] > 0 ) {
-					$record['extra']['userid'] = Hash::simple_hash( (string)$record['extra']['userid'] );
+					$record['extra']['userid'] = Hash::simple_hash( (string) $record['extra']['userid'] );
 					if ( array_key_exists( 'username', $record['extra'] ) ) {
 						$record['extra']['username'] = Hash::simple_hash( $record['extra']['username'] );
 					}

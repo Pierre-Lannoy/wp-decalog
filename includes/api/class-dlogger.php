@@ -16,8 +16,7 @@ use Decalog\System\Timezone;
 use Decalog\Plugin\Feature\LoggerFactory;
 use Decalog\Plugin\Feature\ClassTypes;
 use Decalog\Plugin\Feature\ChannelTypes;
-
-
+use Decalog\Plugin\Feature\EventTypes;
 
 /**
  * Main DecaLog logger class.
@@ -140,6 +139,28 @@ class DLogger {
 			return WP_DEBUG;
 		}
 		return true;
+	}
+
+	/**
+	 * Adds a log record at a specific level.
+	 *
+	 * @param mixed   $level The log level.
+	 * @param string  $message The log message.
+	 * @param integer $code Optional. The log code.
+	 * @since 1.0.0
+	 */
+	public function log( $level, $message, $code = 0 ) {
+		$context = [
+			'class'     => (string) $this->class,
+			'component' => (string) $this->name,
+			'version'   => (string) $this->version,
+			'code'      => (int) $code,
+		];
+		$channel = $this->current_channel_tag();
+		if ( $this->logger->getName() !== $channel ) {
+			$this->logger = $this->logger->withName( $channel );
+		}
+		$this->logger->log( $level, filter_var( $message, FILTER_SANITIZE_STRING ), $context );
 	}
 
 	/**
