@@ -9,9 +9,6 @@
  * @since   1.0.0
  */
 
-
-throw new Exception('test', 12);
-
 ?>
 
 <form action="
