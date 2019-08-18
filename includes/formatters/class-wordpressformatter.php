@@ -129,17 +129,20 @@ class WordpressFormatter implements FormatterInterface {
 				$values['function'] = substr( $extra['function'], 0, 100 );
 			}
 			if ( array_key_exists( 'trace', $extra ) && $extra['trace'] ) {
+				// phpcs:ignore
 				$s = serialize( $extra['trace'] );
 				if ( strlen( $s ) < 10000 ) {
 					$values['trace'] = $s;
 				} else {
-					$s               = [];
-					$s['error']      = 'This backtrace was not recorded: size exceeds limit.';
+					$s          = [];
+					$s['error'] = 'This backtrace was not recorded: size exceeds limit.';
+					// phpcs:ignore
 					$values['trace'] = serialize( $s );
 				}
 			}
 		}
 		$message[] = $values;
+		// phpcs:ignore
 		return serialize( $message );
 	}
 	/**
@@ -152,11 +155,13 @@ class WordpressFormatter implements FormatterInterface {
 	public function formatBatch( array $records ): string {
 		$messages = [];
 		foreach ( $records as $record ) {
+			// phpcs:ignore
 			$a = unserialize( $this->format( $record ) );
 			if ( 1 === count( $a ) ) {
 				$messages[] = $a[0];
 			}
 		}
+		// phpcs:ignore
 		return serialize( $messages );
 	}
 }

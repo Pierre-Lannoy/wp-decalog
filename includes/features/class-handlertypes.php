@@ -81,6 +81,40 @@ class HandlerTypes {
 			],
 		];
 		$this->handlers[] = [
+			'id'            => 'MailHandler',
+			'namespace'     => 'Decalog\\Handler',
+			'class'         => 'alerting',
+			'name'          => esc_html__( 'Mail', 'decalog' ),
+			'help'          => esc_html__( 'An events log sent by WordPress via mail.', 'decalog' ),
+			'icon'          => $this->get_base64_mail_icon(),
+			'params'        => [ 'processors', 'privacy' ],
+			'configuration' => [
+				'recipients' => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Recipients', 'decalog' ),
+					'help'    => esc_html__( 'The recipients mail address, in coma separated list.', 'decalog' ),
+					'default' => '',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
+			],
+			'init'          => [
+				[
+					'type'  => 'configuration',
+					'value' => 'recipients',
+				],
+				[ 'type' => 'level' ],
+				[
+					'type'  => 'literal',
+					'value' => true,
+				],
+			],
+		];
+		$this->handlers[] = [
 			'id'            => 'ErrorLogHandler',
 			'namespace'     => 'Monolog\\Handler',
 			'class'         => 'file',
@@ -104,7 +138,7 @@ class HandlerTypes {
 		$this->handlers[] = [
 			'id'            => 'SlackWebhookHandler',
 			'namespace'     => 'Monolog\Handler',
-			'class'         => 'service',
+			'class'         => 'alerting',
 			'name'          => esc_html__( 'Slack', 'decalog' ),
 			'help'          => esc_html__( 'An events log sent through Slack Webhooks.', 'decalog' ),
 			'icon'          => $this->get_base64_slack_icon(),
@@ -414,6 +448,23 @@ class HandlerTypes {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * Returns a base64 svg resource for the mail icon.
+	 *
+	 * @param string $color Optional. Color of the icon.
+	 * @return string The svg resource as a base64.
+	 * @since 1.0.0
+	 */
+	private function get_base64_mail_icon( $color = '#0073AA' ) {
+		$source  = '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" fill-rule="evenodd"  fill="none" width="100%" height="100%"  viewBox="0 0 2000 2000">';
+		$source .= '<g transform="translate(280, 340) scale(0.8, 0.7)">';
+		$source .= '<path style="fill:' . $color . '" d="M1792 710v794q0 66-47 113t-113 47h-1472q-66 0-113-47t-47-113v-794q44 49 101 87 362 246 497 345 57 42 92.5 65.5t94.5 48 110 24.5h2q51 0 110-24.5t94.5-48 92.5-65.5q170-123 498-345 57-39 100-87zm0-294q0 79-49 151t-122 123q-376 261-468 325-10 7-42.5 30.5t-54 38-52 32.5-57.5 27-50 9h-2q-23 0-50-9t-57.5-27-52-32.5-54-38-42.5-30.5q-91-64-262-182.5t-205-142.5q-62-42-117-115.5t-55-136.5q0-78 41.5-130t118.5-52h1472q65 0 112.5 47t47.5 113z"/>';
+		$source .= '</g>';
+		$source .= '</svg>';
+		// phpcs:ignore
+		return 'data:image/svg+xml;base64,' . base64_encode( $source );
 	}
 
 	/**

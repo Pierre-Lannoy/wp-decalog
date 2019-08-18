@@ -64,7 +64,7 @@ class CoreListener extends AbstractListener {
 		// Posts and Pages.
 		add_action( 'trashed_post', [ $this, 'trashed_post' ], 10, 1 );
 		add_action( 'untrashed_post', [ $this, 'untrashed_post' ], 10, 1 );
-		add_action( 'delete_post', [ $this, 'deleted_post' ], 10, 1 );
+		add_action( 'deleted_post', [ $this, 'deleted_post' ], 10, 1 );
 		add_action( 'post_updated', [ $this, 'post_updated' ], 10, 3 );
 		add_action( 'save_post', [ $this, 'save_post' ], 10, 3 );
 		add_action( 'publish_post', [ $this, 'publish_post' ], 10, 1 );
@@ -197,7 +197,7 @@ class CoreListener extends AbstractListener {
 	 *
 	 * @since    1.0.0
 	 */
-	public function delete_post( $post_ID ) {
+	public function deleted_post( $post_ID ) {
 		$message = 'Post deleted.';
 		if ( $post = get_post( $post_ID ) ) {
 			$message = sprintf( 'Post "%s" by %s deleted.', $post->post_title, $this->get_user( $post->post_author ) );
