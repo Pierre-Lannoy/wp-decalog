@@ -70,18 +70,18 @@ class PhpListener extends AbstractListener {
 	private $fatal_errors = [ E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR/*, E_USER_ERROR*/ ];
 
 	/**
-	 * The previous error handler.
+	 * The previous error handler, to restore if needed.
 	 *
 	 * @since  1.0.0
-	 * @var object $previous_error_handler The previous error handler.
+	 * @var callable $previous_error_handler The previous error handler.
 	 */
 	private $previous_error_handler;
 
 	/**
-	 * The previous exception handler.
+	 * The previous exception handler, to restore if needed.
 	 *
 	 * @since  1.0.0
-	 * @var object $previous_exception_handler The previous exception handler.
+	 * @var callable $previous_exception_handler The previous exception handler.
 	 */
 	private $previous_exception_handler;
 
