@@ -131,4 +131,29 @@ class Http {
 	public static function user_agent( $user_agent, $url ) {
 		return DECALOG_PRODUCT_NAME . ' (' . Environment::wordpress_version_id() . '; ' . Environment::plugin_version_id() . '; +' . DECALOG_PRODUCT_URL . ')';
 	}
+
+
+
+	public function prout() {
+
+		$options = array(
+			CURLOPT_URL => $this->webhookUrl,
+			CURLOPT_POST => true,
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_HTTPHEADER => array('Content-type: application/json'),
+			CURLOPT_POSTFIELDS => $postString,
+		);
+		if (defined('CURLOPT_SAFE_UPLOAD')) {
+			$options[CURLOPT_SAFE_UPLOAD] = true;
+		}
+
+		curl_setopt($this->httpConnection, CURLOPT_HTTPHEADER, [
+			'Content-Type: application/json',
+			'Content-Length: ' . strlen('['.$data.']'),
+		]);
+
+	}
+
+
+
 }
