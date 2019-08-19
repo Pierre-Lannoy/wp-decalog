@@ -60,9 +60,9 @@ class Hash {
 	 * @since  1.0.0
 	 */
 	public static function init() {
-		self::$x_available = hash_algos();
-		self::$sha1_available = in_array('sha1', self::$x_available);
-		self::$sha256_available = in_array('sha256', self::$x_available);
+		self::$x_available      = hash_algos();
+		self::$sha1_available   = in_array( 'sha1', self::$x_available, true );
+		self::$sha256_available = in_array( 'sha256', self::$x_available, true );
 	}
 
 	/**
@@ -73,16 +73,16 @@ class Hash {
 	 * @return  string  The hashed string.
 	 * @since  1.0.0
 	 */
-	public static function simple_hash($secret, $markup=true) {
+	public static function simple_hash( $secret, $markup = true ) {
 		$result = '';
-		if (self::$sha256_available) {
-			$result = hash('sha256', (string)$secret);
-		} elseif (self::$sha1_available) {
-			$result =  hash('sha1', (string)$secret);
+		if ( self::$sha256_available ) {
+			$result = hash( 'sha256', (string) $secret );
+		} elseif ( self::$sha1_available ) {
+			$result = hash( 'sha1', (string) $secret );
 		} else {
-			$result =  hash('md5', (string)$secret);
+			$result = hash( 'md5', (string) $secret );
 		}
-		if ($markup) {
+		if ( $markup ) {
 			$result = '{' . $result . '}';
 		}
 		return $result;

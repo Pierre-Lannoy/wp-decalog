@@ -64,13 +64,16 @@ class Log {
 	/**
 	 * Get the levels list.
 	 *
+	 * @param   integer $minimal    optional. The minimal level to add.
 	 * @return  array The level list.
 	 * @since   1.0.0
 	 */
-	public static function get_levels() {
+	public static function get_levels( $minimal = Logger::DEBUG ) {
 		$result = [];
 		foreach ( EventTypes::$level_names as $key => $name ) {
-			$result[] = [ $key, $name ];
+			if ( $key >= $minimal ) {
+				$result[] = [ $key, $name ];
+			}
 		}
 		return array_reverse( $result );
 	}

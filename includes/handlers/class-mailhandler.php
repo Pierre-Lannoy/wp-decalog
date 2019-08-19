@@ -63,7 +63,7 @@ class MailHandler extends AbstractProcessingHandler {
 	 */
 	protected function write( array $record ): void {
 
-		wp_mail( $this->recipients, 'test', $record['formatted'] );
+		//wp_mail( $this->recipients, 'test', $record['formatted'] );
 
 	}
 }

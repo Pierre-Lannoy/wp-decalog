@@ -21,6 +21,7 @@ use Decalog\System\UUID;
 use Decalog\System\Option;
 use Decalog\System\Form;
 use Decalog\System\Role;
+use Monolog\Logger;
 
 /**
  * The admin-specific functionality of the plugin.
@@ -709,7 +710,7 @@ class Decalog_Admin {
 			'decalog_logger_misc_section',
 			'decalog_logger_misc_section',
 			[
-				'list'        => Log::get_levels(),
+				'list'        => Log::get_levels( $this->current_handler['minimal'] ),
 				'id'          => 'decalog_logger_misc_level',
 				'value'       => $this->current_logger['level'],
 				'description' => __( 'Minimal reported level. May be overridden by the "respect WP_DEBUG directive" option.', 'decalog' ),
@@ -753,7 +754,7 @@ class Decalog_Admin {
 			'decalog_logger_delete_section',
 			'decalog_logger_delete_section',
 			[
-				'list'        => Log::get_levels(),
+				'list'        => Log::get_levels( $this->current_handler['minimal'] ),
 				'id'          => 'decalog_logger_delete_level',
 				'value'       => $this->current_logger['level'],
 				'description' => null,

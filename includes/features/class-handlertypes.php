@@ -11,6 +11,8 @@
 
 namespace Decalog\Plugin\Feature;
 
+use Monolog\Logger;
+
 /**
  * Define the logger types functionality.
  *
@@ -40,6 +42,7 @@ class HandlerTypes {
 			'id'            => 'NullHandler',
 			'namespace'     => 'Monolog\Handler',
 			'class'         => 'null',
+			'minimal'       => Logger::DEBUG,
 			'name'          => esc_html__( 'Blackhole', 'decalog' ),
 			'help'          => esc_html__( 'Any record it can handle will be thrown away.', 'decalog' ),
 			'icon'          => $this->get_base64_php_icon(),
@@ -50,6 +53,7 @@ class HandlerTypes {
 			'id'            => 'BrowserConsoleHandler',
 			'namespace'     => 'Monolog\\Handler',
 			'class'         => 'browser',
+			'minimal'       => Logger::DEBUG,
 			'name'          => esc_html__( 'Browser console', 'decalog' ),
 			'help'          => esc_html__( 'An events log sent to browser\'s javascript console with no browser extension required.', 'decalog' ),
 			'icon'          => $this->get_base64_browserconsole_icon(),
@@ -67,6 +71,7 @@ class HandlerTypes {
 			'id'            => 'ChromePHPHandler',
 			'namespace'     => 'Monolog\\Handler',
 			'class'         => 'browser',
+			'minimal'       => Logger::DEBUG,
 			'name'          => esc_html__( 'ChromePHP', 'decalog' ),
 			'help'          => esc_html__( 'An events log sent to the ChromePHP extension (http://www.chromephp.com/).', 'decalog' ),
 			'icon'          => $this->get_base64_chrome_icon(),
@@ -84,6 +89,7 @@ class HandlerTypes {
 			'id'            => 'MailHandler',
 			'namespace'     => 'Decalog\\Handler',
 			'class'         => 'alerting',
+			'minimal'       => Logger::WARNING,
 			'name'          => esc_html__( 'Mail', 'decalog' ),
 			'help'          => esc_html__( 'An events log sent by WordPress via mail.', 'decalog' ),
 			'icon'          => $this->get_base64_mail_icon(),
@@ -118,6 +124,7 @@ class HandlerTypes {
 			'id'            => 'ErrorLogHandler',
 			'namespace'     => 'Monolog\\Handler',
 			'class'         => 'file',
+			'minimal'       => Logger::DEBUG,
 			'name'          => esc_html__( 'PHP error log', 'decalog' ),
 			'help'          => esc_html__( 'An events log stored in the standard PHP error log, as with the error_log() function.', 'decalog' ),
 			'icon'          => $this->get_base64_php_icon(),
@@ -139,6 +146,7 @@ class HandlerTypes {
 			'id'            => 'SlackWebhookHandler',
 			'namespace'     => 'Monolog\Handler',
 			'class'         => 'alerting',
+			'minimal'       => Logger::WARNING,
 			'name'          => esc_html__( 'Slack', 'decalog' ),
 			'help'          => esc_html__( 'An events log sent through Slack Webhooks.', 'decalog' ),
 			'icon'          => $this->get_base64_slack_icon(),
@@ -221,6 +229,7 @@ class HandlerTypes {
 			'id'            => 'StackdriverHandler',
 			'namespace'     => 'Decalog\Handler',
 			'class'         => 'service',
+			'minimal'       => Logger::DEBUG,
 			'name'          => esc_html__( 'Stackdriver', 'decalog' ),
 			'help'          => esc_html__( 'An events log sent to a Stackdriver project.', 'decalog' ),
 			'icon'          => $this->get_base64_stackdriver_icon(),
@@ -231,6 +240,7 @@ class HandlerTypes {
 			'id'            => 'SyslogUdpHandler',
 			'namespace'     => 'Monolog\Handler',
 			'class'         => 'network',
+			'minimal'       => Logger::DEBUG,
 			'name'          => esc_html__( 'Syslog server', 'decalog' ),
 			'help'          => esc_html__( 'An events log sent to a remote syslogd server.', 'decalog' ),
 			'icon'          => $this->get_base64_syslog_icon(),
@@ -346,6 +356,7 @@ class HandlerTypes {
 			'id'            => 'WordpressHandler',
 			'namespace'     => 'Decalog\Handler',
 			'class'         => 'database',
+			'minimal'       => Logger::DEBUG,
 			'name'          => esc_html__( 'WordPress events log', 'decalog' ),
 			'help'          => esc_html__( 'An events log stored in your WordPress database and available right in your admin dashboard.', 'decalog' ),
 			'icon'          => $this->get_base64_wordpress_icon(),
