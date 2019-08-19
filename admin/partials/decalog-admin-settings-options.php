@@ -13,17 +13,17 @@
 
 <form action="
 	<?php
-echo esc_url(
-	add_query_arg(
-		array(
-			'page'    => 'decalog-settings',
-			'action'  => 'do-save',
-			'tab'     => 'misc',
-		),
-		admin_url( 'options-general.php' )
-	)
-);
-?>
+        echo esc_url(
+            add_query_arg(
+                array(
+                    'page'   => 'decalog-settings',
+                    'action' => 'do-save',
+                    'tab'    => 'misc',
+                ),
+                admin_url( 'options-general.php' )
+            )
+        );
+        ?>
 	" method="POST">
 	<?php do_settings_sections( 'decalog_loggers_options_section' ); ?>
 	<?php do_settings_sections( 'decalog_plugin_options_section' ); ?>
