@@ -516,7 +516,7 @@ class Decalog_Admin {
 				],
 				'id'          => 'decalog_listeners_options_auto',
 				'value'       => Option::get( 'autolisteners' ) ? 'auto' : 'manual',
-				'description' => esc_html__( '', 'decalog' ),
+				'description' => esc_html__( 'Automatically or selectively choose which components to listen.', 'decalog' ),
 				'full_width'  => true,
 				'enabled'     => true,
 			]
