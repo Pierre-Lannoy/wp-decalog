@@ -146,8 +146,14 @@ class Libraries {
 			case 'mit':
 				$result = esc_html( __( 'MIT license', 'decalog' ) );
 				break;
+			case 'apl2':
+				$result = esc_html( __( 'Apache license, version 2.0', 'decalog' ) );
+				break;
 			case 'gpl2':
 				$result = esc_html( __( 'GPL-2.0 license', 'decalog' ) );
+				break;
+			case 'gpl3':
+				$result = esc_html( __( 'GPL-3.0 license', 'decalog' ) );
 				break;
 			default:
 				$result = esc_html( __( 'unknown license', 'decalog' ) );
