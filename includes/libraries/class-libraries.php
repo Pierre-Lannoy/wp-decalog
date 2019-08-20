@@ -56,17 +56,6 @@ class Libraries {
 	 */
 	public static function init() {
 		self::$psr4_libraries              = [];
-		self::$psr4_libraries['fluent']    = [
-			'name'    => 'Fluent Logger PHP',
-			'prefix'  => 'Fluent',
-			'base'    => DECALOG_VENDOR_DIR . 'fluent/',
-			'version' => '1.0.0',
-			// phpcs:ignore
-			'author'  => sprintf( esc_html__( '%s & contributors', 'decalog' ), 'Chobie' ),
-			'url'     => 'https://github.com/fluent/fluent-logger-php',
-			'license' => 'apl2',
-			'langs'   => 'en',
-		];
 		self::$psr4_libraries['monolog']   = [
 			'name'    => 'Monolog',
 			'prefix'  => 'Monolog',

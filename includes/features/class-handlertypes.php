@@ -86,16 +86,33 @@ class HandlerTypes {
 			],
 		];
 		$this->handlers[] = [
-			'id'            => 'FluentdHandler',
-			'namespace'     => 'Monolog\\Handler',
+			'id'            => 'FluentHandler',
+			'namespace'     => 'Decalog\\Handler',
 			'class'         => 'network',
 			'minimal'       => Logger::DEBUG,
 			'name'          => esc_html__( 'Fluentd', 'decalog' ),
-			'help'          => esc_html__( 'An events log sent to the local Fluentd collector.', 'decalog' ),
+			'help'          => esc_html__( 'An events log sent to a Fluentd collector.', 'decalog' ),
 			'icon'          => $this->get_base64_fluentd_icon(),
 			'params'        => [ 'processors', 'privacy' ],
-			'configuration' => [],
+			'configuration' => [
+				'host' => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Connection string', 'decalog' ),
+					'help'    => esc_html__( 'Connection string to Fluentd. Can be something like "tcp://10.0.222.222:24224" or something like "unix:///var/run/td-agent/td-agent.sock".', 'decalog' ),
+					'default' => 'tcp://localhost:24224',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
+			],
 			'init'          => [
+				[
+					'type'  => 'configuration',
+					'value' => 'host',
+				],
 				[ 'type' => 'level' ],
 				[
 					'type'  => 'literal',

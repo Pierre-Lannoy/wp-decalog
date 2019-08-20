@@ -10,6 +10,7 @@
 namespace Decalog\API;
 
 use Monolog\Logger;
+use Monolog\Handler\WhatFailureGroupHandler;
 use Decalog\System\Environment;
 use Decalog\System\Option;
 use Decalog\System\Timezone;
@@ -92,13 +93,26 @@ class DLogger {
 	private function init() {
 		$factory      = new LoggerFactory();
 		$this->logger = new Logger( $this->current_channel_tag(), [], [], Timezone::get_wp() );
-		foreach ( Option::get( 'loggers' ) as $key => $logger ) {
+		/*foreach ( Option::get( 'loggers' ) as $key => $logger ) {
 			$logger['uuid'] = $key;
 			$handler        = $factory->create_logger( $logger );
 			if ( $handler ) {
 				$this->logger->pushHandler( $handler );
 			}
+		}*/
+
+
+		$handlers = [];
+		foreach ( Option::get( 'loggers' ) as $key => $logger ) {
+			$logger['uuid'] = $key;
+			$handler        = $factory->create_logger( $logger );
+			if ( $handler ) {
+				$handlers[] = $handler;
+			}
 		}
+		$group = new WhatFailureGroupHandler($handlers, false);
+		$this->logger->pushHandler($group);
+
 	}
 
 	/**
