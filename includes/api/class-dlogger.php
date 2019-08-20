@@ -93,16 +93,7 @@ class DLogger {
 	private function init() {
 		$factory      = new LoggerFactory();
 		$this->logger = new Logger( $this->current_channel_tag(), [], [], Timezone::get_wp() );
-		/*foreach ( Option::get( 'loggers' ) as $key => $logger ) {
-			$logger['uuid'] = $key;
-			$handler        = $factory->create_logger( $logger );
-			if ( $handler ) {
-				$this->logger->pushHandler( $handler );
-			}
-		}*/
-
-
-		$handlers = [];
+		$handlers     = [];
 		foreach ( Option::get( 'loggers' ) as $key => $logger ) {
 			$logger['uuid'] = $key;
 			$handler        = $factory->create_logger( $logger );
@@ -110,8 +101,8 @@ class DLogger {
 				$handlers[] = $handler;
 			}
 		}
-		$group = new WhatFailureGroupHandler($handlers, false);
-		$this->logger->pushHandler($group);
+		$group = new WhatFailureGroupHandler( $handlers, true );
+		$this->logger->pushHandler( $group );
 
 	}
 
