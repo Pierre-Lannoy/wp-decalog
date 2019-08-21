@@ -212,7 +212,7 @@ class LoggerFactory {
 		}
 		if ( ! array_key_exists( 'level', $logger ) ) {
 			$logger['level'] = Logger::DEBUG;
-		} elseif ( ! in_array( $logger['level'], EventTypes::$level_values, true ) ) {
+		} elseif ( ! in_array( $logger['level'], EventTypes::$level_values, false ) ) {
 			$logger['level'] = Logger::DEBUG;
 		}
 		return $logger;

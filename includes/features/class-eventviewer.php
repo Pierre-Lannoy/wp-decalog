@@ -86,7 +86,7 @@ class EventViewer {
 		if ( 1 === count( $lines ) ) {
 			foreach ( Events::get() as $log ) {
 				if ( $log['id'] === $this->logid ) {
-					if ( 0 === count( $log ['limit'] ) || in_array( $lines[0]['site_id'], $log ['limit'], true ) ) {
+					if ( 0 === count( $log ['limit'] ) || in_array( $lines[0]['site_id'], $log ['limit'] ) ) {
 						$this->event = $lines[0];
 						break;
 					}
@@ -164,7 +164,7 @@ class EventViewer {
 					}
 					$box_id  = $box['id'];
 					$result .= '<label for="' . $box_id . '-hide">';
-					$result .= '<input class="hide-postbox-tog" name="' . $box_id . '-hide" type="checkbox" id="' . $box_id . '-hide" value="' . $box_id . '"' . ( ! in_array( $box_id, $hidden, true ) ? ' checked="checked"' : '' ) . ' />';
+					$result .= '<input class="hide-postbox-tog" name="' . $box_id . '-hide" type="checkbox" id="' . $box_id . '-hide" value="' . $box_id . '"' . ( ! in_array( $box_id, $hidden, false ) ? ' checked="checked"' : '' ) . ' />';
 					$result .= $box['title'] . '</label>';
 				}
 			}
