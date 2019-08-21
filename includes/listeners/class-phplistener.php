@@ -11,6 +11,7 @@
 
 namespace Decalog\Listener;
 
+use Decalog\API\DLogger;
 use Decalog\System\Environment;
 use Monolog\Logger;
 use Monolog\Utils;
@@ -135,6 +136,7 @@ class PhpListener extends AbstractListener {
 			$file    = './' . str_replace( wp_normalize_path( ABSPATH ), '', wp_normalize_path( $last_error['file'] ) );
 			$file   .= ':' . $last_error['line'];
 			$message = sprintf( 'Fatal error (%s): "%s" at %s', $this->code_to_string( $last_error['type'] ), $last_error['message'], $file );
+			DLogger::ban( str_replace( '.php', '', strtolower( $file ) ) );
 			$this->logger->alert( $message, (int) $last_error['type'] );
 		}
 	}
@@ -155,6 +157,7 @@ class PhpListener extends AbstractListener {
 			$file    = './' . str_replace( wp_normalize_path( ABSPATH ), '', wp_normalize_path( $file ) );
 			$file   .= ':' . $line;
 			$message = sprintf( 'Error (%s): "%s" at %s', $this->code_to_string( $code ), $message, $file );
+			DLogger::ban( str_replace( '.php', '', strtolower( $file ) ) );
 			$this->logger->log( $level, $message, (int) $code );
 		}
 		if ( $this->previous_error_handler && is_callable( $this->previous_error_handler ) ) {
@@ -174,6 +177,7 @@ class PhpListener extends AbstractListener {
 		$file    = './' . str_replace( wp_normalize_path( ABSPATH ), '', wp_normalize_path( $exception->getFile() ) );
 		$file   .= ':' . $exception->getLine();
 		$message = sprintf( 'Uncaught exception (%s): "%s" at %s', Utils::getClass( $exception ), $exception->getMessage(), $file );
+		DLogger::ban( str_replace( '.php', '', strtolower( $exception->getFile() ) ) );
 		$this->logger->error( $message, (int) $exception->getCode() );
 		if ( $this->previous_exception_handler && is_callable( $this->previous_exception_handler ) ) {
 			return call_user_func( $this->previous_exception_handler, $exception );

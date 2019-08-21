@@ -46,7 +46,7 @@ class SocketHandler extends AbstractProcessingHandler
     {
         parent::__construct($level, $bubble);
         $this->connectionString = $connectionString;
-        $this->connectionTimeout = 1.0;//(float) ini_get('default_socket_timeout');
+        $this->connectionTimeout = (float) ini_get('default_socket_timeout');
     }
 
     /**

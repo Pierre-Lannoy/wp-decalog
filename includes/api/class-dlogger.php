@@ -116,7 +116,7 @@ class DLogger {
 		foreach ( Option::get( 'loggers' ) as $key => $logger ) {
 			$handler_def    = $handlers->get( $logger['handler'] );
 			$logger['uuid'] = $key;
-			if ( ! in_array( strtolower( $handler_def['id'] ), self::$banned, true ) ) {
+			if ( ! in_array( strtolower( $handler_def['ancestor'] ), self::$banned, true ) && ! in_array( strtolower( $handler_def['id'] ), self::$banned, true ) ) {
 				$handler = $factory->create_logger( $logger );
 				if ( $handler ) {
 					$this->logger->pushHandler( $handler );
@@ -128,7 +128,6 @@ class DLogger {
 		if ( count( $banned ) > 0 ) {
 			// phpcs:ignore
 			$this->alert( sprintf ('Due to DecaLog internal errors, the following logger types have been temporarily deactivated: %s.', implode(', ', $banned ) ), 666 );
-			self::$banned = [];
 		}
 	}
 
@@ -139,24 +138,20 @@ class DLogger {
 	 */
 	private function integrity_check() {
 		if ( count( self::$banned ) > 0 ) {
-			$bans = [];
-			foreach ( $this->logger->getHandlers() as $handler ) {
-				$classname = get_class( $handler );
-				if ( in_array( strtolower( $classname ), self::$banned, true ) ) {
-					$this->logger->popHandler( $handler );
-					$bans[] = $classname;
-				}
-			}
 			$handlers = new HandlerTypes();
 			$banned   = [];
-			foreach ( $bans as $ban ) {
-				$handler_def = $handlers->get( $ban );
-				$banned[]    = $handler_def['name'];
+			foreach ( $this->logger->getHandlers() as $handler ) {
+				$classname   = get_class( $handler );
+				$handler_def = $handlers->get( $classname );
+				$ancestor    = $handler_def['ancestor'];
+				if ( in_array( strtolower( $classname ), self::$banned, true ) || in_array( strtolower( $ancestor ), self::$banned, true ) ) {
+					$this->logger->popHandler( $handler );
+					$banned[] = $handler_def['name'];
+				}
 			}
 			if ( count( $banned ) > 0 ) {
 				// phpcs:ignore
 				$this->alert( sprintf ('Due to DecaLog internal errors, the following logger types have been temporarily deactivated: %s.', implode(', ', $banned ) ), 666 );
-				self::$banned = [];
 			}
 		}
 	}

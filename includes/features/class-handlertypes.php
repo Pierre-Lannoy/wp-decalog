@@ -40,6 +40,7 @@ class HandlerTypes {
 	public function __construct() {
 		$this->handlers[] = [
 			'id'            => 'NullHandler',
+			'ancestor'      => 'NullHandler',
 			'namespace'     => 'Monolog\Handler',
 			'class'         => 'null',
 			'minimal'       => Logger::DEBUG,
@@ -51,6 +52,7 @@ class HandlerTypes {
 		];
 		$this->handlers[] = [
 			'id'            => 'BrowserConsoleHandler',
+			'ancestor'      => 'BrowserConsoleHandler',
 			'namespace'     => 'Monolog\\Handler',
 			'class'         => 'browser',
 			'minimal'       => Logger::DEBUG,
@@ -69,6 +71,7 @@ class HandlerTypes {
 		];
 		$this->handlers[] = [
 			'id'            => 'ChromePHPHandler',
+			'ancestor'      => 'ChromePHPHandler',
 			'namespace'     => 'Monolog\\Handler',
 			'class'         => 'browser',
 			'minimal'       => Logger::DEBUG,
@@ -87,6 +90,7 @@ class HandlerTypes {
 		];
 		$this->handlers[] = [
 			'id'            => 'FluentHandler',
+			'ancestor'      => 'SocketHandler',
 			'namespace'     => 'Decalog\\Handler',
 			'class'         => 'network',
 			'minimal'       => Logger::DEBUG,
@@ -122,6 +126,7 @@ class HandlerTypes {
 		];
 		$this->handlers[] = [
 			'id'            => 'MailHandler',
+			'ancestor'      => 'MailHandler',
 			'namespace'     => 'Decalog\\Handler',
 			'class'         => 'alerting',
 			'minimal'       => Logger::WARNING,
@@ -157,6 +162,7 @@ class HandlerTypes {
 		];
 		$this->handlers[] = [
 			'id'            => 'ErrorLogHandler',
+			'ancestor'      => 'ErrorLogHandler',
 			'namespace'     => 'Monolog\\Handler',
 			'class'         => 'file',
 			'minimal'       => Logger::DEBUG,
@@ -179,6 +185,7 @@ class HandlerTypes {
 		];
 		$this->handlers[] = [
 			'id'            => 'PushoverHandler',
+			'ancestor'      => 'SocketHandler',
 			'namespace'     => 'Monolog\\Handler',
 			'class'         => 'alerting',
 			'minimal'       => Logger::WARNING,
@@ -250,6 +257,7 @@ class HandlerTypes {
 		];
 		$this->handlers[] = [
 			'id'            => 'RotatingFileHandler',
+			'ancestor'      => 'StreamHandler',
 			'namespace'     => 'Monolog\Handler',
 			'class'         => 'file',
 			'minimal'       => Logger::DEBUG,
@@ -304,6 +312,7 @@ class HandlerTypes {
 		];
 		$this->handlers[] = [
 			'id'            => 'SlackWebhookHandler',
+			'ancestor'      => 'SlackWebhookHandler',
 			'namespace'     => 'Monolog\Handler',
 			'class'         => 'alerting',
 			'minimal'       => Logger::WARNING,
@@ -387,6 +396,7 @@ class HandlerTypes {
 		];
 		$this->handlers[] = [
 			'id'            => 'SyslogUdpHandler',
+			'ancestor'      => 'AbstractSyslogHandler',
 			'namespace'     => 'Monolog\Handler',
 			'class'         => 'network',
 			'minimal'       => Logger::DEBUG,
@@ -503,6 +513,7 @@ class HandlerTypes {
 		];
 		$this->handlers[] = [
 			'id'            => 'WordpressHandler',
+			'ancestor'      => 'WordpressHandler',
 			'namespace'     => 'Decalog\Handler',
 			'class'         => 'database',
 			'minimal'       => Logger::DEBUG,
@@ -604,6 +615,22 @@ class HandlerTypes {
 	public function get( $id ) {
 		foreach ( $this->handlers as $handler ) {
 			if ( $handler['id'] === $id ) {
+				return $handler;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Get a specific handler.
+	 *
+	 * @param   string $id The ancestor id.
+	 * @return  null|array   The detail of the handler, null if not found.
+	 * @since    1.0.0
+	 */
+	public function get_ancestor( $id ) {
+		foreach ( $this->handlers as $handler ) {
+			if ( $handler['ancestor'] === $id ) {
 				return $handler;
 			}
 		}
