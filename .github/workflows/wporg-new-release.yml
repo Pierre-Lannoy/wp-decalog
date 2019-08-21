@@ -1,5 +1,5 @@
-on: push
-name: Deploy
+on: release
+name: New WordPress.org release
 jobs:
   tag:
     runs-on: ubuntu-latest
