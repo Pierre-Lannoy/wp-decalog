@@ -252,7 +252,7 @@ class Events extends \WP_List_Table {
 			if ( array_key_exists( $column, self::$standard_columns ) ) {
 				$columns[ $column ] = self::$standard_columns[ $column ];
 				// phpcs:ignore
-			} elseif ( array_key_exists( $column, self::$extra_columns ) && in_array( $column, self::$user_columns ) ) {
+			} elseif ( array_key_exists( $column, self::$extra_columns ) && in_array( $column, self::$user_columns, true ) ) {
 				$columns[ $column ] = self::$extra_columns[ $column ];
 			}
 		}
@@ -617,7 +617,7 @@ class Events extends \WP_List_Table {
 		$result = '';
 		foreach ( self::$extra_columns as $key => $extra_column ) {
 			// phpcs:ignore
-			$result .= '<label for="decalog_' . $key . '" ><input name="decalog[' . $key . ']" type="checkbox" id="decalog_' . $key . '" ' . ( in_array( $key, self::$user_columns ) ? ' checked="checked"' : '' ) . ' />' . $extra_column . '</label>';
+			$result .= '<label for="decalog_' . $key . '" ><input name="decalog[' . $key . ']" type="checkbox" id="decalog_' . $key . '" ' . ( in_array( $key, self::$user_columns, true ) ? ' checked="checked"' : '' ) . ' />' . $extra_column . '</label>';
 		}
 		return $result;
 	}

@@ -94,7 +94,7 @@ class BacktraceProcessor implements ProcessorInterface {
 		foreach (array_reverse(debug_backtrace( DEBUG_BACKTRACE_PROVIDE_OBJECT )) as $t) {
 			$trace[] = $t;
 			if (array_key_exists('class', $t) && 'Decalog\API\DLogger' === $t['class']) {
-				if (array_key_exists('function', $t) && in_array($t['function'], ['emergency','alert','critical','error','warning','notice','info','debug'])) {
+				if (array_key_exists('function', $t) && in_array($t['function'], ['emergency','alert','critical','error','warning','notice','info','debug'], true)) {
 					break;
 				}
 			}
@@ -104,7 +104,7 @@ class BacktraceProcessor implements ProcessorInterface {
 		foreach (array_reverse(wp_debug_backtrace_summary( null, 0, false )) as $t) {
 			$wptrace[] = $t;
 			if (0 === strpos($t, $detect)) {
-				if (in_array(substr( $t, strlen($detect),20), ['->emergency','->alert','->critical','->error','->warning','->notice','->info','->debug'])) {
+				if (in_array(substr( $t, strlen($detect),20), ['->emergency','->alert','->critical','->error','->warning','->notice','->info','->debug'], true)) {
 					break;
 				}
 			}

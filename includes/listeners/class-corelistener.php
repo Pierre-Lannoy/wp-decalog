@@ -740,7 +740,7 @@ class CoreListener extends AbstractListener {
 			$code    = $response->get_error_code();
 		} elseif ( isset( $response['response']['code'] ) ) {
 			$code  = (int) $response['response']['code'];
-			$error = ! in_array( $code, Http::$http_success_codes );
+			$error = ! in_array( $code, Http::$http_success_codes, true );
 			if ( isset( $response['message'] ) && is_string( $response['message'] ) ) {
 				$message = ucfirst( $response['message'] ) . ': ';
 			} elseif ( $error ) {

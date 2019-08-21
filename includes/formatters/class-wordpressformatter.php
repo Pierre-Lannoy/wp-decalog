@@ -70,7 +70,7 @@ class WordpressFormatter implements FormatterInterface {
 		if ( array_key_exists( 'context', $record ) ) {
 			$context = $record['context'];
 			if ( array_key_exists( 'class', $context ) ) {
-				if ( in_array( $context['class'], ClassTypes::$classes ) ) {
+				if ( in_array( $context['class'], ClassTypes::$classes, true ) ) {
 					$values['class'] = strtolower( $context['class'] );
 				}
 			}
@@ -106,7 +106,7 @@ class WordpressFormatter implements FormatterInterface {
 				$values['url'] = substr( $extra['url'], 0, 2083 );
 			}
 			if ( array_key_exists( 'http_method', $extra ) ) {
-				if ( in_array( strtolower( $extra['http_method'] ), Http::$verbs ) ) {
+				if ( in_array( strtolower( $extra['http_method'] ), Http::$verbs, true ) ) {
 					$values['verb'] = strtolower( $extra['http_method'] );
 				}
 			}

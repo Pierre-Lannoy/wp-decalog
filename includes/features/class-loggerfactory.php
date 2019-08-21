@@ -154,10 +154,10 @@ class LoggerFactory {
 	public function check( $logger, $init_handler = false ) {
 		$logger  = $this->standard_check( $logger );
 		$handler = $this->handler_types->get( $logger['handler'] );
-		if ( $handler && in_array( 'privacy', $handler['params'] ) ) {
+		if ( $handler && in_array( 'privacy', $handler['params'], true ) ) {
 			$logger = $this->privacy_check( $logger );
 		}
-		if ( $handler && in_array( 'processors', $handler['params'] ) ) {
+		if ( $handler && in_array( 'processors', $handler['params'], true ) ) {
 			$logger = $this->processor_check( $logger );
 		}
 		if ( $handler && array_key_exists( 'configuration', $handler ) ) {
@@ -207,12 +207,12 @@ class LoggerFactory {
 		}
 		if ( ! array_key_exists( 'handler', $logger ) ) {
 			$logger['handler'] = 'NullHandler';
-		} elseif ( ! in_array( $logger['handler'], $this->handler_types->get_list() ) ) {
+		} elseif ( ! in_array( $logger['handler'], $this->handler_types->get_list(), true ) ) {
 			$logger['handler'] = 'NullHandler';
 		}
 		if ( ! array_key_exists( 'level', $logger ) ) {
 			$logger['level'] = Logger::DEBUG;
-		} elseif ( ! in_array( $logger['level'], EventTypes::$level_values ) ) {
+		} elseif ( ! in_array( $logger['level'], EventTypes::$level_values, true ) ) {
 			$logger['level'] = Logger::DEBUG;
 		}
 		return $logger;
@@ -256,7 +256,7 @@ class LoggerFactory {
 		} else {
 			$processors = [];
 			foreach ( $logger['processors'] as $processor ) {
-				if ( in_array( $processor, $this->processor_types->get_list() ) ) {
+				if ( in_array( $processor, $this->processor_types->get_list(), true ) ) {
 					$processors[] = $processor;
 				}
 			}

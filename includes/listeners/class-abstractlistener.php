@@ -95,7 +95,7 @@ abstract class AbstractListener {
 		if ( $this->is_available() ) {
 			$launch = Option::get( 'autolisteners' );
 			if ( ! $launch ) {
-				if ( in_array( $this->id, Option::get( 'listeners' ) ) ) {
+				if ( in_array( $this->id, Option::get( 'listeners' ), true ) ) {
 					$launch = true;
 				}
 			}

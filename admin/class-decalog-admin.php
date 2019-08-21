@@ -567,7 +567,7 @@ class Decalog_Admin {
 					[
 						'text'        => sprintf( '%s (%s %s)', $item['name'], $item['product'], $item['version'] ),
 						'id'          => 'decalog_listeners_settings_' . $item['id'],
-						'checked'     => in_array( $item['id'], Option::get( 'listeners' ) ),
+						'checked'     => in_array( $item['id'], Option::get( 'listeners' ), true ),
 						'description' => null,
 						'full_width'  => true,
 						'enabled'     => true,
@@ -898,7 +898,7 @@ class Decalog_Admin {
 				[
 					'text'        => __( 'Included', 'decalog' ),
 					'id'          => $id,
-					'checked'     => in_array( $processor['id'], $this->current_logger['processors'] ),
+					'checked'     => in_array( $processor['id'], $this->current_logger['processors'], true ),
 					'description' => $processor['help'],
 					'full_width'  => true,
 					'enabled'     => ( 'WordpressHandler' !== $this->current_logger['handler'] || 'BacktraceProcessor' === $processor['id'] ) && ( 'PushoverHandler' !== $this->current_logger['handler'] ),
