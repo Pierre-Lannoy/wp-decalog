@@ -13,16 +13,6 @@ namespace Decalog\Plugin\Feature;
 
 use Monolog\Logger;
 
-use Monolog\Processor\IntrospectionProcessor;
-use Decalog\Processor\WWWProcessor;
-use Decalog\Processor\WordpressProcessor;
-
-use Monolog\Handler\BrowserConsoleHandler;
-use Monolog\Handler\ChromePHPHandler;
-use Monolog\Handler\ErrorLogHandler;
-
-use Monolog\Handler\SyslogUdpHandler;
-
 /**
  * Define the logger consistency functionality.
  *
