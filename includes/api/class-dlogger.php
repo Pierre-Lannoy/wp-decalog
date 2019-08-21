@@ -9,6 +9,7 @@
 
 namespace Decalog\API;
 
+use Decalog\Plugin\Feature\HandlerTypes;
 use Monolog\Logger;
 use Monolog\Handler\WhatFailureGroupHandler;
 use Decalog\System\Environment;
@@ -29,6 +30,14 @@ use Decalog\Plugin\Feature\EventTypes;
  * @since   1.0.0
  */
 class DLogger {
+
+	/**
+	 * The banned classes.
+	 *
+	 * @since  1.0.0
+	 * @var    array    $banned    Maintains the list of banned classes.
+	 */
+	private static $banned = [];
 
 	/**
 	 * The class of the component.
@@ -63,6 +72,16 @@ class DLogger {
 	protected $logger = null;
 
 	/**
+	 * Temporarily ban a class.
+	 *
+	 * @param  string $classname The class name to ban.
+	 * @since 1.0.0
+	 */
+	public static function ban( $classname ) {
+		self::$banned[] = $classname;
+	}
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @param   string $class The class identifier, must be in self::$classes.
@@ -71,7 +90,7 @@ class DLogger {
 	 * @since   1.0.0
 	 */
 	public function __construct( $class, $name = null, $version = null ) {
-		if ( in_array( $class, ClassTypes::$classes ) ) {
+		if ( in_array( $class, ClassTypes::$classes, true ) ) {
 			$this->class = $class;
 		}
 		if ( $name && is_string( $name ) ) {
@@ -84,7 +103,6 @@ class DLogger {
 		$this->debug( 'A new instance of DecaLog logger is initialized and operational.' );
 	}
 
-
 	/**
 	 * Init the logger.
 	 *
@@ -93,17 +111,54 @@ class DLogger {
 	private function init() {
 		$factory      = new LoggerFactory();
 		$this->logger = new Logger( $this->current_channel_tag(), [], [], Timezone::get_wp() );
-		$handlers     = [];
+		$handlers     = new HandlerTypes();
+		$banned       = [];
 		foreach ( Option::get( 'loggers' ) as $key => $logger ) {
+			$handler_def    = $handlers->get( $logger['handler'] );
 			$logger['uuid'] = $key;
-			$handler        = $factory->create_logger( $logger );
-			if ( $handler ) {
-				$handlers[] = $handler;
+			if ( ! in_array( strtolower( $handler_def['id'] ), self::$banned, true ) ) {
+				$handler = $factory->create_logger( $logger );
+				if ( $handler ) {
+					$this->logger->pushHandler( $handler );
+				}
+			} else {
+				$banned[] = $handler_def['name'];
 			}
 		}
-		$group = new WhatFailureGroupHandler( $handlers, true );
-		$this->logger->pushHandler( $group );
+		if ( count( $banned ) > 0 ) {
+			// phpcs:ignore
+			$this->alert( sprintf ('Due to DecaLog internal errors, the following logger types have been temporarily deactivated: %s.', implode(', ', $banned ) ), 666 );
+			self::$banned = [];
+		}
+	}
 
+	/**
+	 * Check the integrity of the logger.
+	 *
+	 * @since 1.0.0
+	 */
+	private function integrity_check() {
+		if ( count( self::$banned ) > 0 ) {
+			$bans = [];
+			foreach ( $this->logger->getHandlers() as $handler ) {
+				$classname = get_class( $handler );
+				if ( in_array( strtolower( $classname ), self::$banned, true ) ) {
+					$this->logger->popHandler( $handler );
+					$bans[] = $classname;
+				}
+			}
+			$handlers = new HandlerTypes();
+			$banned   = [];
+			foreach ( $bans as $ban ) {
+				$handler_def = $handlers->get( $ban );
+				$banned[]    = $handler_def['name'];
+			}
+			if ( count( $banned ) > 0 ) {
+				// phpcs:ignore
+				$this->alert( sprintf ('Due to DecaLog internal errors, the following logger types have been temporarily deactivated: %s.', implode(', ', $banned ) ), 666 );
+				self::$banned = [];
+			}
+		}
 	}
 
 	/**
@@ -155,6 +210,7 @@ class DLogger {
 	 * @since 1.0.0
 	 */
 	public function log( $level, $message, $code = 0 ) {
+		$this->integrity_check();
 		$context = [
 			'class'     => (string) $this->class,
 			'component' => (string) $this->name,
@@ -177,6 +233,7 @@ class DLogger {
 	 */
 	public function debug( $message, $code = 0 ) {
 		if ( $this->is_debug_allowed() ) {
+			$this->integrity_check();
 			$context = [
 				'class'     => (string) $this->class,
 				'component' => (string) $this->name,
@@ -199,6 +256,7 @@ class DLogger {
 	 * @since 1.0.0
 	 */
 	public function info( $message, $code = 0 ) {
+		$this->integrity_check();
 		$context = [
 			'class'     => (string) $this->class,
 			'component' => (string) $this->name,
@@ -220,6 +278,7 @@ class DLogger {
 	 * @since 1.0.0
 	 */
 	public function notice( $message, $code = 0 ) {
+		$this->integrity_check();
 		$context = [
 			'class'     => (string) $this->class,
 			'component' => (string) $this->name,
@@ -241,6 +300,7 @@ class DLogger {
 	 * @since 1.0.0
 	 */
 	public function warning( $message, $code = 0 ) {
+		$this->integrity_check();
 		$context = [
 			'class'     => (string) $this->class,
 			'component' => (string) $this->name,
@@ -262,6 +322,7 @@ class DLogger {
 	 * @since 1.0.0
 	 */
 	public function error( $message, $code = 0 ) {
+		$this->integrity_check();
 		$context = [
 			'class'     => (string) $this->class,
 			'component' => (string) $this->name,
@@ -283,6 +344,7 @@ class DLogger {
 	 * @since 1.0.0
 	 */
 	public function critical( $message, $code = 0 ) {
+		$this->integrity_check();
 		$context = [
 			'class'     => (string) $this->class,
 			'component' => (string) $this->name,
@@ -304,6 +366,7 @@ class DLogger {
 	 * @since 1.0.0
 	 */
 	public function alert( $message, $code = 0 ) {
+		$this->integrity_check();
 		$context = [
 			'class'     => (string) $this->class,
 			'component' => (string) $this->name,
@@ -325,6 +388,7 @@ class DLogger {
 	 * @since 1.0.0
 	 */
 	public function emergency( $message, $code = 0 ) {
+		$this->integrity_check();
 		$context = [
 			'class'     => (string) $this->class,
 			'component' => (string) $this->name,
