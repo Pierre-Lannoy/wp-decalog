@@ -99,7 +99,7 @@ class HandlerTypes {
 			'icon'          => $this->get_base64_fluentd_icon(),
 			'params'        => [ 'processors', 'privacy' ],
 			'configuration' => [
-				'host' => [
+				'host'    => [
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Connection string', 'decalog' ),
@@ -111,11 +111,30 @@ class HandlerTypes {
 						'enabled' => true,
 					],
 				],
+				'timeout' => [
+					'type'    => 'integer',
+					'show'    => true,
+					'name'    => esc_html__( 'Socket timeout', 'decalog' ),
+					'help'    => esc_html__( 'Max number of milliseconds to wait for the socket.', 'decalog' ),
+					'default' => 400,
+					'control' => [
+						'type'    => 'field_input_integer',
+						'cast'    => 'integer',
+						'min'     => 100,
+						'max'     => 10000,
+						'step'    => 100,
+						'enabled' => true,
+					],
+				],
 			],
 			'init'          => [
 				[
 					'type'  => 'configuration',
 					'value' => 'host',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'timeout',
 				],
 				[ 'type' => 'level' ],
 				[
