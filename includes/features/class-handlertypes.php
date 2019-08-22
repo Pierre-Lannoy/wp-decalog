@@ -103,7 +103,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Connection string', 'decalog' ),
-					'help'    => esc_html__( 'Connection string to Fluentd. Can be something like "tcp://10.0.222.222:24224" or something like "unix:///var/run/td-agent/td-agent.sock".', 'decalog' ),
+					'help'    => esc_html__( 'Connection string to Fluentd. Can be something like "tcp://127.0.0.1:24224" or something like "unix:///var/run/td-agent/td-agent.sock".', 'decalog' ),
 					'default' => 'tcp://localhost:24224',
 					'control' => [
 						'type'    => 'field_input_text',

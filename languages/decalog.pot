@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: DecaLog\n"
-"POT-Creation-Date: 2019-08-19 18:59+0200\n"
+"POT-Creation-Date: 2019-08-22 18:51+0200\n"
 "PO-Revision-Date: 2019-07-08 14:07+0200\n"
 "Last-Translator: Pierre Lannoy <pierre@lannoy.fr>\n"
 "Language-Team: Pierre Lannoy <pierre@lannoy.fr>\n"
@@ -156,12 +156,12 @@ msgid "Events messages"
 msgstr ""
 
 #: admin/class-decalog-admin.php:612
-msgid "Pseudonymization"
+msgid "Respect privacy"
 msgstr ""
 
 #: admin/class-decalog-admin.php:615
 msgid ""
-"If checked, DecaLog will try to pseudonymize user names and ID in events "
+"If checked, DecaLog will try to obfuscate personal information in events "
 "messages."
 msgstr ""
 
@@ -206,6 +206,10 @@ msgid ""
 "Allows DecaLog to display admin notices throughout the admin dashboard."
 msgstr ""
 
+#: admin/class-decalog-admin.php:672
+msgid "Note: DecaLog respects DISABLE_NAG_NOTICES flag."
+msgstr ""
+
 #: admin/class-decalog-admin.php:693 admin/class-decalog-admin.php:737
 msgid "Name"
 msgstr ""
@@ -247,6 +251,10 @@ msgstr ""
 
 #: admin/class-decalog-admin.php:841
 msgid "If checked, log will contain hashes instead of real IPs."
+msgstr ""
+
+#: admin/class-decalog-admin.php:841 admin/class-decalog-admin.php:857
+msgid "Note: it concerns all fields except events messages."
 msgstr ""
 
 #: admin/class-decalog-admin.php:849
@@ -625,248 +633,267 @@ msgstr ""
 msgid "from %s."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:46
+#: includes/features/class-handlertypes.php:47
 msgid "Blackhole"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:47
+#: includes/features/class-handlertypes.php:48
 msgid "Any record it can handle will be thrown away."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:57
+#: includes/features/class-handlertypes.php:59
 msgid "Browser console"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:58
+#: includes/features/class-handlertypes.php:60
 msgid ""
 "An events log sent to browser's javascript console with no browser "
 "extension required."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:75
+#: includes/features/class-handlertypes.php:78
 msgid "ChromePHP"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:76
+#: includes/features/class-handlertypes.php:79
 msgid ""
 "An events log sent to the ChromePHP extension (http://www.chromephp.com/)."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:93
+#: includes/features/class-handlertypes.php:97
+msgid "Fluentd"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:98
+msgid "An events log sent to a Fluentd collector."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:105
+msgid "Connection string"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:106
+msgid ""
+"Connection string to Fluentd. Can be something like "
+"\"tcp://127.0.0.1:24224\" or something like \"unix:///var/run/td-agent/td-"
+"agent.sock\"."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:117
+msgid "Socket timeout"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:118
+msgid "Max number of milliseconds to wait for the socket."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:152
 msgid "Mail"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:94
+#: includes/features/class-handlertypes.php:153
 msgid "Events alerts sent by WordPress via mail."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:101
+#: includes/features/class-handlertypes.php:160
 msgid "Recipients"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:102
+#: includes/features/class-handlertypes.php:161
 msgid "The recipients mail address, in coma separated list."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:128
+#: includes/features/class-handlertypes.php:188
 msgid "PHP error log"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:129
+#: includes/features/class-handlertypes.php:189
 msgid ""
 "An events log stored in the standard PHP error log, as with the "
 "error_log() function."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:150
+#: includes/features/class-handlertypes.php:211
 msgid "Pushover"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:151
+#: includes/features/class-handlertypes.php:212
 msgid "Events alerts sent via Pushover service."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:158
+#: includes/features/class-handlertypes.php:219
 msgid "Application token"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:159
+#: includes/features/class-handlertypes.php:220
 msgid "The token of the Pushover application."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:170
+#: includes/features/class-handlertypes.php:231
 msgid "Recipient"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:171
+#: includes/features/class-handlertypes.php:232
 msgid "The recipient key. It can be a \"user key\" or a \"group key\"."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:182
+#: includes/features/class-handlertypes.php:243
 msgid "Message title"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:183
+#: includes/features/class-handlertypes.php:244
 msgid "The title of the message which will be sent."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:221
+#: includes/features/class-handlertypes.php:283
 msgid "Rotating files"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:222
+#: includes/features/class-handlertypes.php:284
 msgid ""
 "An events log sent to files that are rotated every day and a limited "
 "number of files are kept."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:229
+#: includes/features/class-handlertypes.php:291
 msgid "File"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:230
+#: includes/features/class-handlertypes.php:292
 msgid "The full absolute path and filename, like \"/path/to/file\"."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:241
+#: includes/features/class-handlertypes.php:303
 msgid "Maximum"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:242
+#: includes/features/class-handlertypes.php:304
 msgid "The maximal number of files to keep (0 means unlimited)."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:275
+#: includes/features/class-handlertypes.php:338
 msgid "Slack"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:276
+#: includes/features/class-handlertypes.php:339
 msgid "Events alerts sent through Slack Webhooks."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:283
+#: includes/features/class-handlertypes.php:346
 msgid "Webhook URL"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:284
+#: includes/features/class-handlertypes.php:347
 msgid "The Webhook URL set in the Slack application."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:295
+#: includes/features/class-handlertypes.php:358
 msgid "Short attachment"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:296
+#: includes/features/class-handlertypes.php:359
 msgid "Use a shortened version for attachments sent in channel."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:307
+#: includes/features/class-handlertypes.php:370
 msgid "Full data"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:308
+#: includes/features/class-handlertypes.php:371
 msgid "Whether the attachments should include context and extra data."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:358
-msgid "Stackdriver"
-msgstr ""
-
-#: includes/features/class-handlertypes.php:359
-msgid "An events log sent to a Stackdriver project."
-msgstr ""
-
-#: includes/features/class-handlertypes.php:369
+#: includes/features/class-handlertypes.php:422
 msgid "Syslog server"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:370
+#: includes/features/class-handlertypes.php:423
 msgid "An events log sent to a remote syslogd server."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:377
+#: includes/features/class-handlertypes.php:430
 msgid "Host"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:378
+#: includes/features/class-handlertypes.php:431
 msgid "The remote host receiving syslog messages."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:389
+#: includes/features/class-handlertypes.php:442
 msgid "Protocol"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:390
+#: includes/features/class-handlertypes.php:443
 msgid "The used syslog protocol."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:401
+#: includes/features/class-handlertypes.php:454
 msgid "Port"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:402
+#: includes/features/class-handlertypes.php:455
 msgid "The opened port on remote host to receive syslog messages."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:416
+#: includes/features/class-handlertypes.php:469
 msgid "Facility"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:417
+#: includes/features/class-handlertypes.php:470
 msgid "The syslog facility for messages sent by DecaLog."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:428
+#: includes/features/class-handlertypes.php:481
 msgid "Identifier"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:429
+#: includes/features/class-handlertypes.php:482
 msgid "The program identifier for messages sent by DecaLog."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:440
+#: includes/features/class-handlertypes.php:493
 msgid "Time format"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:441
+#: includes/features/class-handlertypes.php:494
 msgid "The time format standard to use."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:485
+#: includes/features/class-handlertypes.php:539
 msgid "WordPress events log"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:486
+#: includes/features/class-handlertypes.php:540
 msgid ""
 "An events log stored in your WordPress database and available right in "
 "your admin dashboard."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:493
+#: includes/features/class-handlertypes.php:547
 msgid "Events"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:494
+#: includes/features/class-handlertypes.php:548
 msgid "Maximum number of events stored in this events log (0 for no limit)."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:508
+#: includes/features/class-handlertypes.php:562
 msgid "Days"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:509
+#: includes/features/class-handlertypes.php:563
 msgid "Maximum age of events stored in this events log (0 for no limit)."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:523
+#: includes/features/class-handlertypes.php:577
 msgid "Multisite partitioning"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:524
+#: includes/features/class-handlertypes.php:578
 msgid "Local administrators can view events that relate to their site."
 msgstr ""
 
-#: includes/features/class-loggerfactory.php:213
+#: includes/features/class-loggerfactory.php:203
 msgid "Unnamed logger"
 msgstr ""
 
@@ -928,15 +955,23 @@ msgid "MIT license"
 msgstr ""
 
 #: includes/libraries/class-libraries.php:150
-msgid "GPL-2.0 license"
+msgid "Apache license, version 2.0"
 msgstr ""
 
 #: includes/libraries/class-libraries.php:153
+msgid "GPL-2.0 license"
+msgstr ""
+
+#: includes/libraries/class-libraries.php:156
+msgid "GPL-3.0 license"
+msgstr ""
+
+#: includes/libraries/class-libraries.php:159
 msgid "unknown license"
 msgstr ""
 
 #. translators: as in the sentence "Product W version X by author Y (license Z)"
-#: includes/libraries/class-libraries.php:205
+#: includes/libraries/class-libraries.php:211
 #, php-format
 msgid "<a href=\"%1$s\">%2$s %3$s</a>%4$s by %5$s (%6$s)"
 msgstr ""
