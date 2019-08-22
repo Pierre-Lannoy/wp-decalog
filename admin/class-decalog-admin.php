@@ -838,7 +838,7 @@ class Decalog_Admin {
 				'text'        => __( 'Obfuscation', 'decalog' ),
 				'id'          => 'decalog_logger_privacy_ip',
 				'checked'     => $this->current_logger['privacy']['obfuscation'],
-				'description' => __( 'If checked, log will contain hashes instead of real IPs.', 'decalog' ) . '<br/>' . __( 'Note: it concerns all fields except events messages.', 'decalog' ),
+				'description' => __( 'If checked, log fields will contain hashes instead of real IPs.', 'decalog' ) . '<br/>' . __( 'Note: it concerns all fields except events messages.', 'decalog' ),
 				'full_width'  => true,
 				'enabled'     => true,
 			]
@@ -854,7 +854,7 @@ class Decalog_Admin {
 				'text'        => __( 'Pseudonymisation', 'decalog' ),
 				'id'          => 'decalog_logger_privacy_name',
 				'checked'     => $this->current_logger['privacy']['pseudonymization'],
-				'description' => __( 'If checked, log will contain hashes instead of user IDs & names.', 'decalog' ) . '<br/>' . __( 'Note: it concerns all fields except events messages.', 'decalog' ),
+				'description' => __( 'If checked, log fields will contain hashes instead of user IDs & names.', 'decalog' ) . '<br/>' . __( 'Note: it concerns all fields except events messages.', 'decalog' ),
 				'full_width'  => true,
 				'enabled'     => true,
 			]
