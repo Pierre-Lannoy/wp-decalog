@@ -127,7 +127,7 @@ class DLogger {
 		}
 		if ( count( $banned ) > 0 ) {
 			// phpcs:ignore
-			$this->alert( sprintf ('Due to DecaLog internal errors, the following logger types have been temporarily deactivated: %s.', implode(', ', $banned ) ), 666 );
+			$this->critical( sprintf ('Due to DecaLog internal errors, the following logger types have been temporarily deactivated: %s.', implode(', ', $banned ) ), 666 );
 		}
 	}
 
@@ -151,7 +151,7 @@ class DLogger {
 			}
 			if ( count( $banned ) > 0 ) {
 				// phpcs:ignore
-				$this->alert( sprintf ('Due to DecaLog internal errors, the following logger types have been temporarily deactivated: %s.', implode(', ', $banned ) ), 666 );
+				$this->critical( sprintf ('Due to DecaLog internal errors, the following logger types have been temporarily deactivated: %s.', implode(', ', $banned ) ), 666 );
 			}
 		}
 	}
