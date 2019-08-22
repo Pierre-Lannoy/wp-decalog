@@ -12,6 +12,7 @@
 namespace Decalog\Listener;
 
 use Decalog\Log;
+use Decalog\System\Option;
 
 /**
  * Define the listeners handling functionality.
@@ -77,15 +78,15 @@ class ListenerFactory {
 			if ( ! is_dir( DECALOG_LISTENERS_DIR . $item ) ) {
 				$classname = str_replace( [ 'class-', '.php' ], '', $item );
 				$classname = str_replace( 'listener', 'Listener', strtolower( $classname ) );
-				$classname = lcfirst( $classname );
+				$classname = ucfirst( $classname );
 				$instance  = $this->create_listener_instance( $classname );
 				if ( $instance ) {
 					self::$infos[] = $instance->get_info();
-					if ( 'PhpListener' === $classname ) {
+					if ( 'PhpListener' === $classname && in_array( 'PhpListener', Option::get( 'listeners' ), true ) ) {
 						$phplistener_loaded = true;
 					}
 				} else {
-					$this->log->error( sprintf( 'Trying to load a wrong listener: %s.', $classname ) );
+					$this->log->error( sprintf( 'Unable to load "%s".', $classname ) );
 				}
 			}
 		}

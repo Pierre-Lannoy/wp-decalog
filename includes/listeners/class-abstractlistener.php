@@ -33,7 +33,7 @@ abstract class AbstractListener {
 	 * @since  1.0.0
 	 * @var    DLogger    $log    An instance of DLogger to log internal events.
 	 */
-	private $log = null;
+	protected $log = null;
 
 	/**
 	 * An instance of DLogger to log listener events.
@@ -99,10 +99,10 @@ abstract class AbstractListener {
 					$launch = true;
 				}
 			}
-			if ( $launch && $this->launch() ) {
+			if ( $launch && $this->launch() || 'SelfListener' === get_class( $this ) ) {
 				$this->logger = Log::bootstrap( $this->class, $this->product, $this->version );
-				$this->log->debug( sprintf( 'Listener for %s is launched.', $this->name ) );
-				$this->logger->debug( 'Listener launched and operational.' );
+				$this->log->notice( sprintf( 'Listener for %s is launched.', $this->name ) );
+				$this->logger->notice( 'Listener launched and operational.' );
 			}
 		}
 	}

@@ -13,7 +13,9 @@
 namespace Decalog\Listener;
 
 use Decalog\API\DLogger;
+use Decalog\Log;
 use Decalog\System\Environment;
+use Decalog\System\Option;
 use Monolog\Logger;
 use Monolog\Utils;
 
@@ -43,6 +45,19 @@ class SelfListener extends AbstractListener {
 	 * @var callable $previous_exception_handler The previous exception handler.
 	 */
 	private $previous_exception_handler;
+
+	/**
+	 * Initialize the class and set its properties.
+	 *
+	 * @param    DLogger $internal_logger    An instance of DLogger to log internal events.
+	 * @since    1.0.0
+	 */
+	public function __construct( $internal_logger ) {
+		parent::__construct( $internal_logger );
+		$this->logger = Log::bootstrap( $this->class, $this->product, $this->version );
+		$this->log->notice( sprintf( 'Listener for %s is launched.', $this->name ) );
+		$this->logger->notice( 'Listener launched and operational.' );
+	}
 
 	/**
 	 * Sets the listener properties.
