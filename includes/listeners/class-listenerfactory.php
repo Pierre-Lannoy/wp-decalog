@@ -70,7 +70,8 @@ class ListenerFactory {
 	 * @since    1.0.0
 	 */
 	public function launch() {
-		self::$infos = [];
+		self::$infos        = [];
+		$phplistener_loaded = false;
 		foreach (
 			array_diff( scandir( DECALOG_LISTENERS_DIR ), $this->excluded_files ) as $item ) {
 			if ( ! is_dir( DECALOG_LISTENERS_DIR . $item ) ) {
@@ -80,9 +81,18 @@ class ListenerFactory {
 				$instance  = $this->create_listener_instance( $classname );
 				if ( $instance ) {
 					self::$infos[] = $instance->get_info();
+					if ( 'PhpListener' === $classname ) {
+						$phplistener_loaded = true;
+					}
 				} else {
 					$this->log->error( sprintf( 'Trying to load a wrong listener: %s.', $classname ) );
 				}
+			}
+		}
+		if ( ! $phplistener_loaded ) {
+			$instance = $this->create_listener_instance( 'SelfListener' );
+			if ( ! $instance ) {
+				$this->log->alert( 'Unable to load fallback listener.', 666 );
 			}
 		}
 	}
