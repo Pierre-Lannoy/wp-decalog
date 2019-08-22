@@ -14,10 +14,6 @@ namespace Decalog\Listener;
 
 use Decalog\API\DLogger;
 use Decalog\Log;
-use Decalog\System\Environment;
-use Decalog\System\Option;
-use Monolog\Logger;
-use Monolog\Utils;
 
 /**
  * Special PHP listener for DecaLog.
@@ -54,9 +50,8 @@ class SelfListener extends AbstractListener {
 	 */
 	public function __construct( $internal_logger ) {
 		parent::__construct( $internal_logger );
-		$this->logger = Log::bootstrap( $this->class, $this->product, $this->version );
-		$this->log->notice( sprintf( 'Fallback listener is launched.', $this->name ) );
-		$this->logger->notice( 'Fallback listener launched and operational.' );
+		$this->logger = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
+		$this->logger->debug( 'Fallback listener is launched and operational.' );
 	}
 
 	/**
@@ -65,6 +60,11 @@ class SelfListener extends AbstractListener {
 	 * @since    1.0.0
 	 */
 	protected function init() {
+		$this->id      = '';
+		$this->name    = '';
+		$this->class   = 'plugin';
+		$this->product = DECALOG_PRODUCT_SHORTNAME;
+		$this->version = DECALOG_VERSION;
 	}
 
 	/**
