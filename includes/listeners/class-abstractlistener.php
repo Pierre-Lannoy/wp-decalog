@@ -99,10 +99,10 @@ abstract class AbstractListener {
 					$launch = true;
 				}
 			}
-			if ( $launch && $this->launch() || 'SelfListener' === get_class( $this ) ) {
+			if ( $launch && $this->launch() && ! ( 'Decalog\Listener\SelfListener' === get_class( $this ) ) ) {
 				$this->logger = Log::bootstrap( $this->class, $this->product, $this->version );
-				$this->log->notice( sprintf( 'Listener for %s is launched.', $this->name ) );
-				$this->logger->notice( 'Listener launched and operational.' );
+				$this->log->debug( sprintf( 'Listener for %s is launched.', $this->name ) );
+				$this->logger->debug( 'Listener launched and operational.' );
 			}
 		}
 	}

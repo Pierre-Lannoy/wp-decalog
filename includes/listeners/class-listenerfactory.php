@@ -82,7 +82,7 @@ class ListenerFactory {
 				$instance  = $this->create_listener_instance( $classname );
 				if ( $instance ) {
 					self::$infos[] = $instance->get_info();
-					if ( 'PhpListener' === $classname && in_array( 'PhpListener', Option::get( 'listeners' ), true ) ) {
+					if ( 'PhpListener' === $classname && ( in_array( 'php', Option::get( 'listeners' ), true ) || Option::get( 'autolisteners' ) ) ) {
 						$phplistener_loaded = true;
 					}
 				} else {

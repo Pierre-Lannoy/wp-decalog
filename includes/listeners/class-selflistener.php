@@ -55,8 +55,8 @@ class SelfListener extends AbstractListener {
 	public function __construct( $internal_logger ) {
 		parent::__construct( $internal_logger );
 		$this->logger = Log::bootstrap( $this->class, $this->product, $this->version );
-		$this->log->notice( sprintf( 'Listener for %s is launched.', $this->name ) );
-		$this->logger->notice( 'Listener launched and operational.' );
+		$this->log->notice( sprintf( 'Fallback listener is launched.', $this->name ) );
+		$this->logger->notice( 'Fallback listener launched and operational.' );
 	}
 
 	/**
