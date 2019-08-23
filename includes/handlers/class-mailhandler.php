@@ -11,10 +11,11 @@
 
 namespace Decalog\Handler;
 
+use Decalog\Plugin\Feature\EventTypes;
 use Monolog\Logger;
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Formatter\FormatterInterface;
-use Monolog\Formatter\LineFormatter;
+use Decalog\Formatter\NewlineFormatter;
 
 /**
  * Define the Monolog WordPress mail handler.
@@ -52,7 +53,7 @@ class MailHandler extends AbstractProcessingHandler {
 	 * {@inheritDoc}
 	 */
 	protected function getDefaultFormatter(): FormatterInterface {
-		return new LineFormatter();
+		return new NewlineFormatter();
 	}
 
 	/**
@@ -62,8 +63,16 @@ class MailHandler extends AbstractProcessingHandler {
 	 * @since    1.0.0
 	 */
 	protected function write( array $record ): void {
-
-		//wp_mail( $this->recipients, 'test', $record['formatted'] );
+		if ( array_key_exists( 'level', $record ) && array_key_exists( $record['level'], EventTypes::$level_names ) ) {
+			$level = EventTypes::$level_names[ $record['level'] ];
+		} else {
+			$level = '';
+		}
+		$subject = sprintf( 'DecaLog: %s', $level );
+		if ( array_key_exists( 'extra', $record ) && array_key_exists( 'sitename', $record['extra'] ) ) {
+			$subject .= sprintf( ' on %s', $record['extra']['sitename'] );
+		}
+		wp_mail( $this->recipients, $subject, $record['formatted'] );
 
 	}
 }

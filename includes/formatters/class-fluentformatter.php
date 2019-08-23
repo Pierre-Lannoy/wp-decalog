@@ -12,7 +12,7 @@
 namespace Decalog\Formatter;
 
 use Monolog\Formatter\FormatterInterface;
-use Monolog\Logger;
+use Decalog\Plugin\Feature\EventTypes;
 
 /**
  * Define the Monolog Fluentd formatter.
@@ -26,22 +26,6 @@ use Monolog\Logger;
 class FluentFormatter implements FormatterInterface {
 
 	/**
-	 * This is a static variable and not a constant to serve as an extension point for custom levels
-	 *
-	 * @var string[] $levels Logging levels with the levels as key
-	 */
-	protected static $levels = [
-		Logger::DEBUG     => 'DEBUG',
-		Logger::INFO      => 'INFO',
-		Logger::NOTICE    => 'NOTICE',
-		Logger::WARNING   => 'WARNING',
-		Logger::ERROR     => 'ERROR',
-		Logger::CRITICAL  => 'CRITICAL',
-		Logger::ALERT     => 'ALERT',
-		Logger::EMERGENCY => 'EMERGENCY',
-	];
-
-	/**
 	 * Formats a log record.
 	 *
 	 * @param  array $record A record to format.
@@ -49,8 +33,8 @@ class FluentFormatter implements FormatterInterface {
 	 * @since   1.0.0
 	 */
 	public function format( array $record ): string {
-		if ( array_key_exists( $record['level'], self::$levels ) ) {
-			$level = self::$levels[ $record['level'] ];
+		if ( array_key_exists( $record['level'], EventTypes::$level_names ) ) {
+			$level = EventTypes::$level_names[ $record['level'] ];
 		} else {
 			$level = 'UNKNOWN';
 		}

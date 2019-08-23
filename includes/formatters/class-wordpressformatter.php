@@ -12,9 +12,9 @@
 namespace Decalog\Formatter;
 
 use Decalog\Plugin\Feature\ClassTypes;
+use Decalog\Plugin\Feature\EventTypes;
 use Decalog\System\Http;
 use Monolog\Formatter\FormatterInterface;
-use Monolog\Logger;
 
 /**
  * Define the Monolog WordPress formatter.
@@ -28,23 +28,6 @@ use Monolog\Logger;
 class WordpressFormatter implements FormatterInterface {
 
 	/**
-	 * This is a static variable and not a constant to serve as an extension point for custom levels
-	 *
-	 * @var string[] $levels Logging levels with the levels as key
-	 */
-	protected static $levels = [
-		Logger::DEBUG     => 'DEBUG',
-		Logger::INFO      => 'INFO',
-		Logger::NOTICE    => 'NOTICE',
-		Logger::WARNING   => 'WARNING',
-		Logger::ERROR     => 'ERROR',
-		Logger::CRITICAL  => 'CRITICAL',
-		Logger::ALERT     => 'ALERT',
-		Logger::EMERGENCY => 'EMERGENCY',
-	];
-
-
-	/**
 	 * Formats a log record.
 	 *
 	 * @param  array $record A record to format.
@@ -56,8 +39,8 @@ class WordpressFormatter implements FormatterInterface {
 		$values              = array();
 		$values['timestamp'] = date( 'Y-m-d H:i:s' );
 		if ( array_key_exists( 'level', $record ) ) {
-			if ( array_key_exists( $record['level'], self::$levels ) ) {
-				$values['level'] = strtolower( self::$levels[ $record['level'] ] );
+			if ( array_key_exists( $record['level'], EventTypes::$level_names ) ) {
+				$values['level'] = strtolower( EventTypes::$level_names[ $record['level'] ] );
 			}
 		}
 		if ( array_key_exists( 'channel', $record ) ) {
