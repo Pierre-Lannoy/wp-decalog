@@ -124,7 +124,7 @@ class DLogger {
 						$this->logger->pushHandler( $handler );
 					}
 				} else {
-					$unloadable[] = sprintf( 'Unable to load %s logger. %s', $handler_def['name'], $diagnosis->error_string( $handler_def['id'] ) );
+					$unloadable[] = sprintf( 'Unable to load a %s logger. %s', $handler_def['name'], $diagnosis->error_string( $handler_def['id'] ) );
 				}
 			} else {
 				$banned[] = $handler_def['name'];
@@ -136,7 +136,6 @@ class DLogger {
 		}
 		if ( count( $unloadable ) > 0 ) {
 			foreach ( $unloadable as $item ) {
-				// phpcs:ignore
 				$this->error( $item, 666 );
 			}
 		}
