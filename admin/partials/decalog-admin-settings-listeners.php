@@ -30,5 +30,5 @@ echo esc_url(
 		<?php do_settings_sections( 'decalog_listeners_settings_section' ); ?>
 	</div>
 	<?php wp_nonce_field( 'decalog-listeners-options' ); ?>
-	<p><?php echo get_submit_button( __( 'Reset to Defaults', 'decalog' ), 'secondary', 'reset-to-defaults', false ); ?>&nbsp;&nbsp;&nbsp;<?php echo get_submit_button( null, 'primary', 'submit', false ); ?></p>
+	<p><?php echo get_submit_button( esc_html__( 'Reset to Defaults', 'decalog' ), 'secondary', 'reset-to-defaults', false ); ?>&nbsp;&nbsp;&nbsp;<?php echo get_submit_button( null, 'primary', 'submit', false ); ?></p>
 </form>

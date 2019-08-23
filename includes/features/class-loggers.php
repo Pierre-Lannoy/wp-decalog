@@ -157,16 +157,16 @@ class Loggers extends \WP_List_Table {
 
 		$handler           = $this->handler_types->get( $item['handler'] );
 		$icon              = '<img style="width:34px;float:left;padding-right:6px;" src="' . $handler['icon'] . '" />';
-		$type              = $handler['name'] . ' - <strong>' . ( $item['running'] ? __( 'running', 'decalog' ) : __( 'paused', 'decalog' ) ) . '</strong>';
-		$actions['edit']   = sprintf( '<a href="%s">' . __( 'Edit', 'decalog' ) . '</a>', $edit );
-		$actions['delete'] = sprintf( '<a href="%s">' . __( 'Remove', 'decalog' ) . '</a>', $delete );
+		$type              = $handler['name'] . ' - <strong>' . ( $item['running'] ? esc_html__( 'running', 'decalog' ) : esc_html__( 'paused', 'decalog' ) ) . '</strong>';
+		$actions['edit']   = sprintf( '<a href="%s">' . esc_html__( 'Edit', 'decalog' ) . '</a>', $edit );
+		$actions['delete'] = sprintf( '<a href="%s">' . esc_html__( 'Remove', 'decalog' ) . '</a>', $delete );
 		if ( $item['running'] ) {
-			$actions['pause'] = sprintf( '<a href="%s">' . __( 'Pause', 'decalog' ) . '</a>', $pause );
+			$actions['pause'] = sprintf( '<a href="%s">' . esc_html__( 'Pause', 'decalog' ) . '</a>', $pause );
 		} else {
-			$actions['start'] = sprintf( '<a href="%s">' . __( 'Start', 'decalog' ) . '</a>', $start );
+			$actions['start'] = sprintf( '<a href="%s">' . esc_html__( 'Start', 'decalog' ) . '</a>', $start );
 		}
 		if ( 'WordpressHandler' === $handler['id'] ) {
-			$actions['view'] = sprintf( '<a href="%s">' . __( 'View', 'decalog' ) . '</a>', $view );
+			$actions['view'] = sprintf( '<a href="%s">' . esc_html__( 'View', 'decalog' ) . '</a>', $view );
 		}
 		return $icon . '&nbsp;' . sprintf( '<a href="%1$s">%2$s</a><br /><span style="color:silver">&nbsp;%3$s</span>%4$s', $edit, $item['name'], $type, $this->row_actions( $actions ) );
 	}
@@ -179,7 +179,7 @@ class Loggers extends \WP_List_Table {
 	 * @since    1.0.0
 	 */
 	protected function column_details( $item ) {
-		$list = [ __( 'Standard', 'decalog' ) ];
+		$list = [ esc_html__( 'Standard', 'decalog' ) ];
 		foreach ( $item['processors'] as $processor ) {
 			$list[] = $this->processor_types->get( $processor )['name'];
 		}
@@ -195,7 +195,7 @@ class Loggers extends \WP_List_Table {
 	 */
 	protected function column_level( $item ) {
 		$name = Log::level_name( $item['level'] );
-		$list = [ __( 'Standard', 'decalog' ) ];
+		$list = [ esc_html__( 'Standard', 'decalog' ) ];
 		foreach ( $item['processors'] as $processor ) {
 			$list[] = $this->processor_types->get( $processor )['name'];
 		}
@@ -210,9 +210,9 @@ class Loggers extends \WP_List_Table {
 	 */
 	public function get_columns() {
 		$columns = [
-			'name'    => __( 'Logger', 'decalog' ),
-			'level'   => __( 'Minimal level', 'decalog' ),
-			'details' => __( 'Reported details', 'decalog' ),
+			'name'    => esc_html__( 'Logger', 'decalog' ),
+			'level'   => esc_html__( 'Minimal level', 'decalog' ),
+			'details' => esc_html__( 'Reported details', 'decalog' ),
 		];
 		return $columns;
 	}

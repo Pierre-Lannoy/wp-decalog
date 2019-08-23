@@ -144,19 +144,19 @@ class Libraries {
 	private function license_name( $license ) {
 		switch ( $license ) {
 			case 'mit':
-				$result = esc_html( __( 'MIT license', 'decalog' ) );
+				$result = esc_html__( 'MIT license', 'decalog' );
 				break;
 			case 'apl2':
-				$result = esc_html( __( 'Apache license, version 2.0', 'decalog' ) );
+				$result = esc_html__( 'Apache license, version 2.0', 'decalog' );
 				break;
 			case 'gpl2':
-				$result = esc_html( __( 'GPL-2.0 license', 'decalog' ) );
+				$result = esc_html__( 'GPL-2.0 license', 'decalog' );
 				break;
 			case 'gpl3':
-				$result = esc_html( __( 'GPL-3.0 license', 'decalog' ) );
+				$result = esc_html__( 'GPL-3.0 license', 'decalog' );
 				break;
 			default:
-				$result = esc_html( __( 'unknown license', 'decalog' ) );
+				$result = esc_html__( 'unknown license', 'decalog' );
 				break;
 		}
 		return $result;

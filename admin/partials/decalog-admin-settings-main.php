@@ -16,7 +16,7 @@ $active_tab = ( isset( $_GET['tab'] ) ? $_GET['tab'] : 'loggers' );
 
 <div class="wrap">
 
-	<h2><?php echo esc_html( sprintf( __( '%s Settings', 'decalog' ), DECALOG_PRODUCT_NAME ) ); ?></h2>
+	<h2><?php echo esc_html( sprintf( esc_html__( '%s Settings', 'decalog' ), DECALOG_PRODUCT_NAME ) ); ?></h2>
 	<?php settings_errors(); ?>
 
 	<h2 class="nav-tab-wrapper">

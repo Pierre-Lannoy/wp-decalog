@@ -201,18 +201,18 @@ class Environment {
 				$debug = true;
 				if ( defined( 'WP_DEBUG_LOG' ) ) {
 					if ( WP_DEBUG_LOG ) {
-						$opt[] = __( 'log', 'decalog' );
+						$opt[] = esc_html__( 'log', 'decalog' );
 					}
 				}
 				if ( defined( 'WP_DEBUG_DISPLAY' ) ) {
 					if ( WP_DEBUG_DISPLAY ) {
-						$opt[] = __( 'display', 'decalog' );
+						$opt[] = esc_html__( 'display', 'decalog' );
 					}
 				}
 				$s = implode( ', ', $opt );
 			}
 		}
-		return ( $debug ? __( 'Debug enabled', 'decalog' ) . ( '' !== $s ? ' (' . $s . ')' : '' ) : __( 'Debug disabled', 'decalog' ) );
+		return ( $debug ? esc_html__( 'Debug enabled', 'decalog' ) . ( '' !== $s ? ' (' . $s . ')' : '' ) : esc_html__( 'Debug disabled', 'decalog' ) );
 	}
 
 	/**

@@ -108,12 +108,12 @@ class Decalog_Admin {
 	public function init_admin_menus() {
 		$this->current_view = null;
 		if ( Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type() ) {
-			add_submenu_page( 'options-general.php', sprintf( __( '%s Settings', 'decalog' ), DECALOG_PRODUCT_NAME ), DECALOG_PRODUCT_NAME, 'manage_options', 'decalog-settings', [ $this, 'get_settings_page' ] );
+			add_submenu_page( 'options-general.php', sprintf( esc_html__( '%s Settings', 'decalog' ), DECALOG_PRODUCT_NAME ), DECALOG_PRODUCT_NAME, 'manage_options', 'decalog-settings', [ $this, 'get_settings_page' ] );
 		}
 		if ( Events::loggers_count() > 0 ) {
 			$name    = add_submenu_page(
 				'tools.php',
-				sprintf( __( '%s Viewer', 'decalog' ), DECALOG_PRODUCT_NAME ),
+				sprintf( esc_html__( '%s Viewer', 'decalog' ), DECALOG_PRODUCT_NAME ),
 				DECALOG_PRODUCT_NAME,
 				'manage_options',
 				'decalog-viewer',
@@ -142,15 +142,15 @@ class Decalog_Admin {
 	 * @since 1.0.0
 	 */
 	public function init_settings_sections() {
-		add_settings_section( 'decalog_loggers_options_section', __( 'Loggers options', 'decalog' ), [ $this, 'loggers_options_section_callback' ], 'decalog_loggers_options_section' );
-		add_settings_section( 'decalog_plugin_options_section', __( 'Plugin options', 'decalog' ), [ $this, 'plugin_options_section_callback' ], 'decalog_plugin_options_section' );
+		add_settings_section( 'decalog_loggers_options_section', esc_html__( 'Loggers options', 'decalog' ), [ $this, 'loggers_options_section_callback' ], 'decalog_loggers_options_section' );
+		add_settings_section( 'decalog_plugin_options_section', esc_html__( 'Plugin options', 'decalog' ), [ $this, 'plugin_options_section_callback' ], 'decalog_plugin_options_section' );
 		add_settings_section( 'decalog_listeners_options_section', null, [ $this, 'listeners_options_section_callback' ], 'decalog_listeners_options_section' );
 		add_settings_section( 'decalog_listeners_settings_section', null, [ $this, 'listeners_settings_section_callback' ], 'decalog_listeners_settings_section' );
 		add_settings_section( 'decalog_logger_misc_section', null, [ $this, 'logger_misc_section_callback' ], 'decalog_logger_misc_section' );
 		add_settings_section( 'decalog_logger_delete_section', null, [ $this, 'logger_delete_section_callback' ], 'decalog_logger_delete_section' );
 		add_settings_section( 'decalog_logger_specific_section', null, [ $this, 'logger_specific_section_callback' ], 'decalog_logger_specific_section' );
-		add_settings_section( 'decalog_logger_privacy_section', __( 'Privacy options', 'decalog' ), [ $this, 'logger_privacy_section_callback' ], 'decalog_logger_privacy_section' );
-		add_settings_section( 'decalog_logger_details_section', __( 'Reported details', 'decalog' ), [ $this, 'logger_details_section_callback' ], 'decalog_logger_details_section' );
+		add_settings_section( 'decalog_logger_privacy_section', esc_html__( 'Privacy options', 'decalog' ), [ $this, 'logger_privacy_section_callback' ], 'decalog_logger_privacy_section' );
+		add_settings_section( 'decalog_logger_details_section', esc_html__( 'Reported details', 'decalog' ), [ $this, 'logger_details_section_callback' ], 'decalog_logger_details_section' );
 	}
 
 	/**
@@ -204,7 +204,7 @@ class Decalog_Admin {
 		if ( $this->current_handler && ! $this->current_logger ) {
 			$this->current_logger = [
 				'uuid'    => $uuid = UUID::generate_v4(),
-				'name'    => __( 'New logger', 'decalog' ),
+				'name'    => esc_html__( 'New logger', 'decalog' ),
 				'handler' => $this->current_handler['id'],
 				'running' => Option::get( 'logger_autostart' ),
 			];
@@ -252,7 +252,7 @@ class Decalog_Admin {
 										$loggers[ $uuid ]['running'] = true;
 										Option::set( 'loggers', $loggers );
 										$this->logger = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
-										$message      = sprintf( __( 'Logger %s has started.', 'decalog' ), '<em>' . $loggers[ $uuid ]['name'] . '</em>' );
+										$message      = sprintf( esc_html__( 'Logger %s has started.', 'decalog' ), '<em>' . $loggers[ $uuid ]['name'] . '</em>' );
 										$code         = 0;
 										add_settings_error( 'decalog_no_error', $code, $message, 'updated' );
 										$this->logger->info( sprintf( 'Logger "%s" has started.', $loggers[ $uuid ]['name'] ), $code );
@@ -265,7 +265,7 @@ class Decalog_Admin {
 								if ( $nonce && $uuid && wp_verify_nonce( $nonce, 'decalog-logger-pause-' . $uuid ) ) {
 									$loggers = Option::get( 'loggers' );
 									if ( array_key_exists( $uuid, $loggers ) ) {
-										$message = sprintf( __( 'Logger %s has been paused.', 'decalog' ), '<em>' . $loggers[ $uuid ]['name'] . '</em>' );
+										$message = sprintf( esc_html__( 'Logger %s has been paused.', 'decalog' ), '<em>' . $loggers[ $uuid ]['name'] . '</em>' );
 										$code    = 0;
 										$this->logger->notice( sprintf( 'Logger "%s" has been paused.', $loggers[ $uuid ]['name'] ), $code );
 										$loggers[ $uuid ]['running'] = false;
@@ -325,12 +325,12 @@ class Decalog_Admin {
 					}
 				}
 				Option::set( 'listeners', $list );
-				$message = __( 'Listeners settings have been saved.', 'decalog' );
+				$message = esc_html__( 'Listeners settings have been saved.', 'decalog' );
 				$code    = 0;
 				add_settings_error( 'decalog_no_error', $code, $message, 'updated' );
 				$this->logger->info( 'Listeners settings updated.', $code );
 			} else {
-				$message = __( 'Listeners settings have not been saved. Please try again.', 'decalog' );
+				$message = esc_html__( 'Listeners settings have not been saved. Please try again.', 'decalog' );
 				$code    = 2;
 				add_settings_error( 'decalog_nonce_error', $code, $message, 'error' );
 				$this->logger->warning( 'Listeners settings not updated.', $code );
@@ -347,12 +347,12 @@ class Decalog_Admin {
 		if ( ! empty( $_POST ) ) {
 			if ( array_key_exists( '_wpnonce', $_POST ) && wp_verify_nonce( $_POST['_wpnonce'], 'decalog-listeners-options' ) ) {
 				Option::set( 'autolisteners', true );
-				$message = __( 'Listeners settings have been reset to defaults.', 'decalog' );
+				$message = esc_html__( 'Listeners settings have been reset to defaults.', 'decalog' );
 				$code    = 0;
 				add_settings_error( 'decalog_no_error', $code, $message, 'updated' );
 				$this->logger->info( 'Listeners settings reset to defaults.', $code );
 			} else {
-				$message = __( 'Listeners settings have not been reset to defaults. Please try again.', 'decalog' );
+				$message = esc_html__( 'Listeners settings have not been reset to defaults. Please try again.', 'decalog' );
 				$code    = 2;
 				add_settings_error( 'decalog_nonce_error', $code, $message, 'error' );
 				$this->logger->warning( 'Listeners settings not reset to defaults.', $code );
@@ -373,12 +373,12 @@ class Decalog_Admin {
 				Option::set( 'logger_autostart', array_key_exists( 'decalog_loggers_options_autostart', $_POST ) );
 				Option::set( 'pseudonymization', array_key_exists( 'decalog_loggers_options_pseudonymization', $_POST ) );
 				Option::set( 'respect_wp_debug', array_key_exists( 'decalog_loggers_options_wpdebug', $_POST ) );
-				$message = __( 'Plugin settings have been saved.', 'decalog' );
+				$message = esc_html__( 'Plugin settings have been saved.', 'decalog' );
 				$code    = 0;
 				add_settings_error( 'decalog_no_error', $code, $message, 'updated' );
 				$this->logger->info( 'Plugin settings updated.', $code );
 			} else {
-				$message = __( 'Plugin settings have not been saved. Please try again.', 'decalog' );
+				$message = esc_html__( 'Plugin settings have not been saved. Please try again.', 'decalog' );
 				$code    = 2;
 				add_settings_error( 'decalog_nonce_error', $code, $message, 'error' );
 				$this->logger->warning( 'Plugin settings not updated.', $code );
@@ -395,12 +395,12 @@ class Decalog_Admin {
 		if ( ! empty( $_POST ) ) {
 			if ( array_key_exists( '_wpnonce', $_POST ) && wp_verify_nonce( $_POST['_wpnonce'], 'decalog-plugin-options' ) ) {
 				Option::reset_to_defaults();
-				$message = __( 'Plugin settings have been reset to defaults.', 'decalog' );
+				$message = esc_html__( 'Plugin settings have been reset to defaults.', 'decalog' );
 				$code    = 0;
 				add_settings_error( 'decalog_no_error', $code, $message, 'updated' );
 				$this->logger->info( 'Plugin settings reset to defaults.', $code );
 			} else {
-				$message = __( 'Plugin settings have not been reset to defaults. Please try again.', 'decalog' );
+				$message = esc_html__( 'Plugin settings have not been reset to defaults. Please try again.', 'decalog' );
 				$code    = 2;
 				add_settings_error( 'decalog_nonce_error', $code, $message, 'error' );
 				$this->logger->warning( 'Plugin settings not reset to defaults.', $code );
@@ -452,13 +452,13 @@ class Decalog_Admin {
 					}
 					Option::set( 'loggers', $loggers );
 					$this->logger = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
-					$message      = sprintf( __( 'Logger %s has been saved.', 'decalog' ), '<em>' . $this->current_logger['name'] . '</em>' );
+					$message      = sprintf( esc_html__( 'Logger %s has been saved.', 'decalog' ), '<em>' . $this->current_logger['name'] . '</em>' );
 					$code         = 0;
 					add_settings_error( 'decalog_no_error', $code, $message, 'updated' );
 					$this->logger->info( sprintf( 'Logger "%s" has been saved.', $this->current_logger['name'] ), $code );
 				}
 			} else {
-				$message = sprintf( __( 'Logger %s has not been saved. Please try again.', 'decalog' ), '<em>' . $this->current_logger['name'] . '</em>' );
+				$message = sprintf( esc_html__( 'Logger %s has not been saved. Please try again.', 'decalog' ), '<em>' . $this->current_logger['name'] . '</em>' );
 				$code    = 2;
 				add_settings_error( 'decalog_nonce_error', $code, $message, 'error' );
 				$this->logger->warning( sprintf( 'Logger "%s" has not been saved.', $this->current_logger['name'] ), $code );
@@ -482,13 +482,13 @@ class Decalog_Admin {
 					unset( $loggers[ $uuid ] );
 					Option::set( 'loggers', $loggers );
 					$this->logger = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
-					$message      = sprintf( __( 'Logger %s has been removed.', 'decalog' ), '<em>' . $this->current_logger['name'] . '</em>' );
+					$message      = sprintf( esc_html__( 'Logger %s has been removed.', 'decalog' ), '<em>' . $this->current_logger['name'] . '</em>' );
 					$code         = 0;
 					add_settings_error( 'decalog_no_error', $code, $message, 'updated' );
 					$this->logger->notice( sprintf( 'Logger "%s" has been removed.', $this->current_logger['name'] ), $code );
 				}
 			} else {
-				$message = sprintf( __( 'Logger %s has not been removed. Please try again.', 'decalog' ), '<em>' . $this->current_logger['name'] . '</em>' );
+				$message = sprintf( esc_html__( 'Logger %s has not been removed. Please try again.', 'decalog' ), '<em>' . $this->current_logger['name'] . '</em>' );
 				$code    = 2;
 				add_settings_error( 'decalog_nonce_error', $code, $message, 'error' );
 				$this->logger->warning( sprintf( 'Logger "%s" has not been removed.', $this->current_logger['name'] ), $code );
@@ -593,10 +593,10 @@ class Decalog_Admin {
 			'decalog_loggers_options_section',
 			'decalog_loggers_options_section',
 			[
-				'text'        => __( 'Auto-start', 'decalog' ),
+				'text'        => esc_html__( 'Auto-start', 'decalog' ),
 				'id'          => 'decalog_loggers_options_autostart',
 				'checked'     => Option::get( 'logger_autostart' ),
-				'description' => __( 'If checked, when a new logger is added it automatically starts.', 'decalog' ),
+				'description' => esc_html__( 'If checked, when a new logger is added it automatically starts.', 'decalog' ),
 				'full_width'  => true,
 				'enabled'     => true,
 			]
@@ -609,10 +609,10 @@ class Decalog_Admin {
 			'decalog_loggers_options_section',
 			'decalog_loggers_options_section',
 			[
-				'text'        => __( 'Respect privacy', 'decalog' ),
+				'text'        => esc_html__( 'Respect privacy', 'decalog' ),
 				'id'          => 'decalog_loggers_options_pseudonymization',
 				'checked'     => Option::get( 'pseudonymization' ),
-				'description' => __( 'If checked, DecaLog will try to obfuscate personal information in events messages.', 'decalog' ),
+				'description' => esc_html__( 'If checked, DecaLog will try to obfuscate personal information in events messages.', 'decalog' ),
 				'full_width'  => true,
 				'enabled'     => true,
 			]
@@ -625,10 +625,10 @@ class Decalog_Admin {
 			'decalog_loggers_options_section',
 			'decalog_loggers_options_section',
 			[
-				'text'        => __( 'Respect WP_DEBUG', 'decalog' ),
+				'text'        => esc_html__( 'Respect WP_DEBUG', 'decalog' ),
 				'id'          => 'decalog_loggers_options_wpdebug',
 				'checked'     => Option::get( 'respect_wp_debug' ),
-				'description' => __( 'If checked, the value of WP_DEBUG will override each logger\'s settings for minimal level of logging.', 'decalog' ),
+				'description' => esc_html__( 'If checked, the value of WP_DEBUG will override each logger\'s settings for minimal level of logging.', 'decalog' ),
 				'full_width'  => true,
 				'enabled'     => true,
 			]
@@ -650,10 +650,10 @@ class Decalog_Admin {
 			'decalog_plugin_options_section',
 			'decalog_plugin_options_section',
 			[
-				'text'        => __( 'Automatic (recommended)', 'decalog' ),
+				'text'        => esc_html__( 'Automatic (recommended)', 'decalog' ),
 				'id'          => 'decalog_plugin_options_autoupdate',
 				'checked'     => Option::get( 'auto_update' ),
-				'description' => __( 'If checked, DecaLog will update itself as soon as a new version is available.', 'decalog' ),
+				'description' => esc_html__( 'If checked, DecaLog will update itself as soon as a new version is available.', 'decalog' ),
 				'full_width'  => true,
 				'enabled'     => true,
 			]
@@ -666,10 +666,10 @@ class Decalog_Admin {
 			'decalog_plugin_options_section',
 			'decalog_plugin_options_section',
 			[
-				'text'        => __( 'Display', 'decalog' ),
+				'text'        => esc_html__( 'Display', 'decalog' ),
 				'id'          => 'decalog_plugin_options_nag',
 				'checked'     => Option::get( 'display_nag' ),
-				'description' => __( 'Allows DecaLog to display admin notices throughout the admin dashboard.', 'decalog' ) . '<br/>' . __( 'Note: DecaLog respects DISABLE_NAG_NOTICES flag.', 'decalog' ),
+				'description' => esc_html__( 'Allows DecaLog to display admin notices throughout the admin dashboard.', 'decalog' ) . '<br/>' . esc_html__( 'Note: DecaLog respects DISABLE_NAG_NOTICES flag.', 'decalog' ),
 				'full_width'  => true,
 				'enabled'     => true,
 			]
@@ -697,7 +697,7 @@ class Decalog_Admin {
 			[
 				'id'          => 'decalog_logger_misc_name',
 				'value'       => $this->current_logger['name'],
-				'description' => __( 'Used only in admin dashboard.', 'decalog' ),
+				'description' => esc_html__( 'Used only in admin dashboard.', 'decalog' ),
 				'full_width'  => true,
 				'enabled'     => true,
 			]
@@ -713,7 +713,7 @@ class Decalog_Admin {
 				'list'        => Log::get_levels( $this->current_handler['minimal'] ),
 				'id'          => 'decalog_logger_misc_level',
 				'value'       => $this->current_logger['level'],
-				'description' => __( 'Minimal reported level. May be overridden by the "respect WP_DEBUG directive" option.', 'decalog' ),
+				'description' => esc_html__( 'Minimal reported level. May be overridden by the "respect WP_DEBUG directive" option.', 'decalog' ),
 				'full_width'  => true,
 				'enabled'     => true,
 			]
@@ -782,7 +782,7 @@ class Decalog_Admin {
 				[
 					'id'          => 'decalog_logger_specific_dummy',
 					'value'       => ini_get( 'error_log' ),
-					'description' => __( 'Value set in php.ini file.', 'decalog' ),
+					'description' => esc_html__( 'Value set in php.ini file.', 'decalog' ),
 					'full_width'  => true,
 					'enabled'     => false,
 				]
@@ -796,7 +796,7 @@ class Decalog_Admin {
 			$id   = 'decalog_logger_details_' . strtolower( $key );
 			$args = [
 				'id'          => $id,
-				'text'        => __( 'Enabled', 'decalog' ),
+				'text'        => esc_html__( 'Enabled', 'decalog' ),
 				'checked'     => (bool) $this->current_logger['configuration'][ $key ],
 				'value'       => $this->current_logger['configuration'][ $key ],
 				'description' => $configuration['help'],
@@ -835,10 +835,10 @@ class Decalog_Admin {
 			'decalog_logger_privacy_section',
 			'decalog_logger_privacy_section',
 			[
-				'text'        => __( 'Obfuscation', 'decalog' ),
+				'text'        => esc_html__( 'Obfuscation', 'decalog' ),
 				'id'          => 'decalog_logger_privacy_ip',
 				'checked'     => $this->current_logger['privacy']['obfuscation'],
-				'description' => __( 'If checked, log fields will contain hashes instead of real IPs.', 'decalog' ) . '<br/>' . __( 'Note: it concerns all fields except events messages.', 'decalog' ),
+				'description' => esc_html__( 'If checked, log fields will contain hashes instead of real IPs.', 'decalog' ) . '<br/>' . esc_html__( 'Note: it concerns all fields except events messages.', 'decalog' ),
 				'full_width'  => true,
 				'enabled'     => true,
 			]
@@ -851,10 +851,10 @@ class Decalog_Admin {
 			'decalog_logger_privacy_section',
 			'decalog_logger_privacy_section',
 			[
-				'text'        => __( 'Pseudonymisation', 'decalog' ),
+				'text'        => esc_html__( 'Pseudonymisation', 'decalog' ),
 				'id'          => 'decalog_logger_privacy_name',
 				'checked'     => $this->current_logger['privacy']['pseudonymization'],
-				'description' => __( 'If checked, log fields will contain hashes instead of user IDs & names.', 'decalog' ) . '<br/>' . __( 'Note: it concerns all fields except events messages.', 'decalog' ),
+				'description' => esc_html__( 'If checked, log fields will contain hashes instead of user IDs & names.', 'decalog' ) . '<br/>' . esc_html__( 'Note: it concerns all fields except events messages.', 'decalog' ),
 				'full_width'  => true,
 				'enabled'     => true,
 			]
@@ -877,10 +877,10 @@ class Decalog_Admin {
 			'decalog_logger_details_section',
 			'decalog_logger_details_section',
 			[
-				'text'        => __( 'Included', 'decalog' ),
+				'text'        => esc_html__( 'Included', 'decalog' ),
 				'id'          => $id,
 				'checked'     => true,
-				'description' => __( 'Allows to log standard DecaLog information.', 'decalog' ),
+				'description' => esc_html__( 'Allows to log standard DecaLog information.', 'decalog' ),
 				'full_width'  => true,
 				'enabled'     => false,
 			]
@@ -896,7 +896,7 @@ class Decalog_Admin {
 				'decalog_logger_details_section',
 				'decalog_logger_details_section',
 				[
-					'text'        => __( 'Included', 'decalog' ),
+					'text'        => esc_html__( 'Included', 'decalog' ),
 					'id'          => $id,
 					'checked'     => in_array( $processor['id'], $this->current_logger['processors'], true ),
 					'description' => $processor['help'],

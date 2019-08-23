@@ -414,11 +414,11 @@ class Events extends \WP_List_Table {
 		$filters = $this->filters;
 		$level   = array_key_exists( 'level', $this->filters ) ? $this->filters['level'] : '';
 		unset( $this->filters['level'] );
-		$s1                     = '<a href="' . $this->get_page_url() . '"' . ( '' === $level ? ' class="current"' : '' ) . '>' . __( 'All', 'decalog' ) . ' <span class="count">(' . $this->get_count() . ')</span></a>';
+		$s1                     = '<a href="' . $this->get_page_url() . '"' . ( '' === $level ? ' class="current"' : '' ) . '>' . esc_html__( 'All', 'decalog' ) . ' <span class="count">(' . $this->get_count() . ')</span></a>';
 		$this->filters['level'] = 'notice';
-		$s2                     = '<a href="' . $this->get_page_url() . '"' . ( 'notice' === $level ? ' class="current"' : '' ) . '>' . __( 'Notices &amp; beyond', 'decalog' ) . ' <span class="count">(' . $this->get_count() . ')</span></a>';
+		$s2                     = '<a href="' . $this->get_page_url() . '"' . ( 'notice' === $level ? ' class="current"' : '' ) . '>' . esc_html__( 'Notices &amp; beyond', 'decalog' ) . ' <span class="count">(' . $this->get_count() . ')</span></a>';
 		$this->filters['level'] = 'error';
-		$s3                     = '<a href="' . $this->get_page_url() . '"' . ( 'error' === $level ? ' class="current"' : '' ) . '>' . __( 'Errors &amp; beyond', 'decalog' ) . ' <span class="count">(' . $this->get_count() . ')</span></a>';
+		$s3                     = '<a href="' . $this->get_page_url() . '"' . ( 'error' === $level ? ' class="current"' : '' ) . '>' . esc_html__( 'Errors &amp; beyond', 'decalog' ) . ' <span class="count">(' . $this->get_count() . ')</span></a>';
 		$status_links           = [
 			'all'     => $s1,
 			'notices' => $s2,
@@ -643,7 +643,7 @@ class Events extends \WP_List_Table {
 		$current .= '<div><input type="hidden" name="wp_screen_options[value]" value="yes"></div>';
 		$current .= '<div class="decalog_custom_fields">' . self::get_column_options() . '</div>';
 		$current .= '</div>';
-		$current .= get_submit_button( __( 'Apply', 'decalog' ), 'primary', 'screen-options-apply' );
+		$current .= get_submit_button( esc_html__( 'Apply', 'decalog' ), 'primary', 'screen-options-apply' );
 		return $current;
 	}
 
