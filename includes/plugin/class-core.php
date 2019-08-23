@@ -109,6 +109,7 @@ class Core {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'register_scripts' );
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'init_admin_menus' );
 		$this->loader->add_action( 'admin_init', $plugin_admin, 'init_settings_sections' );
+		$this->loader->add_filter( 'plugin_action_links_' . plugin_basename( DECALOG_PLUGIN_DIR . 'decalog.php' ), $plugin_admin, 'add_actions_links');
 		$this->loader->add_action( 'admin_notices', $nag, 'display' );
 		$this->loader->add_action( 'wp_ajax_hide_decalog_nag', $nag, 'hide_callback' );
 	}

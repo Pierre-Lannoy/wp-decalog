@@ -154,6 +154,18 @@ class Decalog_Admin {
 	}
 
 	/**
+	 * Adds actions links in the plugin view page.
+	 *
+	 * @since 1.0.0
+	 */
+	public function add_actions_links( $actions ) {
+		$actions[] = sprintf( '<a href="%s">%s</a>', admin_url( 'options-general.php?page=decalog-settings' ), esc_html__( 'Settings', 'decalog' ) );
+		if ( Events::loggers_count() > 0 ) {
+			$actions[] = sprintf( '<a href="%s">%s</a>', admin_url( 'tools.php?page=decalog-viewer' ), esc_html__( 'Events Logs', 'decalog' ) );
+		}
+		return $actions;
+	}
+	/**
 	 * Get the content of the tools page.
 	 *
 	 * @since 1.0.0
