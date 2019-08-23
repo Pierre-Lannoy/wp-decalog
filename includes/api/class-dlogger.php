@@ -11,14 +11,13 @@ namespace Decalog\API;
 
 use Decalog\Plugin\Feature\HandlerTypes;
 use Monolog\Logger;
-use Monolog\Handler\WhatFailureGroupHandler;
 use Decalog\System\Environment;
 use Decalog\System\Option;
 use Decalog\System\Timezone;
 use Decalog\Plugin\Feature\LoggerFactory;
 use Decalog\Plugin\Feature\ClassTypes;
 use Decalog\Plugin\Feature\ChannelTypes;
-use Decalog\Plugin\Feature\EventTypes;
+use Decalog\Plugin\Feature\HandlerDiagnosis;
 
 /**
  * Main DecaLog logger class.
@@ -112,14 +111,20 @@ class DLogger {
 		$factory      = new LoggerFactory();
 		$this->logger = new Logger( $this->current_channel_tag(), [], [], Timezone::get_wp() );
 		$handlers     = new HandlerTypes();
+		$diagnosis    = new HandlerDiagnosis();
 		$banned       = [];
+		$unloadable   = [];
 		foreach ( Option::get( 'loggers' ) as $key => $logger ) {
 			$handler_def    = $handlers->get( $logger['handler'] );
 			$logger['uuid'] = $key;
 			if ( ! in_array( strtolower( $handler_def['ancestor'] ), self::$banned, true ) && ! in_array( strtolower( $handler_def['id'] ), self::$banned, true ) ) {
-				$handler = $factory->create_logger( $logger );
-				if ( $handler ) {
-					$this->logger->pushHandler( $handler );
+				if ( $diagnosis->check( $handler_def['id'] ) ) {
+					$handler = $factory->create_logger( $logger );
+					if ( $handler ) {
+						$this->logger->pushHandler( $handler );
+					}
+				} else {
+					$unloadable[] = sprintf( 'Unable to load %s logger. %s', $handler_def['name'], $diagnosis->error_string( $handler_def['id'] ) );
 				}
 			} else {
 				$banned[] = $handler_def['name'];
@@ -128,6 +133,12 @@ class DLogger {
 		if ( count( $banned ) > 0 ) {
 			// phpcs:ignore
 			$this->critical( sprintf ('Due to DecaLog internal errors, the following logger types have been temporarily deactivated: %s.', implode(', ', $banned ) ), 666 );
+		}
+		if ( count( $unloadable ) > 0 ) {
+			foreach ( $unloadable as $item ) {
+				// phpcs:ignore
+				$this->error( $item, 666 );
+			}
 		}
 	}
 
@@ -138,8 +149,9 @@ class DLogger {
 	 */
 	private function integrity_check() {
 		if ( count( self::$banned ) > 0 ) {
-			$handlers = new HandlerTypes();
-			$banned   = [];
+			$handlers  = new HandlerTypes();
+			$diagnosis = new HandlerDiagnosis();
+			$banned    = [];
 			foreach ( $this->logger->getHandlers() as $handler ) {
 				$classname   = get_class( $handler );
 				$handler_def = $handlers->get( $classname );

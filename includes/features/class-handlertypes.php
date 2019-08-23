@@ -415,11 +415,11 @@ class HandlerTypes {
 		];
 		$this->handlers[] = [
 			'id'            => 'SyslogUdpHandler',
-			'ancestor'      => 'AbstractSyslogHandler',
+			'ancestor'      => 'UdpSocket',
 			'namespace'     => 'Monolog\Handler',
 			'class'         => 'network',
 			'minimal'       => Logger::DEBUG,
-			'name'          => esc_html__( 'Syslog server', 'decalog' ),
+			'name'          => esc_html__( 'Syslog', 'decalog' ),
 			'help'          => esc_html__( 'An events log sent to a remote syslogd server.', 'decalog' ),
 			'icon'          => $this->get_base64_syslog_icon(),
 			'params'        => [ 'processors', 'privacy' ],
