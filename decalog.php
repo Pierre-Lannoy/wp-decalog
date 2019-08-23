@@ -8,8 +8,8 @@
  *
  * @wordpress-plugin
  * Plugin Name:       DecaLog
- * Plugin URI:        --
- * Description:       --
+ * Plugin URI:        https://github.com/Pierre-Lannoy/wp-decalog
+ * Description:       Capture and log events on your site. View them in your dashboard and send them to logging services.
  * Version:           1.0.0
  * Author:            Pierre Lannoy
  * Author URI:        https://pierre.lannoy.fr
