@@ -22,7 +22,7 @@ At this time, DecaLog can send events:
 * to external alerting services, like Pushover or Slack;
 * to local or network storage (with file rotation);
 
-Based on the amazing [Monolog](https://github.com/Seldaek/monolog) logger , DecaLog is a free and open source plugin for WordPress. It integrates many other free and open source works (as-is or modified). Please, see 'about' tab in the plugin settings to see the details.
+Based on the amazing [Monolog](https://github.com/Seldaek/monolog) logger, DecaLog is a free and open source plugin for WordPress. It integrates many other free and open source works (as-is or modified). Please, see 'about' tab in the plugin settings to see the details.
 
 ## Installation
 
