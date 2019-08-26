@@ -43,8 +43,12 @@ git clone https://github.com/Pierre-Lannoy/wp-decalog.git decalog
 
 ## Support
 
-_- TBD -_
+For any technical issue, or for suggesting new idea or feature, please use [GitHub issues tracker](https://github.com/Pierre-Lannoy/wp-decalog/issues). Before submitting an issue, please read the [contribution guidelines](CONTRIBUTING.md).
+
+Alternatively, if you have usage questions, you can open a discussion on the [WordPress support page](https://wordpress.org/support/plugin/decalog/). 
 
 ## Contributing
 
-_- TBD -_
+__DecaLog__ lets you use its logging features inside your plugins or themes. To understand how it works and how to use it to log your own events, please read the [developer documentation](DEVELOPER.md).
+
+Before submitting an issue or a pull request, please read the [contribution guidelines](CONTRIBUTING.md).
