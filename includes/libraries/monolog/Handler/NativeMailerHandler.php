@@ -139,7 +139,7 @@ class NativeMailerHandler extends MailHandler
         }
     }
 
-    public function getContentType(): ?string
+    public function getContentType(): /*?*/string
     {
         return $this->contentType;
     }

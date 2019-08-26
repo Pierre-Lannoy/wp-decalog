@@ -83,7 +83,7 @@ class StreamHandler extends AbstractProcessingHandler
      *
      * @return string|null
      */
-    public function getUrl(): ?string
+    public function getUrl(): /*?*/string
     {
         return $this->url;
     }

@@ -452,7 +452,7 @@ class Logger implements LoggerInterface, ResettableInterface
         return $this;
     }
 
-    public function getExceptionHandler(): ?callable
+    public function getExceptionHandler(): /*?*/callable
     {
         return $this->exceptionHandler;
     }
