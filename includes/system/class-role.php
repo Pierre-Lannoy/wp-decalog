@@ -27,21 +27,21 @@ class Role {
 	 *
 	 * @since  1.0.0
 	 */
-	public const SUPER_ADMIN = 4;
+	const SUPER_ADMIN = 4;
 
 	/**
 	 * The single site admin.
 	 *
 	 * @since  1.0.0
 	 */
-	public const SINGLE_ADMIN = 2;
+	const SINGLE_ADMIN = 2;
 
 	/**
 	 * The local admin (in network site).
 	 *
 	 * @since  1.0.0
 	 */
-	public const LOCAL_ADMIN = 1;
+	const LOCAL_ADMIN = 1;
 
 	/**
 	 * Initializes the class and set its properties.
