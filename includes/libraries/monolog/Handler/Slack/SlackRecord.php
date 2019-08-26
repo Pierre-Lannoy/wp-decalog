@@ -228,7 +228,7 @@ class SlackRecord
      *
      * @return SlackHandler
      */
-    public function setChannel(?string $channel = null): self
+    public function setChannel(/*?*/string $channel = null): self
     {
         $this->channel = $channel;
 
@@ -242,7 +242,7 @@ class SlackRecord
      *
      * @return SlackHandler
      */
-    public function setUsername(?string $username = null): self
+    public function setUsername(/*?*/string $username = null): self
     {
         $this->username = $username;
 
@@ -256,7 +256,7 @@ class SlackRecord
         return $this;
     }
 
-    public function setUserIcon(?string $userIcon = null): self
+    public function setUserIcon(/*?*/string $userIcon = null): self
     {
         $this->userIcon = $userIcon;
 
@@ -292,7 +292,7 @@ class SlackRecord
         return $this;
     }
 
-    public function setFormatter(?FormatterInterface $formatter = null): self
+    public function setFormatter(/*?*/FormatterInterface $formatter = null): self
     {
         $this->formatter = $formatter;
 

@@ -95,7 +95,7 @@ class PHPConsoleHandler extends AbstractProcessingHandler
     /**
      * @suppress PhanTypeMismatchArgument
      */
-    private function initConnector(?Connector $connector = null): Connector
+    private function initConnector(/*?*/Connector $connector = null): Connector
     {
         if (!$connector) {
             if ($this->options['dataStorage']) {

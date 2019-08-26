@@ -445,7 +445,7 @@ class Logger implements LoggerInterface, ResettableInterface
      *
      * The callable will receive an exception object and the record that failed to be logged
      */
-    public function setExceptionHandler(?callable $callback): self
+    public function setExceptionHandler(/*?*/callable $callback): self
     {
         $this->exceptionHandler = $callback;
 

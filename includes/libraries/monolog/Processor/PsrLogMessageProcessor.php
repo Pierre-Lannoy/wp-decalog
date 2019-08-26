@@ -34,7 +34,7 @@ class PsrLogMessageProcessor implements ProcessorInterface
      * @param string|null $dateFormat              The format of the timestamp: one supported by DateTime::format
      * @param bool        $removeUsedContextFields If set to true the fields interpolated into message gets unset
      */
-    public function __construct(?string $dateFormat = null, bool $removeUsedContextFields = false)
+    public function __construct(/*?*/string $dateFormat = null, bool $removeUsedContextFields = false)
     {
         $this->dateFormat = $dateFormat;
         $this->removeUsedContextFields = $removeUsedContextFields;
