@@ -1,6 +1,6 @@
 === DecaLog ===
 Contributors: PierreLannoy
-Tags: logging, error reporting, monitoring, site health, events log
+Tags: events log, error reporting, monitoring, site health, logging
 Requires at least: 5.2
 Requires PHP: 7.2
 Tested up to: 5.2

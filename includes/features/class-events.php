@@ -416,9 +416,9 @@ class Events extends \WP_List_Table {
 		unset( $this->filters['level'] );
 		$s1                     = '<a href="' . $this->get_page_url() . '"' . ( '' === $level ? ' class="current"' : '' ) . '>' . esc_html__( 'All', 'decalog' ) . ' <span class="count">(' . $this->get_count() . ')</span></a>';
 		$this->filters['level'] = 'notice';
-		$s2                     = '<a href="' . $this->get_page_url() . '"' . ( 'notice' === $level ? ' class="current"' : '' ) . '>' . esc_html__( 'Notices &amp; beyond', 'decalog' ) . ' <span class="count">(' . $this->get_count() . ')</span></a>';
+		$s2                     = '<a href="' . $this->get_page_url() . '"' . ( 'notice' === $level ? ' class="current"' : '' ) . '>' . esc_html__( 'Notices & beyond', 'decalog' ) . ' <span class="count">(' . $this->get_count() . ')</span></a>';
 		$this->filters['level'] = 'error';
-		$s3                     = '<a href="' . $this->get_page_url() . '"' . ( 'error' === $level ? ' class="current"' : '' ) . '>' . esc_html__( 'Errors &amp; beyond', 'decalog' ) . ' <span class="count">(' . $this->get_count() . ')</span></a>';
+		$s3                     = '<a href="' . $this->get_page_url() . '"' . ( 'error' === $level ? ' class="current"' : '' ) . '>' . esc_html__( 'Errors & beyond', 'decalog' ) . ' <span class="count">(' . $this->get_count() . ')</span></a>';
 		$status_links           = [
 			'all'     => $s1,
 			'notices' => $s2,
