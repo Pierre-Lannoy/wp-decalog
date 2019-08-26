@@ -76,7 +76,7 @@ class ElasticsearchHandler extends AbstractProcessingHandler
     /**
      * {@inheritDoc}
      */
-    protected function write(array $record): void
+    protected function write(array $record)/*: void*/
     {
         $this->bulkSend([$record['formatted']]);
     }
@@ -114,7 +114,7 @@ class ElasticsearchHandler extends AbstractProcessingHandler
     /**
      * {@inheritdoc}
      */
-    public function handleBatch(array $records): void
+    public function handleBatch(array $records)/*: void*/
     {
         $documents = $this->getFormatter()->formatBatch($records);
         $this->bulkSend($documents);
@@ -126,7 +126,7 @@ class ElasticsearchHandler extends AbstractProcessingHandler
      * @param  array             $records
      * @throws \RuntimeException
      */
-    protected function bulkSend(array $records): void
+    protected function bulkSend(array $records)/*: void*/
     {
         try {
             $params = [

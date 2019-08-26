@@ -49,7 +49,7 @@ class SyslogHandler extends AbstractSyslogHandler
     /**
      * {@inheritdoc}
      */
-    public function close(): void
+    public function close()/*: void*/
     {
         closelog();
     }
@@ -57,7 +57,7 @@ class SyslogHandler extends AbstractSyslogHandler
     /**
      * {@inheritdoc}
      */
-    protected function write(array $record): void
+    protected function write(array $record)/*: void*/
     {
         if (!openlog($this->ident, $this->logopts, $this->facility)) {
             throw new \LogicException('Can\'t open syslog for ident "'.$this->ident.'" and facility "'.$this->facility.'"');

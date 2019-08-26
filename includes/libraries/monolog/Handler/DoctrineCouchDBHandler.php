@@ -34,7 +34,7 @@ class DoctrineCouchDBHandler extends AbstractProcessingHandler
     /**
      * {@inheritDoc}
      */
-    protected function write(array $record): void
+    protected function write(array $record)/*: void*/
     {
         $this->client->postDocument($record['formatted']);
     }

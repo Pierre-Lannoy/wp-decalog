@@ -44,7 +44,7 @@ class GelfHandler extends AbstractProcessingHandler
     /**
      * {@inheritdoc}
      */
-    protected function write(array $record): void
+    protected function write(array $record)/*: void*/
     {
         $this->publisher->publish($record['formatted']);
     }

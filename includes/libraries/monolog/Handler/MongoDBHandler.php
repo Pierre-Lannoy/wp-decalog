@@ -62,7 +62,7 @@ class MongoDBHandler extends AbstractProcessingHandler
         parent::__construct($level, $bubble);
     }
 
-    protected function write(array $record): void
+    protected function write(array $record)/*: void*/
     {
         if (isset($this->collection)) {
             $this->collection->insertOne($record['formatted']);

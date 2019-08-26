@@ -30,19 +30,19 @@ class Logger implements LoggerInterface, ResettableInterface
     /**
      * Detailed debug information
      */
-    public const DEBUG = 100;
+    /*public*/ const DEBUG = 100;
 
     /**
      * Interesting events
      *
      * Examples: User logs in, SQL logs.
      */
-    public const INFO = 200;
+    /*public*/ const INFO = 200;
 
     /**
      * Uncommon events
      */
-    public const NOTICE = 250;
+    /*public*/ const NOTICE = 250;
 
     /**
      * Exceptional occurrences that are not errors
@@ -50,19 +50,19 @@ class Logger implements LoggerInterface, ResettableInterface
      * Examples: Use of deprecated APIs, poor use of an API,
      * undesirable things that are not necessarily wrong.
      */
-    public const WARNING = 300;
+    /*public*/ const WARNING = 300;
 
     /**
      * Runtime errors
      */
-    public const ERROR = 400;
+    /*public*/ const ERROR = 400;
 
     /**
      * Critical conditions
      *
      * Example: Application component unavailable, unexpected exception.
      */
-    public const CRITICAL = 500;
+    /*public*/ const CRITICAL = 500;
 
     /**
      * Action must be taken immediately
@@ -70,12 +70,12 @@ class Logger implements LoggerInterface, ResettableInterface
      * Example: Entire website down, database unavailable, etc.
      * This should trigger the SMS alerts and wake you up.
      */
-    public const ALERT = 550;
+    /*public*/ const ALERT = 550;
 
     /**
      * Urgent alert.
      */
-    public const EMERGENCY = 600;
+    /*public*/ const EMERGENCY = 600;
 
     /**
      * Monolog API version
@@ -85,7 +85,7 @@ class Logger implements LoggerInterface, ResettableInterface
      *
      * @var int
      */
-    public const API = 2;
+    /*public*/ const API = 2;
 
     /**
      * This is a static variable and not a constant to serve as an extension point for custom levels
@@ -343,7 +343,7 @@ class Logger implements LoggerInterface, ResettableInterface
      * This is useful at the end of a request and will be called automatically on every handler
      * when they get destructed.
      */
-    public function close(): void
+    public function close()/*: void*/
     {
         foreach ($this->handlers as $handler) {
             $handler->close();
@@ -360,7 +360,7 @@ class Logger implements LoggerInterface, ResettableInterface
      * have a long running process like a worker or an application server serving multiple requests
      * in one process.
      */
-    public function reset(): void
+    public function reset()/*: void*/
     {
         foreach ($this->handlers as $handler) {
             if ($handler instanceof ResettableInterface) {

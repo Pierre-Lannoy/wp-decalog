@@ -25,13 +25,13 @@ use Monolog\Formatter\FormatterInterface;
  */
 class SlackRecord
 {
-    public const COLOR_DANGER = 'danger';
+    /*public*/ const COLOR_DANGER = 'danger';
 
-    public const COLOR_WARNING = 'warning';
+    /*public*/ const COLOR_WARNING = 'warning';
 
-    public const COLOR_GOOD = 'good';
+    /*public*/ const COLOR_GOOD = 'good';
 
-    public const COLOR_DEFAULT = '#e3e4e6';
+    /*public*/ const COLOR_DEFAULT = '#e3e4e6';
 
     /**
      * Slack channel (encoded ID or name)

@@ -59,7 +59,7 @@ class StreamHandler extends AbstractProcessingHandler
     /**
      * {@inheritdoc}
      */
-    public function close(): void
+    public function close()/*: void*/
     {
         if ($this->url && is_resource($this->stream)) {
             fclose($this->stream);
@@ -91,7 +91,7 @@ class StreamHandler extends AbstractProcessingHandler
     /**
      * {@inheritdoc}
      */
-    protected function write(array $record): void
+    protected function write(array $record)/*: void*/
     {
         if (!is_resource($this->stream)) {
             if (null === $this->url || '' === $this->url) {
@@ -129,12 +129,12 @@ class StreamHandler extends AbstractProcessingHandler
      * @param resource $stream
      * @param array    $record
      */
-    protected function streamWrite($stream, array $record): void
+    protected function streamWrite($stream, array $record)/*: void*/
     {
         fwrite($stream, (string) $record['formatted']);
     }
 
-    private function customErrorHandler($code, $msg): void
+    private function customErrorHandler($code, $msg)/*: void*/
     {
         $this->errorMessage = preg_replace('{^(fopen|mkdir)\(.*?\): }', '', $msg);
     }
@@ -153,7 +153,7 @@ class StreamHandler extends AbstractProcessingHandler
         return null;
     }
 
-    private function createDir(): void
+    private function createDir()/*: void*/
     {
         // Do not try to create dir if it has already been tried.
         if ($this->dirCreated) {

@@ -62,7 +62,7 @@ class HandlerWrapper implements HandlerInterface, ProcessableHandlerInterface, F
     /**
      * {@inheritdoc}
      */
-    public function handleBatch(array $records): void
+    public function handleBatch(array $records)/*: void*/
     {
         $this->handler->handleBatch($records);
     }
@@ -70,7 +70,7 @@ class HandlerWrapper implements HandlerInterface, ProcessableHandlerInterface, F
     /**
      * {@inheritdoc}
      */
-    public function close(): void
+    public function close()/*: void*/
     {
         $this->handler->close();
     }

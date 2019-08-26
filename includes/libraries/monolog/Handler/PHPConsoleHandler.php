@@ -172,7 +172,7 @@ class PHPConsoleHandler extends AbstractProcessingHandler
     /**
      * Writes the record down to the log of the implementing handler
      */
-    protected function write(array $record): void
+    protected function write(array $record)/*: void*/
     {
         if ($record['level'] < Logger::NOTICE) {
             $this->handleDebugRecord($record);
@@ -183,7 +183,7 @@ class PHPConsoleHandler extends AbstractProcessingHandler
         }
     }
 
-    private function handleDebugRecord(array $record): void
+    private function handleDebugRecord(array $record)/*: void*/
     {
         $tags = $this->getRecordTags($record);
         $message = $record['message'];
@@ -193,12 +193,12 @@ class PHPConsoleHandler extends AbstractProcessingHandler
         $this->connector->getDebugDispatcher()->dispatchDebug($message, $tags, $this->options['classesPartialsTraceIgnore']);
     }
 
-    private function handleExceptionRecord(array $record): void
+    private function handleExceptionRecord(array $record)/*: void*/
     {
         $this->connector->getErrorsDispatcher()->dispatchException($record['context']['exception']);
     }
 
-    private function handleErrorRecord(array $record): void
+    private function handleErrorRecord(array $record)/*: void*/
     {
         $context = $record['context'];
 

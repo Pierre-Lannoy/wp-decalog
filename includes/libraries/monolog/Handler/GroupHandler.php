@@ -75,7 +75,7 @@ class GroupHandler extends Handler implements ProcessableHandlerInterface, Reset
     /**
      * {@inheritdoc}
      */
-    public function handleBatch(array $records): void
+    public function handleBatch(array $records)/*: void*/
     {
         if ($this->processors) {
             $processed = [];
@@ -104,7 +104,7 @@ class GroupHandler extends Handler implements ProcessableHandlerInterface, Reset
         }
     }
 
-    public function close(): void
+    public function close()/*: void*/
     {
         parent::close();
 

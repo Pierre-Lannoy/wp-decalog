@@ -22,7 +22,7 @@ use Throwable;
  */
 class NormalizerFormatter implements FormatterInterface
 {
-    public const SIMPLE_DATE = "Y-m-d\TH:i:sP";
+    /*public*/ const SIMPLE_DATE = "Y-m-d\TH:i:sP";
 
     protected $dateFormat;
     protected $maxNormalizeDepth = 9;

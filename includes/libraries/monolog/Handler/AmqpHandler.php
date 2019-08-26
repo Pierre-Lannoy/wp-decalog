@@ -53,7 +53,7 @@ class AmqpHandler extends AbstractProcessingHandler
     /**
      * {@inheritDoc}
      */
-    protected function write(array $record): void
+    protected function write(array $record)/*: void*/
     {
         $data = $record["formatted"];
         $routingKey = $this->getRoutingKey($record);
@@ -80,7 +80,7 @@ class AmqpHandler extends AbstractProcessingHandler
     /**
      * {@inheritDoc}
      */
-    public function handleBatch(array $records): void
+    public function handleBatch(array $records)/*: void*/
     {
         if ($this->exchange instanceof AMQPExchange) {
             parent::handleBatch($records);

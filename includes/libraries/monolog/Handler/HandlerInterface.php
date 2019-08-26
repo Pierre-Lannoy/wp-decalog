@@ -54,7 +54,7 @@ interface HandlerInterface
      *
      * @param array $records The records to handle (an array of record arrays)
      */
-    public function handleBatch(array $records): void;
+    public function handleBatch(array $records)/*: void*/;
 
     /**
      * Closes the handler.
@@ -72,5 +72,5 @@ interface HandlerInterface
      * If you are thinking of calling this method yourself, most likely you should be
      * calling ResettableInterface::reset instead. Have a look.
      */
-    public function close(): void;
+    public function close()/*: void*/;
 }

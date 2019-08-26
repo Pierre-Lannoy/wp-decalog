@@ -40,7 +40,7 @@ class CouchDBHandler extends AbstractProcessingHandler
     /**
      * {@inheritDoc}
      */
-    protected function write(array $record): void
+    protected function write(array $record)/*: void*/
     {
         $basicAuth = null;
         if ($this->options['username']) {

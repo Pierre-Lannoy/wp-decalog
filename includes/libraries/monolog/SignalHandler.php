@@ -60,7 +60,7 @@ class SignalHandler
         return $this;
     }
 
-    public function handleSignal($signo, array $siginfo = null): void
+    public function handleSignal($signo, array $siginfo = null)/*: void*/
     {
         static $signals = [];
 

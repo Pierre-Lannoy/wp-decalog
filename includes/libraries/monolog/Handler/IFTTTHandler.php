@@ -46,7 +46,7 @@ class IFTTTHandler extends AbstractProcessingHandler
     /**
      * {@inheritdoc}
      */
-    public function write(array $record): void
+    public function write(array $record)/*: void*/
     {
         $postData = [
             "value1" => $record["channel"],

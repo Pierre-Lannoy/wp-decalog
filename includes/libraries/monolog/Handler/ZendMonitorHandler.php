@@ -54,7 +54,7 @@ class ZendMonitorHandler extends AbstractProcessingHandler
     /**
      * {@inheritdoc}
      */
-    protected function write(array $record): void
+    protected function write(array $record)/*: void*/
     {
         $this->writeZendMonitorCustomEvent(
             $this->levelMap[$record['level']],
@@ -63,7 +63,7 @@ class ZendMonitorHandler extends AbstractProcessingHandler
         );
     }
 
-    protected function writeZendMonitorCustomEvent(int $level, string $message, array $formatted): void
+    protected function writeZendMonitorCustomEvent(int $level, string $message, array $formatted)/*: void*/
     {
         zend_monitor_custom_event($level, $message, $formatted);
     }

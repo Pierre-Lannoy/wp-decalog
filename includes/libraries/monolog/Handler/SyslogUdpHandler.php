@@ -54,7 +54,7 @@ class SyslogUdpHandler extends AbstractSyslogHandler
         $this->socket = new UdpSocket($host, $port ?: 514);
     }
 
-    protected function write(array $record): void
+    protected function write(array $record)/*: void*/
     {
         $lines = $this->splitMessageIntoLines($record['formatted']);
 
@@ -65,7 +65,7 @@ class SyslogUdpHandler extends AbstractSyslogHandler
         }
     }
 
-    public function close(): void
+    public function close()/*: void*/
     {
         $this->socket->close();
     }

@@ -22,8 +22,8 @@ use Monolog\Logger;
  */
 class ErrorLogHandler extends AbstractProcessingHandler
 {
-    public const OPERATING_SYSTEM = 0;
-    public const SAPI = 4;
+    /*public*/ const OPERATING_SYSTEM = 0;
+    /*public*/ const SAPI = 4;
 
     protected $messageType;
     protected $expandNewlines;
@@ -70,7 +70,7 @@ class ErrorLogHandler extends AbstractProcessingHandler
     /**
      * {@inheritdoc}
      */
-    protected function write(array $record): void
+    protected function write(array $record)/*: void*/
     {
         if (!$this->expandNewlines) {
             error_log((string) $record['formatted'], $this->messageType);

@@ -22,9 +22,9 @@ use Monolog\Logger;
 class SqsHandler extends AbstractProcessingHandler
 {
     /** 256 KB in bytes - maximum message size in SQS */
-    protected const MAX_MESSAGE_SIZE = 262144;
+    /*protected*/ const MAX_MESSAGE_SIZE = 262144;
     /** 100 KB in bytes - head message size for new error log */
-    protected const HEAD_MESSAGE_SIZE = 102400;
+    /*protected*/ const HEAD_MESSAGE_SIZE = 102400;
 
     /** @var SqsClient */
     private $client;
@@ -44,7 +44,7 @@ class SqsHandler extends AbstractProcessingHandler
      *
      * @param array $record
      */
-    protected function write(array $record): void
+    protected function write(array $record)/*: void*/
     {
         if (!isset($record['formatted']) || 'string' !== gettype($record['formatted'])) {
             throw new \InvalidArgumentException('SqsHandler accepts only formatted records as a string');

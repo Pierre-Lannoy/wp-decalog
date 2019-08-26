@@ -89,7 +89,7 @@ class SlackWebhookHandler extends AbstractProcessingHandler
      *
      * @param array $record
      */
-    protected function write(array $record): void
+    protected function write(array $record)/*: void*/
     {
         $postData = $this->slackRecord->getSlackData($record);
         $postString = json_encode($postData);

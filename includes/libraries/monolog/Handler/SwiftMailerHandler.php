@@ -44,7 +44,7 @@ class SwiftMailerHandler extends MailHandler
     /**
      * {@inheritdoc}
      */
-    protected function send(string $content, array $records): void
+    protected function send(string $content, array $records)/*: void*/
     {
         $this->mailer->send($this->buildMessage($content, $records));
     }

@@ -47,7 +47,7 @@ abstract class AbstractProcessingHandler extends AbstractHandler implements Proc
     /**
      * Writes the record down to the log of the implementing handler
      */
-    abstract protected function write(array $record): void;
+    abstract protected function write(array $record)/*: void*/;
 
     public function reset()
     {

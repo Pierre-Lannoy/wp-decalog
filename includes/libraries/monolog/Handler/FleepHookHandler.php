@@ -25,9 +25,9 @@ use Monolog\Logger;
  */
 class FleepHookHandler extends SocketHandler
 {
-    protected const FLEEP_HOST = 'fleep.io';
+    /*protected*/ const FLEEP_HOST = 'fleep.io';
 
-    protected const FLEEP_HOOK_URI = '/hook/';
+    /*protected*/ const FLEEP_HOOK_URI = '/hook/';
 
     /**
      * @var string Webhook token (specifies the conversation where logs are sent)
@@ -72,7 +72,7 @@ class FleepHookHandler extends SocketHandler
     /**
      * Handles a log record
      */
-    public function write(array $record): void
+    public function write(array $record)/*: void*/
     {
         parent::write($record);
         $this->closeSocket();

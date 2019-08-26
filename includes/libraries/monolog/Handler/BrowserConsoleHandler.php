@@ -41,7 +41,7 @@ class BrowserConsoleHandler extends AbstractProcessingHandler
     /**
      * {@inheritDoc}
      */
-    protected function write(array $record): void
+    protected function write(array $record)/*: void*/
     {
         // Accumulate records
         static::$records[] = $record;
@@ -57,7 +57,7 @@ class BrowserConsoleHandler extends AbstractProcessingHandler
      * Convert records to javascript console commands and send it to the browser.
      * This method is automatically called on PHP shutdown if output is HTML or Javascript.
      */
-    public static function send(): void
+    public static function send()/*: void*/
     {
         $format = static::getResponseFormat();
         if ($format === 'unknown') {
@@ -74,7 +74,7 @@ class BrowserConsoleHandler extends AbstractProcessingHandler
         }
     }
 
-    public function close(): void
+    public function close()/*: void*/
     {
         self::resetStatic();
     }
@@ -89,7 +89,7 @@ class BrowserConsoleHandler extends AbstractProcessingHandler
     /**
      * Forget all logged records
      */
-    public static function resetStatic(): void
+    public static function resetStatic()/*: void*/
     {
         static::$records = [];
     }
@@ -97,7 +97,7 @@ class BrowserConsoleHandler extends AbstractProcessingHandler
     /**
      * Wrapper for register_shutdown_function to allow overriding
      */
-    protected function registerShutdownFunction(): void
+    protected function registerShutdownFunction()/*: void*/
     {
         if (PHP_SAPI !== 'cli') {
             register_shutdown_function(['Monolog\Handler\BrowserConsoleHandler', 'send']);
@@ -107,7 +107,7 @@ class BrowserConsoleHandler extends AbstractProcessingHandler
     /**
      * Wrapper for echo to allow overriding
      */
-    protected static function writeOutput(string $str): void
+    protected static function writeOutput(string $str)/*: void*/
     {
         echo $str;
     }

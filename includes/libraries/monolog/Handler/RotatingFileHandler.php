@@ -25,9 +25,9 @@ use Monolog\Logger;
  */
 class RotatingFileHandler extends StreamHandler
 {
-    public const FILE_PER_DAY = 'Y-m-d';
-    public const FILE_PER_MONTH = 'Y-m';
-    public const FILE_PER_YEAR = 'Y';
+    /*public*/ const FILE_PER_DAY = 'Y-m-d';
+    /*public*/ const FILE_PER_MONTH = 'Y-m';
+    /*public*/ const FILE_PER_YEAR = 'Y';
 
     protected $filename;
     protected $maxFiles;
@@ -58,7 +58,7 @@ class RotatingFileHandler extends StreamHandler
     /**
      * {@inheritdoc}
      */
-    public function close(): void
+    public function close()/*: void*/
     {
         parent::close();
 
@@ -105,7 +105,7 @@ class RotatingFileHandler extends StreamHandler
     /**
      * {@inheritdoc}
      */
-    protected function write(array $record): void
+    protected function write(array $record)/*: void*/
     {
         // on the first record written, if the log is new, we should rotate (once per day)
         if (null === $this->mustRotate) {
@@ -123,7 +123,7 @@ class RotatingFileHandler extends StreamHandler
     /**
      * Rotates the files.
      */
-    protected function rotate(): void
+    protected function rotate()/*: void*/
     {
         // update filename
         $this->url = $this->getTimedFilename();

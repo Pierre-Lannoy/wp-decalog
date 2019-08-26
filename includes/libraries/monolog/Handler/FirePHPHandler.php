@@ -26,22 +26,22 @@ class FirePHPHandler extends AbstractProcessingHandler
     /**
      * WildFire JSON header message format
      */
-    protected const PROTOCOL_URI = 'http://meta.wildfirehq.org/Protocol/JsonStream/0.2';
+    /*protected*/ const PROTOCOL_URI = 'http://meta.wildfirehq.org/Protocol/JsonStream/0.2';
 
     /**
      * FirePHP structure for parsing messages & their presentation
      */
-    protected const STRUCTURE_URI = 'http://meta.firephp.org/Wildfire/Structure/FirePHP/FirebugConsole/0.1';
+    /*protected*/ const STRUCTURE_URI = 'http://meta.firephp.org/Wildfire/Structure/FirePHP/FirebugConsole/0.1';
 
     /**
      * Must reference a "known" plugin, otherwise headers won't display in FirePHP
      */
-    protected const PLUGIN_URI = 'http://meta.firephp.org/Wildfire/Plugin/FirePHP/Library-FirePHPCore/0.3';
+    /*protected*/ const PLUGIN_URI = 'http://meta.firephp.org/Wildfire/Plugin/FirePHP/Library-FirePHPCore/0.3';
 
     /**
      * Header prefix for Wildfire to recognize & parse headers
      */
-    protected const HEADER_PREFIX = 'X-Wf';
+    /*protected*/ const HEADER_PREFIX = 'X-Wf';
 
     /**
      * Whether or not Wildfire vendor-specific headers have been generated & sent yet
@@ -112,7 +112,7 @@ class FirePHPHandler extends AbstractProcessingHandler
     /**
      * Send header string to the client
      */
-    protected function sendHeader(string $header, string $content): void
+    protected function sendHeader(string $header, string $content)/*: void*/
     {
         if (!headers_sent() && self::$sendHeaders) {
             header(sprintf('%s: %s', $header, $content));
@@ -126,7 +126,7 @@ class FirePHPHandler extends AbstractProcessingHandler
      * @see sendInitHeaders()
      * @param array $record
      */
-    protected function write(array $record): void
+    protected function write(array $record)/*: void*/
     {
         if (!self::$sendHeaders || !$this->isWebRequest()) {
             return;

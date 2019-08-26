@@ -74,7 +74,7 @@ class NewRelicHandler extends AbstractProcessingHandler
     /**
      * {@inheritDoc}
      */
-    protected function write(array $record): void
+    protected function write(array $record)/*: void*/
     {
         if (!$this->isNewRelicEnabled()) {
             throw new MissingExtensionException('The newrelic PHP extension is required to use the NewRelicHandler');
@@ -160,7 +160,7 @@ class NewRelicHandler extends AbstractProcessingHandler
     /**
      * Sets the NewRelic application that should receive this log.
      */
-    protected function setNewRelicAppName(string $appName): void
+    protected function setNewRelicAppName(string $appName)/*: void*/
     {
         newrelic_set_appname($appName);
     }
@@ -168,7 +168,7 @@ class NewRelicHandler extends AbstractProcessingHandler
     /**
      * Overwrites the name of the current transaction
      */
-    protected function setNewRelicTransactionName(string $transactionName): void
+    protected function setNewRelicTransactionName(string $transactionName)/*: void*/
     {
         newrelic_name_transaction($transactionName);
     }
@@ -177,7 +177,7 @@ class NewRelicHandler extends AbstractProcessingHandler
      * @param string $key
      * @param mixed  $value
      */
-    protected function setNewRelicParameter(string $key, $value): void
+    protected function setNewRelicParameter(string $key, $value)/*: void*/
     {
         if (null === $value || is_scalar($value)) {
             newrelic_add_custom_parameter($key, $value);

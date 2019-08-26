@@ -57,7 +57,7 @@ class SocketHandler extends AbstractProcessingHandler
      * @throws \UnexpectedValueException
      * @throws \RuntimeException
      */
-    protected function write(array $record): void
+    protected function write(array $record)/*: void*/
     {
         $this->connectIfNotConnected();
         $data = $this->generateDataStream($record);
@@ -67,7 +67,7 @@ class SocketHandler extends AbstractProcessingHandler
     /**
      * We will not close a PersistentSocket instance so it can be reused in other requests.
      */
-    public function close(): void
+    public function close()/*: void*/
     {
         if (!$this->isPersistent()) {
             $this->closeSocket();
@@ -77,7 +77,7 @@ class SocketHandler extends AbstractProcessingHandler
     /**
      * Close socket, if open
      */
-    public function closeSocket(): void
+    public function closeSocket()/*: void*/
     {
         if (is_resource($this->resource)) {
             fclose($this->resource);
@@ -289,14 +289,14 @@ class SocketHandler extends AbstractProcessingHandler
         return $this->resource;
     }
 
-    private function connect(): void
+    private function connect()/*: void*/
     {
         $this->createSocketResource();
         $this->setSocketTimeout();
         $this->setStreamChunkSize();
     }
 
-    private function createSocketResource(): void
+    private function createSocketResource()/*: void*/
     {
         if ($this->isPersistent()) {
             $resource = $this->pfsockopen();
@@ -309,21 +309,21 @@ class SocketHandler extends AbstractProcessingHandler
         $this->resource = $resource;
     }
 
-    private function setSocketTimeout(): void
+    private function setSocketTimeout()/*: void*/
     {
         if (!$this->streamSetTimeout()) {
             throw new \UnexpectedValueException("Failed setting timeout with stream_set_timeout()");
         }
     }
 
-    private function setStreamChunkSize(): void
+    private function setStreamChunkSize()/*: void*/
     {
         if ($this->chunkSize && !$this->streamSetChunkSize()) {
             throw new \UnexpectedValueException("Failed setting chunk size with stream_set_chunk_size()");
         }
     }
 
-    private function writeToSocket(string $data): void
+    private function writeToSocket(string $data)/*: void*/
     {
         $length = strlen($data);
         $sent = 0;

@@ -25,9 +25,9 @@ use function array_key_exists;
  */
 class LogglyHandler extends AbstractProcessingHandler
 {
-    protected const HOST = 'logs-01.loggly.com';
-    protected const ENDPOINT_SINGLE = 'inputs';
-    protected const ENDPOINT_BATCH = 'bulk';
+    /*protected*/ const HOST = 'logs-01.loggly.com';
+    /*protected*/ const ENDPOINT_SINGLE = 'inputs';
+    /*protected*/ const ENDPOINT_BATCH = 'bulk';
 
     /**
      * Caches the curl handlers for every given endpoint.
@@ -118,12 +118,12 @@ class LogglyHandler extends AbstractProcessingHandler
         return $this;
     }
 
-    protected function write(array $record): void
+    protected function write(array $record)/*: void*/
     {
         $this->send($record["formatted"], static::ENDPOINT_SINGLE);
     }
 
-    public function handleBatch(array $records): void
+    public function handleBatch(array $records)/*: void*/
     {
         $level = $this->level;
 
@@ -136,7 +136,7 @@ class LogglyHandler extends AbstractProcessingHandler
         }
     }
 
-    protected function send(string $data, string $endpoint): void
+    protected function send(string $data, string $endpoint)/*: void*/
     {
         $ch = $this->getCurlHandler($endpoint);
 

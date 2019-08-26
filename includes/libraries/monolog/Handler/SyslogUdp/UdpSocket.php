@@ -13,7 +13,7 @@ namespace Monolog\Handler\SyslogUdp;
 
 class UdpSocket
 {
-    protected const DATAGRAM_MAX_LENGTH = 65023;
+    /*protected*/ const DATAGRAM_MAX_LENGTH = 65023;
 
     /** @var string */
     protected $ip;
@@ -34,7 +34,7 @@ class UdpSocket
         $this->send($this->assembleMessage($line, $header));
     }
 
-    public function close(): void
+    public function close()/*: void*/
     {
         if (is_resource($this->socket)) {
             socket_close($this->socket);
@@ -42,7 +42,7 @@ class UdpSocket
         }
     }
 
-    protected function send(string $chunk): void
+    protected function send(string $chunk)/*: void*/
     {
         if (!is_resource($this->socket)) {
             throw new \RuntimeException('The UdpSocket to '.$this->ip.':'.$this->port.' has been closed and can not be written to anymore');

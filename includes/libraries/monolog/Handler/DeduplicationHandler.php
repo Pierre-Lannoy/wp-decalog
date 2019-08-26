@@ -71,7 +71,7 @@ class DeduplicationHandler extends BufferHandler
         $this->time = $time;
     }
 
-    public function flush(): void
+    public function flush()/*: void*/
     {
         if ($this->bufferSize === 0) {
             return;
@@ -130,7 +130,7 @@ class DeduplicationHandler extends BufferHandler
         return false;
     }
 
-    private function collectLogs(): void
+    private function collectLogs()/*: void*/
     {
         if (!file_exists($this->deduplicationStore)) {
             return;
@@ -166,7 +166,7 @@ class DeduplicationHandler extends BufferHandler
         $this->gc = false;
     }
 
-    private function appendRecord(array $record): void
+    private function appendRecord(array $record)/*: void*/
     {
         file_put_contents($this->deduplicationStore, $record['datetime']->getTimestamp() . ':' . $record['level_name'] . ':' . preg_replace('{[\r\n].*}', '', $record['message']) . "\n", FILE_APPEND);
     }

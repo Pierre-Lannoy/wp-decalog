@@ -24,7 +24,7 @@ abstract class MailHandler extends AbstractProcessingHandler
     /**
      * {@inheritdoc}
      */
-    public function handleBatch(array $records): void
+    public function handleBatch(array $records)/*: void*/
     {
         $messages = [];
 
@@ -46,12 +46,12 @@ abstract class MailHandler extends AbstractProcessingHandler
      * @param string $content formatted email body to be sent
      * @param array  $records the array of log records that formed this content
      */
-    abstract protected function send(string $content, array $records): void;
+    abstract protected function send(string $content, array $records)/*: void*/;
 
     /**
      * {@inheritdoc}
      */
-    protected function write(array $record): void
+    protected function write(array $record)/*: void*/
     {
         $this->send((string) $record['formatted'], [$record]);
     }

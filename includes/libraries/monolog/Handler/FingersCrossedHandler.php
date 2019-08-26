@@ -90,7 +90,7 @@ class FingersCrossedHandler extends Handler implements ProcessableHandlerInterfa
     /**
      * Manually activate this logger regardless of the activation strategy
      */
-    public function activate(): void
+    public function activate()/*: void*/
     {
         if ($this->stopBuffering) {
             $this->buffering = false;
@@ -134,7 +134,7 @@ class FingersCrossedHandler extends Handler implements ProcessableHandlerInterfa
     /**
      * {@inheritdoc}
      */
-    public function close(): void
+    public function close()/*: void*/
     {
         $this->flushBuffer();
 
@@ -157,7 +157,7 @@ class FingersCrossedHandler extends Handler implements ProcessableHandlerInterfa
      *
      * It also resets the handler to its initial buffering state.
      */
-    public function clear(): void
+    public function clear()/*: void*/
     {
         $this->buffer = [];
         $this->reset();
@@ -166,7 +166,7 @@ class FingersCrossedHandler extends Handler implements ProcessableHandlerInterfa
     /**
      * Resets the state of the handler. Stops forwarding records to the wrapped handler.
      */
-    private function flushBuffer(): void
+    private function flushBuffer()/*: void*/
     {
         if (null !== $this->passthruLevel) {
             $level = $this->passthruLevel;

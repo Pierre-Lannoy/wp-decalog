@@ -84,7 +84,7 @@ class Registry
      *
      * @param string|Logger $logger Name or logger instance
      */
-    public static function removeLogger($logger): void
+    public static function removeLogger($logger)/*: void*/
     {
         if ($logger instanceof Logger) {
             if (false !== ($idx = array_search($logger, self::$loggers, true))) {
@@ -98,7 +98,7 @@ class Registry
     /**
      * Clears the registry
      */
-    public static function clear(): void
+    public static function clear()/*: void*/
     {
         self::$loggers = [];
     }

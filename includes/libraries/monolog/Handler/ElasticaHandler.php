@@ -68,7 +68,7 @@ class ElasticaHandler extends AbstractProcessingHandler
     /**
      * {@inheritDoc}
      */
-    protected function write(array $record): void
+    protected function write(array $record)/*: void*/
     {
         $this->bulkSend([$record['formatted']]);
     }
@@ -101,7 +101,7 @@ class ElasticaHandler extends AbstractProcessingHandler
     /**
      * {@inheritdoc}
      */
-    public function handleBatch(array $records): void
+    public function handleBatch(array $records)/*: void*/
     {
         $documents = $this->getFormatter()->formatBatch($records);
         $this->bulkSend($documents);
@@ -111,7 +111,7 @@ class ElasticaHandler extends AbstractProcessingHandler
      * Use Elasticsearch bulk API to send list of documents
      * @throws \RuntimeException
      */
-    protected function bulkSend(array $documents): void
+    protected function bulkSend(array $documents)/*: void*/
     {
         try {
             $this->client->addDocuments($documents);
