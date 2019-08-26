@@ -10,11 +10,11 @@
  * Plugin Name:       DecaLog
  * Plugin URI:        https://github.com/Pierre-Lannoy/wp-decalog
  * Description:       Capture and log events on your site. View them in your dashboard and send them to logging services.
- * Version:           1.0.0
+ * Version:           1.0.1
  * Author:            Pierre Lannoy
  * Author URI:        https://pierre.lannoy.fr
- * License:           GPLv2 or later
- * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
+ * License:           GPLv3
+ * License URI:       https://www.gnu.org/licenses/gpl-3.0.html
  * Text Domain:       decalog
  * Network:           true
  * Domain Path:       /languages
