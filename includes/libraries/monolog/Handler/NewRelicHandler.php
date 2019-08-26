@@ -60,9 +60,9 @@ class NewRelicHandler extends AbstractProcessingHandler
     public function __construct(
         $level = Logger::ERROR,
         bool $bubble = true,
-        ?string $appName = null,
+        /*?*/string $appName = null,
         bool $explodeArrays = false,
-        ?string $transactionName = null
+        /*?*/string $transactionName = null
     ) {
         parent::__construct($level, $bubble);
 
@@ -135,7 +135,7 @@ class NewRelicHandler extends AbstractProcessingHandler
      * Returns the appname where this log should be sent. Each log can override the default appname, set in this
      * handler's constructor, by providing the appname in it's context.
      */
-    protected function getAppName(array $context): ?string
+    protected function getAppName(array $context): /*?*/string
     {
         if (isset($context['appname'])) {
             return $context['appname'];
@@ -148,7 +148,7 @@ class NewRelicHandler extends AbstractProcessingHandler
      * Returns the name of the current transaction. Each log can override the default transaction name, set in this
      * handler's constructor, by providing the transaction_name in it's context
      */
-    protected function getTransactionName(array $context): ?string
+    protected function getTransactionName(array $context): /*?*/string
     {
         if (isset($context['transaction_name'])) {
             return $context['transaction_name'];

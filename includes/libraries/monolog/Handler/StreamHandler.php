@@ -139,7 +139,7 @@ class StreamHandler extends AbstractProcessingHandler
         $this->errorMessage = preg_replace('{^(fopen|mkdir)\(.*?\): }', '', $msg);
     }
 
-    private function getDirFromStream(string $stream): ?string
+    private function getDirFromStream(string $stream): /*?*/string
     {
         $pos = strpos($stream, '://');
         if ($pos === false) {

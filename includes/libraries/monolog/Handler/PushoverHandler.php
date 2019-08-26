@@ -84,7 +84,7 @@ class PushoverHandler extends SocketHandler
     public function __construct(
         string $token,
         $users,
-        ?string $title = null,
+        /*?*/string $title = null,
         $level = Logger::CRITICAL,
         bool $bubble = true,
         bool $useSSL = true,
