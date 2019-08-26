@@ -41,7 +41,7 @@ class StreamHandler extends AbstractProcessingHandler
      * @throws \Exception                If a missing directory is not buildable
      * @throws \InvalidArgumentException If stream is not a resource or string
      */
-    public function __construct($stream, $level = Logger::DEBUG, bool $bubble = true, ?int $filePermission = null, bool $useLocking = false)
+    public function __construct($stream, $level = Logger::DEBUG, bool $bubble = true, /*?*/int $filePermission = null, bool $useLocking = false)
     {
         parent::__construct($level, $bubble);
         if (is_resource($stream)) {

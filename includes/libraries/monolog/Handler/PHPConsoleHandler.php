@@ -72,7 +72,7 @@ class PHPConsoleHandler extends AbstractProcessingHandler
      * @param  bool              $bubble    Whether the messages that are handled can bubble up the stack or not.
      * @throws \RuntimeException
      */
-    public function __construct(array $options = [], ?Connector $connector = null, $level = Logger::DEBUG, bool $bubble = true)
+    public function __construct(array $options = [], /*?*/Connector $connector = null, $level = Logger::DEBUG, bool $bubble = true)
     {
         if (!class_exists('PhpConsole\Connector')) {
             throw new \RuntimeException('PHP Console library not found. See https://github.com/barbushin/php-console#installation');

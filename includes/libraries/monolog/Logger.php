@@ -145,7 +145,7 @@ class Logger implements LoggerInterface, ResettableInterface
      * @param callable[]         $processors Optional array of processors
      * @param DateTimeZone|null  $timezone   Optional timezone, if not provided date_default_timezone_get() will be used
      */
-    public function __construct(string $name, array $handlers = [], array $processors = [], ?DateTimeZone $timezone = null)
+    public function __construct(string $name, array $handlers = [], array $processors = [], /*?*/DateTimeZone $timezone = null)
     {
         $this->name = $name;
         $this->setHandlers($handlers);

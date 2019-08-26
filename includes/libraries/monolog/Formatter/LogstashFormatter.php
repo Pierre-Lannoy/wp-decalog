@@ -47,7 +47,7 @@ class LogstashFormatter extends NormalizerFormatter
      * @param string      $extraKey        The key for extra keys inside logstash "fields", defaults to extra
      * @param string      $contextKey      The key for context keys inside logstash "fields", defaults to context
      */
-    public function __construct(string $applicationName, ?string $systemName = null, string $extraKey = 'extra', string $contextKey = 'context')
+    public function __construct(string $applicationName, /*?*/string $systemName = null, string $extraKey = 'extra', string $contextKey = 'context')
     {
         // logstash requires a ISO 8601 format date with optional millisecond precision.
         parent::__construct('Y-m-d\TH:i:s.uP');

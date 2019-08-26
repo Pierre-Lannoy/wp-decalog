@@ -52,7 +52,7 @@ class Registry
      * @param  bool                      $overwrite Overwrite instance in the registry if the given name already exists?
      * @throws \InvalidArgumentException If $overwrite set to false and named Logger instance already exists
      */
-    public static function addLogger(Logger $logger, ?string $name = null, bool $overwrite = false)
+    public static function addLogger(Logger $logger, /*?*/string $name = null, bool $overwrite = false)
     {
         $name = $name ?: $logger->getName();
 

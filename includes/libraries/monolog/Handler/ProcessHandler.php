@@ -65,7 +65,7 @@ class ProcessHandler extends AbstractProcessingHandler
      * @param  string|null               $cwd     "Current working directory" (CWD) for the process to be executed in.
      * @throws \InvalidArgumentException
      */
-    public function __construct(string $command, $level = Logger::DEBUG, bool $bubble = true, ?string $cwd = null)
+    public function __construct(string $command, $level = Logger::DEBUG, bool $bubble = true, /*?*/string $cwd = null)
     {
         if ($command === '') {
             throw new \InvalidArgumentException('The command argument must be a non-empty string.');
