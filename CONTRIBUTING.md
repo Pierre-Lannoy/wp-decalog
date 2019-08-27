@@ -22,16 +22,14 @@ To start to translate the DecaLog interface in your language, jump to the [offic
 
 To find ressources on translations, handbooks, guidelines, etc. your starting point is [The Polyglots Blog](https://make.wordpress.org/polyglots/). This blog is the central point of the translators community, either for the core of wordpress, the plugins or the themes.
 There are many interesting things on this blog that I let you discover, but the main documents – the ones I encourage you to read before you start – are:
-- [The General Expectations](https://make.wordpress.org/polyglots/handbook/translating/expectations/), the do’s and don’ts
-- [The Glossaries and Style Guides](https://make.wordpress.org/polyglots/handbook/tools/glotpress-translate-wordpress-org/list-of-glossaries-per-locale/), per locale
+- [The General Expectations](https://make.wordpress.org/polyglots/handbook/translating/expectations/), the do’s and don’ts.
+- [The Glossaries and Style Guides](https://make.wordpress.org/polyglots/handbook/tools/glotpress-translate-wordpress-org/list-of-glossaries-per-locale/), per locale.
 
 You can get help from the community of translators of your own language, usually on the ___#polyglots___ channel of [Slack](https://make.wordpress.org/chat/), or directly from me (___@pierrelannoy___ on Slack).
 
 ## Writing a _listener_ for your own plugins or themes
 If you’re a plugins and/or themes developer and want to take advantage of the logging features of DecaLog, you can do it mainly in writing a _listener_. Before starting, please read the full [developer's guide](/DEVELOPER.md) and don't hesitate to ask if something remains incomprehensible or seems inapplicable.
 
-Before starting to write one, 
-
-If your _listener_ is for a plugin or theme present on the WordPress.org repository, you can submit via a pull request to DecaLog so it will be available for all its users.
+If your _listener_ is for a plugin or theme present on the WordPress.org repository, you can submit it via a pull request to DecaLog master branch so it will be available for all its users the next release.
 
 
