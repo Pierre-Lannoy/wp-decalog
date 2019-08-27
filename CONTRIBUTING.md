@@ -18,7 +18,7 @@ If you know how to fix the bug or implement your new feature, please open an iss
 
 As you already know, all events message handled by DecaLog are in English. But its interface itself is translatable.
 
-To start to translate DecaLog interface in your language, jump to the [official GlotPress section for DecaLog](https://translate.wordpress.org/projects/wp-plugins/decalog/) and pick the line for your language…
+To start to translate the DecaLog interface in your language, jump to the [official GlotPress section for DecaLog](https://translate.wordpress.org/projects/wp-plugins/decalog/) and pick the line for your language…
 
 To find ressources on translations, handbooks, guidelines, etc. your starting point is [The Polyglots Blog](https://make.wordpress.org/polyglots/). This blog is the central point of the translators community, either for the core of wordpress, the plugins or the themes.
 There are many interesting things on this blog that I let you discover, but the main documents – the ones I encourage you to read before you start – are:
@@ -28,6 +28,10 @@ There are many interesting things on this blog that I let you discover, but the 
 You can get help from the community of translators of your own language, usually on the ___#polyglots___ channel of [Slack](https://make.wordpress.org/chat/), or directly from me (___@pierrelannoy___ on Slack).
 
 ## Writing a listener for your own plugins or themes
+If you’re a plugins and/or themes developer and want to take advantage of the logging features of DecaLog, you can do it mainly in writing a _listener_. 
 
+Before starting to write one, 
+
+If your _listener_ is for a plugin or theme present on the WordPress.org repository, you can submit via a pull request to DecaLog so it will be available for all its users.
 
 
