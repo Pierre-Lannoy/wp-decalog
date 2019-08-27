@@ -1,5 +1,5 @@
 # DecaLog
-[![Status](https://img.shields.io/badge/status-active-success.svg)](https://github.com/Pierre-Lannoy/wp-decalog) [![GitHub Release Date](https://img.shields.io/github/release-date/Pierre-Lannoy/wp-decalog)](https://wordpress.org/plugins/decalog/) [![WordPress Plugin Version](https://img.shields.io/wordpress/plugin/v/decalog)](https://wordpress.org/plugins/decalog/) [![GitHub](https://img.shields.io/github/license/Pierre-Lannoy/wp-decalog)](/license.txt)
+[![Status](https://img.shields.io/badge/status-active-success.svg)](https://github.com/Pierre-Lannoy/wp-decalog) [![GitHub Release Date](https://img.shields.io/github/release-date/Pierre-Lannoy/wp-decalog)](https://wordpress.org/plugins/decalog/) [![WordPress Plugin Version](https://img.shields.io/wordpress/plugin/v/decalog)](https://wordpress.org/plugins/decalog/) [![WordPress Plugin: Required WP Version](https://img.shields.io/wordpress/plugin/wp-version/decalog)](https://wordpress.org/plugins/decalog/) [![GitHub](https://img.shields.io/github/license/Pierre-Lannoy/wp-decalog)](/license.txt)
 
 __DecaLog__ is a free WordPress plugin to capture and log events on your site. It allows to view these events in your WordPress dashboard and send them to logging or alerting services.
 
