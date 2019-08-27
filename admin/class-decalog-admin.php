@@ -106,6 +106,10 @@ class Decalog_Admin {
 	 * @since 1.0.0
 	 */
 	public function init_admin_menus() {
+		if ( 'decalog-settings' === filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING ) ) {
+			remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
+			remove_action( 'admin_print_styles', 'print_emoji_styles' );
+		}
 		$this->current_view = null;
 		if ( Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type() ) {
 			add_submenu_page( 'options-general.php', sprintf( esc_html__( '%s Settings', 'decalog' ), DECALOG_PRODUCT_NAME ), DECALOG_PRODUCT_NAME, 'manage_options', 'decalog-settings', [ $this, 'get_settings_page' ] );

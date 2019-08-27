@@ -192,7 +192,7 @@ class Loggers extends \WP_List_Table {
 	 * @since    1.0.0
 	 */
 	protected function column_status( $item ) {
-		$status = ( $item['running'] ? '▶&nbsp;' . esc_html__( 'Running', 'decalog' ) : '&#9208;&nbsp;' . esc_html__( 'Paused', 'decalog' ) );
+		$status = ( $item['running'] ? '▶&nbsp;' . esc_html__( 'Running', 'decalog' ) : '❙❙&nbsp;' . esc_html__( 'Paused', 'decalog' ) );
 		return $status;
 	}
 
