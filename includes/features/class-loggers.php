@@ -219,11 +219,7 @@ class Loggers extends \WP_List_Table {
 	 * @since    1.0.0
 	 */
 	protected function column_level( $item ) {
-		$name = Log::level_name( $item['level'] );
-		$list = [ esc_html__( 'Standard', 'decalog' ) ];
-		foreach ( $item['processors'] as $processor ) {
-			$list[] = $this->processor_types->get( $processor )['name'];
-		}
+		$name = ucfirst( strtolower( Log::level_name( $item['level'] ) ) );
 		return $name;
 	}
 

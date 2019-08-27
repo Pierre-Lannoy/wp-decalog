@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - A test message can now be sent to specific logger, from the loggers list.
 ### Changed
 - Status (in loggers list) have now their own column.
+- Polishing loggers list.
 - The `README.md` displays badges.
 ### Removed
 - DecaLog admin pages no longer render emoji.
