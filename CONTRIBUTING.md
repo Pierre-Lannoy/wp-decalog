@@ -30,6 +30,6 @@ You can get help from the community of translators of your own language, usually
 ## Writing a _listener_ for your own plugins or themes
 If you’re a plugins and/or themes developer and want to take advantage of the logging features of DecaLog, you can do it mainly in writing a _listener_. Before starting, please read the full [developer's guide](/DEVELOPER.md) and don't hesitate to ask if something remains incomprehensible or seems inapplicable.
 
-If your _listener_ is for a plugin or theme present on the WordPress.org repository, you can submit it via a pull request to DecaLog `master` branch so it will be available for all its users at the next release time.
+If your _listener_ is for a plugin or theme present on the WordPress.org repository, you can submit it via a [pull request](https://github.com/Pierre-Lannoy/wp-decalog/pulls) to DecaLog `master` branch so it will be available for all its users at the next release time.
 
 
