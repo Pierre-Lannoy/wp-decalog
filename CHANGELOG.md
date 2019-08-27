@@ -3,9 +3,9 @@ All notable changes to **DecaLog** is documented in this *changelog*.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.1.0] - 2019-08-28
 ### Added
-- A test message can now be sent to specific logger, from the loggers list.
+- A test message can now be sent to a specific logger, from the loggers list.
 ### Changed
 - Status (in loggers list) have now their own column.
 - Polishing loggers list.
@@ -14,7 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - DecaLog admin pages no longer render emoji.
 - The section "install from GitHub" has been removed from `README.md`.
 ### Fixed
-- There was a wrong url for the EFF website in the `readme.txt`.
+- Url of the EFF website was wrong in `readme.txt`.
 
 ## [1.0.1] - 2019-08-26
 ### Changed
