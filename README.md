@@ -35,13 +35,6 @@ Based on the amazing [Monolog](https://github.com/Seldaek/monolog) logger, DecaL
 
 You can now activate **DecaLog** from your _Plugins_ page.
 
-### Git method
-1. Just clone the repository in your `/wp-content/plugins/` directory:
-```bash
-cd ./wp-content/plugins
-git clone https://github.com/Pierre-Lannoy/wp-decalog.git decalog
-```
-
 ## Support
 
 For any technical issue, or for suggesting new idea or feature, please use [GitHub issues tracker](https://github.com/Pierre-Lannoy/wp-decalog/issues). Before submitting an issue, please read the [contribution guidelines](CONTRIBUTING.md).
