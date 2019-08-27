@@ -86,9 +86,10 @@ class DLogger {
 	 * @param   string $class The class identifier, must be in self::$classes.
 	 * @param   string $name Optional. The name of the component.
 	 * @param   string $version Optional. The version of the component.
+	 * @param   string $test Optional. The handler to create if specified..
 	 * @since   1.0.0
 	 */
-	public function __construct( $class, $name = null, $version = null ) {
+	public function __construct( $class, $name = null, $version = null, $test = null ) {
 		if ( in_array( $class, ClassTypes::$classes, true ) ) {
 			$this->class = $class;
 		}
@@ -98,16 +99,17 @@ class DLogger {
 		if ( $version && is_string( $version ) ) {
 			$this->version = $version;
 		}
-		$this->init();
+		$this->init( $test );
 		$this->debug( 'A new instance of DecaLog logger is initialized and operational.' );
 	}
 
 	/**
 	 * Init the logger.
 	 *
+	 * @param   string $test Optional. The handler to init if specified.
 	 * @since 1.0.0
 	 */
-	private function init() {
+	private function init( $test = null ) {
 		$factory      = new LoggerFactory();
 		$this->logger = new Logger( $this->current_channel_tag(), [], [], Timezone::get_wp() );
 		$handlers     = new HandlerTypes();
@@ -115,6 +117,9 @@ class DLogger {
 		$banned       = [];
 		$unloadable   = [];
 		foreach ( Option::get( 'loggers' ) as $key => $logger ) {
+			if ( isset( $test ) && $key !== $test ) {
+				continue;
+			}
 			$handler_def    = $handlers->get( $logger['handler'] );
 			$logger['uuid'] = $key;
 			if ( ! in_array( strtolower( $handler_def['ancestor'] ), self::$banned, true ) && ! in_array( strtolower( $handler_def['id'] ), self::$banned, true ) ) {

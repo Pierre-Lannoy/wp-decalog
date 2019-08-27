@@ -99,7 +99,7 @@ class Loggers extends \WP_List_Table {
 	 * @since    1.0.0
 	 */
 	protected function column_name( $item ) {
-		$edit   = esc_url(
+		$edit              = esc_url(
 			add_query_arg(
 				[
 					'page'   => 'decalog-settings',
@@ -110,7 +110,7 @@ class Loggers extends \WP_List_Table {
 				admin_url( 'options-general.php' )
 			)
 		);
-		$delete = esc_url(
+		$delete            = esc_url(
 			add_query_arg(
 				[
 					'page'   => 'decalog-settings',
@@ -121,7 +121,7 @@ class Loggers extends \WP_List_Table {
 				admin_url( 'options-general.php' )
 			)
 		);
-		$pause  = esc_url(
+		$pause             = esc_url(
 			add_query_arg(
 				[
 					'page'   => 'decalog-settings',
@@ -133,7 +133,19 @@ class Loggers extends \WP_List_Table {
 				admin_url( 'options-general.php' )
 			)
 		);
-		$start  = esc_url(
+		$test              = esc_url(
+			add_query_arg(
+				[
+					'page'   => 'decalog-settings',
+					'action' => 'test',
+					'tab'    => 'loggers',
+					'uuid'   => $item['uuid'],
+					'nonce'  => wp_create_nonce( 'decalog-logger-test-' . $item['uuid'] ),
+				],
+				admin_url( 'options-general.php' )
+			)
+		);
+		$start             = esc_url(
 			add_query_arg(
 				[
 					'page'   => 'decalog-settings',
@@ -145,7 +157,7 @@ class Loggers extends \WP_List_Table {
 				admin_url( 'options-general.php' )
 			)
 		);
-		$view   = esc_url(
+		$view              = esc_url(
 			add_query_arg(
 				[
 					'page'      => 'decalog-viewer',
@@ -154,7 +166,6 @@ class Loggers extends \WP_List_Table {
 				admin_url( 'tools.php' )
 			)
 		);
-
 		$handler           = $this->handler_types->get( $item['handler'] );
 		$icon              = '<img style="width:34px;float:left;padding-right:6px;" src="' . $handler['icon'] . '" />';
 		$type              = $handler['name'] . ' - <strong>' . ( $item['running'] ? esc_html__( 'running', 'decalog' ) : esc_html__( 'paused', 'decalog' ) ) . '</strong>';
@@ -167,6 +178,9 @@ class Loggers extends \WP_List_Table {
 		}
 		if ( 'WordpressHandler' === $handler['id'] ) {
 			$actions['view'] = sprintf( '<a href="%s">' . esc_html__( 'View', 'decalog' ) . '</a>', $view );
+		}
+		if ( $item['running'] ) {
+			$actions['test'] = sprintf( '<a href="%s">' . esc_html__( 'Send Test', 'decalog' ) . '</a>', $test );
 		}
 		return $icon . '&nbsp;' . sprintf( '<a href="%1$s">%2$s</a><br /><span style="color:silver">&nbsp;%3$s</span>%4$s', $edit, $item['name'], $type, $this->row_actions( $actions ) );
 	}

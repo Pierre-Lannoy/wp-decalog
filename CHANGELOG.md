@@ -4,6 +4,12 @@ All notable changes to **DecaLog** is documented in this *changelog*.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- A test message can now be sent to specific logger, from the loggers list.
+### Changed
+- The `README.md` displays badges.
+### Removed
+- The section "install from GitHub" has been removed from `README.md`.
 ### Fixed
 - There was a wrong url for the EFF website in the `readme.txt`.
 

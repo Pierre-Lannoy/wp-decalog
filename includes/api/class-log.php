@@ -39,11 +39,12 @@ class Log {
 	 * @param   string $class The class identifier, see Decalog\API\DLogger::$classes.
 	 * @param   string $name Optional. The name of the component.
 	 * @param   string $version Optional. The version of the component.
+	 * @param   string $test Optional. The handler to bootstrap if specified..
 	 * @return  DLogger The DecaLog logger instance.
 	 * @since   1.0.0
 	 */
-	public static function bootstrap( $class, $name = null, $version = null ) {
-		return new DLogger( $class, $name, $version );
+	public static function bootstrap( $class, $name = null, $version = null, $test = null ) {
+		return new DLogger( $class, $name, $version, $test );
 	}
 
 	/**

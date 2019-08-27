@@ -287,6 +287,27 @@ class Decalog_Admin {
 									}
 								}
 							}
+						case 'test':
+							if ( Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type() ) {
+								if ( $nonce && $uuid && wp_verify_nonce( $nonce, 'decalog-logger-test-' . $uuid ) ) {
+									$loggers = Option::get( 'loggers' );
+									if ( array_key_exists( $uuid, $loggers ) ) {
+										$test = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION, $uuid );
+										$test->debug( 'Debug test message.', 210871 );
+										$test->info( 'Info test message.', 210871 );
+										$test->notice( 'Notice test message.', 210871 );
+										$test->warning( 'Warning test message.', 210871 );
+										$test->error( 'Error test message.', 210871 );
+										$test->critical( 'Critical test message.', 210871 );
+										$test->alert( 'Alert test message.', 210871 );
+										$test->emergency( 'Emergency test message.', 210871 );
+										$message = sprintf( esc_html__( 'Test messages have been sent to logger %s.', 'decalog' ), '<em>' . $loggers[ $uuid ]['name'] . '</em>' );
+										$code    = 0;
+										$this->logger->info( sprintf( 'Logger "%s" has been tested.', $loggers[ $uuid ]['name'] ), $code );
+										add_settings_error( 'decalog_no_error', $code, $message, 'updated' );
+									}
+								}
+							}
 					}
 					break;
 				case 'misc':
