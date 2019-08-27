@@ -28,7 +28,7 @@ There are many interesting things on this blog that I let you discover, but the 
 You can get help from the community of translators of your own language, usually on the ___#polyglots___ channel of [Slack](https://make.wordpress.org/chat/), or directly from me (___@pierrelannoy___ on Slack).
 
 ## Writing a _listener_ for your own plugins or themes
-If you’re a plugins and/or themes developer and want to take advantage of the logging features of DecaLog, you can do it mainly in writing a _listener_. Before starting, please read the full developer's guide and doen't hesitate to ask if something remains incomprehensible or incomplete.
+If you’re a plugins and/or themes developer and want to take advantage of the logging features of DecaLog, you can do it mainly in writing a _listener_. Before starting, please read the full [developer's guide](/DEVELOPER.md) and don't hesitate to ask if something remains incomprehensible or seems inapplicable.
 
 Before starting to write one, 
 
