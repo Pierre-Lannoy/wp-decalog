@@ -9,6 +9,11 @@ If you'd like to do it, start by searching through the [issues](https://github.c
 
 If you know how to fix the bug or implement your new feature, please open an issue first to discuss it before submitting a pull request - unless it is a small fix (in which case you can do so directly).
 
+> ### _Community_
+> _Discussions about DecaLog take place on this repository's [issues](https://github.com/Pierre-Lannoy/wp-decalog/issues) and [pull requests](https://github.com/Pierre-Lannoy/wp-decalog/pulls) sections. Anybody is welcome to join these conversations._
+> 
+> _Wherever possible, do not take these conversations to private channels, including contacting the maintainers directly. Keeping communication public means everybody can benefit and learn from the conversation._
+
 ## Translating DecaLog in your language
 
 As you already know, all events message handled by DecaLog are in English. But its interface itself is translatable.
@@ -23,3 +28,6 @@ There are many interesting things on this blog that I let you discover, but the 
 You can get help from the community of translators of your own language, usually on the ___#polyglots___ channel of [Slack](https://make.wordpress.org/chat/), or directly from me (___@pierrelannoy___ on Slack).
 
 ## Writing a listener for your own plugins or themes
+
+
+
