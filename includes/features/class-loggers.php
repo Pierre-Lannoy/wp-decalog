@@ -168,7 +168,6 @@ class Loggers extends \WP_List_Table {
 		);
 		$handler           = $this->handler_types->get( $item['handler'] );
 		$icon              = '<img style="width:34px;float:left;padding-right:6px;" src="' . $handler['icon'] . '" />';
-		$type              = $handler['name'] . ' - <strong>' . ( $item['running'] ? esc_html__( 'running', 'decalog' ) : esc_html__( 'paused', 'decalog' ) ) . '</strong>';
 		$actions['edit']   = sprintf( '<a href="%s">' . esc_html__( 'Edit', 'decalog' ) . '</a>', $edit );
 		$actions['delete'] = sprintf( '<a href="%s">' . esc_html__( 'Remove', 'decalog' ) . '</a>', $delete );
 		if ( $item['running'] ) {
@@ -182,7 +181,19 @@ class Loggers extends \WP_List_Table {
 		if ( $item['running'] ) {
 			$actions['test'] = sprintf( '<a href="%s">' . esc_html__( 'Send Test', 'decalog' ) . '</a>', $test );
 		}
-		return $icon . '&nbsp;' . sprintf( '<a href="%1$s">%2$s</a><br /><span style="color:silver">&nbsp;%3$s</span>%4$s', $edit, $item['name'], $type, $this->row_actions( $actions ) );
+		return $icon . '&nbsp;' . sprintf( '<a href="%1$s">%2$s</a><br /><span style="color:silver">&nbsp;%3$s</span>%4$s', $edit, $item['name'], $handler['name'], $this->row_actions( $actions ) );
+	}
+
+	/**
+	 * "status" column formatter.
+	 *
+	 * @param   array $item   The current item.
+	 * @return  string  The cell formatted, ready to print.
+	 * @since    1.0.0
+	 */
+	protected function column_status( $item ) {
+		$status = ( $item['running'] ? '▶&nbsp;' . esc_html__( 'Running', 'decalog' ) : '&#9208;&nbsp;' . esc_html__( 'Paused', 'decalog' ) );
+		return $status;
 	}
 
 	/**
@@ -225,6 +236,7 @@ class Loggers extends \WP_List_Table {
 	public function get_columns() {
 		$columns = [
 			'name'    => esc_html__( 'Logger', 'decalog' ),
+			'status'  => esc_html__( 'Status', 'decalog' ),
 			'level'   => esc_html__( 'Minimal level', 'decalog' ),
 			'details' => esc_html__( 'Reported details', 'decalog' ),
 		];
