@@ -42,6 +42,7 @@ Depending on each loggers settings, an ___event___ may contains many other field
 
 
 ## Coding with DecaLog
+In fact, as a developer, you will have to deal only with ___level__, ___message___ and ___code___. All other fields of the event is handled by DecaLog.
 
 ### Simple usage
 
