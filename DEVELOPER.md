@@ -42,15 +42,29 @@ Depending on each loggers settings, an ___event___ may contains many other field
 
 
 ## Coding with DecaLog
-In fact, as a developer, you will have to deal only with ___level__, ___message___ and ___code___. All other fields of the event is handled by DecaLog.
+In fact, as a developer, you will have to deal only with ___level___, ___message___ and ___code___. All other fields of the event being handled internaly by DecaLog.
 
 ### Simple usage
+The simplest way to generate an event from your code is to use DecaLog as a standard PSR-3 logger. You can do it this way:
+```php
+    use Decalog\Log;
+    
+    // Initialize the main events logger
+    $event_logger = Log::bootstrap( 'plugin', 'My Plugin', '1.2.3' );
+    // Logs a debug message
+    $event_logger->debug( 'Test message.' );
+    // Logs an error with an optional error code
+    $event_logger->error( 'Test message.', 404 );
+
+```
+
 
 ### Writing a listener
 
 ## Conventions
 
 ### General rules
+versions
 
 ### Events standards
 
