@@ -21,7 +21,7 @@ DecaLog is WordPress plugin which aims to:
 - view (and filter) events recorded in the WordPress database.
 
 ## Definitions
-When using (and developing for) DecaLog, you will have to understand the following notions:
+When using (and developing for) DecaLog, you will have to deal with the following notions:
 - __Event__ - An event is some bits of information regarding something which hapened while executing WordPress. See [Anatomy of an event](#anatomy-of-an-event) to know what it's made of.
 - __Listener__ - A listener is, as its name suggests, something that listens to what's going on in a specific _perimeter_ (mainly a specific WordPress component or subsystem), make it an __event__ and pass this __event__ to the running __loggers__.
 - __Logger__ - A logger is a _recorder_ of events. It can filter them (accept or refuse to record the event based on settings) then store them (in a database, a file, etc.) or send them (via API calls, sockets, mails, etc.).
