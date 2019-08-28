@@ -31,7 +31,7 @@ When using (and developing for) DecaLog, you will have to deal with the followin
 ## Anatomy of an event
 An ___event___ is composed of:
 - A channel, which is the type of execution that triggered the event. It is automatically detected (and filled) by DecaLog and it can take the following values: `CLI` (command-line interface), `CRON` (cron job), `AJAX` (Ajax request), `XMLRPC` (XML-RPC request), `API` (Rest API request), `FEED` (Atom/RDF/RSS feed), `WBACK` (site backend), `WFRONT` (site frontend).
-- A level, which is 
+- A level, which represents the severity of the event. This level is set by the listener, regarding what triggered the event. It can take the following  
 
 ## Coding with DecaLog
 
