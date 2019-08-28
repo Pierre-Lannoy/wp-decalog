@@ -131,13 +131,12 @@ Here is an example which implements a simple ___listener___ able to listen the a
          * @since    1.0.0
          */
         protected function launch() {
-            // Attachments.
             add_action( 'myplugin_delete_content', [ $this, 'delete_content' ], 10, 1 );
             return true;
         }
     
         /**
-         * "add_attachment" event.
+         * "delete_content" event.
          *
          * @since    1.0.0
          */
