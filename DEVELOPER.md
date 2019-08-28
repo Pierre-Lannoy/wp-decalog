@@ -45,7 +45,7 @@ Depending on each loggers settings, an ___event___ may contains many other field
 In fact, as a developer, you will have to deal only with ___level___, ___message___ and ___code___. All other fields of the event being handled internaly by DecaLog.
 
 ### Simple usage
-The simplest way to generate an event from your code is to use DecaLog as a standard PSR-3 logger. You can do it this way:
+The simplest way to generate an event from your code is to use DecaLog as a standard PSR-3 logger. You can do it this way after `init` WordPress hook.
 ```php
     use Decalog\Log;
     
