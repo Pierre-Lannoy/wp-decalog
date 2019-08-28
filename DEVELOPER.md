@@ -23,12 +23,15 @@ DecaLog is WordPress plugin which aims to:
 ## Definitions
 When using (and developing for) DecaLog, you will have to deal with the following notions:
 - __Event__ - An event is some bits of information regarding something which hapened while executing WordPress. See [Anatomy of an event](#anatomy-of-an-event) to know what it's made of.
-- __Listener__ - A listener is, as its name suggests, something that listens to what's going on in a specific _perimeter_ (mainly a specific WordPress component or subsystem), make it an __event__ and pass this __event__ to the running __loggers__.
+- __Listener__ - A listener is, as its name suggests, something that listens to what's going on in a specific _perimeter_ (mainly a specific WordPress component or subsystem), make it an ___event___ and pass this ___event___ to the running ___loggers___.
 - __Logger__ - A logger is a _recorder_ of events. It can filter them (accept or refuse to record the event based on settings) then store them (in a database, a file, etc.) or send them (via API calls, sockets, mails, etc.).
 
 ## Architecture of DecaLog
 
 ## Anatomy of an event
+An ___event___ is composed of:
+- A channel, which is the type of execution that triggered the event. It is automatically detected (and filled) by DecaLog and it can take the following values: `CLI` (command-line interface), `CRON` (cron job), `AJAX` (Ajax request), `XMLRPC` (XML-RPC request), `API` (Rest API request), `FEED` (Atom/RDF/RSS feed), `WBACK` (site backend), `WFRONT` (site frontend).
+- A level, which is 
 
 ## Coding with DecaLog
 
