@@ -35,7 +35,7 @@ An ___event___ is composed of:
 - A __timestamp__, which is the time when event was triggered.
 - A versioned __source__, which is the component or the subsystem where the event is triggered. It maybe things like `PHP`/`7.2` or `WordPress`/`5.2.2` and so on...
 - The __class__ of the source, which can take the following values: `core`, `plugin`, `theme`, `db`, `php`.
-- A __message__ in plain text. I it amways in English (messages are not localized).
+- A __message__ in plain text. I it always in English; messages are not localized.
 - An numerical __code__, which may be everything which makes sense regarding the event (an error code, for instance).
 
 Depending on each loggers settings, an ___event___ may contains many other fields which are automaticaly detected and filled by DecaLog.
