@@ -679,7 +679,7 @@ class Events extends \WP_List_Table {
 		self::$standard_columns['time']    = esc_html__( 'Time', 'decalog' );
 		self::$standard_columns['message'] = esc_html__( 'Message', 'decalog' );
 		self::$extra_columns               = [];
-		self::$extra_columns['component']  = esc_html__( 'Component', 'decalog' );
+		self::$extra_columns['component']  = esc_html__( 'Source', 'decalog' );
 		self::$extra_columns['site']       = esc_html__( 'Site', 'decalog' );
 		self::$extra_columns['user']       = esc_html__( 'User', 'decalog' );
 		self::$extra_columns['ip']         = esc_html__( 'Remote IP', 'decalog' );

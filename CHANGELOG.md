@@ -4,6 +4,8 @@ All notable changes to **DecaLog** is documented in this *changelog*.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed
+- 'Component' become 'source' in WordPress events viewer.
 ### Fixed
 - WordPress formatter may (wrongly) emit warnings when source ip is unknown.
 
