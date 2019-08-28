@@ -45,21 +45,25 @@ Depending on each loggers settings, an ___event___ may contains many other field
 In fact, as a developer, you will have to deal only with ___level___, ___message___ and ___code___. All other fields of the event being handled internaly by DecaLog.
 
 ### Simple usage
-The simplest way to generate an event from your code is to use DecaLog as a standard PSR-3 logger. You can do it this way after `init` WordPress hook.
+The simplest way to generate an event from your code is to use DecaLog as a standard PSR-3 logger. You can do so as soon as all code for `plugins_loaded` WordPress hook is executed.
 ```php
     use Decalog\Log;
     
-    // Initialize the main events logger
+    // Initializes the main events logger
     $event_logger = Log::bootstrap( 'plugin', 'My Plugin', '1.2.3' );
+    
     // Logs a debug message
     $event_logger->debug( 'Test message.' );
+    
     // Logs an error with an optional error code
     $event_logger->error( 'Test message.', 404 );
 
 ```
 
+This way of doing things is quite operational but, to be honest, there is a much, much, better way: writing your own listener!
 
 ### Writing a listener
+As previously said, a ___listener___ is a piece of code which listens to a specific _perimeter_. You can write a listener just for your plugin or theme. If your listener respects [conventions](#conventions) and if your plugin or theme is present in the WordPress directory, it can be release with the next version of DecaLog.
 
 ## Conventions
 
