@@ -73,42 +73,42 @@ class WordpressFormatter implements FormatterInterface {
 			if ( array_key_exists( 'siteid', $extra ) ) {
 				$values['site_id'] = (int) $extra['siteid'];
 			}
-			if ( array_key_exists( 'sitename', $extra ) ) {
+			if ( array_key_exists( 'sitename', $extra ) && is_string( $extra['sitename'] ) ) {
 				$values['site_name'] = substr( $extra['sitename'], 0, 250 );
 			}
-			if ( array_key_exists( 'userid', $extra ) ) {
+			if ( array_key_exists( 'userid', $extra ) && is_numeric( $extra['userid'] ) ) {
 				$values['user_id'] = substr( (string) $extra['userid'], 0, 66 );
 			}
-			if ( array_key_exists( 'username', $extra ) ) {
+			if ( array_key_exists( 'username', $extra ) && is_string( $extra['username'] ) ) {
 				$values['user_name'] = substr( $extra['username'], 0, 250 );
 			}
-			if ( array_key_exists( 'ip', $extra ) ) {
+			if ( array_key_exists( 'ip', $extra ) && is_string( $extra['ip'] ) ) {
 				$values['remote_ip'] = substr( $extra['ip'], 0, 66 );
 			}
-			if ( array_key_exists( 'url', $extra ) ) {
+			if ( array_key_exists( 'url', $extra ) && is_string( $extra['url'] ) ) {
 				$values['url'] = substr( $extra['url'], 0, 2083 );
 			}
-			if ( array_key_exists( 'http_method', $extra ) ) {
+			if ( array_key_exists( 'http_method', $extra ) && is_string( $extra['http_method'] ) ) {
 				if ( in_array( strtolower( $extra['http_method'] ), Http::$verbs, true ) ) {
 					$values['verb'] = strtolower( $extra['http_method'] );
 				}
 			}
-			if ( array_key_exists( 'server', $extra ) ) {
+			if ( array_key_exists( 'server', $extra ) && is_string( $extra['server'] ) ) {
 				$values['server'] = substr( $extra['server'], 0, 250 );
 			}
-			if ( array_key_exists( 'referrer', $extra ) && $extra['referrer'] ) {
+			if ( array_key_exists( 'referrer', $extra ) && $extra['referrer'] && is_string( $extra['referrer'] ) ) {
 				$values['referrer'] = substr( $extra['referrer'], 0, 250 );
 			}
-			if ( array_key_exists( 'file', $extra ) && $extra['file'] ) {
+			if ( array_key_exists( 'file', $extra ) && $extra['file'] && is_string( $extra['file'] ) ) {
 				$values['file'] = substr( $extra['file'], 0, 250 );
 			}
 			if ( array_key_exists( 'line', $extra ) && $extra['line'] ) {
 				$values['line'] = (int) $extra['line'];
 			}
-			if ( array_key_exists( 'class', $extra ) && $extra['class'] ) {
+			if ( array_key_exists( 'class', $extra ) && $extra['class'] && is_string( $extra['class'] ) ) {
 				$values['classname'] = substr( $extra['class'], 0, 100 );
 			}
-			if ( array_key_exists( 'function', $extra ) && $extra['function'] ) {
+			if ( array_key_exists( 'function', $extra ) && $extra['function'] && is_string( $extra['function'] ) ) {
 				$values['function'] = substr( $extra['function'], 0, 100 );
 			}
 			if ( array_key_exists( 'trace', $extra ) && $extra['trace'] ) {

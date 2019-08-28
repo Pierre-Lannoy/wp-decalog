@@ -3,6 +3,10 @@ All notable changes to **DecaLog** is documented in this *changelog*.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Fixed
+- WordPress formatter may (wrongly) emit warnings when source ip is unknown.
+
 ## [1.1.0] - 2019-08-28
 ### Added
 - A test message can now be sent to a specific logger, from the loggers list.
