@@ -31,7 +31,12 @@ When using (and developing for) DecaLog, you will have to deal with the followin
 ## Anatomy of an event
 An ___event___ is composed of:
 - A channel, which is the type of execution that triggered the event. It is automatically detected (and filled) by DecaLog and it can take the following values: `CLI` (command-line interface), `CRON` (cron job), `AJAX` (Ajax request), `XMLRPC` (XML-RPC request), `API` (Rest API request), `FEED` (Atom/RDF/RSS feed), `WBACK` (site backend), `WFRONT` (site frontend).
-- A level, which represents the severity of the event. This level is set by the listener, regarding what triggered the event. It can take the following values (from the lowest severity to the highest): `DEBUG`, `INFO`, `NOTICE`, `WARNING`, `ERROR`, `CRITICAL`, `ALERT`, `EMERGENCY`. For a detail on how it is used, please read "Events classification" in [Conventions](#conventions).
+- A level, which represents the severity of the event. This level is set by the listener, regarding what triggered the event. It can take the following values (from the lowest severity to the highest): `DEBUG`, `INFO`, `NOTICE`, `WARNING`, `ERROR`, `CRITICAL`, `ALERT`, `EMERGENCY`. For a detail on how it is used, please read "Events standards" in [Conventions](#conventions).
+- A timestamp, which is the time when event was triggered.
+- A versioned source, which is the component or the subsystem where the event is triggered. It maybe things like `PHP`/`7.2` or `WordPress`/`5.2.2` and so on...
+- The class of the source, which can take the following values: `core`, `plugin`, `theme`, `db`, `php`.
+- A message in plain text.
+- An numerical code, which may be everything which makes sense regarding the event (an error code, for instance).
 
 ## Coding with DecaLog
 
@@ -43,7 +48,7 @@ An ___event___ is composed of:
 
 ### General rules
 
-### Events classification
+### Events standards
 
 ### Privacy
 
