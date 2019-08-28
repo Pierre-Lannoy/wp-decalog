@@ -1,5 +1,5 @@
 # DecaLog
-[![version](https://badgen.net/github/release/Pierre-Lannoy/wp-decalog/stable/)](https://wordpress.org/plugins/decalog/)
+[![version](https://badgen.net/github/release/Pierre-Lannoy/wp-decalog/)](https://wordpress.org/plugins/decalog/)
 [![php](https://badgen.net/badge/php/7.2+/green)](https://wordpress.org/plugins/decalog/)
 [![wordpress](https://badgen.net/badge/wordpress/5.2+/green)](https://wordpress.org/plugins/decalog/)
 [![license](https://badgen.net/github/license/Pierre-Lannoy/wp-decalog/)](/license.txt)

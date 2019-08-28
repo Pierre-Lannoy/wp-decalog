@@ -1,6 +1,8 @@
 # Contributing to DecaLog
 
-Hello and welcome in this short guide which aims to help you figure out how you can be helpful. I'm very excited to know you want to share your knowledge and your skills to make DecaLog a better plugin. Thank you so much for your involvement and engagement.
+Hello and welcome in this short guide which aims to help you figure out how you can be helpful. I'm very excited to know you want to share your knowledge and your skills to make DecaLog a better plugin. Thank you so much for your involvement and engagement!
+
+Note: to make this repository a safe place to contribute, DecaLog has a [Code of Conduct](/CODE_OF_CONDUCT.md)
 
 There's actually three main ways to contribute to DecaLog:
 
