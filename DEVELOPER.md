@@ -63,7 +63,89 @@ The simplest way to generate an event from your code is to use DecaLog as a stan
 This way of doing things is quite operational but, to be honest, there is a much, much, better way: writing your own listener!
 
 ### Writing a listener
-As previously said, a ___listener___ is a piece of code which listens to a specific _perimeter_. You can write a listener just for your plugin or theme. If your listener respects [conventions](#conventions) and if your plugin or theme is present in the WordPress directory, it can be release with the next version of DecaLog.
+As previously said, a ___listener___ is a piece of code which listens to a specific _perimeter_. You can write a listener just for your plugin or theme. If your listener respects [conventions](#conventions) and if your plugin or theme is present in the WordPress directory, it can be released with the next version of DecaLog.
+
+Before writing a ___listener___ your plugin or theme must define actions hooks with `do_action()` function each time a significant event occurs. Like this:
+
+```php
+    /**
+    * Fires immediately after a content is deleted.
+    *
+    * @since 4.4.0
+    *
+    * @param string $content_id  ID of the deleted content.
+    */
+    do_action( 'myplugin_delete_content', $content_id );     
+```
+
+Once done, you can write your ___listener___ by extending the class `Decalog\Listener\AbstractListener` and put your file in `./wp-content/plugins/decalog/includes/listeners/`. Your listener class must implement the three following abstract methods:
+- `init()` to set the class parameters;
+- `is_available()` to verify if your plugin or theme is installed and activated;
+- `launch()` to "launch" the listener.
+
+Here is an example which implements a simple ___listener___ able to listen the action defined sooner in this section:
+
+```php
+    /**
+	 * My Plugin listener for DecaLog.
+	 *
+	 * Defines methods and properties for My Plugin listener class.
+	 *
+	 * @package Listeners
+	 * @author  Me <me@mail.com>.
+	 * @since   1.0.0
+	 */
+	class MypluginListener extends AbstractListener {
+
+		/**
+		 * Sets the listener properties.
+		 *
+		 * @since    1.0.0
+		 */
+		protected function init() {
+			$this->id      = 'my-plugin-slug';
+			$this->name    = 'My wonderful plugin';
+			$this->class   = 'plugin';
+			$this->product = 'My Plugin';
+            if ( defined( 'MYPLUGIN_VERSION') ) {
+			    $this->version = MYPLUGIN_VERSION;
+            } else {
+                $this->version = 'x';
+            }
+		}
+
+		/**
+		 * Verify if this listener is needed, mainly by verifying if the listen plugin/theme is loaded.
+		 *
+		 * @return  boolean     True if listener is needed, false otherwise.
+		 * @since    1.0.0
+		 */
+		protected function is_available() {
+			return defined( 'MYPLUGIN_VERSION') && class_exists ( 'MyPluginClass' );
+		}
+
+		/**
+		 * "Launch" the listener.
+		 *
+		 * @return  boolean     True if listener was launched, false otherwise.
+		 * @since    1.0.0
+		 */
+		protected function launch() {
+			// Attachments.
+			add_action( 'myplugin_delete_content', [ $this, 'delete_content' ], 10, 1 );
+			return true;
+		}
+
+		/**
+		 * "add_attachment" event.
+		 *
+		 * @since    1.0.0
+		 */
+		public function delete_content( $content_ID ) {
+			$this->logger->info( sprintf ( 'Content ID $s deleted', $content_ID ) );
+		}
+	}  
+```
 
 ## Conventions
 
