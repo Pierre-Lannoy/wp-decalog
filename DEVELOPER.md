@@ -1,10 +1,8 @@
 # Developing for DecaLog
 
-Before starting to explain how to use DecaLog from a developer point of view, I would like to thank you to take the time to invest your knowledge and skills in making DecaLog better and more useful.
+Before starting to explain how to use DecaLog from a developer point of view, I would like to thank you to take the time to invest your knowledge and skills in making DecaLog better and more useful. I'll only have one word: you rock! (OK, that's two words)
 
-I'll only have one word: you rock! (OK, that's two words)
-
-So what's the menu today?
+Now, what's the menu today?
 
 1. [What is DecaLog?](#what-is-decalog)
 2. [Architecture of DecaLog](#architecture-of-decalog)
