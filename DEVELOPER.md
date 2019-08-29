@@ -171,20 +171,27 @@ In order to be similar to other log management systems and to maintain consisten
 * `ALERT`: 
 * `EMERGENCY`: 
 
+#### Codes
+If the ___event___ relate to a HTTP context, the ___code___ must be, as much as possible, the HTTP response code.
+The code `0` means: "unknown", "not significant" or "not an error". 
+
+#### Messages
+The first 30-40 characters of the message must allow the user to understand, at a glance, what the message is.
+
 ### Privacy
 DecaLog let its users to set the needed level of privacy. To respects this level, you must use in your ___listener___ the helpers provided by DecaLog. This mainly concerns the names and user IDs in the ___message___ content.
 
 To respect the choices made by DecaLog users, you must use the `get_user()` method in your ___listener___ each time it handles names and user IDs:
 ```php
     // DO NOT DO THAT, PLEASE:
-    $this->logger->info( sprintf ( 'User $s do something', $user_ID ) );
+    $this->logger->info( sprintf ( 'User %1$s done something', $user_ID ) );
     
     // Instead, do that:
-    $this->logger->info( sprintf ( 'User $s do something', $this->get_user( $user_ID ) ) );
+    $this->logger->info( sprintf ( 'User %1$s done something', $this->get_user( $user_ID ) ) );
 ```
 
 ### Coding style
 When you develop for DECALOG, remember to respect the [WordPress Coding Standards](https://codex.wordpress.org/WordPress_Coding_Standards). If you're using [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer) you can enforce standards with [these rules](https://github.com/WordPress/WordPress-Coding-Standards).
 
 
-> If you think this documentation is incomplete, not clear, etc. Do not hesitate to open an issue and.or make a pull request.
+> If you think this documentation is incomplete, not clear, etc. Do not hesitate to open an issue and/or make a pull request.
