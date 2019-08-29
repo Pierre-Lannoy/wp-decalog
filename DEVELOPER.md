@@ -173,6 +173,7 @@ In order to be similar to other log management systems and to maintain consisten
 
 #### Codes
 If the ___event___ relate to a HTTP context, the ___code___ must be, as much as possible, the HTTP response code.
+
 The code `0` means: "unknown", "not significant" or "not an error". 
 
 #### Messages
