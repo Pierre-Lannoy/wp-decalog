@@ -36,7 +36,7 @@ class PhpListener extends AbstractListener {
 	private $error_level_map = [
 		E_ERROR             => Logger::CRITICAL,
 		E_WARNING           => Logger::WARNING,
-		E_PARSE             => Logger::ALERT,
+		E_PARSE             => Logger::EMERGENCY,
 		E_NOTICE            => Logger::NOTICE,
 		E_CORE_ERROR        => Logger::CRITICAL,
 		E_CORE_WARNING      => Logger::WARNING,
@@ -58,7 +58,7 @@ class PhpListener extends AbstractListener {
 	 * @var array $exception_level_map List of mappings.
 	 */
 	private $exception_level_map = [
-		'ParseError' => Logger::CRITICAL,
+		'ParseError' => Logger::EMERGENCY,
 		'Throwable'  => Logger::ERROR,
 	];
 
@@ -68,7 +68,7 @@ class PhpListener extends AbstractListener {
 	 * @since  1.0.0
 	 * @var array $fatal_errors List of fatal errors.
 	 */
-	private $fatal_errors = [ E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR/*, E_USER_ERROR*/ ];
+	private $fatal_errors = [ E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR ];
 
 	/**
 	 * The previous error handler, to restore if needed.
