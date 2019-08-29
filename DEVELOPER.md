@@ -1,3 +1,7 @@
+
+> __- writing in progress -__
+
+
 # Developing for DecaLog
 
 Before starting to explain how to use DecaLog from a developer point of view, I would like to thank you to take the time to invest your knowledge and skills in making DecaLog better and more useful. I'll only have one word: you rock! (OK, that's two words)
@@ -27,8 +31,8 @@ When using (and developing for) DecaLog, you will have to deal with the followin
 
 ## Anatomy of an event
 An ___event___ is composed of:
-- A __channel__, which is the type of execution that triggered the ___event___. It is automatically detected (and filled) by DecaLog and it can take the following values: `CLI` (command-line interface), `CRON` (cron job), `AJAX` (Ajax request), `XMLRPC` (XML-RPC request), `API` (Rest API request), `FEED` (Atom/RDF/RSS feed), `WBACK` (site backend), `WFRONT` (site frontend).
-- A __level__, which represents the severity of the ___event___. This level is set by the ___listener___, regarding what triggered the ___event___. It can take the following values (from the lowest severity to the highest): `DEBUG`, `INFO`, `NOTICE`, `WARNING`, `ERROR`, `CRITICAL`, `ALERT`, `EMERGENCY`. For a detail on how it is used, please read "Events standards" in [Conventions](#conventions).
+- A __channel__, which is the type of execution that triggered the ___event___. It can take the following values: `CLI` (command-line interface), `CRON` (cron job), `AJAX` (Ajax request), `XMLRPC` (XML-RPC request), `API` (Rest API request), `FEED` (Atom/RDF/RSS feed), `WBACK` (site backend), `WFRONT` (site frontend).
+- A __level__, which represents the severity of the ___event___. This level is set by the ___listener___, regarding what triggered the ___event___. It can take the following values (from the lowest severity to the highest severity): `DEBUG`, `INFO`, `NOTICE`, `WARNING`, `ERROR`, `CRITICAL`, `ALERT`, `EMERGENCY`. For a detail on how it is used, please read "Events standards" in [Conventions](#conventions).
 - A __timestamp__, which is the time when ___event___ was triggered.
 - A versioned __source__, which is the component or the subsystem where the ___event___ is triggered. It maybe things like `PHP`/`7.2` or `WordPress`/`5.2.2` and so on...
 - The __class__ of the source, which can take the following values: `core`, `plugin`, `theme`, `db`, `php`.
@@ -147,10 +151,12 @@ Here is an example which implements a simple ___listener___ able to listen the a
 By doing this way, you can fully integrate DecaLog with your plugin or theme. You can even develop a ___listener___ for a plugin or theme you're not the author of - if it has some actions to listen...
 
 ## Conventions
+To be fully compatible with DecaLog, your ___listener___ (or other pull requests you would like to submit) must respect some rules and adhere to some standards:
 
 ### General rules
+Because DecaLog is present on the WordPress plugin repository, your code must be compatible with PHP 7.0. You can not use [breaking changes introduced by PHP 7.1](https://www.php.net/manual/en/migration71.incompatible.php) (like nullable types, constants visibility or void returns) owing to the [wrong usage of pre-commit hooks](https://meta.trac.wordpress.org/ticket/3791) on the WordPress SVN. Yes, I know, that's a pity.
 
-Because DecaLog is present on the WordPress plugin repository, your code must be compatible with PHP 7.0. You can not use BC introduced by PHP 7.1 (like nullable types, constants visibility or void returns) owing to the [wrong usage of pre-commit hooks](https://meta.trac.wordpress.org/ticket/3791) on the WordPress SVN. Yes, I know, that's a pity.
+The file defining the class for a ___listener___ must be named `class-<name>.php` where `<name>` is the class name in lower characters. This file must reside in `./includes/listeners/`. The class name must be in _Upper Camel Case_.
 
 ### Events standards
 
@@ -179,3 +185,6 @@ To respect the choices made by DecaLog users, you must use the `get_user()` meth
 
 ### Coding style
 When you develop for DECALOG, remember to respect the [WordPress Coding Standards](https://codex.wordpress.org/WordPress_Coding_Standards). If you're using [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer) you can enforce standards with [these rules](https://github.com/WordPress/WordPress-Coding-Standards).
+
+
+> If you think this documentation is incomplete, not clear, etc. Do not hesitate to open an issue and.or make a pull request.
