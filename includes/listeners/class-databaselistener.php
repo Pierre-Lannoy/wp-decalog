@@ -74,7 +74,7 @@ class DatabaseListener extends AbstractListener {
 			$errors = $EZSQL_ERROR;
 			$last   = end( $errors );
 			if ( 1 === count( $EZSQL_ERROR ) ) {
-				$this->logger->error( sprintf( 'A database error was detected during the page rendering: "%s" in the query "%s".', $last['error_str'], $last['query'] ) );
+				$this->logger->critical( sprintf( 'A database error was detected during the page rendering: "%s" in the query "%s".', $last['error_str'], $last['query'] ) );
 			} else {
 				$this->logger->critical( sprintf( '%s database errors were detected during the page rendering. The last one is "%s" in the query "%s"', count( $EZSQL_ERROR ), $last['error_str'], $last['query'] ) );
 			}

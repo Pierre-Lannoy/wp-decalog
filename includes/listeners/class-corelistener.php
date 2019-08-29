@@ -278,7 +278,7 @@ class CoreListener extends AbstractListener {
 			$message = sprintf( 'Term "%s" from "%s" updated.', $term->name, $term->taxonomy );
 		}
 		if ( isset( $this->logger ) ) {
-			$this->logger->debug( $message );
+			$this->logger->info( $message );
 		}
 	}
 
@@ -293,7 +293,7 @@ class CoreListener extends AbstractListener {
 			$message = sprintf( 'Term "%s" from "%s" created.', $term->name, $term->taxonomy );
 		}
 		if ( isset( $this->logger ) ) {
-			$this->logger->debug( $message );
+			$this->logger->info( $message );
 		}
 	}
 
@@ -308,7 +308,7 @@ class CoreListener extends AbstractListener {
 			$message = sprintf( 'Term "%s" from "%s" deleted.', $deleted_term->name, $deleted_term->taxonomy );
 		}
 		if ( isset( $this->logger ) ) {
-			$this->logger->debug( $message );
+			$this->logger->info( $message );
 		}
 	}
 
@@ -463,13 +463,6 @@ class CoreListener extends AbstractListener {
 		}
 	}
 
-
-
-
-
-
-
-
 	/**
 	 * "comment_post" event.
 	 *
@@ -623,9 +616,9 @@ class CoreListener extends AbstractListener {
 	public function activated_plugin( $plugin, $network_activation ) {
 		if ( isset( $this->logger ) ) {
 			if ( $network_activation ) {
-				$this->logger->warning( sprintf( 'Plugin network activation from %s file.', $plugin ) );
+				$this->logger->notice( sprintf( 'Plugin network activation from %s file.', $plugin ) );
 			} else {
-				$this->logger->warning( sprintf( 'Plugin activation from %s file.', $plugin ) );
+				$this->logger->notice( sprintf( 'Plugin activation from %s file.', $plugin ) );
 			}
 		}
 	}
@@ -638,9 +631,9 @@ class CoreListener extends AbstractListener {
 	public function deactivated_plugin( $plugin, $network_activation ) {
 		if ( isset( $this->logger ) ) {
 			if ( $network_activation ) {
-				$this->logger->warning( sprintf( 'Plugin network deactivation for %s file.', $plugin ) );
+				$this->logger->notice( sprintf( 'Plugin network deactivation for %s file.', $plugin ) );
 			} else {
-				$this->logger->warning( sprintf( 'Plugin deactivation for %s file.', $plugin ) );
+				$this->logger->notice( sprintf( 'Plugin deactivation for %s file.', $plugin ) );
 			}
 		}
 	}
@@ -673,7 +666,7 @@ class CoreListener extends AbstractListener {
 			}
 		}
 		if ( isset( $this->logger ) ) {
-			$this->logger->warning( sprintf( '%s %s %s.', $type, $action, $plugins ) );
+			$this->logger->notice( sprintf( '%s %s %s.', $type, $action, $plugins ) );
 		}
 	}
 
@@ -767,7 +760,7 @@ class CoreListener extends AbstractListener {
 			$message .= $verb . ' ' . $url;
 		}
 		if ( $error ) {
-			$this->logger->warning( $message, $code );
+			$this->logger->error( $message, $code );
 		} else {
 			$this->logger->debug( $message, $code );
 		}

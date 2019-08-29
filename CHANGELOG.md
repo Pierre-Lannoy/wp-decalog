@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Better 'Page not found' detection and report.
 - Better handling of malformed `wp_die` calls.
 - 'Component' become 'source' in WordPress events viewer.
+- Some events have changed level to comply with rules described in `DEVELOPER.md`.
 ### Fixed
 - WordPress formatter may (wrongly) emit warnings when source ip is unknown.
 

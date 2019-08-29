@@ -34,21 +34,21 @@ class PhpListener extends AbstractListener {
 	 * @var array $error_level_map List of mappings.
 	 */
 	private $error_level_map = [
-		E_ERROR             => Logger::CRITICAL,
-		E_WARNING           => Logger::WARNING,
+		E_ERROR             => Logger::EMERGENCY,
 		E_PARSE             => Logger::EMERGENCY,
-		E_NOTICE            => Logger::NOTICE,
-		E_CORE_ERROR        => Logger::CRITICAL,
-		E_CORE_WARNING      => Logger::WARNING,
-		E_COMPILE_ERROR     => Logger::ALERT,
-		E_COMPILE_WARNING   => Logger::WARNING,
+		E_CORE_ERROR        => Logger::EMERGENCY,
+		E_COMPILE_ERROR     => Logger::EMERGENCY,
 		E_USER_ERROR        => Logger::ERROR,
+		E_RECOVERABLE_ERROR => Logger::ERROR,
+		E_CORE_WARNING      => Logger::WARNING,
+		E_WARNING           => Logger::WARNING,
+		E_COMPILE_WARNING   => Logger::WARNING,
 		E_USER_WARNING      => Logger::WARNING,
+		E_NOTICE            => Logger::NOTICE,
 		E_USER_NOTICE       => Logger::NOTICE,
 		E_STRICT            => Logger::NOTICE,
-		E_RECOVERABLE_ERROR => Logger::ERROR,
-		E_DEPRECATED        => Logger::NOTICE,
-		E_USER_DEPRECATED   => Logger::NOTICE,
+		E_DEPRECATED        => Logger::INFO,
+		E_USER_DEPRECATED   => Logger::INFO,
 	];
 
 	/**

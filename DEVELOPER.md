@@ -162,7 +162,7 @@ In order to be similar to other log management systems and to maintain consisten
 * `INFO` - Simple informational messages which can be forgotten. _Ex.: "User xxx is logged-out.", "New comment on post yyy."_.
 * `NOTICE` - Normal but significant conditions. _Ex.: "The configuration of plugin xxx was modified.", "The database is 70% full."_.
 * `WARNING` - A significant condition indicating a situation that may lead to an error if recurring or if no action is taken. _Ex.: "Page not found.", "Comment flood triggered."_.
-* `ERROR` - Simple operating error which requires investigation and preventive treatment. _Ex.: "The file could not be opened.", "The feature could not be loaded."_.
+* `ERROR` - Minor operating error which requires investigation and preventive treatment. _Ex.: "The file could not be opened.", "The feature could not be loaded."_.
 * `CRITICAL` - Operating error which requires investigation and corrective treatment. _Ex.: "Uncaught Exception!", "Database error in query xxx."_.
 * `ALERT` - Major operating error which requires immediate corrective treatment. _Ex.: "The WordPress database is corrupted."_.
 * `EMERGENCY` - A panic condition (unusable system). _Ex.: "The WordPress database is down.", "Parse error: syntax error, unexpected 'if' (T_IF)."_.
