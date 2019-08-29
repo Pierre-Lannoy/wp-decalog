@@ -716,11 +716,10 @@ class CoreListener extends AbstractListener {
 	 */
 	public function wp( $wp ) {
 		if ( $wp instanceof \WP ) {
-			if ( isset( $wp->query_vars['error'] ) ) {
-				$this->logger->error( $wp->query_vars['error'] );
-			}
 			if ( is_404() ) {
 				$this->logger->warning( '404 Page not found', 404 );
+			} elseif ( isset( $wp->query_vars['error'] ) ) {
+				$this->logger->error( $wp->query_vars['error'] );
 			}
 		}
 	}

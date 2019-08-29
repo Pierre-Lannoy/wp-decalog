@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 ### Changed
+- Better "Page not found" detection and report.
 - 'Component' become 'source' in WordPress events viewer.
 ### Fixed
 - WordPress formatter may (wrongly) emit warnings when source ip is unknown.
