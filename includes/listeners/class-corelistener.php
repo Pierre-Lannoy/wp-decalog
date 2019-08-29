@@ -12,6 +12,7 @@
 
 namespace Decalog\Listener;
 
+use Decalog\System\Environment;
 use Decalog\System\Option;
 use Decalog\System\Http;
 
@@ -57,6 +58,7 @@ class CoreListener extends AbstractListener {
 	 * @since    1.0.0
 	 */
 	protected function launch() {
+		add_action( 'wp_loaded', [ $this, 'environment_check' ] );
 		// Attachments.
 		add_action( 'add_attachment', [ $this, 'add_attachment' ], 10, 1 );
 		add_action( 'delete_attachment', [ $this, 'delete_attachment' ], 10, 1 );
@@ -115,6 +117,26 @@ class CoreListener extends AbstractListener {
 		add_filter( 'wp', [ $this, 'wp' ], 10, 1 );
 		add_filter( 'http_api_debug', [ $this, 'http_api_debug' ], 10, 5 );
 		return true;
+	}
+
+	/**
+	 * Check environment modifications.
+	 *
+	 * @since    1.2.0
+	 */
+	public function environment_check() {
+		global $wp_version;
+		$old_version = Option::get( 'wp_version', 'x' );
+		if ( $wp_version !== $old_version && 'x' !== $old_version ) {
+			Option::set( 'wp_version', $wp_version );
+			if ( version_compare( $wp_version, $old_version, '<' ) ) {
+				$this->logger->warning( sprintf( 'WordPress version downgraded from %s to %s.', $old_version, $wp_version ) );
+			} else {
+				$this->logger->notice( sprintf( 'WordPress version upgraded from %s to %s.', $old_version, $wp_version ) );
+			}
+		} elseif ( 'x' === $old_version ) {
+			Option::set( 'wp_version', $wp_version );
+		}
 	}
 
 	/**
