@@ -149,21 +149,33 @@ By doing this way, you can fully integrate DecaLog with your plugin or theme. Yo
 ## Conventions
 
 ### General rules
-versions
+
+Because DecaLog is present on the WordPress plugin repository, your code must be compatible with PHP 7.0. You can not use BC introduced by PHP 7.1 (like nullable types, constants visibility or void returns) owing to the [wrong usage of pre-commit hooks](https://meta.trac.wordpress.org/ticket/3791) on the WordPress SVN. Yes, I know, that's a pity.
 
 ### Events standards
 
 #### Levels
 In order to be similar to other log management systems and to maintain consistency between all the DecaLog ___listeners___, the ___levels___ are used as follows:
-. `DEBUG`: 
-. `INFO`: 
-. `NOTICE`: 
-. `WARNING`: 
-. `ERROR`: 
-. `CRITICAL`: 
-. `ALERT`: 
-. `EMERGENCY`: 
+* `DEBUG`: 
+* `INFO`: 
+* `NOTICE`: 
+* `WARNING`: 
+* `ERROR`: 
+* `CRITICAL`: 
+* `ALERT`: 
+* `EMERGENCY`: 
 
 ### Privacy
+DecaLog let its users to set the needed level of privacy. To respects this level, you must use in your ___listener___ the helpers provided by DecaLog. This mainly concerns the names and user IDs in the ___message___ content.
+
+To respect the choices made by DecaLog users, you must use the `get_user()` method in your ___listener___ each time it handles names and user IDs:
+```php
+    // DO NOT DO THAT, PLEASE:
+    $this->logger->info( sprintf ( 'User $s do something', $user_ID ) );
+    
+    // Instead, do that:
+    $this->logger->info( sprintf ( 'User $s do something', $this->get_user( $user_ID ) ) );
+```
 
 ### Coding style
+When you develop for DECALOG, remember to respect the [WordPress Coding Standards](https://codex.wordpress.org/WordPress_Coding_Standards). If you're using [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer) you can enforce standards with [these rules](https://github.com/WordPress/WordPress-Coding-Standards).
