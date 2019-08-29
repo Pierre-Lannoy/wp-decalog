@@ -6,12 +6,11 @@ Now, what's the menu today?
 
 1. [What is DecaLog?](#what-is-decalog)
 2. [Definitions](#definitions)
-3. [Architecture of DecaLog](#architecture-of-decalog)
-4. [Anatomy of an event](#anatomy-of-an-event)
-5. [Coding with DecaLog](#coding-with-decalog)
-6. [Conventions](#conventions)
-7. [Contribution Guidelines](/CONTRIBUTING.md)
-8. [Code of Conduct](/CODE_OF_CONDUCT.md)
+3. [Anatomy of an event](#anatomy-of-an-event)
+4. [Coding with DecaLog](#coding-with-decalog)
+5. [Conventions](#conventions)
+6. [Contribution Guidelines](/CONTRIBUTING.md)
+7. [Code of Conduct](/CODE_OF_CONDUCT.md)
 
 ## What is DecaLog?
 DecaLog is WordPress plugin which aims to:
@@ -24,28 +23,26 @@ DecaLog is WordPress plugin which aims to:
 When using (and developing for) DecaLog, you will have to deal with the following notions:
 - __Event__ - An event is some bits of information regarding something which hapened while executing WordPress. See [Anatomy of an event](#anatomy-of-an-event) to know what it's made of.
 - __Listener__ - A listener is, as its name suggests, something that listens to what's going on in a specific _perimeter_ (mainly a specific WordPress component or subsystem), make it an ___event___ and pass this ___event___ to the running ___loggers___.
-- __Logger__ - A logger is a _recorder_ of events. It can filter them (accept or refuse to record the event based on settings) then store them (in a database, a file, etc.) or send them (via API calls, sockets, mails, etc.).
-
-## Architecture of DecaLog
+- __Logger__ - A logger is a _recorder_ of ___events___. It can filter them (accept or refuse to record the ___event___ based on settings) then store them (in a database, a file, etc.) or send them (via API calls, sockets, mails, etc.).
 
 ## Anatomy of an event
 An ___event___ is composed of:
-- A __channel__, which is the type of execution that triggered the event. It is automatically detected (and filled) by DecaLog and it can take the following values: `CLI` (command-line interface), `CRON` (cron job), `AJAX` (Ajax request), `XMLRPC` (XML-RPC request), `API` (Rest API request), `FEED` (Atom/RDF/RSS feed), `WBACK` (site backend), `WFRONT` (site frontend).
-- A __level__, which represents the severity of the event. This level is set by the listener, regarding what triggered the event. It can take the following values (from the lowest severity to the highest): `DEBUG`, `INFO`, `NOTICE`, `WARNING`, `ERROR`, `CRITICAL`, `ALERT`, `EMERGENCY`. For a detail on how it is used, please read "Events standards" in [Conventions](#conventions).
-- A __timestamp__, which is the time when event was triggered.
-- A versioned __source__, which is the component or the subsystem where the event is triggered. It maybe things like `PHP`/`7.2` or `WordPress`/`5.2.2` and so on...
+- A __channel__, which is the type of execution that triggered the ___event___. It is automatically detected (and filled) by DecaLog and it can take the following values: `CLI` (command-line interface), `CRON` (cron job), `AJAX` (Ajax request), `XMLRPC` (XML-RPC request), `API` (Rest API request), `FEED` (Atom/RDF/RSS feed), `WBACK` (site backend), `WFRONT` (site frontend).
+- A __level__, which represents the severity of the ___event___. This level is set by the ___listener___, regarding what triggered the ___event___. It can take the following values (from the lowest severity to the highest): `DEBUG`, `INFO`, `NOTICE`, `WARNING`, `ERROR`, `CRITICAL`, `ALERT`, `EMERGENCY`. For a detail on how it is used, please read "Events standards" in [Conventions](#conventions).
+- A __timestamp__, which is the time when ___event___ was triggered.
+- A versioned __source__, which is the component or the subsystem where the ___event___ is triggered. It maybe things like `PHP`/`7.2` or `WordPress`/`5.2.2` and so on...
 - The __class__ of the source, which can take the following values: `core`, `plugin`, `theme`, `db`, `php`.
-- A __message__ in plain text. I it always in English; messages are not localized.
-- An numerical __code__, which may be everything which makes sense regarding the event (an error code, for instance).
+- A __message__ in plain text. I it always in English: messages are not localized.
+- An numerical __code__, which may be everything which makes sense regarding the ___event___ (an error code, for instance).
 
-Depending on each loggers settings, an ___event___ may contains many other fields which are automaticaly detected and filled by DecaLog.
+Depending on each ___loggers___ settings, an ___event___ may contains many other fields which are automaticaly detected and filled by DecaLog.
 
 
 ## Coding with DecaLog
-In fact, as a developer, you will have to deal only with ___level___, ___message___ and ___code___. All other fields of the event being handled internaly by DecaLog.
+In fact, as a developer, you will have to deal only with ___level___, ___message___ and ___code___. All other fields of the ___event___ being handled internaly by DecaLog.
 
 ### Simple usage
-The simplest way to generate an event from your code is to use DecaLog as a standard PSR-3 logger. You can do so as soon as all code for `plugins_loaded` WordPress hook is executed.
+The simplest way to generate an ___event___ from your code is to use DecaLog as a standard PSR-3 logger. You can do so as soon as all code for `plugins_loaded` WordPress hook is executed.
 ```php
     use Decalog\Log;
     
@@ -60,12 +57,12 @@ The simplest way to generate an event from your code is to use DecaLog as a stan
 
 ```
 
-This way of doing things is quite operational but, to be honest, there is a much, much, better way: writing your own listener!
+This way of doing things is quite operational but, to be honest, there is a much, much, better way: writing your own ___listener___!
 
 ### Writing a listener
-As previously said, a ___listener___ is a piece of code which listens to a specific _perimeter_. You can write a listener just for your plugin or theme. If your listener respects [conventions](#conventions) and if your plugin or theme is present in the WordPress directory, it can be released with the next version of DecaLog.
+As previously said, a ___listener___ is a piece of code which listens to a specific _perimeter_. You can write a ___listener___ just for your plugin or theme. If your ___listener___ respects [conventions](#conventions) and if your plugin or theme is present in the WordPress directory, it can be released with the next version of DecaLog.
 
-Before writing a ___listener___ your plugin or theme must define actions hooks with `do_action()` function each time a significant event occurs. Like this:
+Before writing a ___listener___ your plugin or theme must define actions hooks with `do_action()` function each time a significant ___event___ occurs. Like this:
 
 ```php
     /**
@@ -78,7 +75,7 @@ Before writing a ___listener___ your plugin or theme must define actions hooks w
     do_action( 'myplugin_delete_content', $content_id );     
 ```
 
-Once done, you can write your ___listener___ by extending the class `Decalog\Listener\AbstractListener` and put your file in `./wp-content/plugins/decalog/includes/listeners/`. Your listener class must implement the three following abstract methods:
+Once done, you can write your ___listener___ by extending the class `Decalog\Listener\AbstractListener` and put your file in `./wp-content/plugins/decalog/includes/listeners/`. Your ___listener___ class must implement the three following abstract methods:
 - `init()` to set the class parameters;
 - `is_available()` to verify if your plugin or theme is installed and activated;
 - `launch()` to "launch" the listener.
@@ -147,12 +144,25 @@ Here is an example which implements a simple ___listener___ able to listen the a
     }  
 ```
 
+By doing this way, you can fully integrate DecaLog with your plugin or theme. You can even develop a ___listener___ for a plugin or theme you're not the author of - if it has some actions to listen...
+
 ## Conventions
 
 ### General rules
 versions
 
 ### Events standards
+
+#### Levels
+In order to be similar to other log management systems and to maintain consistency between all the DecaLog ___listeners___, the ___levels___ are used as follows:
+. `DEBUG`: 
+. `INFO`: 
+. `NOTICE`: 
+. `WARNING`: 
+. `ERROR`: 
+. `CRITICAL`: 
+. `ALERT`: 
+. `EMERGENCY`: 
 
 ### Privacy
 
