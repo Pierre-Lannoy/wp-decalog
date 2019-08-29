@@ -11,6 +11,9 @@
 
 namespace Decalog\Listener;
 
+use Decalog\System\Environment;
+use Decalog\System\Option;
+
 /**
  * WP database listener for DecaLog.
  *
@@ -53,6 +56,7 @@ class DatabaseListener extends AbstractListener {
 	 * @since    1.0.0
 	 */
 	protected function launch() {
+		add_action( 'wp_loaded', [ $this, 'environment_check' ] );
 		add_action( 'shutdown', [ $this, 'shutdown' ], 10, 0 );
 		add_filter( 'wp_die_ajax_handler', [ $this, 'wp_die_handler' ], 10, 1 );
 		add_filter( 'wp_die_xmlrpc_handler', [ $this, 'wp_die_handler' ], 10, 1 );
@@ -61,6 +65,25 @@ class DatabaseListener extends AbstractListener {
 		add_filter( 'wp_die_jsonp_handler', [ $this, 'wp_die_handler' ], 10, 1 );
 		add_filter( 'wp_die_xml_handler', [ $this, 'wp_die_handler' ], 10, 1 );
 		return true;
+	}
+
+	/**
+	 * Check environment modifications.
+	 *
+	 * @since    1.2.0
+	 */
+	public function environment_check() {
+		$old_version = Option::get( 'db_version', 'x' );
+		if ( Environment::mysql_version() !== $old_version && 'x' !== $old_version ) {
+			Option::set( 'db_version', Environment::mysql_version() );
+			if ( version_compare( Environment::mysql_version(), $old_version, '<' ) ) {
+				$this->logger->warning( sprintf( 'MySQL version downgraded from %s to %s.', $old_version, Environment::mysql_version() ) );
+			} else {
+				$this->logger->notice( sprintf( 'MySQL version upgraded from %s to %s.', $old_version, Environment::mysql_version() ) );
+			}
+		} elseif ( 'x' === $old_version ) {
+			Option::set( 'db_version', Environment::mysql_version() );
+		}
 	}
 
 	/**
