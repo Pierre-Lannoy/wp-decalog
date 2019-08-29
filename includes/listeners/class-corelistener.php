@@ -125,7 +125,7 @@ class CoreListener extends AbstractListener {
 	public function add_attachment( $post_ID ) {
 		$message = 'Attachment added.';
 		if ( $att = wp_get_attachment_metadata( $post_ID ) ) {
-			$message = sprintf( 'Attachment "%s" added.', $att['file'] );
+			$message = sprintf( 'Attachment added: "%s".', $att['file'] );
 		}
 		if ( isset( $this->logger ) ) {
 			$this->logger->info( $message );
@@ -140,7 +140,7 @@ class CoreListener extends AbstractListener {
 	public function delete_attachment( $post_ID ) {
 		$message = 'Attachment deleted.';
 		if ( $att = wp_get_attachment_metadata( $post_ID ) ) {
-			$message = sprintf( 'Attachment "%s" deleted.', $att['file'] );
+			$message = sprintf( 'Attachment deleted: "%s".', $att['file'] );
 		}
 		if ( isset( $this->logger ) ) {
 			$this->logger->info( $message );
@@ -155,7 +155,7 @@ class CoreListener extends AbstractListener {
 	public function edit_attachment( $post_ID ) {
 		$message = 'Attachment updated.';
 		if ( $att = wp_get_attachment_metadata( $post_ID ) ) {
-			$message = sprintf( 'Attachment "%s" updated.', $att['file'] );
+			$message = sprintf( 'Attachment updated: "%s".', $att['file'] );
 		}
 		if ( isset( $this->logger ) ) {
 			$this->logger->info( $message );
@@ -170,7 +170,7 @@ class CoreListener extends AbstractListener {
 	public function trashed_post( $post_ID ) {
 		$message = 'Post trashed.';
 		if ( $post = get_post( $post_ID ) ) {
-			$message = sprintf( 'Post "%s" by %s trashed.', $post->post_title, $this->get_user( $post->post_author ) );
+			$message = sprintf( 'Post trashed: "%s" by %s.', $post->post_title, $this->get_user( $post->post_author ) );
 		}
 		if ( isset( $this->logger ) ) {
 			$this->logger->info( $message );
@@ -185,7 +185,7 @@ class CoreListener extends AbstractListener {
 	public function untrashed_post( $post_ID ) {
 		$message = 'Post untrashed.';
 		if ( $post = get_post( $post_ID ) ) {
-			$message = sprintf( 'Post "%s" by %s untrashed.', $post->post_title, $this->get_user( $post->post_author ) );
+			$message = sprintf( 'Post untrashed: "%s" by %s.', $post->post_title, $this->get_user( $post->post_author ) );
 		}
 		if ( isset( $this->logger ) ) {
 			$this->logger->info( $message );
@@ -200,7 +200,7 @@ class CoreListener extends AbstractListener {
 	public function deleted_post( $post_ID ) {
 		$message = 'Post deleted.';
 		if ( $post = get_post( $post_ID ) ) {
-			$message = sprintf( 'Post "%s" by %s deleted.', $post->post_title, $this->get_user( $post->post_author ) );
+			$message = sprintf( 'Post deleted: "%s" by %s.', $post->post_title, $this->get_user( $post->post_author ) );
 		}
 		if ( isset( $this->logger ) ) {
 			$this->logger->info( $message );
@@ -215,7 +215,7 @@ class CoreListener extends AbstractListener {
 	public function publish_post( $post_ID ) {
 		$message = 'Post published.';
 		if ( $post = get_post( $post_ID ) ) {
-			$message = sprintf( 'Post "%s" by %s published.', $post->post_title, $this->get_user( $post->post_author ) );
+			$message = sprintf( 'Post published: "%s" by %s.', $post->post_title, $this->get_user( $post->post_author ) );
 		}
 		if ( isset( $this->logger ) ) {
 			$this->logger->info( $message );
@@ -230,7 +230,7 @@ class CoreListener extends AbstractListener {
 	public function publish_future_post( $post_ID ) {
 		$message = 'Post scheduled for publish.';
 		if ( $post = get_post( $post_ID ) ) {
-			$message = sprintf( 'Post "%s" by %s scheduled for publish.', $post->post_title, $this->get_user( $post->post_author ) );
+			$message = sprintf( 'Post scheduled for publish: "%s" by %s.', $post->post_title, $this->get_user( $post->post_author ) );
 		}
 		if ( isset( $this->logger ) ) {
 			$this->logger->info( $message );
@@ -245,7 +245,7 @@ class CoreListener extends AbstractListener {
 	public function post_updated( $post_ID, $post_after, $post_before ) {
 		$message = 'Post updated.';
 		if ( $post = get_post( $post_ID ) ) {
-			$message = sprintf( 'Post "%s" by %s updated.', $post->post_title, $this->get_user( $post->post_author ) );
+			$message = sprintf( 'Post updated: "%s" by %s.', $post->post_title, $this->get_user( $post->post_author ) );
 		}
 		if ( isset( $this->logger ) ) {
 			$this->logger->info( $message );
@@ -260,7 +260,7 @@ class CoreListener extends AbstractListener {
 	public function save_post( $post_ID, $post, $update ) {
 		$message = 'Post saved.';
 		if ( $post = get_post( $post_ID ) ) {
-			$message = sprintf( 'Post "%s" by %s saved.', $post->post_title, $this->get_user( $post->post_author ) );
+			$message = sprintf( 'Post saved: "%s" by %s.', $post->post_title, $this->get_user( $post->post_author ) );
 		}
 		if ( isset( $this->logger ) ) {
 			$this->logger->debug( $message );
@@ -275,7 +275,7 @@ class CoreListener extends AbstractListener {
 	public function edited_terms( $term_id, $taxonomy ) {
 		$message = 'Term updated.';
 		if ( $term = get_term( $term_id, $taxonomy ) ) {
-			$message = sprintf( 'Term "%s" from "%s" updated.', $term->name, $term->taxonomy );
+			$message = sprintf( 'Term updated: "%s" from "%s".', $term->name, $term->taxonomy );
 		}
 		if ( isset( $this->logger ) ) {
 			$this->logger->info( $message );
@@ -290,7 +290,7 @@ class CoreListener extends AbstractListener {
 	public function created_term( $term_id, $tt_id, $taxonomy ) {
 		$message = 'Term created.';
 		if ( $term = get_term( $term_id, $taxonomy ) ) {
-			$message = sprintf( 'Term "%s" from "%s" created.', $term->name, $term->taxonomy );
+			$message = sprintf( 'Term created: "%s" from "%s".', $term->name, $term->taxonomy );
 		}
 		if ( isset( $this->logger ) ) {
 			$this->logger->info( $message );
@@ -305,7 +305,7 @@ class CoreListener extends AbstractListener {
 	public function delete_term( $term_id, $tt_id, $taxonomy, $deleted_term, $object_ids ) {
 		$message = 'Term deleted.';
 		if ( ! is_wp_error( $deleted_term ) ) {
-			$message = sprintf( 'Term "%s" from "%s" deleted.', $deleted_term->name, $deleted_term->taxonomy );
+			$message = sprintf( 'Term deleted: "%s" from "%s".', $deleted_term->name, $deleted_term->taxonomy );
 		}
 		if ( isset( $this->logger ) ) {
 			$this->logger->info( $message );
@@ -323,7 +323,7 @@ class CoreListener extends AbstractListener {
 			$word = 'Transient';
 		}
 		if ( isset( $this->logger ) ) {
-			$this->logger->debug( sprintf( '%s "%s" added.', $word, $option ) );
+			$this->logger->debug( sprintf( '%s added: "%s".', $word, $option ) );
 		}
 	}
 
@@ -338,7 +338,7 @@ class CoreListener extends AbstractListener {
 			$word = 'Transient';
 		}
 		if ( isset( $this->logger ) ) {
-			$this->logger->debug( sprintf( '%s "%s" updated.', $word, $option ) );
+			$this->logger->debug( sprintf( '%s updated: "%s".', $word, $option ) );
 		}
 	}
 
@@ -353,7 +353,7 @@ class CoreListener extends AbstractListener {
 			$word = 'Transient';
 		}
 		if ( isset( $this->logger ) ) {
-			$this->logger->debug( sprintf( '%s "%s" deleted.', $word, $option ) );
+			$this->logger->debug( sprintf( '%s deleted: "%s".', $word, $option ) );
 		}
 	}
 
@@ -364,7 +364,7 @@ class CoreListener extends AbstractListener {
 	 */
 	public function delete_user( $id, $reassign ) {
 		if ( isset( $this->logger ) ) {
-			$this->logger->notice( sprintf( 'User %s deleted.', $this->get_user( $id ) ) );
+			$this->logger->notice( sprintf( 'User deleted: %s.', $this->get_user( $id ) ) );
 		}
 	}
 
@@ -375,7 +375,7 @@ class CoreListener extends AbstractListener {
 	 */
 	public function wpmu_delete_user( $id ) {
 		if ( isset( $this->logger ) ) {
-			$this->logger->notice( sprintf( 'User %s deleted.', $this->get_user( $id ) ) );
+			$this->logger->notice( sprintf( 'User deleted: %s.', $this->get_user( $id ) ) );
 		}
 	}
 
@@ -386,7 +386,7 @@ class CoreListener extends AbstractListener {
 	 */
 	public function user_register( $id ) {
 		if ( isset( $this->logger ) ) {
-			$this->logger->notice( sprintf( 'User %s created.', $this->get_user( $id ) ) );
+			$this->logger->notice( sprintf( 'User created: %s.', $this->get_user( $id ) ) );
 		}
 	}
 
@@ -428,7 +428,7 @@ class CoreListener extends AbstractListener {
 	 */
 	public function wp_logout() {
 		if ( isset( $this->logger ) ) {
-			$this->logger->info( 'User is logged-out.' );
+			$this->logger->info( 'User logged-out.' );
 		}
 	}
 
@@ -459,7 +459,7 @@ class CoreListener extends AbstractListener {
 			$id = 0;
 		}
 		if ( isset( $this->logger ) ) {
-			$this->logger->info( sprintf( 'User %s is logged-in.', $this->get_user( $id ) ) );
+			$this->logger->info( sprintf( 'User logged-in: %s.', $this->get_user( $id ) ) );
 		}
 	}
 
@@ -511,7 +511,7 @@ class CoreListener extends AbstractListener {
 		if ( $old_theme instanceof \WP_Theme && $new_theme instanceof \WP_Theme ) {
 			$message = sprintf( 'Theme switched from "%s" to "%s".', $old_theme->name, $new_theme->name );
 		} else {
-			$message = sprintf( 'Theme "%s" activated.', $new_name );
+			$message = sprintf( 'Theme activated: "%s".', $new_name );
 		}
 		if ( isset( $this->logger ) ) {
 			$this->logger->notice( $message );
@@ -593,7 +593,7 @@ class CoreListener extends AbstractListener {
 	public function load_textdomain( $domain, $mofile ) {
 		$mofile = './' . str_replace( wp_normalize_path( ABSPATH ), '', wp_normalize_path( $mofile ) );
 		if ( isset( $this->logger ) ) {
-			$this->logger->debug( sprintf( 'Text domain "%s" loaded from %s.', $domain, $mofile ) );
+			$this->logger->debug( sprintf( 'Text domain loaded: "%s" from %s.', $domain, $mofile ) );
 		}
 	}
 
@@ -616,9 +616,9 @@ class CoreListener extends AbstractListener {
 	public function activated_plugin( $plugin, $network_activation ) {
 		if ( isset( $this->logger ) ) {
 			if ( $network_activation ) {
-				$this->logger->notice( sprintf( 'Plugin network activation from %s file.', $plugin ) );
+				$this->logger->notice( sprintf( 'Plugin network activation: %s file.', $plugin ) );
 			} else {
-				$this->logger->notice( sprintf( 'Plugin activation from %s file.', $plugin ) );
+				$this->logger->notice( sprintf( 'Plugin activation: %s file.', $plugin ) );
 			}
 		}
 	}
@@ -631,9 +631,9 @@ class CoreListener extends AbstractListener {
 	public function deactivated_plugin( $plugin, $network_activation ) {
 		if ( isset( $this->logger ) ) {
 			if ( $network_activation ) {
-				$this->logger->notice( sprintf( 'Plugin network deactivation for %s file.', $plugin ) );
+				$this->logger->notice( sprintf( 'Plugin network deactivation: %s file.', $plugin ) );
 			} else {
-				$this->logger->notice( sprintf( 'Plugin deactivation for %s file.', $plugin ) );
+				$this->logger->notice( sprintf( 'Plugin deactivation: %s file.', $plugin ) );
 			}
 		}
 	}
@@ -712,7 +712,7 @@ class CoreListener extends AbstractListener {
 	public function wp( $wp ) {
 		if ( $wp instanceof \WP ) {
 			if ( is_404() ) {
-				$this->logger->warning( '404 Page not found', 404 );
+				$this->logger->warning( 'Page not found', 404 );
 			} elseif ( isset( $wp->query_vars['error'] ) ) {
 				$this->logger->error( $wp->query_vars['error'] );
 			}
