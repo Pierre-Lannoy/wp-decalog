@@ -13,6 +13,7 @@ namespace Decalog\Listener;
 
 use Decalog\API\DLogger;
 use Decalog\System\Environment;
+use Decalog\System\Option;
 use Monolog\Logger;
 use Monolog\Utils;
 
@@ -117,12 +118,47 @@ class PhpListener extends AbstractListener {
 	 * @since    1.0.0
 	 */
 	protected function launch() {
+		add_action( 'wp_loaded', [ $this, 'environment_check' ] );
 		register_shutdown_function( [ $this, 'handle_fatal_error' ] );
 		// phpcs:ignore
 		$this->previous_error_handler = set_error_handler( [ $this, 'handle_error' ] );
 		// phpcs:ignore
 		$this->previous_exception_handler = set_exception_handler( [ $this, 'handle_exception' ] );
 		return true;
+	}
+
+	/**
+	 * Check environment modifications.
+	 *
+	 * @since    1.2.0
+	 */
+	public function environment_check() {
+		$old_version = Option::get( 'php_version', 'x' );
+		if ( Environment::php_version() !== $old_version && 'x' !== $old_version ) {
+			Option::set( 'php_version', Environment::php_version() );
+			if ( version_compare( Environment::php_version(), $old_version, '<' ) ) {
+				$this->logger->warning( sprintf( 'PHP version downgraded from %s to %s.', $old_version, Environment::php_version() ) );
+			} else {
+				$this->logger->notice( sprintf( 'PHP version upgraded from %s to %s.', $old_version, Environment::php_version() ) );
+			}
+		} elseif ( 'x' === $old_version ) {
+			Option::set( 'php_version', Environment::php_version() );
+		}
+		$old_extensions = Option::get( 'php_extensions', 'x' );
+		$new_extensions = get_loaded_extensions();
+		if ( $new_extensions !== $old_extensions && 'x' !== $old_extensions ) {
+			Option::set( 'php_extensions', $new_extensions );
+			$added   = array_diff( $new_extensions, $old_extensions );
+			$removed = array_diff( $old_extensions, $new_extensions );
+			if ( count( $added ) > 0 ) {
+				$this->logger->notice( sprintf( 'Added PHP extension(s): %s.', implode( ', ', $added ) ) );
+			}
+			if ( count( $removed ) > 0 ) {
+				$this->logger->warning( sprintf( 'Removed PHP extension(s): %s.', implode( ', ', $removed ) ) );
+			}
+		} elseif ( 'x' === $old_extensions ) {
+			Option::set( 'php_extensions', $new_extensions );
+		}
 	}
 
 	/**
