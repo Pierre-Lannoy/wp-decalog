@@ -3,12 +3,12 @@ All notable changes to **DecaLog** is documented in this *changelog*.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.1.1] - 2019-08-29
 ### Changed
 - Better 'Page not found' detection and report.
 - Better handling of malformed `wp_die` calls.
 - 'Component' become 'source' in WordPress events viewer.
-- Some events have changed level to comply with rules described in `DEVELOPER.md`.
+- Some events have new levels and/or messages to comply with rules described in `DEVELOPER.md`.
 ### Fixed
 - WordPress formatter may (wrongly) emit warnings when source ip is unknown.
 
