@@ -162,7 +162,7 @@ The file defining the class for a ___listener___ must be named `class-<name>.php
 
 #### Levels
 In order to be similar to other log management systems and to maintain consistency between all the DecaLog ___listeners___, the ___levels___ are used as follows:
-* `DEBUG`: 
+* `DEBUG`: only used for events related to application/system debugging. Must not concern standard, important or critical events. _Ex.: "Plugin table xxx updated.", "Textdomain yyy loaded."_.
 * `INFO`: 
 * `NOTICE`: 
 * `WARNING`: 
