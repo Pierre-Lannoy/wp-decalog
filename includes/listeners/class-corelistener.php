@@ -127,16 +127,22 @@ class CoreListener extends AbstractListener {
 	public function environment_check() {
 		global $wp_version;
 		$old_version = Option::get( 'wp_version', 'x' );
-		if ( $wp_version !== $old_version && 'x' !== $old_version ) {
+		if ( 'x' === $old_version ) {
 			Option::set( 'wp_version', $wp_version );
-			if ( version_compare( $wp_version, $old_version, '<' ) ) {
-				$this->logger->warning( sprintf( 'WordPress version downgraded from %s to %s.', $old_version, $wp_version ) );
-			} else {
-				$this->logger->notice( sprintf( 'WordPress version upgraded from %s to %s.', $old_version, $wp_version ) );
-			}
-		} elseif ( 'x' === $old_version ) {
-			Option::set( 'wp_version', $wp_version );
+			return;
 		}
+
+		if ( $wp_version === $old_version ) {
+			return;
+		}
+
+		Option::set( 'wp_version', $wp_version );
+		if ( version_compare( $wp_version, $old_version, '<' ) ) {
+			$this->logger->warning( sprintf( 'WordPress version downgraded from %s to %s.', $old_version, $wp_version ) );
+			return;
+		}
+
+		$this->logger->notice( sprintf( 'WordPress version upgraded from %s to %s.', $old_version, $wp_version ) );
 	}
 
 	/**
