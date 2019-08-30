@@ -39,7 +39,7 @@ class ProcessorTypes {
 		$this->processors[] = [
 			'id'        => 'BacktraceProcessor',
 			'namespace' => 'Decalog\\Processor',
-			'name'      => esc_html__( 'PHP backtrace', 'decalog' ),
+			'name'      => esc_html__( 'Backtrace', 'decalog' ),
 			'help'      => esc_html__( 'Allows to log the full call stack.', 'decalog' ),
 			'init'      => [
 				[ 'type' => 'level' ],

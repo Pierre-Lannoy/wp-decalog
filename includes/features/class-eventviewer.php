@@ -251,9 +251,9 @@ class EventViewer {
 		add_meta_box( 'decalog-http', esc_html__( 'HTTP request', 'decalog' ), [ $this, 'http_widget' ], self::$screen_id, 'advanced' );
 		add_meta_box( 'decalog-php', esc_html__( 'PHP introspection', 'decalog' ), [ $this, 'php_widget' ], self::$screen_id, 'advanced' );
 		// Right column.
-		/* translators: like in the sentence "PHP backtrace" or "WordPress" backtrace */
+		/* translators: like in the sentence "PHP backtrace" or "WordPress backtrace" */
 		add_meta_box( 'decalog-wpbacktrace', sprintf( esc_html__( '%s backtrace', 'decalog' ), 'WordPress' ), [ $this, 'wpbacktrace_widget' ], self::$screen_id, 'side' );
-		/* translators: like in the sentence "PHP backtrace" or "WordPress" backtrace */
+		/* translators: like in the sentence "PHP backtrace" or "WordPress backtrace" */
 		add_meta_box( 'decalog-phpbacktrace', sprintf( esc_html__( '%s backtrace', 'decalog' ), 'PHP' ), [ $this, 'phpbacktrace_widget' ], self::$screen_id, 'side' );
 	}
 
