@@ -15,6 +15,7 @@ use Decalog\Plugin\Feature\HandlerTypes;
 use Decalog\Plugin\Feature\ProcessorTypes;
 use Decalog\Plugin\Feature\LoggerFactory;
 use Decalog\Plugin\Feature\Events;
+use Decalog\Plugin\Feature\InlineHelp;
 use Decalog\Listener\ListenerFactory;
 use Decalog\System\Assets;
 use Decalog\System\UUID;
@@ -112,10 +113,11 @@ class Decalog_Admin {
 		}
 		$this->current_view = null;
 		if ( Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type() ) {
-			add_submenu_page( 'options-general.php', sprintf( esc_html__( '%s Settings', 'decalog' ), DECALOG_PRODUCT_NAME ), DECALOG_PRODUCT_NAME, 'manage_options', 'decalog-settings', [ $this, 'get_settings_page' ] );
+			$settings = add_submenu_page( 'options-general.php', sprintf( esc_html__( '%s Settings', 'decalog' ), DECALOG_PRODUCT_NAME ), DECALOG_PRODUCT_NAME, 'manage_options', 'decalog-settings', [ $this, 'get_settings_page' ] );
+			add_action( 'load-' . $settings, [ new InlineHelp(), 'set_contextual_settings' ] );
 		}
 		if ( Events::loggers_count() > 0 ) {
-			$name    = add_submenu_page(
+			$name = add_submenu_page(
 				'tools.php',
 				sprintf( esc_html__( '%s Viewer', 'decalog' ), DECALOG_PRODUCT_NAME ),
 				DECALOG_PRODUCT_NAME,
@@ -126,6 +128,7 @@ class Decalog_Admin {
 					'get_tools_page',
 				)
 			);
+			add_action( 'load-' . $name, [ new InlineHelp(), 'set_contextual_viewer' ] );
 			$logid   = filter_input( INPUT_GET, 'logid', FILTER_SANITIZE_STRING );
 			$eventid = filter_input( INPUT_GET, 'eventid', FILTER_SANITIZE_NUMBER_INT );
 			if ( isset( $logid ) && isset( $eventid ) && 0 !== $eventid ) {
