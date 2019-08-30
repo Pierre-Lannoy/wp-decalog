@@ -60,7 +60,7 @@ The simplest way to generate an ___event___ from your code is to use DecaLog as 
 This way of doing things is quite operational but, to be honest, there is a much, much, better way: writing your own ___listener___!
 
 ### Writing a listener
-As previously said, a ___listener___ is a piece of code which listens to a specific _perimeter_. You can write a ___listener___ just for your plugin or theme. If your ___listener___ respects [conventions](#conventions) and if your plugin or theme is present in the WordPress directory, it can be released with the next version of DecaLog.
+As previously said, a ___listener___ is a piece of code that listens to a specific _perimeter_. You can write a ___listener___ just for your plugin or theme. If your ___listener___ respects [conventions](#conventions) and if your plugin or theme is present in the WordPress directory, it can be released with the next version of DecaLog.
 
 Before writing a ___listener___ your plugin or theme must define actions hooks with `do_action()` function each time a significant condition occurs. Like this:
 
@@ -80,7 +80,7 @@ Once done, you can write your ___listener___ by extending the class `Decalog\Lis
 - `is_available()` to verify if your plugin or theme is installed and activated;
 - `launch()` to "launch" the listener.
 
-Here is an example which implements a simple ___listener___ able to listen the action defined sooner in this section:
+Here is an example that implements a simple ___listener___ able to listen the action defined sooner in this section:
 
 ```php
     /**
