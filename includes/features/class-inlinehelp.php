@@ -172,6 +172,18 @@ class InlineHelp {
 			'id'      => 'decalog-contextual-viewer-main-layout',
 			'content' => $content,
 		];
+
+		// Admin Rights.
+		$content  = '<p>' . esc_html__( 'You can use the following controls to arrange the screen to suit your usage preferences:', 'decalog' ) . '</p>';
+		$content .= '<p><strong>' . esc_html__( 'Screen Options', 'decalog' ) . '</strong> &mdash; ' . esc_html__( 'Use the Screen Options tab to choose which boxes to show.', 'decalog' ) . '</p>';
+		$content .= '<p><strong>' . esc_html__( 'Drag and Drop', 'decalog' ) . '</strong> &mdash; ' . esc_html__( 'To rearrange the boxes, drag and drop by clicking on the title bar of the selected box and releasing when you see a gray dotted-line rectangle appear in the location you want to place the box.', 'decalog' ) . '</p>';
+		$content .= '<p><strong>' . esc_html__( 'Box Controls', 'decalog' ) . '</strong> &mdash; ' . esc_html__( 'Click the title bar of the box to expand or collapse it.', 'decalog' ) . '</p>';
+		$tabs[]   = [
+			'title'   => esc_html__( 'Admin rights', 'decalog' ),
+			'id'      => 'decalog-contextual-viewer-main-rights',
+			'content' => $content,
+		];
+
 		// Levels.
 		$tabs[] = [
 			'title'   => esc_html__( 'Events levels', 'decalog' ),

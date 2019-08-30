@@ -113,32 +113,44 @@ class Decalog_Admin {
 		}
 		$this->current_view = null;
 		if ( Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type() ) {
+			/* translators: as in the sentence "DecaLog Settings" or "WordPress Settings" */
 			$settings = add_submenu_page( 'options-general.php', sprintf( esc_html__( '%s Settings', 'decalog' ), DECALOG_PRODUCT_NAME ), DECALOG_PRODUCT_NAME, 'manage_options', 'decalog-settings', [ $this, 'get_settings_page' ] );
 			add_action( 'load-' . $settings, [ new InlineHelp(), 'set_contextual_settings' ] );
 		}
-		if ( Events::loggers_count() > 0 ) {
-			$name = add_submenu_page(
-				'tools.php',
-				sprintf( esc_html__( '%s Viewer', 'decalog' ), DECALOG_PRODUCT_NAME ),
-				DECALOG_PRODUCT_NAME,
-				'manage_options',
-				'decalog-viewer',
-				array(
-					$this,
-					'get_tools_page',
-				)
-			);
-			add_action( 'load-' . $name, [ new InlineHelp(), 'set_contextual_viewer' ] );
-			$logid   = filter_input( INPUT_GET, 'logid', FILTER_SANITIZE_STRING );
-			$eventid = filter_input( INPUT_GET, 'eventid', FILTER_SANITIZE_NUMBER_INT );
-			if ( isset( $logid ) && isset( $eventid ) && 0 !== $eventid ) {
-				$this->current_view = new EventViewer( $logid, $eventid, $this->logger );
-				add_action( 'load-' . $name, [ $this->current_view, 'add_metaboxes_options' ] );
-				add_action( 'admin_footer-' . $name, [ $this->current_view, 'add_footer' ] );
-				add_filter( 'screen_settings', [ $this->current_view, 'display_screen_settings' ], 10, 2 );
-			} else {
-				add_action( 'load-' . $name, [ 'Decalog\Plugin\Feature\Events', 'add_column_options' ] );
-				add_filter( 'screen_settings', [ 'Decalog\Plugin\Feature\Events', 'display_screen_settings' ], 10, 2 );
+		if ( Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type() || Role::LOCAL_ADMIN === Role::admin_type() ) {
+			if ( Events::loggers_count() > 0 ) {
+				$name = add_submenu_page(
+					'tools.php',
+					/* translators: as in the sentence "DecaLog Viewer" */
+					sprintf( esc_html__( '%s Viewer', 'decalog' ), DECALOG_PRODUCT_NAME ),
+					DECALOG_PRODUCT_NAME,
+					'manage_options',
+					'decalog-viewer',
+					array(
+						$this,
+						'get_tools_page',
+					)
+				);
+				add_action( 'load-' . $name, [ new InlineHelp(), 'set_contextual_viewer' ] );
+				$logid   = filter_input( INPUT_GET, 'logid', FILTER_SANITIZE_STRING );
+				$eventid = filter_input( INPUT_GET, 'eventid', FILTER_SANITIZE_NUMBER_INT );
+				if ( isset( $logid ) && isset( $eventid ) && 0 !== $eventid ) {
+					$this->current_view = new EventViewer( $logid, $eventid, $this->logger );
+					add_action( 'load-' . $name, [ $this->current_view, 'add_metaboxes_options' ] );
+					add_action( 'admin_footer-' . $name, [ $this->current_view, 'add_footer' ] );
+					add_filter( 'screen_settings', [ $this->current_view, 'display_screen_settings' ], 10, 2 );
+				} else {
+					add_action( 'load-' . $name, [ 'Decalog\Plugin\Feature\Events', 'add_column_options' ] );
+					add_filter(
+						'screen_settings',
+						[
+							'Decalog\Plugin\Feature\Events',
+							'display_screen_settings',
+						],
+						10,
+						2
+					);
+				}
 			}
 		}
 	}
