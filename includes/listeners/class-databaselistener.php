@@ -56,7 +56,7 @@ class DatabaseListener extends AbstractListener {
 	 * @since    1.0.0
 	 */
 	protected function launch() {
-		add_action( 'wp_loaded', [ $this, 'environment_check' ] );
+		add_action( 'wp_loaded', [ $this, 'version_check' ] );
 		add_action( 'shutdown', [ $this, 'shutdown' ], 10, 0 );
 		add_filter( 'wp_die_ajax_handler', [ $this, 'wp_die_handler' ], 10, 1 );
 		add_filter( 'wp_die_xmlrpc_handler', [ $this, 'wp_die_handler' ], 10, 1 );
@@ -68,22 +68,26 @@ class DatabaseListener extends AbstractListener {
 	}
 
 	/**
-	 * Check environment modifications.
+	 * Check versions modifications.
 	 *
 	 * @since    1.2.0
 	 */
-	public function environment_check() {
+	public function version_check() {
+		$db_version  = Environment::mysql_version();
 		$old_version = Option::get( 'db_version', 'x' );
-		if ( Environment::mysql_version() !== $old_version && 'x' !== $old_version ) {
-			Option::set( 'db_version', Environment::mysql_version() );
-			if ( version_compare( Environment::mysql_version(), $old_version, '<' ) ) {
-				$this->logger->warning( sprintf( 'MySQL version downgraded from %s to %s.', $old_version, Environment::mysql_version() ) );
-			} else {
-				$this->logger->notice( sprintf( 'MySQL version upgraded from %s to %s.', $old_version, Environment::mysql_version() ) );
-			}
-		} elseif ( 'x' === $old_version ) {
-			Option::set( 'db_version', Environment::mysql_version() );
+		if ( 'x' === $old_version ) {
+			Option::set( 'db_version', $db_version );
+			return;
 		}
+		if ( $db_version === $old_version ) {
+			return;
+		}
+		Option::set( 'db_version', $db_version );
+		if ( version_compare( $db_version, $old_version, '<' ) ) {
+			$this->logger->warning( sprintf( 'MySQL version downgraded from %s to %s.', $old_version, $db_version ) );
+			return;
+		}
+		$this->logger->notice( sprintf( 'MySQL version upgraded from %s to %s.', $old_version, $db_version ) );
 	}
 
 	/**

@@ -58,7 +58,7 @@ class CoreListener extends AbstractListener {
 	 * @since    1.0.0
 	 */
 	protected function launch() {
-		add_action( 'wp_loaded', [ $this, 'environment_check' ] );
+		add_action( 'wp_loaded', [ $this, 'version_check' ] );
 		// Attachments.
 		add_action( 'add_attachment', [ $this, 'add_attachment' ], 10, 1 );
 		add_action( 'delete_attachment', [ $this, 'delete_attachment' ], 10, 1 );
@@ -120,28 +120,25 @@ class CoreListener extends AbstractListener {
 	}
 
 	/**
-	 * Check environment modifications.
+	 * Check versions modifications.
 	 *
 	 * @since    1.2.0
 	 */
-	public function environment_check() {
+	public function version_check() {
 		global $wp_version;
 		$old_version = Option::get( 'wp_version', 'x' );
 		if ( 'x' === $old_version ) {
 			Option::set( 'wp_version', $wp_version );
 			return;
 		}
-
 		if ( $wp_version === $old_version ) {
 			return;
 		}
-
 		Option::set( 'wp_version', $wp_version );
 		if ( version_compare( $wp_version, $old_version, '<' ) ) {
 			$this->logger->warning( sprintf( 'WordPress version downgraded from %s to %s.', $old_version, $wp_version ) );
 			return;
 		}
-
 		$this->logger->notice( sprintf( 'WordPress version upgraded from %s to %s.', $old_version, $wp_version ) );
 	}
 

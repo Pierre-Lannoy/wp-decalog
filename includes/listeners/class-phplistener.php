@@ -118,7 +118,8 @@ class PhpListener extends AbstractListener {
 	 * @since    1.0.0
 	 */
 	protected function launch() {
-		add_action( 'wp_loaded', [ $this, 'environment_check' ] );
+		add_action( 'wp_loaded', [ $this, 'version_check' ] );
+		add_action( 'wp_loaded', [ $this, 'extensions_check' ] );
 		register_shutdown_function( [ $this, 'handle_fatal_error' ] );
 		// phpcs:ignore
 		$this->previous_error_handler = set_error_handler( [ $this, 'handle_error' ] );
@@ -128,36 +129,51 @@ class PhpListener extends AbstractListener {
 	}
 
 	/**
-	 * Check environment modifications.
+	 * Check versions modifications.
 	 *
 	 * @since    1.2.0
 	 */
-	public function environment_check() {
+	public function version_check() {
+		$php_version = Environment::php_version();
 		$old_version = Option::get( 'php_version', 'x' );
-		if ( Environment::php_version() !== $old_version && 'x' !== $old_version ) {
-			Option::set( 'php_version', Environment::php_version() );
-			if ( version_compare( Environment::php_version(), $old_version, '<' ) ) {
-				$this->logger->warning( sprintf( 'PHP version downgraded from %s to %s.', $old_version, Environment::php_version() ) );
-			} else {
-				$this->logger->notice( sprintf( 'PHP version upgraded from %s to %s.', $old_version, Environment::php_version() ) );
-			}
-		} elseif ( 'x' === $old_version ) {
-			Option::set( 'php_version', Environment::php_version() );
+		if ( 'x' === $old_version ) {
+			Option::set( 'php_version', $php_version );
+			return;
 		}
+		if ( $php_version === $old_version ) {
+			return;
+		}
+		Option::set( 'php_version', $php_version );
+		if ( version_compare( $php_version, $old_version, '<' ) ) {
+			$this->logger->warning( sprintf( 'WordPress version downgraded from %s to %s.', $old_version, $php_version ) );
+			return;
+		}
+		$this->logger->notice( sprintf( 'WordPress version upgraded from %s to %s.', $old_version, $php_version ) );
+	}
+
+	/**
+	 * Check extensions modifications.
+	 *
+	 * @since    1.2.0
+	 */
+	public function extensions_check() {
 		$old_extensions = Option::get( 'php_extensions', 'x' );
 		$new_extensions = get_loaded_extensions();
-		if ( $new_extensions !== $old_extensions && 'x' !== $old_extensions ) {
+		if ( 'x' === $old_extensions ) {
 			Option::set( 'php_extensions', $new_extensions );
-			$added   = array_diff( $new_extensions, $old_extensions );
-			$removed = array_diff( $old_extensions, $new_extensions );
-			if ( count( $added ) > 0 ) {
-				$this->logger->notice( sprintf( 'Added PHP extension(s): %s.', implode( ', ', $added ) ) );
-			}
-			if ( count( $removed ) > 0 ) {
-				$this->logger->warning( sprintf( 'Removed PHP extension(s): %s.', implode( ', ', $removed ) ) );
-			}
-		} elseif ( 'x' === $old_extensions ) {
-			Option::set( 'php_extensions', $new_extensions );
+			return;
+		}
+		if ( $new_extensions === $old_extensions ) {
+			return;
+		}
+		Option::set( 'php_extensions', $new_extensions );
+		$added   = array_diff( $new_extensions, $old_extensions );
+		$removed = array_diff( $old_extensions, $new_extensions );
+		if ( count( $added ) > 0 ) {
+			$this->logger->notice( sprintf( 'Added PHP extension(s): %s.', implode( ', ', $added ) ) );
+		}
+		if ( count( $removed ) > 0 ) {
+			$this->logger->warning( sprintf( 'Removed PHP extension(s): %s.', implode( ', ', $removed ) ) );
 		}
 	}
 
