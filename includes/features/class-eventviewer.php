@@ -251,8 +251,10 @@ class EventViewer {
 		add_meta_box( 'decalog-http', esc_html__( 'HTTP request', 'decalog' ), [ $this, 'http_widget' ], self::$screen_id, 'advanced' );
 		add_meta_box( 'decalog-php', esc_html__( 'PHP introspection', 'decalog' ), [ $this, 'php_widget' ], self::$screen_id, 'advanced' );
 		// Right column.
-		add_meta_box( 'decalog-wpbacktrace', esc_html__( 'WordPress backtrace', 'decalog' ), [ $this, 'wpbacktrace_widget' ], self::$screen_id, 'side' );
-		add_meta_box( 'decalog-phpbacktrace', esc_html__( 'PHP backtrace', 'decalog' ), [ $this, 'phpbacktrace_widget' ], self::$screen_id, 'side' );
+		/* translators: like in the sentence "PHP backtrace" or "WordPress" backtrace */
+		add_meta_box( 'decalog-wpbacktrace', sprintf( esc_html__( '%s backtrace', 'decalog' ), 'WordPress' ), [ $this, 'wpbacktrace_widget' ], self::$screen_id, 'side' );
+		/* translators: like in the sentence "PHP backtrace" or "WordPress" backtrace */
+		add_meta_box( 'decalog-phpbacktrace', sprintf( esc_html__( '%s backtrace', 'decalog' ), 'PHP' ), [ $this, 'phpbacktrace_widget' ], self::$screen_id, 'side' );
 	}
 
 	/**
@@ -299,7 +301,7 @@ class EventViewer {
 	public function event_widget() {
 		// Event type.
 		$icon     = '<img style="width:18px;float:left;padding-right:6px;" src="' . EventTypes::$icons[ $this->event['level'] ] . '" />';
-		$level    = ucwords( EventTypes::$level_texts[ $this->event['level'] ] );
+		$level    = ucwords( strtolower( EventTypes::$level_names[ EventTypes::$levels[ $this->event['level'] ] ] ) );
 		$channel  = ChannelTypes::$channel_names[ strtoupper( $this->event['channel'] ) ];
 		$content  = '<span style="width:40%;cursor: default;float:left">' . $icon . $level . '</span>';
 		$content .= '<span style="width:60%;cursor: default;">' . $this->get_icon( 'activity', 'none' ) . $channel . '</span>';
