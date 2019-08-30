@@ -11,6 +11,7 @@
 
 namespace Decalog\Plugin\Feature;
 
+use Decalog\System\Environment;
 use Decalog\System\L10n;
 use Decalog\Plugin\Feature\EventTypes;
 use Decalog\System\Role;
@@ -182,7 +183,18 @@ class InlineHelp {
 	 */
 	private function set_contextual_settings_options() {
 		$tabs = [];
-
+		// Overview.
+		$content  = '<p>' . sprintf ( esc_html__( 'This screen allows you to set misc options of %s.', 'decalog' ), DECALOG_PRODUCT_NAME ) . '</p>';
+		if ( Environment::is_wordpress_multisite() ) {
+			$content .= '<p><em>' . esc_html__( 'Note these options are global. They are set for all loggers, for all sites in your network.', 'decalog' ) . '</em></p>';
+		} else {
+			$content .= '<p><em>' . esc_html__( 'Note these options are global. They are set for all loggers.', 'decalog' ) . '</em></p>';
+		}
+		$tabs[] = [
+			'title'   => esc_html__( 'Overview', 'decalog' ),
+			'id'      => 'decalog-contextual-viewer-main-overview',
+			'content' => $content,
+		];
 		// Admin Rights.
 		if ( Role::SUPER_ADMIN === Role::admin_type() || Role::LOCAL_ADMIN === Role::admin_type() ) {
 			$tabs[] = [
