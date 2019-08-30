@@ -160,7 +160,15 @@ class InlineHelp {
 	 */
 	private function set_contextual_settings_listeners() {
 		$tabs = [];
-
+		// Overview.
+		$content  = '<p>' . sprintf ( esc_html__( 'This screen allows you to set the way %s uses listeners.', 'decalog' ), DECALOG_PRODUCT_NAME ) . '</p>';
+		$content .= '<p>' . esc_html__( 'A listener, as its name suggests, listen to a specific component (a "source") of your WordPress instance.', 'decalog' );
+		$content .= ' ' . sprintf ( esc_html__( 'You can choose to tell %s to activate all the available listeners, or you can manually select the sources to listen.', 'decalog' ), DECALOG_PRODUCT_NAME ) . '</p>';
+		$tabs[]   = [
+			'title'   => esc_html__( 'Overview', 'decalog' ),
+			'id'      => 'decalog-contextual-settings-listeners-overview',
+			'content' => $content,
+		];
 		// Admin Rights.
 		if ( Role::SUPER_ADMIN === Role::admin_type() || Role::LOCAL_ADMIN === Role::admin_type() ) {
 			$tabs[] = [
@@ -192,7 +200,7 @@ class InlineHelp {
 		}
 		$tabs[] = [
 			'title'   => esc_html__( 'Overview', 'decalog' ),
-			'id'      => 'decalog-contextual-viewer-main-overview',
+			'id'      => 'decalog-contextual-settings-options-overview',
 			'content' => $content,
 		];
 		// Admin Rights.
