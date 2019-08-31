@@ -9,6 +9,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - The PHP listener can now detect version upgrading/downgrading.
 - The PHP listener can now detect extensions activation/deactivation.
 - The database listener can now detect version upgrading/downgrading.
+### Security
+- In a multisite, a non-admin user was able to read the name of a logger (not its content).
 
 ## [1.1.1] - 2019-08-29
 ### Changed
@@ -18,8 +20,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Some events have new levels and/or messages to comply with rules described in `DEVELOPER.md`.
 ### Fixed
 - WordPress formatter may (wrongly) emit warnings when source ip is unknown.
-### Security
-- In a multisite, a non-admin user was able to read the name of a logger (not its content).
 
 ## [1.1.0] - 2019-08-28
 ### Added

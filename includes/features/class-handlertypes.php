@@ -54,7 +54,7 @@ class HandlerTypes {
 			'id'            => 'BrowserConsoleHandler',
 			'ancestor'      => 'BrowserConsoleHandler',
 			'namespace'     => 'Monolog\\Handler',
-			'class'         => 'browser',
+			'class'         => 'debugging',
 			'minimal'       => Logger::DEBUG,
 			'name'          => esc_html__( 'Browser console', 'decalog' ),
 			'help'          => esc_html__( 'An events log sent to browser\'s javascript console with no browser extension required.', 'decalog' ),
@@ -73,7 +73,7 @@ class HandlerTypes {
 			'id'            => 'ChromePHPHandler',
 			'ancestor'      => 'ChromePHPHandler',
 			'namespace'     => 'Monolog\\Handler',
-			'class'         => 'browser',
+			'class'         => 'debugging',
 			'minimal'       => Logger::DEBUG,
 			'name'          => esc_html__( 'ChromePHP', 'decalog' ),
 			'help'          => esc_html__( 'An events log sent to the ChromePHP extension (http://www.chromephp.com/).', 'decalog' ),
@@ -92,7 +92,7 @@ class HandlerTypes {
 			'id'            => 'FluentHandler',
 			'ancestor'      => 'SocketHandler',
 			'namespace'     => 'Decalog\\Handler',
-			'class'         => 'network',
+			'class'         => 'logging',
 			'minimal'       => Logger::DEBUG,
 			'name'          => esc_html__( 'Fluentd', 'decalog' ),
 			'help'          => esc_html__( 'An events log sent to a Fluentd collector.', 'decalog' ),
@@ -183,7 +183,7 @@ class HandlerTypes {
 			'id'            => 'ErrorLogHandler',
 			'ancestor'      => 'ErrorLogHandler',
 			'namespace'     => 'Monolog\\Handler',
-			'class'         => 'file',
+			'class'         => 'logging',
 			'minimal'       => Logger::DEBUG,
 			'name'          => esc_html__( 'PHP error log', 'decalog' ),
 			'help'          => esc_html__( 'An events log stored in the standard PHP error log, as with the error_log() function.', 'decalog' ),
@@ -278,7 +278,7 @@ class HandlerTypes {
 			'id'            => 'RotatingFileHandler',
 			'ancestor'      => 'StreamHandler',
 			'namespace'     => 'Monolog\Handler',
-			'class'         => 'file',
+			'class'         => 'logging',
 			'minimal'       => Logger::DEBUG,
 			'name'          => esc_html__( 'Rotating files', 'decalog' ),
 			'help'          => esc_html__( 'An events log sent to files that are rotated every day and a limited number of files are kept.', 'decalog' ),
@@ -417,7 +417,7 @@ class HandlerTypes {
 			'id'            => 'SyslogUdpHandler',
 			'ancestor'      => 'UdpSocket',
 			'namespace'     => 'Monolog\Handler',
-			'class'         => 'network',
+			'class'         => 'logging',
 			'minimal'       => Logger::DEBUG,
 			'name'          => esc_html__( 'Syslog', 'decalog' ),
 			'help'          => esc_html__( 'An events log sent to a remote syslogd server.', 'decalog' ),
@@ -534,7 +534,7 @@ class HandlerTypes {
 			'id'            => 'WordpressHandler',
 			'ancestor'      => 'WordpressHandler',
 			'namespace'     => 'Decalog\Handler',
-			'class'         => 'database',
+			'class'         => 'logging',
 			'minimal'       => Logger::DEBUG,
 			'name'          => esc_html__( 'WordPress events log', 'decalog' ),
 			'help'          => esc_html__( 'An events log stored in your WordPress database and available right in your admin dashboard.', 'decalog' ),
@@ -608,6 +608,29 @@ class HandlerTypes {
 	 */
 	public function get_all() {
 		return $this->handlers;
+	}
+
+	/**
+	 * Get the types definition for a specific class.
+	 *
+	 * @param   string $class  The class of loggers ( 'alerting', 'debugging', 'logging').
+	 * @return  array   A list of all available types definitions.
+	 * @since    1.2.0
+	 */
+	public function get_for_class( $class ) {
+		$result = [];
+		foreach ( $this->handlers as $handler ) {
+			if ( $handler['class'] === $class ) {
+				$result[] = $handler;
+			}
+		}
+		usort(
+			$result,
+			function( $a, $b ) {
+				return strcmp( strtolower( $a['name'] ), strtolower( $b['name'] ) );
+			}
+		);
+		return $result;
 	}
 
 	/**

@@ -13,7 +13,6 @@ namespace Decalog\Plugin\Feature;
 
 use Decalog\System\Environment;
 use Decalog\System\L10n;
-use Decalog\Plugin\Feature\EventTypes;
 use Decalog\System\Role;
 
 /**
@@ -115,6 +114,23 @@ class InlineHelp {
 	}
 
 	/**
+	 * Get the loggers of a specific class.
+	 *
+	 * @param   string $class  The class of loggers ( 'alerting', 'debugging', 'logging').
+	 * @return  string  The content to display about this class of loggers.
+	 * @since    1.2.0
+	 */
+	private function get_loggers( $class ) {
+		$handlers = new HandlerTypes();
+		$content  = '';
+		foreach ( $handlers->get_for_class( $class ) as $handler ) {
+			$icon     = '<img style="width:18px;float:left;padding-right:6px;" src="' . $handler['icon'] . '" />';
+			$content .= '<p>' . $icon . '<strong>' . $handler['name'] . '</strong> &mdash; ' . $handler['help'] . '</p>';
+		}
+		return $content;
+	}
+
+	/**
 	 * Get the admin rights content.
 	 *
 	 * @return  string  The content to display about admin rights.
@@ -123,9 +139,9 @@ class InlineHelp {
 	private function get_admin_rights_content() {
 		$content = '';
 		if ( Role::SUPER_ADMIN === Role::admin_type() || Role::LOCAL_ADMIN === Role::admin_type() ) {
-		$content  = '<p>' . esc_html__( 'Because your site takes part in a sites network, admin ability to view and configure events logs differ as follows:', 'decalog' ) . '</p>';
-		$content .= '<p><strong>' . esc_html_x( 'Network Admin', 'WordPress multisite', 'decalog' ) . '</strong> &mdash; ' . esc_html__( 'Can set loggers, can view all events in all WordPress events log.', 'decalog' ) . ( Role::SUPER_ADMIN === Role::admin_type() ? ' <strong><em>' . esc_html__( 'That\'s your current role.', 'decalog' ) . '</em></strong>' : '' ) . '</p>';
-		$content .= '<p><strong>' . esc_html_x( 'Sites Admin', 'WordPress multisite', 'decalog' ) . '</strong> &mdash; ' . esc_html__( 'Can\'t set loggers, can only view events regarding their own sites in all WordPress events log.', 'decalog' ) . ( Role::LOCAL_ADMIN === Role::admin_type() ? ' <strong><em>' . esc_html__( 'That\'s your current role.', 'decalog' ) . '</em></strong>' : '' ) . '</p>';
+			$content  = '<p>' . esc_html__( 'Because your site takes part in a sites network, admin ability to view and configure events logs differ as follows:', 'decalog' ) . '</p>';
+			$content .= '<p><strong>' . esc_html_x( 'Network Admin', 'WordPress multisite', 'decalog' ) . '</strong> &mdash; ' . esc_html__( 'Can set loggers, can view all events in all WordPress events log.', 'decalog' ) . ( Role::SUPER_ADMIN === Role::admin_type() ? ' <strong><em>' . esc_html__( 'That\'s your current role.', 'decalog' ) . '</em></strong>' : '' ) . '</p>';
+			$content .= '<p><strong>' . esc_html_x( 'Sites Admin', 'WordPress multisite', 'decalog' ) . '</strong> &mdash; ' . esc_html__( 'Can\'t set loggers, can only view events regarding their own sites in all WordPress events log.', 'decalog' ) . ( Role::LOCAL_ADMIN === Role::admin_type() ? ' <strong><em>' . esc_html__( 'That\'s your current role.', 'decalog' ) . '</em></strong>' : '' ) . '</p>';
 		}
 		return $content;
 	}
@@ -137,7 +153,37 @@ class InlineHelp {
 	 */
 	private function set_contextual_settings_loggers() {
 		$tabs = [];
-
+		// Overview.
+		$content  = '<p>' . sprintf( esc_html__( 'This screen allows you to set the %s loggers.', 'decalog' ), DECALOG_PRODUCT_NAME ) . '</p>';
+		$content .= '<p>' . esc_html__( 'A logger is a recorder of events. It can filter them (accept or refuse to record the event based on settings) then store them or send them to logging/alerting services.', 'decalog' );
+		$content .= ' ' . esc_html__( 'You can set as many loggers as you want. All the set loggers will receive all events and, regarding their own settings, will enrich them and record them or not.', 'decalog' ) . '</p>';
+		$content .= '<p>' . esc_html__( 'Loggers are classified in three main categories: alerting, debugging and logging. You can find details on these categories on the corresponding tabs of this help.', 'decalog' ) . '</p>';
+		$tabs[]   = [
+			'title'   => esc_html__( 'Overview', 'decalog' ),
+			'id'      => 'decalog-contextual-settings-loggers-overview',
+			'content' => $content,
+		];
+		// Alerting.
+		$content = '<p>' . esc_html__( 'These loggers allow you to send alerts:', 'decalog' ) . '</p>';
+		$tabs[]  = [
+			'title'   => esc_html__( 'Alerting', 'decalog' ),
+			'id'      => 'decalog-contextual-settings-loggers-alerting',
+			'content' => $content . $this->get_loggers( 'alerting' ),
+		];
+		// Debugging.
+		$content = '<p>' . esc_html__( 'These loggers can help you to debug your site:', 'decalog' ) . '</p>';
+		$tabs[]  = [
+			'title'   => esc_html__( 'Debugging', 'decalog' ),
+			'id'      => 'decalog-contextual-settings-loggers-debugging',
+			'content' => $content . $this->get_loggers( 'debugging' ),
+		];
+		// Logging.
+		$content = '<p>' . esc_html__( 'These loggers send events to logging services. It may be local or SaaS, free or paid services.', 'decalog' ) . '</p>';
+		$tabs[]  = [
+			'title'   => esc_html__( 'Logging', 'decalog' ),
+			'id'      => 'decalog-contextual-settings-loggers-logging',
+			'content' => $content . $this->get_loggers( 'logging' ),
+		];
 		// Admin Rights.
 		if ( Role::SUPER_ADMIN === Role::admin_type() || Role::LOCAL_ADMIN === Role::admin_type() ) {
 			$tabs[] = [
@@ -146,7 +192,12 @@ class InlineHelp {
 				'content' => $this->get_admin_rights_content(),
 			];
 		}
-
+		// Levels.
+		$tabs[] = [
+			'title'   => esc_html__( 'Events levels', 'decalog' ),
+			'id'      => 'decalog-contextual-settings-loggers-levels',
+			'content' => $this->get_levels_content(),
+		];
 		foreach ( $tabs as $tab ) {
 			$this->screen->add_help_tab( $tab );
 		}
@@ -161,9 +212,9 @@ class InlineHelp {
 	private function set_contextual_settings_listeners() {
 		$tabs = [];
 		// Overview.
-		$content  = '<p>' . sprintf ( esc_html__( 'This screen allows you to set the way %s uses listeners.', 'decalog' ), DECALOG_PRODUCT_NAME ) . '</p>';
+		$content  = '<p>' . sprintf( esc_html__( 'This screen allows you to set the way %s uses listeners.', 'decalog' ), DECALOG_PRODUCT_NAME ) . '</p>';
 		$content .= '<p>' . esc_html__( 'A listener, as its name suggests, listen to a specific component (a "source") of your WordPress instance.', 'decalog' );
-		$content .= ' ' . sprintf ( esc_html__( 'You can choose to tell %s to activate all the available listeners, or you can manually select the sources to listen.', 'decalog' ), DECALOG_PRODUCT_NAME ) . '</p>';
+		$content .= ' ' . sprintf( esc_html__( 'You can choose to tell %s to activate all the available listeners, or you can manually select the sources to listen.', 'decalog' ), DECALOG_PRODUCT_NAME ) . '</p>';
 		$tabs[]   = [
 			'title'   => esc_html__( 'Overview', 'decalog' ),
 			'id'      => 'decalog-contextual-settings-listeners-overview',
@@ -177,7 +228,6 @@ class InlineHelp {
 				'content' => $this->get_admin_rights_content(),
 			];
 		}
-
 		foreach ( $tabs as $tab ) {
 			$this->screen->add_help_tab( $tab );
 		}
@@ -192,7 +242,7 @@ class InlineHelp {
 	private function set_contextual_settings_options() {
 		$tabs = [];
 		// Overview.
-		$content  = '<p>' . sprintf ( esc_html__( 'This screen allows you to set misc options of %s.', 'decalog' ), DECALOG_PRODUCT_NAME ) . '</p>';
+		$content = '<p>' . sprintf( esc_html__( 'This screen allows you to set misc options of %s.', 'decalog' ), DECALOG_PRODUCT_NAME ) . '</p>';
 		if ( Environment::is_wordpress_multisite() ) {
 			$content .= '<p><em>' . esc_html__( 'Note these options are global. They are set for all loggers, for all sites in your network.', 'decalog' ) . '</em></p>';
 		} else {
@@ -225,18 +275,20 @@ class InlineHelp {
 	 */
 	public function set_contextual_settings() {
 		$this->init();
-		if ( isset( $this->tab ) ) {
-			switch ( strtolower( $this->tab ) ) {
-				case 'loggers':
-					$this->set_contextual_settings_loggers();
-					break;
-				case 'listeners':
-					$this->set_contextual_settings_listeners();
-					break;
-				case 'misc':
-					$this->set_contextual_settings_options();
-					break;
-			}
+		if ( ! isset( $this->tab ) ) {
+			$this->set_contextual_settings_loggers();
+			return;
+		}
+		switch ( strtolower( $this->tab ) ) {
+			case 'loggers':
+				$this->set_contextual_settings_loggers();
+				break;
+			case 'listeners':
+				$this->set_contextual_settings_listeners();
+				break;
+			case 'misc':
+				$this->set_contextual_settings_options();
+				break;
 		}
 	}
 
@@ -338,9 +390,9 @@ class InlineHelp {
 		$this->init();
 		if ( isset( $this->event_id ) ) {
 			$this->set_contextual_viewer_event();
-		} else {
-			$this->set_contextual_viewer_main();
+			return;
 		}
+		$this->set_contextual_viewer_main();
 	}
 
 }
