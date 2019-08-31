@@ -49,10 +49,10 @@ class SlackWebhookHandler extends AbstractProcessingHandler
      */
     public function __construct(
         string $webhookUrl,
-        ?string $channel = null,
-        ?string $username = null,
+        /*?*/string $channel = null,
+        /*?*/string $username = null,
         bool $useAttachment = true,
-        ?string $iconEmoji = null,
+        /*?*/string $iconEmoji = null,
         bool $useShortAttachment = false,
         bool $includeContextAndExtra = false,
         $level = Logger::CRITICAL,

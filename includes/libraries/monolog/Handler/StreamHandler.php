@@ -141,7 +141,7 @@ class StreamHandler extends AbstractProcessingHandler
         return true;
     }
 
-    private function getDirFromStream(string $stream): ?string
+    private function getDirFromStream(string $stream): /*?*/string
     {
         $pos = strpos($stream, '://');
         if ($pos === false) {
