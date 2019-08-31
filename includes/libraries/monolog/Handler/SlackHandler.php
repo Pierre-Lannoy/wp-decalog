@@ -51,9 +51,9 @@ class SlackHandler extends SocketHandler
     public function __construct(
         string $token,
         string $channel,
-        /*?*/string $username = null,
+        ?string $username = null,
         bool $useAttachment = true,
-        /*?*/string $iconEmoji = null,
+        ?string $iconEmoji = null,
         $level = Logger::CRITICAL,
         bool $bubble = true,
         bool $useShortAttachment = false,

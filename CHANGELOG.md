@@ -9,7 +9,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - The PHP listener can now detect version upgrading/downgrading.
 - The PHP listener can now detect extensions activation/deactivation.
 - The database listener can now detect version upgrading/downgrading.
-- The plugin now embeds its own inline help (help tab in all screens). 
+- The plugin now embeds its own inline help (help tab in all screens).
+### Changed
+- Upgraded Monolog version from 2.0.0-beta-2 to 2.0.0.
 ### Security
 - In a multisite, a non-admin user was able to read the name of a logger (not its content).
 

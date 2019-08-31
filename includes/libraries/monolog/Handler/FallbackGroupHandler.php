@@ -11,13 +11,9 @@
 
 namespace Monolog\Handler;
 
-/**
- * Forwards records to multiple handlers suppressing failures of each handler
- * and continuing through to give every handler a chance to succeed.
- *
- * @author Craig D'Amelio <craig@damelio.ca>
- */
-class WhatFailureGroupHandler extends GroupHandler
+use Throwable;
+
+class FallbackGroupHandler extends GroupHandler
 {
     /**
      * {@inheritdoc}
@@ -27,15 +23,14 @@ class WhatFailureGroupHandler extends GroupHandler
         if ($this->processors) {
             $record = $this->processRecord($record);
         }
-
         foreach ($this->handlers as $handler) {
             try {
                 $handler->handle($record);
-            } catch (\Throwable $e) {
-                // What failure?
+                break;
+            } catch (Throwable $e) {
+                // What throwable?
             }
         }
-
         return false === $this->bubble;
     }
 
@@ -45,7 +40,7 @@ class WhatFailureGroupHandler extends GroupHandler
     public function handleBatch(array $records)/*: void*/
     {
         if ($this->processors) {
-            $processed = array();
+            $processed = [];
             foreach ($records as $record) {
                 $processed[] = $this->processRecord($record);
             }
@@ -55,8 +50,9 @@ class WhatFailureGroupHandler extends GroupHandler
         foreach ($this->handlers as $handler) {
             try {
                 $handler->handleBatch($records);
-            } catch (\Throwable $e) {
-                // What failure?
+                break;
+            } catch (Throwable $e) {
+                // What throwable?
             }
         }
     }

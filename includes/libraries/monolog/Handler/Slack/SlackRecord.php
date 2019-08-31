@@ -86,10 +86,10 @@ class SlackRecord
     private $normalizerFormatter;
 
     public function __construct(
-        /*?*/string $channel = null,
-        /*?*/string $username = null,
+        ?string $channel = null,
+        ?string $username = null,
         bool $useAttachment = true,
-        /*?*/string $userIcon = null,
+        ?string $userIcon = null,
         bool $useShortAttachment = false,
         bool $includeContextAndExtra = false,
         array $excludeFields = array(),
