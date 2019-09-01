@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - DecaLog - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-09-01 20:48+0200\n"
+"PO-Revision-Date: 2019-09-01 21:04+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -261,7 +261,7 @@ msgstr "Un journaliseur est un enregistreur d’évènements. Il peut les filtre
 
 #: includes/features/class-inlinehelp.php:157
 msgid "This screen allows you to set the %s loggers."
-msgstr "Cet écran vous permet de régler les journalieurs de %s."
+msgstr "Cet écran vous permet de régler les journaliseurs de %s."
 
 #: includes/features/class-inlinehelp.php:144
 msgid "Can't set loggers, can only view events regarding their own sites in all WordPress events log."
@@ -884,7 +884,7 @@ msgstr "journal"
 
 #: includes/plugin/class-updater.php:134
 msgid "Sorry, unable to find or read changelog file."
-msgstr "Désolé, il est impossible de trouver ou de lire le journal des versions."
+msgstr "Désolé, il est impossible de trouver ou de lire le journal des modifications."
 
 #: includes/plugin/class-updater.php:45
 msgid "%1$s has been correctly updated from version %2$s to version %3$s."
