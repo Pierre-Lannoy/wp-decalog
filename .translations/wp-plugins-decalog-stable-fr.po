@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - DecaLog - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-09-01 19:25+0200\n"
+"PO-Revision-Date: 2019-09-01 20:48+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,61 +19,61 @@ msgstr ""
 #. details
 #: includes/features/class-eventtypes.php:127
 msgid "A panic condition. WordPress is unusable."
-msgstr ""
+msgstr "Un état de panique du système. WordPress est inutilisable."
 
 #. translators: definition of an event typed 'ALERT', see
 #. https://github.com/Pierre-Lannoy/wp-decalog/blob/master/DEVELOPER.md for
 #. details
 #: includes/features/class-eventtypes.php:125
 msgid "A major operating error that undoubtedly affects the operations. It requires immediate investigation and corrective treatment."
-msgstr ""
+msgstr "Une erreur majeure de fonctionnement qui affecte sans aucun doute les opérations. Elle nécessite une investigation immédiate et un traitement correctif."
 
 #. translators: definition of an event typed 'CRITICAL', see
 #. https://github.com/Pierre-Lannoy/wp-decalog/blob/master/DEVELOPER.md for
 #. details
 #: includes/features/class-eventtypes.php:123
 msgid "An operating error that undoubtedly affects the operations. It requires investigation and corrective treatment."
-msgstr ""
+msgstr "Une erreur de fonctionnement qui affecte sans aucun doute les opérations. Elle nécessite une investigation et un traitement correctif."
 
 #. translators: definition of an event typed 'ERROR', see
 #. https://github.com/Pierre-Lannoy/wp-decalog/blob/master/DEVELOPER.md for
 #. details
 #: includes/features/class-eventtypes.php:121
 msgid "A minor operating error that may affects the operations. It requires investigation and preventive treatment."
-msgstr ""
+msgstr "Une erreur mineure de fonctionnement qui peut affecter les opérations. Elle nécessite une investigation et un traitement préventif."
 
 #. translators: definition of an event typed 'WARNING', see
 #. https://github.com/Pierre-Lannoy/wp-decalog/blob/master/DEVELOPER.md for
 #. details
 #: includes/features/class-eventtypes.php:119
 msgid "A significant condition indicating a situation that may lead to an error if recurring or if no action is taken. Does not usually affect the operations."
-msgstr ""
+msgstr "Un état significatif indiquant une situation pouvant entraîner une erreur si cet état est récurent ou si aucune action n’est entreprise. N’affecte généralement pas les opérations."
 
 #. translators: definition of an event typed 'NOTICE', see
 #. https://github.com/Pierre-Lannoy/wp-decalog/blob/master/DEVELOPER.md for
 #. details
 #: includes/features/class-eventtypes.php:117
 msgid "A normal but significant condition. Now you know!"
-msgstr ""
+msgstr "Un état normal mais significatif. Maintenant, vous êtes au courant !"
 
 #. translators: definition of an event typed 'INFO', see
 #. https://github.com/Pierre-Lannoy/wp-decalog/blob/master/DEVELOPER.md for
 #. details
 #: includes/features/class-eventtypes.php:115
 msgid "A standard information, just for you to know… and forget!"
-msgstr ""
+msgstr "Une information standard, juste pour que vous soyez au courant… et que vous puissiez l’oublier !"
 
 #. translators: definition of an event typed 'DEBUG', see
 #. https://github.com/Pierre-Lannoy/wp-decalog/blob/master/DEVELOPER.md for
 #. details
 #: includes/features/class-eventtypes.php:113
 msgid "An information for developers and testers. Only used for events related to application/system debugging."
-msgstr ""
+msgstr "Une information pour les développeurs et les testeurs. Utilisée uniquement pour les évènements liés au débogage applicatif ou du système."
 
 #. translators: definition of an event typed 'UNKNOWN'
 #: includes/features/class-eventtypes.php:111
 msgid "The event is not typed, this can't be a good news."
-msgstr "L’événement n’a pas pas de type, ça ne peut pas être une bonne nouvelle."
+msgstr "L’évènement n’a pas pas de type, ça ne peut pas être une bonne nouvelle."
 
 #: includes/features/class-processortypes.php:42
 msgid "Backtrace"
@@ -81,15 +81,15 @@ msgstr "Trace d’exécution"
 
 #: includes/features/class-inlinehelp.php:366
 msgid "Click the title bar of the box to expand or collapse it."
-msgstr "Cliquez sur la barre de titre d’une boîte pour l’ouvrir ou la fermer."
+msgstr "Cliquez sur la barre de titre d’un bloc pour l’ouvrir ou la fermer."
 
 #: includes/features/class-inlinehelp.php:366
 msgid "Box Controls"
-msgstr "Contrôles des boîtes"
+msgstr "Contrôles des blocs"
 
 #: includes/features/class-inlinehelp.php:365
 msgid "To rearrange the boxes, drag and drop by clicking on the title bar of the selected box and releasing when you see a gray dotted-line rectangle appear in the location you want to place the box."
-msgstr ""
+msgstr "Pour réarranger les blocs, glissez/déposez-les en cliquant sur la barre de titre du bloc sélectionné, et relâchez-la lorsque vous apercevez un rectangle avec une bordure grise à l’emplacement où vous souhaitez placer le bloc."
 
 #: includes/features/class-inlinehelp.php:365
 msgid "Drag and Drop"
@@ -97,12 +97,12 @@ msgstr "Glisser/déposer"
 
 #: includes/features/class-inlinehelp.php:364
 msgid "Use the Screen Options tab to choose which boxes to show."
-msgstr ""
+msgstr "Utilisez l’onglet Options de l’écran pour choisir les blocs à afficher."
 
 #. translators: like in the sentence "PHP backtrace" or "WordPress backtrace"
 #: includes/features/class-inlinehelp.php:356
 msgid "Two different views of the same informations: the backtrace of the call that led to this event."
-msgstr ""
+msgstr "Deux points de vue différents de la même information : la trace d’exécution de l’appel qui a conduit à cet évènement."
 
 #. translators: like in the sentence "PHP backtrace" or "WordPress backtrace"
 #: includes/features/class-inlinehelp.php:356
@@ -113,11 +113,11 @@ msgstr "Trace d’exécution de %s"
 
 #: includes/features/class-inlinehelp.php:354
 msgid "The code location where this event was generated."
-msgstr "L’emplacement du code où cet événement a été généré."
+msgstr "L’emplacement du code où cet évènement a été généré."
 
 #: includes/features/class-inlinehelp.php:353
 msgid "The detail of the request that led to this event."
-msgstr "Le détail de la requête qui a conduit à cet événement."
+msgstr "Le détail de la requête qui a conduit à cet évènement."
 
 #: includes/features/class-inlinehelp.php:352
 msgid "User and site where the event occurs."
@@ -129,7 +129,7 @@ msgstr "Informations générales sur l’évènement."
 
 #: includes/features/class-inlinehelp.php:350
 msgid "It consists of four to six boxes, depending on your settings, which give specific details of the event:"
-msgstr "Il se compose de quatre à six boîtes, selon vos réglages, qui donnent des informations spécifiques sur l’évènement :"
+msgstr "Il se compose de quatre à six blocs, selon vos réglages, qui donnent des informations spécifiques sur l’évènement :"
 
 #: includes/features/class-inlinehelp.php:350
 msgid "This screen displays the details of a specific event."
@@ -142,7 +142,7 @@ msgstr "Disposition"
 
 #: includes/features/class-inlinehelp.php:316
 msgid "Use the Screen Options tab to choose which extra columns to show."
-msgstr ""
+msgstr "Utilisez l’onglet Options d’écran pour sélectionner les colonnes supplémentaires à afficher."
 
 #: includes/features/class-inlinehelp.php:316
 #: includes/features/class-inlinehelp.php:364
@@ -160,19 +160,19 @@ msgstr "Notez que ces filtres sont effectifs même sur les champs pseudonymisés
 
 #: includes/features/class-inlinehelp.php:307
 msgid "To filter the displayed events, use the small blue funnel next to the filterable items. These filters are cumulative, you can activate simultaneously several filters."
-msgstr ""
+msgstr "Pour filtrer les évènements affichés, utilisez le petit entonnoir bleu à côté des éléments filtrables. Ces filtres sont cumulables, vous pouvez activer simultanément plusieurs filtres."
 
 #: includes/features/class-inlinehelp.php:306
 msgid "You can change the events log being viewed (if you have set more than one WordPress logger) with the selector at the top left of the list (don't forget to click on the \"apply\" button)."
-msgstr ""
+msgstr "Vous pouvez sélectionner le journal des évènements affiché (si vous avez réglé plus d’un journaliseur WordPress) avec le sélecteur en haut à gauche de la liste (n’oubliez pas de cliquer sur le bouton « Appliquer »)."
 
 #: includes/features/class-inlinehelp.php:305
 msgid "You can restrict the display of events according to their severity levels. To do so, use the three links at the top left of the list."
-msgstr ""
+msgstr "Vous pouvez restreindre l’affichage des évènements en fonction de leur niveau de gravité. Pour ce faire, utilisez les trois liens en haut à gauche de la liste."
 
 #: includes/features/class-inlinehelp.php:304
 msgid "To move forward or backward in time, use the navigation buttons at the top or bottom right of this list."
-msgstr ""
+msgstr "Pour avancer ou reculer dans le temps, utilisez les boutons de navigation en haut ou en bas à droite de cette liste."
 
 #: includes/features/class-inlinehelp.php:303
 msgid "This screen displays the list of events belonging to a specific WordPress logger. This list is sorted with the most recent event at the top."
@@ -192,15 +192,15 @@ msgstr "Cet écran vous permet de définir les réglages généraux de %s."
 
 #: includes/features/class-inlinehelp.php:217
 msgid "You can choose to tell %s to activate all the available listeners, or you can manually select the sources to listen."
-msgstr ""
+msgstr "Vous pouvez choisir de demander à %s d’activer tous les observateurs disponibles, ou vous pouvez sélectionner manuellement les sources à observer."
 
 #: includes/features/class-inlinehelp.php:216
 msgid "A listener, as its name suggests, listen to a specific component (a \"source\") of your WordPress instance."
-msgstr ""
+msgstr "Un observateur, comme son nom l’indique, observe un composant particulier (une « source ») de votre instance WordPress."
 
 #: includes/features/class-inlinehelp.php:215
 msgid "This screen allows you to set the way %s uses listeners."
-msgstr ""
+msgstr "Cet écran vous permet de définir la façon dont %s utilise les observateurs."
 
 #: includes/features/class-inlinehelp.php:197
 #: includes/features/class-inlinehelp.php:332
@@ -221,7 +221,7 @@ msgstr "Journalisation"
 
 #: includes/features/class-inlinehelp.php:181
 msgid "These loggers send events to logging services. It may be local or SaaS, free or paid services."
-msgstr ""
+msgstr "Ces journaliseurs envoient des évènements à des services de journalisation. Il peut s’agire de services locaux ou SaaS, gratuits ou payants."
 
 #: includes/features/class-inlinehelp.php:176
 msgid "Debugging"
@@ -233,7 +233,7 @@ msgstr "Ces journaliseurs peuvent vous aider à déboguer votre site :"
 
 #: includes/features/class-inlinehelp.php:169
 msgid "Alerting"
-msgstr ""
+msgstr "Alerte"
 
 #: includes/features/class-inlinehelp.php:167
 msgid "These loggers allow you to send alerts:"
@@ -253,7 +253,7 @@ msgstr "Les journaliseurs sont classés selon trois catégories principales : a
 
 #: includes/features/class-inlinehelp.php:159
 msgid "You can set as many loggers as you want. All the set loggers will receive all events and, regarding their own settings, will enrich them and record them or not."
-msgstr ""
+msgstr "Vous pouvez ajouter autant de journaliseurs que vous le souhaitez. Tous les journaliseurs recevront tous les évènements et, selon leurs réglages individuels, les enrichiront et les enregistreront ou non."
 
 #: includes/features/class-inlinehelp.php:158
 msgid "A logger is a recorder of events. It can filter them (accept or refuse to record the event based on settings) then store them or send them to logging/alerting services."
@@ -270,7 +270,7 @@ msgstr "Ne peut pas régler des journaliseurs, ne peut afficher que les évènem
 #: includes/features/class-inlinehelp.php:144
 msgctxt "WordPress multisite"
 msgid "Sites Admin"
-msgstr ""
+msgstr "Administrateur de site"
 
 #: includes/features/class-inlinehelp.php:143
 #: includes/features/class-inlinehelp.php:144
@@ -328,7 +328,7 @@ msgstr "En pause"
 
 #: includes/features/class-loggers.php:195
 msgid "Running"
-msgstr "En fonctionnement"
+msgstr "En cours d’exécution"
 
 #: includes/features/class-loggers.php:182
 msgid "Send Test"
@@ -400,11 +400,11 @@ msgstr "Journal des évènements : %s"
 
 #: includes/features/class-eventviewer.php:212
 msgid "If you think this is an error, please contact the network administrator with these details:."
-msgstr "Si vous pensez qu’il s'agit d’une erreur, veuillez contacter l’administrateur du réseau avec ces informations :"
+msgstr "Si vous pensez qu’il s’agit d’une erreur, veuillez contacter l’administrateur du réseau avec ces informations :"
 
 #: includes/features/class-eventviewer.php:211
 msgid "The event or events log you tried to access is out of your scope."
-msgstr ""
+msgstr "L’évènement ou le journal d’évènements auquel vous avez tenté d’accéder est hors de votre portée."
 
 #: includes/features/class-eventviewer.php:209
 msgid "Forbidden"
@@ -412,7 +412,7 @@ msgstr "Interdit"
 
 #: includes/features/class-eventviewer.php:134
 msgid "Boxes"
-msgstr "Boîtes"
+msgstr "Blocs"
 
 #: includes/features/class-loggerfactory.php:203
 msgid "Unnamed logger"
@@ -473,11 +473,11 @@ msgstr "Permet de consigner la pile d’appels complète."
 
 #: includes/features/class-channeltypes.php:55
 msgid "Site Frontend"
-msgstr ""
+msgstr "Frontend du site"
 
 #: includes/features/class-channeltypes.php:54
 msgid "Site Backend"
-msgstr ""
+msgstr "Backend du site"
 
 #: includes/features/class-channeltypes.php:53
 msgid "Atom/RDF/RSS Feed"
@@ -534,7 +534,7 @@ msgstr "Évènements"
 
 #: includes/features/class-handlertypes.php:540
 msgid "An events log stored in your WordPress database and available right in your admin dashboard."
-msgstr ""
+msgstr "Un journal des évènements stocké dans votre base de données WordPress et disponible directement dans votre Tableau de bord."
 
 #: includes/features/class-handlertypes.php:539
 msgid "WordPress events log"
@@ -542,7 +542,7 @@ msgstr "Journal des évènements WordPress"
 
 #: includes/features/class-handlertypes.php:494
 msgid "The time format standard to use."
-msgstr ""
+msgstr "Le format horaire à utiliser."
 
 #: includes/features/class-handlertypes.php:493
 msgid "Time format"
@@ -598,7 +598,7 @@ msgstr "Syslog"
 
 #: includes/features/class-handlertypes.php:371
 msgid "Whether the attachments should include context and extra data."
-msgstr ""
+msgstr "Indique si les pièces jointes doivent inclure le contexte et les données supplémentaires."
 
 #: includes/features/class-handlertypes.php:370
 msgid "Full data"
@@ -606,7 +606,7 @@ msgstr "Données complètes"
 
 #: includes/features/class-handlertypes.php:359
 msgid "Use a shortened version for attachments sent in channel."
-msgstr ""
+msgstr "Utiliser une version simple pour les pièces jointes envoyées dans le canal."
 
 #: includes/features/class-handlertypes.php:358
 msgid "Short attachment"
@@ -646,11 +646,11 @@ msgstr "Fichier"
 
 #: includes/features/class-handlertypes.php:284
 msgid "An events log sent to files that are rotated every day and a limited number of files are kept."
-msgstr ""
+msgstr "Un journal des évènements envoyé dans des fichiers différents tous les jours et dont un nombre limité est conservé."
 
 #: includes/features/class-handlertypes.php:283
 msgid "Rotating files"
-msgstr ""
+msgstr "Fichiers en rotation"
 
 #: includes/features/class-handlertypes.php:244
 msgid "The title of the message which will be sent."
@@ -686,7 +686,7 @@ msgstr "Pushover"
 
 #: includes/features/class-handlertypes.php:189
 msgid "An events log stored in the standard PHP error log, as with the error_log() function."
-msgstr ""
+msgstr "Un journal des évènements stocké dans le journal d’erreurs PHP standard, comme avec la fonction error_log() ."
 
 #: includes/features/class-handlertypes.php:188
 msgid "PHP error log"
@@ -710,11 +710,11 @@ msgstr "E-mail"
 
 #: includes/features/class-handlertypes.php:118
 msgid "Max number of milliseconds to wait for the socket."
-msgstr ""
+msgstr "Nombre maximal de millisecondes que le socket doit attendre."
 
 #: includes/features/class-handlertypes.php:117
 msgid "Socket timeout"
-msgstr ""
+msgstr "Délai d’attente du socket"
 
 #: includes/features/class-handlertypes.php:106
 msgid "Connection string to Fluentd. Can be something like \"tcp://127.0.0.1:24224\" or something like \"unix:///var/run/td-agent/td-agent.sock\"."
@@ -734,7 +734,7 @@ msgstr "Fluentd"
 
 #: includes/features/class-handlertypes.php:79
 msgid "An events log sent to the ChromePHP extension (http://www.chromephp.com/)."
-msgstr "Un journal des événements envoyé à l’extension ChromePHP (http://www.chromephp.com/)."
+msgstr "Un journal des évènements envoyé à l’extension ChromePHP (http://www.chromephp.com/)."
 
 #: includes/features/class-handlertypes.php:78
 msgid "ChromePHP"
@@ -742,7 +742,7 @@ msgstr "ChromePHP"
 
 #: includes/features/class-handlertypes.php:60
 msgid "An events log sent to browser's javascript console with no browser extension required."
-msgstr "Un journal d’événements envoyé à la console javascript du navigateur, ne nécessite pas d’extension de navigateur."
+msgstr "Un journal d’évènements envoyé à la console javascript du navigateur, ne nécessite pas d’extension de navigateur."
 
 #: includes/features/class-handlertypes.php:59
 msgid "Browser console"
@@ -920,7 +920,7 @@ msgstr "Avertissement"
 
 #: admin/partials/decalog-admin-settings-about.php:25
 msgid "This plugin is not an official software from %s and, as such, is not endorsed or supported by these companies."
-msgstr "Cette extension n’est pas un logiciel officiel de %s et, en tant que tel, n'est pas approuvé ou pris en charge par ces sociétés."
+msgstr "Cette extension n’est pas un logiciel officiel de %s et, en tant que tel, n’est pas approuvé ou pris en charge par ces sociétés."
 
 #: admin/partials/decalog-admin-settings-about.php:23
 msgid "All brands, icons and graphic illustrations are registered trademarks of their respective owners."
@@ -932,7 +932,7 @@ msgstr "%1$s est une extension libre et open source pour WordPress. Elle intègr
 
 #: admin/partials/decalog-admin-settings-about.php:19
 msgid "This version of %s is a release candidate. Although ready for production, this version is not officially supported in production environments."
-msgstr "Cette version de %s est une « release candidate ». Bien que prête pour la production, il n’y a pas d’assistance fournie pour cette version dans des conditions de production."
+msgstr "Cette version de %s est une «release candidate ». Bien que prête pour la production, il n’y a pas d’assistance fournie pour cette version dans des conditions de production."
 
 #: admin/partials/decalog-admin-settings-about.php:16
 msgid "This version of %s is not production-ready. It is a development preview. Use it at your own risk!"
@@ -1132,7 +1132,7 @@ msgstr "Observateurs standards"
 
 #: admin/class-decalog-admin.php:571
 msgid "Automatically or selectively choose which components to listen."
-msgstr ""
+msgstr "Choisissez automatiquement ou sélectivement les composants à observer."
 
 #: admin/class-decalog-admin.php:567
 msgid "All available listeners (recommended)"
@@ -1216,7 +1216,7 @@ msgstr "Réglages"
 
 #: admin/class-decalog-admin.php:172 includes/features/class-loggers.php:237
 msgid "Reported details"
-msgstr ""
+msgstr "Détails consignés"
 
 #: admin/class-decalog-admin.php:171
 msgid "Privacy options"
