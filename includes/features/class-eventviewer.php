@@ -210,7 +210,7 @@ class EventViewer {
 			echo '<h2>' . esc_html__( 'Forbidden', 'decalog' ) . '</h2>';
 			settings_errors();
 			echo '<p>' . esc_html__( 'The event or events log you tried to access is out of your scope.', 'decalog' ) . '</p>';
-			echo '<p>' . esc_html__( 'If you think this is an error, please contact the network administrator with these details:.', 'decalog' );
+			echo '<p>' . esc_html__( 'If you think this is an error, please contact the network administrator with these details:', 'decalog' );
 			echo '<ul>';
 			// phpcs:ignore
 			echo '<li>' . sprintf( esc_html__( 'Events log: %s', 'decalog' ), '<code>' . $this->logid . '</code>' ) . '</li>';
