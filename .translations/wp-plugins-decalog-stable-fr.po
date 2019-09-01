@@ -1,0 +1,1260 @@
+# Translation of Plugins - DecaLog - Stable (latest release) in French (France)
+# This file is distributed under the same license as the Plugins - DecaLog - Stable (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: +0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: GlotPress/2.4.0-alpha\n"
+"Language: fr\n"
+"Project-Id-Version: Plugins - DecaLog - Stable (latest release)\n"
+
+#. translators: definition of an event typed 'EMERGENCY', see
+#. https://github.com/Pierre-Lannoy/wp-decalog/blob/master/DEVELOPER.md for
+#. details
+#: includes/features/class-eventtypes.php:127
+msgid "A panic condition. WordPress is unusable."
+msgstr ""
+
+#. translators: definition of an event typed 'ALERT', see
+#. https://github.com/Pierre-Lannoy/wp-decalog/blob/master/DEVELOPER.md for
+#. details
+#: includes/features/class-eventtypes.php:125
+msgid "A major operating error that undoubtedly affects the operations. It requires immediate investigation and corrective treatment."
+msgstr ""
+
+#. translators: definition of an event typed 'CRITICAL', see
+#. https://github.com/Pierre-Lannoy/wp-decalog/blob/master/DEVELOPER.md for
+#. details
+#: includes/features/class-eventtypes.php:123
+msgid "An operating error that undoubtedly affects the operations. It requires investigation and corrective treatment."
+msgstr ""
+
+#. translators: definition of an event typed 'ERROR', see
+#. https://github.com/Pierre-Lannoy/wp-decalog/blob/master/DEVELOPER.md for
+#. details
+#: includes/features/class-eventtypes.php:121
+msgid "A minor operating error that may affects the operations. It requires investigation and preventive treatment."
+msgstr ""
+
+#. translators: definition of an event typed 'WARNING', see
+#. https://github.com/Pierre-Lannoy/wp-decalog/blob/master/DEVELOPER.md for
+#. details
+#: includes/features/class-eventtypes.php:119
+msgid "A significant condition indicating a situation that may lead to an error if recurring or if no action is taken. Does not usually affect the operations."
+msgstr ""
+
+#. translators: definition of an event typed 'NOTICE', see
+#. https://github.com/Pierre-Lannoy/wp-decalog/blob/master/DEVELOPER.md for
+#. details
+#: includes/features/class-eventtypes.php:117
+msgid "A normal but significant condition. Now you know!"
+msgstr ""
+
+#. translators: definition of an event typed 'INFO', see
+#. https://github.com/Pierre-Lannoy/wp-decalog/blob/master/DEVELOPER.md for
+#. details
+#: includes/features/class-eventtypes.php:115
+msgid "A standard information, just for you to know… and forget!"
+msgstr ""
+
+#. translators: definition of an event typed 'DEBUG', see
+#. https://github.com/Pierre-Lannoy/wp-decalog/blob/master/DEVELOPER.md for
+#. details
+#: includes/features/class-eventtypes.php:113
+msgid "An information for developers and testers. Only used for events related to application/system debugging."
+msgstr ""
+
+#. translators: definition of an event typed 'UNKNOWN'
+#: includes/features/class-eventtypes.php:111
+msgid "The event is not typed, this can't be a good news."
+msgstr ""
+
+#: includes/features/class-processortypes.php:42
+msgid "Backtrace"
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:366
+msgid "Click the title bar of the box to expand or collapse it."
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:366
+msgid "Box Controls"
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:365
+msgid "To rearrange the boxes, drag and drop by clicking on the title bar of the selected box and releasing when you see a gray dotted-line rectangle appear in the location you want to place the box."
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:365
+msgid "Drag and Drop"
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:364
+msgid "Use the Screen Options tab to choose which boxes to show."
+msgstr ""
+
+#. translators: like in the sentence "PHP backtrace" or "WordPress backtrace"
+#: includes/features/class-inlinehelp.php:356
+msgid "Two different views of the same informations: the backtrace of the call that led to this event."
+msgstr ""
+
+#. translators: like in the sentence "PHP backtrace" or "WordPress backtrace"
+#: includes/features/class-inlinehelp.php:356
+#: includes/features/class-eventviewer.php:255
+#: includes/features/class-eventviewer.php:257
+msgid "%s backtrace"
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:354
+msgid "The code location where this event was generated."
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:353
+msgid "The detail of the request that led to this event."
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:352
+msgid "User and site where the event occurs."
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:351
+msgid "General information about the event."
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:350
+msgid "It consists of four to six boxes, depending on your settings, which give specific details of the event:"
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:350
+msgid "This screen displays the details of a specific event."
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:318
+#: includes/features/class-inlinehelp.php:368
+msgid "Layout"
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:316
+msgid "Use the Screen Options tab to choose which extra columns to show."
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:316
+#: includes/features/class-inlinehelp.php:364
+msgid "Screen Options"
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:315
+#: includes/features/class-inlinehelp.php:363
+msgid "You can use the following controls to arrange the screen to suit your usage preferences:"
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:308
+msgid "Note these filters are effective even on pseudonymized or obfuscated fields."
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:307
+msgid "To filter the displayed events, use the small blue funnel next to the filterable items. These filters are cumulative, you can activate simultaneously several filters."
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:306
+msgid "You can change the events log being viewed (if you have set more than one WordPress logger) with the selector at the top left of the list (don't forget to click on the \"apply\" button)."
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:305
+msgid "You can restrict the display of events according to their severity levels. To do so, use the three links at the top left of the list."
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:304
+msgid "To move forward or backward in time, use the navigation buttons at the top or bottom right of this list."
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:303
+msgid "This screen displays the list of events belonging to a specific WordPress logger. This list is sorted with the most recent event at the top."
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:249
+msgid "Note these options are global. They are set for all loggers."
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:247
+msgid "Note these options are global. They are set for all loggers, for all sites in your network."
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:245
+msgid "This screen allows you to set misc options of %s."
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:217
+msgid "You can choose to tell %s to activate all the available listeners, or you can manually select the sources to listen."
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:216
+msgid "A listener, as its name suggests, listen to a specific component (a \"source\") of your WordPress instance."
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:215
+msgid "This screen allows you to set the way %s uses listeners."
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:197
+#: includes/features/class-inlinehelp.php:332
+#: includes/features/class-inlinehelp.php:374
+msgid "Events levels"
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:190
+#: includes/features/class-inlinehelp.php:226
+#: includes/features/class-inlinehelp.php:259
+#: includes/features/class-inlinehelp.php:325
+msgid "Admin rights"
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:183
+msgid "Logging"
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:181
+msgid "These loggers send events to logging services. It may be local or SaaS, free or paid services."
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:176
+msgid "Debugging"
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:174
+msgid "These loggers can help you to debug your site:"
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:169
+msgid "Alerting"
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:167
+msgid "These loggers allow you to send alerts:"
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:162
+#: includes/features/class-inlinehelp.php:219
+#: includes/features/class-inlinehelp.php:252
+#: includes/features/class-inlinehelp.php:310
+#: includes/features/class-inlinehelp.php:358
+msgid "Overview"
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:160
+msgid "Loggers are classified in three main categories: alerting, debugging and logging. You can find details on these categories on the corresponding tabs of this help."
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:159
+msgid "You can set as many loggers as you want. All the set loggers will receive all events and, regarding their own settings, will enrich them and record them or not."
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:158
+msgid "A logger is a recorder of events. It can filter them (accept or refuse to record the event based on settings) then store them or send them to logging/alerting services."
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:157
+msgid "This screen allows you to set the %s loggers."
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:144
+msgid "Can't set loggers, can only view events regarding their own sites in all WordPress events log."
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:144
+msgctxt "WordPress multisite"
+msgid "Sites Admin"
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:143
+#: includes/features/class-inlinehelp.php:144
+msgid "That's your current role."
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:143
+msgid "Can set loggers, can view all events in all WordPress events log."
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:143
+msgctxt "WordPress multisite"
+msgid "Network Admin"
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:142
+msgid "Because your site takes part in a sites network, admin ability to view and configure events logs differ as follows:"
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:108
+msgid "The severity of an event is indicated by a \"level\". %s uses the following levels classification:"
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:97
+msgid "GitHub repository"
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:95
+msgid "See also:"
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:94
+msgid "User support"
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:93
+msgid "For more help:"
+msgstr ""
+
+#: includes/features/class-events.php:682
+msgid "Source"
+msgstr ""
+
+#: admin/class-decalog-admin.php:323
+msgid "Test messages have been sent to logger %s."
+msgstr ""
+
+#: includes/features/class-loggers.php:235
+msgid "Status"
+msgstr ""
+
+#: includes/features/class-loggers.php:195
+msgid "Paused"
+msgstr ""
+
+#: includes/features/class-loggers.php:195
+msgid "Running"
+msgstr ""
+
+#: includes/features/class-loggers.php:182
+msgid "Send Test"
+msgstr ""
+
+#: includes/features/class-events.php:421
+msgid "Errors & beyond"
+msgstr ""
+
+#: includes/features/class-events.php:419
+msgid "Notices & beyond"
+msgstr ""
+
+#. translators: as in the sentence "Product W version X by author Y (license
+#. Z)"
+#: includes/libraries/class-libraries.php:211
+msgid "<a href=\"%1$s\">%2$s %3$s</a>%4$s by %5$s (%6$s)"
+msgstr ""
+
+#: includes/libraries/class-libraries.php:159
+msgid "unknown license"
+msgstr ""
+
+#: includes/libraries/class-libraries.php:156
+msgid "GPL-3.0 license"
+msgstr ""
+
+#: includes/libraries/class-libraries.php:153
+msgid "GPL-2.0 license"
+msgstr ""
+
+#: includes/libraries/class-libraries.php:150
+msgid "Apache license, version 2.0"
+msgstr ""
+
+#: includes/libraries/class-libraries.php:147
+msgid "MIT license"
+msgstr ""
+
+#: includes/libraries/class-libraries.php:65
+#: includes/libraries/class-libraries.php:76
+#: includes/libraries/class-libraries.php:98
+msgid "%s & contributors"
+msgstr ""
+
+#: includes/listeners/class-corelistener.php:38
+msgid "WordPress core"
+msgstr ""
+
+#: includes/features/class-eventviewer.php:367
+msgid "from %s."
+msgstr ""
+
+#: includes/features/class-eventviewer.php:364
+msgid "obfuscated IP"
+msgstr ""
+
+#: includes/features/class-eventviewer.php:321
+msgid "Code:"
+msgstr ""
+
+#: includes/features/class-eventviewer.php:217
+msgid "Event: %s"
+msgstr ""
+
+#: includes/features/class-eventviewer.php:215
+msgid "Events log: %s"
+msgstr ""
+
+#: includes/features/class-eventviewer.php:212
+msgid "If you think this is an error, please contact the network administrator with these details:."
+msgstr ""
+
+#: includes/features/class-eventviewer.php:211
+msgid "The event or events log you tried to access is out of your scope."
+msgstr ""
+
+#: includes/features/class-eventviewer.php:209
+msgid "Forbidden"
+msgstr ""
+
+#: includes/features/class-eventviewer.php:134
+msgid "Boxes"
+msgstr ""
+
+#: includes/features/class-loggerfactory.php:203
+msgid "Unnamed logger"
+msgstr ""
+
+#: includes/features/class-classtypes.php:51
+msgid "PHP"
+msgstr ""
+
+#: includes/features/class-classtypes.php:50
+#: includes/listeners/class-databaselistener.php:36
+msgid "Database"
+msgstr ""
+
+#: includes/features/class-classtypes.php:49
+msgid "Theme"
+msgstr ""
+
+#: includes/features/class-classtypes.php:48
+msgid "Plugin"
+msgstr ""
+
+#: includes/features/class-classtypes.php:47
+msgid "Core"
+msgstr ""
+
+#: includes/features/class-processortypes.php:85
+msgid "Allows to log site, user and remote IP of the current request."
+msgstr ""
+
+#: includes/features/class-processortypes.php:84
+msgid "WordPress "
+msgstr ""
+
+#: includes/features/class-processortypes.php:65
+msgid "Allows to log url, method, referrer and remote IP of the current web request."
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:353
+#: includes/features/class-processortypes.php:64
+#: includes/features/class-eventviewer.php:251
+msgid "HTTP request"
+msgstr ""
+
+#: includes/features/class-processortypes.php:52
+msgid "Allows to log line, file, class and function generating the event."
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:354
+#: includes/features/class-processortypes.php:51
+#: includes/features/class-eventviewer.php:252
+msgid "PHP introspection"
+msgstr ""
+
+#: includes/features/class-processortypes.php:43
+msgid "Allows to log the full call stack."
+msgstr ""
+
+#: includes/features/class-channeltypes.php:55
+msgid "Site Frontend"
+msgstr ""
+
+#: includes/features/class-channeltypes.php:54
+msgid "Site Backend"
+msgstr ""
+
+#: includes/features/class-channeltypes.php:53
+msgid "Atom/RDF/RSS Feed"
+msgstr ""
+
+#: includes/features/class-channeltypes.php:52
+msgid "Rest API Request"
+msgstr ""
+
+#: includes/features/class-channeltypes.php:51
+msgid "XML-RPC Request"
+msgstr ""
+
+#: includes/features/class-channeltypes.php:50
+msgid "Ajax Request"
+msgstr ""
+
+#: includes/features/class-channeltypes.php:49
+msgid "Cron Job"
+msgstr ""
+
+#: includes/features/class-channeltypes.php:48
+msgid "Command Line Interface"
+msgstr ""
+
+#: includes/features/class-channeltypes.php:47
+#: includes/features/class-classtypes.php:52
+msgid "Unknown"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:578
+msgid "Local administrators can view events that relate to their site."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:577
+msgid "Multisite partitioning"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:563
+msgid "Maximum age of events stored in this events log (0 for no limit)."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:562
+msgid "Days"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:548
+msgid "Maximum number of events stored in this events log (0 for no limit)."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:547
+msgid "Events"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:540
+msgid "An events log stored in your WordPress database and available right in your admin dashboard."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:539
+msgid "WordPress events log"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:494
+msgid "The time format standard to use."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:493
+msgid "Time format"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:482
+msgid "The program identifier for messages sent by DecaLog."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:481
+msgid "Identifier"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:470
+msgid "The syslog facility for messages sent by DecaLog."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:469
+msgid "Facility"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:455
+msgid "The opened port on remote host to receive syslog messages."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:454
+msgid "Port"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:443
+msgid "The used syslog protocol."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:442
+msgid "Protocol"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:431
+msgid "The remote host receiving syslog messages."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:430
+msgid "Host"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:423
+msgid "An events log sent to a remote syslogd server."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:422
+msgid "Syslog"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:371
+msgid "Whether the attachments should include context and extra data."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:370
+msgid "Full data"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:359
+msgid "Use a shortened version for attachments sent in channel."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:358
+msgid "Short attachment"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:347
+msgid "The Webhook URL set in the Slack application."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:346
+msgid "Webhook URL"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:339
+msgid "Events alerts sent through Slack Webhooks."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:338
+msgid "Slack"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:304
+msgid "The maximal number of files to keep (0 means unlimited)."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:303
+msgid "Maximum"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:292
+msgid "The full absolute path and filename, like \"/path/to/file\"."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:291
+msgid "File"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:284
+msgid "An events log sent to files that are rotated every day and a limited number of files are kept."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:283
+msgid "Rotating files"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:244
+msgid "The title of the message which will be sent."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:243
+msgid "Message title"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:232
+msgid "The recipient key. It can be a \"user key\" or a \"group key\"."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:231
+msgid "Recipient"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:220
+msgid "The token of the Pushover application."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:219
+msgid "Application token"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:212
+msgid "Events alerts sent via Pushover service."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:211
+msgid "Pushover"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:189
+msgid "An events log stored in the standard PHP error log, as with the error_log() function."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:188
+msgid "PHP error log"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:161
+msgid "The recipients mail address, in coma separated list."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:160
+msgid "Recipients"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:153
+msgid "Events alerts sent by WordPress via mail."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:152
+msgid "Mail"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:118
+msgid "Max number of milliseconds to wait for the socket."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:117
+msgid "Socket timeout"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:106
+msgid "Connection string to Fluentd. Can be something like \"tcp://127.0.0.1:24224\" or something like \"unix:///var/run/td-agent/td-agent.sock\"."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:105
+msgid "Connection string"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:98
+msgid "An events log sent to a Fluentd collector."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:97
+msgid "Fluentd"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:79
+msgid "An events log sent to the ChromePHP extension (http://www.chromephp.com/)."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:78
+msgid "ChromePHP"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:60
+msgid "An events log sent to browser's javascript console with no browser extension required."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:59
+msgid "Browser console"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:48
+msgid "Any record it can handle will be thrown away."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:47
+msgid "Blackhole"
+msgstr ""
+
+#: includes/features/class-events.php:685
+msgid "Remote IP"
+msgstr ""
+
+#: includes/features/class-events.php:684
+msgid "User"
+msgstr ""
+
+#: includes/features/class-events.php:683
+msgid "Site"
+msgstr ""
+
+#: includes/features/class-events.php:680
+msgid "Message"
+msgstr ""
+
+#: includes/features/class-events.php:679
+msgid "Time"
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:351
+#: includes/features/class-events.php:678
+#: includes/features/class-eventviewer.php:249
+msgid "Event"
+msgstr ""
+
+#: includes/features/class-events.php:640
+msgid "Extra columns"
+msgstr ""
+
+#: includes/features/class-events.php:473
+msgid "Show %d lines per page"
+msgstr ""
+
+#: includes/features/class-events.php:417
+msgid "All"
+msgstr ""
+
+#: includes/features/class-events.php:315
+msgid "Add as filter"
+msgstr ""
+
+#: includes/features/class-events.php:309
+msgid "Remove this filter"
+msgstr ""
+
+#: includes/features/class-events.php:237
+msgid "Obfuscated"
+msgstr ""
+
+#: includes/features/class-events.php:221
+#: includes/features/class-eventviewer.php:343
+msgid "User ID %s"
+msgstr ""
+
+#: includes/features/class-events.php:218
+#: includes/features/class-eventviewer.php:340
+msgid "Pseudonymized user"
+msgstr ""
+
+#: includes/features/class-events.php:214
+#: includes/features/class-eventviewer.php:336
+msgid "Anonymous user"
+msgstr ""
+
+#: includes/features/class-events.php:200
+msgid "Site ID %s"
+msgstr ""
+
+#. translators: as in the sentence "Error code 501" or "Alert code 0"
+#: includes/features/class-events.php:159
+msgid "%1$s code %2$s"
+msgstr ""
+
+#: includes/features/class-loggers.php:234
+msgid "Logger"
+msgstr ""
+
+#: includes/features/class-loggers.php:179
+msgid "View"
+msgstr ""
+
+#: includes/features/class-loggers.php:176
+msgid "Start"
+msgstr ""
+
+#: includes/features/class-loggers.php:174
+msgid "Pause"
+msgstr ""
+
+#: includes/features/class-loggers.php:172
+msgid "Remove"
+msgstr ""
+
+#: includes/features/class-loggers.php:171
+msgid "Edit"
+msgstr ""
+
+#: includes/system/class-date.php:76
+msgid "in %s"
+msgstr ""
+
+#: includes/system/class-date.php:60
+msgid "currently"
+msgstr ""
+
+#: includes/system/class-date.php:57 includes/system/class-date.php:73
+msgid "%s ago"
+msgstr ""
+
+#: includes/system/class-environment.php:215
+msgid "Debug disabled"
+msgstr ""
+
+#: includes/system/class-environment.php:215
+msgid "Debug enabled"
+msgstr ""
+
+#: includes/system/class-environment.php:209
+msgid "display"
+msgstr ""
+
+#: includes/system/class-environment.php:204
+msgid "log"
+msgstr ""
+
+#: includes/plugin/class-updater.php:134
+msgid "Sorry, unable to find or read changelog file."
+msgstr ""
+
+#: includes/plugin/class-updater.php:45
+msgid "%1$s has been correctly updated from version %2$s to version %3$s."
+msgstr ""
+
+#: includes/plugin/class-updater.php:41
+msgid "%1$s has been correctly installed."
+msgstr ""
+
+#: admin/partials/decalog-admin-settings-logger-delete.php:33
+msgid "Remove Permanently"
+msgstr ""
+
+#: admin/partials/decalog-admin-settings-logger-delete.php:33
+msgid "Abort"
+msgstr ""
+
+#: admin/partials/decalog-admin-settings-logger-delete.php:32
+msgid "Are you sure you want to permanently remove this logger?"
+msgstr ""
+
+#: admin/partials/decalog-admin-settings-loggers.php:17
+msgid "Add a Logger"
+msgstr ""
+
+#: admin/partials/decalog-admin-settings-about.php:35
+msgid "Changelog"
+msgstr ""
+
+#: admin/partials/decalog-admin-settings-about.php:31
+msgid "Disclaimer"
+msgstr ""
+
+#: admin/partials/decalog-admin-settings-about.php:25
+msgid "This plugin is not an official software from %s and, as such, is not endorsed or supported by these companies."
+msgstr ""
+
+#: admin/partials/decalog-admin-settings-about.php:23
+msgid "All brands, icons and graphic illustrations are registered trademarks of their respective owners."
+msgstr ""
+
+#: admin/partials/decalog-admin-settings-about.php:22
+msgid "%1$s is a free and open source plugin for WordPress. It integrates other free and open source works (as-is or modified) like: %2$s."
+msgstr ""
+
+#: admin/partials/decalog-admin-settings-about.php:19
+msgid "This version of %s is a release candidate. Although ready for production, this version is not officially supported in production environments."
+msgstr ""
+
+#: admin/partials/decalog-admin-settings-about.php:16
+msgid "This version of %s is not production-ready. It is a development preview. Use it at your own risk!"
+msgstr ""
+
+#: admin/partials/decalog-admin-settings-logger-edit.php:36
+msgid "Cancel"
+msgstr ""
+
+#: admin/partials/decalog-admin-view-events-bottom.php:15
+msgid "Number of lines to display"
+msgstr ""
+
+#: admin/partials/decalog-admin-settings-options.php:31
+#: admin/partials/decalog-admin-settings-listeners.php:33
+msgid "Reset to Defaults"
+msgstr ""
+
+#: admin/partials/decalog-admin-settings-logger-choose.php:20
+msgid "Please, select the type of logger you want to add"
+msgstr ""
+
+#: admin/partials/decalog-admin-settings-main.php:74
+msgid "About"
+msgstr ""
+
+#: admin/partials/decalog-admin-settings-main.php:61
+msgid "Options"
+msgstr ""
+
+#: admin/partials/decalog-admin-settings-main.php:48
+msgid "Listeners"
+msgstr ""
+
+#: admin/partials/decalog-admin-settings-main.php:35
+msgid "Loggers"
+msgstr ""
+
+#: admin/partials/decalog-admin-view-events-bottom.php:21
+#: admin/partials/decalog-admin-view-events-top.php:21
+#: includes/features/class-events.php:646
+msgid "Apply"
+msgstr ""
+
+#: admin/partials/decalog-admin-view-events-top.php:18
+msgid "paused"
+msgstr ""
+
+#: admin/partials/decalog-admin-view-events-top.php:18
+msgid "running"
+msgstr ""
+
+#: admin/partials/decalog-admin-view-events-top.php:15
+msgid "Choose events log to display"
+msgstr ""
+
+#: admin/class-decalog-admin.php:935
+msgid "Allows to log standard DecaLog information."
+msgstr ""
+
+#: admin/class-decalog-admin.php:932 admin/class-decalog-admin.php:951
+msgid "Included"
+msgstr ""
+
+#: admin/class-decalog-admin.php:927 includes/features/class-loggers.php:207
+msgid "Standard"
+msgstr ""
+
+#: admin/class-decalog-admin.php:909
+msgid "If checked, log fields will contain hashes instead of user IDs & names."
+msgstr ""
+
+#: admin/class-decalog-admin.php:906
+msgid "Pseudonymisation"
+msgstr ""
+
+#: admin/class-decalog-admin.php:901
+msgid "Users"
+msgstr ""
+
+#: admin/class-decalog-admin.php:893 admin/class-decalog-admin.php:909
+msgid "Note: it concerns all fields except events messages."
+msgstr ""
+
+#: admin/class-decalog-admin.php:893
+msgid "If checked, log fields will contain hashes instead of real IPs."
+msgstr ""
+
+#: admin/class-decalog-admin.php:890
+msgid "Obfuscation"
+msgstr ""
+
+#: admin/class-decalog-admin.php:885
+msgid "Remote IPs"
+msgstr ""
+
+#: admin/class-decalog-admin.php:851
+msgid "Enabled"
+msgstr ""
+
+#: admin/class-decalog-admin.php:837
+msgid "Value set in php.ini file."
+msgstr ""
+
+#: admin/class-decalog-admin.php:830
+msgid "Log file"
+msgstr ""
+
+#: admin/class-decalog-admin.php:768
+msgid "Minimal reported level. May be overridden by the \"respect WP_DEBUG directive\" option."
+msgstr ""
+
+#: admin/class-decalog-admin.php:760 admin/class-decalog-admin.php:804
+#: includes/features/class-loggers.php:236
+msgid "Minimal level"
+msgstr ""
+
+#: admin/class-decalog-admin.php:752
+msgid "Used only in admin dashboard."
+msgstr ""
+
+#: admin/class-decalog-admin.php:745 admin/class-decalog-admin.php:789
+msgid "Name"
+msgstr ""
+
+#: admin/class-decalog-admin.php:724
+msgid "Note: DecaLog respects DISABLE_NAG_NOTICES flag."
+msgstr ""
+
+#: admin/class-decalog-admin.php:724
+msgid "Allows DecaLog to display admin notices throughout the admin dashboard."
+msgstr ""
+
+#: admin/class-decalog-admin.php:721
+msgid "Display"
+msgstr ""
+
+#: admin/class-decalog-admin.php:716
+msgid "Admin notices"
+msgstr ""
+
+#: admin/class-decalog-admin.php:708
+msgid "If checked, DecaLog will update itself as soon as a new version is available."
+msgstr ""
+
+#: admin/class-decalog-admin.php:705
+msgid "Automatic (recommended)"
+msgstr ""
+
+#: admin/class-decalog-admin.php:700
+msgid "Plugin updates"
+msgstr ""
+
+#: admin/class-decalog-admin.php:683
+msgid "If checked, the value of WP_DEBUG will override each logger's settings for minimal level of logging."
+msgstr ""
+
+#: admin/class-decalog-admin.php:680
+msgid "Respect WP_DEBUG"
+msgstr ""
+
+#: admin/class-decalog-admin.php:675
+msgid "Rules"
+msgstr ""
+
+#: admin/class-decalog-admin.php:667
+msgid "If checked, DecaLog will try to obfuscate personal information in events messages."
+msgstr ""
+
+#: admin/class-decalog-admin.php:664
+msgid "Respect privacy"
+msgstr ""
+
+#: admin/class-decalog-admin.php:659
+msgid "Events messages"
+msgstr ""
+
+#: admin/class-decalog-admin.php:651
+msgid "If checked, when a new logger is added it automatically starts."
+msgstr ""
+
+#: admin/class-decalog-admin.php:648
+msgid "Auto-start"
+msgstr ""
+
+#: admin/class-decalog-admin.php:607
+msgid "Theme listeners"
+msgstr ""
+
+#: admin/class-decalog-admin.php:606
+msgid "Plugin listeners"
+msgstr ""
+
+#: admin/class-decalog-admin.php:605
+msgid "Standard listeners"
+msgstr ""
+
+#: admin/class-decalog-admin.php:571
+msgid "Automatically or selectively choose which components to listen."
+msgstr ""
+
+#: admin/class-decalog-admin.php:567
+msgid "All available listeners (recommended)"
+msgstr ""
+
+#: admin/class-decalog-admin.php:566
+msgid "Selected listeners"
+msgstr ""
+
+#: admin/class-decalog-admin.php:560
+msgid "Activate"
+msgstr ""
+
+#: admin/class-decalog-admin.php:543
+msgid "Logger %s has not been removed. Please try again."
+msgstr ""
+
+#: admin/class-decalog-admin.php:537
+msgid "Logger %s has been removed."
+msgstr ""
+
+#: admin/class-decalog-admin.php:513
+msgid "Logger %s has not been saved. Please try again."
+msgstr ""
+
+#: admin/class-decalog-admin.php:507
+msgid "Logger %s has been saved."
+msgstr ""
+
+#: admin/class-decalog-admin.php:455
+msgid "Plugin settings have not been reset to defaults. Please try again."
+msgstr ""
+
+#: admin/class-decalog-admin.php:450
+msgid "Plugin settings have been reset to defaults."
+msgstr ""
+
+#: admin/class-decalog-admin.php:433
+msgid "Plugin settings have not been saved. Please try again."
+msgstr ""
+
+#: admin/class-decalog-admin.php:428
+msgid "Plugin settings have been saved."
+msgstr ""
+
+#: admin/class-decalog-admin.php:407
+msgid "Listeners settings have not been reset to defaults. Please try again."
+msgstr ""
+
+#: admin/class-decalog-admin.php:402
+msgid "Listeners settings have been reset to defaults."
+msgstr ""
+
+#: admin/class-decalog-admin.php:385
+msgid "Listeners settings have not been saved. Please try again."
+msgstr ""
+
+#: admin/class-decalog-admin.php:380
+msgid "Listeners settings have been saved."
+msgstr ""
+
+#: admin/class-decalog-admin.php:299
+msgid "Logger %s has been paused."
+msgstr ""
+
+#: admin/class-decalog-admin.php:286
+msgid "Logger %s has started."
+msgstr ""
+
+#: admin/class-decalog-admin.php:238 admin/class-decalog-admin.php:643
+msgid "New logger"
+msgstr ""
+
+#: admin/class-decalog-admin.php:183
+msgid "Events Logs"
+msgstr ""
+
+#: admin/class-decalog-admin.php:181
+msgid "Settings"
+msgstr ""
+
+#: admin/class-decalog-admin.php:172 includes/features/class-loggers.php:237
+msgid "Reported details"
+msgstr ""
+
+#: admin/class-decalog-admin.php:171
+msgid "Privacy options"
+msgstr ""
+
+#: admin/class-decalog-admin.php:165
+msgid "Plugin options"
+msgstr ""
+
+#: admin/class-decalog-admin.php:164
+msgid "Loggers options"
+msgstr ""
+
+#. translators: as in the sentence "DecaLog Viewer"
+#: admin/class-decalog-admin.php:125
+#: admin/partials/decalog-admin-view-events.php:20
+msgid "%s Viewer"
+msgstr ""
+
+#. translators: as in the sentence "DecaLog Settings" or "WordPress Settings"
+#: admin/class-decalog-admin.php:117
+#: admin/partials/decalog-admin-settings-main.php:19
+msgid "%s Settings"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://pierre.lannoy.fr"
+msgstr ""
+
+#. Author of the plugin
+msgid "Pierre Lannoy"
+msgstr ""
+
+#. Description of the plugin
+msgid "Capture and log events on your site. View them in your dashboard and send them to logging services."
+msgstr ""
+
+#. Plugin URI of the plugin
+msgid "https://github.com/Pierre-Lannoy/wp-decalog"
+msgstr ""
+
+#. Plugin Name of the plugin
+msgid "DecaLog"
+msgstr ""
