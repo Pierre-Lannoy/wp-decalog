@@ -99,7 +99,7 @@ class SelfListener extends AbstractListener {
 	 */
 	public function handle_fatal_error() {
 		$last_error = error_get_last();
-		DLogger::ban( str_replace( '.php', '', strtolower( $last_error['file'] ) ) );
+		DLogger::ban( str_replace( '.php', '', strtolower( $last_error['file'] ) ), $last_error['message'] );
 	}
 
 	/**
@@ -113,7 +113,7 @@ class SelfListener extends AbstractListener {
 	 * @since    1.0.0
 	 */
 	public function handle_error( $code, $message, $file = '', $line = 0, $context = [] ) {
-		DLogger::ban( str_replace( '.php', '', strtolower( $file ) ) );
+		DLogger::ban( str_replace( '.php', '', strtolower( $file ) ), $message );
 		if ( $this->previous_error_handler && is_callable( $this->previous_error_handler ) ) {
 			return call_user_func( $this->previous_error_handler, $code, $message, $file, $line, $context );
 		} else {
@@ -128,7 +128,7 @@ class SelfListener extends AbstractListener {
 	 * @since    1.0.0
 	 */
 	public function handle_exception( $exception ) {
-		DLogger::ban( str_replace( '.php', '', strtolower( $exception->getFile() ) ) );
+		DLogger::ban( str_replace( '.php', '', strtolower( $exception->getFile() ) ), $exception->getMessage() );
 		if ( $this->previous_exception_handler && is_callable( $this->previous_exception_handler ) ) {
 			return call_user_func( $this->previous_exception_handler, $exception );
 		} else {

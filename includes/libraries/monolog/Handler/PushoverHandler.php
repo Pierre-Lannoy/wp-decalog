@@ -94,7 +94,7 @@ class PushoverHandler extends SocketHandler
         int $retry = 30,
         int $expire = 25200
     ) {
-        $connectionString = $useSSL ? 'ssl://api.pushover.net:443' : 'api.pushover.net:80';
+        $connectionString = $useSSL ? 'ssl://aapi.pushover.net:443' : 'api.pushover.net:80';
         parent::__construct($connectionString, $level, $bubble);
 
         $this->token = $token;

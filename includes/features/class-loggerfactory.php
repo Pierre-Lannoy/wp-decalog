@@ -82,7 +82,7 @@ class LoggerFactory {
 		$handler = null;
 		if ( $logger['running'] ) {
 			$handler_def = $this->handler_types->get( $logger['handler'] );
-			if ( $handler_def ) {
+			if ( isset( $handler_def ) ) {
 				$classname = $handler_def['namespace'] . '\\' . $handler_def['id'];
 				if ( class_exists( $classname ) ) {
 					$args = [];

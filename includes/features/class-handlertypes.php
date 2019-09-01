@@ -49,6 +49,7 @@ class HandlerTypes {
 			'icon'          => $this->get_base64_php_icon(),
 			'params'        => [],
 			'configuration' => [],
+			'init'          => [],
 		];
 		$this->handlers[] = [
 			'id'            => 'BrowserConsoleHandler',
@@ -203,9 +204,9 @@ class HandlerTypes {
 			],
 		];
 		$this->handlers[] = [
-			'id'            => 'PushoverHandler',
+			'id'            => 'PshHandler',
 			'ancestor'      => 'SocketHandler',
-			'namespace'     => 'Monolog\\Handler',
+			'namespace'     => 'Decalog\\Handler',
 			'class'         => 'alerting',
 			'minimal'       => Logger::WARNING,
 			'name'          => esc_html__( 'Pushover', 'decalog' ),
@@ -249,6 +250,21 @@ class HandlerTypes {
 						'enabled' => true,
 					],
 				],
+				'timeout' => [
+					'type'    => 'integer',
+					'show'    => true,
+					'name'    => esc_html__( 'Socket timeout', 'decalog' ),
+					'help'    => esc_html__( 'Max number of milliseconds to wait for the socket.', 'decalog' ),
+					'default' => 400,
+					'control' => [
+						'type'    => 'field_input_integer',
+						'cast'    => 'integer',
+						'min'     => 100,
+						'max'     => 10000,
+						'step'    => 100,
+						'enabled' => true,
+					],
+				],
 			],
 			'init'          => [
 				[
@@ -263,15 +279,11 @@ class HandlerTypes {
 					'type'  => 'configuration',
 					'value' => 'title',
 				],
+				[
+					'type'  => 'configuration',
+					'value' => 'timeout',
+				],
 				[ 'type' => 'level' ],
-				[
-					'type'  => 'literal',
-					'value' => true,
-				],
-				[
-					'type'  => 'literal',
-					'value' => true,
-				],
 			],
 		];
 		$this->handlers[] = [

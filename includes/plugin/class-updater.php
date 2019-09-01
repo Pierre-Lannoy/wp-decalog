@@ -67,7 +67,18 @@ class Updater {
 	 * @since 1.0.0
 	 */
 	private function update( $from ) {
-
+		// Starting 1.3.x, PushoverHandler is replaced by PshHandler.
+		$loggers = Option::get( 'loggers', null );
+		if ( isset( $loggers ) ) {
+			foreach ( $loggers as &$logger ) {
+				if ( array_key_exists( 'handler', $logger ) ) {
+					if ( 'PushoverHandler' === $logger['handler'] ) {
+						$logger['handler'] = 'PshHandler';
+					}
+				}
+			}
+			Option::set( 'loggers', $loggers );
+		}
 	}
 
 	/**

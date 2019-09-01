@@ -93,6 +93,7 @@ class EventViewer {
 				}
 			}
 		}
+		$this->logger->emergency ('TEST');
 	}
 
 	/**

@@ -71,12 +71,28 @@ class DLogger {
 	protected $logger = null;
 
 	/**
+	 * The bannissable extra classes.
+	 *
+	 * @since  1.0.0
+	 * @var    array    $bannissable    Maintains the bannissable extra classes.
+	 */
+	private static $bannissable = [ 'ssl://aapi.pushover.net' => 'pushoverhandler' ];
+
+	/**
 	 * Temporarily ban a class.
 	 *
 	 * @param  string $classname The class name to ban.
+	 * @param  string $message Optional. The message of the initial error.
 	 * @since 1.0.0
 	 */
-	public static function ban( $classname ) {
+	public static function ban( $classname, $message = '' ) {
+		if ( '' !== $message ) {
+			foreach ( self::$bannissable as $key => $val ) {
+				if ( false !== strpos( $message, $key ) ) {
+					self::$banned[] = $val;
+				}
+			}
+		}
 		self::$banned[] = $classname;
 	}
 
