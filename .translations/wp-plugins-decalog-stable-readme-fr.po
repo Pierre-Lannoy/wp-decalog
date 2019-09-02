@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - DecaLog - Stable Readme (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-09-01 18:59+0200\n"
+"PO-Revision-Date: 2019-09-02 10:07+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -11,12 +11,12 @@ msgstr ""
 "Language: fr\n"
 "Project-Id-Version: Plugins - DecaLog - Stable Readme (latest release)\n"
 "POT-Creation-Date: \n"
-"Last-Translator: \n"
+"Last-Translator: Pierre Lannoy <pierre@lannoy.fr>\n"
 "Language-Team: \n"
 
 #. Short description.
 msgid "Capture and log events on your site. View them in your dashboard and send them to logging services."
-msgstr "Capturez et enregistrez les évènements qui surviennent sur votre site. Affichez-les dans votre Tableau de bord et envoyez-les à des services d’enregistrement."
+msgstr "Capturez et journalisez les évènements qui surviennent sur votre site. Affichez-les dans votre Tableau de bord et envoyez-les à des services de journalisation."
 
 #. Plugin name.
 msgid "DecaLog"
@@ -32,7 +32,7 @@ msgstr "<strong>DecaLog</strong> est un outil qui vise à :"
 
 #. Found in description paragraph.
 msgid "<strong>Capture and log events on your site. View them in your dashboard and send them to logging services.</strong>"
-msgstr "<strong>Capturez et enregistrez les évènements qui surviennent sur votre site. Affichez-les dans votre Tableau de bord et envoyez-les à des services d’enregistrement.</strong>"
+msgstr "<strong>Capturez et journalisez les évènements qui surviennent sur votre site. Affichez-les dans votre Tableau de bord et envoyez-les à des services de journalisation.</strong>"
 
 #. Found in description list item.
 msgid "to local or network storage (with file rotation);"
@@ -44,11 +44,11 @@ msgstr "à services d’alerte externes, comme Pushover ou Slack ;"
 
 #. Found in description list item.
 msgid "to external logger, like Syslog or Fluentd;"
-msgstr "à des enregistreurs externes, comme Syslog ou Fluentd ;"
+msgstr "à des journaliseurs externes, comme Syslog ou Fluentd ;"
 
 #. Found in description list item.
 msgid "to its internal logging storage and viewer;"
-msgstr "à son propre système d’enregistrement et de visualisation ;"
+msgstr "à son propre système de journalisation et de visualisation ;"
 
 #. Found in description list item.
 msgid "in the browser console (for debugging purpose);"
@@ -64,7 +64,7 @@ msgstr "afficher (et filtrer) les évènements enregistrés dans la base de donn
 
 #. Found in description list item.
 msgid "record these events in the WordPress database and/or send them to external services for logging, monitoring and alerting;"
-msgstr "enregistrer ces évènements dans la base de données WordPress ou les envoyer à des services externes d’enregistrement, de surveillance ou d’alerte ;"
+msgstr "enregistrer ces évènements dans la base de données WordPress ou les envoyer à des services externes de journalisation, de surveillance ou d’alerte ;"
 
 #. Found in description list item.
 msgid "enrich these events with many details regarding their triggering;"
@@ -92,7 +92,7 @@ msgstr "L’assistance est proposée via la page officielle <a href=\"https://wo
 
 #. Found in faq paragraph.
 msgid "Yes. It is designed to work on multisite too. Network Admins can configure the plugin and have access to all events logs. Sites Admins have access to the events logs of their sites."
-msgstr "Oui. Cette extension est conçue pour fonctionner sur un multisite aussi. Les administrateurs du réseau peuvent configurer l’extension et avoir accès à tous les registres d’évènements. Les administrateurs de sites ont juste accès aux registres d’évènements de leurs sites."
+msgstr "Oui. Cette extension est conçue pour fonctionner sur un multisite aussi. Les administrateurs du réseau peuvent configurer l’extension et avoir accès à tous les journaux d’évènements. Les administrateurs de sites ont juste accès aux journaux d’évènements de leurs sites."
 
 #. Found in faq paragraph.
 msgid "You need at least <strong>WordPress 5.2</strong> and <strong>PHP 7.2</strong>."
@@ -180,7 +180,7 @@ msgstr "Cette extension est gratuite et distribuée sans aucune garantie d’auc
 
 #. Found in description paragraph.
 msgid "If you're a plugins / themes developer and want to take advantage of the logging features of DecaLog, visit the <a href=\"https://github.com/Pierre-Lannoy/wp-decalog\">GitHub reporistory</a> of the plugin to learn how to develop a listener for your plugins / themes. Ah, and yes, it's PSR-3 compliant ;)"
-msgstr "Si vous êtes un développeur d’extensions ou thèmes et que vous souhaitez profiter des fonctionnalités d’enregistrement de DecaLog, visitez le <a href=\"https://github.com/Pierre-Lannoy/wp-decalog\">dépôt GitHub</a> de l’extensions pour découvrir comment développer un auditeur pour vos extensions et thèmes thèmes. Ah oui, au fait, DecaLog est conforme PSR-3 ;)"
+msgstr "Si vous êtes un développeur d’extensions ou thèmes et que vous souhaitez profiter des fonctionnalités de journalisation de DecaLog, visitez le <a href=\"https://github.com/Pierre-Lannoy/wp-decalog\">dépôt GitHub</a> de l’extensions pour découvrir comment développer un auditeur pour vos extensions et thèmes thèmes. Ah oui, au fait, DecaLog est conforme PSR-3 ;)"
 
 #. Found in description paragraph.
 msgid "<strong>DecaLog</strong> is a free and open source plugin for WordPress. It integrates many other free and open source works (as-is or modified). Please, see 'about' tab in the plugin settings to see the details."
@@ -192,7 +192,7 @@ msgstr "Il peut être utilisé en phase de développement ou débogage ainsi que
 
 #. Found in description paragraph.
 msgid "It supports multisite logs delegation (see FAQ) and contains many features to help to protect personal information (user pseudonymization, IP obfuscation, etc.)."
-msgstr "DecaLog prend en charge la délégation des registres multisites (voir FAQ) et contient de nombreuses fonctionnalités pour aider à protéger les informations personnelles (pseudonymisation de l’utilisateur, obfuscation d’adresses IP, etc.)."
+msgstr "DecaLog prend en charge la délégation des journaux multisites (voir FAQ) et contient de nombreuses fonctionnalités pour aider à protéger les informations personnelles (pseudonymisation de l’utilisateur, obscurcissement d’adresses IP, etc.)."
 
 #. Found in description header.
 msgid "Donation"

@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - DecaLog - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-09-01 21:04+0200\n"
+"PO-Revision-Date: 2019-09-02 10:15+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Language: fr\n"
 "Project-Id-Version: Plugins - DecaLog - Stable (latest release)\n"
 "POT-Creation-Date: \n"
-"Last-Translator: \n"
+"Last-Translator: Pierre Lannoy <pierre@lannoy.fr>\n"
 "Language-Team: \n"
 
 #. translators: definition of an event typed 'EMERGENCY', see
@@ -156,7 +156,7 @@ msgstr "Vous pouvez utiliser les contrôles suivants pour organiser l’écran e
 
 #: includes/features/class-inlinehelp.php:308
 msgid "Note these filters are effective even on pseudonymized or obfuscated fields."
-msgstr "Notez que ces filtres sont effectifs même sur les champs pseudonymisés ou floutés."
+msgstr "Notez que ces filtres sont effectifs même sur les champs pseudonymisés ou obscurcis."
 
 #: includes/features/class-inlinehelp.php:307
 msgid "To filter the displayed events, use the small blue funnel next to the filterable items. These filters are cumulative, you can activate simultaneously several filters."
@@ -384,7 +384,7 @@ msgstr "à partir de %s."
 
 #: includes/features/class-eventviewer.php:364
 msgid "obfuscated IP"
-msgstr "IP floutée"
+msgstr "IP obscurcie"
 
 #: includes/features/class-eventviewer.php:321
 msgid "Code:"
@@ -473,11 +473,11 @@ msgstr "Permet de consigner la pile d’appels complète."
 
 #: includes/features/class-channeltypes.php:55
 msgid "Site Frontend"
-msgstr "Frontend du site"
+msgstr "Interface publique du site"
 
 #: includes/features/class-channeltypes.php:54
 msgid "Site Backend"
-msgstr "Backend du site"
+msgstr "Interface d’administration du site"
 
 #: includes/features/class-channeltypes.php:53
 msgid "Atom/RDF/RSS Feed"
@@ -804,7 +804,7 @@ msgstr "Supprimer ce filtre"
 
 #: includes/features/class-events.php:237
 msgid "Obfuscated"
-msgstr "Flouté"
+msgstr "Obscurcis"
 
 #: includes/features/class-events.php:221
 #: includes/features/class-eventviewer.php:343
@@ -1023,7 +1023,7 @@ msgstr "Si coché, les champs du journal vont contenir des clés de hachage à l
 
 #: admin/class-decalog-admin.php:890
 msgid "Obfuscation"
-msgstr "Floutage"
+msgstr "Obscurcissement"
 
 #: admin/class-decalog-admin.php:885
 msgid "Remote IPs"
@@ -1100,7 +1100,7 @@ msgstr "Règles"
 
 #: admin/class-decalog-admin.php:667
 msgid "If checked, DecaLog will try to obfuscate personal information in events messages."
-msgstr "Si coché, DecaLog va essayer de flouter les informations personnelles dans les messages d’évènements."
+msgstr "Si coché, DecaLog va essayer d’obscurcir les informations personnelles dans les messages d’évènements."
 
 #: admin/class-decalog-admin.php:664
 msgid "Respect privacy"
