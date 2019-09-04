@@ -62,7 +62,7 @@ class MailHandler extends AbstractProcessingHandler {
 	 * @param   array $record    The record to send.
 	 * @since    1.0.0
 	 */
-	protected function write( array $record ): void {
+	protected function write( array $record )/*: void*/ {
 		if ( array_key_exists( 'level', $record ) && array_key_exists( $record['level'], EventTypes::$level_names ) ) {
 			$level = EventTypes::$level_names[ $record['level'] ];
 		} else {
