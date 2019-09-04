@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - DecaLog - Stable Readme (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-09-02 15:08+0200\n"
+"PO-Revision-Date: 2019-09-02 20:25+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -184,7 +184,7 @@ msgstr "Si vous êtes un développeur d’extensions ou thèmes et que vous souh
 
 #. Found in description paragraph.
 msgid "<strong>DecaLog</strong> is a free and open source plugin for WordPress. It integrates many other free and open source works (as-is or modified). Please, see 'about' tab in the plugin settings to see the details."
-msgstr "<strong>DecaLog</strong> est une extensions libre et open source pour WordPress. Elle intègre de nombreuses autres œuvres libres et open source (telles quelles ou modifiées). Consultez l’onglet « à propos » dans l’extension pour obtenir des détails."
+msgstr "<strong>DecaLog</strong> est une extension libre et open source pour WordPress. Elle intègre de nombreuses autres œuvres libres et open source (telles quelles ou modifiées). Consultez l’onglet « à propos » dans l’extension pour obtenir des détails."
 
 #. Found in description paragraph.
 msgid "It can be used in dev/debug phases or on production sites."

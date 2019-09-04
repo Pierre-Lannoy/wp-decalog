@@ -106,6 +106,9 @@ class DLogger {
 	 * @since   1.0.0
 	 */
 	public function __construct( $class, $name = null, $version = null, $test = null ) {
+		//error_log('----------------------------------------------');
+		//self::ban('chromephphandler');
+		self::ban('pshhandler');
 		if ( in_array( $class, ClassTypes::$classes, true ) ) {
 			$this->class = $class;
 		}
