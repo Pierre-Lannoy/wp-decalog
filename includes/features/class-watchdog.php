@@ -26,6 +26,14 @@ use Decalog\API\DLogger;
 class Watchdog {
 
 	/**
+	 * The unique instance of the class.
+	 *
+	 * @since  1.2.1
+	 * @var self $instance The unique instance of the class.
+	 */
+	private static $instance;
+
+	/**
 	 * The previous error handler, to restore if needed.
 	 *
 	 * @since  1.2.1
@@ -40,6 +48,15 @@ class Watchdog {
 	 * @var callable $previous_exception_handler The previous exception handler.
 	 */
 	private $previous_exception_handler;
+
+	/**
+	 * Create the class instance.
+	 *
+	 * @since    1.2.1
+	 */
+	public static function init() {
+		self::$instance = new Watchdog();
+	}
 
 	/**
 	 * Initialize the class and set its properties.
@@ -87,3 +104,5 @@ class Watchdog {
 		}
 	}
 }
+
+Watchdog::init();
