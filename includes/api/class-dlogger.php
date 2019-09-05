@@ -71,12 +71,20 @@ class DLogger {
 	protected $logger = null;
 
 	/**
+	 * Is the logger in test.
+	 *
+	 * @since  1.2.1
+	 * @var    boolean    $in_test    Maintains the test status of the logger.
+	 */
+	protected $in_test = false;
+
+	/**
 	 * The bannissable extra classes.
 	 *
 	 * @since  1.0.0
 	 * @var    array    $bannissable    Maintains the bannissable extra classes.
 	 */
-	private static $bannissable = [ 'ssl://aapi.pushover.net' => 'pushoverhandler' ];
+	private static $bannissable = [ 'ssl://aapi.pushover.net' => 'pshhandler' ];
 
 	/**
 	 * Temporarily ban a class.
@@ -89,11 +97,19 @@ class DLogger {
 		if ( '' !== $message ) {
 			foreach ( self::$bannissable as $key => $val ) {
 				if ( false !== strpos( $message, $key ) ) {
-					self::$banned[] = $val;
+					if ( ! in_array( $val, self::$banned, true ) ) {
+						self::$banned[] = $val;
+					}
 				}
 			}
 		}
-		self::$banned[] = $classname;
+		while ( false !== strpos( $classname, '/' ) ) {
+			$classname = substr( $classname, strpos( $classname, '/' ) + 1 );
+		}
+		$classname = str_replace( '.php', '', strtolower( $classname ) );
+		if ( ! in_array( $classname, self::$banned, true ) ) {
+			self::$banned[] = $classname;
+		}
 	}
 
 	/**
@@ -126,19 +142,20 @@ class DLogger {
 	 * @since 1.0.0
 	 */
 	private function init( $test = null ) {
-		$factory      = new LoggerFactory();
-		$this->logger = new Logger( $this->current_channel_tag(), [], [], Timezone::get_wp() );
-		$handlers     = new HandlerTypes();
-		$diagnosis    = new HandlerDiagnosis();
-		$banned       = [];
-		$unloadable   = [];
+		$this->in_test = isset( $test );
+		$factory       = new LoggerFactory();
+		$this->logger  = new Logger( $this->current_channel_tag(), [], [], Timezone::get_wp() );
+		$handlers      = new HandlerTypes();
+		$diagnosis     = new HandlerDiagnosis();
+		$banned        = [];
+		$unloadable    = [];
 		foreach ( Option::get( 'loggers' ) as $key => $logger ) {
-			if ( isset( $test ) && $key !== $test ) {
+			if ( $this->in_test && $key !== $test ) {
 				continue;
 			}
 			$handler_def    = $handlers->get( $logger['handler'] );
 			$logger['uuid'] = $key;
-			if ( ! in_array( strtolower( $handler_def['ancestor'] ), self::$banned, true ) && ! in_array( strtolower( $handler_def['id'] ), self::$banned, true ) ) {
+			if ( $this->in_test || ( ! in_array( strtolower( $handler_def['ancestor'] ), self::$banned, true ) && ! in_array( strtolower( $handler_def['id'] ), self::$banned, true ) ) ) {
 				if ( $diagnosis->check( $handler_def['id'] ) ) {
 					$handler = $factory->create_logger( $logger );
 					if ( $handler ) {
@@ -168,12 +185,14 @@ class DLogger {
 	 * @since 1.0.0
 	 */
 	private function integrity_check() {
-		if ( count( self::$banned ) > 0 ) {
-			$handlers  = new HandlerTypes();
-			$diagnosis = new HandlerDiagnosis();
-			$banned    = [];
+		if ( count( self::$banned ) > 0 && ! $this->in_test ) {
+			$handlers = new HandlerTypes();
+			$banned   = [];
 			foreach ( $this->logger->getHandlers() as $handler ) {
-				$classname   = get_class( $handler );
+				$classname = get_class( $handler );
+				while ( false !== strpos( $classname, '\\' ) ) {
+					$classname = substr( $classname, strpos( $classname, '\\' ) + 1 );
+				}
 				$handler_def = $handlers->get( $classname );
 				$ancestor    = $handler_def['ancestor'];
 				if ( in_array( strtolower( $classname ), self::$banned, true ) || in_array( strtolower( $ancestor ), self::$banned, true ) ) {
@@ -237,18 +256,25 @@ class DLogger {
 	 * @since 1.0.0
 	 */
 	public function log( $level, $message, $code = 0 ) {
-		$this->integrity_check();
-		$context = [
-			'class'     => (string) $this->class,
-			'component' => (string) $this->name,
-			'version'   => (string) $this->version,
-			'code'      => (int) $code,
-		];
-		$channel = $this->current_channel_tag();
-		if ( $this->logger->getName() !== $channel ) {
-			$this->logger = $this->logger->withName( $channel );
+		try {
+			$context = [
+				'class'     => (string) $this->class,
+				'component' => (string) $this->name,
+				'version'   => (string) $this->version,
+				'code'      => (int) $code,
+			];
+			$channel = $this->current_channel_tag();
+			if ( $this->logger->getName() !== $channel ) {
+				$this->logger = $this->logger->withName( $channel );
+			}
+			$this->logger->log( $level, filter_var( $message, FILTER_SANITIZE_STRING ), $context );
+			$result = true;
+		} catch ( \Throwable $t ) {
+			$this->integrity_check();
+			$result = false;
+		} finally {
+			return $result;
 		}
-		$this->logger->log( $level, filter_var( $message, FILTER_SANITIZE_STRING ), $context );
 	}
 
 	/**
@@ -260,18 +286,25 @@ class DLogger {
 	 */
 	public function debug( $message, $code = 0 ) {
 		if ( $this->is_debug_allowed() ) {
-			$this->integrity_check();
-			$context = [
-				'class'     => (string) $this->class,
-				'component' => (string) $this->name,
-				'version'   => (string) $this->version,
-				'code'      => (int) $code,
-			];
-			$channel = $this->current_channel_tag();
-			if ( $this->logger->getName() !== $channel ) {
-				$this->logger = $this->logger->withName( $channel );
+			try {
+				$context = [
+					'class'     => (string) $this->class,
+					'component' => (string) $this->name,
+					'version'   => (string) $this->version,
+					'code'      => (int) $code,
+				];
+				$channel = $this->current_channel_tag();
+				if ( $this->logger->getName() !== $channel ) {
+					$this->logger = $this->logger->withName( $channel );
+				}
+				$this->logger->debug( filter_var( $message, FILTER_SANITIZE_STRING ), $context );
+				$result = true;
+			} catch ( \Throwable $t ) {
+				$this->integrity_check();
+				$result = false;
+			} finally {
+				return $result;
 			}
-			$this->logger->debug( filter_var( $message, FILTER_SANITIZE_STRING ), $context );
 		}
 	}
 
@@ -283,18 +316,25 @@ class DLogger {
 	 * @since 1.0.0
 	 */
 	public function info( $message, $code = 0 ) {
-		$this->integrity_check();
-		$context = [
-			'class'     => (string) $this->class,
-			'component' => (string) $this->name,
-			'version'   => (string) $this->version,
-			'code'      => (int) $code,
-		];
-		$channel = $this->current_channel_tag();
-		if ( $this->logger->getName() !== $channel ) {
-			$this->logger = $this->logger->withName( $channel );
+		try {
+			$context = [
+				'class'     => (string) $this->class,
+				'component' => (string) $this->name,
+				'version'   => (string) $this->version,
+				'code'      => (int) $code,
+			];
+			$channel = $this->current_channel_tag();
+			if ( $this->logger->getName() !== $channel ) {
+				$this->logger = $this->logger->withName( $channel );
+			}
+			$this->logger->info( filter_var( $message, FILTER_SANITIZE_STRING ), $context );
+			$result = true;
+		} catch ( \Throwable $t ) {
+			$this->integrity_check();
+			$result = false;
+		} finally {
+			return $result;
 		}
-		$this->logger->info( filter_var( $message, FILTER_SANITIZE_STRING ), $context );
 	}
 
 	/**
@@ -305,18 +345,25 @@ class DLogger {
 	 * @since 1.0.0
 	 */
 	public function notice( $message, $code = 0 ) {
-		$this->integrity_check();
-		$context = [
-			'class'     => (string) $this->class,
-			'component' => (string) $this->name,
-			'version'   => (string) $this->version,
-			'code'      => (int) $code,
-		];
-		$channel = $this->current_channel_tag();
-		if ( $this->logger->getName() !== $channel ) {
-			$this->logger = $this->logger->withName( $channel );
+		try {
+			$context = [
+				'class'     => (string) $this->class,
+				'component' => (string) $this->name,
+				'version'   => (string) $this->version,
+				'code'      => (int) $code,
+			];
+			$channel = $this->current_channel_tag();
+			if ( $this->logger->getName() !== $channel ) {
+				$this->logger = $this->logger->withName( $channel );
+			}
+			$this->logger->notice( filter_var( $message, FILTER_SANITIZE_STRING ), $context );
+			$result = true;
+		} catch ( \Throwable $t ) {
+			$this->integrity_check();
+			$result = false;
+		} finally {
+			return $result;
 		}
-		$this->logger->notice( filter_var( $message, FILTER_SANITIZE_STRING ), $context );
 	}
 
 	/**
@@ -327,18 +374,25 @@ class DLogger {
 	 * @since 1.0.0
 	 */
 	public function warning( $message, $code = 0 ) {
-		$this->integrity_check();
-		$context = [
-			'class'     => (string) $this->class,
-			'component' => (string) $this->name,
-			'version'   => (string) $this->version,
-			'code'      => (int) $code,
-		];
-		$channel = $this->current_channel_tag();
-		if ( $this->logger->getName() !== $channel ) {
-			$this->logger = $this->logger->withName( $channel );
+		try {
+			$context = [
+				'class'     => (string) $this->class,
+				'component' => (string) $this->name,
+				'version'   => (string) $this->version,
+				'code'      => (int) $code,
+			];
+			$channel = $this->current_channel_tag();
+			if ( $this->logger->getName() !== $channel ) {
+				$this->logger = $this->logger->withName( $channel );
+			}
+			$this->logger->warning( filter_var( $message, FILTER_SANITIZE_STRING ), $context );
+			$result = true;
+		} catch ( \Throwable $t ) {
+			$this->integrity_check();
+			$result = false;
+		} finally {
+			return $result;
 		}
-		$this->logger->warning( filter_var( $message, FILTER_SANITIZE_STRING ), $context );
 	}
 
 	/**
@@ -349,18 +403,25 @@ class DLogger {
 	 * @since 1.0.0
 	 */
 	public function error( $message, $code = 0 ) {
-		$this->integrity_check();
-		$context = [
-			'class'     => (string) $this->class,
-			'component' => (string) $this->name,
-			'version'   => (string) $this->version,
-			'code'      => (int) $code,
-		];
-		$channel = $this->current_channel_tag();
-		if ( $this->logger->getName() !== $channel ) {
-			$this->logger = $this->logger->withName( $channel );
+		try {
+			$context = [
+				'class'     => (string) $this->class,
+				'component' => (string) $this->name,
+				'version'   => (string) $this->version,
+				'code'      => (int) $code,
+			];
+			$channel = $this->current_channel_tag();
+			if ( $this->logger->getName() !== $channel ) {
+				$this->logger = $this->logger->withName( $channel );
+			}
+			$this->logger->error( filter_var( $message, FILTER_SANITIZE_STRING ), $context );
+			$result = true;
+		} catch ( \Throwable $t ) {
+			$this->integrity_check();
+			$result = false;
+		} finally {
+			return $result;
 		}
-		$this->logger->error( filter_var( $message, FILTER_SANITIZE_STRING ), $context );
 	}
 
 	/**
@@ -371,18 +432,25 @@ class DLogger {
 	 * @since 1.0.0
 	 */
 	public function critical( $message, $code = 0 ) {
-		$this->integrity_check();
-		$context = [
-			'class'     => (string) $this->class,
-			'component' => (string) $this->name,
-			'version'   => (string) $this->version,
-			'code'      => (int) $code,
-		];
-		$channel = $this->current_channel_tag();
-		if ( $this->logger->getName() !== $channel ) {
-			$this->logger = $this->logger->withName( $channel );
+		try {
+			$context = [
+				'class'     => (string) $this->class,
+				'component' => (string) $this->name,
+				'version'   => (string) $this->version,
+				'code'      => (int) $code,
+			];
+			$channel = $this->current_channel_tag();
+			if ( $this->logger->getName() !== $channel ) {
+				$this->logger = $this->logger->withName( $channel );
+			}
+			$this->logger->critical( filter_var( $message, FILTER_SANITIZE_STRING ), $context );
+			$result = true;
+		} catch ( \Throwable $t ) {
+			$this->integrity_check();
+			$result = false;
+		} finally {
+			return $result;
 		}
-		$this->logger->critical( filter_var( $message, FILTER_SANITIZE_STRING ), $context );
 	}
 
 	/**
@@ -393,18 +461,25 @@ class DLogger {
 	 * @since 1.0.0
 	 */
 	public function alert( $message, $code = 0 ) {
-		$this->integrity_check();
-		$context = [
-			'class'     => (string) $this->class,
-			'component' => (string) $this->name,
-			'version'   => (string) $this->version,
-			'code'      => (int) $code,
-		];
-		$channel = $this->current_channel_tag();
-		if ( $this->logger->getName() !== $channel ) {
-			$this->logger = $this->logger->withName( $channel );
+		try {
+			$context = [
+				'class'     => (string) $this->class,
+				'component' => (string) $this->name,
+				'version'   => (string) $this->version,
+				'code'      => (int) $code,
+			];
+			$channel = $this->current_channel_tag();
+			if ( $this->logger->getName() !== $channel ) {
+				$this->logger = $this->logger->withName( $channel );
+			}
+			$this->logger->alert( filter_var( $message, FILTER_SANITIZE_STRING ), $context );
+			$result = true;
+		} catch ( \Throwable $t ) {
+			$this->integrity_check();
+			$result = false;
+		} finally {
+			return $result;
 		}
-		$this->logger->alert( filter_var( $message, FILTER_SANITIZE_STRING ), $context );
 	}
 
 	/**
@@ -415,18 +490,25 @@ class DLogger {
 	 * @since 1.0.0
 	 */
 	public function emergency( $message, $code = 0 ) {
-		$this->integrity_check();
-		$context = [
-			'class'     => (string) $this->class,
-			'component' => (string) $this->name,
-			'version'   => (string) $this->version,
-			'code'      => (int) $code,
-		];
-		$channel = $this->current_channel_tag();
-		if ( $this->logger->getName() !== $channel ) {
-			$this->logger = $this->logger->withName( $channel );
+		try {
+			$context = [
+				'class'     => (string) $this->class,
+				'component' => (string) $this->name,
+				'version'   => (string) $this->version,
+				'code'      => (int) $code,
+			];
+			$channel = $this->current_channel_tag();
+			if ( $this->logger->getName() !== $channel ) {
+				$this->logger = $this->logger->withName( $channel );
+			}
+			$this->logger->emergency( filter_var( $message, FILTER_SANITIZE_STRING ), $context );
+			$result = true;
+		} catch ( \Throwable $t ) {
+			$this->integrity_check();
+			$result = false;
+		} finally {
+			return $result;
 		}
-		$this->logger->emergency( filter_var( $message, FILTER_SANITIZE_STRING ), $context );
 	}
 
 }

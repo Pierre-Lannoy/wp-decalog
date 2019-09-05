@@ -32,6 +32,8 @@ require_once __DIR__ . '/autoload.php';
 require_once __DIR__ . '/includes/libraries/class-libraries.php';
 require_once __DIR__ . '/includes/libraries/autoload.php';
 
+use Decalog\Plugin\Feature\Watchdog;
+
 /**
  * The code that runs during plugin activation.
  *
@@ -65,6 +67,7 @@ function decalog_uninstall() {
  * @since 1.0.0
  */
 function decalog_run() {
+	$self_listener = new Watchdog();
 	Decalog\System\Cache::init();
 	$plugin = new Decalog\Plugin\Core();
 	$plugin->run();

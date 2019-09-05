@@ -45,7 +45,6 @@ class ListenerFactory {
 		'index.php',
 		'class-abstractlistener.php',
 		'class-listenerfactory.php',
-		'class-selflistener.php',
 	];
 
 	/**
@@ -71,8 +70,7 @@ class ListenerFactory {
 	 * @since    1.0.0
 	 */
 	public function launch() {
-		self::$infos        = [];
-		$phplistener_loaded = false;
+		self::$infos = [];
 		foreach (
 			array_diff( scandir( DECALOG_LISTENERS_DIR ), $this->excluded_files ) as $item ) {
 			if ( ! is_dir( DECALOG_LISTENERS_DIR . $item ) ) {
@@ -82,18 +80,9 @@ class ListenerFactory {
 				$instance  = $this->create_listener_instance( $classname );
 				if ( $instance ) {
 					self::$infos[] = $instance->get_info();
-					if ( 'PhpListener' === $classname && ( in_array( 'php', Option::get( 'listeners' ), true ) || Option::get( 'autolisteners' ) ) ) {
-						$phplistener_loaded = true;
-					}
 				} else {
 					$this->log->error( sprintf( 'Unable to load "%s".', $classname ) );
 				}
-			}
-		}
-		if ( ! $phplistener_loaded ) {
-			$instance = $this->create_listener_instance( 'SelfListener' );
-			if ( ! $instance ) {
-				$this->log->alert( 'Unable to load fallback listener.', 666 );
 			}
 		}
 	}

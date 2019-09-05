@@ -184,8 +184,8 @@ class PhpListener extends AbstractListener {
 	 */
 	public function handle_fatal_error() {
 		$last_error = error_get_last();
+		DLogger::ban( $last_error['file'], $last_error['message'] );
 		if ( $last_error && in_array( $last_error['type'], $this->fatal_errors, true ) ) {
-			DLogger::ban( str_replace( '.php', '', strtolower( $last_error['file'] ) ), $last_error['message'] );
 			$file    = './' . str_replace( wp_normalize_path( ABSPATH ), '', wp_normalize_path( $last_error['file'] ) );
 			$file   .= ':' . $last_error['line'];
 			$message = sprintf( 'Fatal error (%s): "%s" at %s', $this->code_to_string( $last_error['type'] ), $last_error['message'], $file );
@@ -204,8 +204,8 @@ class PhpListener extends AbstractListener {
 	 * @since    1.0.0
 	 */
 	public function handle_error( $code, $message, $file = '', $line = 0, $context = [] ) {
+		DLogger::ban( $file, $message );
 		if ( ! in_array( $code, $this->fatal_errors, true ) ) {
-			DLogger::ban( str_replace( '.php', '', strtolower( $file ) ), $message );
 			$level   = $this->error_level_map[ $code ] ?? Logger::CRITICAL;
 			$file    = './' . str_replace( wp_normalize_path( ABSPATH ), '', wp_normalize_path( $file ) );
 			$file   .= ':' . $line;
@@ -226,7 +226,7 @@ class PhpListener extends AbstractListener {
 	 * @since    1.0.0
 	 */
 	public function handle_exception( $exception ) {
-		DLogger::ban( str_replace( '.php', '', strtolower( $exception->getFile() ) ), $exception->getMessage() );
+		DLogger::ban( $exception->getFile(), $exception->getMessage() );
 		$file    = './' . str_replace( wp_normalize_path( ABSPATH ), '', wp_normalize_path( $exception->getFile() ) );
 		$file   .= ':' . $exception->getLine();
 		$message = sprintf( 'Uncaught exception (%s): "%s" at %s', Utils::getClass( $exception ), $exception->getMessage(), $file );

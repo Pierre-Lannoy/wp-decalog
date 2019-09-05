@@ -23,6 +23,7 @@ use Decalog\System\Option;
 use Decalog\System\Form;
 use Decalog\System\Role;
 use Monolog\Logger;
+use WeatherStation\SDK\Ambient\Exception;
 
 /**
  * The admin-specific functionality of the plugin.
@@ -312,18 +313,26 @@ class Decalog_Admin {
 									$loggers = Option::get( 'loggers' );
 									if ( array_key_exists( $uuid, $loggers ) ) {
 										$test = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION, $uuid );
-										$test->debug( 'Debug test message.', 210871 );
-										$test->info( 'Info test message.', 210871 );
-										$test->notice( 'Notice test message.', 210871 );
-										$test->warning( 'Warning test message.', 210871 );
-										$test->error( 'Error test message.', 210871 );
-										$test->critical( 'Critical test message.', 210871 );
-										$test->alert( 'Alert test message.', 210871 );
-										$test->emergency( 'Emergency test message.', 210871 );
-										$message = sprintf( esc_html__( 'Test messages have been sent to logger %s.', 'decalog' ), '<em>' . $loggers[ $uuid ]['name'] . '</em>' );
-										$code    = 0;
-										$this->logger->info( sprintf( 'Logger "%s" has been tested.', $loggers[ $uuid ]['name'] ), $code );
-										add_settings_error( 'decalog_no_error', $code, $message, 'updated' );
+										$done = true;
+										$done = $done & $test->debug( 'Debug test message.', 210871 );
+										$done = $done & $test->info( 'Info test message.', 210871 );
+										$done = $done & $test->notice( 'Notice test message.', 210871 );
+										$done = $done & $test->warning( 'Warning test message.', 210871 );
+										$done = $done & $test->error( 'Error test message.', 210871 );
+										$done = $done & $test->critical( 'Critical test message.', 210871 );
+										$done = $done & $test->alert( 'Alert test message.', 210871 );
+										$done = $done & $test->emergency( 'Emergency test message.', 210871 );
+										if ( $done ) {
+											$message = sprintf( esc_html__( 'Test messages have been sent to logger %s.', 'decalog' ), '<em>' . $loggers[ $uuid ]['name'] . '</em>' );
+											$code    = 0;
+											$this->logger->info( sprintf( 'Logger "%s" has been tested.', $loggers[ $uuid ]['name'] ), $code );
+											add_settings_error( 'decalog_no_error', $code, $message, 'updated' );
+										} else {
+											$message = sprintf( esc_html__( 'Test messages have not been sent to logger %s. Please check the logger\'s settings.', 'decalog' ), '<em>' . $loggers[ $uuid ]['name'] . '</em>' );
+											$code    = 1;
+											$this->logger->warning( sprintf( 'Logger "%s" has been unsuccessfully tested.', $loggers[ $uuid ]['name'] ), $code );
+											add_settings_error( 'decalog_error', $code, $message, 'error' );
+										}
 									}
 								}
 							}
