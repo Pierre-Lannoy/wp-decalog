@@ -146,15 +146,15 @@ class ChromePHPHandler extends AbstractProcessingHandler
 
         $json = @json_encode(self::$json);
         $data = base64_encode(utf8_encode($json));
-        if (strlen($data) > 240 * 1024) {
+        if (strlen($data) > 3.2 * 1024) {
             self::$overflowed = true;
 
             $record = [
-                'message' => 'Incomplete logs, chrome header size limit reached',
+                'message' => 'Incomplete logs, chrome header size limit reached, see https://www.bleepingcomputer.com/news/security/google-chrome-to-limit-referer-header-size-to-block-attacks/',
                 'context' => [],
                 'level' => Logger::WARNING,
                 'level_name' => Logger::getLevelName(Logger::WARNING),
-                'channel' => 'monolog',
+                'channel' => 'DecaLog',
                 'datetime' => new \DateTimeImmutable(),
                 'extra' => [],
             ];

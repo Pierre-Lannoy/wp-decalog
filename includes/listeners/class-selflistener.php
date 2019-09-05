@@ -50,8 +50,8 @@ class SelfListener extends AbstractListener {
 	 */
 	public function __construct( $internal_logger ) {
 		parent::__construct( $internal_logger );
-		//$this->logger = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
-		//$this->logger->debug( 'Fallback listener is launched and operational.' );
+		$this->logger = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
+		$this->logger->debug( 'Fallback listener is launched and operational.' );
 	}
 
 	/**
@@ -84,7 +84,6 @@ class SelfListener extends AbstractListener {
 	 * @since    1.0.0
 	 */
 	protected function launch() {
-		error_log('+++++++++++++');
 		register_shutdown_function( [ $this, 'handle_fatal_error' ] );
 		// phpcs:ignore
 		$this->previous_error_handler = set_error_handler( [ $this, 'handle_error' ] );
@@ -99,10 +98,7 @@ class SelfListener extends AbstractListener {
 	 * @since    1.0.0
 	 */
 	public function handle_fatal_error() {
-		error_log('******************************');
 		$last_error = error_get_last();
-		error_log($last_error['file']);
-		die(0);
 		DLogger::ban( str_replace( '.php', '', strtolower( $last_error['file'] ) ), $last_error['message'] );
 	}
 
@@ -117,9 +113,6 @@ class SelfListener extends AbstractListener {
 	 * @since    1.0.0
 	 */
 	public function handle_error( $code, $message, $file = '', $line = 0, $context = [] ) {
-		error_log('******************************');
-		error_log($file);
-		die(0);
 		DLogger::ban( str_replace( '.php', '', strtolower( $file ) ), $message );
 		if ( $this->previous_error_handler && is_callable( $this->previous_error_handler ) ) {
 			return call_user_func( $this->previous_error_handler, $code, $message, $file, $line, $context );
@@ -131,13 +124,10 @@ class SelfListener extends AbstractListener {
 	/**
 	 * Handles errors.
 	 *
-	 * @param   Exception $exception  The uncaught exception.
+	 * @param   \Exception $exception  The uncaught exception.
 	 * @since    1.0.0
 	 */
 	public function handle_exception( $exception ) {
-		error_log('******************************');
-		error_log($exception->getFile());
-		die(0);
 		DLogger::ban( str_replace( '.php', '', strtolower( $exception->getFile() ) ), $exception->getMessage() );
 		if ( $this->previous_exception_handler && is_callable( $this->previous_exception_handler ) ) {
 			return call_user_func( $this->previous_exception_handler, $exception );
