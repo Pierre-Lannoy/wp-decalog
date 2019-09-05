@@ -84,7 +84,7 @@ class DLogger {
 	 * @since  1.0.0
 	 * @var    array    $bannissable    Maintains the bannissable extra classes.
 	 */
-	private static $bannissable = [ 'ssl://aapi.pushover.net' => 'pshhandler' ];
+	private static $bannissable = [ 'ssl://api.pushover.net' => 'pshhandler' ];
 
 	/**
 	 * Temporarily ban a class.
