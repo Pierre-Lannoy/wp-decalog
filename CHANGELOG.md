@@ -3,9 +3,10 @@ All notable changes to **DecaLog** is documented in this *changelog*.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
-### Added
+## [1.2.1] - 2019-09-05
+### Changed
 - Pushover logger now allows to set socket timeout.
+- Watchdog (for self listening) is now fully operational for PHP and MySQL channels.
 ### Fixed
 - ChromePHP logger header size limit is unsuitable for the most recent Chromium versions (thanks to [dotMastaz](https://github.com/dotMastaz)).
 
