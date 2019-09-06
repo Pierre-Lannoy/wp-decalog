@@ -54,12 +54,12 @@ class Hosting {
 	 * @since  1.0.0
 	 */
 	public static function count_server_cpu() {
-		$cpu_count = Cache::get( '/Hardware/CPU/Count' );
+		$cpu_count = Cache::get_global( '/Hardware/CPU/Count' );
 		if ( false === $cpu_count ) {
 			if ( self::is_shell_enabled() ) {
 				// phpcs:ignore
 				$cpu_count = shell_exec( 'cat /proc/cpuinfo |grep "physical id" | sort | uniq | wc -l' );
-				Cache::set( '/Hardware/CPU/Count', $cpu_count, 'diagnosis' );
+				Cache::set_global( '/Hardware/CPU/Count', $cpu_count, 'diagnosis' );
 			} else {
 				return false;
 			}
@@ -74,12 +74,12 @@ class Hosting {
 	 * @since  1.0.0
 	 */
 	public static function count_server_core() {
-		$core_count = Cache::get( '/Hardware/Core/Count' );
+		$core_count = Cache::get_global( '/Hardware/Core/Count' );
 		if ( false === $core_count ) {
 			if ( self::is_shell_enabled() ) {
 				// phpcs:ignore
 				$core_count = shell_exec( "echo \"$((`cat /proc/cpuinfo | grep cores | grep -o '[0-9]' | uniq` * `cat /proc/cpuinfo |grep 'physical id' | sort | uniq | wc -l`))\"" );
-				Cache::set( '/Hardware/Core/Count', $core_count, 'diagnosis' );
+				Cache::set_global( '/Hardware/Core/Count', $core_count, 'diagnosis' );
 			} else {
 				return false;
 			}

@@ -19,7 +19,6 @@ namespace Decalog\System;
  */
 class Cache {
 
-
 	/**
 	 * The pool's name, specific to the calling plugin.
 	 *
@@ -84,9 +83,10 @@ class Cache {
 	 */
 	public static function init() {
 		self::$ttls = [
-			'ephemeral' => -1,
-			'infinite'  => 0,
-			'diagnosis' => 3600,
+			'ephemeral'         => -1,
+			'infinite'          => 0,
+			'diagnosis'         => 3600,
+			'plugin-statistics' => 86400,
 		];
 	}
 
@@ -113,7 +113,35 @@ class Cache {
 	}
 
 	/**
-	 * Get the value of a cache item.
+	 * Get the value of a fully named cache item.
+	 *
+	 * If the item does not exist, does not have a value, or has expired,
+	 * then the return value will be false.
+	 *
+	 * @param  string $item_name Item name. Expected to not be SQL-escaped.
+	 * @return mixed Value of item.
+	 * @since  1.0.0
+	 */
+	private static function get_for_full_name( $item_name ) {
+		return get_transient( $item_name );
+	}
+
+	/**
+	 * Get the value of a global cache item.
+	 *
+	 * If the item does not exist, does not have a value, or has expired,
+	 * then the return value will be false.
+	 *
+	 * @param  string $item_name Item name. Expected to not be SQL-escaped.
+	 * @return mixed Value of item.
+	 * @since  1.0.0
+	 */
+	public static function get_global( $item_name ) {
+		return self::get_for_full_name( self::$pool_name . '_' . $item_name );
+	}
+
+	/**
+	 * Get the value of a standard cache item.
 	 *
 	 * If the item does not exist, does not have a value, or has expired,
 	 * then the return value will be false.
@@ -123,11 +151,53 @@ class Cache {
 	 * @since  1.0.0
 	 */
 	public static function get( $item_name ) {
-		return get_transient( self::full_item_name( $item_name ) );
+		return self::get_for_full_name( self::full_item_name( $item_name ) );
 	}
 
 	/**
-	 * Set the value of a cache item.
+	 * Set the value of a fully named cache item.
+	 *
+	 * You do not need to serialize values. If the value needs to be serialized, then
+	 * it will be serialized before it is set.
+	 *
+	 * @param  string $item_name Item name. Expected to not be SQL-escaped.
+	 * @param  mixed  $value     Item value. Must be serializable if non-scalar.
+	 *                           Expected to not be SQL-escaped.
+	 * @param  string $ttl       Optional. The previously defined ttl @see self::init().
+	 * @return bool False if value was not set and true if value was set.
+	 * @since  1.0.0
+	 */
+	private static function set_for_full_name( $item_name, $value, $ttl = 'default' ) {
+		$expiration = self::$default_ttl;
+		if ( array_key_exists( $ttl, self::$ttls ) ) {
+			$expiration = self::$ttls[ $ttl ];
+		}
+		if ( $expiration >= 0 ) {
+			return set_transient( $item_name, $value, $expiration );
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Set the value of a global cache item.
+	 *
+	 * You do not need to serialize values. If the value needs to be serialized, then
+	 * it will be serialized before it is set.
+	 *
+	 * @param  string $item_name Item name. Expected to not be SQL-escaped.
+	 * @param  mixed  $value     Item value. Must be serializable if non-scalar.
+	 *                           Expected to not be SQL-escaped.
+	 * @param  string $ttl       Optional. The previously defined ttl @see self::init().
+	 * @return bool False if value was not set and true if value was set.
+	 * @since  1.0.0
+	 */
+	public static function set_global( $item_name, $value, $ttl = 'default' ) {
+		return self::set_for_full_name( self::$pool_name . '_' . $item_name, $value, $ttl );
+	}
+
+	/**
+	 * Set the value of a standard cache item.
 	 *
 	 * You do not need to serialize values. If the value needs to be serialized, then
 	 * it will be serialized before it is set.
@@ -140,19 +210,11 @@ class Cache {
 	 * @since  1.0.0
 	 */
 	public static function set( $item_name, $value, $ttl = 'default' ) {
-		$expiration = self::$default_ttl;
-		if ( array_key_exists( $ttl, self::$ttls ) ) {
-			$expiration = self::$ttls[ $ttl ];
-		}
-		if ( $expiration >= 0 ) {
-			return set_transient( self::full_item_name( $item_name ), $value, $expiration );
-		} else {
-			return false;
-		}
+		return self::set_for_full_name( self::full_item_name( $item_name ), $value, $ttl );
 	}
 
 	/**
-	 * Delete the value of a cache item.
+	 * Delete the value of a fully named cache item.
 	 *
 	 * This function accepts generic car "*".
 	 *
@@ -160,15 +222,15 @@ class Cache {
 	 * @return integer Number of deleted items.
 	 * @since  1.0.0
 	 */
-	public static function delete( $item_name ) {
+	private static function delete_for_ful_name( $item_name ) {
 		global $wpdb;
 		$result = 0;
 		if ( strlen( $item_name ) - 1 === strpos( $item_name, '/*' ) && '/' === $item_name[0] ) {
 			// phpcs:ignore
-			$delete = $wpdb->get_col( "SELECT option_name FROM {$wpdb->options} WHERE option_name = '_transient_timeout_" . self::full_item_name( str_replace( '/*', '', $item_name ) ) . "' OR option_name LIKE '_transient_timeout_" . self::full_item_name( str_replace( '/*', '/%', $item_name ) ) . "';" );
+			$delete = $wpdb->get_col( "SELECT option_name FROM {$wpdb->options} WHERE option_name = '_transient_timeout_" . str_replace( '/*', '', $item_name ) . "' OR option_name LIKE '_transient_timeout_" . str_replace( '/*', '/%', $item_name ) . "';" );
 		} else {
 			// phpcs:ignore
-			$delete = $wpdb->get_col( "SELECT option_name FROM {$wpdb->options} WHERE option_name = '_transient_timeout_" . self::full_item_name( $item_name ) . "';" );
+			$delete = $wpdb->get_col( "SELECT option_name FROM {$wpdb->options} WHERE option_name = '_transient_timeout_" . $item_name . "';" );
 		}
 		foreach ( $delete as $transient ) {
 			$key = str_replace( '_transient_timeout_', '', $transient );
@@ -177,6 +239,32 @@ class Cache {
 			}
 		}
 		return $result;
+	}
+
+	/**
+	 * Delete the value of a global cache item.
+	 *
+	 * This function accepts generic car "*".
+	 *
+	 * @param  string $item_name Item name. Expected to not be SQL-escaped.
+	 * @return integer Number of deleted items.
+	 * @since  1.0.0
+	 */
+	public static function delete_global( $item_name ) {
+		return self::delete_for_ful_name( self::$pool_name . '_' . $item_name );
+	}
+
+	/**
+	 * Delete the value of a standard cache item.
+	 *
+	 * This function accepts generic car "*".
+	 *
+	 * @param  string $item_name Item name. Expected to not be SQL-escaped.
+	 * @return integer Number of deleted items.
+	 * @since  1.0.0
+	 */
+	public static function delete( $item_name ) {
+		return self::delete_for_ful_name( self::full_item_name( $item_name ) );
 	}
 
 }
