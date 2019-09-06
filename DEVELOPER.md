@@ -104,7 +104,7 @@ Here is an example that implements a simple ___listener___ able to listen the ac
             $this->name    = 'My wonderful plugin';
             $this->class   = 'plugin';
             $this->product = 'My Plugin';
-            if ( defined( 'MYPLUGIN_VERSION') ) {
+            if ( defined( 'MYPLUGIN_VERSION' ) ) {
                 $this->version = MYPLUGIN_VERSION;
             } else {
                 $this->version = 'x';
@@ -118,7 +118,7 @@ Here is an example that implements a simple ___listener___ able to listen the ac
          * @since    1.0.0
          */
         protected function is_available() {
-            return defined( 'MYPLUGIN_VERSION') && class_exists ( 'MyPluginClass' );
+            return defined( 'MYPLUGIN_VERSION' ) && class_exists ( 'MyPluginClass' );
         }
     
         /**
