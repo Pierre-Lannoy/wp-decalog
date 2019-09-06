@@ -89,6 +89,7 @@ class Core {
 		$this->loader->add_action( 'auto_update_plugin', $updater, 'auto_update_plugin', 10, 2 );
 		add_shortcode( 'decalog-changelog', [ $updater, 'sc_get_changelog' ] );
 		add_shortcode( 'decalog-libraries', [ $libraries, 'sc_get_list' ] );
+		add_shortcode( 'decalog-statistics', [ 'Decalog\System\Statistics', 'sc_get_raw' ] );
 		if ( ! wp_next_scheduled( DECALOG_CRON_NAME ) ) {
 			wp_schedule_event( time(), 'twicedaily', DECALOG_CRON_NAME );
 		}
