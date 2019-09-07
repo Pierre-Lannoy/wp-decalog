@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased]
 ### Added
 - Support for [htaccess Server-Info & Server-Status](https://wordpress.org/plugins/htaccess-server-info-server-status/) plugin.
+- Links to support, site and GitHub repository in plugin list.
 - New shortcodes to query the plugin statistics.
 ### Removed
 - WordPress release now excludes GitHub .wordpress-org directory.

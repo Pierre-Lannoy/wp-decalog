@@ -176,15 +176,40 @@ class Decalog_Admin {
 	/**
 	 * Adds actions links in the plugin view page.
 	 *
+	 * @param string[] $actions     An array of plugin action links. By default this can include 'activate',
+	 *                              'deactivate', and 'delete'.
+	 * @param string   $plugin_file Path to the plugin file relative to the plugins directory.
+	 * @param array    $plugin_data An array of plugin data. See `get_plugin_data()`.
+	 * @param string   $context     The plugin context. By default this can include 'all', 'active', 'inactive',
+	 *                              'recently_activated', 'upgrade', 'mustuse', 'dropins', and 'search'.
+	 * @return array Extended list of links to print in the "Description" column on the Plugins page.
 	 * @since 1.0.0
 	 */
-	public function add_actions_links( $actions ) {
+	public function add_actions_links( $actions, $plugin_file, $plugin_data, $context ) {
 		$actions[] = sprintf( '<a href="%s">%s</a>', admin_url( 'options-general.php?page=decalog-settings' ), esc_html__( 'Settings', 'decalog' ) );
 		if ( Events::loggers_count() > 0 ) {
 			$actions[] = sprintf( '<a href="%s">%s</a>', admin_url( 'tools.php?page=decalog-viewer' ), esc_html__( 'Events Logs', 'decalog' ) );
 		}
 		return $actions;
 	}
+
+	/**
+	 * Add links in the "Description" column on the Plugins page.
+	 *
+	 * @param array  $links List of links to print in the "Description" column on the Plugins page.
+	 * @param string $file Path to the plugin file relative to the plugins directory.
+	 * @return array Extended list of links to print in the "Description" column on the Plugins page.
+	 * @since 1.3.0
+	 */
+	public function add_row_meta( $links, $file ) {
+		if ( 0 === strpos( $file, DECALOG_SLUG . '/' ) ) {
+			$links[] = '<a href="https://wordpress.org/support/plugin/decalog/">' . __( 'Support', 'decalog' ) . '</a>';
+			$links[] = '<a href="https://decalog.io">' . __( 'Site', 'decalog' ) . '</a>';
+			$links[] = '<a href="https://github.com/Pierre-Lannoy/wp-decalog">' . __( 'GitHub repository', 'decalog' ) . '</a>';
+		}
+		return $links;
+	}
+
 	/**
 	 * Get the content of the tools page.
 	 *
