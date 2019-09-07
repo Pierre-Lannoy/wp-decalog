@@ -23,7 +23,6 @@ use Decalog\System\Option;
 use Decalog\System\Form;
 use Decalog\System\Role;
 use Monolog\Logger;
-use WeatherStation\SDK\Ambient\Exception;
 
 /**
  * The admin-specific functionality of the plugin.
@@ -174,7 +173,7 @@ class Decalog_Admin {
 	}
 
 	/**
-	 * Adds actions links in the plugin view page.
+	 * Add links in the "Actions" column on the plugins view page.
 	 *
 	 * @param string[] $actions     An array of plugin action links. By default this can include 'activate',
 	 *                              'deactivate', and 'delete'.
@@ -182,7 +181,7 @@ class Decalog_Admin {
 	 * @param array    $plugin_data An array of plugin data. See `get_plugin_data()`.
 	 * @param string   $context     The plugin context. By default this can include 'all', 'active', 'inactive',
 	 *                              'recently_activated', 'upgrade', 'mustuse', 'dropins', and 'search'.
-	 * @return array Extended list of links to print in the "Description" column on the Plugins page.
+	 * @return array Extended list of links to print in the "Actions" column on the Plugins page.
 	 * @since 1.0.0
 	 */
 	public function add_actions_links( $actions, $plugin_file, $plugin_data, $context ) {
@@ -203,7 +202,7 @@ class Decalog_Admin {
 	 */
 	public function add_row_meta( $links, $file ) {
 		if ( 0 === strpos( $file, DECALOG_SLUG . '/' ) ) {
-			$links[] = '<a href="https://wordpress.org/support/plugin/decalog/">' . __( 'Support', 'decalog' ) . '</a>';
+			$links[] = '<a href="https://wordpress.org/support/plugin/' . DECALOG_SLUG . '/">' . __( 'Support', 'decalog' ) . '</a>';
 			$links[] = '<a href="https://decalog.io">' . __( 'Site', 'decalog' ) . '</a>';
 			$links[] = '<a href="https://github.com/Pierre-Lannoy/wp-decalog">' . __( 'GitHub repository', 'decalog' ) . '</a>';
 		}
