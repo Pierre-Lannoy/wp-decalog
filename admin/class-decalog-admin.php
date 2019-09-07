@@ -126,10 +126,7 @@ class Decalog_Admin {
 					DECALOG_PRODUCT_NAME,
 					'manage_options',
 					'decalog-viewer',
-					array(
-						$this,
-						'get_tools_page',
-					)
+					[ $this, 'get_tools_page' ]
 				);
 				add_action( 'load-' . $name, [ new InlineHelp(), 'set_contextual_viewer' ] );
 				$logid   = filter_input( INPUT_GET, 'logid', FILTER_SANITIZE_STRING );
