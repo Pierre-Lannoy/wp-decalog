@@ -79,6 +79,30 @@ class DLogger {
 	protected $in_test = false;
 
 	/**
+	 * Is the autolistening mode on.
+	 *
+	 * @since  1.3.0
+	 * @var    boolean    $autolisten    Maintains the autolistenning status of the logger.
+	 */
+	private $autolisten = true;
+
+	/**
+	 * Is this listener a PSR-3 logger.
+	 *
+	 * @since  1.3.0
+	 * @var    boolean    $autolisten    Maintains the psr3 status of the logger.
+	 */
+	private $psr3 = false;
+
+	/**
+	 * Is logger allowed to run.
+	 *
+	 * @since  1.3.0
+	 * @var    boolean    $allowed    Maintains the allowed status of the logger.
+	 */
+	private $allowed = true;
+
+	/**
 	 * The bannissable extra classes.
 	 *
 	 * @since  1.0.0
@@ -115,13 +139,14 @@ class DLogger {
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @param   string $class The class identifier, must be in self::$classes.
-	 * @param   string $name Optional. The name of the component.
-	 * @param   string $version Optional. The version of the component.
-	 * @param   string $test Optional. The handler to create if specified.
+	 * @param   string  $class The class identifier, must be in self::$classes.
+	 * @param   string  $name Optional. The name of the component.
+	 * @param   string  $version Optional. The version of the component.
+	 * @param   string  $test Optional. The handler to create if specified.
+	 * @param   boolean $psr3 Optional. True if this logger is a PSR-3 logger.
 	 * @since   1.0.0
 	 */
-	public function __construct( $class, $name = null, $version = null, $test = null ) {
+	public function __construct( $class, $name = null, $version = null, $test = null, $psr3 = false ) {
 		if ( in_array( $class, ClassTypes::$classes, true ) ) {
 			$this->class = $class;
 		}
@@ -131,6 +156,7 @@ class DLogger {
 		if ( $version && is_string( $version ) ) {
 			$this->version = $version;
 		}
+		$this->psr3 = $psr3;
 		$this->init( $test );
 		$this->debug( 'A new instance of DecaLog logger is initialized and operational.' );
 	}
@@ -142,6 +168,11 @@ class DLogger {
 	 * @since 1.0.0
 	 */
 	private function init( $test = null ) {
+		if ( $this->psr3 ) {
+			if ( ! Option::get( 'autolisteners' ) ) {
+				$this->allowed = in_array( 'psr3', Option::get( 'listeners' ), true );
+			}
+		}
 		$this->in_test = isset( $test );
 		$factory       = new LoggerFactory();
 		$this->logger  = new Logger( $this->current_channel_tag(), [], [], Timezone::get_wp() );
@@ -256,6 +287,9 @@ class DLogger {
 	 * @since 1.0.0
 	 */
 	public function log( $level, $message, $code = 0 ) {
+		if ( ! $this->allowed ) {
+			return;
+		}
 		try {
 			$context = [
 				'class'     => (string) $this->class,
@@ -285,7 +319,7 @@ class DLogger {
 	 * @since 1.0.0
 	 */
 	public function debug( $message, $code = 0 ) {
-		if ( $this->is_debug_allowed() ) {
+		if ( $this->is_debug_allowed() && $this->allowed ) {
 			try {
 				$context = [
 					'class'     => (string) $this->class,
@@ -316,6 +350,9 @@ class DLogger {
 	 * @since 1.0.0
 	 */
 	public function info( $message, $code = 0 ) {
+		if ( ! $this->allowed ) {
+			return;
+		}
 		try {
 			$context = [
 				'class'     => (string) $this->class,
@@ -345,6 +382,9 @@ class DLogger {
 	 * @since 1.0.0
 	 */
 	public function notice( $message, $code = 0 ) {
+		if ( ! $this->allowed ) {
+			return;
+		}
 		try {
 			$context = [
 				'class'     => (string) $this->class,
@@ -374,6 +414,9 @@ class DLogger {
 	 * @since 1.0.0
 	 */
 	public function warning( $message, $code = 0 ) {
+		if ( ! $this->allowed ) {
+			return;
+		}
 		try {
 			$context = [
 				'class'     => (string) $this->class,
@@ -403,6 +446,9 @@ class DLogger {
 	 * @since 1.0.0
 	 */
 	public function error( $message, $code = 0 ) {
+		if ( ! $this->allowed ) {
+			return;
+		}
 		try {
 			$context = [
 				'class'     => (string) $this->class,
@@ -432,6 +478,9 @@ class DLogger {
 	 * @since 1.0.0
 	 */
 	public function critical( $message, $code = 0 ) {
+		if ( ! $this->allowed ) {
+			return;
+		}
 		try {
 			$context = [
 				'class'     => (string) $this->class,
@@ -461,6 +510,9 @@ class DLogger {
 	 * @since 1.0.0
 	 */
 	public function alert( $message, $code = 0 ) {
+		if ( ! $this->allowed ) {
+			return;
+		}
 		try {
 			$context = [
 				'class'     => (string) $this->class,
@@ -490,6 +542,9 @@ class DLogger {
 	 * @since 1.0.0
 	 */
 	public function emergency( $message, $code = 0 ) {
+		if ( ! $this->allowed ) {
+			return;
+		}
 		try {
 			$context = [
 				'class'     => (string) $this->class,

@@ -41,7 +41,7 @@ class Logger implements LoggerInterface {
 	 * @since 1.3.0
 	 */
 	public function __construct( $class, $name = null, $version = null ) {
-		$this->logger = new DLogger( $class, $name, $version );
+		$this->logger = new DLogger( $class, $name, $version, null, true );
 	}
 
 	/**
