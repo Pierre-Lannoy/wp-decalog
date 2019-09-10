@@ -89,7 +89,6 @@ class CoreListener extends AbstractListener {
 		add_action( 'updated_option', [ $this, 'updated_option' ], 10, 3 );
 		add_action( 'deleted_option', [ $this, 'deleted_option' ], 10, 1 );
 		add_action( 'delete_user', [ $this, 'delete_user' ], 10, 2 );
-		add_action( 'wpmu_delete_user', [ $this, 'wpmu_delete_user' ], 10, 1 );
 		add_action( 'user_register', [ $this, 'user_register' ], 10, 1 );
 		add_action( 'lostpassword_post', [ $this, 'lostpassword_post' ], 10, 1 );
 		add_action( 'password_reset', [ $this, 'password_reset' ], 10, 2 );
@@ -387,17 +386,6 @@ class CoreListener extends AbstractListener {
 	 * @since    1.0.0
 	 */
 	public function delete_user( $id, $reassign ) {
-		if ( isset( $this->logger ) ) {
-			$this->logger->notice( sprintf( 'User deleted: %s.', $this->get_user( $id ) ) );
-		}
-	}
-
-	/**
-	 * "wpmu_delete_user" event.
-	 *
-	 * @since    1.0.0
-	 */
-	public function wpmu_delete_user( $id ) {
 		if ( isset( $this->logger ) ) {
 			$this->logger->notice( sprintf( 'User deleted: %s.', $this->get_user( $id ) ) );
 		}

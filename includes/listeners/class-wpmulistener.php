@@ -56,47 +56,35 @@ class WpmuListener extends AbstractListener {
 	 * @since    1.3.0
 	 */
 	protected function launch() {
-
-
-		// Users
+		// Users.
 		add_action( 'wpmu_new_user', [ $this, 'new_user' ], 10, 1 );
 		add_action( 'network_site_new_created_user', [ $this, 'new_user' ], 10, 1 );
 		add_action( 'network_site_users_created_user', [ $this, 'new_user' ], 10, 1 );
 		add_action( 'wpmu_activate_user', [ $this, 'wpmu_activate_user' ], 10, 3 );
+		add_action( 'wpmu_delete_user', [ $this, 'wpmu_delete_user' ], 10, 1 );
 
-		// Blogs
+		// Blogs.
 		add_action( 'switch_blog', [ $this, 'switch_blog' ], 10, 2 );
 		add_action( 'wpmu_activate_blog', [ $this, 'wpmu_activate_blog' ], 10, 5 );
 		add_action( 'wp_insert_site', [ $this, 'wp_insert_site' ], 10, 1 );
 		add_action( 'wp_update_site', [ $this, 'wp_update_site' ], 10, 2 );
 		add_action( 'wp_delete_site', [ $this, 'wp_delete_site' ], 10, 1 );
 
+		// Roles.
+		add_action( 'add_user_to_blog', [ $this, 'add_user_to_blog' ], 10, 3 );
+		add_action( 'remove_user_from_blog', [ $this, 'remove_user_from_blog' ], 10, 2 );
 
-
-
+		// Modes & reports.
+		add_action( 'update_blog_public', [ $this, 'update_blog_public' ], 10, 2 );
+		add_action( 'make_spam_blog', [ $this, 'make_spam_blog' ], 10, 1 );
+		add_action( 'make_ham_blog', [ $this, 'make_ham_blog' ], 10, 1 );
+		add_action( 'mature_blog', [ $this, 'mature_blog' ], 10, 1 );
+		add_action( 'unmature_blog', [ $this, 'unmature_blog' ], 10, 1 );
+		add_action( 'archive_blog', [ $this, 'archive_blog' ], 10, 1 );
+		add_action( 'unarchive_blog', [ $this, 'unarchive_blog' ], 10, 1 );
+		add_action( 'make_delete_blog', [ $this, 'make_delete_blog' ], 10, 1 );
+		add_action( 'make_undelete_blog', [ $this, 'make_undelete_blog' ], 10, 1 );
 		return true;
-
-
-
-		/*'wpmu_new_blog',
-		'wpmu_activate_blog',
-		'wpmu_new_user',
-		'add_user_to_blog',
-		'remove_user_from_blog',
-
-
-
-		'make_spam_blog',
-		'make_ham_blog',
-		'mature_blog',
-		'unmature_blog',
-		'archive_blog',
-		'unarchive_blog',
-		'make_delete_blog',
-		'make_undelete_blog',
-
-
-		'update_blog_public',*/
 	}
 
 	/**
@@ -122,13 +110,24 @@ class WpmuListener extends AbstractListener {
 	}
 
 	/**
+	 * "wpmu_delete_user" event.
+	 *
+	 * @since    1.0.0
+	 */
+	public function wpmu_delete_user( $id ) {
+		if ( isset( $this->logger ) ) {
+			$this->logger->notice( sprintf( 'User deleted: %s.', $this->get_user( $id ) ) );
+		}
+	}
+
+	/**
 	 * "switch_blog" events.
 	 *
 	 * @since    1.0.0
 	 */
 	public function switch_blog( $to_id, $from_id ) {
 		if ( isset( $this->logger ) ) {
-			$this->logger->notice( sprintf( 'Blog switched from %s to %s.', Blog::get_full_blog_name( $from_id ), Blog::get_full_blog_name( $to_id ) ) );
+			$this->logger->info( sprintf( 'Blog switched from %s to %s.', Blog::get_full_blog_name( $from_id ), Blog::get_full_blog_name( $to_id ) ) );
 		}
 	}
 
@@ -161,7 +160,7 @@ class WpmuListener extends AbstractListener {
 	 */
 	public function wp_update_site( $to_id, $from_id ) {
 		if ( isset( $this->logger ) ) {
-			$this->logger->notice( sprintf( 'Blog updated: %s.', Blog::get_full_blog_name( $to_id ) ) );
+			$this->logger->info( sprintf( 'Blog updated: %s.', Blog::get_full_blog_name( $to_id ) ) );
 		}
 	}
 
@@ -173,6 +172,132 @@ class WpmuListener extends AbstractListener {
 	public function wp_delete_site( $blog ) {
 		if ( isset( $this->logger ) ) {
 			$this->logger->notice( sprintf( 'Blog deleted: %s.', Blog::get_full_blog_name( $blog ) ) );
+		}
+	}
+
+	/**
+	 * "add_user_to_blog" events.
+	 *
+	 * @since    1.0.0
+	 */
+	public function add_user_to_blog( $user_id, $role, $blog_id ) {
+		if ( isset( $this->logger ) ) {
+			$this->logger->info( sprintf( '%s added to %s with role "%s".', $this->get_user( $user_id ), Blog::get_full_blog_name( $blog_id ), $role ) );
+		}
+	}
+
+	/**
+	 * "remove_user_from_blog" events.
+	 *
+	 * @since    1.0.0
+	 */
+	public function remove_user_from_blog( $user_id, $blog_id ) {
+		if ( isset( $this->logger ) ) {
+			$this->logger->info( sprintf( '%s removed from %s.', $this->get_user( $user_id ), $role, Blog::get_full_blog_name( $blog_id ) ) );
+		}
+	}
+
+	/**
+	 * "update_blog_public" events.
+	 *
+	 * @since    1.0.0
+	 */
+	public function update_blog_public( $site_id, $public ) {
+		if ( isset( $this->logger ) ) {
+			if ( $public ) {
+				$this->logger->info( sprintf( 'Blog became public: %s.', Blog::get_full_blog_name( $site_id ) ) );
+			} else {
+				$this->logger->info( sprintf( 'Blog became private: %s.', Blog::get_full_blog_name( $site_id ) ) );
+			}
+
+		}
+	}
+
+	/**
+	 * "make_spam_blog" events.
+	 *
+	 * @since    1.0.0
+	 */
+	public function make_spam_blog( $blog_id ) {
+		if ( isset( $this->logger ) ) {
+			$this->logger->warning( sprintf( 'Blog marked as "spam": %s.', Blog::get_full_blog_name( $blog_id ) ) );
+		}
+	}
+
+	/**
+	 * "make_ham_blog" events.
+	 *
+	 * @since    1.0.0
+	 */
+	public function make_ham_blog( $blog_id ) {
+		if ( isset( $this->logger ) ) {
+			$this->logger->notice( sprintf( 'Blog marked as "not spam": %s.', Blog::get_full_blog_name( $blog_id ) ) );
+		}
+	}
+
+	/**
+	 * "mature_blog" events.
+	 *
+	 * @since    1.0.0
+	 */
+	public function mature_blog( $blog_id ) {
+		if ( isset( $this->logger ) ) {
+			$this->logger->warning( sprintf( 'Blog marked as "mature": %s.', Blog::get_full_blog_name( $blog_id ) ) );
+		}
+	}
+
+	/**
+	 * "unmature_blog" events.
+	 *
+	 * @since    1.0.0
+	 */
+	public function unmature_blog( $blog_id ) {
+		if ( isset( $this->logger ) ) {
+			$this->logger->notice( sprintf( 'Blog marked as "not mature": %s.', Blog::get_full_blog_name( $blog_id ) ) );
+		}
+	}
+
+	/**
+	 * "archive_blog" events.
+	 *
+	 * @since    1.0.0
+	 */
+	public function archive_blog( $blog_id ) {
+		if ( isset( $this->logger ) ) {
+			$this->logger->notice( sprintf( 'Blog marked as "archived": %s.', Blog::get_full_blog_name( $blog_id ) ) );
+		}
+	}
+
+	/**
+	 * "unarchive_blog" events.
+	 *
+	 * @since    1.0.0
+	 */
+	public function unarchive_blog( $blog_id ) {
+		if ( isset( $this->logger ) ) {
+			$this->logger->info( sprintf( 'Blog marked as "unarchived": %s.', Blog::get_full_blog_name( $blog_id ) ) );
+		}
+	}
+
+	/**
+	 * "make_delete_blog" events.
+	 *
+	 * @since    1.0.0
+	 */
+	public function make_delete_blog( $blog_id ) {
+		if ( isset( $this->logger ) ) {
+			$this->logger->notice( sprintf( 'Blog marked as "deleted": %s.', Blog::get_full_blog_name( $blog_id ) ) );
+		}
+	}
+
+	/**
+	 * "make_undelete_blog" events.
+	 *
+	 * @since    1.0.0
+	 */
+	public function make_undelete_blog( $blog_id ) {
+		if ( isset( $this->logger ) ) {
+			$this->logger->info( sprintf( 'Blog marked as "undeleted": %s.', Blog::get_full_blog_name( $blog_id ) ) );
 		}
 	}
 

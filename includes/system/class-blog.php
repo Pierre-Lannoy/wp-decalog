@@ -63,7 +63,7 @@ class Blog {
 			return sprintf( '"%s" (blog ID %s)', self::get_blog_name( $id ), $id );
 		}
 		if ( 'WP_Site' === get_class( $id ) ) {
-			return sprintf( '"%s" (blog ID %s)', $id->blogname, $id->site_id );
+			return sprintf( '"%s" (blog ID %s)', (string) $id->blogname, $id->id );
 		}
 		return 'unknow blog';
 	}
