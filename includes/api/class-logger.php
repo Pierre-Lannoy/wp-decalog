@@ -9,7 +9,7 @@
 
 namespace Decalog;
 
-use Decalog\API\DLogger;
+use Decalog\Plugin\Feature\DLogger;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 

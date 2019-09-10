@@ -12,7 +12,7 @@
 namespace Decalog\Plugin\Feature;
 
 use Decalog\System\Option;
-use Decalog\Log;
+use Decalog\Plugin\Feature\Log;
 
 if ( ! class_exists( 'WP_List_Table' ) ) {
 	require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';

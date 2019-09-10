@@ -11,8 +11,8 @@
 
 namespace Decalog\Plugin\Feature;
 
-use Decalog\API\DLogger;
-use Decalog\Log;
+use Decalog\Plugin\Feature\DLogger;
+use Decalog\Plugin\Feature\Log;
 use Decalog\System\Database;
 use Decalog\System\Http;
 

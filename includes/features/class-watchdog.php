@@ -12,7 +12,7 @@
 
 namespace Decalog\Plugin\Feature;
 
-use Decalog\API\DLogger;
+use Decalog\Plugin\Feature\DLogger;
 
 /**
  * Watchdog for DecaLog.

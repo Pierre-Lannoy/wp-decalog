@@ -9,7 +9,7 @@
 
 namespace Decalog\Plugin;
 
-use Decalog\Log;
+use Decalog\Plugin\Feature\Log;
 use Parsedown;
 use Decalog\System\Nag;
 use Decalog\System\Option;

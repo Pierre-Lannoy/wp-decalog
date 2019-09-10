@@ -12,7 +12,7 @@
 namespace Decalog\Handler;
 
 use Monolog\Logger;
-use Decalog\API\DLogger;
+use Decalog\Plugin\Feature\DLogger;
 use Monolog\Handler\SocketHandler;
 use Monolog\Formatter\FormatterInterface;
 use Decalog\Formatter\FluentFormatter;

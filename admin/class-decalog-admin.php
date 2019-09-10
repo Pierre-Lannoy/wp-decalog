@@ -9,7 +9,7 @@
 
 namespace Decalog\Plugin;
 
-use Decalog\Log;
+use Decalog\Plugin\Feature\Log;
 use Decalog\Plugin\Feature\EventViewer;
 use Decalog\Plugin\Feature\HandlerTypes;
 use Decalog\Plugin\Feature\ProcessorTypes;

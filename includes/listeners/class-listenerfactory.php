@@ -11,7 +11,7 @@
 
 namespace Decalog\Listener;
 
-use Decalog\Log;
+use Decalog\Plugin\Feature\Log;
 use Decalog\System\Option;
 
 /**

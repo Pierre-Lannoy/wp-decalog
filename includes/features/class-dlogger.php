@@ -2,12 +2,12 @@
 /**
  * DecaLog logger definition.
  *
- * @package API
+ * @package Features
  * @author  Pierre Lannoy <https://pierre.lannoy.fr/>.
  * @since   1.0.0
  */
 
-namespace Decalog\API;
+namespace Decalog\Plugin\Feature;
 
 use Decalog\Plugin\Feature\HandlerTypes;
 use Monolog\Logger;
@@ -24,7 +24,7 @@ use Decalog\Plugin\Feature\HandlerDiagnosis;
  *
  * This class defines all code necessary to log events with DecaLog.
  *
- * @package API
+ * @package Features
  * @author  Pierre Lannoy <https://pierre.lannoy.fr/>.
  * @since   1.0.0
  */

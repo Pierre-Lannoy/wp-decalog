@@ -11,7 +11,7 @@
 
 namespace Decalog\Listener;
 
-use Decalog\API\DLogger;
+use Decalog\Plugin\Feature\DLogger;
 use Decalog\System\Environment;
 use Decalog\System\Option;
 use Monolog\Logger;

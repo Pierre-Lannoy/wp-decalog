@@ -2,14 +2,14 @@
 /**
  * DecaLog logger utilities.
  *
- * @package API
+ * @package Features
  * @author  Pierre Lannoy <https://pierre.lannoy.fr/>.
  * @since   1.0.0
  */
 
-namespace Decalog;
+namespace Decalog\Plugin\Feature;
 
-use Decalog\API\DLogger;
+use Decalog\Plugin\Feature\DLogger;
 use Monolog\Logger;
 use Decalog\Plugin\Feature\EventTypes;
 
@@ -19,7 +19,7 @@ use Decalog\Plugin\Feature\EventTypes;
  *
  * This class defines all code necessary to log events with DecaLog.
  *
- * @package API
+ * @package Features
  * @author  Pierre Lannoy <https://pierre.lannoy.fr/>.
  * @since   1.0.0
  */
