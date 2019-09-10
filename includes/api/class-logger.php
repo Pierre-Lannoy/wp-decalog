@@ -48,7 +48,7 @@ class Logger implements LoggerInterface {
 	 * Logs a panic condition. WordPress is unusable.
 	 *
 	 * @param  string $message The message to log.
-	 * @param  array  $context The context of the event.
+	 * @param  array  $context Optional. The context of the event.
 	 *                         FYI, DecaLog has its own context-aware logging system. The only element of context
 	 *                         that you can pass to DecaLog is a numerical error code ($context['code']). All other
 	 *                         element of context will be removed.
@@ -64,7 +64,7 @@ class Logger implements LoggerInterface {
 	 * It requires immediate investigation and corrective treatment.
 	 *
 	 * @param  string $message The message to log.
-	 * @param  array  $context The context of the event.
+	 * @param  array  $context Optional. The context of the event.
 	 *                         FYI, DecaLog has its own context-aware logging system. The only element of context
 	 *                         that you can pass to DecaLog is a numerical error code ($context['code']). All other
 	 *                         element of context will be removed.
@@ -80,7 +80,7 @@ class Logger implements LoggerInterface {
 	 * It requires investigation and corrective treatment.
 	 *
 	 * @param  string $message The message to log.
-	 * @param  array  $context The context of the event.
+	 * @param  array  $context Optional. The context of the event.
 	 *                         FYI, DecaLog has its own context-aware logging system. The only element of context
 	 *                         that you can pass to DecaLog is a numerical error code ($context['code']). All other
 	 *                         element of context will be removed.
@@ -96,7 +96,7 @@ class Logger implements LoggerInterface {
 	 * It requires investigation and preventive treatment.
 	 *
 	 * @param  string $message The message to log.
-	 * @param  array  $context The context of the event.
+	 * @param  array  $context Optional. The context of the event.
 	 *                         FYI, DecaLog has its own context-aware logging system. The only element of context
 	 *                         that you can pass to DecaLog is a numerical error code ($context['code']). All other
 	 *                         element of context will be removed.
@@ -112,7 +112,7 @@ class Logger implements LoggerInterface {
 	 * Does not usually affect the operations.
 	 *
 	 * @param  string $message The message to log.
-	 * @param  array  $context The context of the event.
+	 * @param  array  $context Optional. The context of the event.
 	 *                         FYI, DecaLog has its own context-aware logging system. The only element of context
 	 *                         that you can pass to DecaLog is a numerical error code ($context['code']). All other
 	 *                         element of context will be removed.
@@ -127,7 +127,7 @@ class Logger implements LoggerInterface {
 	 * Logs a normal but significant condition.
 	 *
 	 * @param  string $message The message to log.
-	 * @param  array  $context The context of the event.
+	 * @param  array  $context Optional. The context of the event.
 	 *                         FYI, DecaLog has its own context-aware logging system. The only element of context
 	 *                         that you can pass to DecaLog is a numerical error code ($context['code']). All other
 	 *                         element of context will be removed.
@@ -142,7 +142,7 @@ class Logger implements LoggerInterface {
 	 * Logs a standard information.
 	 *
 	 * @param  string $message The message to log.
-	 * @param  array  $context The context of the event.
+	 * @param  array  $context Optional. The context of the event.
 	 *                         FYI, DecaLog has its own context-aware logging system. The only element of context
 	 *                         that you can pass to DecaLog is a numerical error code ($context['code']). All other
 	 *                         element of context will be removed.
@@ -158,7 +158,7 @@ class Logger implements LoggerInterface {
 	 * Only used for events related to application/system debugging.
 	 *
 	 * @param  string $message The message to log.
-	 * @param  array  $context The context of the event.
+	 * @param  array  $context Optional. The context of the event.
 	 *                         FYI, DecaLog has its own context-aware logging system. The only element of context
 	 *                         that you can pass to DecaLog is a numerical error code ($context['code']). All other
 	 *                         element of context will be removed.
@@ -173,7 +173,7 @@ class Logger implements LoggerInterface {
 	 * Logs an information with an arbitrary level.
 	 *
 	 * @param  LogLevel $level   The level of the message to log.
-	 * @param  string   $message The message to log.
+	 * @param  string   $message Optional. The message to log.
 	 * @param  array    $context The context of the event.
 	 *                           FYI, DecaLog has its own context-aware logging system. The only element of context
 	 *                           that you can pass to DecaLog is a numerical error code ($context['code']). All other
