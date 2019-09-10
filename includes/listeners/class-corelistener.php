@@ -58,7 +58,7 @@ class CoreListener extends AbstractListener {
 	 * @since    1.0.0
 	 */
 	protected function launch() {
-		add_action( 'wp_loaded', [ $this, 'version_check' ] );
+		add_action( 'wp_loaded', [ $this, 'version_check' ], 10, 0 );
 		// Attachments.
 		add_action( 'add_attachment', [ $this, 'add_attachment' ], 10, 1 );
 		add_action( 'delete_attachment', [ $this, 'delete_attachment' ], 10, 1 );
@@ -91,7 +91,6 @@ class CoreListener extends AbstractListener {
 		add_action( 'delete_user', [ $this, 'delete_user' ], 10, 2 );
 		add_action( 'wpmu_delete_user', [ $this, 'wpmu_delete_user' ], 10, 1 );
 		add_action( 'user_register', [ $this, 'user_register' ], 10, 1 );
-		add_action( 'wpmu_new_user', [ $this, 'user_register' ], 10, 1 );
 		add_action( 'lostpassword_post', [ $this, 'lostpassword_post' ], 10, 1 );
 		add_action( 'password_reset', [ $this, 'password_reset' ], 10, 2 );
 		add_action( 'wp_logout', [ $this, 'wp_logout' ], 10, 0 );
