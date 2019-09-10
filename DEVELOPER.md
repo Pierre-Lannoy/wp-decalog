@@ -44,16 +44,18 @@ In fact, as a developer, you will have to deal only with ___level___, ___message
 ### Simple usage
 The simplest way to generate an ___event___ from your code is to use DecaLog as a standard PSR-3 logger. You can do so as soon as all code for `plugins_loaded` WordPress hook is executed.
 ```php
-    use Decalog\Log;
     
-    // Initializes the main events logger
-    $event_logger = Log::bootstrap( 'plugin', 'My Plugin', '1.2.3' );
+    // Initializes the events logger
+    $event_logger = new Decalog\Logger( 'plugin', 'My Plugin', '1.2.3' );
     
     // Logs a debug message
     $event_logger->debug( 'Test message.' );
     
     // Logs an error with an optional error code
-    $event_logger->error( 'Test message.', 404 );
+    $event_logger->error( 'Page not found.', [ 'code' => 404 ] );
+
+    // Logs an event with an arbitrary level
+    $event_logger->log( \PSR\Log\LogLevel::ERROR, 'Error message.' );
 
 ```
 

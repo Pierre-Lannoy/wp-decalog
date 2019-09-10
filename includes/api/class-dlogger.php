@@ -118,7 +118,7 @@ class DLogger {
 	 * @param   string $class The class identifier, must be in self::$classes.
 	 * @param   string $name Optional. The name of the component.
 	 * @param   string $version Optional. The version of the component.
-	 * @param   string $test Optional. The handler to create if specified..
+	 * @param   string $test Optional. The handler to create if specified.
 	 * @since   1.0.0
 	 */
 	public function __construct( $class, $name = null, $version = null, $test = null ) {

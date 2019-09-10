@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 - Support for [htaccess Server-Info & Server-Status](https://wordpress.org/plugins/htaccess-server-info-server-status/) plugin.
 - Links to support, site and GitHub repository in plugin list.
+- New class (Decalog\Logger) to use as standard PSR-3 logger, for plugins and themes developers.
 - New shortcodes to query the plugin statistics.
 ### Removed
 - WordPress release now excludes GitHub .wordpress-org directory.
