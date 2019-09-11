@@ -141,7 +141,7 @@ class InlineHelp {
 		if ( Role::SUPER_ADMIN === Role::admin_type() || Role::LOCAL_ADMIN === Role::admin_type() ) {
 			$content  = '<p>' . esc_html__( 'Because your site takes part in a sites network, admin ability to view and configure events logs differ as follows:', 'decalog' ) . '</p>';
 			$content .= '<p><strong>' . esc_html_x( 'Network Admin', 'WordPress multisite', 'decalog' ) . '</strong> &mdash; ' . esc_html__( 'Can set loggers, can view all events in all WordPress events log.', 'decalog' ) . ( Role::SUPER_ADMIN === Role::admin_type() ? ' <strong><em>' . esc_html__( 'That\'s your current role.', 'decalog' ) . '</em></strong>' : '' ) . '</p>';
-			$content .= '<p><strong>' . esc_html_x( 'Sites Admin', 'WordPress multisite', 'decalog' ) . '</strong> &mdash; ' . esc_html__( 'Can\'t set loggers, can only view events regarding their own sites in all WordPress events log.', 'decalog' ) . ( Role::LOCAL_ADMIN === Role::admin_type() ? ' <strong><em>' . esc_html__( 'That\'s your current role.', 'decalog' ) . '</em></strong>' : '' ) . '</p>';
+			$content .= '<p><strong>' . esc_html_x( 'Sites Admin', 'WordPress multisite', 'decalog' ) . '</strong> &mdash; ' . esc_html__( 'Can\'t set loggers, can only view events regarding their own sites in all authorized WordPress events log.', 'decalog' ) . ( Role::LOCAL_ADMIN === Role::admin_type() ? ' <strong><em>' . esc_html__( 'That\'s your current role.', 'decalog' ) . '</em></strong>' : '' ) . '</p>';
 		}
 		return $content;
 	}
