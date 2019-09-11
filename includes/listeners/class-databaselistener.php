@@ -74,15 +74,15 @@ class DatabaseListener extends AbstractListener {
 	 */
 	public function version_check() {
 		$db_version  = Environment::mysql_version();
-		$old_version = Option::get( 'db_version', 'x' );
+		$old_version = Option::network_get( 'db_version', 'x' );
 		if ( 'x' === $old_version ) {
-			Option::set( 'db_version', $db_version );
+			Option::network_set( 'db_version', $db_version );
 			return;
 		}
 		if ( $db_version === $old_version ) {
 			return;
 		}
-		Option::set( 'db_version', $db_version );
+		Option::network_set( 'db_version', $db_version );
 		if ( version_compare( $db_version, $old_version, '<' ) ) {
 			$this->logger->warning( sprintf( 'MySQL version downgraded from %s to %s.', $old_version, $db_version ) );
 			return;

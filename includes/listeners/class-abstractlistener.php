@@ -93,9 +93,9 @@ abstract class AbstractListener {
 		$this->log = $internal_logger;
 		$this->init();
 		if ( $this->is_available() ) {
-			$launch = Option::get( 'autolisteners' );
+			$launch = Option::network_get( 'autolisteners' );
 			if ( ! $launch ) {
-				if ( in_array( $this->id, Option::get( 'listeners' ), true ) ) {
+				if ( in_array( $this->id, Option::network_get( 'listeners' ), true ) ) {
 					$launch = true;
 				}
 			}
@@ -146,7 +146,7 @@ abstract class AbstractListener {
 				return $user->ID;
 			}
 		}
-		return User::get_user_string( $id, Option::get( 'pseudonymization' ) );
+		return User::get_user_string( $id, Option::network_get( 'pseudonymization' ) );
 	}
 
 	/**

@@ -169,8 +169,8 @@ class DLogger {
 	 */
 	private function init( $test = null ) {
 		if ( $this->psr3 ) {
-			if ( ! Option::get( 'autolisteners' ) ) {
-				$this->allowed = in_array( 'psr3', Option::get( 'listeners' ), true );
+			if ( ! Option::network_get( 'autolisteners' ) ) {
+				$this->allowed = in_array( 'psr3', Option::network_get( 'listeners' ), true );
 			}
 		}
 		$this->in_test = isset( $test );
@@ -180,7 +180,7 @@ class DLogger {
 		$diagnosis     = new HandlerDiagnosis();
 		$banned        = [];
 		$unloadable    = [];
-		foreach ( Option::get( 'loggers' ) as $key => $logger ) {
+		foreach ( Option::network_get( 'loggers' ) as $key => $logger ) {
 			if ( $this->in_test && $key !== $test ) {
 				continue;
 			}
@@ -269,7 +269,7 @@ class DLogger {
 	 * @since 1.0.0
 	 */
 	private function is_debug_allowed() {
-		if ( ! Option::get( 'respect_wp_debug' ) ) {
+		if ( ! Option::network_get( 'respect_wp_debug' ) ) {
 			return true;
 		}
 		if ( defined( 'WP_DEBUG' ) ) {

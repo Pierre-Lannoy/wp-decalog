@@ -71,7 +71,7 @@ class Loggers extends \WP_List_Table {
 			array_push( $this->compat_fields, 'all_items' );
 		}
 		$this->loggers = [];
-		foreach ( Option::get( 'loggers' ) as $key => $logger ) {
+		foreach ( Option::network_get( 'loggers' ) as $key => $logger ) {
 			$logger['uuid']  = $key;
 			$this->loggers[] = $logger;
 		}

@@ -51,10 +51,10 @@ class Nag {
 			self::$allowed = ! DISABLE_NAG_NOTICES;
 		}
 		if ( self::$allowed ) {
-			self::$allowed = Option::get( 'display_nag' );
+			self::$allowed = Option::network_get( 'display_nag' );
 		}
 		if ( self::$allowed ) {
-			self::$nags = Option::get( 'nags' );
+			self::$nags = Option::network_get( 'nags' );
 		}
 	}
 
@@ -71,7 +71,7 @@ class Nag {
 			'type'  => $type,
 			'value' => $value,
 		];
-		Option::set( 'nags', self::$nags );
+		Option::network_set( 'nags', self::$nags );
 	}
 
 	/**
@@ -83,7 +83,7 @@ class Nag {
 	public static function delete( $id ) {
 		if ( array_key_exists( $id, self::$nags ) ) {
 			unset( self::$nags[ $id ] );
-			Option::set( 'nags', self::$nags );
+			Option::network_set( 'nags', self::$nags );
 		}
 	}
 

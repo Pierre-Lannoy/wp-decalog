@@ -526,7 +526,7 @@ class Events extends \WP_List_Table {
 			$limit = 'LIMIT ' . $offset . ',' . $rowcount;
 		}
 		global $wpdb;
-		$table_name = $wpdb->prefix . 'decalog_' . str_replace( '-', '', $this->logger );
+		$table_name = $wpdb->base_prefix . 'decalog_' . str_replace( '-', '', $this->logger );
 		$sql        = 'SELECT * FROM ' . $table_name . ' ' . $this->get_where_clause() . ' ORDER BY id DESC ' . $limit;
 		// phpcs:ignore
 		$query = $wpdb->get_results( $sql, ARRAY_A );
@@ -546,7 +546,7 @@ class Events extends \WP_List_Table {
 		$result = 0;
 		if ( $this->logger ) {
 			global $wpdb;
-			$table_name = $wpdb->prefix . 'decalog_' . str_replace( '-', '', $this->logger );
+			$table_name = $wpdb->base_prefix . 'decalog_' . str_replace( '-', '', $this->logger );
 			$sql        = 'SELECT COUNT(*) as CNT FROM ' . $table_name . ' ' . $this->get_where_clause();
 			// phpcs:ignore
 			$cnt = $wpdb->get_results( $sql, ARRAY_A );
@@ -702,7 +702,7 @@ class Events extends \WP_List_Table {
 	 */
 	public static function init() {
 		self::$logs = [];
-		foreach ( Option::get( 'loggers' ) as $key => $logger ) {
+		foreach ( Option::network_get( 'loggers' ) as $key => $logger ) {
 			if ( 'WordpressHandler' === $logger['handler'] ) {
 				if ( array_key_exists( 'configuration', $logger ) ) {
 					if ( array_key_exists( 'local', $logger['configuration'] ) ) {

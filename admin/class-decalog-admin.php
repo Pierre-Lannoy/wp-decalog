@@ -241,7 +241,7 @@ class Decalog_Admin {
 		}
 		$nonce = filter_input( INPUT_GET, 'nonce' );
 		if ( $uuid ) {
-			$loggers = Option::get( 'loggers' );
+			$loggers = Option::network_get( 'loggers' );
 			if ( array_key_exists( $uuid, $loggers ) ) {
 				$this->current_logger         = $loggers[ $uuid ];
 				$this->current_logger['uuid'] = $uuid;
@@ -259,7 +259,7 @@ class Decalog_Admin {
 				'uuid'    => $uuid = UUID::generate_v4(),
 				'name'    => esc_html__( 'New logger', 'decalog' ),
 				'handler' => $this->current_handler['id'],
-				'running' => Option::get( 'logger_autostart' ),
+				'running' => Option::network_get( 'logger_autostart' ),
 			];
 		}
 		if ( $this->current_logger ) {
@@ -300,10 +300,10 @@ class Decalog_Admin {
 						case 'start':
 							if ( Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type() ) {
 								if ( $nonce && $uuid && wp_verify_nonce( $nonce, 'decalog-logger-start-' . $uuid ) ) {
-									$loggers = Option::get( 'loggers' );
+									$loggers = Option::network_get( 'loggers' );
 									if ( array_key_exists( $uuid, $loggers ) ) {
 										$loggers[ $uuid ]['running'] = true;
-										Option::set( 'loggers', $loggers );
+										Option::network_set( 'loggers', $loggers );
 										$this->logger = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
 										$message      = sprintf( esc_html__( 'Logger %s has started.', 'decalog' ), '<em>' . $loggers[ $uuid ]['name'] . '</em>' );
 										$code         = 0;
@@ -316,13 +316,13 @@ class Decalog_Admin {
 						case 'pause':
 							if ( Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type() ) {
 								if ( $nonce && $uuid && wp_verify_nonce( $nonce, 'decalog-logger-pause-' . $uuid ) ) {
-									$loggers = Option::get( 'loggers' );
+									$loggers = Option::network_get( 'loggers' );
 									if ( array_key_exists( $uuid, $loggers ) ) {
 										$message = sprintf( esc_html__( 'Logger %s has been paused.', 'decalog' ), '<em>' . $loggers[ $uuid ]['name'] . '</em>' );
 										$code    = 0;
 										$this->logger->notice( sprintf( 'Logger "%s" has been paused.', $loggers[ $uuid ]['name'] ), $code );
 										$loggers[ $uuid ]['running'] = false;
-										Option::set( 'loggers', $loggers );
+										Option::network_set( 'loggers', $loggers );
 										$this->logger = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
 										add_settings_error( 'decalog_no_error', $code, $message, 'updated' );
 									}
@@ -331,7 +331,7 @@ class Decalog_Admin {
 						case 'test':
 							if ( Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type() ) {
 								if ( $nonce && $uuid && wp_verify_nonce( $nonce, 'decalog-logger-test-' . $uuid ) ) {
-									$loggers = Option::get( 'loggers' );
+									$loggers = Option::network_get( 'loggers' );
 									if ( array_key_exists( $uuid, $loggers ) ) {
 										$test = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION, $uuid );
 										$done = true;
@@ -398,7 +398,7 @@ class Decalog_Admin {
 	private function save_listeners() {
 		if ( ! empty( $_POST ) ) {
 			if ( array_key_exists( '_wpnonce', $_POST ) && wp_verify_nonce( $_POST['_wpnonce'], 'decalog-listeners-options' ) ) {
-				Option::set( 'autolisteners', 'auto' === filter_input( INPUT_POST, 'decalog_listeners_options_auto' ) );
+				Option::network_set( 'autolisteners', 'auto' === filter_input( INPUT_POST, 'decalog_listeners_options_auto' ) );
 				$list      = [];
 				$listeners = ListenerFactory::$infos;
 				foreach ( $listeners as $listener ) {
@@ -406,7 +406,7 @@ class Decalog_Admin {
 						$list[] = $listener['id'];
 					}
 				}
-				Option::set( 'listeners', $list );
+				Option::network_set( 'listeners', $list );
 				$message = esc_html__( 'Listeners settings have been saved.', 'decalog' );
 				$code    = 0;
 				add_settings_error( 'decalog_no_error', $code, $message, 'updated' );
@@ -428,7 +428,7 @@ class Decalog_Admin {
 	private function reset_listeners() {
 		if ( ! empty( $_POST ) ) {
 			if ( array_key_exists( '_wpnonce', $_POST ) && wp_verify_nonce( $_POST['_wpnonce'], 'decalog-listeners-options' ) ) {
-				Option::set( 'autolisteners', true );
+				Option::network_set( 'autolisteners', true );
 				$message = esc_html__( 'Listeners settings have been reset to defaults.', 'decalog' );
 				$code    = 0;
 				add_settings_error( 'decalog_no_error', $code, $message, 'updated' );
@@ -450,11 +450,11 @@ class Decalog_Admin {
 	private function save_options() {
 		if ( ! empty( $_POST ) ) {
 			if ( array_key_exists( '_wpnonce', $_POST ) && wp_verify_nonce( $_POST['_wpnonce'], 'decalog-plugin-options' ) ) {
-				Option::set( 'auto_update', array_key_exists( 'decalog_plugin_options_autoupdate', $_POST ) );
-				Option::set( 'display_nag', array_key_exists( 'decalog_plugin_options_nag', $_POST ) );
-				Option::set( 'logger_autostart', array_key_exists( 'decalog_loggers_options_autostart', $_POST ) );
-				Option::set( 'pseudonymization', array_key_exists( 'decalog_loggers_options_pseudonymization', $_POST ) );
-				Option::set( 'respect_wp_debug', array_key_exists( 'decalog_loggers_options_wpdebug', $_POST ) );
+				Option::network_set( 'auto_update', array_key_exists( 'decalog_plugin_options_autoupdate', $_POST ) );
+				Option::network_set( 'display_nag', array_key_exists( 'decalog_plugin_options_nag', $_POST ) );
+				Option::network_set( 'logger_autostart', array_key_exists( 'decalog_loggers_options_autostart', $_POST ) );
+				Option::network_set( 'pseudonymization', array_key_exists( 'decalog_loggers_options_pseudonymization', $_POST ) );
+				Option::network_set( 'respect_wp_debug', array_key_exists( 'decalog_loggers_options_wpdebug', $_POST ) );
 				$message = esc_html__( 'Plugin settings have been saved.', 'decalog' );
 				$code    = 0;
 				add_settings_error( 'decalog_no_error', $code, $message, 'updated' );
@@ -526,13 +526,13 @@ class Decalog_Admin {
 						}
 					}
 					$uuid             = $this->current_logger['uuid'];
-					$loggers          = Option::get( 'loggers' );
+					$loggers          = Option::network_get( 'loggers' );
 					$factory          = new LoggerFactory();
 					$loggers[ $uuid ] = $factory->check( $this->current_logger, true );
 					if ( array_key_exists( 'uuid', $loggers[ $uuid ] ) ) {
 						unset( $loggers[ $uuid ]['uuid'] );
 					}
-					Option::set( 'loggers', $loggers );
+					Option::network_set( 'loggers', $loggers );
 					$this->logger = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
 					$message      = sprintf( esc_html__( 'Logger %s has been saved.', 'decalog' ), '<em>' . $this->current_logger['name'] . '</em>' );
 					$code         = 0;
@@ -558,11 +558,11 @@ class Decalog_Admin {
 			if ( array_key_exists( '_wpnonce', $_POST ) && wp_verify_nonce( $_POST['_wpnonce'], 'decalog-logger-delete' ) ) {
 				if ( array_key_exists( 'submit', $_POST ) ) {
 					$uuid    = $this->current_logger['uuid'];
-					$loggers = Option::get( 'loggers' );
+					$loggers = Option::network_get( 'loggers' );
 					$factory = new LoggerFactory();
 					$factory->clean( $this->current_logger );
 					unset( $loggers[ $uuid ] );
-					Option::set( 'loggers', $loggers );
+					Option::network_set( 'loggers', $loggers );
 					$this->logger = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
 					$message      = sprintf( esc_html__( 'Logger %s has been removed.', 'decalog' ), '<em>' . $this->current_logger['name'] . '</em>' );
 					$code         = 0;
@@ -597,7 +597,7 @@ class Decalog_Admin {
 					1 => [ 'auto', esc_html__( 'All available listeners (recommended)', 'decalog' ) ],
 				],
 				'id'          => 'decalog_listeners_options_auto',
-				'value'       => Option::get( 'autolisteners' ) ? 'auto' : 'manual',
+				'value'       => Option::network_get( 'autolisteners' ) ? 'auto' : 'manual',
 				'description' => esc_html__( 'Automatically or selectively choose which sources to listen.', 'decalog' ),
 				'full_width'  => true,
 				'enabled'     => true,
@@ -649,7 +649,7 @@ class Decalog_Admin {
 					[
 						'text'        => sprintf( '%s (%s %s)', $item['name'], $item['product'], $item['version'] ),
 						'id'          => 'decalog_listeners_settings_' . $item['id'],
-						'checked'     => in_array( $item['id'], Option::get( 'listeners' ), true ),
+						'checked'     => in_array( $item['id'], Option::network_get( 'listeners' ), true ),
 						'description' => null,
 						'full_width'  => true,
 						'enabled'     => true,
@@ -677,7 +677,7 @@ class Decalog_Admin {
 			[
 				'text'        => esc_html__( 'Auto-start', 'decalog' ),
 				'id'          => 'decalog_loggers_options_autostart',
-				'checked'     => Option::get( 'logger_autostart' ),
+				'checked'     => Option::network_get( 'logger_autostart' ),
 				'description' => esc_html__( 'If checked, when a new logger is added it automatically starts.', 'decalog' ),
 				'full_width'  => true,
 				'enabled'     => true,
@@ -693,7 +693,7 @@ class Decalog_Admin {
 			[
 				'text'        => esc_html__( 'Respect privacy', 'decalog' ),
 				'id'          => 'decalog_loggers_options_pseudonymization',
-				'checked'     => Option::get( 'pseudonymization' ),
+				'checked'     => Option::network_get( 'pseudonymization' ),
 				'description' => esc_html__( 'If checked, DecaLog will try to obfuscate personal information in events messages.', 'decalog' ),
 				'full_width'  => true,
 				'enabled'     => true,
@@ -709,7 +709,7 @@ class Decalog_Admin {
 			[
 				'text'        => esc_html__( 'Respect WP_DEBUG', 'decalog' ),
 				'id'          => 'decalog_loggers_options_wpdebug',
-				'checked'     => Option::get( 'respect_wp_debug' ),
+				'checked'     => Option::network_get( 'respect_wp_debug' ),
 				'description' => esc_html__( 'If checked, the value of WP_DEBUG will override each logger\'s settings for minimal level of logging.', 'decalog' ),
 				'full_width'  => true,
 				'enabled'     => true,
@@ -734,7 +734,7 @@ class Decalog_Admin {
 			[
 				'text'        => esc_html__( 'Automatic (recommended)', 'decalog' ),
 				'id'          => 'decalog_plugin_options_autoupdate',
-				'checked'     => Option::get( 'auto_update' ),
+				'checked'     => Option::network_get( 'auto_update' ),
 				'description' => esc_html__( 'If checked, DecaLog will update itself as soon as a new version is available.', 'decalog' ),
 				'full_width'  => true,
 				'enabled'     => true,
@@ -750,7 +750,7 @@ class Decalog_Admin {
 			[
 				'text'        => esc_html__( 'Display', 'decalog' ),
 				'id'          => 'decalog_plugin_options_nag',
-				'checked'     => Option::get( 'display_nag' ),
+				'checked'     => Option::network_get( 'display_nag' ),
 				'description' => esc_html__( 'Allows DecaLog to display admin notices throughout the admin dashboard.', 'decalog' ) . '<br/>' . esc_html__( 'Note: DecaLog respects DISABLE_NAG_NOTICES flag.', 'decalog' ),
 				'full_width'  => true,
 				'enabled'     => true,

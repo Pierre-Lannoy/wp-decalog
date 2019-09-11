@@ -135,15 +135,15 @@ class PhpListener extends AbstractListener {
 	 */
 	public function version_check() {
 		$php_version = Environment::php_version();
-		$old_version = Option::get( 'php_version', 'x' );
+		$old_version = Option::network_get( 'php_version', 'x' );
 		if ( 'x' === $old_version ) {
-			Option::set( 'php_version', $php_version );
+			Option::network_set( 'php_version', $php_version );
 			return;
 		}
 		if ( $php_version === $old_version ) {
 			return;
 		}
-		Option::set( 'php_version', $php_version );
+		Option::network_set( 'php_version', $php_version );
 		if ( version_compare( $php_version, $old_version, '<' ) ) {
 			$this->logger->warning( sprintf( 'WordPress version downgraded from %s to %s.', $old_version, $php_version ) );
 			return;
@@ -157,16 +157,16 @@ class PhpListener extends AbstractListener {
 	 * @since    1.2.0
 	 */
 	public function extensions_check() {
-		$old_extensions = Option::get( 'php_extensions', 'x' );
+		$old_extensions = Option::network_get( 'php_extensions', 'x' );
 		$new_extensions = get_loaded_extensions();
 		if ( 'x' === $old_extensions ) {
-			Option::set( 'php_extensions', $new_extensions );
+			Option::network_set( 'php_extensions', $new_extensions );
 			return;
 		}
 		if ( $new_extensions === $old_extensions ) {
 			return;
 		}
-		Option::set( 'php_extensions', $new_extensions );
+		Option::network_set( 'php_extensions', $new_extensions );
 		$added   = array_diff( $new_extensions, $old_extensions );
 		$removed = array_diff( $old_extensions, $new_extensions );
 		if ( count( $added ) > 0 ) {

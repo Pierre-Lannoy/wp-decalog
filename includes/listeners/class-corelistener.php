@@ -124,15 +124,15 @@ class CoreListener extends AbstractListener {
 	 */
 	public function version_check() {
 		global $wp_version;
-		$old_version = Option::get( 'wp_version', 'x' );
+		$old_version = Option::network_get( 'wp_version', 'x' );
 		if ( 'x' === $old_version ) {
-			Option::set( 'wp_version', $wp_version );
+			Option::network_set( 'wp_version', $wp_version );
 			return;
 		}
 		if ( $wp_version === $old_version ) {
 			return;
 		}
-		Option::set( 'wp_version', $wp_version );
+		Option::network_set( 'wp_version', $wp_version );
 		if ( version_compare( $wp_version, $old_version, '<' ) ) {
 			$this->logger->warning( sprintf( 'WordPress version downgraded from %s to %s.', $old_version, $wp_version ) );
 			return;
@@ -451,7 +451,7 @@ class CoreListener extends AbstractListener {
 	 */
 	public function wp_login_failed( $username ) {
 		$name = $username;
-		if ( Option::get( 'pseudonymization' ) ) {
+		if ( Option::network_get( 'pseudonymization' ) ) {
 			$name = 'somebody';
 		}
 		if ( isset( $this->logger ) ) {

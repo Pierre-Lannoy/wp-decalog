@@ -82,7 +82,7 @@ class WordpressHandler {
 		global $wpdb;
 		$this->logger     = $logger;
 		$this->table_name = 'decalog_' . str_replace( '-', '', $logger['uuid'] );
-		$this->table      = $wpdb->prefix . $this->table_name;
+		$this->table      = $wpdb->base_prefix . $this->table_name;
 	}
 
 	/**

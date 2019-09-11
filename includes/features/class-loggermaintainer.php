@@ -58,7 +58,7 @@ class LoggerMaintainer {
 	 * @since    1.0.0
 	 */
 	public function cron_clean() {
-		foreach ( Option::get( 'loggers' ) as $key => $logger ) {
+		foreach ( Option::network_get( 'loggers' ) as $key => $logger ) {
 			$classname = 'Decalog\Plugin\Feature\\' . $logger['handler'];
 			if ( class_exists( $classname ) ) {
 				$logger['uuid'] = $key;

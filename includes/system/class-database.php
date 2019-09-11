@@ -41,7 +41,7 @@ class Database {
 	public function insert_line( $table_name, $value ) {
 		global $wpdb;
 		// phpcs:ignore
-		if ( $wpdb->insert( $wpdb->prefix . $table_name, $value ) ) {
+		if ( $wpdb->insert( $wpdb->base_prefix . $table_name, $value ) ) {
 			return $wpdb->insert_id;
 		}
 		return 0;
@@ -60,7 +60,7 @@ class Database {
 		$result = [];
 		foreach ( $lines as $line ) {
 			// phpcs:ignore
-			if ( $wpdb->insert( $wpdb->prefix . $table_name, $line ) ) {
+			if ( $wpdb->insert( $wpdb->base_prefix . $table_name, $line ) ) {
 				$id = $wpdb->insert_id;
 				if ( 0 !== $id ) {
 					$result[] = $id;
@@ -82,7 +82,7 @@ class Database {
 	 */
 	public function delete_lines( $table_name, $field_name, $value, $sep = '' ) {
 		global $wpdb;
-		$table_name = $wpdb->prefix . $table_name;
+		$table_name = $wpdb->base_prefix . $table_name;
 		$sql        = 'DELETE FROM ' . $table_name . ' WHERE ' . $field_name . ' IN (' . $sep . implode( $sep . ',' . $sep, $value ) . $sep . ')';
 		// phpcs:ignore
 		return $wpdb->query( $sql );
@@ -100,7 +100,7 @@ class Database {
 	 */
 	public function load_lines( $table_name, $field_name, $value, $sep = '' ) {
 		global $wpdb;
-		$table_name = $wpdb->prefix . $table_name;
+		$table_name = $wpdb->base_prefix . $table_name;
 		$sql        = 'SELECT * FROM ' . $table_name . ' WHERE ' . $field_name . ' IN (' . $sep . implode( $sep . ',' . $sep, $value ) . $sep . ')';
 		// phpcs:ignore
 		return $wpdb->get_results( $sql, ARRAY_A );
@@ -124,7 +124,7 @@ class Database {
 		}
 		if ( count( $field_insert ) > 0 ) {
 			global $wpdb;
-			$sql  = 'INSERT INTO `' . $wpdb->prefix . $table_name . '` ';
+			$sql  = 'INSERT INTO `' . $wpdb->base_prefix . $table_name . '` ';
 			$sql .= '(' . implode( ',', $field_insert ) . ') ';
 			$sql .= 'VALUES (' . implode( ',', $value_insert ) . ') ';
 			$sql .= 'ON DUPLICATE KEY UPDATE ' . implode( ',', $value_update ) . ';';
@@ -149,7 +149,7 @@ class Database {
 		}
 		if ( count( $field_insert ) > 0 ) {
 			global $wpdb;
-			$sql  = 'INSERT IGNORE INTO `' . $wpdb->prefix . $table_name . '` ';
+			$sql  = 'INSERT IGNORE INTO `' . $wpdb->base_prefix . $table_name . '` ';
 			$sql .= '(' . implode( ',', $field_insert ) . ') ';
 			$sql .= 'VALUES (' . implode( ',', $value_insert ) . ');';
 			// phpcs:ignore
@@ -168,7 +168,7 @@ class Database {
 	 */
 	public function rotate( $table_name, $field_name, $limit ) {
 		global $wpdb;
-		$table_name = $wpdb->prefix . $table_name;
+		$table_name = $wpdb->base_prefix . $table_name;
 		$sql        = 'DELETE FROM ' . $table_name . ' ORDER BY ' . $field_name . ' ASC LIMIT ' . $limit;
 		// phpcs:ignore
 		return $wpdb->query( $sql );
@@ -185,7 +185,7 @@ class Database {
 	 */
 	public function purge( $table_name, $field_name, $interval ) {
 		global $wpdb;
-		$table_name = $wpdb->prefix . $table_name;
+		$table_name = $wpdb->base_prefix . $table_name;
 		$sql        = 'DELETE FROM ' . $table_name . ' WHERE (' . $field_name . ' < NOW() - INTERVAL ' . $interval . ' HOUR);';
 		// phpcs:ignore
 		return $wpdb->query( $sql );
@@ -199,7 +199,7 @@ class Database {
 	 */
 	protected static function drop( $table_name ) {
 		global $wpdb;
-		$sql = 'DROP TABLE IF EXISTS ' . $wpdb->prefix . $table_name;
+		$sql = 'DROP TABLE IF EXISTS ' . $wpdb->base_prefix . $table_name;
 		// phpcs:ignore
 		$wpdb->query( $sql );
 	}
@@ -214,7 +214,7 @@ class Database {
 	public function count_lines( $table_name ) {
 		$result = -1;
 		global $wpdb;
-		$sql = 'SELECT COUNT(*) as CNT FROM `' . $wpdb->prefix . $table_name . '`;';
+		$sql = 'SELECT COUNT(*) as CNT FROM `' . $wpdb->base_prefix . $table_name . '`;';
 		// phpcs:ignore
 		$cnt = $wpdb->get_results( $sql, ARRAY_A );
 		if ( count( $cnt ) > 0 ) {

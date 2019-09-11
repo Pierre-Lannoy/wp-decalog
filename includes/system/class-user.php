@@ -114,7 +114,7 @@ class User {
 			$userid = self::get_current_user_id();
 		}
 		global $wpdb;
-		$table_name = $wpdb->prefix . 'usermeta';
+		$table_name = $wpdb->base_prefix . 'usermeta';
 		$sql        = 'DELETE FROM ' . $table_name . ' WHERE meta_key LIKE "%\_' . $key . '%" AND user_id=' . $userid . ';';
 		// phpcs:ignore
 		return $wpdb->query( $sql );
@@ -128,7 +128,7 @@ class User {
 	 */
 	public static function delete_all_meta() {
 		global $wpdb;
-		$table_name = $wpdb->prefix . 'usermeta';
+		$table_name = $wpdb->base_prefix . 'usermeta';
 		$sql        = 'DELETE FROM ' . $table_name . ' WHERE meta_key LIKE "%\_decalog-%";';
 		// phpcs:ignore
 		return $wpdb->query( $sql );

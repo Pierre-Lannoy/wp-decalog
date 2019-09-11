@@ -33,7 +33,7 @@ class Updater {
 	 * @since 1.0.0
 	 */
 	public function __construct() {
-		$old = Option::get( 'version' );
+		$old = Option::network_get( 'version' );
 		if ( DECALOG_VERSION !== $old ) {
 			if ( '0.0.0' === $old ) {
 				$this->install();
@@ -47,7 +47,7 @@ class Updater {
 				$logger->notice( $message );
 			}
 			Nag::add( 'update', 'info', $message );
-			Option::set( 'version', DECALOG_VERSION );
+			Option::network_set( 'version', DECALOG_VERSION );
 		}
 	}
 
@@ -68,7 +68,7 @@ class Updater {
 	 */
 	private function update( $from ) {
 		// Starting 1.3.x, PushoverHandler is replaced by PshHandler.
-		$loggers = Option::get( 'loggers', null );
+		$loggers = Option::network_get( 'loggers', null );
 		if ( isset( $loggers ) ) {
 			foreach ( $loggers as &$logger ) {
 				if ( array_key_exists( 'handler', $logger ) ) {
@@ -77,7 +77,7 @@ class Updater {
 					}
 				}
 			}
-			Option::set( 'loggers', $loggers );
+			Option::network_set( 'loggers', $loggers );
 		}
 	}
 
@@ -104,7 +104,7 @@ class Updater {
 	 * @since 1.0.0
 	 */
 	public function is_autoupdatable() {
-		return ( $this->is_updatable() && Option::get( 'auto_update' ) );
+		return ( $this->is_updatable() && Option::network_get( 'auto_update' ) );
 	}
 
 	/**
