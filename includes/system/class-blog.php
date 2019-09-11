@@ -41,7 +41,10 @@ class Blog {
 	public static function get_blog_name( $id = null, $default = 'unknown' ) {
 		if ( $id && is_numeric( $id ) && $id > 0 && Environment::is_wordpress_multisite() ) {
 			$blog_info = get_blog_details( $id );
-			return $blog_info->blogname;
+			if ( is_object( $blog_info ) ) {
+				return $blog_info->blogname;
+			}
+			return '- deleted site -';
 
 		} elseif ( $id && is_numeric( $id ) && $id > 0 ) {
 			return get_bloginfo( 'name' );
