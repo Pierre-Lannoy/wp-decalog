@@ -86,14 +86,13 @@ class EventViewer {
 		if ( 1 === count( $lines ) ) {
 			foreach ( Events::get() as $log ) {
 				if ( $log['id'] === $this->logid ) {
-					if ( 0 === count( $log ['limit'] ) || in_array( $lines[0]['site_id'], $log ['limit'] ) ) {
+					if ( ! array_key_exists( 'limit', $log ) || in_array( $lines[0]['site_id'], $log ['limit'] ) ) {
 						$this->event = $lines[0];
 						break;
 					}
 				}
 			}
 		}
-		$this->logger->emergency ('TEST');
 	}
 
 	/**
@@ -412,19 +411,23 @@ class EventViewer {
 	public function phpbacktrace_widget() {
 		$trace   = unserialize( $this->event['trace'] );
 		$content = '';
-		if ( array_key_exists( 'error', $trace ) ) {
-			$error   = '<span style="width:100%;cursor: default;">' . $this->get_icon( 'alert-triangle' ) . $trace['error'] . '</span>';
-			$content = $this->get_section( $error );
-		} else {
-			foreach ( array_reverse( $trace['callstack'] ) as $idx => $item ) {
-				if ( $idx < 10 ) {
-					$element = '<span style="font-family:monospace;font-size:8px;font-weight: bold;vertical-align: middle;padding:3px 5px;background-color:#F9F9F9;color:#9999BB;border:2px solid #9999BB;border-radius:50%;cursor: default;">' . $idx . '</span> &nbsp;' . $item['call'];
-				} else {
-					$element = '<span style="font-family:monospace;font-size:8px;font-weight: bold;vertical-align: middle;padding:3px;background-color:#F9F9F9;color:#9999BB;border:2px solid #9999BB;border-radius:50%;cursor: default;">' . $idx . '</span> &nbsp;' . $item['call'];
+		if ( is_array( $trace ) ) {
+			if ( array_key_exists( 'error', $trace ) ) {
+				$error   = '<span style="width:100%;cursor: default;">' . $this->get_icon( 'alert-triangle' ) . $trace['error'] . '</span>';
+				$content = $this->get_section( $error );
+			} else {
+				foreach ( array_reverse( $trace['callstack'] ) as $idx => $item ) {
+					if ( $idx < 10 ) {
+						$element = '<span style="font-family:monospace;font-size:8px;font-weight: bold;vertical-align: middle;padding:3px 5px;background-color:#F9F9F9;color:#9999BB;border:2px solid #9999BB;border-radius:50%;cursor: default;">' . $idx . '</span> &nbsp;' . $item['call'];
+					} else {
+						$element = '<span style="font-family:monospace;font-size:8px;font-weight: bold;vertical-align: middle;padding:3px;background-color:#F9F9F9;color:#9999BB;border:2px solid #9999BB;border-radius:50%;cursor: default;">' . $idx . '</span> &nbsp;' . $item['call'];
+					}
+					$element .= '<br/><span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="width:100%;cursor: default;">' . $this->get_icon( 'file-text' ) . $item['file'] . '</span>';
+					$content .= $this->get_section( $element );
 				}
-				$element .= '<br/><span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="width:100%;cursor: default;">' . $this->get_icon( 'file-text' ) . $item['file'] . '</span>';
-				$content .= $this->get_section( $element );
 			}
+		} else {
+			$content = '- no content- ';
 		}
 		$this->output_activity_block( $content );
 	}
@@ -437,18 +440,22 @@ class EventViewer {
 	public function wpbacktrace_widget() {
 		$trace   = unserialize( $this->event['trace'] );
 		$content = '';
-		if ( array_key_exists( 'error', $trace ) ) {
-			$error   = '<span style="width:100%;cursor: default;">' . $this->get_icon( 'alert-triangle' ) . $trace['error'] . '</span>';
-			$content = $this->get_section( $error );
-		} else {
-			foreach ( array_reverse( $trace['wordpress'] ) as $idx => $item ) {
-				if ( $idx < 10 ) {
-					$element = '<span style="font-family:monospace;font-size:8px;font-weight: bold;vertical-align: middle;padding:3px 5px;background-color:#F9F9F9;color:#9999BB;border:2px solid #9999BB;border-radius:50%;cursor: default;">' . $idx . '</span> &nbsp;' . $item;
-				} else {
-					$element = '<span style="font-family:monospace;font-size:8px;font-weight: bold;vertical-align: middle;padding:3px;background-color:#F9F9F9;color:#9999BB;border:2px solid #9999BB;border-radius:50%;cursor: default;">' . $idx . '</span> &nbsp;' . $item;
+		if ( is_array( $trace ) ) {
+			if ( array_key_exists( 'error', $trace ) ) {
+				$error   = '<span style="width:100%;cursor: default;">' . $this->get_icon( 'alert-triangle' ) . $trace['error'] . '</span>';
+				$content = $this->get_section( $error );
+			} else {
+				foreach ( array_reverse( $trace['wordpress'] ) as $idx => $item ) {
+					if ( $idx < 10 ) {
+						$element = '<span style="font-family:monospace;font-size:8px;font-weight: bold;vertical-align: middle;padding:3px 5px;background-color:#F9F9F9;color:#9999BB;border:2px solid #9999BB;border-radius:50%;cursor: default;">' . $idx . '</span> &nbsp;' . $item;
+					} else {
+						$element = '<span style="font-family:monospace;font-size:8px;font-weight: bold;vertical-align: middle;padding:3px;background-color:#F9F9F9;color:#9999BB;border:2px solid #9999BB;border-radius:50%;cursor: default;">' . $idx . '</span> &nbsp;' . $item;
+					}
+					$content .= $this->get_section( $element );
 				}
-				$content .= $this->get_section( $element );
 			}
+		} else {
+			$content = '- no content- ';
 		}
 		$this->output_activity_block( $content );
 	}

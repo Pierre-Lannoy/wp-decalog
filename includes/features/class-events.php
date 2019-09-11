@@ -505,8 +505,10 @@ class Events extends \WP_List_Table {
 		$this->force_siteid = null;
 		$this->logger       = null;
 		foreach ( self::$logs as $log ) {
-			$this->force_siteid = $log['limit'];
-			$this->logger       = $log['id'];
+			if ( array_key_exists( 'limit', $log ) ) {
+				$this->force_siteid = $log['limit'];
+			}
+			$this->logger = $log['id'];
 			break;
 		}
 	}
@@ -711,12 +713,15 @@ class Events extends \WP_List_Table {
 						$local = false;
 					}
 					if ( Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type() || ( Role::LOCAL_ADMIN === Role::admin_type() && $local ) ) {
-						self::$logs[] = [
+						$log = [
 							'name'    => $logger['name'],
 							'running' => $logger['running'],
 							'id'      => $key,
-							'limit'   => ( Role::LOCAL_ADMIN === Role::admin_type() ? [ get_current_blog_id() ] : [] ),
 						];
+						if ( Role::LOCAL_ADMIN === Role::admin_type() ) {
+							$log['limit'] = get_current_blog_id();
+						}
+						self::$logs[] = $log;
 					}
 				}
 			}
