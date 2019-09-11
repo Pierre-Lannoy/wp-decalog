@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: DecaLog\n"
-"POT-Creation-Date: 2019-09-05 22:39+0200\n"
+"POT-Creation-Date: 2019-09-11 13:12+0200\n"
 "PO-Revision-Date: 2019-07-08 14:07+0200\n"
 "Last-Translator: Pierre Lannoy <pierre@lannoy.fr>\n"
 "Language-Team: Pierre Lannoy <pierre@lannoy.fr>\n"
@@ -22,285 +22,298 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
 #. translators: as in the sentence "DecaLog Settings" or "WordPress Settings"
-#: admin/class-decalog-admin.php:118
+#: admin/class-decalog-admin.php:117
 #: admin/partials/decalog-admin-settings-main.php:19
 #, php-format
 msgid "%s Settings"
 msgstr ""
 
 #. translators: as in the sentence "DecaLog Viewer"
-#: admin/class-decalog-admin.php:126
+#: admin/class-decalog-admin.php:125
 #: admin/partials/decalog-admin-view-events.php:20
 #, php-format
 msgid "%s Viewer"
 msgstr ""
 
-#: admin/class-decalog-admin.php:165
+#: admin/class-decalog-admin.php:161
 msgid "Loggers options"
 msgstr ""
 
-#: admin/class-decalog-admin.php:166
+#: admin/class-decalog-admin.php:162
 msgid "Plugin options"
 msgstr ""
 
-#: admin/class-decalog-admin.php:172
+#: admin/class-decalog-admin.php:168
 msgid "Privacy options"
 msgstr ""
 
-#: admin/class-decalog-admin.php:173 includes/features/class-loggers.php:237
+#: admin/class-decalog-admin.php:169 includes/features/class-loggers.php:237
 msgid "Reported details"
 msgstr ""
 
-#: admin/class-decalog-admin.php:182
+#: admin/class-decalog-admin.php:185
 msgid "Settings"
 msgstr ""
 
-#: admin/class-decalog-admin.php:184
+#: admin/class-decalog-admin.php:187
 msgid "Events Logs"
 msgstr ""
 
-#: admin/class-decalog-admin.php:239 admin/class-decalog-admin.php:652
+#: admin/class-decalog-admin.php:202
+msgid "Support"
+msgstr ""
+
+#: admin/class-decalog-admin.php:203 includes/features/class-events.php:683
+msgid "Site"
+msgstr ""
+
+#: admin/class-decalog-admin.php:204
+#: includes/features/class-inlinehelp.php:97
+msgid "GitHub repository"
+msgstr ""
+
+#: admin/class-decalog-admin.php:260 admin/class-decalog-admin.php:673
 msgid "New logger"
 msgstr ""
 
-#: admin/class-decalog-admin.php:287
+#: admin/class-decalog-admin.php:308
 #, php-format
 msgid "Logger %s has started."
 msgstr ""
 
-#: admin/class-decalog-admin.php:300
+#: admin/class-decalog-admin.php:321
 #, php-format
 msgid "Logger %s has been paused."
 msgstr ""
 
-#: admin/class-decalog-admin.php:326
+#: admin/class-decalog-admin.php:347
 #, php-format
 msgid "Test messages have been sent to logger %s."
 msgstr ""
 
-#: admin/class-decalog-admin.php:331
+#: admin/class-decalog-admin.php:352
 #, php-format
 msgid ""
 "Test messages have not been sent to logger %s. Please check the logger's "
 "settings."
 msgstr ""
 
-#: admin/class-decalog-admin.php:389
+#: admin/class-decalog-admin.php:410
 msgid "Listeners settings have been saved."
 msgstr ""
 
-#: admin/class-decalog-admin.php:394
+#: admin/class-decalog-admin.php:415
 msgid "Listeners settings have not been saved. Please try again."
 msgstr ""
 
-#: admin/class-decalog-admin.php:411
+#: admin/class-decalog-admin.php:432
 msgid "Listeners settings have been reset to defaults."
 msgstr ""
 
-#: admin/class-decalog-admin.php:416
+#: admin/class-decalog-admin.php:437
 msgid "Listeners settings have not been reset to defaults. Please try again."
 msgstr ""
 
-#: admin/class-decalog-admin.php:437
+#: admin/class-decalog-admin.php:458
 msgid "Plugin settings have been saved."
 msgstr ""
 
-#: admin/class-decalog-admin.php:442
+#: admin/class-decalog-admin.php:463
 msgid "Plugin settings have not been saved. Please try again."
 msgstr ""
 
-#: admin/class-decalog-admin.php:459
+#: admin/class-decalog-admin.php:480
 msgid "Plugin settings have been reset to defaults."
 msgstr ""
 
-#: admin/class-decalog-admin.php:464
+#: admin/class-decalog-admin.php:485
 msgid "Plugin settings have not been reset to defaults. Please try again."
 msgstr ""
 
-#: admin/class-decalog-admin.php:516
+#: admin/class-decalog-admin.php:537
 #, php-format
 msgid "Logger %s has been saved."
 msgstr ""
 
-#: admin/class-decalog-admin.php:522
+#: admin/class-decalog-admin.php:543
 #, php-format
 msgid "Logger %s has not been saved. Please try again."
 msgstr ""
 
-#: admin/class-decalog-admin.php:546
+#: admin/class-decalog-admin.php:567
 #, php-format
 msgid "Logger %s has been removed."
 msgstr ""
 
-#: admin/class-decalog-admin.php:552
+#: admin/class-decalog-admin.php:573
 #, php-format
 msgid "Logger %s has not been removed. Please try again."
 msgstr ""
 
-#: admin/class-decalog-admin.php:569
+#: admin/class-decalog-admin.php:590
 msgid "Activate"
 msgstr ""
 
-#: admin/class-decalog-admin.php:575
+#: admin/class-decalog-admin.php:596
 msgid "Selected listeners"
 msgstr ""
 
-#: admin/class-decalog-admin.php:576
+#: admin/class-decalog-admin.php:597
 msgid "All available listeners (recommended)"
 msgstr ""
 
-#: admin/class-decalog-admin.php:580
+#: admin/class-decalog-admin.php:601
 msgid "Automatically or selectively choose which sources to listen."
 msgstr ""
 
-#: admin/class-decalog-admin.php:614
+#: admin/class-decalog-admin.php:635
 msgid "Standard listeners"
 msgstr ""
 
-#: admin/class-decalog-admin.php:615
+#: admin/class-decalog-admin.php:636
 msgid "Plugin listeners"
 msgstr ""
 
-#: admin/class-decalog-admin.php:616
+#: admin/class-decalog-admin.php:637
 msgid "Theme listeners"
 msgstr ""
 
-#: admin/class-decalog-admin.php:657
+#: admin/class-decalog-admin.php:678
 msgid "Auto-start"
 msgstr ""
 
-#: admin/class-decalog-admin.php:660
+#: admin/class-decalog-admin.php:681
 msgid "If checked, when a new logger is added it automatically starts."
 msgstr ""
 
-#: admin/class-decalog-admin.php:668
+#: admin/class-decalog-admin.php:689
 msgid "Events messages"
 msgstr ""
 
-#: admin/class-decalog-admin.php:673
+#: admin/class-decalog-admin.php:694
 msgid "Respect privacy"
 msgstr ""
 
-#: admin/class-decalog-admin.php:676
+#: admin/class-decalog-admin.php:697
 msgid ""
 "If checked, DecaLog will try to obfuscate personal information in events "
 "messages."
 msgstr ""
 
-#: admin/class-decalog-admin.php:684
+#: admin/class-decalog-admin.php:705
 msgid "Rules"
 msgstr ""
 
-#: admin/class-decalog-admin.php:689
+#: admin/class-decalog-admin.php:710
 msgid "Respect WP_DEBUG"
 msgstr ""
 
-#: admin/class-decalog-admin.php:692
+#: admin/class-decalog-admin.php:713
 msgid ""
 "If checked, the value of WP_DEBUG will override each logger's settings for "
 "minimal level of logging."
 msgstr ""
 
-#: admin/class-decalog-admin.php:709
+#: admin/class-decalog-admin.php:730
 msgid "Plugin updates"
 msgstr ""
 
-#: admin/class-decalog-admin.php:714
+#: admin/class-decalog-admin.php:735
 msgid "Automatic (recommended)"
 msgstr ""
 
-#: admin/class-decalog-admin.php:717
+#: admin/class-decalog-admin.php:738
 msgid ""
 "If checked, DecaLog will update itself as soon as a new version is "
 "available."
 msgstr ""
 
-#: admin/class-decalog-admin.php:725
+#: admin/class-decalog-admin.php:746
 msgid "Admin notices"
 msgstr ""
 
-#: admin/class-decalog-admin.php:730
+#: admin/class-decalog-admin.php:751
 msgid "Display"
 msgstr ""
 
-#: admin/class-decalog-admin.php:733
+#: admin/class-decalog-admin.php:754
 msgid ""
 "Allows DecaLog to display admin notices throughout the admin dashboard."
 msgstr ""
 
-#: admin/class-decalog-admin.php:733
+#: admin/class-decalog-admin.php:754
 msgid "Note: DecaLog respects DISABLE_NAG_NOTICES flag."
 msgstr ""
 
-#: admin/class-decalog-admin.php:754 admin/class-decalog-admin.php:798
+#: admin/class-decalog-admin.php:775 admin/class-decalog-admin.php:819
 msgid "Name"
 msgstr ""
 
-#: admin/class-decalog-admin.php:761
+#: admin/class-decalog-admin.php:782
 msgid "Used only in admin dashboard."
 msgstr ""
 
-#: admin/class-decalog-admin.php:769 admin/class-decalog-admin.php:813
+#: admin/class-decalog-admin.php:790 admin/class-decalog-admin.php:834
 #: includes/features/class-loggers.php:236
 msgid "Minimal level"
 msgstr ""
 
-#: admin/class-decalog-admin.php:777
+#: admin/class-decalog-admin.php:798
 msgid ""
 "Minimal reported level. May be overridden by the \"respect WP_DEBUG "
 "directive\" option."
 msgstr ""
 
-#: admin/class-decalog-admin.php:839
+#: admin/class-decalog-admin.php:860
 msgid "Log file"
 msgstr ""
 
-#: admin/class-decalog-admin.php:846
+#: admin/class-decalog-admin.php:867
 msgid "Value set in php.ini file."
 msgstr ""
 
-#: admin/class-decalog-admin.php:860
+#: admin/class-decalog-admin.php:881
 msgid "Enabled"
 msgstr ""
 
-#: admin/class-decalog-admin.php:894
+#: admin/class-decalog-admin.php:915
 msgid "Remote IPs"
 msgstr ""
 
-#: admin/class-decalog-admin.php:899
+#: admin/class-decalog-admin.php:920
 msgid "Obfuscation"
 msgstr ""
 
-#: admin/class-decalog-admin.php:902
+#: admin/class-decalog-admin.php:923
 msgid "If checked, log fields will contain hashes instead of real IPs."
 msgstr ""
 
-#: admin/class-decalog-admin.php:902 admin/class-decalog-admin.php:918
+#: admin/class-decalog-admin.php:923 admin/class-decalog-admin.php:939
 msgid "Note: it concerns all fields except events messages."
 msgstr ""
 
-#: admin/class-decalog-admin.php:910
+#: admin/class-decalog-admin.php:931
 msgid "Users"
 msgstr ""
 
-#: admin/class-decalog-admin.php:915
+#: admin/class-decalog-admin.php:936
 msgid "Pseudonymisation"
 msgstr ""
 
-#: admin/class-decalog-admin.php:918
+#: admin/class-decalog-admin.php:939
 msgid ""
 "If checked, log fields will contain hashes instead of user IDs & names."
 msgstr ""
 
-#: admin/class-decalog-admin.php:936 includes/features/class-loggers.php:207
+#: admin/class-decalog-admin.php:957 includes/features/class-loggers.php:207
 msgid "Standard"
 msgstr ""
 
-#: admin/class-decalog-admin.php:941 admin/class-decalog-admin.php:960
+#: admin/class-decalog-admin.php:962 admin/class-decalog-admin.php:981
 msgid "Included"
 msgstr ""
 
-#: admin/class-decalog-admin.php:944
+#: admin/class-decalog-admin.php:965
 msgid "Allows to log standard DecaLog information."
 msgstr ""
 
@@ -547,10 +560,6 @@ msgstr ""
 
 #: includes/features/class-events.php:682
 msgid "Source"
-msgstr ""
-
-#: includes/features/class-events.php:683
-msgid "Site"
 msgstr ""
 
 #: includes/features/class-events.php:684
@@ -952,10 +961,6 @@ msgstr ""
 msgid "See also:"
 msgstr ""
 
-#: includes/features/class-inlinehelp.php:97
-msgid "GitHub repository"
-msgstr ""
-
 #: includes/features/class-inlinehelp.php:108
 #, php-format
 msgid ""
@@ -1319,6 +1324,14 @@ msgstr ""
 
 #: includes/listeners/class-corelistener.php:38
 msgid "WordPress core"
+msgstr ""
+
+#: includes/listeners/class-psrlistener.php:32
+msgid "PSR-3 compliant listeners"
+msgstr ""
+
+#: includes/listeners/class-wpmulistener.php:36
+msgid "WordPress MU"
 msgstr ""
 
 #: includes/plugin/class-updater.php:41
