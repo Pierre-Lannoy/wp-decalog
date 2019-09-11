@@ -710,7 +710,11 @@ class CoreListener extends AbstractListener {
 			if ( is_numeric( $msg ) ) {
 				$this->logger->debug( 'Malformed wp_die call.', $code );
 			} elseif ( '' !== $msg ) {
-				$this->logger->critical( wp_kses( $msg, [] ), $code );
+				if ( 0 === strpos( $msg, '[' ) || 0 === strpos( $msg, '{' ) ) {
+					$this->logger->debug( wp_kses( $msg, [] ), $code );
+				} else {
+					$this->logger->critical( wp_kses( $msg, [] ), $code );
+				}
 			}
 			return $handler( $message, $title, $args );
 		};
