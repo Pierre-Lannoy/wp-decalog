@@ -35,7 +35,7 @@ class WpmuListener extends AbstractListener {
 		$this->id      = 'wpmu';
 		$this->name    = esc_html__( 'WordPress MU', 'decalog' );
 		$this->class   = 'core';
-		$this->product = 'WordPress';
+		$this->product = 'WordPress MU';
 		$this->version = $wp_version;
 	}
 
@@ -62,9 +62,10 @@ class WpmuListener extends AbstractListener {
 		add_action( 'network_site_users_created_user', [ $this, 'new_user' ], 10, 1 );
 		add_action( 'wpmu_activate_user', [ $this, 'wpmu_activate_user' ], 10, 3 );
 		add_action( 'wpmu_delete_user', [ $this, 'wpmu_delete_user' ], 10, 1 );
+		add_action( 'make_spam_user', [ $this, 'make_spam_user' ], 10, 1 );
+		add_action( 'make_ham_user', [ $this, 'make_ham_user' ], 10, 1 );
 
 		// Blogs.
-		add_action( 'switch_blog', [ $this, 'switch_blog' ], 10, 2 );
 		add_action( 'wpmu_activate_blog', [ $this, 'wpmu_activate_blog' ], 10, 5 );
 		add_action( 'wp_insert_site', [ $this, 'wp_insert_site' ], 10, 1 );
 		add_action( 'wp_update_site', [ $this, 'wp_update_site' ], 10, 2 );
@@ -92,7 +93,7 @@ class WpmuListener extends AbstractListener {
 	 *
 	 * @since    1.0.0
 	 */
-	public function wpmu_new_user( $id ) {
+	public function new_user( $id ) {
 		if ( isset( $this->logger ) ) {
 			$this->logger->notice( sprintf( 'User created: %s.', $this->get_user( $id ) ) );
 		}
@@ -121,13 +122,24 @@ class WpmuListener extends AbstractListener {
 	}
 
 	/**
-	 * "switch_blog" events.
+	 * "make_spam_user" events.
 	 *
 	 * @since    1.0.0
 	 */
-	public function switch_blog( $to_id, $from_id ) {
+	public function make_spam_user( $id ) {
 		if ( isset( $this->logger ) ) {
-			$this->logger->info( sprintf( 'Blog switched from %s to %s.', Blog::get_full_blog_name( $from_id ), Blog::get_full_blog_name( $to_id ) ) );
+			$this->logger->warning( sprintf( 'User marked as "spam": %s.', $this->get_user( $id ) ) );
+		}
+	}
+
+	/**
+	 * "make_ham_user" events.
+	 *
+	 * @since    1.0.0
+	 */
+	public function make_ham_user( $id ) {
+		if ( isset( $this->logger ) ) {
+			$this->logger->notice( sprintf( 'User marked as "not spam": %s.', $this->get_user( $id ) ) );
 		}
 	}
 
@@ -138,7 +150,7 @@ class WpmuListener extends AbstractListener {
 	 */
 	public function wpmu_activate_blog( $blog_id, $user_id, $password, $title, $meta ) {
 		if ( isset( $this->logger ) ) {
-			$this->logger->notice( sprintf( 'Blog activated: %s.', Blog::get_full_blog_name( $blog_id ) ) );
+			$this->logger->notice( sprintf( 'Site activated: %s.', Blog::get_full_blog_name( $blog_id ) ) );
 		}
 	}
 
@@ -149,7 +161,7 @@ class WpmuListener extends AbstractListener {
 	 */
 	public function wp_insert_site( $blog ) {
 		if ( isset( $this->logger ) ) {
-			$this->logger->notice( sprintf( 'Blog created: %s.', Blog::get_full_blog_name( $blog ) ) );
+			$this->logger->notice( sprintf( 'Site created: %s.', Blog::get_full_blog_name( $blog ) ) );
 		}
 	}
 
@@ -160,7 +172,7 @@ class WpmuListener extends AbstractListener {
 	 */
 	public function wp_update_site( $to_id, $from_id ) {
 		if ( isset( $this->logger ) ) {
-			$this->logger->info( sprintf( 'Blog updated: %s.', Blog::get_full_blog_name( $to_id ) ) );
+			$this->logger->info( sprintf( 'Site updated: %s.', Blog::get_full_blog_name( $to_id ) ) );
 		}
 	}
 
@@ -171,7 +183,7 @@ class WpmuListener extends AbstractListener {
 	 */
 	public function wp_delete_site( $blog ) {
 		if ( isset( $this->logger ) ) {
-			$this->logger->notice( sprintf( 'Blog deleted: %s.', Blog::get_full_blog_name( $blog ) ) );
+			$this->logger->notice( sprintf( 'Site deleted: %s.', Blog::get_full_blog_name( $blog ) ) );
 		}
 	}
 
@@ -182,7 +194,7 @@ class WpmuListener extends AbstractListener {
 	 */
 	public function add_user_to_blog( $user_id, $role, $blog_id ) {
 		if ( isset( $this->logger ) ) {
-			$this->logger->info( sprintf( '%s added to %s with role "%s".', $this->get_user( $user_id ), Blog::get_full_blog_name( $blog_id ), $role ) );
+			$this->logger->info( sprintf( '%s added to %s with "%s" role.', $this->get_user( $user_id ), Blog::get_full_blog_name( $blog_id ), $role ) );
 		}
 	}
 
@@ -193,7 +205,7 @@ class WpmuListener extends AbstractListener {
 	 */
 	public function remove_user_from_blog( $user_id, $blog_id ) {
 		if ( isset( $this->logger ) ) {
-			$this->logger->info( sprintf( '%s removed from %s.', $this->get_user( $user_id ), $role, Blog::get_full_blog_name( $blog_id ) ) );
+			$this->logger->info( sprintf( '%s removed from %s.', $this->get_user( $user_id ), Blog::get_full_blog_name( $blog_id ) ) );
 		}
 	}
 
@@ -205,9 +217,9 @@ class WpmuListener extends AbstractListener {
 	public function update_blog_public( $site_id, $public ) {
 		if ( isset( $this->logger ) ) {
 			if ( $public ) {
-				$this->logger->info( sprintf( 'Blog became public: %s.', Blog::get_full_blog_name( $site_id ) ) );
+				$this->logger->info( sprintf( 'Site became public: %s.', Blog::get_full_blog_name( $site_id ) ) );
 			} else {
-				$this->logger->info( sprintf( 'Blog became private: %s.', Blog::get_full_blog_name( $site_id ) ) );
+				$this->logger->info( sprintf( 'Site became private: %s.', Blog::get_full_blog_name( $site_id ) ) );
 			}
 
 		}
@@ -220,7 +232,7 @@ class WpmuListener extends AbstractListener {
 	 */
 	public function make_spam_blog( $blog_id ) {
 		if ( isset( $this->logger ) ) {
-			$this->logger->warning( sprintf( 'Blog marked as "spam": %s.', Blog::get_full_blog_name( $blog_id ) ) );
+			$this->logger->warning( sprintf( 'Site marked as "spam": %s.', Blog::get_full_blog_name( $blog_id ) ) );
 		}
 	}
 
@@ -231,7 +243,7 @@ class WpmuListener extends AbstractListener {
 	 */
 	public function make_ham_blog( $blog_id ) {
 		if ( isset( $this->logger ) ) {
-			$this->logger->notice( sprintf( 'Blog marked as "not spam": %s.', Blog::get_full_blog_name( $blog_id ) ) );
+			$this->logger->notice( sprintf( 'Site marked as "not spam": %s.', Blog::get_full_blog_name( $blog_id ) ) );
 		}
 	}
 
@@ -242,7 +254,7 @@ class WpmuListener extends AbstractListener {
 	 */
 	public function mature_blog( $blog_id ) {
 		if ( isset( $this->logger ) ) {
-			$this->logger->warning( sprintf( 'Blog marked as "mature": %s.', Blog::get_full_blog_name( $blog_id ) ) );
+			$this->logger->warning( sprintf( 'Site marked as "mature": %s.', Blog::get_full_blog_name( $blog_id ) ) );
 		}
 	}
 
@@ -253,7 +265,7 @@ class WpmuListener extends AbstractListener {
 	 */
 	public function unmature_blog( $blog_id ) {
 		if ( isset( $this->logger ) ) {
-			$this->logger->notice( sprintf( 'Blog marked as "not mature": %s.', Blog::get_full_blog_name( $blog_id ) ) );
+			$this->logger->notice( sprintf( 'Site marked as "not mature": %s.', Blog::get_full_blog_name( $blog_id ) ) );
 		}
 	}
 
@@ -264,7 +276,7 @@ class WpmuListener extends AbstractListener {
 	 */
 	public function archive_blog( $blog_id ) {
 		if ( isset( $this->logger ) ) {
-			$this->logger->notice( sprintf( 'Blog marked as "archived": %s.', Blog::get_full_blog_name( $blog_id ) ) );
+			$this->logger->notice( sprintf( 'Site marked as "archived": %s.', Blog::get_full_blog_name( $blog_id ) ) );
 		}
 	}
 
@@ -275,7 +287,7 @@ class WpmuListener extends AbstractListener {
 	 */
 	public function unarchive_blog( $blog_id ) {
 		if ( isset( $this->logger ) ) {
-			$this->logger->info( sprintf( 'Blog marked as "unarchived": %s.', Blog::get_full_blog_name( $blog_id ) ) );
+			$this->logger->info( sprintf( 'Site marked as "unarchived": %s.', Blog::get_full_blog_name( $blog_id ) ) );
 		}
 	}
 
@@ -286,7 +298,7 @@ class WpmuListener extends AbstractListener {
 	 */
 	public function make_delete_blog( $blog_id ) {
 		if ( isset( $this->logger ) ) {
-			$this->logger->notice( sprintf( 'Blog marked as "deleted": %s.', Blog::get_full_blog_name( $blog_id ) ) );
+			$this->logger->notice( sprintf( 'Site marked as "deleted": %s.', Blog::get_full_blog_name( $blog_id ) ) );
 		}
 	}
 
@@ -297,7 +309,7 @@ class WpmuListener extends AbstractListener {
 	 */
 	public function make_undelete_blog( $blog_id ) {
 		if ( isset( $this->logger ) ) {
-			$this->logger->info( sprintf( 'Blog marked as "undeleted": %s.', Blog::get_full_blog_name( $blog_id ) ) );
+			$this->logger->info( sprintf( 'Site marked as "undeleted": %s.', Blog::get_full_blog_name( $blog_id ) ) );
 		}
 	}
 
