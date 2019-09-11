@@ -5,8 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [1.3.0] - 2019-09-11
 ### Added
-- Listener for WordPress multisite specific events.
-- Listener for [htaccess Server-Info & Server-Status](https://wordpress.org/plugins/htaccess-server-info-server-status/) plugin.
+- New listener for WordPress multisite specific events.
+- New listener for [htaccess Server-Info & Server-Status](https://wordpress.org/plugins/htaccess-server-info-server-status/) plugin.
 - Links to support, site and GitHub repository in plugin list.
 - New class (Decalog\Logger) to use as a standard PSR-3 logger (for plugins and themes developers).
 - New shortcodes to query the plugin statistics.
