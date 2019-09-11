@@ -3,6 +3,20 @@ All notable changes to **DecaLog** is documented in this *changelog*.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Added
+- New events in WPMU listeners: mark user as "spam" or as "not spam".
+### Changed
+- The word "blog" has been replaced by "site" in events messages.
+- Some help strings have been modified to be more clear.
+- Lower severity of serialized json messages (triggered by `wp_die` handler) from criticial to debug.
+### Removed
+- "Switch Blog" event (for WPMU) because lack of documentation.
+### Fixed
+- PHP notice when accessing a multisites log as a local admin.
+- PHP notice when displaying an event with no backtrace.
+- Removing a user of a site may produce an inconsistent message.
+
 ## [1.3.0] - 2019-09-11
 ### Added
 - New listener for WordPress multisite specific events.
