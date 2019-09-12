@@ -42,11 +42,11 @@ class Comment {
 		if ( is_numeric( $id ) ) {
 			$comment = get_comment( $id );
 		}
-		if ( $id instanceof WP_Comment ) {
+		if ( $id instanceof \WP_Comment ) {
 			$comment = $id;
 		}
-		if ( $comment instanceof WP_Comment ) {
-			return sprintf( '"%s" (comment ID %s)', wp_trim_words( wp_kses( $comment->comment_content ), 8 ), $comment->comment_ID );
+		if ( $comment instanceof \WP_Comment ) {
+			return sprintf( '"%s" (comment ID %s)', wp_trim_words( wp_kses( $comment->comment_content, [] ), 8 ), $comment->comment_ID );
 		} else {
 			return 'unknow comment';
 		}
