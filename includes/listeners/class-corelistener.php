@@ -92,10 +92,14 @@ class CoreListener extends AbstractListener {
 		// Mail.
 		add_action( 'phpmailer_init', [ $this, 'phpmailer_init' ], 10, 1 );
 		add_action( 'wp_mail_failed', [ $this, 'wp_mail_failed' ], 10, 1 );
-		// Administrative.
+		// Options.
 		add_action( 'added_option', [ $this, 'added_option' ], 10, 2 );
 		add_action( 'updated_option', [ $this, 'updated_option' ], 10, 3 );
 		add_action( 'deleted_option', [ $this, 'deleted_option' ], 10, 1 );
+		add_action( 'add_site_option', [ $this, 'add_site_option' ], 10, 3 );
+		add_action( 'update_site_option', [ $this, 'update_site_option' ], 10, 3 );
+		add_action( 'delete_site_option', [ $this, 'delete_site_option' ], 10, 4 );
+		// Users.
 		add_action( 'delete_user', [ $this, 'delete_user' ], 10, 2 );
 		add_action( 'user_register', [ $this, 'user_register' ], 10, 1 );
 		add_action( 'lostpassword_post', [ $this, 'lostpassword_post' ], 10, 1 );
@@ -367,7 +371,7 @@ class CoreListener extends AbstractListener {
 			$word = 'Transient';
 		}
 		if ( isset( $this->logger ) ) {
-			$this->logger->debug( sprintf( '%s added: "%s".', $word, $option ) );
+			$this->logger->debug( sprintf( 'Site %s added: "%s".', $word, $option ) );
 		}
 	}
 
@@ -382,7 +386,7 @@ class CoreListener extends AbstractListener {
 			$word = 'Transient';
 		}
 		if ( isset( $this->logger ) ) {
-			$this->logger->debug( sprintf( '%s updated: "%s".', $word, $option ) );
+			$this->logger->debug( sprintf( 'Site %s updated: "%s".', $word, $option ) );
 		}
 	}
 
@@ -397,7 +401,52 @@ class CoreListener extends AbstractListener {
 			$word = 'Transient';
 		}
 		if ( isset( $this->logger ) ) {
-			$this->logger->debug( sprintf( '%s deleted: "%s".', $word, $option ) );
+			$this->logger->debug( sprintf( 'Site %s deleted: "%s".', $word, $option ) );
+		}
+	}
+
+	/**
+	 * "addsite__option" event.
+	 *
+	 * @since    1.0.0
+	 */
+	public function addsite__option( $option, $value, $network_id ) {
+		$word = 'Option';
+		if ( 0 === strpos( $option, '_transient' ) ) {
+			$word = 'Transient';
+		}
+		if ( isset( $this->logger ) ) {
+			$this->logger->debug( sprintf( 'Network %s added: "%s".', $word, $option ) );
+		}
+	}
+
+	/**
+	 * "update_site_option" event.
+	 *
+	 * @since    1.0.0
+	 */
+	public function update_site_option( $option, $old_value, $value, $network_id ) {
+		$word = 'Option';
+		if ( 0 === strpos( $option, '_transient' ) ) {
+			$word = 'Transient';
+		}
+		if ( isset( $this->logger ) ) {
+			$this->logger->debug( sprintf( 'Network %s updated: "%s".', $word, $option ) );
+		}
+	}
+
+	/**
+	 * "delete_site_option" event.
+	 *
+	 * @since    1.0.0
+	 */
+	public function delete_site_option( $option, $network_id ) {
+		$word = 'Option';
+		if ( 0 === strpos( $option, '_transient' ) ) {
+			$word = 'Transient';
+		}
+		if ( isset( $this->logger ) ) {
+			$this->logger->debug( sprintf( 'Network %s deleted: "%s".', $word, $option ) );
 		}
 	}
 

@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - The core listener can now detect translations updates.
 ### Changed
 - Plugin activation/deactivation give the full plugin name (instead of its slug).
+- Events regarding "options" and "transients" now differentiate site/network operations.
 - The word "blog" has been replaced by "site" in events messages.
 - Some help strings have been modified to be more clear.
 - Lower severity of serialized json messages (triggered by `wp_die` handler) from criticial to debug.
@@ -21,7 +22,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 - PHP notice when accessing a multisites log as a local admin.
 - PHP notice when displaying an event with no backtrace.
-- Removing a user of a site may produce an inconsistent message.
+- Removing a user of a site may produce an inconsistent log message.
 
 ## [1.3.0] - 2019-09-11
 ### Added
