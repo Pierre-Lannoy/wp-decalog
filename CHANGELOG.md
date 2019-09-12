@@ -7,7 +7,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 - New events in core listener for comments (create, edit, delete, mark as "spam", mark as "not spam", trash, untrash, approve, unapprove, duplicate triggered).
 - New events in WPMU listener for users (mark as "spam", mark as "not spam").
+- The core listener can now detect plugin and theme installations/updates.
+- The core listener can now detect translations updates.
 ### Changed
+- Plugin activation/deactivation give the full plugin name (instead of its slug).
 - The word "blog" has been replaced by "site" in events messages.
 - Some help strings have been modified to be more clear.
 - Lower severity of serialized json messages (triggered by `wp_die` handler) from criticial to debug.

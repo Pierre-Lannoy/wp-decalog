@@ -88,9 +88,6 @@ class CoreListener extends AbstractListener {
 		add_action( 'spam_comment', [ $this, 'spam_comment' ], 10, 2 );
 		add_action( 'unspam_comment', [ $this, 'unspam_comment' ], 10, 2 );
 		add_action( 'transition_comment_status', [ $this, 'transition_comment_status' ], 10, 3 );
-		// Template.
-		add_action( 'after_setup_theme', [ $this, 'after_setup_theme' ], PHP_INT_MAX );
-		add_action( 'switch_theme', [ $this, 'switch_theme' ], 10, 3 );
 		// Mail.
 		add_action( 'phpmailer_init', [ $this, 'phpmailer_init' ], 10, 1 );
 		add_action( 'wp_mail_failed', [ $this, 'wp_mail_failed' ], 10, 1 );
@@ -111,10 +108,13 @@ class CoreListener extends AbstractListener {
 		add_action( 'wp_loaded', [ $this, 'wp_loaded' ] );
 		add_action( 'auth_cookie_malformed', [ $this, 'auth_cookie_malformed' ], 10, 2 );
 		add_action( 'auth_cookie_valid', [ $this, 'auth_cookie_valid' ], 10, 2 );
+		add_action( 'generate_rewrite_rules', [ $this, 'generate_rewrite_rules' ], 10, 1 );
+		// Plugins & Themes.
+		add_action( 'upgrader_process_complete', [ $this, 'upgrader_process_complete' ], 10, 2 );
 		add_action( 'activated_plugin', [ $this, 'activated_plugin' ], 10, 2 );
 		add_action( 'deactivated_plugin', [ $this, 'deactivated_plugin' ], 10, 2 );
-		add_action( 'generate_rewrite_rules', [ $this, 'generate_rewrite_rules' ], 10, 1 );
-		add_action( 'upgrader_process_complete', [ $this, 'upgrader_process_complete' ], 10, 2 );
+		add_action( 'after_setup_theme', [ $this, 'after_setup_theme' ], PHP_INT_MAX );
+		add_action( 'switch_theme', [ $this, 'switch_theme' ], 10, 3 );
 		// Errors.
 		add_filter( 'wp_die_ajax_handler', [ $this, 'wp_die_handler' ], 10, 1 );
 		add_filter( 'wp_die_xmlrpc_handler', [ $this, 'wp_die_handler' ], 10, 1 );
@@ -740,11 +740,17 @@ class CoreListener extends AbstractListener {
 	 * @since    1.0.0
 	 */
 	public function activated_plugin( $plugin, $network_activation ) {
+		$d = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin, false, false );
+		if ( is_array( $d ) && array_key_exists( 'Name', $d ) && array_key_exists( 'Version', $d ) ) {
+			$component = $d['Name'] . ' (' . $d['Version'] . ')';
+		} else {
+			$component = 'unknown plugin';
+		}
 		if ( isset( $this->logger ) ) {
 			if ( $network_activation ) {
-				$this->logger->notice( sprintf( 'Plugin network activation: %s file.', $plugin ) );
+				$this->logger->notice( sprintf( 'Plugin network activation: %s.', $component ) );
 			} else {
-				$this->logger->notice( sprintf( 'Plugin activation: %s file.', $plugin ) );
+				$this->logger->notice( sprintf( 'Plugin activation: %s.', $component ) );
 			}
 		}
 	}
@@ -755,11 +761,17 @@ class CoreListener extends AbstractListener {
 	 * @since    1.0.0
 	 */
 	public function deactivated_plugin( $plugin, $network_activation ) {
+		$d = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin, false, false );
+		if ( is_array( $d ) && array_key_exists( 'Name', $d ) && array_key_exists( 'Version', $d ) ) {
+			$component = $d['Name'] . ' (' . $d['Version'] . ')';
+		} else {
+			$component = 'unknown plugin';
+		}
 		if ( isset( $this->logger ) ) {
 			if ( $network_activation ) {
-				$this->logger->notice( sprintf( 'Plugin network deactivation: %s file.', $plugin ) );
+				$this->logger->notice( sprintf( 'Plugin network deactivation: %s.', $component ) );
 			} else {
-				$this->logger->notice( sprintf( 'Plugin deactivation: %s file.', $plugin ) );
+				$this->logger->notice( sprintf( 'Plugin deactivation: %s.', $component ) );
 			}
 		}
 	}
@@ -781,18 +793,146 @@ class CoreListener extends AbstractListener {
 	 * @since    1.0.0
 	 */
 	public function upgrader_process_complete( $upgrader, $data ) {
-		$action  = ( array_key_exists( 'action', $data ) ? $data['action'] : '' );
-		$type    = ( array_key_exists( 'type', $data ) ? ucfirst( $data['type'] ) : '' );
-		$plugins = '(unknown package)';
-		if ( array_key_exists( 'plugins', $data ) ) {
-			if ( is_array( $data['plugins'] ) ) {
-				$plugins = 'for ' . implode( ', ', $data['plugins'] );
-			} elseif ( is_string( $data['plugins'] ) ) {
-				$plugins = 'for ' . $data['plugins'];
-			}
+		$type       = ( array_key_exists( 'type', $data ) ? ucfirst( $data['type'] ) : '' );
+		$action     = ( array_key_exists( 'action', $data ) ? $data['action'] : '' );
+		$components = [];
+		switch ( $type ) {
+			case 'Plugin':
+				if ( 'install' === $action ) {
+					$slug = $upgrader->plugin_info();
+					if ( $slug ) {
+						$d = get_plugin_data( $upgrader->skin->result['local_destination'] . '/' . $slug, false, false );
+						if ( is_array( $d ) && array_key_exists( 'Name', $d ) && array_key_exists( 'Version', $d ) ) {
+							$components[] = $d['Name'] . ' (' . $d['Version'] . ')';
+						} else {
+							$components[] = 'unknown plugin';
+						}
+					} else {
+						$components[] = 'unknown theme';
+					}
+				}
+				if ( 'update' === $action ) {
+					$elements = [];
+					if ( array_key_exists( 'plugins', $data ) ) {
+						if ( is_array( $data['plugins'] ) ) {
+							if ( 1 !== count( $data['plugins'] ) ) {
+								$type = 'Plugins';
+							}
+							foreach ( $data['plugins'] as $e ) {
+								$elements[] = $e;
+							}
+						} elseif ( is_string( $data['plugins'] ) ) {
+							$elements[] = $data['plugins'];
+						}
+						foreach ( $elements as $e ) {
+							$d = get_plugin_data( WP_PLUGIN_DIR . '/' . $e, false, false );
+							if ( is_array( $d ) && array_key_exists( 'Name', $d ) && array_key_exists( 'Version', $d ) ) {
+								$components[] = $d['Name'] . ' (' . $d['Version'] . ')';
+							} else {
+								$components[] = 'unknown plugin';
+							}
+						}
+					}
+				}
+				if ( 0 === count( $components ) ) {
+					$components[] = 'unknown package';
+				}
+				break;
+			case 'Theme':
+				if ( 'install' === $action ) {
+					$slug = $upgrader->theme_info();
+					if ( $slug ) {
+						wp_clean_themes_cache();
+						$theme        = wp_get_theme( $slug );
+						$components[] = $theme->name . ' (' . $theme->version . ')';
+					} else {
+						$components[] = 'unknown theme';
+					}
+				}
+				if ( 'update' === $action ) {
+					$elements = [];
+					if ( array_key_exists( 'themes', $data ) ) {
+						if ( is_array( $data['themes'] ) ) {
+							if ( 1 !== count( $data['themes'] ) ) {
+								$type = 'Themes';
+							}
+							foreach ( $data['themes'] as $e ) {
+								$elements[] = $e;
+							}
+						} elseif ( is_string( $data['themes'] ) ) {
+							$elements[] = $data['themes'];
+						}
+						foreach ( $elements as $e ) {
+							$theme = wp_get_theme( $e );
+							if ( $theme instanceof \WP_Theme ) {
+								$theme_data = get_file_data(
+									$theme->stylesheet_dir . '/style.css',
+									[
+										'Version' => 'Version',
+									]
+								);
+								if ( is_array( $theme_data ) && array_key_exists( 'Version', $theme_data ) ) {
+									$components[] = $theme->name . ' (' . $theme_data['Version'] . ')';
+								} else {
+									$components[] = $theme->name;
+								}
+							} else {
+								$components[] = 'unknown theme';
+							}
+						}
+					}
+				}
+				if ( 0 === count( $components ) ) {
+					$components[] = 'unknown package';
+				}
+				break;
+			case 'Translation':
+				$elements = [];
+				if ( array_key_exists( 'translations', $data ) ) {
+					if ( 1 !== count( $data['translations'] ) ) {
+						$type = 'Translations';
+					}
+					foreach ( $data['translations'] as $translation ) {
+						switch ( $translation['type'] ) {
+							case 'plugin':
+								$d = get_plugin_data( WP_PLUGIN_DIR . '/' . $translation['slug'], false, false );
+								if ( is_array( $d ) && array_key_exists( 'Name', $d ) ) {
+									$components[] = $d['Name'] . ' (' . $translation['language'] . ')';
+								} else {
+									$components[] = 'unknown plugin' . ' (' . $translation['language'] . ')';
+								}
+								break;
+							case 'theme':
+								$theme = wp_get_theme( $translation['slug'] );
+								if ( $theme instanceof \WP_Theme ) {
+									$components[] = $theme->name . ' (' . $translation['language'] . ')';
+								} else {
+									$components[] = 'unknown theme' . ' (' . $translation['language'] . ')';
+								}
+								break;
+							default:
+								$components[] = 'WordPress' . ' (' . $translation['language'] . ')';
+								break;
+						}
+					}
+				}
+				if ( 0 === count( $components ) ) {
+					$components[] = 'unknown package';
+				}
+				break;
+			case 'Core':
+				if ( isset( $this->logger ) ) {
+					$this->logger->notice( 'WordPress core upgrade completed.' );
+				}
+				return;
+			default:
+				if ( isset( $this->logger ) ) {
+					$this->logger->notice( 'Upgrader process completed.' );
+				}
+				return;
 		}
 		if ( isset( $this->logger ) ) {
-			$this->logger->notice( sprintf( '%s %s %s.', $type, $action, $plugins ) );
+			$this->logger->notice( sprintf( '%s %s: %s.', $type, $action, implode( ', ', $components ) ) );
 		}
 	}
 
