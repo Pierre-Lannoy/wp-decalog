@@ -81,31 +81,13 @@ class CoreListener extends AbstractListener {
 		add_action( 'comment_duplicate_trigger', [ $this, 'comment_duplicate_trigger' ], 10, 1 );
 		add_action( 'comment_post', [ $this, 'comment_post' ], 10, 3 );
 		add_action( 'wp_insert_comment', [ $this, 'wp_insert_comment' ], 10, 2 );
-
-
-		/*
-
-		,
-		'wp_insert_comment',
-
-
-		'edit_comment',
-		'deleted_post',
-		'delete_comment',
-		'trash_comment',
-		'untrash_comment',
-		'spam_comment',
-		'unspam_comment',
-		'transition_comment_status',
-
-
-		 */
-
-
-
-
-
-
+		add_action( 'edit_comment', [ $this, 'edit_comment' ], 10, 2 );
+		add_action( 'delete_comment', [ $this, 'delete_comment' ], 10, 2 );
+		add_action( 'trash_comment', [ $this, 'trash_comment' ], 10, 2 );
+		add_action( 'untrash_comment', [ $this, 'untrash_comment' ], 10, 2 );
+		add_action( 'spam_comment', [ $this, 'spam_comment' ], 10, 2 );
+		add_action( 'unspam_comment', [ $this, 'unspam_comment' ], 10, 2 );
+		add_action( 'transition_comment_status', [ $this, 'transition_comment_status' ], 10, 3 );
 		// Template.
 		add_action( 'after_setup_theme', [ $this, 'after_setup_theme' ], PHP_INT_MAX );
 		add_action( 'switch_theme', [ $this, 'switch_theme' ], 10, 3 );
@@ -516,24 +498,102 @@ class CoreListener extends AbstractListener {
 			$status = 1 === $comment_approved ? 'approved' : 'not approved';
 		}
 		if ( isset( $this->logger ) ) {
-			$this->logger->info( sprintf( 'New comment (%s): %s.', $status, Comment::get_full_comment_name( $comment_ID) ) );
+			$this->logger->info( sprintf( 'Comment %s: %s.', $status, Comment::get_full_comment_name( $comment_ID) ) );
 		}
 	}
 
 	/**
 	 * "wp_insert_comment" event.
 	 *
-	 * @since    1.0.0
+	 * @since    1.4.0
 	 */
 	public function wp_insert_comment( $id, $comment ) {
 		if ( isset( $this->logger ) ) {
-			$this->logger->info( sprintf( 'New comment : %s.', Comment::get_full_comment_name( $comment) ) );
+			$this->logger->info( sprintf( 'New comment: %s.', Comment::get_full_comment_name( $id ) ) );
 		}
 	}
 
+	/**
+	 * "edit_comment" event.
+	 *
+	 * @since    1.4.0
+	 */
+	public function edit_comment( $id, $comment ) {
+		if ( isset( $this->logger ) ) {
+			$this->logger->info( sprintf( 'Comment edited: %s.', Comment::get_full_comment_name( $id ) ) );
+		}
+	}
 
+	/**
+	 * "delete_comment" event.
+	 *
+	 * @since    1.4.0
+	 */
+	public function delete_comment( $id, $comment ) {
+		if ( isset( $this->logger ) ) {
+			$this->logger->info( sprintf( 'Comment deleted: %s.', Comment::get_full_comment_name( $comment ) ) );
+		}
+	}
 
+	/**
+	 * "trash_comment" event.
+	 *
+	 * @since    1.4.0
+	 */
+	public function trash_comment( $id, $comment ) {
+		if ( isset( $this->logger ) ) {
+			$this->logger->info( sprintf( 'Comment trashed: %s.', Comment::get_full_comment_name( $comment ) ) );
+		}
+	}
 
+	/**
+	 * "untrash_comment" event.
+	 *
+	 * @since    1.4.0
+	 */
+	public function untrash_comment( $id, $comment ) {
+		if ( isset( $this->logger ) ) {
+			$this->logger->info( sprintf( 'Comment untrashed: %s.', Comment::get_full_comment_name( $id ) ) );
+		}
+	}
+
+	/**
+	 * "spam_comment" event.
+	 *
+	 * @since    1.4.0
+	 */
+	public function spam_comment( $id, $comment ) {
+		if ( isset( $this->logger ) ) {
+			$this->logger->info( sprintf( 'Comment marked as "spam": %s.', Comment::get_full_comment_name( $id ) ) );
+		}
+	}
+
+	/**
+	 * "unspam_comment" event.
+	 *
+	 * @since    1.4.0
+	 */
+	public function unspam_comment( $id, $comment ) {
+		if ( isset( $this->logger ) ) {
+			$this->logger->info( sprintf( 'Comment marked as "not spam": %s.', Comment::get_full_comment_name( $id ) ) );
+		}
+	}
+
+	/**
+	 * "transition_comment_status" event.
+	 *
+	 * @since    1.4.0
+	 */
+	public function transition_comment_status( $new_status, $old_status, $comment ) {
+		if ( isset( $this->logger ) ) {
+			if ( 'approved' === $new_status ) {
+				$this->logger->info( sprintf( 'Comment approved: %s.', Comment::get_full_comment_name( $comment ) ) );
+			}
+			if ( 'unapproved' === $new_status ) {
+				$this->logger->info( sprintf( 'Comment unapproved: %s.', Comment::get_full_comment_name( $comment ) ) );
+			}
+		}
+	}
 
 	/**
 	 * "comment_flood_trigger" event.

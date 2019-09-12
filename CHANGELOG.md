@@ -5,8 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 ### Added
-- New events in core listener: dupplicate comment.
-- New events in WPMU listener: mark user as "spam" or as "not spam".
+- New events in core listener for comments (create, edit, delete, mark as "spam", mark as "not spam", trash, untrash, approve, unapprove, duplicate triggered).
+- New events in WPMU listener for users (mark as "spam", mark as "not spam").
 ### Changed
 - The word "blog" has been replaced by "site" in events messages.
 - Some help strings have been modified to be more clear.
