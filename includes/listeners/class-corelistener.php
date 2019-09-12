@@ -15,6 +15,7 @@ namespace Decalog\Listener;
 use Decalog\System\Environment;
 use Decalog\System\Option;
 use Decalog\System\Http;
+use Decalog\System\Comment;
 
 /**
  * WP core listener for DecaLog.
@@ -77,7 +78,34 @@ class CoreListener extends AbstractListener {
 		add_action( 'delete_term', [ $this, 'delete_term' ], 10, 5 );
 		// Comments.
 		add_action( 'comment_flood_trigger', [ $this, 'comment_flood_trigger' ], 10, 2 );
+		add_action( 'comment_duplicate_trigger', [ $this, 'comment_duplicate_trigger' ], 10, 1 );
 		add_action( 'comment_post', [ $this, 'comment_post' ], 10, 3 );
+		add_action( 'wp_insert_comment', [ $this, 'wp_insert_comment' ], 10, 2 );
+
+
+		/*
+
+		,
+		'wp_insert_comment',
+
+
+		'edit_comment',
+		'deleted_post',
+		'delete_comment',
+		'trash_comment',
+		'untrash_comment',
+		'spam_comment',
+		'unspam_comment',
+		'transition_comment_status',
+
+
+		 */
+
+
+
+
+
+
 		// Template.
 		add_action( 'after_setup_theme', [ $this, 'after_setup_theme' ], PHP_INT_MAX );
 		add_action( 'switch_theme', [ $this, 'switch_theme' ], 10, 3 );
@@ -488,9 +516,24 @@ class CoreListener extends AbstractListener {
 			$status = 1 === $comment_approved ? 'approved' : 'not approved';
 		}
 		if ( isset( $this->logger ) ) {
-			$this->logger->info( sprintf( 'New comment: %s.', $status ) );
+			$this->logger->info( sprintf( 'New comment (%s): %s.', $status, Comment::get_full_comment_name( $comment_ID) ) );
 		}
 	}
+
+	/**
+	 * "wp_insert_comment" event.
+	 *
+	 * @since    1.0.0
+	 */
+	public function wp_insert_comment( $id, $comment ) {
+		if ( isset( $this->logger ) ) {
+			$this->logger->info( sprintf( 'New comment : %s.', Comment::get_full_comment_name( $comment) ) );
+		}
+	}
+
+
+
+
 
 	/**
 	 * "comment_flood_trigger" event.
@@ -500,6 +543,17 @@ class CoreListener extends AbstractListener {
 	public function comment_flood_trigger( $time_lastcomment, $time_newcomment ) {
 		if ( isset( $this->logger ) ) {
 			$this->logger->warning( 'Comment flood triggered.' );
+		}
+	}
+
+	/**
+	 * "comment_duplicate_trigger" event.
+	 *
+	 * @since    1.4.0
+	 */
+	public function comment_duplicate_trigger( $data ) {
+		if ( isset( $this->logger ) ) {
+			$this->logger->warning( 'Duplicate comment triggered.' );
 		}
 	}
 
