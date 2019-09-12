@@ -65,13 +65,8 @@ class CoreListener extends AbstractListener {
 		add_action( 'delete_attachment', [ $this, 'delete_attachment' ], 10, 1 );
 		add_action( 'edit_attachment', [ $this, 'edit_attachment' ], 10, 1 );
 		// Posts and Pages.
-		add_action( 'trashed_post', [ $this, 'trashed_post' ], 10, 1 );
-		add_action( 'untrashed_post', [ $this, 'untrashed_post' ], 10, 1 );
 		add_action( 'deleted_post', [ $this, 'deleted_post' ], 10, 1 );
-		add_action( 'post_updated', [ $this, 'post_updated' ], 10, 3 );
-		add_action( 'save_post', [ $this, 'save_post' ], 10, 3 );
-		add_action( 'publish_post', [ $this, 'publish_post' ], 10, 1 );
-		add_action( 'publish_future_post', [ $this, 'publish_future_post' ], 10, 1 );
+		add_action( 'transition_post_status', [ $this, 'transition_post_status' ], 10, 3 );
 		// Terms.
 		add_action( 'edited_terms', [ $this, 'edited_terms' ], 10, 2 );
 		add_action( 'created_term', [ $this, 'created_term' ], 10, 3 );
@@ -88,6 +83,12 @@ class CoreListener extends AbstractListener {
 		add_action( 'spam_comment', [ $this, 'spam_comment' ], 10, 2 );
 		add_action( 'unspam_comment', [ $this, 'unspam_comment' ], 10, 2 );
 		add_action( 'transition_comment_status', [ $this, 'transition_comment_status' ], 10, 3 );
+		// Menus.
+		add_action( 'wp_create_nav_menu', [ $this, 'wp_create_nav_menu' ], 10, 2 );
+		add_action( 'wp_update_nav_menu', [ $this, 'wp_update_nav_menu' ], 10, 2 );
+		add_action( 'wp_delete_nav_menu', [ $this, 'wp_delete_nav_menu' ], 10, 1 );
+		add_action( 'wp_add_nav_menu_item', [ $this, 'wp_add_nav_menu_item' ], 10, 3 );
+		add_action( 'wp_update_nav_menu_item', [ $this, 'wp_update_nav_menu_item' ], 10, 3 );
 		// Mail.
 		add_action( 'phpmailer_init', [ $this, 'phpmailer_init' ], 10, 1 );
 		add_action( 'wp_mail_failed', [ $this, 'wp_mail_failed' ], 10, 1 );
@@ -196,36 +197,6 @@ class CoreListener extends AbstractListener {
 	}
 
 	/**
-	 * "trashed_post" event.
-	 *
-	 * @since    1.0.0
-	 */
-	public function trashed_post( $post_ID ) {
-		$message = 'Post trashed.';
-		if ( $post = get_post( $post_ID ) ) {
-			$message = sprintf( 'Post trashed: "%s" by %s.', $post->post_title, $this->get_user( $post->post_author ) );
-		}
-		if ( isset( $this->logger ) ) {
-			$this->logger->info( $message );
-		}
-	}
-
-	/**
-	 * "untrashed_post" event.
-	 *
-	 * @since    1.0.0
-	 */
-	public function untrashed_post( $post_ID ) {
-		$message = 'Post untrashed.';
-		if ( $post = get_post( $post_ID ) ) {
-			$message = sprintf( 'Post untrashed: "%s" by %s.', $post->post_title, $this->get_user( $post->post_author ) );
-		}
-		if ( isset( $this->logger ) ) {
-			$this->logger->info( $message );
-		}
-	}
-
-	/**
 	 * "delete_post" event.
 	 *
 	 * @since    1.0.0
@@ -241,62 +212,47 @@ class CoreListener extends AbstractListener {
 	}
 
 	/**
-	 * "publish_post" event.
+	 * "transition_post_status" event.
 	 *
-	 * @since    1.0.0
+	 * @since    1.4.0
 	 */
-	public function publish_post( $post_ID ) {
-		$message = 'Post published.';
-		if ( $post = get_post( $post_ID ) ) {
-			$message = sprintf( 'Post published: "%s" by %s.', $post->post_title, $this->get_user( $post->post_author ) );
+	public function transition_post_status( $new, $old, $post ) {
+		if ( ! $post instanceof \WP_Post ) {
+			return;
+		} elseif ( in_array( $post->post_type, [ 'nav_menu_item', 'attachment', 'revision' ], true ) ) {
+			return;
+		} elseif ( in_array( $new, [ 'auto-draft', 'inherit' ], true ) ) {
+			return;
+		} elseif ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+			return;
+		} elseif ( 'draft' === $new && 'publish' === $old ) {
+			$action = 'unpublished';
+		} elseif ( 'trash' === $old && 'trash' !== $new ) {
+			$action = 'restored from trash';
+		} elseif ( 'draft' === $new && 'draft' === $old ) {
+			$action = 'draft saved';
+		} elseif ( 'publish' === $new && 'draft' === $old ) {
+			$action = 'published';
+		} elseif ( 'draft' === $new ) {
+			$action = 'drafted';
+		} elseif ( 'pending' === $new ) {
+			$action = 'pending review';
+		} elseif ( 'future' === $new ) {
+			$action = 'scheduled';
+		} elseif ( 'future' === $old && 'publish' === $new ) {
+			$action = 'published immediately';
+		} elseif ( 'private' === $new ) {
+			$action = 'privately published';
+		} elseif ( 'trash' === $new ) {
+			$action = 'trashed';
+		} else {
+			$action = 'updated';
+		}
+		if ( 'auto-draft' === $old && 'auto-draft' !== $new ) {
+			$action = 'created';
 		}
 		if ( isset( $this->logger ) ) {
-			$this->logger->info( $message );
-		}
-	}
-
-	/**
-	 * "publish_future_post" event.
-	 *
-	 * @since    1.0.0
-	 */
-	public function publish_future_post( $post_ID ) {
-		$message = 'Post scheduled for publish.';
-		if ( $post = get_post( $post_ID ) ) {
-			$message = sprintf( 'Post scheduled for publish: "%s" by %s.', $post->post_title, $this->get_user( $post->post_author ) );
-		}
-		if ( isset( $this->logger ) ) {
-			$this->logger->info( $message );
-		}
-	}
-
-	/**
-	 * "post_updated" event.
-	 *
-	 * @since    1.0.0
-	 */
-	public function post_updated( $post_ID, $post_after, $post_before ) {
-		$message = 'Post updated.';
-		if ( $post = get_post( $post_ID ) ) {
-			$message = sprintf( 'Post updated: "%s" by %s.', $post->post_title, $this->get_user( $post->post_author ) );
-		}
-		if ( isset( $this->logger ) ) {
-			$this->logger->info( $message );
-		}
-	}
-
-	/**
-	 * "save_post" event.
-	 *
-	 * @since    1.0.0
-	 */
-	public function save_post( $post_ID, $post, $update ) {
-		$message = 'Post saved.';
-		if ( $post = get_post( $post_ID ) ) {
-			$message = sprintf( 'Post saved: "%s" by %s.', $post->post_title, $this->get_user( $post->post_author ) );
-		}
-		if ( isset( $this->logger ) ) {
-			$this->logger->debug( $message );
+			$this->logger->info( sprintf( 'Post %s: "%s" (post ID %s) by %s.', $action, $post->post_title, $post->ID, $this->get_user( $post->post_author ) ) );
 		}
 	}
 
@@ -342,6 +298,61 @@ class CoreListener extends AbstractListener {
 		}
 		if ( isset( $this->logger ) ) {
 			$this->logger->info( $message );
+		}
+	}
+
+	/**
+	 * "wp_create_nav_menu" event.
+	 *
+	 * @since    1.4.0
+	 */
+	public function wp_create_nav_menu( $term_id, $menu_data = null ) {
+		if ( isset( $this->logger ) && isset( $menu_data ) ) {
+			$this->logger->info( sprintf( 'Menu created: "%s" (menu ID %s).', $menu_data['menu-name'], $term_id ) );
+		}
+	}
+
+	/**
+	 * "wp_update_nav_menu" event.
+	 *
+	 * @since    1.4.0
+	 */
+	public function wp_update_nav_menu( $term_id, $menu_data = null ) {
+		if ( isset( $this->logger ) && isset( $menu_data ) ) {
+			$this->logger->info( sprintf( 'Menu updated: "%s" (menu ID %s).', $menu_data['menu-name'], $term_id ) );
+		}
+	}
+
+	/**
+	 * "wp_delete_nav_menu" event.
+	 *
+	 * @since    1.4.0
+	 */
+	public function wp_delete_nav_menu( $menu_id ) {
+		if ( isset( $this->logger ) ) {
+			$this->logger->info( sprintf( 'Menu deleted: menu ID %s.', $menu_id ) );
+		}
+	}
+
+	/**
+	 * "wp_add_nav_menu_item" event.
+	 *
+	 * @since    1.4.0
+	 */
+	public function wp_add_nav_menu_item( $menu_id, $menu_item_db_id, $args ) {
+		if ( isset( $this->logger ) && is_array( $args ) && array_key_exists( 'menu-item-title', $args ) && '' !== $args['menu-item-title'] ) {
+			$this->logger->info( sprintf( 'Menu item created: "%s" (menu item ID %s).', $args['menu-item-title'], $menu_item_db_id ) );
+		}
+	}
+
+	/**
+	 * "wp_update_nav_menu_item" event.
+	 *
+	 * @since    1.4.0
+	 */
+	public function wp_update_nav_menu_item( $menu_id, $menu_item_db_id, $args ) {
+		if ( isset( $this->logger ) && is_array( $args ) && array_key_exists( 'menu-item-title', $args ) && '' !== $args['menu-item-title'] ) {
+			$this->logger->info( sprintf( 'Menu item updated: "%s" (menu item ID %s).', $args['menu-item-title'], $menu_item_db_id ) );
 		}
 	}
 
@@ -520,7 +531,7 @@ class CoreListener extends AbstractListener {
 	 */
 	public function edit_comment( $id, $comment ) {
 		if ( isset( $this->logger ) ) {
-			$this->logger->info( sprintf( 'Comment edited: %s.', Comment::get_full_comment_name( $id ) ) );
+			$this->logger->info( sprintf( 'Comment updated: %s.', Comment::get_full_comment_name( $id ) ) );
 		}
 	}
 
@@ -553,7 +564,7 @@ class CoreListener extends AbstractListener {
 	 */
 	public function untrash_comment( $id, $comment ) {
 		if ( isset( $this->logger ) ) {
-			$this->logger->info( sprintf( 'Comment untrashed: %s.', Comment::get_full_comment_name( $id ) ) );
+			$this->logger->info( sprintf( 'Comment restored from trash: %s.', Comment::get_full_comment_name( $id ) ) );
 		}
 	}
 
