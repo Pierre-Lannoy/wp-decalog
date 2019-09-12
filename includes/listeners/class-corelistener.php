@@ -74,14 +74,9 @@ class CoreListener extends AbstractListener {
 		// Comments.
 		add_action( 'comment_flood_trigger', [ $this, 'comment_flood_trigger' ], 10, 2 );
 		add_action( 'comment_duplicate_trigger', [ $this, 'comment_duplicate_trigger' ], 10, 1 );
-		add_action( 'comment_post', [ $this, 'comment_post' ], 10, 3 );
 		add_action( 'wp_insert_comment', [ $this, 'wp_insert_comment' ], 10, 2 );
 		add_action( 'edit_comment', [ $this, 'edit_comment' ], 10, 2 );
 		add_action( 'delete_comment', [ $this, 'delete_comment' ], 10, 2 );
-		add_action( 'trash_comment', [ $this, 'trash_comment' ], 10, 2 );
-		add_action( 'untrash_comment', [ $this, 'untrash_comment' ], 10, 2 );
-		add_action( 'spam_comment', [ $this, 'spam_comment' ], 10, 2 );
-		add_action( 'unspam_comment', [ $this, 'unspam_comment' ], 10, 2 );
 		add_action( 'transition_comment_status', [ $this, 'transition_comment_status' ], 10, 3 );
 		// Menus.
 		add_action( 'wp_create_nav_menu', [ $this, 'wp_create_nav_menu' ], 10, 2 );
@@ -410,7 +405,7 @@ class CoreListener extends AbstractListener {
 	 *
 	 * @since    1.0.0
 	 */
-	public function addsite__option( $option, $value, $network_id ) {
+	public function add_site_option( $option, $value, $network_id = null ) {
 		$word = 'Option';
 		if ( 0 === strpos( $option, '_transient' ) ) {
 			$word = 'Transient';
@@ -425,7 +420,7 @@ class CoreListener extends AbstractListener {
 	 *
 	 * @since    1.0.0
 	 */
-	public function update_site_option( $option, $old_value, $value, $network_id ) {
+	public function update_site_option( $option, $old_value, $value, $network_id = null ) {
 		$word = 'Option';
 		if ( 0 === strpos( $option, '_transient' ) ) {
 			$word = 'Transient';
@@ -440,7 +435,7 @@ class CoreListener extends AbstractListener {
 	 *
 	 * @since    1.0.0
 	 */
-	public function delete_site_option( $option, $network_id ) {
+	public function delete_site_option( $option, $network_id = null ) {
 		$word = 'Option';
 		if ( 0 === strpos( $option, '_transient' ) ) {
 			$word = 'Transient';
@@ -546,30 +541,13 @@ class CoreListener extends AbstractListener {
 	}
 
 	/**
-	 * "comment_post" event.
-	 *
-	 * @since    1.0.0
-	 */
-	public function comment_post( $comment_ID, $comment_approved, $commentdata ) {
-		$status = 'unknown status';
-		if ( is_string( $comment_approved ) ) {
-			$status = $comment_approved;
-		} elseif ( is_numeric( $comment_approved ) ) {
-			$status = 1 === $comment_approved ? 'approved' : 'not approved';
-		}
-		if ( isset( $this->logger ) ) {
-			$this->logger->info( sprintf( 'Comment %s: %s.', $status, Comment::get_full_comment_name( $comment_ID) ) );
-		}
-	}
-
-	/**
 	 * "wp_insert_comment" event.
 	 *
 	 * @since    1.4.0
 	 */
 	public function wp_insert_comment( $id, $comment ) {
 		if ( isset( $this->logger ) ) {
-			$this->logger->info( sprintf( 'New comment: %s.', Comment::get_full_comment_name( $id ) ) );
+			$this->logger->info( sprintf( 'Comment created: %s.', Comment::get_full_comment_name( $id ) ) );
 		}
 	}
 
@@ -596,55 +574,41 @@ class CoreListener extends AbstractListener {
 	}
 
 	/**
-	 * "trash_comment" event.
-	 *
-	 * @since    1.4.0
-	 */
-	public function trash_comment( $id, $comment ) {
-		if ( isset( $this->logger ) ) {
-			$this->logger->info( sprintf( 'Comment trashed: %s.', Comment::get_full_comment_name( $comment ) ) );
-		}
-	}
-
-	/**
-	 * "untrash_comment" event.
-	 *
-	 * @since    1.4.0
-	 */
-	public function untrash_comment( $id, $comment ) {
-		if ( isset( $this->logger ) ) {
-			$this->logger->info( sprintf( 'Comment restored from trash: %s.', Comment::get_full_comment_name( $id ) ) );
-		}
-	}
-
-	/**
-	 * "spam_comment" event.
-	 *
-	 * @since    1.4.0
-	 */
-	public function spam_comment( $id, $comment ) {
-		if ( isset( $this->logger ) ) {
-			$this->logger->info( sprintf( 'Comment marked as "spam": %s.', Comment::get_full_comment_name( $id ) ) );
-		}
-	}
-
-	/**
-	 * "unspam_comment" event.
-	 *
-	 * @since    1.4.0
-	 */
-	public function unspam_comment( $id, $comment ) {
-		if ( isset( $this->logger ) ) {
-			$this->logger->info( sprintf( 'Comment marked as "not spam": %s.', Comment::get_full_comment_name( $id ) ) );
-		}
-	}
-
-	/**
 	 * "transition_comment_status" event.
 	 *
 	 * @since    1.4.0
 	 */
-	public function transition_comment_status( $new_status, $old_status, $comment ) {
+	public function transition_comment_status( $new, $old, $comment ) {
+		if ( ! $comment instanceof \WP_Comment ) {
+			return;
+		} elseif ( 'approved' === $new && 'spam' !== $old ) {
+			$action = 'approved';
+		} elseif ( 'approved' === $new && 'spam' === $old ) {
+			$action = 'approved but marked as "spam"';
+		} elseif ( 'unapproved' === $new && 'spam' !== $old ) {
+			$action = 'unapproved';
+		} elseif ( 'unapproved' === $new && 'spam' === $old ) {
+			$action = 'unapproved and marked as "spam"';
+		} elseif ( 'spam' === $new ) {
+			$action = 'marked as "spam"';
+		} elseif ( 'unspam' === $new ) {
+			$action = 'marked as "not spam"';
+		} elseif ( 'trash' === $old && 'trash' !== $new ) {
+			$action = 'restored from trash';
+		} elseif ( 'pending' === $new ) {
+			$action = 'pending review';
+		} elseif ( 'trash' === $new ) {
+			$action = 'trashed';
+		} else {
+			$action = 'updated';
+		}
+		if ( isset( $this->logger ) ) {
+			$this->logger->info( sprintf( 'Comment %s: %s.', $action, Comment::get_full_comment_name( $comment ) ) );
+		}
+
+
+/*
+
 		if ( isset( $this->logger ) ) {
 			if ( 'approved' === $new_status ) {
 				$this->logger->info( sprintf( 'Comment approved: %s.', Comment::get_full_comment_name( $comment ) ) );
@@ -652,7 +616,7 @@ class CoreListener extends AbstractListener {
 			if ( 'unapproved' === $new_status ) {
 				$this->logger->info( sprintf( 'Comment unapproved: %s.', Comment::get_full_comment_name( $comment ) ) );
 			}
-		}
+		}*/
 	}
 
 	/**
@@ -955,7 +919,14 @@ class CoreListener extends AbstractListener {
 					foreach ( $data['translations'] as $translation ) {
 						switch ( $translation['type'] ) {
 							case 'plugin':
-								$d = get_plugin_data( WP_PLUGIN_DIR . '/' . $translation['slug'], false, false );
+								$file = '';
+								foreach (
+									scandir( WP_PLUGIN_DIR . '/' . $translation['slug'] . '/' ) as $item ) {
+									if ( strtolower( $translation['slug'] . '.php' ) === strtolower( $item ) ) {
+										$file = $item;
+									}
+								}
+								$d = get_plugin_data( WP_PLUGIN_DIR . '/' . $translation['slug'] . '/' . $file, false, false );
 								if ( is_array( $d ) && array_key_exists( 'Name', $d ) ) {
 									$components[] = $d['Name'] . ' (' . $translation['language'] . ')';
 								} else {
