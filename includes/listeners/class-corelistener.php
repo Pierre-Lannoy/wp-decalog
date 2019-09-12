@@ -97,6 +97,8 @@ class CoreListener extends AbstractListener {
 		// Users.
 		add_action( 'delete_user', [ $this, 'delete_user' ], 10, 2 );
 		add_action( 'user_register', [ $this, 'user_register' ], 10, 1 );
+		add_action( 'profile_update', [ $this, 'profile_update' ], 10, 2 );
+		add_action( 'set_user_role', [ $this, 'set_user_role' ], 10, 3 );
 		add_action( 'lostpassword_post', [ $this, 'lostpassword_post' ], 10, 1 );
 		add_action( 'password_reset', [ $this, 'password_reset' ], 10, 2 );
 		add_action( 'wp_logout', [ $this, 'wp_logout' ], 10, 0 );
@@ -464,6 +466,28 @@ class CoreListener extends AbstractListener {
 	public function user_register( $id ) {
 		if ( isset( $this->logger ) ) {
 			$this->logger->notice( sprintf( 'User created: %s.', $this->get_user( $id ) ) );
+		}
+	}
+
+	/**
+	 * "uprofile_update" event.
+	 *
+	 * @since    1.4.0
+	 */
+	public function profile_update( $user_id, $old_user_data = null ) {
+		if ( isset( $this->logger ) ) {
+			$this->logger->notice( sprintf( 'User updated: %s.', $this->get_user( $user_id ) ) );
+		}
+	}
+
+	/**
+	 * "set_user_role" event.
+	 *
+	 * @since    1.4.0
+	 */
+	public function set_user_role( $user_id, $role, $old_roles ) {
+		if ( isset( $this->logger ) ) {
+			$this->logger->notice( sprintf( 'Role "%s" added:  %s.', $role, $this->get_user( $user_id ) ) );
 		}
 	}
 

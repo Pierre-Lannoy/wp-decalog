@@ -5,10 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 ### Added
-- Full support for User Switching plugin.
+- Full support for [User Switching](https://wordpress.org/plugins/user-switching/) plugin.
 - New events in core listener for posts (trashed, untrashed, drafted, draft saved, published, privately published, scheduled, unscheduled, pending review).
-- New events in core listener for comments (created, edited, deleted, marked as "spam", marked as "not spam", trashed, untrashed, approved, unapproved, duplicate triggered).
-- New events in core listener for menus (created, edited, deleted, item added, item updated).
+- New events in core listener for comments (created, updated, deleted, marked as "spam", marked as "not spam", trashed, untrashed, approved, unapproved, duplicate triggered).
+- New events in core listener for menus (created, updated, deleted, item added, item updated).
+- New events in core listener for users (updated, role added).
 - New events in WPMU listener for users (marked as "spam", marked as "not spam").
 - The core listener can now detect plugin and theme installations/updates.
 - The core listener can now detect translations updates.
