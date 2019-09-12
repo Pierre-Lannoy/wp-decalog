@@ -65,7 +65,7 @@ class Blog {
 		if ( is_numeric( $id ) ) {
 			return sprintf( '"%s" (blog ID %s)', self::get_blog_name( $id ), $id );
 		}
-		if ( $id instanceof WP_Site ) {
+		if ( $id instanceof \WP_Site ) {
 			return sprintf( '"%s" (blog ID %s)', (string) $id->blogname, $id->id );
 		}
 		return 'unknow blog';
