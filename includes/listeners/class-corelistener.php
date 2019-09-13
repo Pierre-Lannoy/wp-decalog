@@ -629,18 +629,6 @@ class CoreListener extends AbstractListener {
 		if ( isset( $this->logger ) ) {
 			$this->logger->info( sprintf( 'Comment %s: %s.', $action, Comment::get_full_comment_name( $comment ) ) );
 		}
-
-
-/*
-
-		if ( isset( $this->logger ) ) {
-			if ( 'approved' === $new_status ) {
-				$this->logger->info( sprintf( 'Comment approved: %s.', Comment::get_full_comment_name( $comment ) ) );
-			}
-			if ( 'unapproved' === $new_status ) {
-				$this->logger->info( sprintf( 'Comment unapproved: %s.', Comment::get_full_comment_name( $comment ) ) );
-			}
-		}*/
 	}
 
 	/**
@@ -691,7 +679,6 @@ class CoreListener extends AbstractListener {
 			$this->logger->notice( $message );
 		}
 	}
-
 
 	/**
 	 * "phpmailer_init" event.

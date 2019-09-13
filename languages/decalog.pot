@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: DecaLog\n"
-"POT-Creation-Date: 2019-09-11 13:12+0200\n"
+"POT-Creation-Date: 2019-09-13 09:40+0200\n"
 "PO-Revision-Date: 2019-07-08 14:07+0200\n"
 "Last-Translator: Pierre Lannoy <pierre@lannoy.fr>\n"
 "Language-Team: Pierre Lannoy <pierre@lannoy.fr>\n"
@@ -63,7 +63,7 @@ msgstr ""
 msgid "Support"
 msgstr ""
 
-#: admin/class-decalog-admin.php:203 includes/features/class-events.php:683
+#: admin/class-decalog-admin.php:203 includes/features/class-events.php:685
 msgid "Site"
 msgstr ""
 
@@ -410,7 +410,7 @@ msgstr ""
 
 #: admin/partials/decalog-admin-view-events-bottom.php:21
 #: admin/partials/decalog-admin-view-events-top.php:21
-#: includes/features/class-events.php:646
+#: includes/features/class-events.php:648
 msgid "Apply"
 msgstr ""
 
@@ -496,17 +496,17 @@ msgid "Site ID %s"
 msgstr ""
 
 #: includes/features/class-events.php:214
-#: includes/features/class-eventviewer.php:337
+#: includes/features/class-eventviewer.php:336
 msgid "Anonymous user"
 msgstr ""
 
 #: includes/features/class-events.php:218
-#: includes/features/class-eventviewer.php:341
+#: includes/features/class-eventviewer.php:340
 msgid "Pseudonymized user"
 msgstr ""
 
 #: includes/features/class-events.php:221
-#: includes/features/class-eventviewer.php:344
+#: includes/features/class-eventviewer.php:343
 #, php-format
 msgid "User ID %s"
 msgstr ""
@@ -540,33 +540,33 @@ msgstr ""
 msgid "Show %d lines per page"
 msgstr ""
 
-#: includes/features/class-events.php:640
+#: includes/features/class-events.php:642
 msgid "Extra columns"
 msgstr ""
 
-#: includes/features/class-events.php:678
-#: includes/features/class-eventviewer.php:250
+#: includes/features/class-events.php:680
+#: includes/features/class-eventviewer.php:249
 #: includes/features/class-inlinehelp.php:351
 msgid "Event"
 msgstr ""
 
-#: includes/features/class-events.php:679
+#: includes/features/class-events.php:681
 msgid "Time"
 msgstr ""
 
-#: includes/features/class-events.php:680
+#: includes/features/class-events.php:682
 msgid "Message"
 msgstr ""
 
-#: includes/features/class-events.php:682
+#: includes/features/class-events.php:684
 msgid "Source"
 msgstr ""
 
-#: includes/features/class-events.php:684
+#: includes/features/class-events.php:686
 msgid "User"
 msgstr ""
 
-#: includes/features/class-events.php:685
+#: includes/features/class-events.php:687
 msgid "Remote IP"
 msgstr ""
 
@@ -626,63 +626,63 @@ msgstr ""
 msgid "A panic condition. WordPress is unusable."
 msgstr ""
 
-#: includes/features/class-eventviewer.php:135
+#: includes/features/class-eventviewer.php:134
 msgid "Boxes"
 msgstr ""
 
-#: includes/features/class-eventviewer.php:210
+#: includes/features/class-eventviewer.php:209
 msgid "Forbidden"
 msgstr ""
 
-#: includes/features/class-eventviewer.php:212
+#: includes/features/class-eventviewer.php:211
 msgid "The event or events log you tried to access is out of your scope."
 msgstr ""
 
-#: includes/features/class-eventviewer.php:213
+#: includes/features/class-eventviewer.php:212
 msgid ""
 "If you think this is an error, please contact the network administrator "
 "with these details:"
 msgstr ""
 
-#: includes/features/class-eventviewer.php:216
+#: includes/features/class-eventviewer.php:215
 #, php-format
 msgid "Events log: %s"
 msgstr ""
 
-#: includes/features/class-eventviewer.php:218
+#: includes/features/class-eventviewer.php:217
 #, php-format
 msgid "Event: %s"
 msgstr ""
 
-#: includes/features/class-eventviewer.php:252
+#: includes/features/class-eventviewer.php:251
 #: includes/features/class-inlinehelp.php:353
 #: includes/features/class-processortypes.php:64
 msgid "HTTP request"
 msgstr ""
 
-#: includes/features/class-eventviewer.php:253
+#: includes/features/class-eventviewer.php:252
 #: includes/features/class-inlinehelp.php:354
 #: includes/features/class-processortypes.php:51
 msgid "PHP introspection"
 msgstr ""
 
 #. translators: like in the sentence "PHP backtrace" or "WordPress backtrace"
-#: includes/features/class-eventviewer.php:256
-#: includes/features/class-eventviewer.php:258
+#: includes/features/class-eventviewer.php:255
+#: includes/features/class-eventviewer.php:257
 #: includes/features/class-inlinehelp.php:356
 #, php-format
 msgid "%s backtrace"
 msgstr ""
 
-#: includes/features/class-eventviewer.php:322
+#: includes/features/class-eventviewer.php:321
 msgid "Code:"
 msgstr ""
 
-#: includes/features/class-eventviewer.php:365
+#: includes/features/class-eventviewer.php:364
 msgid "obfuscated IP"
 msgstr ""
 
-#: includes/features/class-eventviewer.php:368
+#: includes/features/class-eventviewer.php:367
 #, php-format
 msgid "from %s."
 msgstr ""
@@ -996,7 +996,7 @@ msgstr ""
 #: includes/features/class-inlinehelp.php:144
 msgid ""
 "Can't set loggers, can only view events regarding their own sites in all "
-"WordPress events log."
+"authorized WordPress events log."
 msgstr ""
 
 #: includes/features/class-inlinehelp.php:157
@@ -1322,7 +1322,7 @@ msgstr ""
 msgid "<a href=\"%1$s\">%2$s %3$s</a>%4$s by %5$s (%6$s)"
 msgstr ""
 
-#: includes/listeners/class-corelistener.php:38
+#: includes/listeners/class-corelistener.php:39
 msgid "WordPress core"
 msgstr ""
 
