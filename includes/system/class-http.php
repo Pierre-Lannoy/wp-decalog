@@ -131,4 +131,23 @@ class Http {
 		return DECALOG_PRODUCT_NAME . ' (' . Environment::wordpress_version_id() . '; ' . Environment::plugin_version_id() . '; +' . DECALOG_PRODUCT_URL . ')';
 	}
 
+	/**
+	 * Get the top domain of a full fqdn host.
+	 *
+	 * @param string $host The host.
+	 * @return  string  The top domain.
+	 * @since  1.0.0
+	 */
+	public static function top_domain( $host ) {
+		if ( filter_var( $host, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6 | FILTER_FLAG_IPV4 ) ) {
+			return $host;
+		}
+		$parts       = explode( '.', $host );
+		$middle_part = array_slice( $parts, -2, 1 );
+		$mid         = $middle_part[0];
+		$slice       = ( ( strlen( $mid ) <= 3 ) && ( count( $parts ) > 2 ) ) ? 3 : 2;
+		$result      = implode( '.', array_slice( $parts, ( 0 - $slice ), $slice ) );
+		return $result;
+	}
+
 }
