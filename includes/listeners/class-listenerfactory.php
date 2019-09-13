@@ -44,6 +44,7 @@ class ListenerFactory {
 		'.',
 		'index.php',
 		'class-abstractlistener.php',
+		'class-jetpacklistener.php',
 		'class-listenerfactory.php',
 	];
 
