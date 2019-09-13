@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 - Plugin activation/deactivation give the full plugin name (instead of its slug).
 - Events regarding "options" and "transients" now differentiate site/network operations.
+- Events relating to HTTP error codes (outbound requests) are now classified according to their severity.
 - The word "blog" has been replaced by "site" in events messages.
 - Some help strings have been modified to be more clear.
 - Lower severity of serialized json messages (triggered by `wp_die` handler) from criticial to debug.
