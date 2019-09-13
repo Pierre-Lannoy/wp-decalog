@@ -175,7 +175,7 @@ class DLogger {
 		}
 		$this->in_test = isset( $test );
 		$factory       = new LoggerFactory();
-		$this->logger  = new Logger( $this->current_channel_tag(), [], [], Timezone::get_wp() );
+		$this->logger  = new Logger( $this->current_channel_tag(), [], [], Timezone::network_get() );
 		$handlers      = new HandlerTypes();
 		$diagnosis     = new HandlerDiagnosis();
 		$banned        = [];

@@ -307,7 +307,7 @@ class EventViewer {
 		$content .= '<span style="width:60%;cursor: default;">' . $this->get_icon( 'activity', 'none' ) . $channel . '</span>';
 		$event    = $this->get_section( $content );
 		// Event time.
-		$time    = Date::get_date_from_mysql_utc( $this->event['timestamp'], Timezone::get_wp()->getName(), 'Y-m-d H:i:s' );
+		$time    = Date::get_date_from_mysql_utc( $this->event['timestamp'], Timezone::network_get()->getName(), 'Y-m-d H:i:s' );
 		$dif     = Date::get_positive_time_diff_from_mysql_utc( $this->event['timestamp'] );
 		$content = '<span style="width:100%;cursor: default;">' . $this->get_icon( 'clock' ) . $time . '</span> <span style="color:silver">(' . $dif . ')</span>';
 		$hour    = $this->get_section( $content );

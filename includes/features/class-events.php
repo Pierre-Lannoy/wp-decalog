@@ -182,7 +182,7 @@ class Events extends \WP_List_Table {
 	 * @since   1.0.0
 	 */
 	protected function column_time( $item ) {
-		$result  = Date::get_date_from_mysql_utc( $item['timestamp'], Timezone::get_wp()->getName(), 'Y-m-d H:i:s' );
+		$result  = Date::get_date_from_mysql_utc( $item['timestamp'], Timezone::network_get()->getName(), 'Y-m-d H:i:s' );
 		$result .= '<br /><span style="color:silver">' . Date::get_positive_time_diff_from_mysql_utc( $item['timestamp'] ) . '</span>';
 		return $result;
 	}
