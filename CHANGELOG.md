@@ -5,9 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 ### Changed
+- Better IP reporting with local address fallback.
 - Better timezone detection for multisites.
 ### Fixed
-- In some cases, the remote IP is not correctly set.
+- In some cases, the remote IP is not correctly set (for sites behind a proxy).
 
 ## [1.4.0] - 2019-09-13
 ### Added

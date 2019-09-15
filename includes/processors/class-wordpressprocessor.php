@@ -71,6 +71,9 @@ class WordpressProcessor implements ProcessorInterface {
 		if ( array_key_exists( 'HTTP_X_REAL_IP', $_SERVER ) ) {
 			$ip = filter_input( INPUT_SERVER, 'HTTP_X_REAL_IP' );
 		}
+		if ( array_key_exists( 'X-FORWARDED_FOR', $_SERVER ) ) {
+			$ip = filter_input( INPUT_SERVER, 'FORWARDED_FOR' );
+		}
 		if ( $ip ) {
 			$record['extra']['ip'] = $ip;
 		} else {
