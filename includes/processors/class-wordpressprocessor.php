@@ -68,6 +68,9 @@ class WordpressProcessor implements ProcessorInterface {
 		$record['extra']['userid']   = User::get_current_user_id( 0 );
 		$record['extra']['username'] = User::get_current_user_name();
 		$ip                          = filter_input( INPUT_SERVER, 'REMOTE_ADDR' );
+		if ( array_key_exists( 'HTTP_X_REAL_IP', $_SERVER ) ) {
+			$ip = filter_input( INPUT_SERVER, 'HTTP_X_REAL_IP' );
+		}
 		if ( $ip ) {
 			$record['extra']['ip'] = $ip;
 		}

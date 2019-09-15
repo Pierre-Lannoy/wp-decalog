@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased]
 ### Changed
 - Better timezone detection for multisites.
+### Fixed
+- In some cases, the remote IP is not correctly set.
 
 ## [1.4.0] - 2019-09-13
 ### Added
