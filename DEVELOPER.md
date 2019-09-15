@@ -140,7 +140,7 @@ Here is an example that implements a simple ___listener___ able to listen the ac
          * @since    1.0.0
          */
         public function delete_content( $content_ID ) {
-            $this->logger->info( sprintf ( 'Content ID $s deleted', $content_ID ) );
+            $this->logger->info( sprintf ( 'Content ID %s deleted', $content_ID ) );
         }
     
     }  
