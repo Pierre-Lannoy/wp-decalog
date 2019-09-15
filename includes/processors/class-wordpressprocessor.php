@@ -73,6 +73,8 @@ class WordpressProcessor implements ProcessorInterface {
 		}
 		if ( $ip ) {
 			$record['extra']['ip'] = $ip;
+		} else {
+			$record['extra']['ip'] = '127.0.0.1';
 		}
 		if ( $this->obfuscation ) {
 			if ( array_key_exists( 'ip', $record['extra'] ) ) {
