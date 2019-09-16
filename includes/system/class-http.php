@@ -31,12 +31,52 @@ class Http {
 	public static $verbs = [ 'get', 'head', 'post', 'put', 'delete', 'connect', 'options', 'trace', 'patch', 'unknown' ];
 
 	/**
+	 * The list of available contexts.
+	 *
+	 * @since  1.0.0
+	 * @var    array    $contexts    Maintains the contexts list.
+	 */
+	public static $contexts = [ 'inbound', 'outbound', 'unknown' ];
+
+	/**
+	 * The list of available schemes.
+	 *
+	 * @since  1.0.0
+	 * @var    array    $schemes    Maintains the schemes list.
+	 */
+	public static $schemes = [ 'http', 'https', 'unknown' ];
+
+	/**
 	 * The list of HTTP codes meaning success.
 	 *
 	 * @since  1.0.0
 	 * @var    array    $http_success_codes    Maintains the success codes list.
 	 */
-	public static $http_success_codes = [ 200, 201, 202, 203, 204, 205, 206, 207, 300, 301, 302, 303, 304, 305, 306, 307, 308 ];
+	public static $http_success_codes = [ 100, 101, 102, 200, 201, 202, 203, 204, 205, 206, 207, 300, 301, 302, 303, 304, 305, 306, 307, 308 ];
+
+	/**
+	 * The list of HTTP codes meaning error.
+	 *
+	 * @since  1.0.0
+	 * @var    array    $http_error_codes    Maintains the error codes list.
+	 */
+	public static $http_error_codes = [ 0, 400, 401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417, 418, 419, 420, 422, 423, 424, 425, 426, 428, 429, 431, 444, 449, 450, 451, 494, 495, 496, 497, 499, 500, 501, 502, 503, 504, 505, 506, 507, 508, 509, 510, 511, 598, 599 ];
+
+	/**
+	 * The list of HTTP codes meaning global failure.
+	 *
+	 * @since  1.0.0
+	 * @var    array    $http_failure_codes    Maintains the failure codes list.
+	 */
+	public static $http_failure_codes = [ 0 ];
+
+	/**
+	 * The list of possible "not" sub TLDs.
+	 *
+	 * @since  1.0.0
+	 * @var    array    $not_sub_tlds    Maintains the possible "not" sub TLDs list.
+	 */
+	public static $not_sub_tlds = [ 'wp' ];
 
 	/**
 	 * The list of HTTP status.
@@ -45,6 +85,7 @@ class Http {
 	 * @var    array    $http_status_codes    Maintains the status list.
 	 */
 	public static $http_status_codes = [
+		000 => 'Global timeout',
 		100 => 'Continue',
 		101 => 'Switching Protocols',
 		102 => 'Processing',
@@ -119,7 +160,6 @@ class Http {
 		599 => 'Network connect timeout error',
 		999 => 'Forbidden by quota manager',
 	];
-
 	/**
 	 * Set the plugin user agent.
 	 *
@@ -146,9 +186,12 @@ class Http {
 		$parts       = explode( '.', $host );
 		$middle_part = array_slice( $parts, -2, 1 );
 		$mid         = $middle_part[0];
-		$slice       = ( ( strlen( $mid ) <= 3 ) && ( count( $parts ) > 2 ) ) ? 3 : 2;
-		$result      = implode( '.', array_slice( $parts, ( 0 - $slice ), $slice ) );
+		$subtld      = ( strlen( $mid ) <= 3 );
+		if ( in_array( $mid, self::$not_sub_tlds, true ) ) {
+			$subtld = false;
+		}
+		$slice  = ( $subtld && ( count( $parts ) > 2 ) ) ? 3 : 2;
+		$result = implode( '.', array_slice( $parts, ( 0 - $slice ), $slice ) );
 		return $result;
 	}
-
 }
