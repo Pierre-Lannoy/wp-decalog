@@ -117,6 +117,7 @@ class Http {
 		511 => 'Network Authentication Required',
 		598 => 'Network read timeout error',
 		599 => 'Network connect timeout error',
+		999 => 'Forbidden by quota manager',
 	];
 
 	/**
