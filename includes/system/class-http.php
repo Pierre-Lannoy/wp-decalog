@@ -55,12 +55,20 @@ class Http {
 	public static $http_success_codes = [ 100, 101, 102, 200, 201, 202, 203, 204, 205, 206, 207, 300, 301, 302, 303, 304, 305, 306, 307, 308 ];
 
 	/**
+	 * The list of HTTP codes meaning effective pass.
+	 *
+	 * @since  1.0.0
+	 * @var    array    $http_success_codes    Maintains the effective pass codes list.
+	 */
+	public static $http_effective_pass_codes = [ 200, 201, 202 ];
+
+	/**
 	 * The list of HTTP codes meaning error.
 	 *
 	 * @since  1.0.0
 	 * @var    array    $http_error_codes    Maintains the error codes list.
 	 */
-	public static $http_error_codes = [ 0, 400, 401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417, 418, 419, 420, 422, 423, 424, 425, 426, 428, 429, 431, 444, 449, 450, 451, 494, 495, 496, 497, 499, 500, 501, 502, 503, 504, 505, 506, 507, 508, 509, 510, 511, 598, 599 ];
+	public static $http_error_codes = [ 400, 401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417, 418, 419, 420, 422, 423, 424, 425, 426, 428, 429, 431, 444, 449, 450, 451, 494, 495, 496, 497, 499, 500, 501, 502, 503, 504, 505, 506, 507, 508, 509, 510, 511, 598, 599 ];
 
 	/**
 	 * The list of HTTP codes meaning global failure.
@@ -69,6 +77,14 @@ class Http {
 	 * @var    array    $http_failure_codes    Maintains the failure codes list.
 	 */
 	public static $http_failure_codes = [ 0 ];
+
+	/**
+	 * The list of HTTP codes meaning quota problems.
+	 *
+	 * @since  1.0.0
+	 * @var    array    $http_quota_codes    Maintains the quota problems codes list.
+	 */
+	public static $http_quota_codes = [ 429, 509, 999 ];
 
 	/**
 	 * The list of possible "not" sub TLDs.
