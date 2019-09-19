@@ -118,7 +118,7 @@ class WordpressHandler {
 			$sql            .= " `site_name` varchar(250) NOT NULL DEFAULT 'Unknown',";
 			$sql            .= " `user_id` varchar(66) NOT NULL DEFAULT '0',";  // Needed by SHA-256 pseudonymization.
 			$sql            .= " `user_name` varchar(250) NOT NULL DEFAULT 'Unknown',";
-			$sql            .= " `remote_ip` varchar(66) NOT NULL DEFAULT '0',";  // Needed by SHA-256 obfuscation.
+			$sql            .= " `remote_ip` varchar(66) NOT NULL DEFAULT '127.0.0.1',";  // Needed by SHA-256 obfuscation.
 			$sql            .= " `url` varchar(2083) NOT NULL DEFAULT '-',";
 			$sql            .= ' `verb` enum(' . $verbs . ") NOT NULL DEFAULT 'unknown',";
 			$sql            .= " `server` varchar(250) NOT NULL DEFAULT 'unknown',";

@@ -63,6 +63,8 @@ class WWWProcessor extends WebProcessor {
 		}
 		if ( ! array_key_exists( 'ip', $record['extra'] ) ) {
 			$record['extra']['ip'] = '127.0.0.1';
+		} elseif ( empty( $record['extra']['ip'] ) || '0' === $record['extra']['ip'] ) {
+			$record['extra']['ip'] = '127.0.0.1';
 		}
 		if ( $this->obfuscation ) {
 			if ( array_key_exists( 'ip', $record['extra'] ) ) {
