@@ -55,6 +55,24 @@ class Blog {
 	}
 
 	/**
+	 * Verify if a blog exist.
+	 *
+	 * @param   integer $id         The blog id.
+	 * @return  boolean  True if the blog exists, false otherwise.
+	 * @since   1.0.0
+	 */
+	public static function is_blog_exists( $id ) {
+		$result = false;
+		if ( $id && is_numeric( $id ) && $id > 0 && Environment::is_wordpress_multisite() ) {
+			$blog_info = get_blog_details( $id );
+			if ( is_object( $blog_info ) ) {
+				$result = $id === $blog_info->id;
+			}
+		}
+		return $result;
+	}
+
+	/**
 	 * Get a fully qualified blog name.
 	 *
 	 * @param   mixed $id         Optional. The blog id.
