@@ -9,6 +9,9 @@
 
 namespace Decalog\System;
 
+use Decalog\System\Environment;
+use Decalog\System\UUID;
+
 /**
  * The class responsible to handle assets management.
  *
@@ -33,7 +36,7 @@ class Assets {
 	 * @since 1.0.0
 	 */
 	public function prefetch() {
-		if ( Option::network_get( 'use_cdn' ) && DECALOG_CDN_AVAILABLE ) {
+		if ( Option::site_get( 'use_cdn' ) && DECALOG_CDN_AVAILABLE ) {
 			echo '<meta http-equiv="x-dns-prefetch-control" content="on">';
 			echo '<link rel="dns-prefetch" href="//cdn.jsdelivr.net" />';
 		}
@@ -56,7 +59,7 @@ class Assets {
 	 * @since  1.0.0
 	 */
 	public function register_style( $handle, $src, $file, $deps = [], $media = 'all' ) {
-		if ( Option::network_get( 'use_cdn' ) && DECALOG_CDN_AVAILABLE ) {
+		if ( Option::site_get( 'use_cdn' ) && DECALOG_CDN_AVAILABLE ) {
 			if ( DECALOG_ADMIN_URL === $src ) {
 				$file = 'https://cdn.jsdelivr.net/wp/' . DECALOG_SLUG . '/tags/' . DECALOG_VERSION . '/admin/' . $file;
 			} else {
@@ -65,7 +68,15 @@ class Assets {
 			// phpcs:ignore
 			return wp_register_style( $handle, $file, $deps, null, $media );
 		} else {
-			return wp_register_style( $handle, $src . $file, $deps, DECALOG_VERSION, $media );
+			if ( Environment::is_plugin_in_production_mode() ) {
+				$version = DECALOG_VERSION;
+			} else {
+				$version = UUID::generate_unique_id( 20 );
+			}
+			if ( Environment::is_plugin_in_dev_mode() ) {
+				$file = str_replace( '.min', '', $file );
+			}
+			return wp_register_style( $handle, $src . $file, $deps, $version, $media );
 		}
 	}
 
@@ -83,16 +94,24 @@ class Assets {
 	 * @since  1.0.0
 	 */
 	public function register_script( $handle, $src, $file, $deps = [] ) {
-		if ( Option::network_get( 'use_cdn' ) && DECALOG_CDN_AVAILABLE ) {
+		if ( Option::site_get( 'use_cdn' ) && DECALOG_CDN_AVAILABLE ) {
 			if ( DECALOG_ADMIN_URL === $src ) {
 				$file = 'https://cdn.jsdelivr.net/wp/' . DECALOG_SLUG . '/tags/' . DECALOG_VERSION . '/admin/' . $file;
 			} else {
 				$file = 'https://cdn.jsdelivr.net/wp/' . DECALOG_SLUG . '/tags/' . DECALOG_VERSION . '/public/' . $file;
 			}
 			// phpcs:ignore
-			return wp_register_script( $handle, $file, $deps, null, Option::network_get( 'script_in_footer' ) );
+			return wp_register_script( $handle, $file, $deps, null, Option::site_get( 'script_in_footer' ) );
 		} else {
-			return wp_register_script( $handle, $src . $file, $deps, DECALOG_VERSION, Option::network_get( 'script_in_footer' ) );
+			if ( Environment::is_plugin_in_production_mode() ) {
+				$version = DECALOG_VERSION;
+			} else {
+				$version = UUID::generate_unique_id( 20 );
+			}
+			if ( Environment::is_plugin_in_dev_mode() ) {
+				$file = str_replace( '.min', '', $file );
+			}
+			return wp_register_script( $handle, $src . $file, $deps, $version, Option::site_get( 'script_in_footer' ) );
 		}
 	}
 
