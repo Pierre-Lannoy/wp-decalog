@@ -52,4 +52,23 @@ class UUID {
 		);
 	}
 
+	/**
+	 * Generates a (pseudo) unique ID.
+	 * This function does not generate cryptographically secure values, and should not be used for cryptographic purposes.
+	 *
+	 * @param   integer $length     The length of the ID.
+	 * @return  string  The unique ID.
+	 * @since  1.0.0
+	 */
+	public static function generate_unique_id( $length = 10 ) {
+		$result = '';
+		do {
+			$s       = self::generate_v4();
+			$s       = str_replace( '-', date( 'his' ), $s );
+			$result .= $s;
+			$l       = strlen( $result );
+		} while ( $l < $length );
+		return substr( str_shuffle( $result ), 0, $length );
+	}
+
 }
