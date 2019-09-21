@@ -12,6 +12,7 @@
 namespace Decalog\System;
 
 use WP_User;
+use Decalog\System\I18n;
 
 /**
  * Define the localization functionality.
@@ -73,6 +74,22 @@ class L10n {
 		} else {
 			return '';
 		}
+	}
+
+	/**
+	 * Returns an appropriately localized display name for a country.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $country The ISO-2 country code.
+	 * @return string Display name of the region for the current locale.
+	 */
+	public static function get_country_name( $country ) {
+		$result = $country;
+		if ( I18n::is_extension_loaded() ) {
+			$result = \Locale::getDisplayRegion( '-' . strtoupper( $country ), self::get_display_locale() );
+		}
+		return $result;
 	}
 
 }

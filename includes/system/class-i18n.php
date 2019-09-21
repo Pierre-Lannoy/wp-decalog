@@ -24,6 +24,15 @@ namespace Decalog\System;
  */
 class I18n {
 
+	/**
+	 * Verification of internationalization extension.
+	 *
+	 * @return  boolean True if Intl PHP extension is loaded, false otherwise.
+	 * @since 1.0.0
+	 */
+	public static function is_extension_loaded() {
+		return ( class_exists( 'Locale' ) && class_exists( 'DateTimeZone' ) );
+	}
 
 	/**
 	 * Initializes the class and set its properties.
