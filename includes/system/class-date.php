@@ -77,4 +77,38 @@ class Date {
 		}
 	}
 
+	/**
+	 * Converts a integer number of seconds into an array.
+	 *
+	 * @param integer $age The age in seconds.
+	 * @param boolean $legend Optional. Add the legend.
+	 * @param boolean $abbrev Optional. Legend is abbreviated.
+	 * @return array Array of days, hours, minutes and seconds.
+	 * @since 1.0.0
+	 */
+	public static function get_age_array_from_seconds( $age, $legend = false, $abbrev = false ) {
+		if ( $abbrev ) {
+			$intervals = [
+				[ 60, _x( 'sec.', 'Abbreviation - Stands for "second".', 'decalog' ), _x( 'sec.', 'Abbreviation - Stands for "second".', 'decalog' ) ],
+				[ 60, _x( 'min.', 'Abbreviation - Stands for "minute".', 'decalog' ), _x( 'min.', 'Abbreviation - Stands for "minute".', 'decalog' ) ],
+				[ 100000, _x( 'hr.', 'Abbreviation - Stands for "hour".', 'decalog' ), _x( 'hr.', 'Abbreviation - Stands for "hour".', 'decalog' ) ],
+			];
+		} else {
+			$intervals = [
+				[ 60, _n( 'second', 'seconds', 1, 'decalog' ), _n( 'second', 'seconds', 2, 'decalog' ) ],
+				[ 60, _n( 'minute', 'minutes', 1, 'decalog' ), _n( 'minute', 'minutes', 2, 'decalog' ) ],
+				[ 100000, _n( 'hour', 'hours', 1, 'decalog' ), _n( 'hour', 'hours', 2, 'decalog' ) ],
+			];
+		}
+		$value = [];
+		foreach ( $intervals as $interval ) {
+			$val = $age % $interval[0];
+			$age = round( ( $age - $val ) / $interval[0], 0 );
+			if ( ( $val > 0 && $legend ) || ( $val >= 0 && ! $legend ) ) {
+				$value[] = $val . ( $legend ? ' ' . $interval[ ( 1 === $val ? 1 : 2 ) ] : '' );
+			}
+		}
+		return array_reverse( $value );
+	}
+
 }
