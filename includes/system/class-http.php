@@ -191,13 +191,22 @@ class Http {
 	/**
 	 * Get the top domain of a full fqdn host.
 	 *
-	 * @param string $host The host.
+	 * @param string  $host     The host.
+	 * @param boolean $resolve  Optional. Try to resolve the host name.
 	 * @return  string  The top domain.
 	 * @since  1.0.0
 	 */
-	public static function top_domain( $host ) {
+	public static function top_domain( $host, $resolve = true ) {
 		if ( filter_var( $host, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6 | FILTER_FLAG_IPV4 ) ) {
-			return $host;
+			if ( $resolve ) {
+				if ( filter_var( $host, FILTER_VALIDATE_IP, FILTER_FLAG_NO_RES_RANGE | FILTER_FLAG_NO_PRIV_RANGE ) ) {
+					return self::top_domain( gethostbyaddr( $host ), false );
+				} else {
+					return $host;
+				}
+			} else {
+				return $host;
+			}
 		}
 		$parts       = explode( '.', $host );
 		$middle_part = array_slice( $parts, -2, 1 );
