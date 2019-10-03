@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased]
 ### Changed
 - Finally better IP reporting with local address fallback.
+- Improved information message when in developer preview or release candidate version.
 
 ## [1.4.1] - 2019-09-17
 ### Changed

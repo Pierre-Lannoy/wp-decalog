@@ -13,10 +13,12 @@ use Decalog\System\Environment;
 
 $warning = '';
 if ( Environment::is_plugin_in_dev_mode() ) {
-	$warning = '<p>⚠️&nbsp;' . sprintf( esc_html__( 'This version of %s is not production-ready. It is a development preview. Use it at your own risk!', 'decalog' ), DECALOG_PRODUCT_NAME ) . '</p>';
+	$icon     = '<img style="width:16px;vertical-align:text-bottom;" src="' . \Feather\Icons::get_base64( 'alert-triangle', 'none', '#FF8C00' ) . '" />&nbsp;';
+	$warning .= '<p>' . $icon . sprintf( esc_html__( 'This version of %s is not production-ready. It is a development preview. Use it at your own risk!', 'decalog' ), DECALOG_PRODUCT_NAME ) . '</p>';
 }
 if ( Environment::is_plugin_in_rc_mode() ) {
-	$warning = '<p>⚠️&nbsp;' . sprintf( esc_html__( 'This version of %s is a release candidate. Although ready for production, this version is not officially supported in production environments.', 'decalog' ), DECALOG_PRODUCT_NAME ) . '</p>';
+	$icon     = '<img style="width:16px;vertical-align:text-bottom;" src="' . \Feather\Icons::get_base64( 'alert-triangle', 'none', '#FF8C00' ) . '" />&nbsp;';
+	$warning .= '<p>' . $icon . sprintf( esc_html__( 'This version of %s is a release candidate. Although ready for production, this version is not officially supported in production environments.', 'decalog' ), DECALOG_PRODUCT_NAME ) . '</p>';
 }
 
 $intro      = sprintf( esc_html__( '%1$s is a free and open source plugin for WordPress. It integrates other free and open source works (as-is or modified) like: %2$s.', 'decalog' ), '<em>' . DECALOG_PRODUCT_NAME . '</em>', do_shortcode( '[decalog-libraries]' ) );
