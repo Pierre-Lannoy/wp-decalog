@@ -4,6 +4,8 @@ All notable changes to **DecaLog** is documented in this *changelog*.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Compatibility with WordPress 5.3.
 ### Changed
 - Finally better IP reporting with local address fallback.
 - Improved information message when in developer preview or release candidate version.
