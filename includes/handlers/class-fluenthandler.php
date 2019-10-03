@@ -56,7 +56,7 @@ class FluentHandler extends SocketHandler {
 	 *
 	 * @param array $record The record to write.
 	 */
-	protected function write( array $record )/*: void*/ {
+	protected function write( array $record ): void {
 		try {
 			parent::write( $record );
 		} catch ( \Throwable $t ) {

@@ -30,19 +30,19 @@ class Logger implements LoggerInterface, ResettableInterface
     /**
      * Detailed debug information
      */
-    /*public*/ const DEBUG = 100;
+    public const DEBUG = 100;
 
     /**
      * Interesting events
      *
      * Examples: User logs in, SQL logs.
      */
-    /*public*/ const INFO = 200;
+    public const INFO = 200;
 
     /**
      * Uncommon events
      */
-    /*public*/ const NOTICE = 250;
+    public const NOTICE = 250;
 
     /**
      * Exceptional occurrences that are not errors
@@ -50,19 +50,19 @@ class Logger implements LoggerInterface, ResettableInterface
      * Examples: Use of deprecated APIs, poor use of an API,
      * undesirable things that are not necessarily wrong.
      */
-    /*public*/ const WARNING = 300;
+    public const WARNING = 300;
 
     /**
      * Runtime errors
      */
-    /*public*/ const ERROR = 400;
+    public const ERROR = 400;
 
     /**
      * Critical conditions
      *
      * Example: Application component unavailable, unexpected exception.
      */
-    /*public*/ const CRITICAL = 500;
+    public const CRITICAL = 500;
 
     /**
      * Action must be taken immediately
@@ -70,12 +70,12 @@ class Logger implements LoggerInterface, ResettableInterface
      * Example: Entire website down, database unavailable, etc.
      * This should trigger the SMS alerts and wake you up.
      */
-    /*public*/ const ALERT = 550;
+    public const ALERT = 550;
 
     /**
      * Urgent alert.
      */
-    /*public*/ const EMERGENCY = 600;
+    public const EMERGENCY = 600;
 
     /**
      * Monolog API version
@@ -85,7 +85,7 @@ class Logger implements LoggerInterface, ResettableInterface
      *
      * @var int
      */
-    /*public*/ const API = 2;
+    public const API = 2;
 
     /**
      * This is a static variable and not a constant to serve as an extension point for custom levels
@@ -145,7 +145,7 @@ class Logger implements LoggerInterface, ResettableInterface
      * @param callable[]         $processors Optional array of processors
      * @param DateTimeZone|null  $timezone   Optional timezone, if not provided date_default_timezone_get() will be used
      */
-    public function __construct(string $name, array $handlers = [], array $processors = [], /*?*/DateTimeZone $timezone = null)
+    public function __construct(string $name, array $handlers = [], array $processors = [], ?DateTimeZone $timezone = null)
     {
         $this->name = $name;
         $this->setHandlers($handlers);
@@ -343,7 +343,7 @@ class Logger implements LoggerInterface, ResettableInterface
      * This is useful at the end of a request and will be called automatically on every handler
      * when they get destructed.
      */
-    public function close()/*: void*/
+    public function close(): void
     {
         foreach ($this->handlers as $handler) {
             $handler->close();
@@ -360,7 +360,7 @@ class Logger implements LoggerInterface, ResettableInterface
      * have a long running process like a worker or an application server serving multiple requests
      * in one process.
      */
-    public function reset()/*: void*/
+    public function reset(): void
     {
         foreach ($this->handlers as $handler) {
             if ($handler instanceof ResettableInterface) {
@@ -445,14 +445,14 @@ class Logger implements LoggerInterface, ResettableInterface
      *
      * The callable will receive an exception object and the record that failed to be logged
      */
-    public function setExceptionHandler(/*?*/callable $callback): self
+    public function setExceptionHandler(?callable $callback): self
     {
         $this->exceptionHandler = $callback;
 
         return $this;
     }
 
-    public function getExceptionHandler(): /*?*/callable
+    public function getExceptionHandler(): ?callable
     {
         return $this->exceptionHandler;
     }
@@ -466,7 +466,7 @@ class Logger implements LoggerInterface, ResettableInterface
      * @param string $message The log message
      * @param array  $context The log context
      */
-    public function log($level, $message, array $context = [])/*: void*/
+    public function log($level, $message, array $context = []): void
     {
         $level = static::toMonologLevel($level);
 
@@ -481,7 +481,7 @@ class Logger implements LoggerInterface, ResettableInterface
      * @param string $message The log message
      * @param array  $context The log context
      */
-    public function debug($message, array $context = [])/*: void*/
+    public function debug($message, array $context = []): void
     {
         $this->addRecord(static::DEBUG, (string) $message, $context);
     }
@@ -494,7 +494,7 @@ class Logger implements LoggerInterface, ResettableInterface
      * @param string $message The log message
      * @param array  $context The log context
      */
-    public function info($message, array $context = [])/*: void*/
+    public function info($message, array $context = []): void
     {
         $this->addRecord(static::INFO, (string) $message, $context);
     }
@@ -507,7 +507,7 @@ class Logger implements LoggerInterface, ResettableInterface
      * @param string $message The log message
      * @param array  $context The log context
      */
-    public function notice($message, array $context = [])/*: void*/
+    public function notice($message, array $context = []): void
     {
         $this->addRecord(static::NOTICE, (string) $message, $context);
     }
@@ -520,7 +520,7 @@ class Logger implements LoggerInterface, ResettableInterface
      * @param string $message The log message
      * @param array  $context The log context
      */
-    public function warning($message, array $context = [])/*: void*/
+    public function warning($message, array $context = []): void
     {
         $this->addRecord(static::WARNING, (string) $message, $context);
     }
@@ -533,7 +533,7 @@ class Logger implements LoggerInterface, ResettableInterface
      * @param string $message The log message
      * @param array  $context The log context
      */
-    public function error($message, array $context = [])/*: void*/
+    public function error($message, array $context = []): void
     {
         $this->addRecord(static::ERROR, (string) $message, $context);
     }
@@ -546,7 +546,7 @@ class Logger implements LoggerInterface, ResettableInterface
      * @param string $message The log message
      * @param array  $context The log context
      */
-    public function critical($message, array $context = [])/*: void*/
+    public function critical($message, array $context = []): void
     {
         $this->addRecord(static::CRITICAL, (string) $message, $context);
     }
@@ -559,7 +559,7 @@ class Logger implements LoggerInterface, ResettableInterface
      * @param string $message The log message
      * @param array  $context The log context
      */
-    public function alert($message, array $context = [])/*: void*/
+    public function alert($message, array $context = []): void
     {
         $this->addRecord(static::ALERT, (string) $message, $context);
     }
@@ -572,7 +572,7 @@ class Logger implements LoggerInterface, ResettableInterface
      * @param string $message The log message
      * @param array  $context The log context
      */
-    public function emergency($message, array $context = [])/*: void*/
+    public function emergency($message, array $context = []): void
     {
         $this->addRecord(static::EMERGENCY, (string) $message, $context);
     }

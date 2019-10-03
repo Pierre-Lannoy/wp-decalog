@@ -51,9 +51,9 @@ class SlackHandler extends SocketHandler
     public function __construct(
         string $token,
         string $channel,
-        /*?*/string $username = null,
+        ?string $username = null,
         bool $useAttachment = true,
-        /*?*/string $iconEmoji = null,
+        ?string $iconEmoji = null,
         $level = Logger::CRITICAL,
         bool $bubble = true,
         bool $useShortAttachment = false,
@@ -138,7 +138,7 @@ class SlackHandler extends SocketHandler
     /**
      * {@inheritdoc}
      */
-    protected function write(array $record)/*: void*/
+    protected function write(array $record): void
     {
         parent::write($record);
         $this->finalizeWrite();
@@ -150,7 +150,7 @@ class SlackHandler extends SocketHandler
      * If we do not read some but close the socket too early, slack sometimes
      * drops the request entirely.
      */
-    protected function finalizeWrite()/*: void*/
+    protected function finalizeWrite(): void
     {
         $res = $this->getResource();
         if (is_resource($res)) {

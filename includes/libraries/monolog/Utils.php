@@ -23,7 +23,7 @@ final class Utils
         return 'c' === $class[0] && 0 === strpos($class, "class@anonymous\0") ? get_parent_class($class).'@anonymous' : $class;
     }
 
-    public static function substr(string $string, int $start, /*?*/int $length = null)
+    public static function substr(string $string, int $start, ?int $length = null)
     {
         if (extension_loaded('mbstring')) {
             return mb_strcut($string, $start, $length);

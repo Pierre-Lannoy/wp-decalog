@@ -74,7 +74,7 @@ class FlowdockHandler extends SocketHandler
      *
      * @param array $record
      */
-    protected function write(array $record)/*: void*/
+    protected function write(array $record): void
     {
         parent::write($record);
 

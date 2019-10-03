@@ -126,7 +126,7 @@ class FilterHandler extends Handler implements ProcessableHandlerInterface, Rese
     /**
      * {@inheritdoc}
      */
-    public function handleBatch(array $records)/*: void*/
+    public function handleBatch(array $records): void
     {
         $filtered = [];
         foreach ($records as $record) {

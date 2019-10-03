@@ -26,7 +26,7 @@ use Monolog\Logger;
  */
 class DynamoDbHandler extends AbstractProcessingHandler
 {
-    /*public*/ const DATE_FORMAT = 'Y-m-d\TH:i:s.uO';
+    public const DATE_FORMAT = 'Y-m-d\TH:i:s.uO';
 
     /**
      * @var DynamoDbClient
@@ -69,7 +69,7 @@ class DynamoDbHandler extends AbstractProcessingHandler
     /**
      * {@inheritdoc}
      */
-    protected function write(array $record)/*: void*/
+    protected function write(array $record): void
     {
         $filtered = $this->filterEmptyFields($record['formatted']);
         if ($this->version === 3) {

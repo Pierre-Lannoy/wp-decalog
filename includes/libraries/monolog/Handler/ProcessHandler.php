@@ -51,7 +51,7 @@ class ProcessHandler extends AbstractProcessingHandler
     /**
      * @var array
      */
-    /*protected*/ const DESCRIPTOR_SPEC = [
+    protected const DESCRIPTOR_SPEC = [
         0 => ['pipe', 'r'],  // STDIN is a pipe that the child will read from
         1 => ['pipe', 'w'],  // STDOUT is a pipe that the child will write to
         2 => ['pipe', 'w'],  // STDERR is a pipe to catch the any errors
@@ -65,7 +65,7 @@ class ProcessHandler extends AbstractProcessingHandler
      * @param  string|null               $cwd     "Current working directory" (CWD) for the process to be executed in.
      * @throws \InvalidArgumentException
      */
-    public function __construct(string $command, $level = Logger::DEBUG, bool $bubble = true, /*?*/string $cwd = null)
+    public function __construct(string $command, $level = Logger::DEBUG, bool $bubble = true, ?string $cwd = null)
     {
         if ($command === '') {
             throw new \InvalidArgumentException('The command argument must be a non-empty string.');
@@ -85,7 +85,7 @@ class ProcessHandler extends AbstractProcessingHandler
      *
      * @throws \UnexpectedValueException
      */
-    protected function write(array $record)/*: void*/
+    protected function write(array $record): void
     {
         $this->ensureProcessIsStarted();
 
@@ -101,7 +101,7 @@ class ProcessHandler extends AbstractProcessingHandler
      * Makes sure that the process is actually started, and if not, starts it,
      * assigns the stream pipes, and handles startup errors, if any.
      */
-    private function ensureProcessIsStarted()/*: void*/
+    private function ensureProcessIsStarted(): void
     {
         if (is_resource($this->process) === false) {
             $this->startProcess();
@@ -113,7 +113,7 @@ class ProcessHandler extends AbstractProcessingHandler
     /**
      * Starts the actual process and sets all streams to non-blocking.
      */
-    private function startProcess()/*: void*/
+    private function startProcess(): void
     {
         $this->process = proc_open($this->command, static::DESCRIPTOR_SPEC, $this->pipes, $this->cwd);
 
@@ -127,7 +127,7 @@ class ProcessHandler extends AbstractProcessingHandler
      *
      * @throws \UnexpectedValueException
      */
-    private function handleStartupErrors()/*: void*/
+    private function handleStartupErrors(): void
     {
         $selected = $this->selectErrorStream();
         if (false === $selected) {
@@ -172,7 +172,7 @@ class ProcessHandler extends AbstractProcessingHandler
      *
      * @codeCoverageIgnore
      */
-    protected function writeProcessInput(string $string)/*: void*/
+    protected function writeProcessInput(string $string): void
     {
         fwrite($this->pipes[0], $string);
     }
@@ -180,7 +180,7 @@ class ProcessHandler extends AbstractProcessingHandler
     /**
      * {@inheritdoc}
      */
-    public function close()/*: void*/
+    public function close(): void
     {
         if (is_resource($this->process)) {
             foreach ($this->pipes as $pipe) {

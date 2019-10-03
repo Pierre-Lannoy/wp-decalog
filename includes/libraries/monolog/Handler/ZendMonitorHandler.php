@@ -59,7 +59,7 @@ class ZendMonitorHandler extends AbstractProcessingHandler
     /**
      * {@inheritdoc}
      */
-    protected function write(array $record)/*: void*/
+    protected function write(array $record): void
     {
         $this->writeZendMonitorCustomEvent(
             Logger::getLevelName($record['level']),
@@ -76,7 +76,7 @@ class ZendMonitorHandler extends AbstractProcessingHandler
      * @param mixed $formatted Displayed in Custom Variables tab
      * @param int $severity Set the event severity level (-1,0,1)
      */
-    protected function writeZendMonitorCustomEvent(string $type, string $message, array $formatted, int $severity)/*: void*/
+    protected function writeZendMonitorCustomEvent(string $type, string $message, array $formatted, int $severity): void
     {
         zend_monitor_custom_event($type, $message, $formatted, $severity);
     }

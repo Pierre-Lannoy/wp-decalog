@@ -72,7 +72,7 @@ class PHPConsoleHandler extends AbstractProcessingHandler
      * @param  bool              $bubble    Whether the messages that are handled can bubble up the stack or not.
      * @throws \RuntimeException
      */
-    public function __construct(array $options = [], /*?*/Connector $connector = null, $level = Logger::DEBUG, bool $bubble = true)
+    public function __construct(array $options = [], ?Connector $connector = null, $level = Logger::DEBUG, bool $bubble = true)
     {
         if (!class_exists('PhpConsole\Connector')) {
             throw new \RuntimeException('PHP Console library not found. See https://github.com/barbushin/php-console#installation');
@@ -95,7 +95,7 @@ class PHPConsoleHandler extends AbstractProcessingHandler
     /**
      * @suppress PhanTypeMismatchArgument
      */
-    private function initConnector(/*?*/Connector $connector = null): Connector
+    private function initConnector(?Connector $connector = null): Connector
     {
         if (!$connector) {
             if ($this->options['dataStorage']) {
@@ -172,7 +172,7 @@ class PHPConsoleHandler extends AbstractProcessingHandler
     /**
      * Writes the record down to the log of the implementing handler
      */
-    protected function write(array $record)/*: void*/
+    protected function write(array $record): void
     {
         if ($record['level'] < Logger::NOTICE) {
             $this->handleDebugRecord($record);
@@ -183,7 +183,7 @@ class PHPConsoleHandler extends AbstractProcessingHandler
         }
     }
 
-    private function handleDebugRecord(array $record)/*: void*/
+    private function handleDebugRecord(array $record): void
     {
         $tags = $this->getRecordTags($record);
         $message = $record['message'];
@@ -193,12 +193,12 @@ class PHPConsoleHandler extends AbstractProcessingHandler
         $this->connector->getDebugDispatcher()->dispatchDebug($message, $tags, $this->options['classesPartialsTraceIgnore']);
     }
 
-    private function handleExceptionRecord(array $record)/*: void*/
+    private function handleExceptionRecord(array $record): void
     {
         $this->connector->getErrorsDispatcher()->dispatchException($record['context']['exception']);
     }
 
-    private function handleErrorRecord(array $record)/*: void*/
+    private function handleErrorRecord(array $record): void
     {
         $context = $record['context'];
 

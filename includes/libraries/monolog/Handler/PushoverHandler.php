@@ -85,7 +85,7 @@ class PushoverHandler extends SocketHandler
     public function __construct(
         string $token,
         $users,
-        /*?*/string $title = null,
+        ?string $title = null,
         $level = Logger::CRITICAL,
         bool $bubble = true,
         bool $useSSL = true,
@@ -165,7 +165,7 @@ class PushoverHandler extends SocketHandler
         return $header;
     }
 
-    protected function write(array $record)/*: void*/
+    protected function write(array $record): void
     {
         foreach ($this->users as $user) {
             $this->user = $user;

@@ -29,17 +29,17 @@ class ChromePHPHandler extends AbstractProcessingHandler
     /**
      * Version of the extension
      */
-    /*protected*/ const VERSION = '4.0';
+    protected const VERSION = '4.0';
 
     /**
      * Header name
      */
-    /*protected*/ const HEADER_NAME = 'X-ChromeLogger-Data';
+    protected const HEADER_NAME = 'X-ChromeLogger-Data';
 
     /**
      * Regular expression to detect supported browsers (matches any Chrome, or Firefox 43+)
      */
-    /*protected*/ const USER_AGENT_REGEX = '{\b(?:Chrome/\d+(?:\.\d+)*|HeadlessChrome|Firefox/(?:4[3-9]|[5-9]\d|\d{3,})(?:\.\d)*)\b}';
+    protected const USER_AGENT_REGEX = '{\b(?:Chrome/\d+(?:\.\d+)*|HeadlessChrome|Firefox/(?:4[3-9]|[5-9]\d|\d{3,})(?:\.\d)*)\b}';
 
     protected static $initialized = false;
 
@@ -75,7 +75,7 @@ class ChromePHPHandler extends AbstractProcessingHandler
     /**
      * {@inheritdoc}
      */
-    public function handleBatch(array $records)/*: void*/
+    public function handleBatch(array $records): void
     {
         if (!$this->isWebRequest()) {
             return;
@@ -111,7 +111,7 @@ class ChromePHPHandler extends AbstractProcessingHandler
      * @see sendHeader()
      * @see send()
      */
-    protected function write(array $record)/*: void*/
+    protected function write(array $record): void
     {
         if (!$this->isWebRequest()) {
             return;
@@ -127,7 +127,7 @@ class ChromePHPHandler extends AbstractProcessingHandler
      *
      * @see sendHeader()
      */
-    protected function send()/*: void*/
+    protected function send(): void
     {
         if (self::$overflowed || !self::$sendHeaders) {
             return;
@@ -146,15 +146,15 @@ class ChromePHPHandler extends AbstractProcessingHandler
 
         $json = @json_encode(self::$json);
         $data = base64_encode(utf8_encode($json));
-        if (strlen($data) > 3.2 * 1024) {
+        if (strlen($data) > 3 * 1024) {
             self::$overflowed = true;
 
             $record = [
-                'message' => 'Incomplete logs, chrome header size limit reached, see https://www.bleepingcomputer.com/news/security/google-chrome-to-limit-referer-header-size-to-block-attacks/',
+                'message' => 'Incomplete logs, chrome header size limit reached',
                 'context' => [],
                 'level' => Logger::WARNING,
                 'level_name' => Logger::getLevelName(Logger::WARNING),
-                'channel' => 'DecaLog',
+                'channel' => 'monolog',
                 'datetime' => new \DateTimeImmutable(),
                 'extra' => [],
             ];
@@ -171,7 +171,7 @@ class ChromePHPHandler extends AbstractProcessingHandler
     /**
      * Send header string to the client
      */
-    protected function sendHeader(string $header, string $content)/*: void*/
+    protected function sendHeader(string $header, string $content): void
     {
         if (!headers_sent() && self::$sendHeaders) {
             header(sprintf('%s: %s', $header, $content));
