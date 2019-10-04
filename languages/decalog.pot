@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: DecaLog\n"
-"POT-Creation-Date: 2019-09-13 09:40+0200\n"
+"POT-Creation-Date: 2019-10-04 10:45+0200\n"
 "PO-Revision-Date: 2019-07-08 14:07+0200\n"
 "Last-Translator: Pierre Lannoy <pierre@lannoy.fr>\n"
 "Language-Team: Pierre Lannoy <pierre@lannoy.fr>\n"
@@ -72,7 +72,7 @@ msgstr ""
 msgid "GitHub repository"
 msgstr ""
 
-#: admin/class-decalog-admin.php:260 admin/class-decalog-admin.php:673
+#: admin/class-decalog-admin.php:260 admin/class-decalog-admin.php:674
 msgid "New logger"
 msgstr ""
 
@@ -114,248 +114,260 @@ msgstr ""
 msgid "Listeners settings have not been reset to defaults. Please try again."
 msgstr ""
 
-#: admin/class-decalog-admin.php:458
+#: admin/class-decalog-admin.php:459
 msgid "Plugin settings have been saved."
 msgstr ""
 
-#: admin/class-decalog-admin.php:463
+#: admin/class-decalog-admin.php:464
 msgid "Plugin settings have not been saved. Please try again."
 msgstr ""
 
-#: admin/class-decalog-admin.php:480
+#: admin/class-decalog-admin.php:481
 msgid "Plugin settings have been reset to defaults."
 msgstr ""
 
-#: admin/class-decalog-admin.php:485
+#: admin/class-decalog-admin.php:486
 msgid "Plugin settings have not been reset to defaults. Please try again."
 msgstr ""
 
-#: admin/class-decalog-admin.php:537
+#: admin/class-decalog-admin.php:538
 #, php-format
 msgid "Logger %s has been saved."
 msgstr ""
 
-#: admin/class-decalog-admin.php:543
+#: admin/class-decalog-admin.php:544
 #, php-format
 msgid "Logger %s has not been saved. Please try again."
 msgstr ""
 
-#: admin/class-decalog-admin.php:567
+#: admin/class-decalog-admin.php:568
 #, php-format
 msgid "Logger %s has been removed."
 msgstr ""
 
-#: admin/class-decalog-admin.php:573
+#: admin/class-decalog-admin.php:574
 #, php-format
 msgid "Logger %s has not been removed. Please try again."
 msgstr ""
 
-#: admin/class-decalog-admin.php:590
+#: admin/class-decalog-admin.php:591
 msgid "Activate"
 msgstr ""
 
-#: admin/class-decalog-admin.php:596
+#: admin/class-decalog-admin.php:597
 msgid "Selected listeners"
 msgstr ""
 
-#: admin/class-decalog-admin.php:597
+#: admin/class-decalog-admin.php:598
 msgid "All available listeners (recommended)"
 msgstr ""
 
-#: admin/class-decalog-admin.php:601
+#: admin/class-decalog-admin.php:602
 msgid "Automatically or selectively choose which sources to listen."
 msgstr ""
 
-#: admin/class-decalog-admin.php:635
+#: admin/class-decalog-admin.php:636
 msgid "Standard listeners"
 msgstr ""
 
-#: admin/class-decalog-admin.php:636
+#: admin/class-decalog-admin.php:637
 msgid "Plugin listeners"
 msgstr ""
 
-#: admin/class-decalog-admin.php:637
+#: admin/class-decalog-admin.php:638
 msgid "Theme listeners"
 msgstr ""
 
-#: admin/class-decalog-admin.php:678
+#: admin/class-decalog-admin.php:679
 msgid "Auto-start"
 msgstr ""
 
-#: admin/class-decalog-admin.php:681
+#: admin/class-decalog-admin.php:682
 msgid "If checked, when a new logger is added it automatically starts."
 msgstr ""
 
-#: admin/class-decalog-admin.php:689
+#: admin/class-decalog-admin.php:690
 msgid "Events messages"
 msgstr ""
 
-#: admin/class-decalog-admin.php:694
+#: admin/class-decalog-admin.php:695
 msgid "Respect privacy"
 msgstr ""
 
-#: admin/class-decalog-admin.php:697
+#: admin/class-decalog-admin.php:698
 msgid ""
 "If checked, DecaLog will try to obfuscate personal information in events "
 "messages."
 msgstr ""
 
-#: admin/class-decalog-admin.php:705
+#: admin/class-decalog-admin.php:706
 msgid "Rules"
 msgstr ""
 
-#: admin/class-decalog-admin.php:710
+#: admin/class-decalog-admin.php:711
 msgid "Respect WP_DEBUG"
 msgstr ""
 
-#: admin/class-decalog-admin.php:713
+#: admin/class-decalog-admin.php:714
 msgid ""
 "If checked, the value of WP_DEBUG will override each logger's settings for "
 "minimal level of logging."
 msgstr ""
 
-#: admin/class-decalog-admin.php:730
+#: admin/class-decalog-admin.php:731
+msgid "Resources"
+msgstr ""
+
+#: admin/class-decalog-admin.php:736
+msgid "Use public CDN"
+msgstr ""
+
+#: admin/class-decalog-admin.php:739
+msgid "Use CDN (jsDelivr) to serve DecaLog scripts and stylesheets."
+msgstr ""
+
+#: admin/class-decalog-admin.php:747
 msgid "Plugin updates"
 msgstr ""
 
-#: admin/class-decalog-admin.php:735
+#: admin/class-decalog-admin.php:752
 msgid "Automatic (recommended)"
 msgstr ""
 
-#: admin/class-decalog-admin.php:738
+#: admin/class-decalog-admin.php:755
 msgid ""
 "If checked, DecaLog will update itself as soon as a new version is "
 "available."
 msgstr ""
 
-#: admin/class-decalog-admin.php:746
+#: admin/class-decalog-admin.php:763
 msgid "Admin notices"
 msgstr ""
 
-#: admin/class-decalog-admin.php:751
+#: admin/class-decalog-admin.php:768
 msgid "Display"
 msgstr ""
 
-#: admin/class-decalog-admin.php:754
+#: admin/class-decalog-admin.php:771
 msgid ""
 "Allows DecaLog to display admin notices throughout the admin dashboard."
 msgstr ""
 
-#: admin/class-decalog-admin.php:754
+#: admin/class-decalog-admin.php:771
 msgid "Note: DecaLog respects DISABLE_NAG_NOTICES flag."
 msgstr ""
 
-#: admin/class-decalog-admin.php:775 admin/class-decalog-admin.php:819
+#: admin/class-decalog-admin.php:792 admin/class-decalog-admin.php:836
 msgid "Name"
 msgstr ""
 
-#: admin/class-decalog-admin.php:782
+#: admin/class-decalog-admin.php:799
 msgid "Used only in admin dashboard."
 msgstr ""
 
-#: admin/class-decalog-admin.php:790 admin/class-decalog-admin.php:834
+#: admin/class-decalog-admin.php:807 admin/class-decalog-admin.php:851
 #: includes/features/class-loggers.php:236
 msgid "Minimal level"
 msgstr ""
 
-#: admin/class-decalog-admin.php:798
+#: admin/class-decalog-admin.php:815
 msgid ""
 "Minimal reported level. May be overridden by the \"respect WP_DEBUG "
 "directive\" option."
 msgstr ""
 
-#: admin/class-decalog-admin.php:860
+#: admin/class-decalog-admin.php:877
 msgid "Log file"
 msgstr ""
 
-#: admin/class-decalog-admin.php:867
+#: admin/class-decalog-admin.php:884
 msgid "Value set in php.ini file."
 msgstr ""
 
-#: admin/class-decalog-admin.php:881
+#: admin/class-decalog-admin.php:898
 msgid "Enabled"
 msgstr ""
 
-#: admin/class-decalog-admin.php:915
+#: admin/class-decalog-admin.php:932
 msgid "Remote IPs"
 msgstr ""
 
-#: admin/class-decalog-admin.php:920
+#: admin/class-decalog-admin.php:937
 msgid "Obfuscation"
 msgstr ""
 
-#: admin/class-decalog-admin.php:923
+#: admin/class-decalog-admin.php:940
 msgid "If checked, log fields will contain hashes instead of real IPs."
 msgstr ""
 
-#: admin/class-decalog-admin.php:923 admin/class-decalog-admin.php:939
+#: admin/class-decalog-admin.php:940 admin/class-decalog-admin.php:956
 msgid "Note: it concerns all fields except events messages."
 msgstr ""
 
-#: admin/class-decalog-admin.php:931
+#: admin/class-decalog-admin.php:948
 msgid "Users"
 msgstr ""
 
-#: admin/class-decalog-admin.php:936
+#: admin/class-decalog-admin.php:953
 msgid "Pseudonymisation"
 msgstr ""
 
-#: admin/class-decalog-admin.php:939
+#: admin/class-decalog-admin.php:956
 msgid ""
 "If checked, log fields will contain hashes instead of user IDs & names."
 msgstr ""
 
-#: admin/class-decalog-admin.php:957 includes/features/class-loggers.php:207
+#: admin/class-decalog-admin.php:974 includes/features/class-loggers.php:207
 msgid "Standard"
 msgstr ""
 
-#: admin/class-decalog-admin.php:962 admin/class-decalog-admin.php:981
+#: admin/class-decalog-admin.php:979 admin/class-decalog-admin.php:998
 msgid "Included"
 msgstr ""
 
-#: admin/class-decalog-admin.php:965
+#: admin/class-decalog-admin.php:982
 msgid "Allows to log standard DecaLog information."
 msgstr ""
 
-#: admin/partials/decalog-admin-settings-about.php:16
+#: admin/partials/decalog-admin-settings-about.php:20
 #, php-format
 msgid ""
 "This version of %s is not production-ready. It is a development preview. "
 "Use it at your own risk!"
 msgstr ""
 
-#: admin/partials/decalog-admin-settings-about.php:19
+#: admin/partials/decalog-admin-settings-about.php:24
 #, php-format
 msgid ""
 "This version of %s is a release candidate. Although ready for production, "
 "this version is not officially supported in production environments."
 msgstr ""
 
-#: admin/partials/decalog-admin-settings-about.php:22
+#: admin/partials/decalog-admin-settings-about.php:27
 #, php-format
 msgid ""
 "%1$s is a free and open source plugin for WordPress. It integrates other "
 "free and open source works (as-is or modified) like: %2$s."
 msgstr ""
 
-#: admin/partials/decalog-admin-settings-about.php:23
+#: admin/partials/decalog-admin-settings-about.php:28
 msgid ""
 "All brands, icons and graphic illustrations are registered trademarks of "
 "their respective owners."
 msgstr ""
 
-#: admin/partials/decalog-admin-settings-about.php:25
+#: admin/partials/decalog-admin-settings-about.php:30
 #, php-format
 msgid ""
 "This plugin is not an official software from %s and, as such, is not "
 "endorsed or supported by these companies."
 msgstr ""
 
-#: admin/partials/decalog-admin-settings-about.php:31
+#: admin/partials/decalog-admin-settings-about.php:37
 msgid "Disclaimer"
 msgstr ""
 
-#: admin/partials/decalog-admin-settings-about.php:35
+#: admin/partials/decalog-admin-settings-about.php:41
 msgid "Changelog"
 msgstr ""
 
@@ -1348,6 +1360,71 @@ msgstr ""
 msgid "Sorry, unable to find or read changelog file."
 msgstr ""
 
+#: includes/system/class-conversion.php:45
+msgctxt "Abbreviation - Stands for \"thousand\"."
+msgid "K"
+msgstr ""
+
+#: includes/system/class-conversion.php:46
+msgctxt "Abbreviation - Stands for \"million\"."
+msgid "M"
+msgstr ""
+
+#: includes/system/class-conversion.php:47
+msgctxt "Abbreviation - Stands for \"billion\"."
+msgid "B"
+msgstr ""
+
+#: includes/system/class-conversion.php:48
+msgctxt "Abbreviation - Stands for \"trillion\"."
+msgid "T"
+msgstr ""
+
+#: includes/system/class-conversion.php:49
+msgctxt "Abbreviation - Stands for \"quadrillion\"."
+msgid "Qa"
+msgstr ""
+
+#: includes/system/class-conversion.php:50
+msgctxt "Abbreviation - Stands for \"quintillion\"."
+msgid "Qi"
+msgstr ""
+
+#: includes/system/class-conversion.php:80
+msgctxt "Abbreviation - Stands for \"byte\"."
+msgid "B"
+msgstr ""
+
+#: includes/system/class-conversion.php:81
+msgctxt "Abbreviation - Stands for \"kilobytes\"."
+msgid "KB"
+msgstr ""
+
+#: includes/system/class-conversion.php:82
+msgctxt "Abbreviation - Stands for \"megabytes\"."
+msgid "MB"
+msgstr ""
+
+#: includes/system/class-conversion.php:83
+msgctxt "Abbreviation - Stands for \"gigabytes\"."
+msgid "GB"
+msgstr ""
+
+#: includes/system/class-conversion.php:84
+msgctxt "Abbreviation - Stands for \"terabytes\"."
+msgid "TB"
+msgstr ""
+
+#: includes/system/class-conversion.php:85
+msgctxt "Abbreviation - Stands for \"betabytes\"."
+msgid "PB"
+msgstr ""
+
+#: includes/system/class-conversion.php:86
+msgctxt "Abbreviation - Stands for \"Exabytes\"."
+msgid "EB"
+msgstr ""
+
 #: includes/system/class-date.php:57 includes/system/class-date.php:73
 #, php-format
 msgid "%s ago"
@@ -1361,6 +1438,39 @@ msgstr ""
 #, php-format
 msgid "in %s"
 msgstr ""
+
+#: includes/system/class-date.php:92
+msgctxt "Abbreviation - Stands for \"second\"."
+msgid "sec."
+msgstr ""
+
+#: includes/system/class-date.php:93
+msgctxt "Abbreviation - Stands for \"minute\"."
+msgid "min."
+msgstr ""
+
+#: includes/system/class-date.php:94
+msgctxt "Abbreviation - Stands for \"hour\"."
+msgid "hr."
+msgstr ""
+
+#: includes/system/class-date.php:98
+msgid "second"
+msgid_plural "seconds"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/system/class-date.php:99
+msgid "minute"
+msgid_plural "minutes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/system/class-date.php:100
+msgid "hour"
+msgid_plural "hours"
+msgstr[0] ""
+msgstr[1] ""
 
 #: includes/system/class-environment.php:204
 msgid "log"
