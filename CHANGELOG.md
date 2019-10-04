@@ -6,9 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased]
 ### Added
 - Compatibility with WordPress 5.3.
+- It's now possible to use public CDN to serve DecaLog scripts and stylesheets (see _Settings | DecaLog | Options_).
 ### Changed
 - Finally better IP reporting with local address fallback.
 - Improved information message when in developer preview or release candidate version.
+- The right logo is now displayed in the "about box".
 ### Removed
 - "Compatibility Mode" for Monolog 2, as wp.org [now allows](https://meta.trac.wordpress.org/ticket/3791) PHP7.1+ code.
 

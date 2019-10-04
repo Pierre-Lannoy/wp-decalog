@@ -21,7 +21,6 @@ use Decalog\System\UUID;
  */
 class Assets {
 
-
 	/**
 	 * Initializes the class and set its properties.
 	 *
@@ -36,7 +35,7 @@ class Assets {
 	 * @since 1.0.0
 	 */
 	public function prefetch() {
-		if ( Option::site_get( 'use_cdn' ) && DECALOG_CDN_AVAILABLE ) {
+		if ( Option::network_get( 'use_cdn' ) && DECALOG_CDN_AVAILABLE ) {
 			echo '<meta http-equiv="x-dns-prefetch-control" content="on">';
 			echo '<link rel="dns-prefetch" href="//cdn.jsdelivr.net" />';
 		}
@@ -59,7 +58,7 @@ class Assets {
 	 * @since  1.0.0
 	 */
 	public function register_style( $handle, $src, $file, $deps = [], $media = 'all' ) {
-		if ( Option::site_get( 'use_cdn' ) && DECALOG_CDN_AVAILABLE ) {
+		if ( Option::network_get( 'use_cdn' ) && DECALOG_CDN_AVAILABLE ) {
 			if ( DECALOG_ADMIN_URL === $src ) {
 				$file = 'https://cdn.jsdelivr.net/wp/' . DECALOG_SLUG . '/tags/' . DECALOG_VERSION . '/admin/' . $file;
 			} else {
@@ -94,7 +93,7 @@ class Assets {
 	 * @since  1.0.0
 	 */
 	public function register_script( $handle, $src, $file, $deps = [] ) {
-		if ( Option::site_get( 'use_cdn' ) && DECALOG_CDN_AVAILABLE ) {
+		if ( Option::network_get( 'use_cdn' ) && DECALOG_CDN_AVAILABLE ) {
 			if ( DECALOG_ADMIN_URL === $src ) {
 				$file = 'https://cdn.jsdelivr.net/wp/' . DECALOG_SLUG . '/tags/' . DECALOG_VERSION . '/admin/' . $file;
 			} else {
