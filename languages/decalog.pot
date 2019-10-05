@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: DecaLog\n"
-"POT-Creation-Date: 2019-10-04 10:45+0200\n"
+"POT-Creation-Date: 2019-10-05 18:45+0200\n"
 "PO-Revision-Date: 2019-07-08 14:07+0200\n"
 "Last-Translator: Pierre Lannoy <pierre@lannoy.fr>\n"
 "Language-Team: Pierre Lannoy <pierre@lannoy.fr>\n"
@@ -1356,7 +1356,12 @@ msgstr ""
 msgid "%1$s has been correctly updated from version %2$s to version %3$s."
 msgstr ""
 
-#: includes/plugin/class-updater.php:145
+#: includes/plugin/class-updater.php:49
+#, php-format
+msgid "See <a href=\"%s\">what's new</a>."
+msgstr ""
+
+#: includes/plugin/class-updater.php:147
 msgid "Sorry, unable to find or read changelog file."
 msgstr ""
 
@@ -1416,12 +1421,12 @@ msgid "TB"
 msgstr ""
 
 #: includes/system/class-conversion.php:85
-msgctxt "Abbreviation - Stands for \"betabytes\"."
+msgctxt "Abbreviation - Stands for \"petabytes\"."
 msgid "PB"
 msgstr ""
 
 #: includes/system/class-conversion.php:86
-msgctxt "Abbreviation - Stands for \"Exabytes\"."
+msgctxt "Abbreviation - Stands for \"exabytes\"."
 msgid "EB"
 msgstr ""
 
