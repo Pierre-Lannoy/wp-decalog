@@ -4,7 +4,7 @@ Tags: logs, error reporting, monitoring, site health, logging
 Requires at least: 5.2
 Requires PHP: 7.2
 Tested up to: 5.3
-Stable tag: 1.5.0
+Stable tag: 1.5.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -101,3 +101,7 @@ Please, see [full changelog](https://github.com/Pierre-Lannoy/wp-decalog/blob/ma
 == Upgrade Notice ==
 
 == Screenshots ==
+
+1. Set Loggers
+2. Internal Viewer
+3. Event Details in Internal Viewer
