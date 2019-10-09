@@ -162,7 +162,7 @@ class Decalog_Admin {
 	 */
 	public function blog_action( $actions, $user_blog ) {
 		if ( Role::SUPER_ADMIN === Role::admin_type() || Role::LOCAL_ADMIN === Role::admin_type() && Events::loggers_count() > 0 ) {
-			$actions .= " | <a href='" . esc_url( admin_url( 'tools.php?page=decalog-viewer&site_id=' . $user_blog->userblog_id ) ) . "'>" . __( 'Events log', 'traffic' ) . '</a>';
+			$actions .= " | <a href='" . esc_url( admin_url( 'tools.php?page=decalog-viewer&site_id=' . $user_blog->userblog_id ) ) . "'>" . __( 'Events log', 'decalog' ) . '</a>';
 		}
 		return $actions;
 	}
@@ -179,7 +179,7 @@ class Decalog_Admin {
 	 */
 	public function site_action( $actions, $blog_id, $blogname ) {
 		if ( Role::SUPER_ADMIN === Role::admin_type() || Role::LOCAL_ADMIN === Role::admin_type() && Events::loggers_count() > 0 ) {
-			$actions['events_log'] = "<a href='" . esc_url( admin_url( 'tools.php?page=decalog-viewer&site_id=' . $blog_id ) ) . "' rel='bookmark'>" . __( 'Events log', 'traffic' ) . '</a>';
+			$actions['events_log'] = "<a href='" . esc_url( admin_url( 'tools.php?page=decalog-viewer&site_id=' . $blog_id ) ) . "' rel='bookmark'>" . __( 'Events log', 'decalog' ) . '</a>';
 		}
 		return $actions;
 	}
