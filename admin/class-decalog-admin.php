@@ -153,6 +153,38 @@ class Decalog_Admin {
 	}
 
 	/**
+	 * Get actions links for myblogs_blog_actions hook.
+	 *
+	 * @param string $actions   The HTML site link markup.
+	 * @param object $user_blog An object containing the site data.
+	 * @return string   The action string.
+	 * @since 1.2.0
+	 */
+	public function blog_action( $actions, $user_blog ) {
+		if ( Role::SUPER_ADMIN === Role::admin_type() || Role::LOCAL_ADMIN === Role::admin_type() && Events::loggers_count() > 0 ) {
+			$actions .= " | <a href='" . esc_url( admin_url( 'tools.php?page=decalog-viewer&site_id=' . $user_blog->userblog_id ) ) . "'>" . __( 'Events log', 'traffic' ) . '</a>';
+		}
+		return $actions;
+	}
+
+	/**
+	 * Get actions for manage_sites_action_links hook.
+	 *
+	 * @param string[] $actions  An array of action links to be displayed.
+	 * @param int      $blog_id  The site ID.
+	 * @param string   $blogname Site path, formatted depending on whether it is a sub-domain
+	 *                           or subdirectory multisite installation.
+	 * @return array   The actions.
+	 * @since 1.2.0
+	 */
+	public function site_action( $actions, $blog_id, $blogname ) {
+		if ( Role::SUPER_ADMIN === Role::admin_type() || Role::LOCAL_ADMIN === Role::admin_type() && Events::loggers_count() > 0 ) {
+			$actions['events_log'] = "<a href='" . esc_url( admin_url( 'tools.php?page=decalog-viewer&site_id=' . $blog_id ) ) . "' rel='bookmark'>" . __( 'Events log', 'traffic' ) . '</a>';
+		}
+		return $actions;
+	}
+
+	/**
 	 * Initializes settings sections.
 	 *
 	 * @since 1.0.0

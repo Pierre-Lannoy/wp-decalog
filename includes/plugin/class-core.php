@@ -114,6 +114,8 @@ class Core {
 		$this->loader->add_filter( 'plugin_row_meta', $plugin_admin, 'add_row_meta', 10, 2 );
 		$this->loader->add_action( 'admin_notices', $nag, 'display' );
 		$this->loader->add_action( 'wp_ajax_hide_decalog_nag', $nag, 'hide_callback' );
+		$this->loader->add_filter( 'myblogs_blog_actions', $plugin_admin, 'blog_action', 10, 2 );
+		$this->loader->add_filter( 'manage_sites_action_links', $plugin_admin, 'site_action', 10, 3 );
 	}
 
 	/**
