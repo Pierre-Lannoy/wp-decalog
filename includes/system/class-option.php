@@ -86,6 +86,28 @@ class Option {
 	}
 
 	/**
+	 * Verify if an option exists.
+	 *
+	 * @param   string $option Option name. Expected to not be SQL-escaped.
+	 * @return  boolean   True if the option exists, false otherwise.
+	 * @since 1.0.0
+	 */
+	public static function site_exists( $option ) {
+		return 'non_existent_option' !== get_option( DECALOG_PRODUCT_ABBREVIATION . '_' . $option, 'non_existent_option' );
+	}
+
+	/**
+	 * Verify if an option exists.
+	 *
+	 * @param   string $option Option name. Expected to not be SQL-escaped.
+	 * @return  boolean   True if the option exists, false otherwise.
+	 * @since 1.0.0
+	 */
+	public static function network_exists( $option ) {
+		return 'non_existent_option' !== get_site_option( DECALOG_PRODUCT_ABBREVIATION . '_' . $option, 'non_existent_option' );
+	}
+
+	/**
 	 * Set an option value for a site.
 	 *
 	 * @param string      $option   Option name. Expected to not be SQL-escaped.
