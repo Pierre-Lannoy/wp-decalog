@@ -55,6 +55,35 @@ class Blog {
 	}
 
 	/**
+	 * Get a blog url.
+	 *
+	 * @param   integer $id         Optional. The blog id.
+	 * @param   string  $default    Optional. Default value to return if blog is not detected.
+	 * @return  string  The blog url (without scheme) if detected, $default otherwise.
+	 * @since   1.0.0
+	 */
+	public static function get_blog_url( $id = null, $default = 'wordpress.org' ) {
+		if ( $id && is_numeric( $id ) && $id > 0 && Environment::is_wordpress_multisite() ) {
+			$url_parts = wp_parse_url( get_blog_option( $id, 'siteurl', 'https://wordpress.org' ) );
+
+		} elseif ( $id && is_numeric( $id ) && $id > 0 ) {
+			$url_parts         = wp_parse_url( get_option( 'siteurl', 'https://wordpress.org' ) );
+			$url_parts['path'] = '';
+
+		} else {
+			return $default;
+		}
+		$site = '';
+		if ( array_key_exists( 'host', $url_parts ) && isset( $url_parts['host'] ) ) {
+			$site .= $url_parts['host'];
+		}
+		if ( array_key_exists( 'path', $url_parts ) && isset( $url_parts['path'] ) ) {
+			$site .= $url_parts['path'];
+		}
+		return $site;
+	}
+
+	/**
 	 * Verify if a blog exist.
 	 *
 	 * @param   integer $id         The blog id.
