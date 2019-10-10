@@ -36,18 +36,19 @@ class Option {
 	 * @since 1.0.0
 	 */
 	public static function init() {
-		self::$defaults['use_cdn']              = false;
-		self::$defaults['script_in_footer']     = false;
-		self::$defaults['auto_update']          = true;  // In plugin settings.
-		self::$defaults['display_nag']          = true;  // In plugin settings.
-		self::$defaults['nags']                 = [];
-		self::$defaults['version']              = '0.0.0';
-		self::$defaults['loggers']              = [];
-		self::$defaults['respect_wp_debug']     = false; // In plugin settings.
-		self::$defaults['logger_autostart']     = true;  // In plugin settings.
-		self::$defaults['autolisteners']        = true;  // In plugin settings.
-		self::$defaults['listeners']            = [];    // In plugin settings.
-		self::$defaults['pseudonymization']     = false; // In plugin settings.
+		self::$defaults['use_cdn']           = false;
+		self::$defaults['download_favicons'] = false;
+		self::$defaults['script_in_footer']  = false;
+		self::$defaults['auto_update']       = true;  // In plugin settings.
+		self::$defaults['display_nag']       = true;  // In plugin settings.
+		self::$defaults['nags']              = [];
+		self::$defaults['version']           = '0.0.0';
+		self::$defaults['loggers']           = [];
+		self::$defaults['respect_wp_debug']  = false; // In plugin settings.
+		self::$defaults['logger_autostart']  = true;  // In plugin settings.
+		self::$defaults['autolisteners']     = true;  // In plugin settings.
+		self::$defaults['listeners']         = [];    // In plugin settings.
+		self::$defaults['pseudonymization']  = false; // In plugin settings.
 	}
 
 	/**
@@ -137,14 +138,15 @@ class Option {
 	 * @since 1.0.0
 	 */
 	public static function reset_to_defaults() {
-		self::network_set('use_cdn', self::$defaults['use_cdn'] );
-		self::network_set('script_in_footer', self::$defaults['script_in_footer'] );
-		self::network_set('auto_update', self::$defaults['auto_update'] );
-		self::network_set('display_nag', self::$defaults['display_nag'] );
-		self::network_set('respect_wp_debug', self::$defaults['respect_wp_debug'] );
-		self::network_set('logger_autostart', self::$defaults['logger_autostart'] );
-		self::network_set('autolisteners', self::$defaults['autolisteners'] );
-		self::network_set('pseudonymization', self::$defaults['pseudonymization'] );
+		self::network_set( 'use_cdn', self::$defaults['use_cdn'] );
+		self::network_set( 'download_favicons', self::$defaults['download_favicons'] );
+		self::network_set( 'script_in_footer', self::$defaults['script_in_footer'] );
+		self::network_set( 'auto_update', self::$defaults['auto_update'] );
+		self::network_set( 'display_nag', self::$defaults['display_nag'] );
+		self::network_set( 'respect_wp_debug', self::$defaults['respect_wp_debug'] );
+		self::network_set( 'logger_autostart', self::$defaults['logger_autostart'] );
+		self::network_set( 'autolisteners', self::$defaults['autolisteners'] );
+		self::network_set( 'pseudonymization', self::$defaults['pseudonymization'] );
 	}
 
 	/**

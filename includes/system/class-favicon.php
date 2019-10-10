@@ -44,14 +44,18 @@ class Favicon {
 	 * Get a raw favicon.
 	 *
 	 * @param   string $name    Optional. The top domain of the site.
+	 * @param   boolean $force_download Optional. Forces download instead of default icon if not present.
 	 * @return  string  The raw value of the favicon.
 	 * @since   1.0.0
 	 */
-	public static function get_raw( $name = 'wordpress.org' ) {
+	public static function get_raw( $name = 'wordpress.org', $force_download = false ) {
+		if ( ! Option::network_get( 'download_favicons' ) ) {
+			return self::get_default();
+		}
 		$logger   = new Logger( 'plugin', DECALOG_PRODUCT_NAME, DECALOG_VERSION );
 		$dir      = WP_CONTENT_DIR . '/cache/site-favicons/';
 		$name     = strtolower( $name );
-		$filename = $dir . $name . '.png';
+		$filename = $dir . sanitize_file_name( $name ) . '.png';
 		if ( array_key_exists( $name, self::$icons ) ) {
 			return self::$icons[ $name ];
 		}
@@ -65,7 +69,10 @@ class Favicon {
 			}
 		}
 		if ( ! file_exists( $filename ) ) {
-			$response = wp_remote_get( 'https://www.google.com/s2/favicons?domain=' . $name );
+			if ( ! $force_download ) {
+				return self::get_default();
+			}
+			$response = wp_remote_get( 'https://www.google.com/s2/favicons?domain=' . esc_url_raw( $name ) );
 			if ( is_wp_error( $response ) ) {
 				$logger->error( 'Unable to download "' . $name . '" favicon: ' . $response->get_error_message(), $response->get_error_code() );
 				return self::get_default();
@@ -104,7 +111,7 @@ class Favicon {
 	 * @since 1.0.0
 	 */
 	private static function get_default() {
-		return '';
+		return 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABs0lEQVR4AWL4//8/RRjO8Iucx+noO0O2qmlbUEnt5r3Juas+hsQD6KaG7dqCKPgx72Pe9GIY27btZBrbtm3btm0nO12D7tVXe63jqtqqU/iDw9K58sEruKkngH0DBljOE+T/qqx/Ln718RZOFasxyd3XRbWzlFMxRbgOTx9QWFzHtZlD+aqLb108sOAIAai6+NbHW7lUHaZkDFJt+wp1DG7R1d0b7Z88EOL08oXwjokcOvvUxYMjBFCamWP5KjKBjKOpZx2HEPj+Ieod26U+dpg6lK2CIwTQH0oECGT5eHj+IgSueJ5fPaPg6PZrz6DGHiGAISE7QPrIvIKVrSvCe2DNHSsehIDatOBna/+OEOgTQE6WAy1AAFiVcf6PhgCGxEvlA9QngLlAQCkLsNWhBZIDz/zg4ggmjHfYxoPGEMPZECW+zjwmFk6Ih194y7VHYGOPvEYlTAJlQwI4MEhgTOzZGiNalRpGgsOYFw5lEfTKybgfBtmuTNdI3MrOTAQmYf/DNcAwDeycVjROgZFt18gMso6V5Z8JpcEk2LPKpOAH0/4bKMCAYnuqm7cHOGHJTBRhAEJN9d/t5zCxAAAAAElFTkSuQmCC';
 	}
 
 	/**
@@ -116,8 +123,12 @@ class Favicon {
 	 */
 	public static function get_base64( $name = 'wordpress.org' ) {
 		$source = self::get_raw( $name );
-		// phpcs:ignore
-		return 'data:image/png;base64,' . base64_encode( $source );
+		if ( 0 === strpos( $source, 'data:image/png;base64,' ) ) {
+			return $source;
+		} else {
+			// phpcs:ignore
+			return 'data:image/png;base64,' . base64_encode( $source );
+		}
 	}
 
 }
