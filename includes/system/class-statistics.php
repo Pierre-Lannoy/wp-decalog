@@ -77,7 +77,7 @@ class Statistics {
 	 * @since   1.3.0
 	 */
 	private function get_wp_stats() {
-		$stats = Cache::get_global( 'self_wp_stats' );
+		$stats = Cache::get_global( '/Plugin/WPstats' );
 		if ( ! $stats ) {
 			try {
 				if ( ! function_exists( 'plugins_api' ) ) {
@@ -98,7 +98,7 @@ class Statistics {
 				);
 				if ( ! is_wp_error( $api ) ) {
 					$result = get_object_vars( $api );
-					Cache::set_global( 'self_wp_stats', $result, 'plugin-statistics' );
+					Cache::set_global( '/Plugin/WPstats', $result, 'plugin-statistics' );
 					$stats = $result;
 				} else {
 					$stats = false;

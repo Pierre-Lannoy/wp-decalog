@@ -33,7 +33,7 @@ class Cache {
 	 * @since  1.0.0
 	 * @var    boolean    $blog_aware    Is the item id must contain the blog id?
 	 */
-	private static $blog_aware = true;
+	private static $blog_aware = false;
 
 	/**
 	 * Differentiates cache items by current locale.
@@ -41,7 +41,7 @@ class Cache {
 	 * @since  1.0.0
 	 * @var    boolean    $blog_aware    Is the item id must contain the locale id?
 	 */
-	private static $locale_aware = true;
+	private static $locale_aware = false;
 
 	/**
 	 * Differentiates cache items by current user.
@@ -49,7 +49,7 @@ class Cache {
 	 * @since  1.0.0
 	 * @var    boolean    $blog_aware    Is the item id must contain the user id?
 	 */
-	private static $user_aware = true;
+	private static $user_aware = false;
 
 	/**
 	 * Available TTLs.
@@ -84,10 +84,19 @@ class Cache {
 	public static function init() {
 		self::$ttls = [
 			'ephemeral'         => -1,
-			'infinite'          => 0,
-			'diagnosis'         => 3600,
-			'plugin-statistics' => 86400,
+			'infinite'          => 10 * YEAR_IN_SECONDS,
+			'diagnosis'         => HOUR_IN_SECONDS,
+			'plugin-statistics' => DAY_IN_SECONDS,
 		];
+	}
+
+	/**
+	 * Get an ID for caching.
+	 *
+	 * @since 1.0.0
+	 */
+	public static function id( $args, $path = '/Data' ) {
+		return $path . '/Raw/' . md5( (string) $args );
 	}
 
 	/**
@@ -98,15 +107,15 @@ class Cache {
 	 * @since  1.0.0
 	 */
 	private static function full_item_name( $item_name ) {
-		$name = self::$pool_name . '_';
+		$name = self::$pool_name . '/';
 		if ( self::$blog_aware ) {
-			$name .= (string) get_current_blog_id() . '_';
+			$name .= (string) get_current_blog_id() . '/';
 		}
 		if ( self::$locale_aware ) {
-			$name .= (string) L10n::get_display_locale() . '_';
+			$name .= (string) L10n::get_display_locale() . '/';
 		}
 		if ( self::$user_aware ) {
-			$name .= (string) User::get_current_user_id() . '_';
+			$name .= (string) User::get_current_user_id() . '/';
 		}
 		$name .= $item_name;
 		return substr( trim( $name ), 0, 172 );
@@ -123,6 +132,10 @@ class Cache {
 	 * @since  1.0.0
 	 */
 	private static function get_for_full_name( $item_name ) {
+		while ( 0 !== substr_count( $item_name, '//' ) ) {
+			$item_name = str_replace( '//', '/', $item_name );
+		}
+		$item_name = str_replace( '/', '_', $item_name );
 		return get_transient( $item_name );
 	}
 
@@ -137,7 +150,7 @@ class Cache {
 	 * @since  1.0.0
 	 */
 	public static function get_global( $item_name ) {
-		return self::get_for_full_name( self::$pool_name . '_' . $item_name );
+		return self::get_for_full_name( self::$pool_name . '/' . $item_name );
 	}
 
 	/**
@@ -168,6 +181,10 @@ class Cache {
 	 * @since  1.0.0
 	 */
 	private static function set_for_full_name( $item_name, $value, $ttl = 'default' ) {
+		while ( 0 !== substr_count( $item_name, '//' ) ) {
+			$item_name = str_replace( '//', '/', $item_name );
+		}
+		$item_name  = str_replace( '/', '_', $item_name );
 		$expiration = self::$default_ttl;
 		if ( array_key_exists( $ttl, self::$ttls ) ) {
 			$expiration = self::$ttls[ $ttl ];
@@ -193,7 +210,7 @@ class Cache {
 	 * @since  1.0.0
 	 */
 	public static function set_global( $item_name, $value, $ttl = 'default' ) {
-		return self::set_for_full_name( self::$pool_name . '_' . $item_name, $value, $ttl );
+		return self::set_for_full_name( self::$pool_name . '/' . $item_name, $value, $ttl );
 	}
 
 	/**
@@ -251,7 +268,7 @@ class Cache {
 	 * @since  1.0.0
 	 */
 	public static function delete_global( $item_name ) {
-		return self::delete_for_ful_name( self::$pool_name . '_' . $item_name );
+		return self::delete_for_ful_name( self::$pool_name . '/' . $item_name );
 	}
 
 	/**
