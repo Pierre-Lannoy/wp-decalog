@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased]
 ### Changed
 - Normalization of cache IDs to avoid name collisions.
+- Developer's documentation modified as wp.org [now allows](https://meta.trac.wordpress.org/ticket/3791) PHP7.1+ code.
 ### Fixed
 - Some cached elements may be autoloaded even if not needed.
 - [MultiSite] The "what's new?" screen is only viewable by network admin.
