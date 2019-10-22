@@ -152,8 +152,6 @@ By doing this way, you can fully integrate DecaLog with your plugin or theme. Yo
 To be fully compatible with DecaLog, your ___listener___ (or other pull requests you would like to submit) must respect some rules and adhere to some standards:
 
 ### General rules
-Because DecaLog is present on the WordPress plugin repository, your code must be compatible with PHP 7.0. You can not use [breaking changes introduced by PHP 7.1](https://www.php.net/manual/en/migration71.incompatible.php) (like nullable types, constants visibility or void returns) owing to the [wrong usage of pre-commit hooks](https://meta.trac.wordpress.org/ticket/3791) on the WordPress SVN. Yes, I know, that's a pity.
-
 The file defining the class for a ___listener___ must be named `class-<name>.php` where `<name>` is the class name in lower characters. This file must reside in `./includes/listeners/`. The class name must be in _Upper Camel Case_.
 
 ### Events standards
