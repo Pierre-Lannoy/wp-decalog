@@ -4,7 +4,11 @@ All notable changes to **DecaLog** is documented in this *changelog*.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-### Added
+### Changed
+- Normalization of cache IDs to avoid name collisions.
+### Fixed
+- Some cached elements may be autoloaded even if not needed.
+- [MultiSite] The "what's new?" screen is only viewable by network admin.
 - [MultiSite] Action link in sites list for network admins.
 - [MultiSite] Action link in "my sites" for local admins.
 

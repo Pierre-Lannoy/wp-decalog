@@ -13,6 +13,8 @@ use Decalog\Plugin\Feature\Log;
 use Parsedown;
 use Decalog\System\Nag;
 use Decalog\System\Option;
+use Decalog\System\Environment;
+use Decalog\System\Role;
 use Exception;
 
 /**
@@ -45,8 +47,13 @@ class Updater {
 				$message = sprintf( esc_html__( '%1$s has been correctly updated from version %2$s to version %3$s.', 'decalog' ), DECALOG_PRODUCT_NAME, $old, DECALOG_VERSION );
 				$logger  = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
 				$logger->notice( $message );
-				// phpcs:ignore
-				$message .= ' ' . sprintf( __( 'See <a href="%s">what\'s new</a>.', 'traffic' ), admin_url( 'options-general.php?page=decalog-settings&tab=about' ) );
+				if ( ( Environment::is_wordpress_multisite() && Role::SUPER_ADMIN === Role::admin_type() ) || Role::SINGLE_ADMIN === Role::admin_type() ) {
+					// phpcs:ignore
+					$message .= ' ' . sprintf( __( 'See <a href="%s">what\'s new</a>.', 'decalog' ), admin_url( 'options-general.php?page=decalog-settings&tab=about' ) );
+				} else {
+					// phpcs:ignore
+					$message .= ' ' . sprintf( __( 'See <a href="%s">what\'s new</a>.', 'decalog' ), DECALOG_PRODUCT_URL . '/blob/master/CHANGELOG.md' );
+				}
 			}
 			Nag::add( 'update', 'info', $message );
 			Option::network_set( 'version', DECALOG_VERSION );
