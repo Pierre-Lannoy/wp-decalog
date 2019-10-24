@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: DecaLog\n"
-"POT-Creation-Date: 2019-10-17 18:25+0200\n"
+"POT-Creation-Date: 2019-10-24 13:19+0200\n"
 "PO-Revision-Date: 2019-07-08 14:07+0200\n"
 "Last-Translator: Pierre Lannoy <pierre@lannoy.fr>\n"
 "Language-Team: Pierre Lannoy <pierre@lannoy.fr>\n"
@@ -1350,22 +1350,22 @@ msgstr ""
 msgid "WordPress MU"
 msgstr ""
 
-#: includes/plugin/class-updater.php:41
+#: includes/plugin/class-updater.php:43
 #, php-format
 msgid "%1$s has been correctly installed."
 msgstr ""
 
-#: includes/plugin/class-updater.php:45
+#: includes/plugin/class-updater.php:47
 #, php-format
 msgid "%1$s has been correctly updated from version %2$s to version %3$s."
 msgstr ""
 
-#: includes/plugin/class-updater.php:49
+#: includes/plugin/class-updater.php:51
 #, php-format
 msgid "See <a href=\"%s\">what's new</a>."
 msgstr ""
 
-#: includes/plugin/class-updater.php:147
+#: includes/plugin/class-updater.php:149
 msgid "Sorry, unable to find or read changelog file."
 msgstr ""
 
