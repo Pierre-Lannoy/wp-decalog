@@ -100,7 +100,7 @@ class Assets {
 				$file = 'https://cdn.jsdelivr.net/wp/' . DECALOG_SLUG . '/tags/' . DECALOG_VERSION . '/public/' . $file;
 			}
 			// phpcs:ignore
-			return wp_register_script( $handle, $file, $deps, null, Option::site_get( 'script_in_footer' ) );
+			return wp_register_script( $handle, $file, $deps, null, Option::network_get( 'script_in_footer' ) );
 		} else {
 			if ( Environment::is_plugin_in_production_mode() ) {
 				$version = DECALOG_VERSION;
@@ -110,7 +110,7 @@ class Assets {
 			if ( Environment::is_plugin_in_dev_mode() ) {
 				$file = str_replace( '.min', '', $file );
 			}
-			return wp_register_script( $handle, $src . $file, $deps, $version, Option::site_get( 'script_in_footer' ) );
+			return wp_register_script( $handle, $src . $file, $deps, $version, Option::network_get( 'script_in_footer' ) );
 		}
 	}
 
