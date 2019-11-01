@@ -3,6 +3,11 @@ All notable changes to **DecaLog** is documented in this *changelog*.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Fixed
+- The message for PHP upgrading/downgrading was wrongly named for WordPress (instead of PHP).
+- A PHP notice may appear when enqueuing some plugin assets.
+
 ## [1.5.2] - 2019-10-24
 ### Changed
 - Normalization of cache IDs to avoid name collisions.

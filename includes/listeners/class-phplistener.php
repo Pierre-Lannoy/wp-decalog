@@ -145,10 +145,10 @@ class PhpListener extends AbstractListener {
 		}
 		Option::network_set( 'php_version', $php_version );
 		if ( version_compare( $php_version, $old_version, '<' ) ) {
-			$this->logger->warning( sprintf( 'WordPress version downgraded from %s to %s.', $old_version, $php_version ) );
+			$this->logger->warning( sprintf( 'PHP version downgraded from %s to %s.', $old_version, $php_version ) );
 			return;
 		}
-		$this->logger->notice( sprintf( 'WordPress version upgraded from %s to %s.', $old_version, $php_version ) );
+		$this->logger->notice( sprintf( 'PHP version upgraded from %s to %s.', $old_version, $php_version ) );
 	}
 
 	/**
