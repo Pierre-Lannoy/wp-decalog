@@ -120,6 +120,7 @@ class PhpListener extends AbstractListener {
 	protected function launch() {
 		add_action( 'wp_loaded', [ $this, 'version_check' ] );
 		add_action( 'wp_loaded', [ $this, 'extensions_check' ] );
+		add_action( 'wp_loaded', [ $this, 'opcache_check' ] );
 		register_shutdown_function( [ $this, 'handle_fatal_error' ] );
 		// phpcs:ignore
 		$this->previous_error_handler = set_error_handler( [ $this, 'handle_error' ] );
@@ -174,6 +175,46 @@ class PhpListener extends AbstractListener {
 		}
 		if ( count( $removed ) > 0 ) {
 			$this->logger->warning( sprintf( 'Removed PHP extension(s): %s.', implode( ', ', $removed ) ) );
+		}
+	}
+
+	/**
+	 * Check extensions modifications.
+	 *
+	 * @since    1.6.0
+	 */
+	public function opcache_check() {
+		$old_opcache = Option::network_get( 'php_opcache', 'x' );
+		if ( function_exists( 'opcache_get_status' ) ) {
+			$new_opcache = opcache_get_status( false );
+			Option::network_set( 'php_opcache', $new_opcache );
+			if ( 'x' === $old_opcache || $new_opcache === $old_opcache ) {
+				return;
+			}
+			if ( array_key_exists( 'cache_full', $old_opcache ) && ! (bool) $old_opcache['cache_full'] && array_key_exists( 'cache_full', $new_opcache ) && (bool) $new_opcache['cache_full'] ) {
+				$this->logger->error( 'OPcache is full.' );
+			}
+			if ( array_key_exists( 'restart_pending', $old_opcache ) && ! (bool) $old_opcache['restart_pending'] && array_key_exists( 'restart_pending', $new_opcache ) && (bool) $new_opcache['restart_pending'] ) {
+				$this->logger->notice( 'OPcache ready to restart.' );
+			}
+			if ( array_key_exists( 'restart_in_progress', $old_opcache ) && ! (bool) $old_opcache['restart_in_progress'] && array_key_exists( 'restart_in_progress', $new_opcache ) && (bool) $new_opcache['restart_in_progress'] ) {
+				$this->logger->notice( 'OPcache restart in progress.' );
+			}
+			if ( array_key_exists( 'opcache_statistics', $old_opcache ) && array_key_exists( 'opcache_statistics', $new_opcache ) && array_key_exists( 'oom_restarts', $old_opcache['opcache_statistics'] ) && array_key_exists( 'oom_restarts', $new_opcache['opcache_statistics'] ) ) {
+				if ( (int) $old_opcache['opcache_statistics']['oom_restarts'] !== (int) $new_opcache['opcache_statistics']['oom_restarts'] ) {
+					$this->logger->warning( 'OPcache restarted due to lack of free memory or cache fragmentation.' );
+				}
+			}
+			if ( array_key_exists( 'opcache_statistics', $old_opcache ) && array_key_exists( 'opcache_statistics', $new_opcache ) && array_key_exists( 'hash_restarts', $old_opcache['opcache_statistics'] ) && array_key_exists( 'hash_restarts', $new_opcache['opcache_statistics'] ) ) {
+				if ( (int) $old_opcache['opcache_statistics']['hash_restarts'] !== (int) $new_opcache['opcache_statistics']['hash_restarts'] ) {
+					$this->logger->warning( 'OPcache restarted due to lack of free key.' );
+				}
+			}
+			if ( array_key_exists( 'opcache_statistics', $old_opcache ) && array_key_exists( 'opcache_statistics', $new_opcache ) && array_key_exists( 'manual_restarts', $old_opcache['opcache_statistics'] ) && array_key_exists( 'manual_restarts', $new_opcache['opcache_statistics'] ) ) {
+				if ( (int) $old_opcache['opcache_statistics']['manual_restarts'] !== (int) $new_opcache['opcache_statistics']['manual_restarts'] ) {
+					$this->logger->warning( 'OPcache restarted due to an external query.' );
+				}
+			}
 		}
 	}
 

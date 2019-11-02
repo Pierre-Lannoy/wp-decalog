@@ -3,7 +3,13 @@ All notable changes to **DecaLog** is documented in this *changelog*.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.5.3] - 2019-10-01
+## [Unreleased]
+### Added
+- PHP listener now detects all OPcache resets or status changes.
+### Fixed
+- Changelog date of version 1.5.3 is wrong.
+
+## [1.5.3] - 2019-11-01
 ### Fixed
 - The message for PHP upgrading/downgrading was wrongly named "WordPress" (instead of "PHP").
 - A PHP notice may appear when enqueuing some plugin assets.
