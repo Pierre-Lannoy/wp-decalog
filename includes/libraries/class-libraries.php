@@ -71,7 +71,7 @@ class Libraries {
 			'name'    => 'Feather',
 			'prefix'  => 'Feather',
 			'base'    => DECALOG_VENDOR_DIR . 'feather/',
-			'version' => '4.22.1',
+			'version' => '4.24.1',
 			// phpcs:ignore
 			'author'  => sprintf( esc_html__( '%s & contributors', 'decalog' ), 'Cole Bemis' ),
 			'url'     => 'https://feathericons.com',
