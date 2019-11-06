@@ -69,4 +69,21 @@ class LoggerMaintainer {
 		}
 	}
 
+	/**
+	 * Update the logger.
+	 *
+	 * @since    1.0.0
+	 */
+	public function update( $from ) {
+		foreach ( Option::network_get( 'loggers' ) as $key => $logger ) {
+			$classname = 'Decalog\Plugin\Feature\\' . $logger['handler'];
+			if ( class_exists( $classname ) ) {
+				$logger['uuid'] = $key;
+				$instance       = $this->create_instance( $classname );
+				$instance->set_logger( $logger );
+				$instance->update( $from );
+			}
+		}
+	}
+
 }

@@ -10,6 +10,7 @@
 namespace Decalog\Plugin;
 
 use Decalog\Plugin\Feature\Log;
+use Decalog\Plugin\Feature\LoggerMaintainer;
 use Parsedown;
 use Decalog\System\Nag;
 use Decalog\System\Option;
@@ -83,6 +84,9 @@ class Updater {
 			}
 			Option::network_set( 'loggers', $loggers );
 		}
+		// DecaLog handlers auto updating.
+		$maintainer = new LoggerMaintainer();
+		$maintainer->update( $from );
 	}
 
 	/**

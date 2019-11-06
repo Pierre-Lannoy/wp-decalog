@@ -47,7 +47,7 @@ class WordpressFormatter implements FormatterInterface {
 			$values['channel'] = strtolower( $record['channel'] );
 		}
 		if ( array_key_exists( 'message', $record ) ) {
-			$values['message'] = substr( $record['message'], 0, 1000 );
+			$values['message'] = substr( $record['message'], 0, 7500 );
 		}
 		// Context formatting.
 		if ( array_key_exists( 'context', $record ) ) {
@@ -114,7 +114,7 @@ class WordpressFormatter implements FormatterInterface {
 			if ( array_key_exists( 'trace', $extra ) && $extra['trace'] ) {
 				// phpcs:ignore
 				$s = serialize( $extra['trace'] );
-				if ( strlen( $s ) < 10000 ) {
+				if ( strlen( $s ) < 7500 ) {
 					$values['trace'] = $s;
 				} else {
 					$s          = [];

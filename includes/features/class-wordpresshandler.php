@@ -103,7 +103,7 @@ class WordpressHandler {
 		}
 		$verbs = implode( ',', $cl );
 		if ( '' !== $this->table ) {
-			$charset_collate = $wpdb->get_charset_collate();
+			$charset_collate = 'DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci';
 			$sql             = 'CREATE TABLE IF NOT EXISTS ' . $this->table;
 			$sql            .= ' (`id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,';
 			$sql            .= " `timestamp` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',";
@@ -113,7 +113,7 @@ class WordpressHandler {
 			$sql            .= " `component` varchar(26) NOT NULL DEFAULT 'Unknown',";
 			$sql            .= " `version` varchar(13) NOT NULL DEFAULT 'N/A',";
 			$sql            .= " `code` int(11) UNSIGNED NOT NULL DEFAULT '0',";
-			$sql            .= " `message` varchar(1000) NOT NULL DEFAULT '-',";
+			$sql            .= " `message` varchar(7500) NOT NULL DEFAULT '-',";
 			$sql            .= " `site_id` int(11) UNSIGNED NOT NULL DEFAULT '0',";
 			$sql            .= " `site_name` varchar(250) NOT NULL DEFAULT 'Unknown',";
 			$sql            .= " `user_id` varchar(66) NOT NULL DEFAULT '0',";  // Needed by SHA-256 pseudonymization.
@@ -127,13 +127,34 @@ class WordpressHandler {
 			$sql            .= " `line` int(11) UNSIGNED NOT NULL DEFAULT '0',";
 			$sql            .= " `classname` varchar(100) NOT NULL DEFAULT 'unknown',";
 			$sql            .= " `function` varchar(100) NOT NULL DEFAULT 'unknown',";
-			$sql            .= ' `trace` varchar(10000),';
+			$sql            .= ' `trace` varchar(7500),';
 			$sql            .= ' PRIMARY KEY (`id`)';
 			$sql            .= ") $charset_collate;";
 			// phpcs:ignore
 			$wpdb->query( $sql );
 			$this->log->debug( sprintf( 'Table "%s" updated or created.', $this->table ) );
 		}
+	}
+
+	/**
+	 * Update the logger.
+	 *
+	 * @param   string $from   The version from which the plugin is updated.
+	 * @since    1.0.0
+	 */
+	public function update( $from ) {
+		global $wpdb;
+		// Starting 1.6.0, WordpressHandler is utf8_unicode_ci and "message" and "trace" fields are varchar(7500).
+		$sql = 'ALTER TABLE ' . $this->table . ' CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;';
+		// phpcs:ignore
+		$wpdb->query( $sql );
+		$sql = 'ALTER TABLE ' . $this->table . " MODIFY COLUMN message varchar(7500) NOT NULL DEFAULT '-';";
+		// phpcs:ignore
+		$wpdb->query( $sql );
+		$sql = 'ALTER TABLE ' . $this->table . " MODIFY COLUMN trace varchar(7500);";
+		// phpcs:ignore
+		$wpdb->query( $sql );
+		$this->log->debug( sprintf( 'Table "%s" updated.', $this->table ) );
 	}
 
 	/**
