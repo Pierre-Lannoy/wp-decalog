@@ -40,7 +40,7 @@ class ProcessorTypes {
 			'id'        => 'BacktraceProcessor',
 			'namespace' => 'Decalog\\Processor',
 			'name'      => esc_html__( 'Backtrace', 'decalog' ),
-			'help'      => esc_html__( 'Allows to log the full call stack.', 'decalog' ),
+			'help'      => esc_html__( 'Allows to log the full PHP and WordPress call stack.', 'decalog' ),
 			'init'      => [
 				[ 'type' => 'level' ],
 			],
