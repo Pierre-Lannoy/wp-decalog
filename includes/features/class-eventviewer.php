@@ -247,6 +247,7 @@ class EventViewer {
 	public function add_metaboxes() {
 		// Left column.
 		add_meta_box( 'decalog-main', esc_html__( 'Event', 'decalog' ), [ $this, 'event_widget' ], self::$screen_id, 'advanced' );
+		add_meta_box( 'decalog-message', esc_html__( 'Message', 'decalog' ), [ $this, 'message_widget' ], self::$screen_id, 'advanced' );
 		add_meta_box( 'decalog-wordpress', 'WordPress', [ $this, 'wordpress_widget' ], self::$screen_id, 'advanced' );
 		add_meta_box( 'decalog-http', esc_html__( 'HTTP request', 'decalog' ), [ $this, 'http_widget' ], self::$screen_id, 'advanced' );
 		add_meta_box( 'decalog-php', esc_html__( 'PHP introspection', 'decalog' ), [ $this, 'php_widget' ], self::$screen_id, 'advanced' );
@@ -317,11 +318,21 @@ class EventViewer {
 		$content   = '<span style="width:40%;cursor: default;float:left">' . $this->get_icon( 'folder' ) . $class . '</span>';
 		$content  .= '<span style="width:60%;cursor: default;">' . $this->get_icon( 'box' ) . $component . '</span>';
 		$source    = $this->get_section( $content );
+
+		$this->output_activity_block( $event . $hour . $source );
+	}
+
+	/**
+	 * Get content of the message widget box.
+	 *
+	 * @since 1.0.0
+	 */
+	public function message_widget() {
 		// Event message.
 		$content = '<span style="width:100%;cursor: default;">' . $this->get_icon( 'message-square' ) . $this->event['message'] . '</span> <span style="color:silver">' . esc_html__( 'Code:', 'decalog' ) . ' ' . $this->event['code'] . '.</span>';
 		$message = $this->get_section( $content );
 
-		$this->output_activity_block( $event . $hour . $source . $message );
+		$this->output_activity_block( $message );
 	}
 
 	/**
