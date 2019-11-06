@@ -91,26 +91,23 @@ class BacktraceProcessor implements ProcessorInterface {
 			return $record;
 		}
 		$trace = [];
-		foreach (array_reverse(debug_backtrace( DEBUG_BACKTRACE_PROVIDE_OBJECT )) as $t) {
-			$trace[] = $t;
-			if (array_key_exists('class', $t) && 'Decalog\API\DLogger' === $t['class']) {
-				if (array_key_exists('function', $t) && in_array($t['function'], ['emergency','alert','critical','error','warning','notice','info','debug'], true)) {
-					break;
-				}
+		// phpcs:ignore
+		foreach ( array_reverse( debug_backtrace( DEBUG_BACKTRACE_PROVIDE_OBJECT ) ) as $t ) {
+			if ( array_key_exists( 'class', $t ) && 0 === strpos( $t['class'], 'Decalog\\' ) ) {
+				break;
 			}
+			$trace[] = $t;
 		}
 		$wptrace = [];
-		$detect = 'Decalog\API\DLogger';
-		foreach (array_reverse(wp_debug_backtrace_summary( null, 0, false )) as $t) {
-			$wptrace[] = $t;
-			if (0 === strpos($t, $detect)) {
-				if (in_array(substr( $t, strlen($detect),20), ['->emergency','->alert','->critical','->error','->warning','->notice','->info','->debug'], true)) {
-					break;
-				}
+		// phpcs:ignore
+		foreach ( array_reverse( wp_debug_backtrace_summary( null, 0, false ) ) as $t ) {
+			if ( 0 === strpos( $t, 'Decalog\\' ) ) {
+				break;
 			}
+			$wptrace[] = $t;
 		}
-		$record['extra']['trace']['callstack'] = $this->pretty_backtrace( array_reverse($trace) );
-		$record['extra']['trace']['wordpress'] = array_reverse($wptrace);
+		$record['extra']['trace']['callstack'] = $this->pretty_backtrace( array_reverse( $trace ) );
+		$record['extra']['trace']['wordpress'] = array_reverse( $wptrace );
 		return $record;
 	}
 }
