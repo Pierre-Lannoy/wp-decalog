@@ -349,6 +349,7 @@ class InlineHelp {
 		// Overview.
 		$content  = '<p>' . esc_html__( 'This screen displays the details of a specific event.', 'decalog' ) . ' ' . esc_html__( 'It consists of four to six boxes, depending on your settings, which give specific details of the event:', 'decalog' ) . '</p>';
 		$content .= '<p><strong>' . esc_html__( 'Event', 'decalog' ) . '</strong> &mdash; ' . esc_html__( 'General information about the event.', 'decalog' ) . '</p>';
+		$content .= '<p><strong>' . esc_html__( 'Content', 'decalog' ) . '</strong> &mdash; ' . esc_html__( 'Event code and message.', 'decalog' ) . '</p>';
 		$content .= '<p><strong>WordPress</strong> &mdash; ' . esc_html__( 'User and site where the event occurs.', 'decalog' ) . '</p>';
 		$content .= '<p><strong>' . esc_html__( 'HTTP request', 'decalog' ) . '</strong> &mdash; ' . esc_html__( 'The detail of the request that led to this event.', 'decalog' ) . '</p>';
 		$content .= '<p><strong>' . esc_html__( 'PHP introspection', 'decalog' ) . '</strong> &mdash; ' . esc_html__( 'The code location where this event was generated.', 'decalog' ) . '</p>';
