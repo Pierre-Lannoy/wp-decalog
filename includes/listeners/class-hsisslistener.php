@@ -1,8 +1,8 @@
 <?php
 /**
- * WP database listener for DecaLog.
+ * htaccess Server-Info & Server-Status listener for DecaLog.
  *
- * Defines class for WP database listener.
+ * Defines class for htaccess Server-Info & Server-Status listener.
  *
  * @package Listeners
  * @author  Pierre Lannoy <https://pierre.lannoy.fr/>.
@@ -15,9 +15,9 @@ use Decalog\System\Environment;
 use Decalog\System\Option;
 
 /**
- * WP database listener for DecaLog.
+ * htaccess Server-Info & Server-Status listener for DecaLog.
  *
- * Defines methods and properties for WP database listener class.
+ * Defines methods and properties for htaccess Server-Info & Server-Status listener class.
  *
  * @package Listeners
  * @author  Pierre Lannoy <https://pierre.lannoy.fr/>.
