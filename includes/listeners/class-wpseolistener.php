@@ -16,7 +16,7 @@ use Decalog\Logger;
 /**
  * WPSEO listener for DecaLog.
  *
- * Defines methods and properties for User Switching listener class.
+ * Defines methods and properties for WPSEO listener class.
  *
  * @package Listeners
  * @author  Pierre Lannoy <https://pierre.lannoy.fr/>.

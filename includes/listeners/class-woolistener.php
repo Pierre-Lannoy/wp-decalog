@@ -1,8 +1,8 @@
 <?php
 /**
- * Woo Commerce listener for DecaLog.
+ * WooCommerce listener for DecaLog.
  *
- * Defines class for Woo Commerce listener.
+ * Defines class for WooCommerce listener.
  *
  * @package Listeners
  * @author  Pierre Lannoy <https://pierre.lannoy.fr/>.
@@ -12,9 +12,9 @@
 namespace Decalog\Listener;
 
 /**
- * Woo Commerce listener for DecaLog.
+ * WooCommerce listener for DecaLog.
  *
- * Defines methods and properties for User Switching listener class.
+ * Defines methods and properties for WooCommerce listener class.
  *
  * @package Listeners
  * @author  Pierre Lannoy <https://pierre.lannoy.fr/>.
