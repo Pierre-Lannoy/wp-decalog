@@ -241,6 +241,22 @@ class Events extends \WP_List_Table {
 	}
 
 	/**
+	 * "message" column formatter.
+	 *
+	 * @param   object $item   The current item to render.
+	 * @return  string  The cell formatted, ready to print.
+	 * @since   1.0.0
+	 */
+	protected function column_message( $item ) {
+		$cut     = 200;
+		$message = $item['message'];
+		if ( $cut < strlen( $message ) ) {
+			$message = substr( $message, 0, $cut ) . '&nbsp;&nbsp;<em>[…]</em>';
+		}
+		return $message;
+	}
+
+	/**
 	 * Initialize the list view.
 	 *
 	 * @return  array   The columns to render.

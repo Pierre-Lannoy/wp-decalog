@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 - PHP listener now detects all OPcache resets or status changes.
 - Message size (for WordPress events logs) has been increased from 1000 to 7500 characters.
+- Improved display for message column in WordPress events logs.
 - Upgraded Feather library from version 4.22.1 to version 4.24.1.
 - The PHP and WordPress backtraces are now cleaned from DecaLog and Monolog references.
 - The name and help message for backtraces settings are more clear.
