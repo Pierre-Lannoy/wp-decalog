@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 ### Added
+- Full WooCommerce support.
+- Full Jetpack support.
 - PHP listener now detects all OPcache resets or status changes.
 - "Content" box in event viewer (for WordPress events logs) to display detailed error code and message.
 ### Changed
@@ -13,7 +15,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - The PHP and WordPress backtraces are now cleaned from DecaLog and Monolog references.
 - The name and help message for backtraces settings are more clear.
 ### Fixed
+- Non blocking HTTP request may sometimes generate a "Global Timeout" event in core listener (thanks to [Julio Potier](https://github.com/JulioPotier)).
 - Changelog date of version 1.5.3 is wrong.
+### Security
+- [PRV001] In case of failed login, the username may appear in logs even if pseudonymisation is activated.
 
 ## [1.5.3] - 2019-11-01
 ### Fixed
