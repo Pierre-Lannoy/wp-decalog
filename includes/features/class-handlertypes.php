@@ -117,7 +117,7 @@ class HandlerTypes {
 					'show'    => true,
 					'name'    => esc_html__( 'Socket timeout', 'decalog' ),
 					'help'    => esc_html__( 'Max number of milliseconds to wait for the socket.', 'decalog' ),
-					'default' => 400,
+					'default' => 800,
 					'control' => [
 						'type'    => 'field_input_integer',
 						'cast'    => 'integer',
@@ -142,6 +142,106 @@ class HandlerTypes {
 					'type'  => 'literal',
 					'value' => true,
 				],
+			],
+		];
+		$this->handlers[] = [
+			'id'            => 'LogentriesHandler',
+			'ancestor'      => 'SocketHandler',
+			'namespace'     => 'Decalog\\Handler',
+			'class'         => 'logging',
+			'minimal'       => Logger::DEBUG,
+			'name'          => esc_html__( 'Logentries', 'decalog' ),
+			'help'          => esc_html__( 'An events log sent to Logentries service.', 'decalog' ),
+			'icon'          => $this->get_base64_logentries_icon(),
+			'params'        => [ 'processors', 'privacy' ],
+			'configuration' => [
+				'host'     => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Log endpoint region', 'decalog' ),
+					'help'    => esc_html__( 'The region of remote host receiving messages.', 'decalog' ),
+					'default' => 'eu',
+					'control' => [
+						'type'    => 'field_select',
+						'cast'    => 'string',
+						'enabled' => true,
+						'list'    => [ [ 'eu', esc_html__( 'Europe', 'decalog') ], [ 'us', esc_html__( 'USA', 'decalog') ] ],
+					],
+				],
+				'token' => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Log token', 'decalog' ),
+					'help'    => esc_html__( 'The token of the Logentries log.', 'decalog' ),
+					'default' => '',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
+				'timeout' => [
+					'type'    => 'integer',
+					'show'    => true,
+					'name'    => esc_html__( 'Socket timeout', 'decalog' ),
+					'help'    => esc_html__( 'Max number of milliseconds to wait for the socket.', 'decalog' ),
+					'default' => 800,
+					'control' => [
+						'type'    => 'field_input_integer',
+						'cast'    => 'integer',
+						'min'     => 100,
+						'max'     => 10000,
+						'step'    => 100,
+						'enabled' => true,
+					],
+				],
+			],
+			'init'          => [
+				[
+					'type'  => 'configuration',
+					'value' => 'host',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'token',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'timeout',
+				],
+				[ 'type' => 'level' ],
+			],
+		];
+		$this->handlers[] = [
+			'id'            => 'LogglyHandler',
+			'ancestor'      => 'LogglyHandler',
+			'namespace'     => 'Monolog\\Handler',
+			'class'         => 'logging',
+			'minimal'       => Logger::WARNING,
+			'name'          => esc_html__( 'Loggly', 'decalog' ),
+			'help'          => esc_html__( 'An events log sent to Solawinds Loggly service.', 'decalog' ),
+			'icon'          => $this->get_base64_loggly_icon(),
+			'params'        => [ 'processors', 'privacy' ],
+			'configuration' => [
+				'token' => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Application token', 'decalog' ),
+					'help'    => esc_html__( 'The token of the Solawinds Loggly application.', 'decalog' ),
+					'default' => '',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
+			],
+			'init'          => [
+				[
+					'type'  => 'configuration',
+					'value' => 'token',
+				],
+				[ 'type' => 'level' ],
 			],
 		];
 		$this->handlers[] = [
@@ -255,7 +355,7 @@ class HandlerTypes {
 					'show'    => true,
 					'name'    => esc_html__( 'Socket timeout', 'decalog' ),
 					'help'    => esc_html__( 'Max number of milliseconds to wait for the socket.', 'decalog' ),
-					'default' => 400,
+					'default' => 800,
 					'control' => [
 						'type'    => 'field_input_integer',
 						'cast'    => 'integer',
@@ -883,11 +983,10 @@ class HandlerTypes {
 	/**
 	 * Returns a base64 svg resource for the Fluentd icon.
 	 *
-	 * @param string $color Optional. Color of the icon.
 	 * @return string The svg resource as a base64.
 	 * @since 1.0.0
 	 */
-	private function get_base64_fluentd_icon( $color = '#249DF1' ) {
+	private function get_base64_fluentd_icon() {
 		$source  = '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.91" width="602px" height="602px" viewBox="0 0 1274 1047">';
 		$source .= '<g transform="translate(120, 100) scale(0.84,0.84)">';
 		$source .= '<style type="text/css"> .st0{fill:url(#SVGID_1_);} .st1{fill:url(#SVGID_2_);} .st2{fill:url(#SVGID_3_);} .st3{fill:url(#SVGID_4_);} .st4{fill:url(#SVGID_5_);} .st5{fill:url(#SVGID_6_);} .st6{fill:url(#SVGID_7_);} .st7{fill:url(#SVGID_8_);} .st8{fill:#FFFFFF;}</style>';
@@ -908,6 +1007,43 @@ class HandlerTypes {
 		$source .= '<linearGradient id="SVGID_8_" gradientUnits="userSpaceOnUse" x1="-113.5052" y1="949.0955" x2="804.8284" y2="949.0955" gradientTransform="matrix(1 0 0 -1 0 1630)"><stop  offset="0.1115" style="stop-color:#38B1DA"/><stop  offset="1" style="stop-color:#326FB5"/></linearGradient>';
 		$source .= '<path class="st7" d="M344.5,864.6C495.1,762.8,586,649.8,625.8,607.5c-325.2,7.3-462.4-164.2-509.7-237.4 C205.4,509,344.3,619.2,317.5,773.7C282.8,973.4,21.1,991.6,21.1,991.6S144,1000.2,344.5,864.6z"/>';
 		$source .= '<ellipse class="st8" cx="1083.4" cy="377.4" rx="26" ry="25.8"/>';
+		$source .= '</g>';
+		$source .= '</svg>';
+		// phpcs:ignore
+		return 'data:image/svg+xml;base64,' . base64_encode( $source );
+	}
+
+	/**
+	 * Returns a base64 svg resource for the Logentrie icon.
+	 *
+	 * @return string The svg resource as a base64.
+	 * @since 1.0.0
+	 */
+	private function get_base64_logentries_icon() {
+		$source  = '<svg width="256px" height="256px" viewBox="0 0 256 256" version="1.1" xmlns="http://www.w3.org/2000/svg" xml:space="preserve">';
+		$source .= '<g transform="translate(34, 34) scale(0.74,0.74)">';
+		$source .= '<path style="fill:#F47721" d="M201.73137,255.654114 L53.5857267,255.654114 C24.0701195,255.654114 0.230590681,231.814585 0.230590681,202.298978 L0.230590681,53.5857267 C0.230590681,24.0701195 24.0701195,0.230590681 53.5857267,0.230590681 L201.73137,0.230590681 C231.246977,0.230590681 255.086506,24.0701195 255.086506,53.5857267 L255.086506,202.298978 C255.086506,231.814585 231.246977,255.654114 201.73137,255.654114Z" />';
+		$source .= '<path style="fill:#FFFFFF" d="M202.298978,71.7491772 C204.569409,70.0463537 207.407448,68.3435302 209.67788,66.6407067 C208.542664,62.6674519 206.272233,59.261805 204.001801,55.856158 C201.163762,56.9913736 198.893331,58.6941971 196.055292,59.8294128 C194.352468,58.6941971 192.649645,56.9913736 190.379214,55.856158 C190.946821,53.0181188 191.514429,49.6124719 192.082037,46.7744327 C188.108782,45.639217 184.135527,43.9363936 180.162273,43.3687857 C179.027057,46.2068249 178.459449,49.044864 177.324234,51.8829032 C175.053802,51.8829032 172.783371,52.450511 171.080547,53.0181188 C169.377724,50.7476875 167.6749,47.9096484 165.972077,45.639217 C161.998822,46.7744327 158.593175,49.044864 155.187528,51.8829032 C156.322744,54.7209423 157.457959,57.5589815 159.160783,60.3970206 C157.457959,62.0998441 156.322744,63.8026676 155.187528,65.5054911 C152.349489,64.9378832 148.943842,64.3702754 146.105803,63.8026676 C144.970587,67.7759224 143.835372,71.7491772 142.700156,75.722432 C145.538195,76.8576477 148.376234,77.9928633 151.214273,78.5604712 C151.214273,80.8309025 151.781881,83.1013338 151.781881,85.3717651 C149.51145,87.0745886 146.673411,88.7774121 144.402979,90.4802356 C145.538195,94.4534904 147.808626,97.8591374 150.646666,101.264784 C153.484705,100.129569 156.322744,98.4267452 159.160783,97.2915295 C160.863606,98.994353 162.56643,100.129569 164.269253,101.264784 C163.701646,104.102823 163.134038,107.50847 162.56643,110.34651 C166.539685,112.049333 170.51294,112.616941 174.486194,113.184549 C175.053802,110.34651 176.189018,107.50847 177.324234,104.670431 C179.594665,104.670431 181.865096,104.102823 184.135527,104.102823 C185.838351,106.373255 187.541174,109.211294 189.243998,111.481725 C193.217253,109.778902 196.6229,108.076078 199.460939,105.238039 C198.325723,102.4 196.6229,99.5619609 195.487684,96.7239217 C196.6229,95.0210982 198.325723,93.3182747 199.460939,91.6154512 C202.298978,92.1830591 205.704625,92.7506669 208.542664,93.3182747 C209.67788,89.3450199 211.380703,85.3717651 211.948311,81.3985103 C209.110272,80.8309025 206.272233,79.6956868 203.434194,78.5604712 C203.434194,76.2900398 202.866586,74.0196085 202.298978,71.7491772 L202.298978,71.7491772 Z M189.811606,79.6956868 C189.811606,87.0745886 181.865096,92.1830591 175.053802,89.9126277 C168.810116,88.2098043 164.836861,80.8309025 167.107293,74.5872164 C168.242508,70.6139615 171.648155,68.3435302 175.053802,67.2083146 C182.432704,64.9378832 190.379214,71.7491772 189.811606,79.6956868 L189.811606,79.6956868 Z"/>';
+		$source .= '<circle style="fill:#F36D21" cx="177.324234" cy="78.5604712" r="17.0282349"/>';
+		$source .= '<path style="fill:#FFFFFF" d="M127.374745,193.217253 C140.997332,192.649645 150.079058,202.298978 160.863606,207.975056 C176.756626,216.489174 192.082037,214.78635 204.001801,200.596155 C209.67788,193.784861 212.515919,186.973567 212.515919,179.594665 L212.515919,179.594665 C212.515919,172.783371 209.67788,165.404469 204.569409,159.160783 C192.649645,144.402979 177.324234,144.402979 161.431214,152.349489 C155.755136,155.187528 150.646666,159.728391 144.402979,162.56643 C129.645176,169.377724 115.45498,168.810116 102.4,156.890352 C89.3450199,144.402979 84.8041573,130.212784 92.7506669,113.752157 C95.588706,108.076078 99.5619609,102.4 102.4,96.7239217 C111.481725,80.2632946 113.184549,63.8026676 97.8591374,50.7476875 C91.6154512,45.0716092 84.2365495,42.8011779 77.4252555,42.8011779 L77.4252555,42.8011779 C70.6139615,42.8011779 63.2350598,45.639217 56.4237658,50.7476875 C40.5307466,63.2350598 38.8279231,80.8309025 49.6124719,96.1563139 C65.5054911,118.293019 67.2083146,138.159293 50.1800797,160.295999 C39.3955309,174.486194 39.3955309,190.946821 53.0181188,204.001801 C59.8294128,210.813095 67.2083146,213.651135 74.5872164,213.651135 L74.5872164,213.651135 C81.9661181,213.651135 89.9126277,210.813095 97.2915295,206.272233 C106.940863,200.028547 115.45498,192.082037 127.374745,193.217253 L127.374745,193.217253 Z" />';
+		$source .= '</g>';
+		$source .= '</svg>';
+		// phpcs:ignore
+		return 'data:image/svg+xml;base64,' . base64_encode( $source );
+	}
+
+	/**
+	 * Returns a base64 svg resource for the Loggly icon.
+	 *
+	 * @return string The svg resource as a base64.
+	 * @since 1.0.0
+	 */
+	private function get_base64_loggly_icon() {
+		$source  = '<svg width="256px" height="256px" viewBox="240 0 347.7 80"  version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xml:space="preserve">';
+		$source .= '<g transform="translate(-590, -70) scale(3.3,3.3)">';
+		$source .= '<path style="fill:#F99D1C" d="M302.8,32.3c0.3-0.1,0.5-0.1,0.7-0.2c5.5-1.6,10.8-3.7,16.2-5.9c5.2-2.2,10.3-4.8,14.9-8.5 C339.2,13.9,342.9,9,345,3c0.3-0.8,0.9-2.1,0.9-3c-7.2,9.9-35.9,10.9-35.9,10.9l6.8-6.2c-27.2,0.1-46.2,11.6-54.9,17.8 c11.1,1.2,21.2,5.9,29.1,13C294.9,34.3,298.9,33.4,302.8,32.3z"/>';
+		$source .= '<path style="fill:#F99D1C" d="M347.7,31.3c0,0-26.4-2-53.9,6.8c3.6,3.8,6.7,8.2,9.1,12.9C317.3,43.1,337.4,32.8,347.7,31.3z"/>';
+		$source .= '<path style="fill:#F99D1C" d="M304.7,55.2c1.7,4.3,2.8,8.9,3.3,13.7L333.2,43L304.7,55.2z"/>';
 		$source .= '</g>';
 		$source .= '</svg>';
 		// phpcs:ignore
