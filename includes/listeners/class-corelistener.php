@@ -1044,6 +1044,11 @@ class CoreListener extends AbstractListener {
 			$error   = true;
 			$message = ucfirst( $response->get_error_message() ) . ': ';
 			$code    = $response->get_error_code();
+		} elseif ( array_key_exists( 'blocking', $request ) && ! $request['blocking'] ) {
+			$error = false;
+			if ( isset( $response['message'] ) && is_string( $response['message'] ) ) {
+				$message = ucfirst( $response['message'] ) . ': ';
+			}
 		} elseif ( isset( $response['response']['code'] ) ) {
 			$code  = (int) $response['response']['code'];
 			$error = ! in_array( $code, Http::$http_success_codes, true );
@@ -1055,11 +1060,6 @@ class CoreListener extends AbstractListener {
 				} else {
 					$message = 'Unknown error: ';
 				}
-			}
-		} elseif ( array_key_exists( 'blocking', $request ) && ! $request['blocking'] ) {
-			$error = false;
-			if ( isset( $response['message'] ) && is_string( $response['message'] ) ) {
-				$message = ucfirst( $response['message'] ) . ': ';
 			}
 		} elseif ( ! is_numeric( $response['response']['code'] ) ) {
 			$error = false;
