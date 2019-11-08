@@ -16,7 +16,7 @@ use Decalog\System\Option;
 /**
  * Jetpack listener for DecaLog.
  *
- * Defines methods and properties for User Switching listener class.
+ * Defines methods and properties for Jetpack class.
  *
  * @package Listeners
  * @author  Pierre Lannoy <https://pierre.lannoy.fr/>.
