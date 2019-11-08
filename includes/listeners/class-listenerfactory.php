@@ -48,6 +48,16 @@ class ListenerFactory {
 	];
 
 	/**
+	 * Excluded files from early listeners auto loading.
+	 *
+	 * @since  1.6.0
+	 * @var    array    $late_init    The list of excluded files.
+	 */
+	private $late_init = [
+		'class-wsallistener.php',
+	];
+
+	/**
 	 * Infos on all loadable listeners.
 	 *
 	 * @since  1.0.0
@@ -72,7 +82,29 @@ class ListenerFactory {
 	public function launch() {
 		self::$infos = [];
 		foreach (
-			array_diff( scandir( DECALOG_LISTENERS_DIR ), $this->excluded_files ) as $item ) {
+			array_diff( scandir( DECALOG_LISTENERS_DIR ), $this->excluded_files, $this->late_init ) as $item ) {
+			if ( ! is_dir( DECALOG_LISTENERS_DIR . $item ) ) {
+				$classname = str_replace( [ 'class-', '.php' ], '', $item );
+				$classname = str_replace( 'listener', 'Listener', strtolower( $classname ) );
+				$classname = ucfirst( $classname );
+				$instance  = $this->create_listener_instance( $classname );
+				if ( $instance ) {
+					self::$infos[] = $instance->get_info();
+				} else {
+					$this->log->error( sprintf( 'Unable to load "%s".', $classname ) );
+				}
+			}
+		}
+	}
+
+	/**
+	 * Launch the listeners which need to be launched at the end of plugin load sequence.
+	 *
+	 * @since    1.6.0
+	 */
+	public function launch_late_init() {
+		foreach (
+			array_intersect( scandir( DECALOG_LISTENERS_DIR ), $this->late_init ) as $item ) {
 			if ( ! is_dir( DECALOG_LISTENERS_DIR . $item ) ) {
 				$classname = str_replace( [ 'class-', '.php' ], '', $item );
 				$classname = str_replace( 'listener', 'Listener', strtolower( $classname ) );
