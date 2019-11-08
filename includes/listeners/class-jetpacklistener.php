@@ -11,6 +11,8 @@
 
 namespace Decalog\Listener;
 
+use Decalog\System\Option;
+
 /**
  * Jetpack listener for DecaLog.
  *
@@ -59,7 +61,6 @@ class JetpackListener extends AbstractListener {
 		add_action( 'jetpack_log_entry', [ $this, 'jetpack_log_entry' ], 10, 2 );
 		add_action( 'jpp_log_failed_attempt', [ $this, 'jpp_log_failed_attempt' ], 10, 1 );
 		add_action( 'jpp_kill_login', [ $this, 'jpp_kill_login' ], 10, 1 );
-
 		add_action( 'jetpack_site_registered', [ $this, 'jetpack_site_registered' ], 10, 3 );
 		add_action( 'jetpack_unrecognized_action', [ $this, 'jetpack_unrecognized_action' ], 10, 1 );
 		add_action( 'jetpack_activate_module', [ $this, 'jetpack_activate_module' ], 10, 2 );
@@ -74,8 +75,9 @@ class JetpackListener extends AbstractListener {
 	 *
 	 * @since    1.6.0
 	 */
-	public function jetpack_log_entry( $log_entry) {
-		$this->logger->emergency( print_r($log_entry, true) );
+	public function jetpack_log_entry( $log_entry ) {
+		// phpcs:ignore
+		$this->logger->debug( print_r( $log_entry, true ) );
 	}
 
 	/**
@@ -84,7 +86,17 @@ class JetpackListener extends AbstractListener {
 	 * @since    1.6.0
 	 */
 	public function jpp_log_failed_attempt( $user ) {
-		$this->logger->emergency( $user['login'] );
+		if ( array_key_exists( 'login', $user ) ) {
+			$name = $user['login'];
+		} else {
+			$name = 'unknown user';
+		}
+		if ( Option::network_get( 'pseudonymization' ) ) {
+			$name = 'somebody';
+		}
+		if ( isset( $this->logger ) ) {
+			$this->logger->notice( sprintf( 'Failed login for "%s".', $name ) );
+		}
 	}
 
 	/**
@@ -93,18 +105,8 @@ class JetpackListener extends AbstractListener {
 	 * @since    1.6.0
 	 */
 	public function jpp_kill_login( $ip ) {
-		$this->logger->emergency( sprintf( 'Potential security violations from IP %s.', $ip ) );
+		$this->logger->info( sprintf( 'Potential security violations from IP %s.', $ip ) );
 	}
-
-
-
-
-
-
-
-
-
-
 
 	/**
 	 * "jetpack_site_registered" event.
@@ -166,7 +168,7 @@ class JetpackListener extends AbstractListener {
 	 * @since    1.6.0
 	 */
 	public function jetpack_sync_import_end( $importer, $importer_name ) {
-		$this->logger->info( sprintf( 'Terminated "%s" importation.', $importer_name ) );
+		$this->logger->info( sprintf( 'Import "%s" is terminated.', $importer_name ) );
 	}
 
 	/**
