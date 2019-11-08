@@ -5,11 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 ### Added
-- Full WooCommerce support.
-- Full Jetpack support.
-- PHP listener now detects all OPcache resets or status changes.
-- "Content" box in event viewer (for WordPress events logs) to display detailed error code and message.
+- New listener for WooCommerce.
+- New listener for Jetpack.
+- New listener for WP Security Audit Log.
+- New "Content" box in event viewer (for WordPress events logs) to display detailed error code and message.
 ### Changed
+- PHP listener now detects all OPcache resets or status changes.
 - Message size (for WordPress events logs) has been increased from 1000 to 7500 characters.
 - Upgraded Feather library from version 4.22.1 to version 4.24.1.
 - The PHP and WordPress backtraces are now cleaned from DecaLog and Monolog references.
@@ -18,7 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Non blocking HTTP request may sometimes generate a "Global Timeout" event in core listener (thanks to [Julio Potier](https://github.com/JulioPotier)).
 - Changelog date of version 1.5.3 is wrong.
 ### Security
-- [PRV001] In case of failed login, the username may appear in logs even if pseudonymisation is activated.
+- [PRV001] In case of failed login, the username may appear in clear text logs even if pseudonymisation is activated.
 
 ## [1.5.3] - 2019-11-01
 ### Fixed

@@ -85,6 +85,7 @@ class Core {
 		$listeners = new ListenerFactory();
 		$this->loader->add_action( 'plugins_loaded', $bootstrap, 'initialize', 0 );
 		$this->loader->add_action( 'plugins_loaded', $listeners, 'launch', 1 );
+		$this->loader->add_action( 'plugins_loaded', $listeners, 'launch_late_init', PHP_INT_MAX );
 		$this->loader->add_action( 'wp_head', $assets, 'prefetch' );
 		$this->loader->add_action( 'auto_update_plugin', $updater, 'auto_update_plugin', 10, 2 );
 		add_shortcode( 'decalog-changelog', [ $updater, 'sc_get_changelog' ] );

@@ -43,6 +43,23 @@ class EventTypes {
 	];
 
 	/**
+	 * List of the available WSAL levels.
+	 *
+	 * @since    1.0.0
+	 * @var string[] $levels Logging levels.
+	 */
+	public static $wsal_levels = [
+		7 => Logger::DEBUG,
+		6 => Logger::INFO,
+		5 => Logger::NOTICE,
+		4 => Logger::WARNING,
+		3 => Logger::ERROR,
+		2 => Logger::CRITICAL,
+		1 => Logger::ALERT,
+		0 => Logger::EMERGENCY,
+	];
+
+	/**
 	 * List of the available icons.
 	 *
 	 * @since    1.0.0
