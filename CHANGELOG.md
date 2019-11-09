@@ -9,7 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - New listener for Jetpack.
 - New listener for WP Security Audit Log.
 - New logger to send logs to Solawinds Loggly.
-- New logger to send logs to Logentries.
+- New logger to send logs to Logentries / insightOps.
 - New "Content" box in event viewer (for WordPress events logs) to display detailed error code and message.
 ### Changed
 - PHP listener now detects all OPcache resets or status changes.

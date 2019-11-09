@@ -150,8 +150,8 @@ class HandlerTypes {
 			'namespace'     => 'Decalog\\Handler',
 			'class'         => 'logging',
 			'minimal'       => Logger::DEBUG,
-			'name'          => esc_html__( 'Logentries', 'decalog' ),
-			'help'          => esc_html__( 'An events log sent to Logentries service.', 'decalog' ),
+			'name'          => esc_html__( 'Logentries & insightOps', 'decalog' ),
+			'help'          => esc_html__( 'An events log sent to Logentries & insightOps service.', 'decalog' ),
 			'icon'          => $this->get_base64_logentries_icon(),
 			'params'        => [ 'processors', 'privacy' ],
 			'configuration' => [
@@ -172,7 +172,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Log token', 'decalog' ),
-					'help'    => esc_html__( 'The token of the Logentries log.', 'decalog' ),
+					'help'    => esc_html__( 'The token of the Logentries/insightOps log.', 'decalog' ),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',

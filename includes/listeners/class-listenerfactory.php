@@ -55,6 +55,7 @@ class ListenerFactory {
 	 */
 	private $late_init = [
 		'class-wsallistener.php',
+		'class-wpseolistener.php',
 	];
 
 	/**

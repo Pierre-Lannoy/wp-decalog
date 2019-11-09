@@ -31,6 +31,7 @@ At this time, **DecaLog** can send events:
 * in the browser console (for debugging purpose);
 * to its internal logging storage and viewer;
 * to external logger, like Syslog or Fluentd;
+* to external logging services, like Logentries / insightOps or Loggly;
 * to external alerting services, like Pushover or Slack;
 * to local or network storage (with file rotation);
 
