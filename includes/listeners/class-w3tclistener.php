@@ -80,11 +80,6 @@ class W3tcListener extends AbstractListener {
 		add_action( 'w3tc_saved_options', [ $this, 'w3tc_config_save' ], 10, 1 );
 		add_action( 'w3tc_redirect', [ $this, 'w3tc_redirect' ], 10, 0 );
 		add_action( 'w3tc_register_fragment_groups', [ $this, 'w3tc_register_fragment_groups' ], 10, 0 );
-
-
-
-
-
 		add_action( 'w3tc_flush_post', [ $this, 'w3tc_flush_post' ], 10, 2 );
 		add_action( 'w3tc_flush_posts', [ $this, 'w3tc_flush_posts' ], 10, 1 );
 		return true;
