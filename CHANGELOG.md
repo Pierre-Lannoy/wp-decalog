@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - New listener for WooCommerce.
 - New listener for Jetpack.
 - New listener for WP Security Audit Log.
+- New listener for W3 Total Cache.
 - New logger to send logs to Solawinds Loggly.
 - New logger to send logs to Logentries / insightOps.
 - New "Content" box in event viewer (for WordPress events logs) to display detailed error code and message.
@@ -18,6 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Upgraded Feather library from version 4.22.1 to version 4.24.1.
 - The PHP and WordPress backtraces are now cleaned from DecaLog and Monolog references.
 - The name and help message for backtraces settings are more clear.
+- cURL timeouts have now an "error" level (it was previously a "critical" one).
 ### Fixed
 - Non blocking HTTP request may sometimes generate a "Global Timeout" event in core listener (thanks to [Julio Potier](https://github.com/JulioPotier)).
 - Changelog date of version 1.5.3 is wrong.
