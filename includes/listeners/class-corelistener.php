@@ -1081,7 +1081,7 @@ class CoreListener extends AbstractListener {
 			} elseif ( $code >= 100 ) {
 				$this->logger->info( $message, $code );
 			} else {
-				$this->logger->critical( $message, $code );
+				$this->logger->error( $message, $code );
 			}
 		} else {
 			$this->logger->debug( $message, $code );
