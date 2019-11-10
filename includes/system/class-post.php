@@ -60,7 +60,7 @@ class Post {
 		$post  = get_post( $id );
 		$id    = isset( $post->ID ) ? $post->ID : 0;
 		$title = self::get_post_title( $id );
-		return sprintf( '%s (user ID %s)', $title, $id );
+		return sprintf( '"%s" (post ID %s)', $title, $id );
 	}
 
 }
