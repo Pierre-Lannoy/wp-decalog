@@ -45,8 +45,8 @@ class ListenerFactory {
 		'index.php',
 		'class-abstractlistener.php',
 		'class-listenerfactory.php',
-		'class-wordfencelistener.php',
-		'class-wpseolistener.php',
+		//'class-wordfencelistener.php',
+		//'class-wpseolistener.php',
 	];
 
 	/**

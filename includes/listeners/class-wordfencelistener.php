@@ -68,7 +68,7 @@ class WordfenceListener extends AbstractListener {
 	 * @since    1.6.0
 	 */
 	public function wordfence_security_event( $event, $details ) {
-		$this->logger->debug( $event . ' / ' . print_r($details, true) );
+		$this->logger->emergency( $event . ' / ' . print_r($details, true) );
 
 	}
 }
