@@ -45,6 +45,8 @@ class ListenerFactory {
 		'index.php',
 		'class-abstractlistener.php',
 		'class-listenerfactory.php',
+		'class-wordfencelistener.php',
+		'class-wpseolistener.php',
 	];
 
 	/**
@@ -55,7 +57,6 @@ class ListenerFactory {
 	 */
 	private $late_init = [
 		'class-wsallistener.php',
-		'class-wpseolistener.php',
 	];
 
 	/**

@@ -50,20 +50,7 @@ class LogentriesHandler extends SocketHandler {
 		parent::__construct( $connection_string, $level, $bubble );
 		// phpcs:ignore
 		ini_set( 'default_socket_timeout', (string) $old_timeout );
-
-
-
-		// host eu.data.logs.insight.rapid7.com
-		// token f28e1b6e-de11-4f26-978a-380d5fa6cfbd
-
 	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	/*protected function getDefaultFormatter(): FormatterInterface {
-		return new FluentFormatter();
-	}*/
 
 	/**
 	 * {@inheritdoc}
