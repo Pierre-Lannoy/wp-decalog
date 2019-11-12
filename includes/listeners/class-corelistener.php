@@ -1008,6 +1008,8 @@ class CoreListener extends AbstractListener {
 			} elseif ( '' !== $msg ) {
 				if ( 0 === strpos( $msg, '[' ) || 0 === strpos( $msg, '{' ) ) {
 					$this->logger->debug( wp_kses( $msg, [] ), $code );
+				} elseif ( false !== strpos( $message, '&lrm;' ) ) { // hack to filter wp_ajax_sample_permalink hook.
+					$this->logger->debug( wp_kses( $msg, [] ), $code );
 				} else {
 					$this->logger->critical( wp_kses( $msg, [] ), $code );
 				}
