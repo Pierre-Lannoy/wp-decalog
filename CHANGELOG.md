@@ -3,6 +3,12 @@ All notable changes to **DecaLog** is documented in this *changelog*.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Changed
+- Events for `wp_ajax_sample_permalink` hook are now rendered at debug level.
+### Fixed
+- With some OPcache configurations there must be PHP warning in "CoreListener".
+
 ## [1.6.0] - 2019-11-11
 ### Added
 - New listener for WooCommerce.

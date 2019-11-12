@@ -188,7 +188,7 @@ class PhpListener extends AbstractListener {
 		if ( function_exists( 'opcache_get_status' ) ) {
 			$new_opcache = opcache_get_status( false );
 			Option::network_set( 'php_opcache', $new_opcache );
-			if ( 'x' === $old_opcache || $new_opcache === $old_opcache ) {
+			if ( 'x' === $old_opcache || $new_opcache === $old_opcache || ! is_array( $old_opcache ) || ! is_array( $new_opcache ) ) {
 				return;
 			}
 			if ( array_key_exists( 'cache_full', $old_opcache ) && ! (bool) $old_opcache['cache_full'] && array_key_exists( 'cache_full', $new_opcache ) && (bool) $new_opcache['cache_full'] ) {
