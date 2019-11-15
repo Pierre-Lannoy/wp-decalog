@@ -60,7 +60,7 @@ class Libraries {
 			'name'    => 'Monolog',
 			'prefix'  => 'Monolog',
 			'base'    => DECALOG_VENDOR_DIR . 'monolog/',
-			'version' => '2.0.0',
+			'version' => '2.0.1',
 			// phpcs:ignore
 			'author'  => sprintf( esc_html__( '%s & contributors', 'decalog' ), 'Jordi Boggiano' ),
 			'url'     => 'https://github.com/Seldaek/monolog',
