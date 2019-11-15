@@ -36,10 +36,11 @@ class Conversion {
 	 * @param   float   $number    The number to shorten.
 	 * @param   integer $precision Optional. The decimal numbers.
 	 * @param   boolean $detail    Optional. Give the detail of the shortening.
+	 * @param   string  $separator Optional. Unit separator.
 	 * @return  string|array  The shortened number.
 	 * @since   1.0.0
 	 */
-	public static function number_shorten( $number, $precision = 2, $detail = false ) {
+	public static function number_shorten( $number, $precision = 2, $detail = false, $separator = '' ) {
 		$divisors = [
 			pow( 1000, 0 ) => '',
 			pow( 1000, 1 ) => esc_html_x( 'K', 'Abbreviation - Stands for "thousand".', 'decalog' ),
@@ -62,7 +63,7 @@ class Conversion {
 				'base'         => 1000,
 			];
 		} else {
-			return 0 + number_format( $number / $divisor, $precision, '.', '' ) . $shorthand;
+			return 0 + number_format( $number / $divisor, $precision, '.', '' ) . $separator . $shorthand;
 		}
 	}
 
@@ -72,10 +73,11 @@ class Conversion {
 	 * @param   float   $number    The data to shorten.
 	 * @param   integer $precision Optional. The decimal numbers.
 	 * @param   boolean $detail    Optional. Give the detail of the shortening.
+	 * @param   string  $separator Optional. Unit separator.
 	 * @return  string|array  The shortened data.
 	 * @since   1.0.0
 	 */
-	public static function data_shorten( $number, $precision = 2, $detail = false ) {
+	public static function data_shorten( $number, $precision = 2, $detail = false, $separator = '' ) {
 		$divisors = [
 			pow( 1024, 0 ) => esc_html_x( 'B', 'Abbreviation - Stands for "byte".', 'decalog' ),
 			pow( 1024, 1 ) => esc_html_x( 'KB', 'Abbreviation - Stands for "kilobytes".', 'decalog' ),
@@ -98,7 +100,7 @@ class Conversion {
 				'base'         => 1024,
 			];
 		} else {
-			return 0 + number_format( $number / $divisor, $precision, '.', '' ) . $shorthand;
+			return 0 + number_format( $number / $divisor, $precision, '.', '' ) . $separator . $shorthand;
 		}
 	}
 

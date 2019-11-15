@@ -89,9 +89,9 @@ class Date {
 	public static function get_age_array_from_seconds( $age, $legend = false, $abbrev = false ) {
 		if ( $abbrev ) {
 			$intervals = [
-				[ 60, _x( 'sec.', 'Abbreviation - Stands for "second".', 'decalog' ), _x( 'sec.', 'Abbreviation - Stands for "second".', 'decalog' ) ],
-				[ 60, _x( 'min.', 'Abbreviation - Stands for "minute".', 'decalog' ), _x( 'min.', 'Abbreviation - Stands for "minute".', 'decalog' ) ],
-				[ 100000, _x( 'hr.', 'Abbreviation - Stands for "hour".', 'decalog' ), _x( 'hr.', 'Abbreviation - Stands for "hour".', 'decalog' ) ],
+				[ 60, _x( 'sec', 'Unit abbreviation - Stands for "second".', 'decalog' ), _x( 'sec', 'Unit abbreviation - Stands for "second".', 'decalog' ) ],
+				[ 60, _x( 'min', 'Unit abbreviation - Stands for "minute".', 'decalog' ), _x( 'min', 'Unit abbreviation - Stands for "minute".', 'decalog' ) ],
+				[ 100000, _x( 'hr', 'Unit abbreviation - Stands for "hour".', 'decalog' ), _x( 'hr', 'Unit abbreviation - Stands for "hour".', 'decalog' ) ],
 			];
 		} else {
 			$intervals = [

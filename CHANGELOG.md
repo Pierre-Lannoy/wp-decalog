@@ -5,7 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 ### Changed
+- Upgraded Monolog library from version 2.0.0 to version 2.0.1.
 - Events for `wp_ajax_sample_permalink` hook are now rendered at debug level.
+- Unit symbols and abbreviations are now visually differentiated.
+- There's now a non-breaking space between values and units.
 ### Fixed
 - With some OPcache configurations there must be PHP warning in "CoreListener".
 
