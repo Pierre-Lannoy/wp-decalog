@@ -241,10 +241,14 @@ class Cache {
 	 */
 	private static function delete_for_ful_name( $item_name ) {
 		global $wpdb;
-		$result = 0;
+		while ( 0 !== substr_count( $item_name, '//' ) ) {
+			$item_name = str_replace( '//', '/', $item_name );
+		}
+		$item_name = str_replace( '/', '_', $item_name );
+		$result    = 0;
 		if ( strlen( $item_name ) - 1 === strpos( $item_name, '/*' ) && '/' === $item_name[0] ) {
 			// phpcs:ignore
-			$delete = $wpdb->get_col( "SELECT option_name FROM {$wpdb->options} WHERE option_name = '_transient_timeout_" . str_replace( '/*', '', $item_name ) . "' OR option_name LIKE '_transient_timeout_" . str_replace( '/*', '/%', $item_name ) . "';" );
+			$delete = $wpdb->get_col( "SELECT option_name FROM {$wpdb->options} WHERE option_name = '_transient_timeout_" . str_replace( '_*', '', $item_name ) . "' OR option_name LIKE '_transient_timeout_" . str_replace( '_*', '_%', $item_name ) . "';" );
 		} else {
 			// phpcs:ignore
 			$delete = $wpdb->get_col( "SELECT option_name FROM {$wpdb->options} WHERE option_name = '_transient_timeout_" . $item_name . "';" );

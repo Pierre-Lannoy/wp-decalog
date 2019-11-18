@@ -57,6 +57,7 @@ class ListenerFactory {
 	 */
 	private $late_init = [
 		'class-wsallistener.php',
+		'class-wordfencelistener.php',
 	];
 
 	/**

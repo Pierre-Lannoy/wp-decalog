@@ -58,7 +58,7 @@ class WordfenceListener extends AbstractListener {
 	 * @since    1.6.0
 	 */
 	protected function launch() {
-		add_action( 'wordfence_security_event', [ $this, 'wordfence_security_event' ], 10, 2 );
+		add_action( 'wordfence_security_event', [ $this, 'wordfence_security_event' ], 10, 3 );
 		return true;
 	}
 
@@ -67,7 +67,7 @@ class WordfenceListener extends AbstractListener {
 	 *
 	 * @since    1.6.0
 	 */
-	public function wordfence_security_event( $event, $details ) {
+	public function wordfence_security_event( $event, $details, $a ) {
 		$this->logger->emergency( $event . ' / ' . print_r($details, true) );
 
 	}
