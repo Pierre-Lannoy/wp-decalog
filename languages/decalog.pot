@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: DecaLog\n"
-"POT-Creation-Date: 2019-10-24 13:19+0200\n"
+"POT-Creation-Date: 2019-11-20 15:37+0100\n"
 "PO-Revision-Date: 2019-07-08 14:07+0200\n"
 "Last-Translator: Pierre Lannoy <pierre@lannoy.fr>\n"
 "Language-Team: Pierre Lannoy <pierre@lannoy.fr>\n"
@@ -67,7 +67,7 @@ msgstr ""
 msgid "Support"
 msgstr ""
 
-#: admin/class-decalog-admin.php:235 includes/features/class-events.php:685
+#: admin/class-decalog-admin.php:235 includes/features/class-events.php:701
 msgid "Site"
 msgstr ""
 
@@ -426,7 +426,7 @@ msgstr ""
 
 #: admin/partials/decalog-admin-view-events-bottom.php:21
 #: admin/partials/decalog-admin-view-events-top.php:21
-#: includes/features/class-events.php:648
+#: includes/features/class-events.php:664
 msgid "Apply"
 msgstr ""
 
@@ -512,17 +512,17 @@ msgid "Site ID %s"
 msgstr ""
 
 #: includes/features/class-events.php:214
-#: includes/features/class-eventviewer.php:336
+#: includes/features/class-eventviewer.php:350
 msgid "Anonymous user"
 msgstr ""
 
 #: includes/features/class-events.php:218
-#: includes/features/class-eventviewer.php:340
+#: includes/features/class-eventviewer.php:354
 msgid "Pseudonymized user"
 msgstr ""
 
 #: includes/features/class-events.php:221
-#: includes/features/class-eventviewer.php:343
+#: includes/features/class-eventviewer.php:357
 #, php-format
 msgid "User ID %s"
 msgstr ""
@@ -531,85 +531,85 @@ msgstr ""
 msgid "Obfuscated"
 msgstr ""
 
-#: includes/features/class-events.php:309
+#: includes/features/class-events.php:325
 msgid "Remove this filter"
 msgstr ""
 
-#: includes/features/class-events.php:315
+#: includes/features/class-events.php:331
 msgid "Add as filter"
 msgstr ""
 
-#: includes/features/class-events.php:417
+#: includes/features/class-events.php:433
 msgid "All"
 msgstr ""
 
-#: includes/features/class-events.php:419
+#: includes/features/class-events.php:435
 msgid "Notices & beyond"
 msgstr ""
 
-#: includes/features/class-events.php:421
+#: includes/features/class-events.php:437
 msgid "Errors & beyond"
 msgstr ""
 
-#: includes/features/class-events.php:473
+#: includes/features/class-events.php:489
 #, php-format
 msgid "Show %d lines per page"
 msgstr ""
 
-#: includes/features/class-events.php:642
+#: includes/features/class-events.php:658
 msgid "Extra columns"
 msgstr ""
 
-#: includes/features/class-events.php:680
+#: includes/features/class-events.php:696
 #: includes/features/class-eventviewer.php:249
 #: includes/features/class-inlinehelp.php:351
 msgid "Event"
 msgstr ""
 
-#: includes/features/class-events.php:681
+#: includes/features/class-events.php:697
 msgid "Time"
 msgstr ""
 
-#: includes/features/class-events.php:682
+#: includes/features/class-events.php:698
 msgid "Message"
 msgstr ""
 
-#: includes/features/class-events.php:684
+#: includes/features/class-events.php:700
 msgid "Source"
 msgstr ""
 
-#: includes/features/class-events.php:686
+#: includes/features/class-events.php:702
 msgid "User"
 msgstr ""
 
-#: includes/features/class-events.php:687
+#: includes/features/class-events.php:703
 msgid "Remote IP"
 msgstr ""
 
 #. translators: definition of an event typed 'UNKNOWN'
-#: includes/features/class-eventtypes.php:111
+#: includes/features/class-eventtypes.php:128
 msgid "The event is not typed, this can't be a good news."
 msgstr ""
 
 #. translators: definition of an event typed 'DEBUG', see https://github.com/Pierre-Lannoy/wp-decalog/blob/master/DEVELOPER.md for details
-#: includes/features/class-eventtypes.php:113
+#: includes/features/class-eventtypes.php:130
 msgid ""
 "An information for developers and testers. Only used for events related to "
 "application/system debugging."
 msgstr ""
 
 #. translators: definition of an event typed 'INFO', see https://github.com/Pierre-Lannoy/wp-decalog/blob/master/DEVELOPER.md for details
-#: includes/features/class-eventtypes.php:115
+#: includes/features/class-eventtypes.php:132
 msgid "A standard information, just for you to know… and forget!"
 msgstr ""
 
 #. translators: definition of an event typed 'NOTICE', see https://github.com/Pierre-Lannoy/wp-decalog/blob/master/DEVELOPER.md for details
-#: includes/features/class-eventtypes.php:117
+#: includes/features/class-eventtypes.php:134
 msgid "A normal but significant condition. Now you know!"
 msgstr ""
 
 #. translators: definition of an event typed 'WARNING', see https://github.com/Pierre-Lannoy/wp-decalog/blob/master/DEVELOPER.md for details
-#: includes/features/class-eventtypes.php:119
+#: includes/features/class-eventtypes.php:136
 msgid ""
 "A significant condition indicating a situation that may lead to an error "
 "if recurring or if no action is taken. Does not usually affect the "
@@ -617,28 +617,28 @@ msgid ""
 msgstr ""
 
 #. translators: definition of an event typed 'ERROR', see https://github.com/Pierre-Lannoy/wp-decalog/blob/master/DEVELOPER.md for details
-#: includes/features/class-eventtypes.php:121
+#: includes/features/class-eventtypes.php:138
 msgid ""
 "A minor operating error that may affects the operations. It requires "
 "investigation and preventive treatment."
 msgstr ""
 
 #. translators: definition of an event typed 'CRITICAL', see https://github.com/Pierre-Lannoy/wp-decalog/blob/master/DEVELOPER.md for details
-#: includes/features/class-eventtypes.php:123
+#: includes/features/class-eventtypes.php:140
 msgid ""
 "An operating error that undoubtedly affects the operations. It requires "
 "investigation and corrective treatment."
 msgstr ""
 
 #. translators: definition of an event typed 'ALERT', see https://github.com/Pierre-Lannoy/wp-decalog/blob/master/DEVELOPER.md for details
-#: includes/features/class-eventtypes.php:125
+#: includes/features/class-eventtypes.php:142
 msgid ""
 "A major operating error that undoubtedly affects the operations. It "
 "requires immediate investigation and corrective treatment."
 msgstr ""
 
 #. translators: definition of an event typed 'EMERGENCY', see https://github.com/Pierre-Lannoy/wp-decalog/blob/master/DEVELOPER.md for details
-#: includes/features/class-eventtypes.php:127
+#: includes/features/class-eventtypes.php:144
 msgid "A panic condition. WordPress is unusable."
 msgstr ""
 
@@ -670,35 +670,36 @@ msgstr ""
 msgid "Event: %s"
 msgstr ""
 
-#: includes/features/class-eventviewer.php:251
-#: includes/features/class-inlinehelp.php:353
-#: includes/features/class-processortypes.php:64
-msgid "HTTP request"
+#: includes/features/class-eventviewer.php:250
+#: includes/features/class-inlinehelp.php:352
+msgid "Content"
 msgstr ""
 
 #: includes/features/class-eventviewer.php:252
 #: includes/features/class-inlinehelp.php:354
+#: includes/features/class-processortypes.php:64
+msgid "HTTP request"
+msgstr ""
+
+#: includes/features/class-eventviewer.php:253
+#: includes/features/class-inlinehelp.php:355
 #: includes/features/class-processortypes.php:51
 msgid "PHP introspection"
 msgstr ""
 
 #. translators: like in the sentence "PHP backtrace" or "WordPress backtrace"
-#: includes/features/class-eventviewer.php:255
-#: includes/features/class-eventviewer.php:257
-#: includes/features/class-inlinehelp.php:356
+#: includes/features/class-eventviewer.php:256
+#: includes/features/class-eventviewer.php:258
+#: includes/features/class-inlinehelp.php:357
 #, php-format
 msgid "%s backtrace"
 msgstr ""
 
-#: includes/features/class-eventviewer.php:321
-msgid "Code:"
-msgstr ""
-
-#: includes/features/class-eventviewer.php:364
+#: includes/features/class-eventviewer.php:378
 msgid "obfuscated IP"
 msgstr ""
 
-#: includes/features/class-eventviewer.php:367
+#: includes/features/class-eventviewer.php:381
 #, php-format
 msgid "from %s."
 msgstr ""
@@ -750,218 +751,265 @@ msgid ""
 msgstr ""
 
 #: includes/features/class-handlertypes.php:118
-#: includes/features/class-handlertypes.php:256
+#: includes/features/class-handlertypes.php:186
+#: includes/features/class-handlertypes.php:356
 msgid "Socket timeout"
 msgstr ""
 
 #: includes/features/class-handlertypes.php:119
-#: includes/features/class-handlertypes.php:257
+#: includes/features/class-handlertypes.php:187
+#: includes/features/class-handlertypes.php:357
 msgid "Max number of milliseconds to wait for the socket."
 msgstr ""
 
 #: includes/features/class-handlertypes.php:153
-msgid "Mail"
+msgid "Logentries & insightOps"
 msgstr ""
 
 #: includes/features/class-handlertypes.php:154
-msgid "Events alerts sent by WordPress via mail."
+msgid "An events log sent to Logentries & insightOps service."
 msgstr ""
 
 #: includes/features/class-handlertypes.php:161
-msgid "Recipients"
+msgid "Log endpoint region"
 msgstr ""
 
 #: includes/features/class-handlertypes.php:162
+msgid "The region of remote host receiving messages."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:168
+msgid "Europe"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:168
+msgid "USA"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:174
+msgid "Log token"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:175
+msgid "The token of the Logentries/insightOps log."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:221
+msgid "Loggly"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:222
+msgid "An events log sent to Solawinds Loggly service."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:229
+#: includes/features/class-handlertypes.php:320
+msgid "Application token"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:230
+msgid "The token of the Solawinds Loggly application."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:253
+msgid "Mail"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:254
+msgid "Events alerts sent by WordPress via mail."
+msgstr ""
+
+#: includes/features/class-handlertypes.php:261
+msgid "Recipients"
+msgstr ""
+
+#: includes/features/class-handlertypes.php:262
 msgid "The recipients mail address, in coma separated list."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:189
+#: includes/features/class-handlertypes.php:289
 msgid "PHP error log"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:190
+#: includes/features/class-handlertypes.php:290
 msgid ""
 "An events log stored in the standard PHP error log, as with the "
 "error_log() function."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:212
+#: includes/features/class-handlertypes.php:312
 msgid "Pushover"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:213
+#: includes/features/class-handlertypes.php:313
 msgid "Events alerts sent via Pushover service."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:220
-msgid "Application token"
-msgstr ""
-
-#: includes/features/class-handlertypes.php:221
+#: includes/features/class-handlertypes.php:321
 msgid "The token of the Pushover application."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:232
+#: includes/features/class-handlertypes.php:332
 msgid "Recipient"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:233
+#: includes/features/class-handlertypes.php:333
 msgid "The recipient key. It can be a \"user key\" or a \"group key\"."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:244
+#: includes/features/class-handlertypes.php:344
 msgid "Message title"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:245
+#: includes/features/class-handlertypes.php:345
 msgid "The title of the message which will be sent."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:295
+#: includes/features/class-handlertypes.php:395
 msgid "Rotating files"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:296
+#: includes/features/class-handlertypes.php:396
 msgid ""
 "An events log sent to files that are rotated every day and a limited "
 "number of files are kept."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:303
+#: includes/features/class-handlertypes.php:403
 msgid "File"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:304
+#: includes/features/class-handlertypes.php:404
 msgid "The full absolute path and filename, like \"/path/to/file\"."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:315
+#: includes/features/class-handlertypes.php:415
 msgid "Maximum"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:316
+#: includes/features/class-handlertypes.php:416
 msgid "The maximal number of files to keep (0 means unlimited)."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:350
+#: includes/features/class-handlertypes.php:450
 msgid "Slack"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:351
+#: includes/features/class-handlertypes.php:451
 msgid "Events alerts sent through Slack Webhooks."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:358
+#: includes/features/class-handlertypes.php:458
 msgid "Webhook URL"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:359
+#: includes/features/class-handlertypes.php:459
 msgid "The Webhook URL set in the Slack application."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:370
+#: includes/features/class-handlertypes.php:470
 msgid "Short attachment"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:371
+#: includes/features/class-handlertypes.php:471
 msgid "Use a shortened version for attachments sent in channel."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:382
+#: includes/features/class-handlertypes.php:482
 msgid "Full data"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:383
+#: includes/features/class-handlertypes.php:483
 msgid "Whether the attachments should include context and extra data."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:434
+#: includes/features/class-handlertypes.php:534
 msgid "Syslog"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:435
+#: includes/features/class-handlertypes.php:535
 msgid "An events log sent to a remote syslogd server."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:442
+#: includes/features/class-handlertypes.php:542
 msgid "Host"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:443
+#: includes/features/class-handlertypes.php:543
 msgid "The remote host receiving syslog messages."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:454
+#: includes/features/class-handlertypes.php:554
 msgid "Protocol"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:455
+#: includes/features/class-handlertypes.php:555
 msgid "The used syslog protocol."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:466
+#: includes/features/class-handlertypes.php:566
 msgid "Port"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:467
+#: includes/features/class-handlertypes.php:567
 msgid "The opened port on remote host to receive syslog messages."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:481
+#: includes/features/class-handlertypes.php:581
 msgid "Facility"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:482
+#: includes/features/class-handlertypes.php:582
 msgid "The syslog facility for messages sent by DecaLog."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:493
+#: includes/features/class-handlertypes.php:593
 msgid "Identifier"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:494
+#: includes/features/class-handlertypes.php:594
 msgid "The program identifier for messages sent by DecaLog."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:505
+#: includes/features/class-handlertypes.php:605
 msgid "Time format"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:506
+#: includes/features/class-handlertypes.php:606
 msgid "The time format standard to use."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:551
+#: includes/features/class-handlertypes.php:651
 msgid "WordPress events log"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:552
+#: includes/features/class-handlertypes.php:652
 msgid ""
 "An events log stored in your WordPress database and available right in "
 "your admin dashboard."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:559
+#: includes/features/class-handlertypes.php:659
 msgid "Events"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:560
+#: includes/features/class-handlertypes.php:660
 msgid "Maximum number of events stored in this events log (0 for no limit)."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:574
+#: includes/features/class-handlertypes.php:674
 msgid "Days"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:575
+#: includes/features/class-handlertypes.php:675
 msgid "Maximum age of events stored in this events log (0 for no limit)."
 msgstr ""
 
-#: includes/features/class-handlertypes.php:589
+#: includes/features/class-handlertypes.php:689
 msgid "Multisite partitioning"
 msgstr ""
 
-#: includes/features/class-handlertypes.php:590
+#: includes/features/class-handlertypes.php:690
 msgid "Local administrators can view events that relate to their site."
 msgstr ""
 
@@ -1045,7 +1093,7 @@ msgstr ""
 #: includes/features/class-inlinehelp.php:219
 #: includes/features/class-inlinehelp.php:252
 #: includes/features/class-inlinehelp.php:310
-#: includes/features/class-inlinehelp.php:358
+#: includes/features/class-inlinehelp.php:359
 msgid "Overview"
 msgstr ""
 
@@ -1084,7 +1132,7 @@ msgstr ""
 
 #: includes/features/class-inlinehelp.php:197
 #: includes/features/class-inlinehelp.php:332
-#: includes/features/class-inlinehelp.php:374
+#: includes/features/class-inlinehelp.php:375
 msgid "Events levels"
 msgstr ""
 
@@ -1160,14 +1208,14 @@ msgid ""
 msgstr ""
 
 #: includes/features/class-inlinehelp.php:315
-#: includes/features/class-inlinehelp.php:363
+#: includes/features/class-inlinehelp.php:364
 msgid ""
 "You can use the following controls to arrange the screen to suit your "
 "usage preferences:"
 msgstr ""
 
 #: includes/features/class-inlinehelp.php:316
-#: includes/features/class-inlinehelp.php:364
+#: includes/features/class-inlinehelp.php:365
 msgid "Screen Options"
 msgstr ""
 
@@ -1176,7 +1224,7 @@ msgid "Use the Screen Options tab to choose which extra columns to show."
 msgstr ""
 
 #: includes/features/class-inlinehelp.php:318
-#: includes/features/class-inlinehelp.php:368
+#: includes/features/class-inlinehelp.php:369
 msgid "Layout"
 msgstr ""
 
@@ -1195,43 +1243,47 @@ msgid "General information about the event."
 msgstr ""
 
 #: includes/features/class-inlinehelp.php:352
-msgid "User and site where the event occurs."
+msgid "Event code and message."
 msgstr ""
 
 #: includes/features/class-inlinehelp.php:353
-msgid "The detail of the request that led to this event."
+msgid "User and site where the event occurs."
 msgstr ""
 
 #: includes/features/class-inlinehelp.php:354
+msgid "The detail of the request that led to this event."
+msgstr ""
+
+#: includes/features/class-inlinehelp.php:355
 msgid "The code location where this event was generated."
 msgstr ""
 
-#: includes/features/class-inlinehelp.php:356
+#: includes/features/class-inlinehelp.php:357
 msgid ""
 "Two different views of the same informations: the backtrace of the call "
 "that led to this event."
 msgstr ""
 
-#: includes/features/class-inlinehelp.php:364
+#: includes/features/class-inlinehelp.php:365
 msgid "Use the Screen Options tab to choose which boxes to show."
 msgstr ""
 
-#: includes/features/class-inlinehelp.php:365
+#: includes/features/class-inlinehelp.php:366
 msgid "Drag and Drop"
 msgstr ""
 
-#: includes/features/class-inlinehelp.php:365
+#: includes/features/class-inlinehelp.php:366
 msgid ""
 "To rearrange the boxes, drag and drop by clicking on the title bar of the "
 "selected box and releasing when you see a gray dotted-line rectangle "
 "appear in the location you want to place the box."
 msgstr ""
 
-#: includes/features/class-inlinehelp.php:366
+#: includes/features/class-inlinehelp.php:367
 msgid "Box Controls"
 msgstr ""
 
-#: includes/features/class-inlinehelp.php:366
+#: includes/features/class-inlinehelp.php:367
 msgid "Click the title bar of the box to expand or collapse it."
 msgstr ""
 
@@ -1284,7 +1336,7 @@ msgid "Backtrace"
 msgstr ""
 
 #: includes/features/class-processortypes.php:43
-msgid "Allows to log the full call stack."
+msgid "Allows to log the full PHP and WordPress call stack."
 msgstr ""
 
 #: includes/features/class-processortypes.php:52
@@ -1350,86 +1402,86 @@ msgstr ""
 msgid "WordPress MU"
 msgstr ""
 
-#: includes/plugin/class-updater.php:43
+#: includes/plugin/class-updater.php:44
 #, php-format
 msgid "%1$s has been correctly installed."
 msgstr ""
 
-#: includes/plugin/class-updater.php:47
+#: includes/plugin/class-updater.php:48
 #, php-format
 msgid "%1$s has been correctly updated from version %2$s to version %3$s."
 msgstr ""
 
-#: includes/plugin/class-updater.php:51
+#: includes/plugin/class-updater.php:52
 #, php-format
 msgid "See <a href=\"%s\">what's new</a>."
 msgstr ""
 
-#: includes/plugin/class-updater.php:149
+#: includes/plugin/class-updater.php:153
 msgid "Sorry, unable to find or read changelog file."
 msgstr ""
 
-#: includes/system/class-conversion.php:45
+#: includes/system/class-conversion.php:46
 msgctxt "Abbreviation - Stands for \"thousand\"."
 msgid "K"
 msgstr ""
 
-#: includes/system/class-conversion.php:46
+#: includes/system/class-conversion.php:47
 msgctxt "Abbreviation - Stands for \"million\"."
 msgid "M"
 msgstr ""
 
-#: includes/system/class-conversion.php:47
+#: includes/system/class-conversion.php:48
 msgctxt "Abbreviation - Stands for \"billion\"."
 msgid "B"
 msgstr ""
 
-#: includes/system/class-conversion.php:48
+#: includes/system/class-conversion.php:49
 msgctxt "Abbreviation - Stands for \"trillion\"."
 msgid "T"
 msgstr ""
 
-#: includes/system/class-conversion.php:49
+#: includes/system/class-conversion.php:50
 msgctxt "Abbreviation - Stands for \"quadrillion\"."
 msgid "Qa"
 msgstr ""
 
-#: includes/system/class-conversion.php:50
+#: includes/system/class-conversion.php:51
 msgctxt "Abbreviation - Stands for \"quintillion\"."
 msgid "Qi"
 msgstr ""
 
-#: includes/system/class-conversion.php:80
+#: includes/system/class-conversion.php:82
 msgctxt "Abbreviation - Stands for \"byte\"."
 msgid "B"
 msgstr ""
 
-#: includes/system/class-conversion.php:81
+#: includes/system/class-conversion.php:83
 msgctxt "Abbreviation - Stands for \"kilobytes\"."
 msgid "KB"
 msgstr ""
 
-#: includes/system/class-conversion.php:82
+#: includes/system/class-conversion.php:84
 msgctxt "Abbreviation - Stands for \"megabytes\"."
 msgid "MB"
 msgstr ""
 
-#: includes/system/class-conversion.php:83
+#: includes/system/class-conversion.php:85
 msgctxt "Abbreviation - Stands for \"gigabytes\"."
 msgid "GB"
 msgstr ""
 
-#: includes/system/class-conversion.php:84
+#: includes/system/class-conversion.php:86
 msgctxt "Abbreviation - Stands for \"terabytes\"."
 msgid "TB"
 msgstr ""
 
-#: includes/system/class-conversion.php:85
+#: includes/system/class-conversion.php:87
 msgctxt "Abbreviation - Stands for \"petabytes\"."
 msgid "PB"
 msgstr ""
 
-#: includes/system/class-conversion.php:86
+#: includes/system/class-conversion.php:88
 msgctxt "Abbreviation - Stands for \"exabytes\"."
 msgid "EB"
 msgstr ""
@@ -1449,18 +1501,18 @@ msgid "in %s"
 msgstr ""
 
 #: includes/system/class-date.php:92
-msgctxt "Abbreviation - Stands for \"second\"."
-msgid "sec."
+msgctxt "Unit abbreviation - Stands for \"second\"."
+msgid "sec"
 msgstr ""
 
 #: includes/system/class-date.php:93
-msgctxt "Abbreviation - Stands for \"minute\"."
-msgid "min."
+msgctxt "Unit abbreviation - Stands for \"minute\"."
+msgid "min"
 msgstr ""
 
 #: includes/system/class-date.php:94
-msgctxt "Abbreviation - Stands for \"hour\"."
-msgid "hr."
+msgctxt "Unit abbreviation - Stands for \"hour\"."
+msgid "hr"
 msgstr ""
 
 #: includes/system/class-date.php:98
