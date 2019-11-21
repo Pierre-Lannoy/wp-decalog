@@ -3,7 +3,7 @@ All notable changes to **DecaLog** is documented in this *changelog*.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.6.1] - 2019-11-22
 ### Changed
 - Upgraded Monolog library from version 2.0.0 to version 2.0.1.
 - Events for `wp_ajax_sample_permalink` hook are now rendered at debug level.
@@ -11,7 +11,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Unit symbols and abbreviations are now visually differentiated.
 - There's now a non-breaking space between values and units.
 ### Fixed
-- With some OPcache configurations there must be PHP warning in "CoreListener".
+- Some very long fields may be displayed outside the box in the WordPress events logs. 
+- With some OPcache configurations there may be PHP warning in "CoreListener".
 - Some cached items may not be deleted when needed.
 
 ## [1.6.0] - 2019-11-11

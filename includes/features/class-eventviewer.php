@@ -332,7 +332,7 @@ class EventViewer {
 		$content = '<span style="width:100%;cursor: default;">' . $this->get_icon( 'tag' ) . $this->event['code'] . '</span>';
 		$error   = $this->get_section( $content );
 		// Event message.
-		$content = '<span style="width:100%;cursor: default;">' . $this->get_icon( 'message-square' ) . $this->event['message'] . '</span>';
+		$content = '<span style="width:100%;cursor: default;word-break: break-all;">' . $this->get_icon( 'message-square' ) . $this->event['message'] . '</span>';
 		$message = $this->get_section( $content );
 
 		$this->output_activity_block( $error . $message );
@@ -379,7 +379,7 @@ class EventViewer {
 		}
 		// phpcs:ignore
 		$ip      = sprintf( esc_html__( 'from %s.', 'decalog' ), $ip );
-		$content = '<span style="width:100%;cursor: default;">' . $this->get_icon( 'layout' ) . $this->event['server'] . ' ' . $ip . '</span>';
+		$content = '<span style="width:100%;cursor: default;word-break: break-all;">' . $this->get_icon( 'layout' ) . $this->event['server'] . ' ' . $ip . '</span>';
 		$server  = $this->get_section( $content );
 		// Request detail.
 		$verb = $this->event['verb'];
@@ -388,10 +388,10 @@ class EventViewer {
 		} else {
 			$verb = '';
 		}
-		$content = '<span style="width:100%;cursor: default;">' . $this->get_icon( 'server' ) . $this->event['url'] . '&nbsp;' . $verb . '</span>';
+		$content = '<span style="width:100%;cursor: default;word-break: break-all;">' . $this->get_icon( 'server' ) . $this->event['url'] . '&nbsp;' . $verb . '</span>';
 		$request = $this->get_section( $content );
 		// referrer detail.
-		$content  = '<span style="width:100%;cursor: default;">' . $this->get_icon( 'arrow-left-circle' ) . $this->event['referrer'] . '</span>';
+		$content  = '<span style="width:100%;cursor: default;word-break: break-all;">' . $this->get_icon( 'arrow-left-circle' ) . $this->event['referrer'] . '</span>';
 		$referrer = $this->get_section( $content );
 
 		$this->output_activity_block( $server . $request . $referrer );
@@ -405,13 +405,13 @@ class EventViewer {
 	public function php_widget() {
 		// File detail.
 		$element = './' . str_replace( wp_normalize_path( ABSPATH ), '', wp_normalize_path( $this->event['file'] ) );
-		$element = '<span style="width:100%;cursor: default;">' . $this->get_icon( 'file-text' ) . $element . ':' . $this->event['line'] . '</span>';
+		$element = '<span style="width:100%;cursor: default;word-break: break-all;">' . $this->get_icon( 'file-text' ) . $element . ':' . $this->event['line'] . '</span>';
 		$file    = $this->get_section( $element );
 		// Function detail.
-		$element  = '<span style="width:100%;cursor: default;">' . $this->get_icon( 'code', 'none' ) . $this->event['function'] . '</span>';
+		$element  = '<span style="width:100%;cursor: default;word-break: break-all;">' . $this->get_icon( 'code', 'none' ) . $this->event['function'] . '</span>';
 		$function = $this->get_section( $element );
 		// Function detail.
-		$element = '<span style="width:100%;cursor: default;">' . $this->get_icon( 'layers' ) . $this->event['classname'] . '</span>';
+		$element = '<span style="width:100%;cursor: default;word-break: break-all;">' . $this->get_icon( 'layers' ) . $this->event['classname'] . '</span>';
 		$class   = $this->get_section( $element );
 
 		$this->output_activity_block( $class . $function . $file );
