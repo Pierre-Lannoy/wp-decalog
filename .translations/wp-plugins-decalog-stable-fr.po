@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - DecaLog - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-11-20 15:46+0100\n"
+"PO-Revision-Date: 2019-11-22 18:06+0100\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -878,7 +878,7 @@ msgstr "Journal d’erreur PHP"
 
 #: includes/features/class-handlertypes.php:262
 msgid "The recipients mail address, in coma separated list."
-msgstr "Les adresse e-mail des destinataires, dans une liste séparée par des virgules."
+msgstr "Les adresses e-mail des destinataires, dans une liste séparée par des virgules."
 
 #: includes/features/class-handlertypes.php:261
 msgid "Recipients"

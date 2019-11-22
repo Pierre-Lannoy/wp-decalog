@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - DecaLog - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-11-20 15:55+0100\n"
+"PO-Revision-Date: 2019-11-22 18:19+0100\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -28,7 +28,7 @@ msgstr "Loggly"
 
 #: includes/features/class-handlertypes.php:175
 msgid "The token of the Logentries/insightOps log."
-msgstr "Le jeton du journal Logentries/insightOps.."
+msgstr "Le jeton du registre Logentries/insightOps."
 
 #: includes/features/class-handlertypes.php:174
 msgid "Log token"
@@ -878,7 +878,7 @@ msgstr "Registre d’erreur PHP"
 
 #: includes/features/class-handlertypes.php:262
 msgid "The recipients mail address, in coma separated list."
-msgstr "Les adresse e-mail des destinataires, dans une liste séparée par des virgules."
+msgstr "Les adresses courriel des destinataires, dans une liste séparée par des virgules."
 
 #: includes/features/class-handlertypes.php:261
 msgid "Recipients"
@@ -886,11 +886,11 @@ msgstr "Destinataires"
 
 #: includes/features/class-handlertypes.php:254
 msgid "Events alerts sent by WordPress via mail."
-msgstr "Alertes d’évènements envoyées par WordPress sous forme d’e-mail."
+msgstr "Alertes d’évènements envoyées par WordPress sous forme de courriel."
 
 #: includes/features/class-handlertypes.php:253
 msgid "Mail"
-msgstr "E-mail"
+msgstr "Courriel"
 
 #: includes/features/class-handlertypes.php:119
 #: includes/features/class-handlertypes.php:187
@@ -1072,7 +1072,7 @@ msgstr "registre"
 
 #: includes/plugin/class-updater.php:153
 msgid "Sorry, unable to find or read changelog file."
-msgstr "Désolé, il est impossible de trouver ou de lire le journal des modifications."
+msgstr "Désolé, il est impossible de trouver ou de lire l’historique des changements."
 
 #: includes/plugin/class-updater.php:48
 msgid "%1$s has been correctly updated from version %2$s to version %3$s."
@@ -1100,7 +1100,7 @@ msgstr "Ajouter un enregistreur"
 
 #: admin/partials/decalog-admin-settings-about.php:41
 msgid "Changelog"
-msgstr "Journal des modifications"
+msgstr "Historique des changements"
 
 #: admin/partials/decalog-admin-settings-about.php:37
 msgid "Disclaimer"
@@ -1231,7 +1231,7 @@ msgstr "Fichier registre"
 
 #: admin/class-decalog-admin.php:847
 msgid "Minimal reported level. May be overridden by the \"respect WP_DEBUG directive\" option."
-msgstr "Niveau minimal de consigne. Peut être surchargé par l’option « respecter la directive WP-DEBUG »."
+msgstr "Niveau minimal de consigne. Peut être outrepassé par l’option « respecter la directive WP-DEBUG »."
 
 #: admin/class-decalog-admin.php:839 admin/class-decalog-admin.php:883
 #: includes/features/class-loggers.php:236
@@ -1276,7 +1276,7 @@ msgstr "Mises à jour de l’extension"
 
 #: admin/class-decalog-admin.php:746
 msgid "If checked, the value of WP_DEBUG will override each logger's settings for minimal level of logging."
-msgstr "Si coché, la valeur de WP-DEBUG remplacera les paramètres de chaque enregistreur concernant le niveau minimal de consigne."
+msgstr "Si coché, la valeur de WP-DEBUG outrepassera les paramètres de chaque enregistreur concernant le niveau minimal de consigne."
 
 #: admin/class-decalog-admin.php:743
 msgid "Respect WP_DEBUG"
