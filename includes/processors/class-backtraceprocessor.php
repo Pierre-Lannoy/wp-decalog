@@ -91,17 +91,25 @@ class BacktraceProcessor implements ProcessorInterface {
 			return $record;
 		}
 		$trace = [];
+		$cpt   = 0;
 		// phpcs:ignore
 		foreach ( array_reverse( debug_backtrace( DEBUG_BACKTRACE_PROVIDE_OBJECT ) ) as $t ) {
 			if ( array_key_exists( 'class', $t ) && 0 === strpos( $t['class'], 'Decalog\\' ) ) {
 				break;
 			}
+			if ( 50 < $cpt++ ) {
+				break;
+			}
 			$trace[] = $t;
 		}
 		$wptrace = [];
+		$cpt     = 0;
 		// phpcs:ignore
 		foreach ( array_reverse( wp_debug_backtrace_summary( null, 0, false ) ) as $t ) {
 			if ( 0 === strpos( $t, 'Decalog\\' ) ) {
+				break;
+			}
+			if ( 50 < $cpt++ ) {
 				break;
 			}
 			$wptrace[] = $t;

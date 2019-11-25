@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased]
 ### Added
 - Full compatibility with [MailArchiver](https://wordpress.org/plugins/mailarchiver/).
+### Changed
+### Fixed
+- Removing a WordPress logger may produce a wrong backtrace. 
 
 ## [1.6.1] - 2019-11-22
 ### Changed
