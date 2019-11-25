@@ -3,6 +3,10 @@ All notable changes to **DecaLog** is documented in this *changelog*.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Added
+- Full compatibility with [MailArchiver](https://wordpress.org/plugins/mailarchiver/).
+
 ## [1.6.1] - 2019-11-22
 ### Changed
 - Upgraded Monolog library from version 2.0.0 to version 2.0.1.
