@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 ### Fixed
 - Removing a WordPress logger may produce a wrong backtrace. 
+- The selector for number of displayed lines (in WordPress logger) show sometimes a wrong value. 
 
 ## [1.6.1] - 2019-11-22
 ### Changed
