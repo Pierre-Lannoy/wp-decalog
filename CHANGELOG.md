@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 - Full compatibility with [MailArchiver](https://wordpress.org/plugins/mailarchiver/).
 ### Changed
+- The status of the user in the event viewer is now clearly visible. 
 ### Fixed
 - Removing a WordPress logger may produce a wrong backtrace. 
 - The selector for number of displayed lines (in WordPress logger) show sometimes a wrong value. 

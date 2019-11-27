@@ -15,6 +15,7 @@ use Decalog\System\Date;
 use Decalog\System\Timezone;
 use Feather;
 use Decalog\System\Database;
+use Decalog\System\User;
 
 /**
  * Define the event viewer functionality.
@@ -345,20 +346,15 @@ class EventViewer {
 	 */
 	public function wordpress_widget() {
 		// User detail.
-		$user_name = $this->event['user_name'];
-		if ( 'anonymous' === $user_name ) {
-			$user_name = esc_html__( 'Anonymous user', 'decalog' );
-		}
-		$user_id = '-';
-		if ( 0 === strpos( $this->event['user_name'], '{' ) ) {
-			$user_name = esc_html__( 'Pseudonymized user', 'decalog' );
+		if ( 'anonymous' === $this->event['user_name'] ) {
+			$user = $this->get_section( '<span style="width:100%;cursor: default;word-break: break-all;">' . $this->get_icon( 'user' ) . esc_html__( 'Anonymous user', 'decalog' ) . '</span>' );
+		} elseif ( 0 === strpos( $this->event['user_name'], '{' ) ) {
+			$user = $this->get_section( '<span style="width:100%;cursor: default;word-break: break-all;">' . $this->get_icon( 'user' ) . esc_html__( 'Pseudonymized user', 'decalog' ) . '</span>' );
 		} elseif ( 0 !== (int) $this->event['user_id'] ) {
-			// phpcs:ignore
-			$user_id = sprintf( esc_html__( 'User ID %s', 'decalog' ), $this->event[ 'user_id' ] );
+			$user = $this->get_section( '<span style="width:100%;cursor: default;word-break: break-all;">' . $this->get_icon( 'user-check' ) . User::get_user_string( (int) $this->event['user_id'] ) . '</span>' );
+		} else {
+			$user = $this->get_section( '<span style="width:100%;cursor: default;word-break: break-all;">' . $this->get_icon( 'user-x' ) . esc_html__( 'Deleted user', 'decalog' ) . '</span>' );
 		}
-		$content  = '<span style="width:40%;cursor: default;float:left">' . $this->get_icon( 'user' ) . $user_id . '</span>';
-		$content .= '<span style="width:60%;cursor: default;">' . $this->get_icon( 'user-check' ) . $user_name . '</span>';
-		$user     = $this->get_section( $content );
 		// Site detail.
 		$content = '<span style="width:100%;cursor: default;">' . $this->get_icon( 'layout' ) . $this->event['site_name'] . '</span>';
 		$site    = $this->get_section( $content );
@@ -423,6 +419,7 @@ class EventViewer {
 	 * @since 1.0.0
 	 */
 	public function phpbacktrace_widget() {
+		// phpcs:ignore
 		$trace   = unserialize( $this->event['trace'] );
 		$content = '';
 		if ( is_array( $trace ) ) {
@@ -452,6 +449,7 @@ class EventViewer {
 	 * @since 1.0.0
 	 */
 	public function wpbacktrace_widget() {
+		// phpcs:ignore
 		$trace   = unserialize( $this->event['trace'] );
 		$content = '';
 		if ( is_array( $trace ) ) {
