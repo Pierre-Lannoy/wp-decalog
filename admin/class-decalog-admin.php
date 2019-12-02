@@ -484,7 +484,6 @@ class Decalog_Admin {
 	private function save_options() {
 		if ( ! empty( $_POST ) ) {
 			if ( array_key_exists( '_wpnonce', $_POST ) && wp_verify_nonce( $_POST['_wpnonce'], 'decalog-plugin-options' ) ) {
-				Option::network_set( 'auto_update', array_key_exists( 'decalog_plugin_options_autoupdate', $_POST ) );
 				Option::network_set( 'use_cdn', array_key_exists( 'decalog_plugin_options_usecdn', $_POST ) );
 				Option::network_set( 'display_nag', array_key_exists( 'decalog_plugin_options_nag', $_POST ) );
 				Option::network_set( 'logger_autostart', array_key_exists( 'decalog_loggers_options_autostart', $_POST ) );
@@ -776,22 +775,6 @@ class Decalog_Admin {
 			]
 		);
 		register_setting( 'decalog_plugin_options_section', 'decalog_plugin_options_usecdn' );
-		add_settings_field(
-			'decalog_plugin_options_autoupdate',
-			__( 'Plugin updates', 'decalog' ),
-			[ $form, 'echo_field_checkbox' ],
-			'decalog_plugin_options_section',
-			'decalog_plugin_options_section',
-			[
-				'text'        => esc_html__( 'Automatic (recommended)', 'decalog' ),
-				'id'          => 'decalog_plugin_options_autoupdate',
-				'checked'     => Option::network_get( 'auto_update' ),
-				'description' => esc_html__( 'If checked, DecaLog will update itself as soon as a new version is available.', 'decalog' ),
-				'full_width'  => true,
-				'enabled'     => true,
-			]
-		);
-		register_setting( 'decalog_plugin_options_section', 'decalog_plugin_options_autoupdate' );
 		add_settings_field(
 			'decalog_plugin_options_nag',
 			__( 'Admin notices', 'decalog' ),

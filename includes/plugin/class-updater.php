@@ -90,49 +90,6 @@ class Updater {
 	}
 
 	/**
-	 * Is the WP update system enabled for plugins?
-	 *
-	 * @return  boolean  True if nothing blocks updates, false otherwise.
-	 * @since 1.0.0
-	 */
-	public function is_updatable() {
-		$filter = false === has_filter( 'auto_update_plugin', '__return_false' );
-		if ( defined( 'AUTOMATIC_UPDATER_DISABLED' ) ) {
-			$main = ! AUTOMATIC_UPDATER_DISABLED;
-		} else {
-			$main = true;
-		}
-		return $main && $filter;
-	}
-
-	/**
-	 * Is the plugin auto-update enabled?
-	 *
-	 * @return  boolean  True if plugin is auto-updatable, false otherwise.
-	 * @since 1.0.0
-	 */
-	public function is_autoupdatable() {
-		return ( $this->is_updatable() && Option::network_get( 'auto_update' ) );
-	}
-
-	/**
-	 * Choose if the plugin must be auto-updated or not.
-	 * Concerned hook: auto_update_plugin.
-	 *
-	 * @param   boolean $update The default answer.
-	 * @param   object  $item   The detail of the item (to update or not).
-	 * @return  boolean  True if plugin must be auto-updated, false otherwise.
-	 * @since 1.0.0
-	 */
-	public function auto_update_plugin( $update, $item ) {
-		if ( ( DECALOG_SLUG === $item->slug ) && $this->is_autoupdatable() ) {
-			return true;
-		} else {
-			return $update;
-		}
-	}
-
-	/**
 	 * Get the changelog.
 	 *
 	 * @param   array $attributes  'style' => 'markdown', 'html'.

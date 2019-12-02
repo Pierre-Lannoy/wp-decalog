@@ -10,7 +10,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - The status of the user in the event viewer is now clearly visible. 
 ### Fixed
 - Removing a WordPress logger may produce a wrong backtrace. 
-- The selector for number of displayed lines (in WordPress logger) show sometimes a wrong value. 
+- The selector for number of displayed lines (in WordPress logger) show sometimes a wrong value.
+### Removed
+- As a result of the Plugin Team's request, the auto-update feature has been removed.
 
 ## [1.6.1] - 2019-11-22
 ### Changed
