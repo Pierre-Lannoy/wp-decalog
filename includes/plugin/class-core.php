@@ -83,7 +83,7 @@ class Core {
 		$updater   = new Updater();
 		$libraries = new Libraries();
 		$listeners = new ListenerFactory();
-		$this->loader->add_action( 'plugins_loaded', $bootstrap, 'initialize', 0 );
+		$this->loader->add_action( 'init', $bootstrap, 'initialize', 0 );
 		$this->loader->add_action( 'plugins_loaded', $listeners, 'launch', 1 );
 		$this->loader->add_action( 'plugins_loaded', $listeners, 'launch_late_init', PHP_INT_MAX );
 		$this->loader->add_action( 'wp_head', $assets, 'prefetch' );

@@ -11,6 +11,7 @@
 
 namespace Decalog\Plugin\Feature;
 
+use Decalog\Logger;
 use Decalog\System\Date;
 use Decalog\System\Option;
 use Decalog\System\Role;
@@ -619,10 +620,10 @@ class Events extends \WP_List_Table {
 		if ( isset( $_POST['wp_screen_options_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['wp_screen_options_nonce'] ) ), 'wp_screen_options_nonce' ) ) {
 			if ( 'decalog_options' === $option ) {
 				// phpcs:ignore
-				$value = isset( $_POST['decalog'] ) && is_array( $_POST['decalog'] ) ? $_POST['decalog'] : [];
+				return isset( $_POST['decalog'] ) && is_array( $_POST['decalog'] ) ? $_POST['decalog'] : [];
 			}
 		}
-		return $value;
+		return $status;
 	}
 
 	/**
@@ -706,7 +707,7 @@ class Events extends \WP_List_Table {
 		self::$user_columns                = [];
 		if ( $user_meta ) {
 			foreach ( self::$extra_columns as $key => $extra_column ) {
-				if ( array_key_exists( $key, $user_meta[0] ) ) {
+				if ( is_array( $user_meta[0] ) && array_key_exists( $key, $user_meta[0] ) ) {
 					self::$user_columns[] = $key;
 				}
 			}

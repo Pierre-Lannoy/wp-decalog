@@ -3,6 +3,10 @@ All notable changes to **DecaLog** is documented in this *changelog*.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased - will be 1.7.1]
+### Fixed
+- In rare conditions, displayed/hidden columns in WordPress logger are not saved. 
+
 ## [1.7.0] - 2019-12-03
 ### Added
 - Full compatibility with [MailArchiver](https://wordpress.org/plugins/mailarchiver/).
