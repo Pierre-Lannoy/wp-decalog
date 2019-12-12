@@ -3,13 +3,14 @@ All notable changes to **DecaLog** is documented in this *changelog*.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased - will be 1.7.2]
+
+
 ## [1.7.1]
 ### Changed
 - Improved layout for mobile usage. 
 ### Fixed
 - In rare conditions, displayed/hidden columns in WordPress logger are not saved. 
-
-## [Unreleased - will be 1.7.2]
 
 ## [1.7.0] - 2019-12-03
 ### Added
