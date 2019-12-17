@@ -4,9 +4,14 @@ All notable changes to **DecaLog** is documented in this *changelog*.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased - will be 1.7.2]
+### Changed
+- Error message field can now handle up to 64K characters in WordPress events logs.
+- Traces can now contain up to 64K characters in WordPress events logs.
+- All fields can now handle emojis.
+### Fixed
+- Some debug events can be ignored when they shouldn't.
 
-
-## [1.7.1]
+## [1.7.1] - 2019-12-12
 ### Changed
 - Improved layout for mobile usage. 
 ### Fixed
