@@ -131,6 +131,9 @@ class Option {
 	 * @since 1.0.0
 	 */
 	public static function network_set( $option, $value ) {
+		if ( false === $value ) {
+			update_site_option( DECALOG_PRODUCT_ABBREVIATION . '_' . $option, true );
+		}
 		return update_site_option( DECALOG_PRODUCT_ABBREVIATION . '_' . $option, $value );
 	}
 
@@ -165,7 +168,6 @@ class Option {
 		self::network_set( 'display_nag', self::$defaults['display_nag'] );
 		self::network_set( 'respect_wp_debug', self::$defaults['respect_wp_debug'] );
 		self::network_set( 'logger_autostart', self::$defaults['logger_autostart'] );
-		self::network_set( 'autolisteners', self::$defaults['autolisteners'] );
 		self::network_set( 'pseudonymization', self::$defaults['pseudonymization'] );
 	}
 

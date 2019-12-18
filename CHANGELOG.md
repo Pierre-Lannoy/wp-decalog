@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - The cleaning cron job is now launched hourly.
 ### Fixed
 - Some debug events might be ignored when they shouldn't.
+- Some plugin options may be not saved when needed (thanks to [Lucas Bustamante](https://github.com/Luc45)).
 
 ## [1.7.1] - 2019-12-12
 ### Changed

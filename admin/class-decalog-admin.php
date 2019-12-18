@@ -432,7 +432,7 @@ class Decalog_Admin {
 	private function save_listeners() {
 		if ( ! empty( $_POST ) ) {
 			if ( array_key_exists( '_wpnonce', $_POST ) && wp_verify_nonce( $_POST['_wpnonce'], 'decalog-listeners-options' ) ) {
-				Option::network_set( 'autolisteners', 'auto' === filter_input( INPUT_POST, 'decalog_listeners_options_auto' ) );
+				Option::network_set( 'autolisteners', 'auto' === filter_input( INPUT_POST, 'decalog_listeners_options_auto',FILTER_SANITIZE_STRING ) );
 				$list      = [];
 				$listeners = ListenerFactory::$infos;
 				foreach ( $listeners as $listener ) {
