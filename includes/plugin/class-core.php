@@ -91,7 +91,7 @@ class Core {
 		add_shortcode( 'decalog-libraries', [ $libraries, 'sc_get_list' ] );
 		add_shortcode( 'decalog-statistics', [ 'Decalog\System\Statistics', 'sc_get_raw' ] );
 		if ( ! wp_next_scheduled( DECALOG_CRON_NAME ) ) {
-			wp_schedule_event( time(), 'twicedaily', DECALOG_CRON_NAME );
+			wp_schedule_event( time(), 'hourly', DECALOG_CRON_NAME );
 		}
 		$maintainer = new LoggerMaintainer();
 		$this->loader->add_action( DECALOG_CRON_NAME, $maintainer, 'cron_clean' );
