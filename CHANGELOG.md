@@ -8,9 +8,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Error message field can now handle up to 64K characters in WordPress events logs.
 - Traces can now contain up to 64K characters in WordPress events logs.
 - All fields can now handle emojis.
-- The cleaning cron job of WordPress events logs is now launched hourly.
+- The cleaning cron job is now launched hourly.
 ### Fixed
-- Some debug events can be ignored when they shouldn't.
+- Some debug events might be ignored when they shouldn't.
 
 ## [1.7.1] - 2019-12-12
 ### Changed
