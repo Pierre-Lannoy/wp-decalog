@@ -113,7 +113,7 @@ class WordpressHandler {
 			$sql            .= " `component` varchar(26) NOT NULL DEFAULT 'Unknown',";
 			$sql            .= " `version` varchar(13) NOT NULL DEFAULT 'N/A',";
 			$sql            .= " `code` int(11) UNSIGNED NOT NULL DEFAULT '0',";
-			$sql            .= " `message` text NOT NULL DEFAULT '-',";
+			$sql            .= " `message` text,";
 			$sql            .= " `site_id` int(11) UNSIGNED NOT NULL DEFAULT '0',";
 			$sql            .= " `site_name` varchar(250) NOT NULL DEFAULT 'Unknown',";
 			$sql            .= " `user_id` varchar(66) NOT NULL DEFAULT '0',";  // Needed by SHA-256 pseudonymization.
@@ -148,7 +148,7 @@ class WordpressHandler {
 		$sql = 'ALTER TABLE ' . $this->table . ' CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;';
 		// phpcs:ignore
 		$wpdb->query( $sql );
-		$sql = 'ALTER TABLE ' . $this->table . " MODIFY COLUMN message text NOT NULL DEFAULT '-';";
+		$sql = 'ALTER TABLE ' . $this->table . " MODIFY COLUMN message text;";
 		// phpcs:ignore
 		$wpdb->query( $sql );
 		$sql = 'ALTER TABLE ' . $this->table . " MODIFY COLUMN trace text;";
