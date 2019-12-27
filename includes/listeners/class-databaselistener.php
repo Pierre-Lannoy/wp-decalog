@@ -98,12 +98,8 @@ class DatabaseListener extends AbstractListener {
 	public function shutdown() {
 		global $EZSQL_ERROR;
 		if ( isset( $this->logger ) && is_array( $EZSQL_ERROR ) && 0 < count( $EZSQL_ERROR ) ) {
-			$errors = $EZSQL_ERROR;
-			$last   = end( $errors );
-			if ( 1 === count( $EZSQL_ERROR ) ) {
-				$this->logger->critical( sprintf( 'A database error was detected during the page rendering: "%s" in the query "%s".', $last['error_str'], $last['query'] ) );
-			} else {
-				$this->logger->critical( sprintf( '%s database errors were detected during the page rendering. The last one is "%s" in the query "%s"', count( $EZSQL_ERROR ), $last['error_str'], $last['query'] ) );
+			foreach ( $EZSQL_ERROR as $error ) {
+				$this->logger->critical( sprintf( 'A database error was detected during the page rendering: "%s" in the query "%s".', $error['error_str'], $error['query'] ) );
 			}
 		}
 	}
@@ -115,6 +111,7 @@ class DatabaseListener extends AbstractListener {
 	 */
 	public function wp_die_handler( $handler ) {
 		$dberror = array_filter(
+			// phpcs:ignore
 			debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS, 6 ),
 			function ( $item ) {
 				return isset( $item['function'] )

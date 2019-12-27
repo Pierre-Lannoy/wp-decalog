@@ -3,9 +3,14 @@ All notable changes to **DecaLog** is documented in this *changelog*.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased - will be 1.7.3]
+## [Unreleased - will be 1.8.0]
+### Added
+- Full compatibility (for internal cache) with Redis and Memcached.
+- Using APCu rather than database transients if APCu is available.
+### Changed
+- The SQL listener now generates multiple critical errors if there's more than one SQL error during page rendering.
 ### Fixed
-- Updating plugin from prior versions may generates a (innocuous) SQL warning.
+- Updating plugin from prior versions may generates a (innocuous) warning.
 
 ## [1.7.2] - 2019-12-18
 ### Changed
