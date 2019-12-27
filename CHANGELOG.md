@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Full compatibility (for internal cache) with Redis and Memcached.
 - Using APCu rather than database transients if APCu is available.
 ### Changed
+- Upgraded Monolog library from version 2.0.1 to version 2.0.2.
 - The SQL listener now generates multiple critical errors if there's more than one SQL error during page rendering.
 ### Fixed
 - Updating plugin from prior versions may generates a (innocuous) warning.
