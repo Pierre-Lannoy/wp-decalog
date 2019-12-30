@@ -115,7 +115,7 @@ class Sitehealth {
 	 * @return array    The extended infos if needed.
 	 * @since 1.0.0
 	 */
-	public function perfopsone_info( $debug_info ) {
+	public static function perfopsone_info( $debug_info ) {
 		$key = 'perfopsone_objectcache';
 		if ( ! array_key_exists( $key, $debug_info ) ) {
 			$debug_info[ $key ] = [
@@ -141,7 +141,7 @@ class Sitehealth {
 	 * @return array    The extended infos if needed.
 	 * @since 1.0.0
 	 */
-	public function plugin_info( $debug_info ) {
+	public static function plugin_info( $debug_info ) {
 		$debug_info[ self::$slug ] = [
 			'label'       => DECALOG_PRODUCT_NAME,
 			'description' => esc_html__( 'Plugin diagnostic information', 'decalog' ),
@@ -157,7 +157,7 @@ class Sitehealth {
 	 * @return array    The extended tests if needed.
 	 * @since 1.0.0
 	 */
-	public function perfopsone_test_objectcache( $tests ) {
+	public static function perfopsone_test_objectcache( $tests ) {
 		$key = 'perfopsone_objectcache';
 		if ( ! array_key_exists( $key, $tests['direct'] ) ) {
 			$tests['direct'][ $key ] = [
@@ -174,7 +174,7 @@ class Sitehealth {
 	 * @return array    The result of the test.
 	 * @since 1.0.0
 	 */
-	public function perfopsone_test_objectcache_do() {
+	public static function perfopsone_test_objectcache_do() {
 		$key       = 'perfopsone_objectcache';
 		$analytics = Cache::get_analytics();
 		if ( 'db_transient' === $analytics['type'] ) {
@@ -224,7 +224,7 @@ class Sitehealth {
 	 * @return array    The extended tests if needed.
 	 * @since 1.0.0
 	 */
-	public function perfopsone_test_opcache( $tests ) {
+	public static function perfopsone_test_opcache( $tests ) {
 		$key = 'perfopsone_opcache';
 		if ( ! array_key_exists( $key, $tests['direct'] ) ) {
 			$tests['direct'][ $key ] = [
@@ -241,7 +241,7 @@ class Sitehealth {
 	 * @return array    The result of the test.
 	 * @since 1.0.0
 	 */
-	public function perfopsone_test_opcache_do() {
+	public static function perfopsone_test_opcache_do() {
 		$key = 'perfopsone_opcache';
 		if ( function_exists( 'opcache_invalidate' ) && function_exists( 'opcache_compile_file' ) && function_exists( 'opcache_is_script_cached' ) ) {
 			$result = [
@@ -278,7 +278,7 @@ class Sitehealth {
 	 * @return array    The extended tests if needed.
 	 * @since 1.0.0
 	 */
-	public function perfopsone_test_i18n( $tests ) {
+	public static function perfopsone_test_i18n( $tests ) {
 		$key = 'perfopsone_i18n';
 		if ( ! array_key_exists( $key, $tests['direct'] ) ) {
 			$tests['direct'][ $key ] = [
@@ -295,7 +295,7 @@ class Sitehealth {
 	 * @return array    The result of the test.
 	 * @since 1.0.0
 	 */
-	public function perfopsone_test_i18n_do() {
+	public static function perfopsone_test_i18n_do() {
 		$key = 'perfopsone_i18n';
 		if ( I18n::is_extension_loaded() ) {
 			$result = [
