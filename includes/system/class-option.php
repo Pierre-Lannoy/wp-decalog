@@ -11,6 +11,8 @@
 
 namespace Decalog\System;
 
+use Decalog\System\Environment;
+
 /**
  * Define the options functionality.
  *
@@ -26,9 +28,37 @@ class Option {
 	 * The list of defaults options.
 	 *
 	 * @since  1.0.0
-	 * @var    array    $defaults    The $defaults list.
+	 * @access private
+	 * @var    array    $defaults    The defaults list.
 	 */
 	private static $defaults = [];
+
+	/**
+	 * The list of network-wide options.
+	 *
+	 * @since  1.0.0
+	 * @access private
+	 * @var    array    $network    The network-wide list.
+	 */
+	private static $network = [];
+
+	/**
+	 * The list of site options.
+	 *
+	 * @since  1.0.0
+	 * @access private
+	 * @var    array    $site    The site list.
+	 */
+	private static $site = [];
+
+	/**
+	 * The list of private options.
+	 *
+	 * @since  1.0.0
+	 * @access private
+	 * @var    array    $private    The private options list.
+	 */
+	private static $private = [];
 
 	/**
 	 * Set the defaults options.
@@ -48,6 +78,42 @@ class Option {
 		self::$defaults['autolisteners']     = true;  // In plugin settings.
 		self::$defaults['listeners']         = [];    // In plugin settings.
 		self::$defaults['pseudonymization']  = false; // In plugin settings.
+		self::$network                       = [ 'version', 'use_cdn', 'download_favicons', 'script_in_footer', 'display_nag', 'respect_wp_debug', 'logger_autostart', 'pseudonymization' ];
+	}
+
+	/**
+	 * Get the options infos for Site Health "info" tab.
+	 *
+	 * @since 1.0.0
+	 */
+	public static function debug_info() {
+		$result = [];
+		$si     = '[Site Option] ';
+		$nt     = $si;
+		if ( Environment::is_wordpress_multisite() ) {
+			$nt = '[Network Option] ';
+		}
+		foreach ( self::$network as $opt ) {
+			$val            = self::network_get( $opt );
+			$result[ $opt ] = [
+				'label'   => $nt . $opt,
+				'value'   => is_bool( $val ) ? $val ? 1 : 0 : $val,
+				'private' => in_array( $opt, self::$private, true ),
+			];
+		}
+		$result[ 'listeners' ] = [
+			'label' => $nt . 'listeners',
+			'value' => implode( ', ', self::network_get( 'listeners' ) ),
+		];
+		foreach ( self::$site as $opt ) {
+			$val            = self::site_get( $opt );
+			$result[ $opt ] = [
+				'label'   => $si . $opt,
+				'value'   => is_bool( $val ) ? $val ? 1 : 0 : $val,
+				'private' => in_array( $opt, self::$private, true ),
+			];
+		}
+		return $result;
 	}
 
 	/**
