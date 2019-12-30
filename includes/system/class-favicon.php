@@ -60,8 +60,14 @@ class Favicon {
 		$logger = new Logger( 'plugin', DECALOG_PRODUCT_NAME, DECALOG_VERSION );
 		$dir    = WP_CONTENT_DIR . '/cache/site-favicons/';
 		$name   = strtolower( $name );
-		if ( 0 === strpos( $name, '192.0.100.' ) ) {
-			$name = 'automattic.com';
+		if ( 0 === strpos( $name, '192.0.' ) ) {   // Automattic has IPs from 192.0.64.0 to 192.0.127.254.
+			$c = substr( $name, 6 );
+			if ( false !== strpos( $c, '.' ) ) {
+				$c = (int) substr( $c, 0, strpos( $c, '.' ) );
+				if ( $c >= 64 && $c <= 127 ) {
+					$name = 'automattic.com';
+				}
+			}
 		}
 		$filename = $dir . sanitize_file_name( $name ) . '.png';
 		if ( array_key_exists( $name, self::$icons ) ) {
