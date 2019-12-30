@@ -12,6 +12,7 @@
 namespace Decalog\Plugin\Feature;
 
 use Decalog\System\Option;
+use Decalog\Plugin\Feature\EventTypes;
 
 /**
  * Define the logger maintenance functionality.
@@ -84,6 +85,42 @@ class LoggerMaintainer {
 				$instance->update( $from );
 			}
 		}
+	}
+
+	/**
+	 * Get loggers debug info (for Site Health).
+	 *
+	 * @return array    The loggers definitions.
+	 * @since    1.0.0
+	 */
+	public function debug_info() {
+		$result = [];
+		foreach ( Option::network_get( 'loggers' ) as $key => $logger ) {
+			$name = $logger['name'];
+			unset( $logger['name'] );
+			$logger['uuid']    = '{' . $key . '}';
+			$logger['running'] = $logger['running'] ? 'yes' : 'no';
+			$logger['level']   = strtolower( EventTypes::$level_names[ $logger['level'] ] );
+			$privacy           = [];
+			foreach ( $logger['privacy'] as $i => $item ) {
+				if ( $item ) {
+					$privacy[] = $i;
+				}
+			}
+			$logger['privacy']    = '[' . implode(', ', $privacy ) . ']';
+			$logger['processors'] = '[' . implode(', ', $logger['processors'] ) . ']';
+			$configuration        = [];
+			foreach ( $logger['configuration'] as $i => $item ) {
+				if ( in_array( $i, [ 'webhook', 'token', 'user', 'users', 'filename' ], true ) ) {
+					$configuration[] = $i . ':xxx';
+				} else {
+					$configuration[] = $i . ':' . ( is_bool( $item ) ? ( $item ? 'false' : 'true' ) : $item );
+				}
+			}
+			$logger['configuration'] = '[' . implode(', ', $configuration ) . ']';
+			$result[ $key ]          = [ 'label' => $name, 'value' => $logger ];
+		}
+		return $result;
 	}
 
 }

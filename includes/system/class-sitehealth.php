@@ -12,6 +12,7 @@ namespace Decalog\System;
 use Decalog\System\Cache;
 use Decalog\System\I18n;
 use Decalog\System\Option;
+use Decalog\Plugin\Feature\LoggerMaintainer;
 
 /**
  * The class responsible to handle cache management.
@@ -106,6 +107,7 @@ class Sitehealth {
 	 */
 	private static function plugin_info_init() {
 		add_filter( 'debug_information', [ self::class, 'plugin_info' ] );
+		add_filter( 'debug_information', [ self::class, 'loggers_info' ] );
 	}
 
 	/**
@@ -146,6 +148,24 @@ class Sitehealth {
 			'label'       => DECALOG_PRODUCT_NAME,
 			'description' => esc_html__( 'Plugin diagnostic information', 'decalog' ),
 			'fields'      => Option::debug_info(),
+		];
+		return $debug_info;
+	}
+
+	/**
+	 * Adds plugin infos section.
+	 *
+	 * @param array $debug_info The already set infos.
+	 * @return array    The extended infos if needed.
+	 * @since 1.0.0
+	 */
+	public static function loggers_info( $debug_info ) {
+		$maintener                              = new LoggerMaintainer();
+		$debug_info[ self::$slug . '_loggers' ] = [
+			'label'       => esc_html__( 'Loggers', 'decalog' ),
+			'description' => esc_html__( 'Loggers list', 'decalog' ),
+			'show_count'  => true,
+			'fields'      => $maintener->debug_info(),
 		];
 		return $debug_info;
 	}
