@@ -135,7 +135,7 @@ class ListenerFactory {
 			try {
 				$reflection = new \ReflectionClass( $class_name );
 				return $reflection->newInstanceArgs( [ $this->log ] );
-			} catch ( Exception $e ) {
+			} catch ( \Exception $e ) {
 				return false;
 			}
 		}
