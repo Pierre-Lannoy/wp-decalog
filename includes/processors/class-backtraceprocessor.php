@@ -53,8 +53,12 @@ class BacktraceProcessor implements ProcessorInterface {
 	private function pretty_backtrace( $trace ) {
 		$result = [];
 		foreach ( $trace as $index => $call ) {
-			$file     = ( array_key_exists( 'file', $call ) ? $call['file'] : '' );
-			$file     = './' . str_replace( wp_normalize_path( ABSPATH ), '', wp_normalize_path( $file ) );
+			$file = ( array_key_exists( 'file', $call ) ? $call['file'] : '' );
+			if ( '' === $file ) {
+				$file = '[PHP Kernel]';
+			} else {
+				$file = './' . str_replace( wp_normalize_path( ABSPATH ), '', wp_normalize_path( $file ) );
+			}
 			$line     = ( array_key_exists( 'line', $call ) ? ':' . $call['line'] : '' );
 			$class    = ( array_key_exists( 'class', $call ) ? $call['class'] : '' );
 			$type     = ( array_key_exists( 'type', $call ) ? $call['type'] : '' );
@@ -79,6 +83,10 @@ class BacktraceProcessor implements ProcessorInterface {
 		return $result;
 	}
 
+	private function customErrorHandler( $code, $msg ) {
+		return true;
+	}
+
 	/**
 	 * Invocation of the processor.
 	 *
@@ -87,35 +95,48 @@ class BacktraceProcessor implements ProcessorInterface {
 	 * @since   1.0.0
 	 */
 	public function __invoke( array $record ): array {
+		// phpcs:ignore
+		set_error_handler( null );
 		if ( $record['level'] < $this->level ) {
 			return $record;
 		}
-		$trace = [];
-		$cpt   = 0;
-		// phpcs:ignore
-		foreach ( array_reverse( debug_backtrace( DEBUG_BACKTRACE_PROVIDE_OBJECT ) ) as $t ) {
-			if ( array_key_exists( 'class', $t ) && 0 === strpos( $t['class'], 'Decalog\\' ) ) {
-				break;
+		try {
+			$trace = [];
+			$cpt   = 0;
+			// phpcs:ignore
+			foreach ( array_reverse( debug_backtrace( 0, 40 ) ) as $t ) {
+				if ( array_key_exists( 'class', $t ) && 0 === strpos( $t['class'], 'Decalog\\' ) ) {
+					break;
+				}
+				if ( 40 < $cpt ++ ) {
+					break;
+				}
+				$trace[] = $t;
 			}
-			if ( 50 < $cpt++ ) {
-				break;
-			}
-			$trace[] = $t;
+		} catch ( \Throwable $t ) {
+			//
+		} finally {
+			$record['extra']['trace']['callstack'] = $this->pretty_backtrace( array_reverse( $trace ) );
 		}
-		$wptrace = [];
-		$cpt     = 0;
-		// phpcs:ignore
-		foreach ( array_reverse( wp_debug_backtrace_summary( null, 0, false ) ) as $t ) {
-			if ( 0 === strpos( $t, 'Decalog\\' ) ) {
-				break;
+		try {
+			$wptrace = [];
+			$cpt     = 0;
+			// phpcs:ignore
+			foreach ( array_reverse( wp_debug_backtrace_summary( null, 0, false ) ) as $t ) {
+				if ( 0 === strpos( $t, 'Decalog\\' ) ) {
+					break;
+				}
+				if ( 40 < $cpt++ ) {
+					break;
+				}
+				$wptrace[] = $t;
 			}
-			if ( 50 < $cpt++ ) {
-				break;
-			}
-			$wptrace[] = $t;
+		} catch ( \Throwable $t ) {
+			//
+		} finally {
+			$record['extra']['trace']['wordpress'] = array_reverse( $wptrace );
 		}
-		$record['extra']['trace']['callstack'] = $this->pretty_backtrace( array_reverse( $trace ) );
-		$record['extra']['trace']['wordpress'] = array_reverse( $wptrace );
+		restore_error_handler();
 		return $record;
 	}
 }
