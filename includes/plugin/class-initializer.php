@@ -35,6 +35,8 @@ class Initializer {
 	 * @since 1.0.0
 	 */
 	public function initialize() {
+		\Decalog\System\Cache::init();
+		\Decalog\System\Sitehealth::init();
 		add_filter( 'set-screen-option', [ 'Decalog\Plugin\Feature\Events', 'save_screen_option' ], 100, 3 );
 	}
 

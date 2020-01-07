@@ -66,8 +66,6 @@ function decalog_uninstall() {
  * @since 1.0.0
  */
 function decalog_run() {
-	Decalog\System\Cache::init();
-	Decalog\System\Sitehealth::init();
 	$plugin = new Decalog\Plugin\Core();
 	$plugin->run();
 }
