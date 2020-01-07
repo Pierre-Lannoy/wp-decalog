@@ -3,7 +3,9 @@ All notable changes to **DecaLog** are documented in this *changelog*.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased - will be 1.8.1]
+## [Unreleased - will be 1.9.0]
+### Added
+- Full compatibility with [APCu Manager](https://wordpress.org/plugins/apcu-manager/).
 ### Changed
 - The number limit of items in traces is now fixed at 40.
 
