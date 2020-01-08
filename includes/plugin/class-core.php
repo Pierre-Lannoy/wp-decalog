@@ -83,6 +83,7 @@ class Core {
 		$updater   = new Updater();
 		$libraries = new Libraries();
 		$listeners = new ListenerFactory();
+		$this->loader->add_filter( 'perfopsone_plugin_info', self::class, 'perfopsone_plugin_info' );
 		$this->loader->add_action( 'init', $bootstrap, 'initialize', 0 );
 		$this->loader->add_action( 'plugins_loaded', $listeners, 'launch', 1 );
 		$this->loader->add_action( 'plugins_loaded', $listeners, 'launch_late_init', PHP_INT_MAX );
@@ -147,6 +148,24 @@ class Core {
 	 */
 	public function get_loader() {
 		return $this->loader;
+	}
+
+	/**
+	 * Adds full plugin identification.
+	 *
+	 * @param array $plugin The already set identification information.
+	 * @return array The extended identification information.
+	 * @since 1.0.0
+	 */
+	public static function perfopsone_plugin_info( $plugin ) {
+		$plugin[ DECALOG_SLUG ] = [
+			'name'    => DECALOG_PRODUCT_NAME,
+			'code'    => DECALOG_CODENAME,
+			'version' => DECALOG_VERSION,
+			'url'     => DECALOG_PRODUCT_URL,
+			'icon'    => self::get_base64_logo(),
+		];
+		return $plugin;
 	}
 
 	/**
