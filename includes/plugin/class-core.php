@@ -20,6 +20,7 @@ use Decalog\Library\Libraries;
 use Decalog\System\Nag;
 use Decalog\Plugin\Feature\LoggerMaintainer;
 use Decalog\Listener\ListenerFactory;
+use Decalog\Integration\IntegrationsLoader;
 
 /**
  * The core plugin class.
@@ -96,6 +97,8 @@ class Core {
 		}
 		$maintainer = new LoggerMaintainer();
 		$this->loader->add_action( DECALOG_CRON_NAME, $maintainer, 'cron_clean' );
+		$integrations_loader = new IntegrationsLoader();
+		$integrations_loader->load_psr3();
 	}
 
 	/**
