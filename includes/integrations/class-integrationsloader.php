@@ -46,7 +46,7 @@ class IntegrationsLoader {
 	 * @since 1.9.0
 	 */
 	public static function wp_optimize_loggers_classes( $classes ) {
-		$classes['\Decalog\Integration\OptimizeLogger'] = DECALOG_INCLUDES_DIR . 'integrations/class-optimizelogger.php';
+		$classes['Decalog\Integration\OptimizeLogger'] = DECALOG_INCLUDES_DIR . 'integrations/class-optimizelogger.php';
 		return $classes;
 	}
 }

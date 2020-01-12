@@ -23,6 +23,13 @@ use Decalog\Plugin\Feature\DLogger;
 class OptimizeLogger extends \Updraft_Abstract_Logger {
 
 	/**
+	 * True if possible to add multiple loggers.
+	 *
+	 * @var bool
+	 */
+	protected $allow_multiple = true;
+
+	/**
 	 * The "true" DLogger instance.
 	 *
 	 * @since  1.9.0
