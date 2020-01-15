@@ -88,6 +88,15 @@ class Cache {
 	}
 
 	/**
+	 * Verify if cache is in memory.
+	 *
+	 * @since 1.0.0
+	 */
+	public static function is_memory() {
+		return wp_using_ext_object_cache() || self::$apcu_available;
+	}
+
+	/**
 	 * Initializes properties.
 	 *
 	 * @since 1.0.0
