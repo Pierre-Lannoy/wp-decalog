@@ -9,6 +9,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Full compatibility with [APCu Manager](https://wordpress.org/plugins/apcu-manager/).
 ### Changed
 - The number limit of items in traces is now fixed at 40.
+### Fixed
+- Typos in developer's documentation.
 
 ## [1.8.0] - 2020-01-02
 ### Added

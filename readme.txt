@@ -39,7 +39,7 @@ At this time, **DecaLog** can send events:
 
 = Developers =
 
-If you're a plugins / themes developer and want to take advantage of the logging features of DecaLog, visit the [GitHub reporistory](https://github.com/Pierre-Lannoy/wp-decalog) of the plugin to learn how to develop a listener for your plugins / themes. Ah, and yes, it's PSR-3 compliant ;)
+If you're a plugins / themes developer and want to take advantage of the logging features of DecaLog, visit the [GitHub repository](https://github.com/Pierre-Lannoy/wp-decalog) of the plugin to learn how to develop a listener for your plugins / themes. Ah, and yes, it's PSR-3 compliant ;)
 
 = Support =
 
@@ -89,7 +89,7 @@ Support is provided via the official [WordPress page](https://wordpress.org/supp
 
 Documentation for users is provided as the form of inline help in the plugin.
 
-Developer's documentation can be found in the [GitHub reporistory](https://github.com/Pierre-Lannoy/wp-decalog) of the plugin.
+Developer's documentation can be found in the [GitHub repository](https://github.com/Pierre-Lannoy/wp-decalog) of the plugin.
 
 = Where can I report a bug? =
  
