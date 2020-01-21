@@ -225,4 +225,47 @@ class Database {
 		return $result;
 	}
 
+	/**
+	 * Performs a safe add column.
+	 *
+	 * @param string $table  Table name.
+	 * @param string $column Column name.
+	 * @param string $alter  Query to perform.
+	 * @return boolean True if the operation was successful, false otherwise.
+	 * @since 1.0.0
+	 */
+	public function safe_add_column( $table, $column, $alter ) {
+		global $wpdb;
+		try {
+			// phpcs:ignore
+			$data = $wpdb->get_results( "SELECT * FROM " . $table, ARRAY_A );
+		} catch ( \Exception $ex ) {
+			$data = [];
+		}
+		$do_action = false;
+		$result    = false;
+		if ( count( $data ) > 0 ) {
+			if ( is_array( $data[0] ) ) {
+				if ( ! array_key_exists( $column, $data[0] ) ) {
+					$do_action = true;
+				}
+			} else {
+				$do_action = true;
+			}
+		} else {
+			$do_action = true;
+		}
+		if ( $do_action ) {
+			try {
+				// phpcs:ignore
+				$wpdb->query( $alter );
+				$result = true;
+			}
+			catch ( \Exception $ex ) {
+				$result = false;
+			}
+		}
+		return $result;
+	}
+
 }
