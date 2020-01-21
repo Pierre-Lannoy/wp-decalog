@@ -66,6 +66,9 @@ class WWWProcessor extends WebProcessor {
 		} elseif ( empty( $record['extra']['ip'] ) || '0' === $record['extra']['ip'] ) {
 			$record['extra']['ip'] = '127.0.0.1';
 		}
+		if ( array_key_exists( 'HTTP_USER_AGENT', $_SERVER ) ) {
+			$record['extra']['ua'] = filter_input( INPUT_SERVER, 'HTTP_USER_AGENT' );
+		}
 		if ( $this->obfuscation ) {
 			if ( array_key_exists( 'ip', $record['extra'] ) ) {
 				$record['extra']['ip'] = Hash::simple_hash( $record['extra']['ip'] );
