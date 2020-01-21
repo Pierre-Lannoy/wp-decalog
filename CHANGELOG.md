@@ -5,8 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased - will be 1.9.0]
 ### Added
-- New listener for WP-Optimize.
+- New listener for WP-Optimize plugin.
+- New listener for Redirection plugin.
 - Full compatibility with [APCu Manager](https://wordpress.org/plugins/apcu-manager/).
+- The user-agent is now collected as extra field when HTTP request is selected as reported details. 
 ### Changed
 - The number limit of items in traces is now fixed at 40.
 ### Fixed
@@ -68,11 +70,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [1.6.0] - 2019-11-11
 ### Added
-- New listener for WooCommerce.
-- New listener for Jetpack.
-- New listener for WP Security Audit Log.
-- New listener for W3 Total Cache.
-- New listener for WP Super Cache.
+- New listener for WooCommerce plugin.
+- New listener for Jetpack plugin.
+- New listener for WP Security Audit Log plugin.
+- New listener for W3 Total Cache plugin.
+- New listener for WP Super Cache plugin.
 - New logger to send logs to Solawinds Loggly.
 - New logger to send logs to Logentries / insightOps.
 - New "Content" box in event viewer (for WordPress events logs) to display detailed error code and message.
