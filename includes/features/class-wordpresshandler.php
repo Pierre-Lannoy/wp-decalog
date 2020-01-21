@@ -123,6 +123,7 @@ class WordpressHandler {
 			$sql            .= ' `verb` enum(' . $verbs . ") NOT NULL DEFAULT 'unknown',";
 			$sql            .= " `server` varchar(250) NOT NULL DEFAULT 'unknown',";
 			$sql            .= " `referrer` varchar(250) NOT NULL DEFAULT '-',";
+			$sql            .= " `user_agent` varchar(1024) NOT NULL DEFAULT '-',";
 			$sql            .= " `file` varchar(250) NOT NULL DEFAULT 'unknown',";
 			$sql            .= " `line` int(11) UNSIGNED NOT NULL DEFAULT '0',";
 			$sql            .= " `classname` varchar(100) NOT NULL DEFAULT 'unknown',";
@@ -154,6 +155,9 @@ class WordpressHandler {
 		$sql = 'ALTER TABLE ' . $this->table . " MODIFY COLUMN trace text;";
 		// phpcs:ignore
 		$wpdb->query( $sql );
+		// Starting 1.9.0, WordpressHandler records user-agent http field.
+		$database = new Database();
+		$database->safe_add_column( $this->table, 'user_agent', "ALTER TABLE " . $this->table . " ADD `user_agent` varchar(1024) NOT NULL DEFAULT '-' AFTER `referrer`;");
 		$this->log->debug( sprintf( 'Table "%s" updated.', $this->table ) );
 	}
 

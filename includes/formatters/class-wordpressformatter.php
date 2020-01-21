@@ -99,6 +99,9 @@ class WordpressFormatter implements FormatterInterface {
 			if ( array_key_exists( 'referrer', $extra ) && $extra['referrer'] && is_string( $extra['referrer'] ) ) {
 				$values['referrer'] = substr( $extra['referrer'], 0, 250 );
 			}
+			if ( array_key_exists( 'ua', $extra ) && $extra['ua'] && is_string( $extra['ua'] ) ) {
+				$values['user_agent'] = substr( $extra['ua'], 0, 1024 );
+			}
 			if ( array_key_exists( 'file', $extra ) && $extra['file'] && is_string( $extra['file'] ) ) {
 				$values['file'] = substr( $extra['file'], 0, 250 );
 			}
