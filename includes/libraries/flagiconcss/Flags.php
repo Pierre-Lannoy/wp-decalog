@@ -11,7 +11,7 @@
 
 namespace Flagiconcss;
 
-use Traffic\System\Cache;
+use Decalog\System\Cache;
 
 /**
  * Wraps the Flag-Icon-CSS functionality.
