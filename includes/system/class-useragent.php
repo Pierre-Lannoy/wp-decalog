@@ -349,6 +349,12 @@ class UserAgent {
 	public $bot_category = '';
 
 	/**
+	 * @var string  The bot category translated if translation exists, else in english.
+	 * @since   1.0.0
+	 */
+	public $bot_full_category = '';
+
+	/**
 	 * @var string  The bot url.
 	 * @since   1.0.0
 	 */
