@@ -265,7 +265,7 @@ class EventViewer {
 			add_meta_box( 'decalog-bot', esc_html__( 'Bot details', 'decalog' ), [ $this, 'bot_widget' ], self::$screen_id, 'advanced' );
 		} elseif ( $this->device->class_is_desktop || $this->device->class_is_mobile ) {
 			add_meta_box( 'decalog-device', esc_html__( 'Device details', 'decalog' ), [ $this, 'device_widget' ], self::$screen_id, 'advanced' );
-		} else {
+		} elseif ( class_exists( 'PODeviceDetector\API\Device' ) ) {
 			add_meta_box( 'decalog-other', esc_html__( 'Client details', 'decalog' ), [ $this, 'call_widget' ], self::$screen_id, 'advanced' );
 		}
 		add_meta_box( 'decalog-http', esc_html__( 'HTTP request', 'decalog' ), [ $this, 'http_widget' ], self::$screen_id, 'advanced' );
