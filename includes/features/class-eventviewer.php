@@ -266,7 +266,7 @@ class EventViewer {
 		} elseif ( $this->device->class_is_desktop || $this->device->class_is_mobile ) {
 			add_meta_box( 'decalog-device', esc_html__( 'Device details', 'decalog' ), [ $this, 'device_widget' ], self::$screen_id, 'advanced' );
 		} else {
-			add_meta_box( 'decalog-other', esc_html__( 'Call details', 'decalog' ), [ $this, 'call_widget' ], self::$screen_id, 'advanced' );
+			add_meta_box( 'decalog-other', esc_html__( 'Client details', 'decalog' ), [ $this, 'call_widget' ], self::$screen_id, 'advanced' );
 		}
 		add_meta_box( 'decalog-http', esc_html__( 'HTTP request', 'decalog' ), [ $this, 'http_widget' ], self::$screen_id, 'advanced' );
 		add_meta_box( 'decalog-php', esc_html__( 'PHP introspection', 'decalog' ), [ $this, 'php_widget' ], self::$screen_id, 'advanced' );
@@ -424,7 +424,7 @@ class EventViewer {
 			return $this->get_section( $content );
 		}
 		$client  = ( '-' !== $this->device->client_name ? $this->device->client_name : esc_html__( 'Generic', 'decalog' ) ) . ( '-' !== $this->device->client_version ? ' ' . $this->device->client_version : '' );
-		$content = '<span style="width:100%;cursor: default;">' . $client . '</span> <span style="color:silver">' . $this->device->client_full_type . '</span>';
+		$content = '<span style="width:100%;cursor: default;">' . $this->get_icon( 'play-circle' ) . $client . '</span> <span style="color:silver">' . $this->device->client_full_type . '</span>';
 		return $this->get_section( $content );
 	}
 
@@ -434,7 +434,6 @@ class EventViewer {
 	 * @since 1.0.0
 	 */
 	public function device_widget() {
-		//Model and OS.
 		$idevice  = '<img style="width:16px;float:left;padding-right:6px;" src="' . $this->device->brand_icon_base64() . '" />';
 		$device   = ( '-' !== $this->device->brand_name ? $this->device->brand_name : esc_html__( 'Generic', 'decalog' ) ) . ( '-' !== $this->device->model_name ? ' ' . $this->device->model_name : '' );
 		$ios      = '<img style="width:16px;float:left;padding-right:6px;" src="' . $this->device->os_icon_base64() . '" />';

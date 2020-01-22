@@ -105,7 +105,7 @@ class BacktraceProcessor implements ProcessorInterface {
 			$cpt   = 0;
 			// phpcs:ignore
 			foreach ( array_reverse( debug_backtrace( 0, 40 ) ) as $t ) {
-				if ( array_key_exists( 'class', $t ) && 0 === strpos( $t['class'], 'Decalog\\' ) ) {
+				if ( array_key_exists( 'class', $t ) && ( 0 === strpos( $t['class'], 'Decalog\\' ) || false !== strpos( $t['class'], '\\System\\Logger' ) ) ) {
 					break;
 				}
 				if ( 40 < $cpt ++ ) {
@@ -123,7 +123,7 @@ class BacktraceProcessor implements ProcessorInterface {
 			$cpt     = 0;
 			// phpcs:ignore
 			foreach ( array_reverse( wp_debug_backtrace_summary( null, 0, false ) ) as $t ) {
-				if ( 0 === strpos( $t, 'Decalog\\' ) ) {
+				if ( 0 === strpos( $t, 'Decalog\\' ) || false !== strpos( $t, '\\System\\Logger' ) ) {
 					break;
 				}
 				if ( 40 < $cpt++ ) {

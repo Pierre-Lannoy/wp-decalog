@@ -13,6 +13,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - The number limit of items in traces is now fixed at 40.
 ### Fixed
 - Typos in developer's documentation.
+### Removed
+- The self reference in recorded stack traces.
 
 ## [1.8.0] - 2020-01-02
 ### Added
