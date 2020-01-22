@@ -473,11 +473,20 @@ class EventViewer {
 	 * @since 1.0.0
 	 */
 	public function device_widget() {
-		$url      = [];
+		$url      = [
+			'site'     => $this->event['site_id'],
+			'type'     => 'device',
+			'id'       => $this->device->brand_short_name,
+			'extended' => '' !== $this->device->model_name ? $this->device->model_name : '-',
+		];
 		$idevice  = '<img style="width:16px;float:left;padding-right:6px;" src="' . $this->device->brand_icon_base64() . '" />';
 		$device   = ( '-' !== $this->device->brand_name ? $this->device->brand_name : esc_html__( 'Generic', 'decalog' ) ) . ( '-' !== $this->device->model_name ? ' ' . $this->device->model_name : '' );
 		$device   = $this->get_internal_link( UserAgent::get_analytics_url( $url ), $device );
-		$url      = [];
+		$url      = [
+			'site' => $this->event['site_id'],
+			'type' => 'os',
+			'id'   => $this->device->os_short_name,
+		];
 		$ios      = '<img style="width:16px;float:left;padding-right:6px;" src="' . $this->device->os_icon_base64() . '" />';
 		$os       = ( '-' !== $this->device->os_name ? $this->get_internal_link( UserAgent::get_analytics_url( $url ), $this->device->os_name ) : esc_html__( 'Unknown', 'decalog' ) ) . ( '-' !== $this->device->os_version ? ' ' . $this->device->os_version : '' );
 		$content  = '<span style="width:40%;cursor: default;float:left">' . $idevice . $device . '</span>';
