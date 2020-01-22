@@ -801,7 +801,7 @@ class Decalog_Admin {
 			$help .= sprintf( esc_html__('Your site is currently using %s.', 'decalog' ), '<em>' . $geo_ip->get_full_name() .'</em>' );
 		} else {
 			$help  = '<img style="width:16px;vertical-align:text-bottom;" src="' . \Feather\Icons::get_base64( 'alert-triangle', 'none', '#FF8C00' ) . '" />&nbsp;';
-			$help .= sprintf( esc_html__('Your site does not use any IP geographic information plugin. To take advantage of the geographical distribution of calls in DecaLog, I recommend you to install the excellent (and free) %s. But it is not mandatory.', 'decalog' ), '<a href="https://wordpress.org/plugins/geoip-detect/">GeoIP Detection</a>' );
+			$help .= sprintf( esc_html__('Your site does not use any IP geographic information plugin. To display callers geographical details in DecaLog, I recommend you to install the excellent (and free) %s. But it is not mandatory.', 'decalog' ), '<a href="https://wordpress.org/plugins/geoip-detect/">GeoIP Detection</a>' );
 		}
 		add_settings_field(
 			'decalog_plugin_options_geoip',
