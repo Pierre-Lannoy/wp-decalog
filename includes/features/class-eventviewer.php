@@ -416,24 +416,44 @@ class EventViewer {
 	 *
 	 * @since 1.0.0
 	 */
+	private function get_client() {
+		if ( $this->device->client_is_browser ) {
+			$iclient = '<img style="width:16px;float:left;padding-right:6px;" src="' . $this->device->browser_icon_base64() . '" />';
+			$client  = ( '-' !== $this->device->client_name ? $this->device->client_name : esc_html__( 'Generic', 'decalog' ) ) . ( '-' !== $this->device->client_version ? ' ' . $this->device->client_version : '' );
+			$content = '<span style="width:100%;cursor: default;">' . $iclient . $client . '</span> <span style="color:silver">(' . $this->device->client_engine . ')</span>';
+			return $this->get_section( $content );
+		}
+		$client  = ( '-' !== $this->device->client_name ? $this->device->client_name : esc_html__( 'Generic', 'decalog' ) ) . ( '-' !== $this->device->client_version ? ' ' . $this->device->client_version : '' );
+		$content = '<span style="width:100%;cursor: default;">' . $client . '</span> <span style="color:silver">' . $this->device->client_full_type . '</span>';
+		return $this->get_section( $content );
+	}
+
+	/**
+	 * Get content of the device widget box.
+	 *
+	 * @since 1.0.0
+	 */
 	public function device_widget() {
 		//Model and OS.
 		$idevice  = '<img style="width:16px;float:left;padding-right:6px;" src="' . $this->device->brand_icon_base64() . '" />';
-		$device   = ( '-' !== $this->device->brand_short_name ? $this->device->brand_name : esc_html__( 'Generic', 'decalog' ) ) . ( '-' !== $this->device->model_name ? ' ' . $this->device->model_name : '' );
+		$device   = ( '-' !== $this->device->brand_name ? $this->device->brand_name : esc_html__( 'Generic', 'decalog' ) ) . ( '-' !== $this->device->model_name ? ' ' . $this->device->model_name : '' );
 		$ios      = '<img style="width:16px;float:left;padding-right:6px;" src="' . $this->device->os_icon_base64() . '" />';
-		$os       = ( '-' !== $this->device->os_short_name ? $this->device->os_name : esc_html__( 'Unknown', 'decalog' ) ) . ( '-' !== $this->device->os_version ? ' ' . $this->device->os_version : '' );
+		$os       = ( '-' !== $this->device->os_name ? $this->device->os_name : esc_html__( 'Unknown', 'decalog' ) ) . ( '-' !== $this->device->os_version ? ' ' . $this->device->os_version : '' );
 		$content  = '<span style="width:40%;cursor: default;float:left">' . $idevice . $device . '</span>';
 		$content .= '<span style="width:60%;cursor: default;">' . $ios . $os . '</span>';
 		$model    = $this->get_section( $content );
-		// Client.
-		if ( 'browser' === $this->device->client_type ) {
-			$iclient = '<img style="width:16px;float:left;padding-right:6px;" src="' . $this->device->browser_icon_base64() . '" />';
-			$client  = ( '-' !== $this->device->client_short_name ? $this->device->client_name : esc_html__( 'Generic', 'decalog' ) ) . ( '-' !== $this->device->client_name ? ' ' . $this->device->client_version : '' );
-			$content = '<span style="width:100%;cursor: default;">' . $iclient . $client . '</span> <span style="color:silver">(' . $this->device->client_engine . ')</span>';
-			$browser = $this->get_section( $content );
-		}
 
-		$this->output_activity_block( $model . $browser );
+		$this->output_activity_block( $model . $this->get_client() );
+	}
+
+	/**
+	 * Get content of the call widget box.
+	 *
+	 * @since 1.0.0
+	 */
+	public function call_widget() {
+
+		$this->output_activity_block( $this->get_client() );
 	}
 
 	/**
