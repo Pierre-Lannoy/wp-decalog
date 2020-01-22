@@ -22,6 +22,7 @@ use Decalog\System\UUID;
 use Decalog\System\Option;
 use Decalog\System\Form;
 use Decalog\System\Role;
+use Decalog\System\GeoIP;
 use Monolog\Logger;
 
 /**
@@ -486,6 +487,7 @@ class Decalog_Admin {
 			if ( array_key_exists( '_wpnonce', $_POST ) && wp_verify_nonce( $_POST['_wpnonce'], 'decalog-plugin-options' ) ) {
 				Option::network_set( 'use_cdn', array_key_exists( 'decalog_plugin_options_usecdn', $_POST ) );
 				Option::network_set( 'display_nag', array_key_exists( 'decalog_plugin_options_nag', $_POST ) );
+				Option::network_set( 'download_favicons', array_key_exists( 'decalog_plugin_options_favicons', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_plugin_options_favicons' ) : false );
 				Option::network_set( 'logger_autostart', array_key_exists( 'decalog_loggers_options_autostart', $_POST ) );
 				Option::network_set( 'pseudonymization', array_key_exists( 'decalog_loggers_options_pseudonymization', $_POST ) );
 				Option::network_set( 'respect_wp_debug', array_key_exists( 'decalog_loggers_options_wpdebug', $_POST ) );
@@ -759,6 +761,59 @@ class Decalog_Admin {
 	 */
 	public function plugin_options_section_callback() {
 		$form = new Form();
+		add_settings_field(
+			'decalog_plugin_options_favicons',
+			__( 'Favicons', 'decalog' ),
+			[ $form, 'echo_field_checkbox' ],
+			'decalog_plugin_options_section',
+			'decalog_plugin_options_section',
+			[
+				'text'        => esc_html__( 'Download and display', 'decalog' ),
+				'id'          => 'decalog_plugin_options_favicons',
+				'checked'     => Option::network_get( 'download_favicons' ),
+				'description' => esc_html__( 'If checked, DecaLog will download favicons of websites to display them in reports.', 'decalog' ) . '<br/>' . esc_html__( 'Note: This feature uses the (free) Google Favicon Service.', 'decalog' ),
+				'full_width'  => true,
+				'enabled'     => true,
+			]
+		);
+		register_setting( 'decalog_plugin_options_section', 'decalog_plugin_options_favicons' );
+		if ( class_exists( 'PODeviceDetector\API\Device' ) ) {
+			$help  = '<img style="width:16px;vertical-align:text-bottom;" src="' . \Feather\Icons::get_base64( 'thumbs-up', 'none', '#00C800' ) . '" />&nbsp;';
+			$help .= sprintf( esc_html__('Your site is currently using %s.', 'decalog' ), '<em>Device Detector v' . PODD_VERSION .'</em>' );
+		} else {
+			$help  = '<img style="width:16px;vertical-align:text-bottom;" src="' . \Feather\Icons::get_base64( 'alert-triangle', 'none', '#FF8C00' ) . '" />&nbsp;';
+			$help .= sprintf( esc_html__('Your site does not use any device detection mechanism. To handle user-agents and callers reporting in DecaLog, I recommend you to install the excellent (and free) %s. But it is not mandatory.', 'decalog' ), '<a href="https://wordpress.org/plugins/device-detector/">Device Detector</a>' );
+		}
+		add_settings_field(
+			'decalog_plugin_options_podd',
+			__( 'Device Detection', 'decalog' ),
+			[ $form, 'echo_field_simple_text' ],
+			'decalog_plugin_options_section',
+			'decalog_plugin_options_section',
+			[
+				'text' => $help
+			]
+		);
+		register_setting( 'decalog_plugin_options_section', 'decalog_plugin_options_podd' );
+		$geo_ip = new GeoIP();
+		if ( $geo_ip->is_installed() ) {
+			$help  = '<img style="width:16px;vertical-align:text-bottom;" src="' . \Feather\Icons::get_base64( 'thumbs-up', 'none', '#00C800' ) . '" />&nbsp;';
+			$help .= sprintf( esc_html__('Your site is currently using %s.', 'decalog' ), '<em>' . $geo_ip->get_full_name() .'</em>' );
+		} else {
+			$help  = '<img style="width:16px;vertical-align:text-bottom;" src="' . \Feather\Icons::get_base64( 'alert-triangle', 'none', '#FF8C00' ) . '" />&nbsp;';
+			$help .= sprintf( esc_html__('Your site does not use any IP geographic information plugin. To take advantage of the geographical distribution of calls in DecaLog, I recommend you to install the excellent (and free) %s. But it is not mandatory.', 'decalog' ), '<a href="https://wordpress.org/plugins/geoip-detect/">GeoIP Detection</a>' );
+		}
+		add_settings_field(
+			'decalog_plugin_options_geoip',
+			__( 'IP information', 'decalog' ),
+			[ $form, 'echo_field_simple_text' ],
+			'decalog_plugin_options_section',
+			'decalog_plugin_options_section',
+			[
+				'text' => $help
+			]
+		);
+		register_setting( 'decalog_plugin_options_section', 'decalog_plugin_options_geoip' );
 		add_settings_field(
 			'decalog_plugin_options_usecdn',
 			__( 'Resources', 'decalog' ),
