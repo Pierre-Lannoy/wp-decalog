@@ -52,13 +52,6 @@ class UserAgent {
 		if ( ! class_exists( 'PODeviceDetector\API\Device' ) ) {
 			return '';
 		}
-
-		/*$params['type'] = $this->type;
-		$params['site'] = $this->site;
-		if ( '' !== $this->id ) {
-			$params['id'] = $this->id;
-		}*/
-
 		$params = [];
 		foreach ( $fields as $key => $arg ) {
 			$params[ $key ] = $arg;
