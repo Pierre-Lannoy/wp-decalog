@@ -17,6 +17,9 @@ use Feather;
 use Decalog\System\Database;
 use Decalog\System\User;
 use Decalog\System\UserAgent;
+use Decalog\System\L10n;
+use Flagiconcss\Flags;
+use Decalog\System\GeoIP;
 
 /**
  * Define the event viewer functionality.
@@ -416,13 +419,19 @@ class EventViewer {
 	 */
 	public function http_widget() {
 		// Server detail.
-		$ip = $this->event['remote_ip'];
+		$ip   = $this->event['remote_ip'];
+		$icon = '';
 		if ( 0 === strpos( $ip, '{' ) ) {
 			$ip = esc_html__( 'obfuscated IP', 'decalog' );
+		} else {
+			if ( filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_RES_RANGE | FILTER_FLAG_NO_PRIV_RANGE ) ) {
+				$geoip = new GeoIP();
+				$icon  = '<img style="width:14px;padding-left:4px;vertical-align:baseline;" src="' . Flags::get_base64( $geoip->get_iso3166_alpha2( $ip ) ) . '" />';
+			}
 		}
 		// phpcs:ignore
-		$ip      = sprintf( esc_html__( 'from %s.', 'decalog' ), $ip );
-		$content = '<span style="width:100%;cursor: default;word-break: break-all;">' . $this->get_icon( 'layout' ) . $this->event['server'] . ' ' . $ip . '</span>';
+		$ip      = sprintf( esc_html__( 'from %s', 'decalog' ), $ip );
+		$content = '<span style="width:100%;cursor: default;word-break: break-all;">' . $this->get_icon( 'layout' ) . $this->event['server'] . ' ' . $ip . $icon . '</span>';
 		$server  = $this->get_section( $content );
 		// Request detail.
 		$verb = $this->event['verb'];

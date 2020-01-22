@@ -9,7 +9,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - New listener for Redirection plugin.
 - Full compatibility with [Device Detector](https://wordpress.org/plugins/device-detector/).
 - Full compatibility with [APCu Manager](https://wordpress.org/plugins/apcu-manager/).
-- The user-agent is now collected as extra field when HTTP request is selected as reported details. 
+- The user-agent is now collected as extra field when HTTP request is selected as reported details.
+- In WordPress logger, if Device Detector is installed, a new box may be displayed: device, bot or client details.
+- In WordPress logger, if GeoIP is installed, a flag is displayed after the "from" IP.
 ### Changed
 - The number limit of items in traces is now fixed at 40.
 ### Fixed
