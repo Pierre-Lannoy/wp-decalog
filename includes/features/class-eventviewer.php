@@ -16,6 +16,7 @@ use Decalog\System\Timezone;
 use Feather;
 use Decalog\System\Database;
 use Decalog\System\User;
+use Decalog\System\UserAgent;
 
 /**
  * Define the event viewer functionality.
@@ -70,6 +71,14 @@ class EventViewer {
 	private $eventid = null;
 
 	/**
+	 * The device.
+	 *
+	 * @since  1.0.0
+	 * @var    object    $device    The device.
+	 */
+	private $device = null;
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @param   string  $logid      The events log id.
@@ -82,13 +91,15 @@ class EventViewer {
 		$this->logger  = $logger;
 		$this->eventid = $eventid;
 		$this->event   = null;
+		$this->device  = UserAgent::get( '-' );
 		$database      = new Database();
 		$lines         = $database->load_lines( 'decalog_' . str_replace( '-', '', $this->logid ), 'id', [ $this->eventid ] );
 		if ( 1 === count( $lines ) ) {
 			foreach ( Events::get() as $log ) {
 				if ( $log['id'] === $this->logid ) {
 					if ( ! array_key_exists( 'limit', $log ) || in_array( $lines[0]['site_id'], $log ['limit'] ) ) {
-						$this->event = $lines[0];
+						$this->event  = $lines[0];
+						$this->device = UserAgent::get( $this->event['user_agent'] );
 						break;
 					}
 				}
@@ -250,6 +261,13 @@ class EventViewer {
 		add_meta_box( 'decalog-main', esc_html__( 'Event', 'decalog' ), [ $this, 'event_widget' ], self::$screen_id, 'advanced' );
 		add_meta_box( 'decalog-message', esc_html__( 'Content', 'decalog' ), [ $this, 'message_widget' ], self::$screen_id, 'advanced' );
 		add_meta_box( 'decalog-wordpress', 'WordPress', [ $this, 'wordpress_widget' ], self::$screen_id, 'advanced' );
+		if ( $this->device->class_is_bot ) {
+			add_meta_box( 'decalog-bot', esc_html__( 'Bot details', 'decalog' ), [ $this, 'bot_widget' ], self::$screen_id, 'advanced' );
+		} elseif ( $this->device->class_is_desktop || $this->device->class_is_mobile ) {
+			add_meta_box( 'decalog-device', esc_html__( 'Device details', 'decalog' ), [ $this, 'device_widget' ], self::$screen_id, 'advanced' );
+		} else {
+			add_meta_box( 'decalog-other', esc_html__( 'Call details', 'decalog' ), [ $this, 'call_widget' ], self::$screen_id, 'advanced' );
+		}
 		add_meta_box( 'decalog-http', esc_html__( 'HTTP request', 'decalog' ), [ $this, 'http_widget' ], self::$screen_id, 'advanced' );
 		add_meta_box( 'decalog-php', esc_html__( 'PHP introspection', 'decalog' ), [ $this, 'php_widget' ], self::$screen_id, 'advanced' );
 		// Right column.
@@ -391,6 +409,31 @@ class EventViewer {
 		$referrer = $this->get_section( $content );
 
 		$this->output_activity_block( $server . $request . $referrer );
+	}
+
+	/**
+	 * Get content of the device widget box.
+	 *
+	 * @since 1.0.0
+	 */
+	public function device_widget() {
+		//Model and OS.
+		$idevice  = '<img style="width:16px;float:left;padding-right:6px;" src="' . $this->device->brand_icon_base64() . '" />';
+		$device   = ( '-' !== $this->device->brand_short_name ? $this->device->brand_name : esc_html__( 'Generic', 'decalog' ) ) . ( '-' !== $this->device->model_name ? ' ' . $this->device->model_name : '' );
+		$ios      = '<img style="width:16px;float:left;padding-right:6px;" src="' . $this->device->os_icon_base64() . '" />';
+		$os       = ( '-' !== $this->device->os_short_name ? $this->device->os_name : esc_html__( 'Unknown', 'decalog' ) ) . ( '-' !== $this->device->os_version ? ' ' . $this->device->os_version : '' );
+		$content  = '<span style="width:40%;cursor: default;float:left">' . $idevice . $device . '</span>';
+		$content .= '<span style="width:60%;cursor: default;">' . $ios . $os . '</span>';
+		$model    = $this->get_section( $content );
+		// Client.
+		if ( 'browser' === $this->device->client_type ) {
+			$iclient = '<img style="width:16px;float:left;padding-right:6px;" src="' . $this->device->browser_icon_base64() . '" />';
+			$client  = ( '-' !== $this->device->client_short_name ? $this->device->client_name : esc_html__( 'Generic', 'decalog' ) ) . ( '-' !== $this->device->client_name ? ' ' . $this->device->client_version : '' );
+			$content = '<span style="width:100%;cursor: default;">' . $iclient . $client . '</span> <span style="color:silver">(' . $this->device->client_engine . ')</span>';
+			$browser = $this->get_section( $content );
+		}
+
+		$this->output_activity_block( $model . $browser );
 	}
 
 	/**
