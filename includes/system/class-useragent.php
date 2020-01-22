@@ -139,6 +139,12 @@ class UserAgent {
 	public $class_is_mobile = false;
 
 	/**
+	 * @var string  The name of the class translated if translation exists, else in english.
+	 * @since   1.0.0
+	 */
+	public $class_full_type = '';
+
+	/**
 	 * @var boolean  True if it's a smartphone, false otherwise.
 	 * @since   1.0.0
 	 */
@@ -199,6 +205,12 @@ class UserAgent {
 	public $device_is_camera = false;
 
 	/**
+	 * @var string  The name of the device type translated if translation exists, else in english.
+	 * @since   1.0.0
+	 */
+	public $device_full_type = '';
+
+	/**
 	 * @var boolean  True if it's a browser, false otherwise.
 	 * @since   1.0.0
 	 */
@@ -233,6 +245,12 @@ class UserAgent {
 	 * @since   1.0.0
 	 */
 	public $client_is_media_player = false;
+
+	/**
+	 * @var string  The name of the client type translated if translation exists, else in english.
+	 * @since   1.0.0
+	 */
+	public $client_full_type = '';
 
 	/**
 	 * @var boolean  True if device has touch enabled, false otherwise.
