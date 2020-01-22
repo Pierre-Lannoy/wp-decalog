@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 - New listener for WP-Optimize plugin.
 - New listener for Redirection plugin.
+- Full compatibility with [Device Detector](https://wordpress.org/plugins/device-detector/).
 - Full compatibility with [APCu Manager](https://wordpress.org/plugins/apcu-manager/).
 - The user-agent is now collected as extra field when HTTP request is selected as reported details. 
 ### Changed

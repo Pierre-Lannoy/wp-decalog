@@ -41,6 +41,42 @@ class UserAgent {
 	}
 
 	/**
+	 * Get the url.
+	 *
+	 * @param   array   $fields Optional. The args to add.
+	 * @param   boolean $escape  Optional. Forces url escaping.
+	 * @return string  The url.
+	 * @since    1.0.0
+	 */
+	public static function get_analytics_url( $fields = [], $escape = true ) {
+		if ( ! class_exists( 'PODeviceDetector\API\Device' ) ) {
+			return '';
+		}
+
+		/*$params['type'] = $this->type;
+		$params['site'] = $this->site;
+		if ( '' !== $this->id ) {
+			$params['id'] = $this->id;
+		}*/
+
+		$params = [];
+		foreach ( $fields as $key => $arg ) {
+			$params[ $key ] = $arg;
+		}
+		$url = admin_url( 'tools.php?page=podd-viewer' );
+		foreach ( $params as $key => $arg ) {
+			if ( '' !== $arg ) {
+				$url .= '&' . $key . '=' . rawurlencode( $arg );
+			}
+		}
+		$url = str_replace( '"', '\'\'', $url );
+		if ( $escape ) {
+			$url = esc_url( $url );
+		}
+		return $url;
+	}
+
+	/**
 	 * Get the brand icon base64 encoded.
 	 *
 	 * @return string  The icon base64 encoded.
@@ -107,7 +143,7 @@ class UserAgent {
 	 * @since    1.0.0
 	 */
 	public function bot_icon_base64() {
-		return Favicon::get_base64( $this->bot_url );
+		return Favicon::get_base64();
 	}
 
 	/**
@@ -371,4 +407,5 @@ class UserAgent {
 	 * @since   1.0.0
 	 */
 	public $bot_producer_url = '';
+
 }

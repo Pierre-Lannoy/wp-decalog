@@ -314,6 +314,35 @@ class EventViewer {
 	}
 
 	/**
+	 * Get an external link markup.
+	 *
+	 * @param   string $url The url.
+	 * @return  string  The link markup, ready to print.
+	 * @since 1.0.0
+	 */
+	private function get_external_link( $url ) {
+		if ( '' === $url ) {
+			return '';
+		}
+		return '<a href="' . $url . '" target="_blank"><img style="width:10px;padding-left:4px;padding-right:6px;vertical-align:text-top;" src="' . Feather\Icons::get_base64( 'external-link', 'none', '#9999BB' ) . '" /></a>';
+	}
+
+	/**
+	 * Get an intenel link markup.
+	 *
+	 * @param   string $url The url.
+	 * @param   string $anchor The anchor.
+	 * @return  string  The link markup, ready to print.
+	 * @since 1.0.0
+	 */
+	private function get_internal_link( $url, $anchor ) {
+		if ( '' === $url ) {
+			return $anchor;
+		}
+		return '<a href="' . $url . '" style="text-decoration:none;color:inherit;">' . $anchor . '</a>';
+	}
+
+	/**
 	 * Get content of the event widget box.
 	 *
 	 * @since 1.0.0
@@ -418,12 +447,22 @@ class EventViewer {
 	 */
 	private function get_client() {
 		if ( $this->device->client_is_browser ) {
+			$url     = [
+				'site' => $this->event['site_id'],
+				'type' => 'browser',
+				'id'   => $this->device->client_short_name,
+			];
 			$iclient = '<img style="width:16px;float:left;padding-right:6px;" src="' . $this->device->browser_icon_base64() . '" />';
-			$client  = ( '-' !== $this->device->client_name ? $this->device->client_name : esc_html__( 'Generic', 'decalog' ) ) . ( '-' !== $this->device->client_version ? ' ' . $this->device->client_version : '' );
+			$client  = $this->get_internal_link( UserAgent::get_analytics_url( $url ), ( '-' !== $this->device->client_name ? $this->device->client_name : esc_html__( 'Generic', 'decalog' ) ) ) . ( '-' !== $this->device->client_version ? ' ' . $this->device->client_version : '' );
 			$content = '<span style="width:100%;cursor: default;">' . $iclient . $client . '</span> <span style="color:silver">(' . $this->device->client_engine . ')</span>';
 			return $this->get_section( $content );
 		}
-		$client  = ( '-' !== $this->device->client_name ? $this->device->client_name : esc_html__( 'Generic', 'decalog' ) ) . ( '-' !== $this->device->client_version ? ' ' . $this->device->client_version : '' );
+		$url     = [
+			'site' => $this->event['site_id'],
+			'type' => 'browser',
+			'id'   => $this->device->client_short_name,
+		];
+		$client  = $this->get_internal_link( UserAgent::get_analytics_url( $url ), ( '-' !== $this->device->client_name ? $this->device->client_name : esc_html__( 'Generic', 'decalog' ) ) ) . ( '-' !== $this->device->client_version ? ' ' . $this->device->client_version : '' );
 		$content = '<span style="width:100%;cursor: default;">' . $this->get_icon( 'play-circle' ) . $client . '</span> <span style="color:silver">' . $this->device->client_full_type . '</span>';
 		return $this->get_section( $content );
 	}
@@ -434,15 +473,41 @@ class EventViewer {
 	 * @since 1.0.0
 	 */
 	public function device_widget() {
+		$url      = [];
 		$idevice  = '<img style="width:16px;float:left;padding-right:6px;" src="' . $this->device->brand_icon_base64() . '" />';
 		$device   = ( '-' !== $this->device->brand_name ? $this->device->brand_name : esc_html__( 'Generic', 'decalog' ) ) . ( '-' !== $this->device->model_name ? ' ' . $this->device->model_name : '' );
+		$device   = $this->get_internal_link( UserAgent::get_analytics_url( $url ), $device );
+		$url      = [];
 		$ios      = '<img style="width:16px;float:left;padding-right:6px;" src="' . $this->device->os_icon_base64() . '" />';
-		$os       = ( '-' !== $this->device->os_name ? $this->device->os_name : esc_html__( 'Unknown', 'decalog' ) ) . ( '-' !== $this->device->os_version ? ' ' . $this->device->os_version : '' );
+		$os       = ( '-' !== $this->device->os_name ? $this->get_internal_link( UserAgent::get_analytics_url( $url ), $this->device->os_name ) : esc_html__( 'Unknown', 'decalog' ) ) . ( '-' !== $this->device->os_version ? ' ' . $this->device->os_version : '' );
 		$content  = '<span style="width:40%;cursor: default;float:left">' . $idevice . $device . '</span>';
 		$content .= '<span style="width:60%;cursor: default;">' . $ios . $os . '</span>';
 		$model    = $this->get_section( $content );
 
 		$this->output_activity_block( $model . $this->get_client() );
+	}
+
+	/**
+	 * Get content of the bot widget box.
+	 *
+	 * @since 1.0.0
+	 */
+	public function bot_widget() {
+		$ibot    = '<img style="width:16px;float:left;padding-right:7px;padding-left:1px;" src="' . $this->device->bot_icon_base64() . '" />';
+		$bot     = ( '-' !== $this->device->bot_name ? $this->device->bot_name : esc_html__( 'Unknown', 'decalog' ) );
+		if ( '' !== $this->device->bot_url )
+		$content = '<span style="width:100%;cursor: default;">' . $ibot . $bot . $this->get_external_link( $this->device->bot_url ) . '</span>';
+		$model   = $this->get_section( $content );
+
+		$imanuf   = $this->get_icon( 'home' );
+		$manuf    = ( '-' !== $this->device->bot_producer_name ? $this->device->bot_producer_name : esc_html__( 'Unknown', 'decalog' ) );
+		$itype    = $this->get_icon( 'info' );
+		$type     = $this->device->bot_full_category;
+		$content  = '<span style="width:40%;cursor: default;float:left">' . $itype . $type .'</span>';
+		$content .= '<span style="width:60%;cursor: default;">' . $imanuf . $manuf . $this->get_external_link( $this->device->bot_producer_url ) . '</span>';
+		$prod     = $this->get_section( $content );
+
+		$this->output_activity_block( $model . $prod );
 	}
 
 	/**
