@@ -55,8 +55,8 @@ class Libraries {
 	 * @since 1.0.0
 	 */
 	public static function init() {
-		self::$psr4_libraries              = [];
-		self::$psr4_libraries['monolog']   = [
+		self::$psr4_libraries                = [];
+		self::$psr4_libraries['monolog']     = [
 			'name'    => 'Monolog',
 			'prefix'  => 'Monolog',
 			'base'    => DECALOG_VENDOR_DIR . 'monolog/',
@@ -67,7 +67,18 @@ class Libraries {
 			'license' => 'mit',
 			'langs'   => 'en',
 		];
-		self::$psr4_libraries['feather']   = [
+		self::$psr4_libraries['flagiconcss'] = [
+			'name'    => 'Flag-Icon-CSS',
+			'prefix'  => 'Flagiconcss',
+			'base'    => DECALOG_VENDOR_DIR . 'flagiconcss/',
+			'version' => '3.4.2',
+			// phpcs:ignore
+			'author'  => sprintf( esc_html__( '%s & contributors', 'decalog' ), 'Panayiotis Lipiridis' ),
+			'url'     => 'https://github.com/lipis/flag-icon-css',
+			'license' => 'mit',
+			'langs'   => 'en',
+		];
+		self::$psr4_libraries['feather']     = [
 			'name'    => 'Feather',
 			'prefix'  => 'Feather',
 			'base'    => DECALOG_VENDOR_DIR . 'feather/',
@@ -78,7 +89,7 @@ class Libraries {
 			'license' => 'mit',
 			'langs'   => 'en',
 		];
-		self::$psr4_libraries['psr-3']     = [
+		self::$psr4_libraries['psr-3']       = [
 			'name'    => 'PSR-3',
 			'prefix'  => 'Psr\\Log',
 			'base'    => DECALOG_VENDOR_DIR . 'psr/log/',
@@ -88,8 +99,8 @@ class Libraries {
 			'license' => 'mit',
 			'langs'   => 'en',
 		];
-		self::$mono_libraries              = [];
-		self::$mono_libraries['parsedown'] = [
+		self::$mono_libraries                = [];
+		self::$mono_libraries['parsedown']   = [
 			'name'    => 'Parsedown',
 			'detect'  => 'Parsedown',
 			'base'    => DECALOG_VENDOR_DIR . 'parsedown/',
