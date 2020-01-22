@@ -3,6 +3,8 @@ All notable changes to **DecaLog** are documented in this *changelog*.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased - will be 1.9.1]
+
 ## [1.9.0] - 2020-01-22
 ### Added
 - New listener for WP-Optimize plugin.
