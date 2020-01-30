@@ -3,6 +3,7 @@
 [![php](https://badgen.net/badge/php/7.2+/green)](https://wordpress.org/plugins/decalog/)
 [![wordpress](https://badgen.net/badge/wordpress/5.2+/green)](https://wordpress.org/plugins/decalog/)
 [![license](https://badgen.net/github/license/Pierre-Lannoy/wp-decalog/)](/license.txt)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FPierre-Lannoy%2Fwp-decalog.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FPierre-Lannoy%2Fwp-decalog?ref=badge_shield)
 
 __DecaLog__ is a free WordPress plugin to capture and log events on your site. It allows to view these events in your WordPress dashboard and send them to logging or alerting services.
 
@@ -54,3 +55,6 @@ Before submitting an issue or a pull request, please read the [contribution guid
 ## Smoke tests
 [![WP compatibility](https://plugintests.com/plugins/decalog/wp-badge.svg)](https://plugintests.com/plugins/decalog/latest)
 [![PHP compatibility](https://plugintests.com/plugins/decalog/php-badge.svg)](https://plugintests.com/plugins/decalog/latest)
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FPierre-Lannoy%2Fwp-decalog.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FPierre-Lannoy%2Fwp-decalog?ref=badge_large)
