@@ -160,7 +160,7 @@ class Form {
 		}
 		$html = '';
 		foreach ( $list as $val ) {
-			$html .= '<option value="' . $val[0] . '"' . ( $val[0] == $value ? ' selected="selected"' : '' ) . '>' . $val[1] . '</option>';
+			$html .= '<option value="' . $val[0] . '"' . ( $val[0] == $value ? ' selected="selected"' : '' ) . ( isset( $val[2] ) && ! $val[2] ? ' disabled' : '' ) . '>' . $val[1] . '</option>';
 		}
 		$html = '<select' . $width . ( $enabled ? '' : ' disabled' ) . ' name="' . $id . '" id="' . $id . '">' . $html . '</select>';
 		if ( isset( $description ) ) {
