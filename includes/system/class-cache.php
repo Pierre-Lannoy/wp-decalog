@@ -387,7 +387,7 @@ class Cache {
 			if ( strlen( $item_name ) - 1 === strpos( $item_name, '_*' ) ) {
 				return false;
 			} else {
-				return apcu_delete( $item_name );
+				return apcu_delete( self::$pool_name . '_' . $item_name );
 			}
 		}
 		global $wpdb;
