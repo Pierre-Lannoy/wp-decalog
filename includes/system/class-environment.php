@@ -62,21 +62,20 @@ class Environment {
 	 * @since 1.0.0
 	 */
 	public static function exec_mode() {
-		$id = 0;
 		$req_uri = filter_input( INPUT_SERVER, 'REQUEST_URI' );
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			$id = 1;
-		} elseif (wp_doing_cron()){
+		} elseif ( wp_doing_cron() ) {
 			$id = 2;
-		} elseif (wp_doing_ajax()){
+		} elseif ( wp_doing_ajax() ) {
 			$id = 3;
-		} elseif ( defined('XMLRPC_REQUEST') && XMLRPC_REQUEST ){
+		} elseif ( defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST ) {
 			$id = 4;
 		} elseif ( defined( 'REST_REQUEST ' ) && REST_REQUEST ) {
 			$id = 5;
-		} elseif ( $req_uri ? 0 === strpos(strtolower($req_uri), '/wp-json/') : false ) {
+		} elseif ( $req_uri ? 0 === strpos( strtolower( $req_uri ), '/wp-json/' ) : false ) {
 			$id = 5;
-		} elseif ( $req_uri ? 0 === strpos(strtolower($req_uri), '/feed/') : false ) {
+		} elseif ( $req_uri ? 0 === strpos( strtolower( $req_uri ), '/feed/' ) : false ) {
 			$id = 6;
 		} elseif ( is_admin() ) {
 			$id = 7;
@@ -84,6 +83,32 @@ class Environment {
 			$id = 8;
 		}
 		return $id;
+	}
+
+	/**
+	 * Get the current client IP.
+	 *
+	 * @return  string The current client IP.
+	 * @since 1.0.0
+	 */
+	public static function current_ip() {
+		$ip = '';
+		if ( array_key_exists( 'REMOTE_ADDR', $_SERVER ) ) {
+			$iplist = explode( ',', filter_input( INPUT_SERVER, 'REMOTE_ADDR' ) );
+			$ip     = trim( end( $iplist ) );
+		}
+		if ( '' === $ip && array_key_exists( 'HTTP_X_REAL_IP', $_SERVER ) ) {
+			$iplist = explode( ',', filter_input( INPUT_SERVER, 'HTTP_X_REAL_IP' ) );
+			$ip     = trim( end( $iplist ) );
+		}
+		if ( '' === $ip && array_key_exists( 'HTTP_X_FORWARDED_FOR', $_SERVER ) ) {
+			$iplist = array_reverse( explode( ',', filter_input( INPUT_SERVER, 'HTTP_X_FORWARDED_FOR' ) ) );
+			$ip     = trim( end( $iplist ) );
+		}
+		if ( '' === $ip ) {
+			$ip = '127.0.0.1';
+		}
+		return $ip;
 	}
 
 	/**

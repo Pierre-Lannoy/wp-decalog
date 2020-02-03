@@ -13,6 +13,7 @@ namespace Decalog\Processor;
 
 use Decalog\System\Hash;
 use Monolog\Processor\WebProcessor;
+use Decalog\System\Environment;
 
 /**
  * Define the WWW processor functionality.
@@ -54,18 +55,7 @@ class WWWProcessor extends WebProcessor {
 	 * @@return array   The modified records.
 	 */
 	public function __invoke( array $record ): array {
-		$record = parent::__invoke( $record );
-		if ( array_key_exists( 'HTTP_X_REAL_IP', $_SERVER ) ) {
-			$record['extra']['ip'] = filter_input( INPUT_SERVER, 'HTTP_X_REAL_IP' );
-		}
-		if ( array_key_exists( 'X-FORWARDED_FOR', $_SERVER ) ) {
-			$record['extra']['ip'] = filter_input( INPUT_SERVER, 'FORWARDED_FOR' );
-		}
-		if ( ! array_key_exists( 'ip', $record['extra'] ) ) {
-			$record['extra']['ip'] = '127.0.0.1';
-		} elseif ( empty( $record['extra']['ip'] ) || '0' === $record['extra']['ip'] ) {
-			$record['extra']['ip'] = '127.0.0.1';
-		}
+		$record['extra']['ip'] = Environment::current_ip();
 		if ( array_key_exists( 'HTTP_USER_AGENT', $_SERVER ) ) {
 			$record['extra']['ua'] = filter_input( INPUT_SERVER, 'HTTP_USER_AGENT' );
 		}
