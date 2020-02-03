@@ -41,7 +41,7 @@ class User {
 	 * @since   1.0.0
 	 */
 	public static function get_user_name( $id = null, $default = 'anonymous' ) {
-		if ( $id && is_numeric($id) && $id >0) {
+		if ( $id && is_numeric( $id ) && $id > 0 ) {
 			$user_info = get_userdata( $id );
 			return $user_info->display_name;
 
@@ -58,19 +58,19 @@ class User {
 	 * @return  string  The user string representation, ready to be inserted in a log.
 	 * @since   1.0.0
 	 */
-	public static function get_user_string( $id = null, $pseudonymize = false) {
-		if ( $id && is_numeric($id) && $id >0 && !$pseudonymize) {
+	public static function get_user_string( $id = null, $pseudonymize = false ) {
+		if ( $id && is_numeric( $id ) && $id > 0 && ! $pseudonymize ) {
 			$user_info = get_userdata( $id );
-			$name = $user_info->display_name;
+			$name      = $user_info->display_name;
 		} else {
-			if ($pseudonymize) {
+			if ( $pseudonymize ) {
 				$name = 'pseudonymized user';
-				$id = Hash::simple_hash( (string)$id );
+				$id   = Hash::simple_hash( (string) $id );
 			} else {
 				return 'anonymous user';
 			}
 		}
-		return sprintf( '%s (user ID %s)', $name, $id);
+		return sprintf( '%s (user ID %s)', $name, $id );
 	}
 
 	/**
@@ -80,10 +80,10 @@ class User {
 	 * @return  mixed|integer The user id if detected, null otherwise.
 	 * @since   1.0.0
 	 */
-	public static function get_current_user_id($default = null) {
+	public static function get_current_user_id( $default = null ) {
 		$user_id = $default;
-		$id = get_current_user_id();
-		if ( $id && is_numeric($id) && $id > 0 ) {
+		$id      = get_current_user_id();
+		if ( $id && is_numeric( $id ) && $id > 0 ) {
 			$user_id = $id;
 		}
 		return $user_id;
@@ -96,7 +96,7 @@ class User {
 	 * @return  string  The current user nice name if detected, "anonymous" otherwise.
 	 * @since   1.0.0
 	 */
-	public static function get_current_user_name($default = 'anonymous' ) {
+	public static function get_current_user_name( $default = 'anonymous' ) {
 		return self::get_user_name( self::get_current_user_id(), $default );
 	}
 
