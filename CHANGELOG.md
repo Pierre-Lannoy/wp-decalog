@@ -3,9 +3,10 @@ All notable changes to **DecaLog** are documented in this *changelog*.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased - will be 1.9.1]
+## [1.9.1] - 2020-02-13
 ### Changed
 - The method for remote IP detection has been improved.
+- All loggers are now paused when deactivating/reactivating DecaLog (thanks to [jimmy19742](https://wordpress.org/support/users/jimmy19742/)).
 ### Fixed
 - Warning is generated when WP Security Audit Log set out-of-scope severity levels.
 
