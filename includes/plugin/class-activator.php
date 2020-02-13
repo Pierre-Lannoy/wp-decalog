@@ -9,6 +9,8 @@
 
 namespace Decalog\Plugin;
 
+use Decalog\Plugin\Feature\LoggerMaintainer;
+
 /**
  * Fired during plugin activation.
  *
@@ -27,6 +29,7 @@ class Activator {
 	 * @since 1.0.0
 	 */
 	public static function activate() {
+		LoggerMaintainer::forced_pause();
 	}
 
 }

@@ -123,4 +123,21 @@ class LoggerMaintainer {
 		return $result;
 	}
 
+	/**
+	 * Get loggers debug info (for Site Health).
+	 *
+	 * @since    1.0.0
+	 */
+	public static function forced_pause() {
+		$loggers = Option::network_get( 'loggers' );
+		if ( 0 < count( $loggers ) ) {
+			$new = [];
+			foreach ( $loggers as $uuid => $logger ) {
+				$logger['running'] = false;
+				$new[ $uuid ]      = $logger;
+			}
+			Option::network_set( 'loggers', $new );
+		}
+	}
+
 }
