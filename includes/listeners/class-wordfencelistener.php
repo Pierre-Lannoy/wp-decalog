@@ -68,7 +68,35 @@ class WordfenceListener extends AbstractListener {
 	 * @since    1.6.0
 	 */
 	public function wordfence_security_event( $event, $details, $a ) {
-		$this->logger->emergency( $event . ' / ' . print_r($details, true) );
-
+		switch ( $event ) {
+			case 'wordfenceDeactivated':
+				$this->logger->warning( 'Wordfence is now deactivated.' );
+				break;
+			case 'lostPasswdForm':
+				$this->logger->info( sprintf( 'Attempt to recover the password for "%s".', wp_kses( $details['username'], [] ) ) );
+				break;
+			case 'loginLockout':
+			case 'block':
+				$this->logger->info( $details['reason'] . ' ' . sprintf( 'This IP is now blocked for %s seconds.', $details['duration'] ) );
+				break;
+			case 'breachLogin':
+				$this->logger->info( 'User login blocked for insecure password.' );
+				break;
+			case 'increasedAttackRate':
+				$this->logger->notice( 'Increased Attack Rate.' );
+				break;
+			case 'autoUpdate':
+				$this->logger->notice( 'Wordfence is now updated.' );
+				break;
+			case 'wafDeactivated':
+				$this->logger->warning( 'Wordfence firewall is now deactivated.' );
+				break;
+			case 'throttle':
+				$this->logger->info( $details['reason'] . ' ' . sprintf( 'This IP is now throttled for %s seconds.', $details['duration'] ) );
+				break;
+			default:
+				// phpcs:ignore
+				$this->logger->emergency( $event . ' / ' . print_r( $details, true ) );
+		}
 	}
 }
