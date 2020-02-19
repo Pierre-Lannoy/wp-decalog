@@ -11,6 +11,8 @@
  * Plugin URI:        https://github.com/Pierre-Lannoy/wp-decalog
  * Description:       Capture and log events on your site. View them in your dashboard and send them to logging services.
  * Version:           1.9.1
+ * Requires at least: 5.2
+ * Requires PHP:      7.2
  * Author:            Pierre Lannoy
  * Author URI:        https://pierre.lannoy.fr
  * License:           GPLv3

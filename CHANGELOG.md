@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased - Will be 1.10.0]
 ### Added
 - New listener for Wordfence plugin.
+### Removed
+- Compatibility with WordPress versions prior to 5.2.
 
 ## [1.9.1] - 2020-02-13
 ### Changed
