@@ -165,17 +165,6 @@ class Environment {
 	}
 
 	/**
-	 * Verification of WP version.
-	 *
-	 * @return boolean     True if version is ok, false otherwise.
-	 * @since  1.0.0
-	 */
-	public static function is_wordpress_version_ok() {
-		global $wp_version;
-		return ( ! version_compare( $wp_version, DECALOG_MINIMUM_WP_VERSION, '<' ) );
-	}
-
-	/**
 	 * Verification of WP MU.
 	 *
 	 * @return boolean     True if MU, false otherwise.
@@ -294,16 +283,6 @@ class Environment {
 	 */
 	public static function is_plugin_in_production_mode() {
 		return ( ! self::is_plugin_in_dev_mode() && ! self::is_plugin_in_rc_mode() );
-	}
-
-	/**
-	 * Verification of PHP version.
-	 *
-	 * @return boolean     True if version is ok, false otherwise.
-	 * @since  1.0.0
-	 */
-	public static function is_php_version_ok() {
-		return ( ! version_compare( PHP_VERSION, DECALOG_MINIMUM_PHP_VERSION, '<' ) );
 	}
 
 	/**
