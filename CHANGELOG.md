@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased - Will be 1.10.0]
 ### Added
 - New listener for Wordfence plugin.
+### Fixed
+- The shutdown action of [APCu Manager](https://wordpress.org/plugins/apcu-manager/) can cause a PHP notice in DecaLog.
 ### Removed
 - Compatibility with WordPress versions prior to 5.2.
 
