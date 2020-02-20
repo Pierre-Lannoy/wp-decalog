@@ -23,7 +23,9 @@ use Decalog\System\Option;
 use Decalog\System\Form;
 use Decalog\System\Role;
 use Decalog\System\GeoIP;
+use Decalog\System\Environment;
 use Monolog\Logger;
+use PerfOpsOne\AdminMenus;
 
 /**
  * The admin-specific functionality of the plugin.
@@ -103,6 +105,91 @@ class Decalog_Admin {
 	}
 
 	/**
+	 * Sets the help action for the settings page.
+	 *
+	 * @param string $hook_suffix    The hook suffix.
+	 * @since 1.0.0
+	 */
+	public function set_settings_help( $hook_suffix ) {
+		add_action( 'load-' . $hook_suffix, [ new InlineHelp(), 'set_contextual_settings' ] );
+	}
+
+	/**
+	 * Sets the help action (and boxes settings) for the viewer.
+	 *
+	 * @param string $hook_suffix    The hook suffix.
+	 * @since 1.0.0
+	 */
+	public function set_viewer_help( $hook_suffix ) {
+		$this->current_view = null;
+		add_action( 'load-' . $hook_suffix, [ new InlineHelp(), 'set_contextual_viewer' ] );
+		$logid   = filter_input( INPUT_GET, 'logid', FILTER_SANITIZE_STRING );
+		$eventid = filter_input( INPUT_GET, 'eventid', FILTER_SANITIZE_NUMBER_INT );
+		if ( 'decalog-viewer' === filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING ) ) {
+			if ( isset( $logid ) && isset( $eventid ) && 0 !== $eventid ) {
+				$this->current_view = new EventViewer( $logid, $eventid, $this->logger );
+				add_action( 'load-' . $hook_suffix, [ $this->current_view, 'add_metaboxes_options' ] );
+				add_action( 'admin_footer-' . $hook_suffix, [ $this->current_view, 'add_footer' ] );
+				add_filter( 'screen_settings', [ $this->current_view, 'display_screen_settings' ], 10, 2 );
+			} else {
+				add_action( 'load-' . $hook_suffix, [ 'Decalog\Plugin\Feature\Events', 'add_column_options' ] );
+				add_filter( 'screen_settings', [ 'Decalog\Plugin\Feature\Events', 'display_screen_settings' ], 10, 2 );
+			}
+		}
+	}
+
+	/**
+	 * Init PerfOps admin menus.
+	 *
+	 * @param array $perfops    The already declared menus.
+	 * @return array    The completed menus array.
+	 * @since 1.0.0
+	 */
+	public function init_perfops_admin_menus( $perfops ) {
+		if ( Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type() ) {
+			$perfops['settings'][] = [
+				'name'          => DECALOG_PRODUCT_NAME,
+				'description'   => '',
+				'icon_callback' => [ \Decalog\Plugin\Core::class, 'get_base64_logo' ],
+				'slug'          => 'decalog-settings',
+				/* translators: as in the sentence "DecaLog Settings" or "WordPress Settings" */
+				'page_title'    => sprintf( esc_html__( '%s Settings', 'decalog' ), DECALOG_PRODUCT_NAME ),
+				'menu_title'    => DECALOG_PRODUCT_NAME,
+				'capability'    => 'manage_options',
+				'callback'      => [ $this, 'get_settings_page' ],
+				'position'      => 50,
+				'plugin'        => DECALOG_SLUG,
+				'activated'     => true,
+				'remedy'        => '',
+				'statistics'    => [ '\Decalog\System\Statistics', 'sc_get_raw' ],
+				'post_callback' => [ $this, 'set_settings_help' ],
+			];
+		}
+		if ( Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type() || Role::LOCAL_ADMIN === Role::admin_type() ) {
+			if ( Events::loggers_count() > 0 ) {
+				$perfops['records'][] = [
+					'name'          => esc_html__( 'Events Log', 'decalog' ),
+					/* translators: as in the sentence "Check the events that occurred on your network." or "Check the events that occurred on your website." */
+					'description'   => sprintf( esc_html__( 'Check the events that occurred on your %s.', 'decalog' ), Environment::is_wordpress_multisite() ? esc_html__( 'network', 'decalog' ) : esc_html__( 'website', 'decalog' ) ),
+					'icon_callback' => [ \Decalog\Plugin\Core::class, 'get_base64_logo' ],
+					'slug'          => 'decalog-viewer',
+					/* translators: as in the sentence "DecaLog Viewer" */
+					'page_title'    => sprintf( esc_html__( '%s Viewer', 'decalog' ), DECALOG_PRODUCT_NAME ),
+					'menu_title'    => esc_html__( 'Events Log', 'decalog' ),
+					'capability'    => 'manage_options',
+					'callback'      => [ $this, 'get_tools_page' ],
+					'position'      => 50,
+					'plugin'        => POSE_SLUG,
+					'activated'     => true,
+					'remedy'        => '',
+					'post_callback' => [ $this, 'set_viewer_help' ],
+				];
+			}
+		}
+		return $perfops;
+	}
+
+	/**
 	 * Set the items in the settings menu.
 	 *
 	 * @since 1.0.0
@@ -112,47 +199,8 @@ class Decalog_Admin {
 			remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 			remove_action( 'admin_print_styles', 'print_emoji_styles' );
 		}
-		$this->current_view = null;
-		if ( Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type() ) {
-			/* translators: as in the sentence "DecaLog Settings" or "WordPress Settings" */
-			$settings = add_submenu_page( 'options-general.php', sprintf( esc_html__( '%s Settings', 'decalog' ), DECALOG_PRODUCT_NAME ), DECALOG_PRODUCT_NAME, 'manage_options', 'decalog-settings', [ $this, 'get_settings_page' ] );
-			add_action( 'load-' . $settings, [ new InlineHelp(), 'set_contextual_settings' ] );
-		}
-		if ( Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type() || Role::LOCAL_ADMIN === Role::admin_type() ) {
-			if ( Events::loggers_count() > 0 ) {
-				$name = add_submenu_page(
-					'tools.php',
-					/* translators: as in the sentence "DecaLog Viewer" */
-					sprintf( esc_html__( '%s Viewer', 'decalog' ), DECALOG_PRODUCT_NAME ),
-					DECALOG_PRODUCT_NAME,
-					'manage_options',
-					'decalog-viewer',
-					[ $this, 'get_tools_page' ]
-				);
-				add_action( 'load-' . $name, [ new InlineHelp(), 'set_contextual_viewer' ] );
-				$logid   = filter_input( INPUT_GET, 'logid', FILTER_SANITIZE_STRING );
-				$eventid = filter_input( INPUT_GET, 'eventid', FILTER_SANITIZE_NUMBER_INT );
-				if ( 'decalog-viewer' === filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING ) ) {
-					if ( isset( $logid ) && isset( $eventid ) && 0 !== $eventid ) {
-						$this->current_view = new EventViewer( $logid, $eventid, $this->logger );
-						add_action( 'load-' . $name, [ $this->current_view, 'add_metaboxes_options' ] );
-						add_action( 'admin_footer-' . $name, [ $this->current_view, 'add_footer' ] );
-						add_filter( 'screen_settings', [ $this->current_view, 'display_screen_settings' ], 10, 2 );
-					} else {
-						add_action( 'load-' . $name, [ 'Decalog\Plugin\Feature\Events', 'add_column_options' ] );
-						add_filter(
-							'screen_settings',
-							[
-								'Decalog\Plugin\Feature\Events',
-								'display_screen_settings',
-							],
-							10,
-							2
-						);
-					}
-				}
-			}
-		}
+		add_filter( 'init_perfops_admin_menus', [ $this, 'init_perfops_admin_menus' ] );
+		AdminMenus::initialize();
 	}
 
 	/**
@@ -165,7 +213,7 @@ class Decalog_Admin {
 	 */
 	public function blog_action( $actions, $user_blog ) {
 		if ( Role::SUPER_ADMIN === Role::admin_type() || Role::LOCAL_ADMIN === Role::admin_type() && Events::loggers_count() > 0 ) {
-			$actions .= " | <a href='" . esc_url( admin_url( 'tools.php?page=decalog-viewer&site_id=' . $user_blog->userblog_id ) ) . "'>" . __( 'Events log', 'decalog' ) . '</a>';
+			$actions .= " | <a href='" . esc_url( admin_url( 'admin.php?page=decalog-viewer&site_id=' . $user_blog->userblog_id ) ) . "'>" . __( 'Events log', 'decalog' ) . '</a>';
 		}
 		return $actions;
 	}
@@ -182,7 +230,7 @@ class Decalog_Admin {
 	 */
 	public function site_action( $actions, $blog_id, $blogname ) {
 		if ( Role::SUPER_ADMIN === Role::admin_type() || Role::LOCAL_ADMIN === Role::admin_type() && Events::loggers_count() > 0 ) {
-			$actions['events_log'] = "<a href='" . esc_url( admin_url( 'tools.php?page=decalog-viewer&site_id=' . $blog_id ) ) . "' rel='bookmark'>" . __( 'Events log', 'decalog' ) . '</a>';
+			$actions['events_log'] = "<a href='" . esc_url( admin_url( 'admin.php?page=decalog-viewer&site_id=' . $blog_id ) ) . "' rel='bookmark'>" . __( 'Events log', 'decalog' ) . '</a>';
 		}
 		return $actions;
 	}
@@ -217,9 +265,9 @@ class Decalog_Admin {
 	 * @since 1.0.0
 	 */
 	public function add_actions_links( $actions, $plugin_file, $plugin_data, $context ) {
-		$actions[] = sprintf( '<a href="%s">%s</a>', admin_url( 'options-general.php?page=decalog-settings' ), esc_html__( 'Settings', 'decalog' ) );
+		$actions[] = sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=decalog-settings' ), esc_html__( 'Settings', 'decalog' ) );
 		if ( Events::loggers_count() > 0 ) {
-			$actions[] = sprintf( '<a href="%s">%s</a>', admin_url( 'tools.php?page=decalog-viewer' ), esc_html__( 'Events Logs', 'decalog' ) );
+			$actions[] = sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=decalog-viewer' ), esc_html__( 'Events Logs', 'decalog' ) );
 		}
 		return $actions;
 	}

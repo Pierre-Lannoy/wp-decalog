@@ -49,7 +49,7 @@ class Updater {
 				$logger  = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
 				$logger->notice( $message );
 				// phpcs:ignore
-				$message .= ' ' . sprintf( __( 'See <a href="%s">what\'s new</a>.', 'decalog' ), admin_url( 'options-general.php?page=decalog-settings&tab=about' ) );
+				$message .= ' ' . sprintf( __( 'See <a href="%s">what\'s new</a>.', 'decalog' ), admin_url( 'admin.php?page=decalog-settings&tab=about' ) );
 			}
 			Nag::add( 'update', 'info', $message );
 			Option::network_set( 'version', DECALOG_VERSION );

@@ -19,7 +19,7 @@ $eventListTable->prepare_items();
 <div class="wrap">
 	<h2><?php echo sprintf( esc_html__( '%s Viewer', 'decalog' ), DECALOG_PRODUCT_NAME );?></h2>
 	<?php $eventListTable->views(); ?>
-	<form id="events-filter" method="get" action="<?php echo admin_url('tools.php'); ?>">
+	<form id="events-filter" method="get" action="<?php echo admin_url('admin.php'); ?>">
 		<input type="hidden" name="page" value="decalog-viewer" />
 		<?php $eventListTable->display(); ?>
 	</form>

@@ -153,7 +153,7 @@ class Events extends \WP_List_Table {
 		$args['page']    = 'decalog-viewer';
 		$args['logid']   = $this->logger;
 		$args['eventid'] = $item['id'];
-		$url             = add_query_arg( $args, admin_url( 'tools.php' ) );
+		$url             = add_query_arg( $args, admin_url( 'admin.php' ) );
 		$icon            = '<img style="width:18px;float:left;padding-right:6px;" src="' . EventTypes::$icons[ $item['level'] ] . '" />';
 		$name            = '<a href="' . $url . '">' . ChannelTypes::$channel_names[ strtoupper( $item['channel'] ) ] . '</a>' . $this->get_filter( 'channel', $item['channel'] ) . '&nbsp;<span style="color:silver">#' . $item['id'] . '</span>';
 		/* translators: as in the sentence "Error code 501" or "Alert code 0" */
@@ -418,7 +418,7 @@ class Events extends \WP_List_Table {
 		if ( 25 !== $this->limit ) {
 			$args['limit'] = $this->limit;
 		}
-		$url = add_query_arg( $args, admin_url( 'tools.php' ) );
+		$url = add_query_arg( $args, admin_url( 'admin.php' ) );
 		return $url;
 	}
 

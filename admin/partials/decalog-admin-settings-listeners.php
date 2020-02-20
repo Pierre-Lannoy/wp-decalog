@@ -20,7 +20,7 @@ echo esc_url(
 			'action'  => 'do-save',
 			'tab'     => 'listeners',
 		),
-		admin_url( 'options-general.php' )
+		admin_url( 'admin.php' )
 	)
 );
 ?>

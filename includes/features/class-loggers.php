@@ -107,7 +107,7 @@ class Loggers extends \WP_List_Table {
 					'tab'    => 'loggers',
 					'uuid'   => $item['uuid'],
 				],
-				admin_url( 'options-general.php' )
+				admin_url( 'admin.php' )
 			)
 		);
 		$delete            = esc_url(
@@ -118,7 +118,7 @@ class Loggers extends \WP_List_Table {
 					'tab'    => 'loggers',
 					'uuid'   => $item['uuid'],
 				],
-				admin_url( 'options-general.php' )
+				admin_url( 'admin.php' )
 			)
 		);
 		$pause             = esc_url(
@@ -130,7 +130,7 @@ class Loggers extends \WP_List_Table {
 					'uuid'   => $item['uuid'],
 					'nonce'  => wp_create_nonce( 'decalog-logger-pause-' . $item['uuid'] ),
 				],
-				admin_url( 'options-general.php' )
+				admin_url( 'admin.php' )
 			)
 		);
 		$test              = esc_url(
@@ -142,7 +142,7 @@ class Loggers extends \WP_List_Table {
 					'uuid'   => $item['uuid'],
 					'nonce'  => wp_create_nonce( 'decalog-logger-test-' . $item['uuid'] ),
 				],
-				admin_url( 'options-general.php' )
+				admin_url( 'admin.php' )
 			)
 		);
 		$start             = esc_url(
@@ -154,7 +154,7 @@ class Loggers extends \WP_List_Table {
 					'uuid'   => $item['uuid'],
 					'nonce'  => wp_create_nonce( 'decalog-logger-start-' . $item['uuid'] ),
 				],
-				admin_url( 'options-general.php' )
+				admin_url( 'admin.php' )
 			)
 		);
 		$view              = esc_url(
@@ -163,7 +163,7 @@ class Loggers extends \WP_List_Table {
 					'page'      => 'decalog-viewer',
 					'logger_id' => $item['uuid'],
 				],
-				admin_url( 'tools.php' )
+				admin_url( 'admin.php' )
 			)
 		);
 		$handler           = $this->handler_types->get( $item['handler'] );

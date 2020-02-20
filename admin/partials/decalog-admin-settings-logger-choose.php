@@ -47,7 +47,7 @@ $logger_types = new HandlerTypes();
 				});
 				$("#<?php echo $logger['id']; ?>").click(function() {
 					<?php // phpcs:ignore ?>
-					window.open('<?php echo add_query_arg( array( 'page'    => 'decalog-settings', 'action'  => 'form-edit', 'tab'     => 'loggers', 'handler' => $logger['id'], ), admin_url( 'options-general.php' ) );?>', '_self');
+					window.open('<?php echo add_query_arg( array( 'page'    => 'decalog-settings', 'action'  => 'form-edit', 'tab'     => 'loggers', 'handler' => $logger['id'], ), admin_url( 'admin.php' ) );?>', '_self');
 				});
 			<?php } ?>
 		});

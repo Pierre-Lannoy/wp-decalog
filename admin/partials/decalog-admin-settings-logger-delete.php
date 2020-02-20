@@ -22,7 +22,7 @@
 				'tab'    => 'loggers',
 				'uuid'   => $current_logger['uuid'],
 			),
-			admin_url( 'options-general.php' )
+			admin_url( 'admin.php' )
 		)
 	);
 	?>

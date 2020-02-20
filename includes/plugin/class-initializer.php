@@ -41,4 +41,13 @@ class Initializer {
 		add_filter( 'set-screen-option', [ 'Decalog\Plugin\Feature\Events', 'save_screen_option' ], 100, 3 );
 	}
 
+	/**
+	 * Initialize the plugin.
+	 *
+	 * @since 1.0.0
+	 */
+	public function late_initialize() {
+		require_once DECALOG_PLUGIN_DIR . 'perfopsone/init.php';
+	}
+
 }
