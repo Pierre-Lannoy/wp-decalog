@@ -195,7 +195,7 @@ if ( ! class_exists( 'PerfOpsOne\AdminMenus' ) ) {
 					$i                = [];
 					$d                = new Plugin( $item['plugin'] );
 					$i['title']       = $d->get( 'Name' );
-					$i['version']     = $d->get( 'Version' );
+					$i['version']     = $item['version'];
 					$i['text']        = $d->get( 'Description' );
 					$i['wp_version']  = $d->get( 'RequiresWP' );
 					$i['php_version'] = $d->get( 'RequiresPHP' );

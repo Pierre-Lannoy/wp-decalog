@@ -159,6 +159,7 @@ class Decalog_Admin {
 				'callback'      => [ $this, 'get_settings_page' ],
 				'position'      => 50,
 				'plugin'        => DECALOG_SLUG,
+				'version'       => DECALOG_VERSION,
 				'activated'     => true,
 				'remedy'        => '',
 				'statistics'    => [ '\Decalog\System\Statistics', 'sc_get_raw' ],
