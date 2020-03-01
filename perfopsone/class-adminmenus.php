@@ -219,6 +219,7 @@ if ( ! class_exists( 'PerfOpsOne\AdminMenus' ) ) {
 						$i['ok_php_update']   = '';
 					}
 					$i['icon'] = call_user_func( $item['icon_callback'] );
+					$i['slug'] = $item['plugin'];
 					$i['id']   = 'settings-' . $item['slug'];
 					foreach ( [ 'installs', 'downloads', 'rating', 'reviews' ] as $key ) {
 						$i[ $key ] = call_user_func( $item['statistics'], [ 'item' => $key ] );
@@ -339,8 +340,8 @@ if ( ! class_exists( 'PerfOpsOne\AdminMenus' ) ) {
 			$disp .= ' <div style="display:flex;flex-direction:row;flex-wrap:wrap;justify-content:center;padding-top:10px;padding-right:20px;">';
 			$disp .= '  <style>';
 			$disp .= '   .perfopsone-admin-inside .po-container {width:100%;flex:none;padding:10px;}';
-			$disp .= '   .perfopsone-admin-inside .po-actionable:hover {border-radius:6px;cursor:pointer; -moz-transition: all .2s ease-in; -o-transition: all .2s ease-in; -webkit-transition: all .2s ease-in; transition: all .2s ease-in; background: #f5f5f5;border:1px solid #e0e0e0;filter: grayscale(0%) opacity(100%);}';
-			$disp .= '   .perfopsone-admin-inside .po-actionable {overflow:hidden;width:100%;height:120px;border-radius:6px;cursor:pointer; -moz-transition: all .4s ease-in; -o-transition: all .4s ease-in; -webkit-transition: all .4s ease-in; transition: all .4s ease-in; background: transparent;border:1px solid transparent;filter: grayscale(80%) opacity(66%);}';
+			$disp .= '   .perfopsone-admin-inside .po-actionable:hover {border-radius:6px;-moz-transition: all .2s ease-in; -o-transition: all .2s ease-in; -webkit-transition: all .2s ease-in; transition: all .2s ease-in; background: #f5f5f5;border:1px solid #e0e0e0;filter: grayscale(0%) opacity(100%);}';
+			$disp .= '   .perfopsone-admin-inside .po-actionable {overflow:hidden;width:100%;height:120px;border-radius:6px;-moz-transition: all .4s ease-in; -o-transition: all .4s ease-in; -webkit-transition: all .4s ease-in; transition: all .4s ease-in; background: transparent;border:1px solid transparent;filter: grayscale(80%) opacity(66%);}';
 			$disp .= '   .perfopsone-admin-inside .po-actionable a {font-style:normal;text-decoration:none;color:#73879C;}';
 			$disp .= '   .perfopsone-admin-inside .po-icon {display:block;width:120px;float:left;padding-top:10px;}';
 			$disp .= '   .perfopsone-admin-inside .po-text {width:70%;display: grid;text-align:left;padding-top:20px;padding-right:16px;}';
@@ -350,6 +351,8 @@ if ( ! class_exists( 'PerfOpsOne\AdminMenus' ) ) {
 			$disp .= '   .perfopsone-admin-inside .po-update {font-size:1.1em;font-weight: 400;color:#9B59B6;}';
 			$disp .= '   .perfopsone-admin-inside .po-description {font-size:1em;padding-top:0px;margin-bottom: -10px;}';
 			$disp .= '   .perfopsone-admin-inside .po-requires {font-size:1em;}';
+			$disp .= '   .perfopsone-admin-inside .po-link {padding-left:14px;font-size:0.6em;vertical-align: middle;color:#73879C;}';
+			$disp .= '   .perfopsone-admin-inside .po-link a:hover {text-decoration:underline;}';
 			$disp .= '   .perfopsone-admin-inside .po-needupdate {vertical-align:super;font-size:0.6em;color:#9B59B6;padding-left:2px;}';
 			$disp .= '   .perfopsone-admin-inside .po-okupdate {vertical-align:super;font-size:0.6em;color:#3398DB;}';
 			$disp .= '   .perfopsone-admin-inside .po-summary {width:140px;display:grid;text-align:left;margin-left:20px;padding-left:30px;top:20px;position:relative;padding-right:16px;}';
@@ -359,25 +362,28 @@ if ( ! class_exists( 'PerfOpsOne\AdminMenus' ) ) {
 			$disp .= '   }';
 			$disp .= '  </style>';
 			foreach ( $items as $item ) {
-				$disp .= '<div class="po-container">';
-				$disp .= ' <div class="po-actionable">';
-				$disp .= '  <a href="' . $item['url'] . '"/>';
-				$disp .= '   <div id="' . $item['id'] . '" style="display:flex;justify-content: flex-start;">';
-				$disp .= '    <div class="po-icon"><img style="width:100px" src="' . $item['icon'] . '"/></div>';
-				$disp .= '    <div class="po-text">';
-				$disp .= '     <span class="po-title">' . $item['title'] . '<span class="po-version">' . $item['version'] . '</span></span>';
-				$disp .= '     <span class="po-update">' . $item['need_update'] . '</span>';
-				$disp .= '     <span class="po-description">' . $item['text'] . '</span>';
-				$disp .= '     <span class="po-requires">' . sprintf( esc_html__( 'Requires at least PHP %1$s%2$s and WordPress %3$s%4$s.', 'decalog' ), $item['php_version'], '<span class="po-needupdate">' . $item['need_php_update'] . '</span><span class="po-okupdate">' . $item['ok_php_update'] . '</span>', $item['wp_version'], '<span class="po-needupdate">' . $item['need_wp_update'] . '</span><span class="po-okupdate">' . $item['ok_wp_update'] . '</span>' ) . '</span>';
-				$disp .= '    </div>';
-				$disp .= '    <div class="po-summary">';
-				$disp .= '     <span class="po-stars">' . $item['stars'] . '</span>';
-				$disp .= '     <span class="po-requires">' . $item['reviews'] . '<br/>' . $item['installs'] . '<br/>' . $item['downloads'] . '</span>';
-				$disp .= '    </div>';
-				$disp .= '   </div>';
-				$disp .= '  </a>';
-				$disp .= ' </div>';
-				$disp .= '</div>';
+				$links   = [];
+				$links[] = '<a href="' . $item['url'] . '"/>' . __( 'settings', 'decalog' ) . '</a>';
+				$links[] = '<a href="' . $item['url'] . '&tab=about"/>' . __( 'about', 'decalog' ) . '</a>';
+				$links[] = '<a href="https://wordpress.org/support/plugin/' . $item['slug'] . '" target="_blank">' . __( 'support', 'decalog' ) . '</a>';
+				$links[] = '<a href="https://github.com/Pierre-Lannoy/wp-' . $item['slug'] . '" target="_blank">' . __( 'contribution', 'decalog' ) . '</a>';
+				$disp   .= '<div class="po-container">';
+				$disp   .= ' <div class="po-actionable">';
+				$disp   .= '   <div id="' . $item['id'] . '" style="display:flex;justify-content: flex-start;">';
+				$disp   .= '    <div class="po-icon"><img style="width:100px" src="' . $item['icon'] . '"/></div>';
+				$disp   .= '    <div class="po-text">';
+				$disp   .= '     <span class="po-title">' . $item['title'] . '<span class="po-version">' . $item['version'] . '</span><span class="po-link">' . implode(' | ',  $links) . '</span></span>';
+				$disp   .= '     <span class="po-update">' . $item['need_update'] . '</span>';
+				$disp   .= '     <span class="po-description">' . $item['text'] . '</span>';
+				$disp   .= '     <span class="po-requires">' . sprintf( esc_html__( 'Requires at least PHP %1$s%2$s and WordPress %3$s%4$s.', 'decalog' ), $item['php_version'], '<span class="po-needupdate">' . $item['need_php_update'] . '</span><span class="po-okupdate">' . $item['ok_php_update'] . '</span>', $item['wp_version'], '<span class="po-needupdate">' . $item['need_wp_update'] . '</span><span class="po-okupdate">' . $item['ok_wp_update'] . '</span>' ) . '</span>';
+				$disp   .= '    </div>';
+				$disp   .= '    <div class="po-summary">';
+				$disp   .= '     <span class="po-stars"><a href="https://wordpress.org/support/plugin/' . $item['slug'] . '/reviews" target="_blank">' . $item['stars'] . '</a></span>';
+				$disp   .= '     <span class="po-requires">' . $item['reviews'] . '<br/>' . $item['installs'] . '<br/>' . $item['downloads'] . '</span>';
+				$disp   .= '    </div>';
+				$disp   .= '   </div>';
+				$disp   .= ' </div>';
+				$disp   .= '</div>';
 			}
 			$disp .= ' </div>';
 			$disp .= '</div>';
