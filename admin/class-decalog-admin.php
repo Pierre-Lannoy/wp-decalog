@@ -179,7 +179,7 @@ class Decalog_Admin {
 					'capability'    => 'manage_options',
 					'callback'      => [ $this, 'get_tools_page' ],
 					'position'      => 50,
-					'plugin'        => POSE_SLUG,
+					'plugin'        => DECALOG_SLUG,
 					'activated'     => true,
 					'remedy'        => '',
 					'post_callback' => [ $this, 'set_viewer_help' ],
