@@ -279,6 +279,18 @@ class DLogger {
 	}
 
 	/**
+	 * Normalize message.
+	 *
+	 * @param string  $message The log message.
+	 * @return string   The normalized message.
+	 * @since 1.10.0+
+	 */
+	private function normalize( $message ) {
+		$message = str_replace( '"', '`', $message );
+		return filter_var( $message, FILTER_SANITIZE_STRING );
+	}
+
+	/**
 	 * Adds a log record at a specific level.
 	 *
 	 * @param mixed   $level The log level.
@@ -301,7 +313,7 @@ class DLogger {
 			if ( $this->logger->getName() !== $channel ) {
 				$this->logger = $this->logger->withName( $channel );
 			}
-			$this->logger->log( $level, filter_var( $message, FILTER_SANITIZE_STRING ), $context );
+			$this->logger->log( $level, $this->normalize( $message ), $context );
 			$result = true;
 		} catch ( \Throwable $t ) {
 			$this->integrity_check();
@@ -331,7 +343,7 @@ class DLogger {
 				if ( $this->logger->getName() !== $channel ) {
 					$this->logger = $this->logger->withName( $channel );
 				}
-				$this->logger->debug( filter_var( $message, FILTER_SANITIZE_STRING ), $context );
+				$this->logger->debug( $this->normalize( $message ), $context );
 				$result = true;
 			} catch ( \Throwable $t ) {
 				$this->integrity_check();
@@ -364,7 +376,7 @@ class DLogger {
 			if ( $this->logger->getName() !== $channel ) {
 				$this->logger = $this->logger->withName( $channel );
 			}
-			$this->logger->info( filter_var( $message, FILTER_SANITIZE_STRING ), $context );
+			$this->logger->info( $this->normalize( $message ), $context );
 			$result = true;
 		} catch ( \Throwable $t ) {
 			$this->integrity_check();
@@ -396,7 +408,7 @@ class DLogger {
 			if ( $this->logger->getName() !== $channel ) {
 				$this->logger = $this->logger->withName( $channel );
 			}
-			$this->logger->notice( filter_var( $message, FILTER_SANITIZE_STRING ), $context );
+			$this->logger->notice( $this->normalize( $message ), $context );
 			$result = true;
 		} catch ( \Throwable $t ) {
 			$this->integrity_check();
@@ -428,7 +440,7 @@ class DLogger {
 			if ( $this->logger->getName() !== $channel ) {
 				$this->logger = $this->logger->withName( $channel );
 			}
-			$this->logger->warning( filter_var( $message, FILTER_SANITIZE_STRING ), $context );
+			$this->logger->warning( $this->normalize( $message ), $context );
 			$result = true;
 		} catch ( \Throwable $t ) {
 			$this->integrity_check();
@@ -460,7 +472,7 @@ class DLogger {
 			if ( $this->logger->getName() !== $channel ) {
 				$this->logger = $this->logger->withName( $channel );
 			}
-			$this->logger->error( filter_var( $message, FILTER_SANITIZE_STRING ), $context );
+			$this->logger->error( $this->normalize( $message ), $context );
 			$result = true;
 		} catch ( \Throwable $t ) {
 			$this->integrity_check();
@@ -492,7 +504,7 @@ class DLogger {
 			if ( $this->logger->getName() !== $channel ) {
 				$this->logger = $this->logger->withName( $channel );
 			}
-			$this->logger->critical( filter_var( $message, FILTER_SANITIZE_STRING ), $context );
+			$this->logger->critical( $this->normalize( $message ), $context );
 			$result = true;
 		} catch ( \Throwable $t ) {
 			$this->integrity_check();
@@ -524,7 +536,7 @@ class DLogger {
 			if ( $this->logger->getName() !== $channel ) {
 				$this->logger = $this->logger->withName( $channel );
 			}
-			$this->logger->alert( filter_var( $message, FILTER_SANITIZE_STRING ), $context );
+			$this->logger->alert( $this->normalize( $message ), $context );
 			$result = true;
 		} catch ( \Throwable $t ) {
 			$this->integrity_check();
@@ -556,7 +568,7 @@ class DLogger {
 			if ( $this->logger->getName() !== $channel ) {
 				$this->logger = $this->logger->withName( $channel );
 			}
-			$this->logger->emergency( filter_var( $message, FILTER_SANITIZE_STRING ), $context );
+			$this->logger->emergency( $this->normalize( $message ), $context );
 			$result = true;
 		} catch ( \Throwable $t ) {
 			$this->integrity_check();
