@@ -58,7 +58,7 @@ class Http {
 	 * The list of HTTP codes meaning effective pass.
 	 *
 	 * @since  1.0.0
-	 * @var    array    $http_success_codes    Maintains the effective pass codes list.
+	 * @var    array    $http_effective_pass_codes    Maintains the effective pass codes list.
 	 */
 	public static $http_effective_pass_codes = [ 200, 201, 202 ];
 
