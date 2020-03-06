@@ -120,7 +120,7 @@ class EventViewer {
 	 * @since 1.0.0
 	 */
 	public function display_screen_settings( $current, $screen ) {
-		if ( ! is_object( $screen ) || 'tools_page_decalog-viewer' !== $screen->id ) {
+		if ( ! is_object( $screen ) || 'perfops-records_page_decalog-viewer' !== $screen->id ) {
 			return $current;
 		}
 		$current .= '<div class="metabox-prefs custom-options-panel requires-autosave"><input type="hidden" name="_wpnonce-decalog_viewer" value="' . wp_create_nonce( 'save_settings_decalog_viewer' ) . '" />';
