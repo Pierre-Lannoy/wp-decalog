@@ -97,7 +97,7 @@ class Environment {
 			$iplist = explode( ',', filter_input( INPUT_SERVER, 'REMOTE_ADDR' ) );
 			$ip     = trim( end( $iplist ) );
 		}
-		if ( '' === $ip && array_key_exists( 'HTTP_X_REAL_IP', $_SERVER ) ) {
+		if ( array_key_exists( 'HTTP_X_REAL_IP', $_SERVER ) ) {
 			$iplist = explode( ',', filter_input( INPUT_SERVER, 'HTTP_X_REAL_IP' ) );
 			$ip     = trim( end( $iplist ) );
 		}
