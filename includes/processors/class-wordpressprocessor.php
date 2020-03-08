@@ -11,6 +11,7 @@
 
 namespace Decalog\Processor;
 
+use Decalog\System\Environment;
 use Monolog\Processor\ProcessorInterface;
 use Decalog\System\Blog;
 use Decalog\System\Hash;
@@ -56,6 +57,30 @@ class WordpressProcessor implements ProcessorInterface {
 	}
 
 	/**
+	 * Normalize a string.
+	 *
+	 * @param string  $string The string.
+	 * @return string   The normalized string.
+	 * @since 1.10.0+
+	 */
+	private function normalize_string( $string ) {
+		$string = str_replace( '"', '`', $string );
+		return filter_var( $string, FILTER_SANITIZE_STRING );
+	}
+
+	/**
+	 * Normalize an array.
+	 *
+	 * @param mixed  $array The array.
+	 * @return mixed   The normalized array.
+	 * @since 1.10.0+
+	 */
+	private function normalize_array( $array ) {
+		array_walk_recursive( $array, function ( &$item, $key ) { if ( is_string( $item ) ) { $item = $this->normalize_string( $item ); } } );
+		return $array;
+	}
+
+	/**
 	 * Invocation of the processor.
 	 *
 	 * @since   1.0.0
@@ -67,18 +92,7 @@ class WordpressProcessor implements ProcessorInterface {
 		$record['extra']['sitename'] = Blog::get_current_blog_name();
 		$record['extra']['userid']   = User::get_current_user_id( 0 );
 		$record['extra']['username'] = User::get_current_user_name();
-		$ip                          = filter_input( INPUT_SERVER, 'REMOTE_ADDR' );
-		if ( array_key_exists( 'HTTP_X_REAL_IP', $_SERVER ) ) {
-			$ip = filter_input( INPUT_SERVER, 'HTTP_X_REAL_IP' );
-		}
-		if ( array_key_exists( 'X-FORWARDED_FOR', $_SERVER ) ) {
-			$ip = filter_input( INPUT_SERVER, 'FORWARDED_FOR' );
-		}
-		if ( ! empty( $ip ) ) {
-			$record['extra']['ip'] = $ip;
-		} else {
-			$record['extra']['ip'] = '127.0.0.1';
-		}
+		$record['extra']['ip']       = Environment::current_ip();
 		if ( $this->obfuscation ) {
 			if ( array_key_exists( 'ip', $record['extra'] ) ) {
 				$record['extra']['ip'] = Hash::simple_hash( $record['extra']['ip'] );
@@ -94,6 +108,6 @@ class WordpressProcessor implements ProcessorInterface {
 				}
 			}
 		}
-		return $record;
+		return $this->normalize_array( $record );
 	}
 }

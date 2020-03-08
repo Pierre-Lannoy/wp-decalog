@@ -48,6 +48,30 @@ class WWWProcessor extends WebProcessor {
 	}
 
 	/**
+	 * Normalize a string.
+	 *
+	 * @param string  $string The string.
+	 * @return string   The normalized string.
+	 * @since 1.10.0+
+	 */
+	private function normalize_string( $string ) {
+		$string = str_replace( '"', '`', $string );
+		return filter_var( $string, FILTER_SANITIZE_STRING );
+	}
+
+	/**
+	 * Normalize an array.
+	 *
+	 * @param mixed  $array The array.
+	 * @return mixed   The normalized array.
+	 * @since 1.10.0+
+	 */
+	private function normalize_array( $array ) {
+		array_walk_recursive( $array, function ( &$item, $key ) { if ( is_string( $item ) ) { $item = $this->normalize_string( $item ); } } );
+		return $array;
+	}
+
+	/**
 	 * Invocation of the processor.
 	 *
 	 * @since 1.0.0
@@ -59,11 +83,23 @@ class WWWProcessor extends WebProcessor {
 		if ( array_key_exists( 'HTTP_USER_AGENT', $_SERVER ) ) {
 			$record['extra']['ua'] = filter_input( INPUT_SERVER, 'HTTP_USER_AGENT' );
 		}
+		if ( array_key_exists( 'REQUEST_URI', $_SERVER ) ) {
+			$record['extra']['url'] = filter_input( INPUT_SERVER, 'REQUEST_URI' );
+		}
+		if ( array_key_exists( 'REQUEST_METHOD', $_SERVER ) ) {
+			$record['extra']['http_method'] = filter_input( INPUT_SERVER, 'REQUEST_METHOD' );
+		}
+		if ( array_key_exists( 'SERVER_NAME', $_SERVER ) ) {
+			$record['extra']['server'] = filter_input( INPUT_SERVER, 'SERVER_NAME' );
+		}
+		if ( array_key_exists( 'HTTP_REFERER', $_SERVER ) ) {
+			$record['extra']['referrer'] = filter_input( INPUT_SERVER, 'HTTP_REFERER' );
+		}
 		if ( $this->obfuscation ) {
 			if ( array_key_exists( 'ip', $record['extra'] ) ) {
 				$record['extra']['ip'] = Hash::simple_hash( $record['extra']['ip'] );
 			}
 		}
-		return $record;
+		return $this->normalize_array( $record );
 	}
 }

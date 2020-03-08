@@ -88,6 +88,30 @@ class BacktraceProcessor implements ProcessorInterface {
 	}
 
 	/**
+	 * Normalize a string.
+	 *
+	 * @param string  $string The string.
+	 * @return string   The normalized string.
+	 * @since 1.10.0+
+	 */
+	private function normalize_string( $string ) {
+		$string = str_replace( '"', '`', $string );
+		return filter_var( $string, FILTER_SANITIZE_STRING );
+	}
+
+	/**
+	 * Normalize an array.
+	 *
+	 * @param mixed  $array The array.
+	 * @return mixed   The normalized array.
+	 * @since 1.10.0+
+	 */
+	private function normalize_array( $array ) {
+		array_walk_recursive( $array, function ( &$item, $key ) { if ( is_string( $item ) ) { $item = $this->normalize_string( $item ); } } );
+		return $array;
+	}
+
+	/**
 	 * Invocation of the processor.
 	 *
 	 * @param   array $record  Array or added records.
@@ -137,6 +161,6 @@ class BacktraceProcessor implements ProcessorInterface {
 			$record['extra']['trace']['wordpress'] = array_reverse( $wptrace );
 		}
 		restore_error_handler();
-		return $record;
+		return $this->normalize_array( $record );
 	}
 }
