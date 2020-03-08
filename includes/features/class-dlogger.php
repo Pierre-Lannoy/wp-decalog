@@ -279,15 +279,27 @@ class DLogger {
 	}
 
 	/**
-	 * Normalize message.
+	 * Normalize a string.
 	 *
-	 * @param string  $message The log message.
-	 * @return string   The normalized message.
+	 * @param string  $string The string.
+	 * @return string   The normalized string.
 	 * @since 1.10.0+
 	 */
-	private function normalize( $message ) {
-		$message = str_replace( '"', '`', $message );
-		return filter_var( $message, FILTER_SANITIZE_STRING );
+	private function normalize_string( $string ) {
+		$string = str_replace( '"', '`', $string );
+		return filter_var( $string, FILTER_SANITIZE_STRING );
+	}
+
+	/**
+	 * Normalize an array.
+	 *
+	 * @param mixed  $array The array.
+	 * @return mixed   The normalized array.
+	 * @since 1.10.0+
+	 */
+	private function normalize_array( $array ) {
+		array_walk_recursive( $array, function ( &$item, $key ) { if ( is_string( $item ) ) { $item = $this->normalize_string( $item ); } } );
+		return $array;
 	}
 
 	/**
@@ -313,7 +325,7 @@ class DLogger {
 			if ( $this->logger->getName() !== $channel ) {
 				$this->logger = $this->logger->withName( $channel );
 			}
-			$this->logger->log( $level, $this->normalize( $message ), $context );
+			$this->logger->log( $level, $this->normalize_string( $message ), $this->normalize_array( $context ) );
 			$result = true;
 		} catch ( \Throwable $t ) {
 			$this->integrity_check();
@@ -343,7 +355,7 @@ class DLogger {
 				if ( $this->logger->getName() !== $channel ) {
 					$this->logger = $this->logger->withName( $channel );
 				}
-				$this->logger->debug( $this->normalize( $message ), $context );
+				$this->logger->debug( $this->normalize_string( $message ), $this->normalize_array( $context ) );
 				$result = true;
 			} catch ( \Throwable $t ) {
 				$this->integrity_check();
@@ -376,7 +388,7 @@ class DLogger {
 			if ( $this->logger->getName() !== $channel ) {
 				$this->logger = $this->logger->withName( $channel );
 			}
-			$this->logger->info( $this->normalize( $message ), $context );
+			$this->logger->info( $this->normalize_string( $message ), $this->normalize_array( $context ) );
 			$result = true;
 		} catch ( \Throwable $t ) {
 			$this->integrity_check();
@@ -408,7 +420,7 @@ class DLogger {
 			if ( $this->logger->getName() !== $channel ) {
 				$this->logger = $this->logger->withName( $channel );
 			}
-			$this->logger->notice( $this->normalize( $message ), $context );
+			$this->logger->notice( $this->normalize_string( $message ), $this->normalize_array( $context ) );
 			$result = true;
 		} catch ( \Throwable $t ) {
 			$this->integrity_check();
@@ -440,7 +452,7 @@ class DLogger {
 			if ( $this->logger->getName() !== $channel ) {
 				$this->logger = $this->logger->withName( $channel );
 			}
-			$this->logger->warning( $this->normalize( $message ), $context );
+			$this->logger->warning( $this->normalize_string( $message ), $this->normalize_array( $context ) );
 			$result = true;
 		} catch ( \Throwable $t ) {
 			$this->integrity_check();
@@ -472,7 +484,7 @@ class DLogger {
 			if ( $this->logger->getName() !== $channel ) {
 				$this->logger = $this->logger->withName( $channel );
 			}
-			$this->logger->error( $this->normalize( $message ), $context );
+			$this->logger->error( $this->normalize_string( $message ), $this->normalize_array( $context ) );
 			$result = true;
 		} catch ( \Throwable $t ) {
 			$this->integrity_check();
@@ -504,7 +516,7 @@ class DLogger {
 			if ( $this->logger->getName() !== $channel ) {
 				$this->logger = $this->logger->withName( $channel );
 			}
-			$this->logger->critical( $this->normalize( $message ), $context );
+			$this->logger->critical( $this->normalize_string( $message ), $this->normalize_array( $context ) );
 			$result = true;
 		} catch ( \Throwable $t ) {
 			$this->integrity_check();
@@ -536,7 +548,7 @@ class DLogger {
 			if ( $this->logger->getName() !== $channel ) {
 				$this->logger = $this->logger->withName( $channel );
 			}
-			$this->logger->alert( $this->normalize( $message ), $context );
+			$this->logger->alert( $this->normalize_string( $message ), $this->normalize_array( $context ) );
 			$result = true;
 		} catch ( \Throwable $t ) {
 			$this->integrity_check();
@@ -568,7 +580,7 @@ class DLogger {
 			if ( $this->logger->getName() !== $channel ) {
 				$this->logger = $this->logger->withName( $channel );
 			}
-			$this->logger->emergency( $this->normalize( $message ), $context );
+			$this->logger->emergency( $this->normalize_string( $message ), $this->normalize_array( $context ) );
 			$result = true;
 		} catch ( \Throwable $t ) {
 			$this->integrity_check();
