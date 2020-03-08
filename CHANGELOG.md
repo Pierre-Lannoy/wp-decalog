@@ -3,12 +3,14 @@ All notable changes to **DecaLog** are documented in this *changelog*.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased - will be 1.10.1]
+## [Unreleased - will be 1.11.0]
 ### Changed
 - Improved IP detection for multi-proxying.
-- Double quotes have been replaced by a grave accent in event message.
+- Double quotes have been replaced by a grave accent in event message, context and extra.
+- "HTTP request" reported details have been fully redesigned.
 - Better styling in "PerfOps Settings" page.
 ### Fixed
+- In some cases, the referer and method are wrongly detected.
 - In some cases, the "screen options" tab may be invisible.
 
 ## [1.10.0] - 2020-03-01
