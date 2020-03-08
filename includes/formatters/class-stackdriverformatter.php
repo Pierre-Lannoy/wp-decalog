@@ -37,16 +37,16 @@ class StackdriverFormatter implements FormatterInterface {
 		if ( array_key_exists( $record['level'], EventTypes::$level_names ) ) {
 			$level = EventTypes::$level_names[ $record['level'] ];
 		} else {
-			$level = 'UNKNOWN';
+			$level = 'DEFAULT';
 		}
 		$tag     = strtolower( DECALOG_PRODUCT_SHORTNAME . '.' . $record['channel'] . '.' . $level );
 		$message = [
 			'severity' => $level,
-			'message'  => $record['message'],
+			'message'  => '[' . $record['channel'] . '] ' . $record['message'],
 			'context'  => $record['context'],
 			'extra'    => $record['extra'],
 		];
-		/*if ( array_key_exists( 'file', $record['extra'] ) && $record['extra']['file'] && is_string( $record['extra']['file'] ) ) {
+		if ( array_key_exists( 'file', $record['extra'] ) && $record['extra']['file'] && is_string( $record['extra']['file'] ) ) {
 			$message['logging.googleapis.com/sourceLocation']['file'] = $record['extra']['file'];
 		}
 		if ( array_key_exists( 'line', $record['extra'] ) && $record['extra']['line'] ) {
@@ -75,28 +75,17 @@ class StackdriverFormatter implements FormatterInterface {
 			}
 		}
 		if ( array_key_exists( 'referrer', $record['extra'] ) && is_string( $record['extra']['referrer'] ) ) {
-			$message['httpRequest']['referrer'] = $record['extra']['referrer'];
+			$message['httpRequest']['referer'] = $record['extra']['referrer'];
 		}
 		if ( array_key_exists( 'ua', $record['extra'] ) && is_string( $record['extra']['ua'] ) ) {
 			$message['httpRequest']['userAgent'] = $record['extra']['ua'];
-		}*/
-		//error_log(wp_json_encode( [ $tag, $record['datetime']->getTimestamp(), $message ] ));
-		return json_encode( [ $tag, $record['datetime']->getTimestamp(), $message ] );
-
-
-
-		/*if ( array_key_exists( $record['level'], EventTypes::$level_names ) ) {
-			$level = EventTypes::$level_names[ $record['level'] ];
-		} else {
-			$level = 'UNKNOWN';
 		}
-		$tag     = strtolower( DECALOG_PRODUCT_SHORTNAME . '.' . $record['channel'] . '.' . $level );
-		$message = [
-			'message' => $record['message'],
-			'context' => $record['context'],
-			'extra'   => $record['extra'],
-		];
-		return wp_json_encode( [ $tag, $record['datetime']->getTimestamp(), $message ] );*/
+		$message['logging.googleapis.com/labels']['decalog.wordpress.org/logger']            = 'StackdriverHandler';
+		$message['logging.googleapis.com/labels']['decalog.wordpress.org/version']           = DECALOG_VERSION;
+		$message['logging.googleapis.com/labels']['decalog.wordpress.org/context/class']     = $record['context']['class'];
+		$message['logging.googleapis.com/labels']['decalog.wordpress.org/context/component'] = $record['context']['component'];
+		$message['logging.googleapis.com/labels']['decalog.wordpress.org/context/channel']   = $record['channel'];
+		return wp_json_encode( [ $tag, $record['datetime']->getTimestamp(), $message ] );
 	}
 	/**
 	 * Formats a set of log records.
