@@ -526,6 +526,61 @@ class HandlerTypes {
 			],
 		];
 		$this->handlers[] = [
+			'id'            => 'StackdriverHandler',
+			'ancestor'      => 'SocketHandler',
+			'namespace'     => 'Decalog\\Handler',
+			'class'         => 'logging',
+			'minimal'       => Logger::DEBUG,
+			'name'          => esc_html__( 'Stackdriver Logging', 'decalog' ),
+			'help'          => esc_html__( 'An events log sent to Google Stackdriver Logging via a Google-Fluentd collector.', 'decalog' ),
+			'icon'          => $this->get_base64_stackdriver_icon(),
+			'params'        => [ 'processors', 'privacy' ],
+			'configuration' => [
+				'host'    => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Connection string', 'decalog' ),
+					'help'    => esc_html__( 'Connection string to Fluentd. Can be something like "tcp://127.0.0.1:24224" or something like "unix:///var/run/td-agent/td-agent.sock".', 'decalog' ),
+					'default' => 'tcp://localhost:24224',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
+				'timeout' => [
+					'type'    => 'integer',
+					'show'    => true,
+					'name'    => esc_html__( 'Socket timeout', 'decalog' ),
+					'help'    => esc_html__( 'Max number of milliseconds to wait for the socket.', 'decalog' ),
+					'default' => 800,
+					'control' => [
+						'type'    => 'field_input_integer',
+						'cast'    => 'integer',
+						'min'     => 100,
+						'max'     => 10000,
+						'step'    => 100,
+						'enabled' => true,
+					],
+				],
+			],
+			'init'          => [
+				[
+					'type'  => 'configuration',
+					'value' => 'host',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'timeout',
+				],
+				[ 'type' => 'level' ],
+				[
+					'type'  => 'literal',
+					'value' => true,
+				],
+			],
+		];
+		$this->handlers[] = [
 			'id'            => 'SyslogUdpHandler',
 			'ancestor'      => 'UdpSocket',
 			'namespace'     => 'Monolog\Handler',
@@ -949,13 +1004,17 @@ class HandlerTypes {
 	 * @return string The svg resource as a base64.
 	 * @since 1.0.0
 	 */
-	private function get_base64_stackdriver_icon( $color1 = '#FFFFFF', $color2 = '#4387fd' ) {
-		$source  = '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" fill-rule="evenodd"  fill="none" width="100%" height="100%"  viewBox="0 0 100 100">';
-		$source .= '<g transform="translate(8,8) scale(0.66,0.66)">';
-		$source .= '<path style="fill:' . $color2 . '" d="M27.7911,115.183L1.5406,69.7158a11.499,11.499,0,0,1,0-11.499L27.7911,12.75A11.499,11.499,0,0,1,37.75,7H90.25a11.499,11.499,0,0,1,9.9585,5.75l26.25,45.4672a11.499,11.499,0,0,1,0,11.499l-26.25,45.4672a11.499,11.499,0,0,1-9.9585,5.75H37.75A11.499,11.499,0,0,1,27.7911,115.183Z"/>';
-		$source .= '<polygon points="94 64 80.147 39.913 66.294 64 80.147 88.087 94 64" fill="' . $color1 . '"/>';
-		$source .= '<polygon points="34 66.001 47.803 90 75.481 90 61.678 66.001 34 66.001" fill="' . $color1 . '"/>';
-		$source .= '<polygon points="61.5 62 75.525 38 47.846 38 34 62 61.5 62" fill="' . $color1 . '"/>';
+	private function get_base64_stackdriver_icon( $color1 = '#FFFFFF', $color2 = '#4386FA' ) {
+		$source  = '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" fill-rule="evenodd"  fill="none" width="100%" height="100%"  viewBox="0 0 190 190">';
+		$source .= '<g transform="translate(20,26) scale(1.2,1.2)">';
+		$source .= '<path d="M2.52031008,63.4098189 C0.482133333,59.8145684 0.482133333,55.3850274 2.52031008,51.7897768 L28.5674171,5.84397474 C30.6055938,2.24872421 34.3723659,0.0339536842 38.4487194,0.0339536842 L90.5429333,0.0339536842 C94.6192868,0.0339536842 98.3860589,2.24872421 100.424236,5.84397474 L126.471343,51.7897768 C128.509519,55.3850274 128.509519,59.8145684 126.471343,63.4098189 L100.424236,109.355621 C98.3860589,112.950872 94.6192868,115.165642 90.5429333,115.165642 L38.4487194,115.165642 C34.3723659,115.165743 30.605693,112.950973 28.5674171,109.355722 L2.52031008,63.4098189 Z" id="Shape" fill="' . $color2. '"></path>';
+		$source .= '<path d="M94.2635659,31.3263158 L76.8,39.4105263 L60.5271318,39.4105263 L49.6124031,28.2947368 L42.8956775,39.4105263 L42.6666667,39.4105263 L34.7286822,43.4526316 L42.3193798,51.1831579 L40.6821705,82.8631579 L72.4004713,115.165743 L90.5429333,115.165743 C94.6192868,115.165743 98.3860589,112.950973 100.424236,109.355722 L126.213457,63.8648589 L94.2635659,31.3263158 L94.2635659,31.3263158 L94.2635659,31.3263158 Z" id="Shape" fill="#000000" opacity="0.0800000057"></path>';
+		$source .= '<rect id="Rectangle-path" fill="' . $color1 . '" x="57.5503876" y="31.3263158" width="36.7131783" height="11.1157895"></rect>';
+		$source .= '<rect id="Rectangle-path" fill="' . $color1 . '" x="42.6666667" y="57.6" width="15.875969" height="3.03157895"></rect>';
+		$source .= '<rect id="Rectangle-path" fill="' . $color1 . '" x="57.5503876" y="53.5578947" width="36.7131783" height="11.1157895"></rect>';
+		$source .= '<rect id="Rectangle-path" fill="' . $color1 . '" x="42.6666667" y="79.8315789" width="15.875969" height="3.03157895"></rect>';
+		$source .= '<rect id="Rectangle-path" fill="' . $color1 . '" x="40.6821705" y="43.4526316" width="2.97674419" height="39.4105263"></rect>';
+		$source .= '<g id="Group" transform="translate(34.728682, 28.294737)" fill="' . $color1 . '"><rect id="Rectangle-path" x="0" y="0" width="14.8837209" height="15.1578947"></rect><rect id="Rectangle-path" x="22.8217054" y="47.4947368" width="36.7131783" height="11.1157895"></rect></g>';
 		$source .= '</g>';
 		$source .= '</svg>';
 		// phpcs:ignore
