@@ -55,7 +55,8 @@ class WWWProcessor extends WebProcessor {
 	 * @since 1.10.0+
 	 */
 	private function normalize_string( $string ) {
-		$string = str_replace( '"', '`', $string );
+		$string = str_replace( '"', '“', $string );
+		$string = str_replace( '\'', '`', $string );
 		return filter_var( $string, FILTER_SANITIZE_STRING );
 	}
 

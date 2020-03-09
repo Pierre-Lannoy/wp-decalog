@@ -8,7 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - New logger to send logs to Google Stackdriver via Google-Fluentd.
 ### Changed
 - Improved IP detection for multi-proxying.
-- Double quotes have been replaced by a grave accent in event message, context and extra.
+- Double quotation mark (`"`) is now replaced by a left double quotation mark (`“`) in event message, context and extra.
+- Single quotation mark (`'`) is now replaced by a grave accent in event message, context and extra.
 - "HTTP request" reported details have been fully redesigned.
 - Better styling in "PerfOps Settings" page.
 ### Fixed
