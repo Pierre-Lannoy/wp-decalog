@@ -684,7 +684,7 @@ class Decalog_Admin {
 				'id'          => 'decalog_listeners_options_auto',
 				'value'       => Option::network_get( 'autolisteners' ) ? 'auto' : 'manual',
 				'description' => esc_html__( 'Automatically or selectively choose which sources to listen.', 'decalog' ),
-				'full_width'  => true,
+				'full_width'  => false,
 				'enabled'     => true,
 			]
 		);
@@ -736,7 +736,7 @@ class Decalog_Admin {
 						'id'          => 'decalog_listeners_settings_' . $item['id'],
 						'checked'     => in_array( $item['id'], Option::network_get( 'listeners' ), true ),
 						'description' => null,
-						'full_width'  => true,
+						'full_width'  => false,
 						'enabled'     => true,
 					]
 				);
@@ -764,7 +764,7 @@ class Decalog_Admin {
 				'id'          => 'decalog_loggers_options_autostart',
 				'checked'     => Option::network_get( 'logger_autostart' ),
 				'description' => esc_html__( 'If checked, when a new logger is added it automatically starts.', 'decalog' ),
-				'full_width'  => true,
+				'full_width'  => false,
 				'enabled'     => true,
 			]
 		);
@@ -780,7 +780,7 @@ class Decalog_Admin {
 				'id'          => 'decalog_loggers_options_pseudonymization',
 				'checked'     => Option::network_get( 'pseudonymization' ),
 				'description' => esc_html__( 'If checked, DecaLog will try to obfuscate personal information in events messages.', 'decalog' ),
-				'full_width'  => true,
+				'full_width'  => false,
 				'enabled'     => true,
 			]
 		);
@@ -796,7 +796,7 @@ class Decalog_Admin {
 				'id'          => 'decalog_loggers_options_wpdebug',
 				'checked'     => Option::network_get( 'respect_wp_debug' ),
 				'description' => esc_html__( 'If checked, the value of WP_DEBUG will override each logger\'s settings for minimal level of logging.', 'decalog' ),
-				'full_width'  => true,
+				'full_width'  => false,
 				'enabled'     => true,
 			]
 		);
@@ -821,7 +821,7 @@ class Decalog_Admin {
 				'id'          => 'decalog_plugin_options_favicons',
 				'checked'     => Option::network_get( 'download_favicons' ),
 				'description' => esc_html__( 'If checked, DecaLog will download favicons of websites to display them in reports.', 'decalog' ) . '<br/>' . esc_html__( 'Note: This feature uses the (free) Google Favicon Service.', 'decalog' ),
-				'full_width'  => true,
+				'full_width'  => false,
 				'enabled'     => true,
 			]
 		);
@@ -874,7 +874,7 @@ class Decalog_Admin {
 				'id'          => 'decalog_plugin_options_usecdn',
 				'checked'     => Option::network_get( 'use_cdn' ),
 				'description' => esc_html__( 'Use CDN (jsDelivr) to serve DecaLog scripts and stylesheets.', 'decalog' ),
-				'full_width'  => true,
+				'full_width'  => false,
 				'enabled'     => true,
 			]
 		);
@@ -890,7 +890,7 @@ class Decalog_Admin {
 				'id'          => 'decalog_plugin_options_nag',
 				'checked'     => Option::network_get( 'display_nag' ),
 				'description' => esc_html__( 'Allows DecaLog to display admin notices throughout the admin dashboard.', 'decalog' ) . '<br/>' . esc_html__( 'Note: DecaLog respects DISABLE_NAG_NOTICES flag.', 'decalog' ),
-				'full_width'  => true,
+				'full_width'  => false,
 				'enabled'     => true,
 			]
 		);
@@ -918,7 +918,7 @@ class Decalog_Admin {
 				'id'          => 'decalog_logger_misc_name',
 				'value'       => $this->current_logger['name'],
 				'description' => esc_html__( 'Used only in admin dashboard.', 'decalog' ),
-				'full_width'  => true,
+				'full_width'  => false,
 				'enabled'     => true,
 			]
 		);
@@ -934,7 +934,7 @@ class Decalog_Admin {
 				'id'          => 'decalog_logger_misc_level',
 				'value'       => $this->current_logger['level'],
 				'description' => esc_html__( 'Minimal reported level. May be overridden by the "respect WP_DEBUG directive" option.', 'decalog' ),
-				'full_width'  => true,
+				'full_width'  => false,
 				'enabled'     => true,
 			]
 		);
@@ -962,7 +962,7 @@ class Decalog_Admin {
 				'id'          => 'decalog_logger_delete_name',
 				'value'       => $this->current_logger['name'],
 				'description' => null,
-				'full_width'  => true,
+				'full_width'  => false,
 				'enabled'     => false,
 			]
 		);
@@ -978,7 +978,7 @@ class Decalog_Admin {
 				'id'          => 'decalog_logger_delete_level',
 				'value'       => $this->current_logger['level'],
 				'description' => null,
-				'full_width'  => true,
+				'full_width'  => false,
 				'enabled'     => false,
 			]
 		);
@@ -1003,7 +1003,7 @@ class Decalog_Admin {
 					'id'          => 'decalog_logger_specific_dummy',
 					'value'       => ini_get( 'error_log' ),
 					'description' => esc_html__( 'Value set in php.ini file.', 'decalog' ),
-					'full_width'  => true,
+					'full_width'  => false,
 					'enabled'     => false,
 				]
 			);
@@ -1020,7 +1020,7 @@ class Decalog_Admin {
 				'checked'     => (bool) $this->current_logger['configuration'][ $key ],
 				'value'       => $this->current_logger['configuration'][ $key ],
 				'description' => $configuration['help'],
-				'full_width'  => true,
+				'full_width'  => false,
 				'enabled'     => $configuration['control']['enabled'],
 				'list'        => ( array_key_exists( 'list', $configuration['control'] ) ? $configuration['control']['list'] : [] ),
 			];
@@ -1059,7 +1059,7 @@ class Decalog_Admin {
 				'id'          => 'decalog_logger_privacy_ip',
 				'checked'     => $this->current_logger['privacy']['obfuscation'],
 				'description' => esc_html__( 'If checked, log fields will contain hashes instead of real IPs.', 'decalog' ) . '<br/>' . esc_html__( 'Note: it concerns all fields except events messages.', 'decalog' ),
-				'full_width'  => true,
+				'full_width'  => false,
 				'enabled'     => true,
 			]
 		);
@@ -1075,7 +1075,7 @@ class Decalog_Admin {
 				'id'          => 'decalog_logger_privacy_name',
 				'checked'     => $this->current_logger['privacy']['pseudonymization'],
 				'description' => esc_html__( 'If checked, log fields will contain hashes instead of user IDs & names.', 'decalog' ) . '<br/>' . esc_html__( 'Note: it concerns all fields except events messages.', 'decalog' ),
-				'full_width'  => true,
+				'full_width'  => false,
 				'enabled'     => true,
 			]
 		);
@@ -1101,7 +1101,7 @@ class Decalog_Admin {
 				'id'          => $id,
 				'checked'     => true,
 				'description' => esc_html__( 'Allows to log standard DecaLog information.', 'decalog' ),
-				'full_width'  => true,
+				'full_width'  => false,
 				'enabled'     => false,
 			]
 		);
@@ -1120,7 +1120,7 @@ class Decalog_Admin {
 					'id'          => $id,
 					'checked'     => in_array( $processor['id'], $this->current_logger['processors'], true ),
 					'description' => $processor['help'],
-					'full_width'  => true,
+					'full_width'  => false,
 					'enabled'     => ( 'WordpressHandler' !== $this->current_logger['handler'] || 'BacktraceProcessor' === $processor['id'] ) && ( 'PushoverHandler' !== $this->current_logger['handler'] ),
 				]
 			);

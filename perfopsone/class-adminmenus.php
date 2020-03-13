@@ -283,7 +283,7 @@ if ( ! class_exists( 'PerfOpsOne\AdminMenus' ) ) {
 				function ( $a, $b ) {
 					if ( $a['title'] === $b['title'] ) {
 						return 0;
-					} return ( $a['title'] < $b['title'] ) ? -1 : 1;
+					} return ( strtoupper( $a['title'] ) < strtoupper( $b['title'] ) ) ? -1 : 1;
 				}
 			);
 			$disp  = '';
@@ -332,7 +332,7 @@ if ( ! class_exists( 'PerfOpsOne\AdminMenus' ) ) {
 				function ( $a, $b ) {
 					if ( $a['title'] === $b['title'] ) {
 						return 0;
-					} return ( $a['title'] < $b['title'] ) ? -1 : 1;
+					} return ( strtoupper( $a['title'] ) < strtoupper( $b['title'] ) ) ? -1 : 1;
 				}
 			);
 			$disp  = '';

@@ -46,13 +46,12 @@ class Form {
 	 * @since   1.0.0
 	 */
 	public function field_input_integer( $id, $value, $min, $max, $step, $description = null, $full_width = true, $enabled = true, $unit = null ) {
-
 		if ( $full_width ) {
 			$width = ' style="width:100%;"';
 		} else {
 			$width = '';
 		}
-		$html = '<input' . ( $enabled ? '' : ' disabled' ) . ' name="' . $id . '" type="number" step="' . $step . '" min="' . $min . '" max="' . $max . '"id="' . $id . '" value="' . $value . '"' . $width . '/>';
+		$html = '<input' . ( $enabled ? '' : ' disabled' ) . ' name="' . $id . '" type="number" step="' . $step . '" min="' . $min . '" max="' . $max . '"id="' . $id . '" value="' . $value . '"' . $width . ' class="regular-text"/>';
 		if ( isset( $unit ) ) {
 			$html .= '&nbsp;<label for="' . $id . '">' . $unit . '</label>';
 		}
@@ -80,16 +79,17 @@ class Form {
 	 * @param   string  $description    Optional. A description to display.
 	 * @param   boolean $full_width     Optional. Is the control full width?
 	 * @param   boolean $enabled     Optional. Is the control enabled?
+	 * @param   string  $placeholder Optional. Placeholder of the input.
 	 * @return  string The HTML string ready to print.
 	 * @since   1.0.0
 	 */
-	public function field_input_text( $id, $value = '', $description = null, $full_width = true, $enabled = true ) {
+	public function field_input_text( $id, $value = '', $description = null, $full_width = true, $enabled = true, $placeholder = '' ) {
 		if ( $full_width ) {
 			$width = ' style="width:100%;"';
 		} else {
 			$width = '';
 		}
-		$html = '<input' . ( $enabled ? '' : ' disabled' ) . ' name="' . $id . '" type="text" id="' . $id . '" value="' . $value . '"' . $width . '/>';
+		$html = '<input' . ( $enabled ? '' : ' disabled' ) . ' class="regular-text" name="' . $id . '" placeholder="' . $placeholder . '" type="text" id="' . $id . '" value="' . $value . '"' . $width . ' class="regular-text"/>';
 		if ( isset( $description ) ) {
 			$html .= '<p class="description">' . $description . '</p>';
 		}
@@ -103,7 +103,37 @@ class Form {
 	 * @since   1.0.0
 	 */
 	public function echo_field_input_text( $args ) {
-		echo $this->field_input_text( $args['id'], $args['value'], $args['description'], $args['full_width'], $args['enabled'] );
+		echo $this->field_input_text( $args['id'], $args['value'], $args['description'], $args['full_width'], $args['enabled'], $args['placeholder'] );
+	}
+
+	/**
+	 * Get a text form field.
+	 *
+	 * @param   string  $id The id (and the name) of the control.
+	 * @param   string  $value  The string to put in the text field.
+	 * @param   string  $description    Optional. A description to display.
+	 * @param   integer $columns     Optional. Number of columns.
+	 * @param   integer $lines     Optional. Number of lines.
+	 * @param   boolean $enabled     Optional. Is the control enabled?
+	 * @return  string The HTML string ready to print.
+	 * @since   1.0.0
+	 */
+	public function field_input_textarea( $id, $value = '', $description = null, $columns = 80, $lines = 3, $enabled = true ) {
+		$html = '<textarea' . ( $enabled ? '' : ' disabled' ) . ' name="' . $id . '" id="' . $id . '" cols="' . $columns . '" rows="' . $lines . '" class="regular-text code">' . $value . '</textarea>';
+		if ( isset( $description ) ) {
+			$html .= '<p class="description">' . $description . '</p>';
+		}
+		return $html;
+	}
+
+	/**
+	 * Echoes a text form field.
+	 *
+	 * @param   array $args   The call arguments.
+	 * @since   1.0.0
+	 */
+	public function echo_field_input_textarea( $args ) {
+		echo $this->field_input_textarea( $args['id'], $args['value'], $args['description'], $args['columns'], $args['lines'], $args['enabled'] );
 	}
 
 	/**
@@ -123,7 +153,7 @@ class Form {
 		} else {
 			$width = '';
 		}
-		$html = '<input' . ( $enabled ? '' : ' disabled' ) . ' name="' . $id . '" type="text" id="' . $id . '" value="' . $value . '"' . $width . '/>';
+		$html = '<input' . ( $enabled ? '' : ' disabled' ) . ' name="' . $id . '" type="text" id="' . $id . '" value="' . $value . '"' . $width . ' class="regular-text"/>';
 		if ( isset( $description ) ) {
 			$html .= '<p class="description">' . $description . '</p>';
 		}
@@ -224,16 +254,17 @@ class Form {
 	/**
 	 * Get a checkbox form field.
 	 *
-	 * @param   string  $text   The text of the checkbox.
-	 * @param   string  $id     The id (and the name) of the control.
-	 * @param   boolean $checked    Is the checkbox on?
-	 * @param   string  $description    Optional. A description to display.
-	 * @param   boolean $full_width     Optional. Is the control full width?
+	 * @param   string  $text        The text of the checkbox.
+	 * @param   string  $id          The id (and the name) of the control.
+	 * @param   boolean $checked     Optional. Is the checkbox on?
+	 * @param   string  $description Optional. A description to display.
+	 * @param   string  $more        Optional. The content of a "more" box.
+	 * @param   boolean $full_width  Optional. Is the control full width?
 	 * @param   boolean $enabled     Optional. Is the control enabled?
 	 * @return  string  The HTML string ready to print.
 	 * @since   1.0.0
 	 */
-	public function field_checkbox( $text, $id, $checked = false, $description = null, $full_width = true, $enabled = true ) {
+	public function field_checkbox( $text, $id, $checked = false, $description = null, $more = null, $full_width = true, $enabled = true ) {
 		if ( $full_width ) {
 			$width = ' style="width:100%;"';
 		} else {
@@ -241,7 +272,14 @@ class Form {
 		}
 		$html = '<fieldset' . $width . '><label><input' . ( $enabled ? '' : ' disabled' ) . ' name="' . $id . '" type="checkbox" value="1"' . ( $checked ? ' checked="checked"' : '' ) . '/>' . $text . '</label></fieldset>';
 		if ( isset( $description ) ) {
+			if ( isset( $more ) ) {
+				$description .= '<img id="button-' . $id . '" style="cursor:pointer;vertical-align:middle;width:16px;margin-left:6px;" src="' . Feather\Icons::get_base64( 'help-circle', 'none', '#9999BB' ) . '" />';
+			}
 			$html .= '<p class="description">' . $description . '</p>';
+		}
+		if ( isset( $more ) ) {
+			$html .= '<p id="more-' . $id . '" style="line-height:1.8em;word-break:break-word;font-size:smaller;padding:8px;border-radius:2px;background-color:#F9F9F9;display:none;">' . $more . '</p>';
+			$html .= '<script>jQuery(document).ready(function($){$("#button-' . $id . '").click(function(){$("#more-' . $id . '").slideToggle(200);});});</script>';
 		}
 		return $html;
 	}
@@ -253,7 +291,7 @@ class Form {
 	 * @since   1.0.0
 	 */
 	public function echo_field_checkbox( $args ) {
-		echo $this->field_checkbox( $args['text'], $args['id'], $args['checked'], $args['description'], $args['full_width'], $args['enabled'] );
+		echo $this->field_checkbox( $args['text'], $args['id'], $args['checked'], $args['description'], array_key_exists( 'more', $args ) ? $args['more'] : null, $args['full_width'], $args['enabled'] );
 	}
 
 	/**
