@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Better styling in "PerfOps Settings" page.
 ### Fixed
 - The update indicator is sometimes hidden.
+- If there's no GeoIP detection handler, a wrong flag is shown for public IPs.
 
 ## [1.11.0] - 2020-03-09
 ### Added

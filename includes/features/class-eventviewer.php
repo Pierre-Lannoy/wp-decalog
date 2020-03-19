@@ -425,8 +425,11 @@ class EventViewer {
 			$ip = esc_html__( 'obfuscated IP', 'decalog' );
 		} else {
 			if ( filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_RES_RANGE | FILTER_FLAG_NO_PRIV_RANGE ) ) {
-				$geoip = new GeoIP();
-				$icon  = '<img style="width:14px;padding-left:4px;vertical-align:baseline;" src="' . Flags::get_base64( $geoip->get_iso3166_alpha2( $ip ) ) . '" />';
+				$geoip   = new GeoIP();
+				$country = $geoip->get_iso3166_alpha2( $ip );
+				if ( isset( $country ) ) {
+					$icon = '<img style="width:14px;padding-left:4px;vertical-align:baseline;" src="' . Flags::get_base64( $country ) . '" />';
+				}
 			}
 		}
 		// phpcs:ignore
