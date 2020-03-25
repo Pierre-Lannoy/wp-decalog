@@ -63,11 +63,31 @@ function decalog_uninstall() {
 }
 
 /**
+ * Copy the file responsible to early initialization in mu-plugins dir.
+ *
+ * @since 1.12.0
+ */
+function decalog_muplugin() {
+	if ( defined( 'DECALOG_EARLY_INIT' ) ) {
+		return;
+	}
+	$target = WPMU_PLUGIN_DIR . '/_decalog_loader.php';
+	$source = __DIR__ . '/_decalog_loader.php';
+	if ( ! file_exists( $target ) ) {
+		if ( file_exists( $source ) ) {
+			// phpcs:ignore
+			@copy( $source, $target );
+		}
+	}
+}
+
+/**
  * Begins execution of the plugin.
  *
  * @since 1.0.0
  */
 function decalog_run() {
+	decalog_muplugin();
 	$plugin = new Decalog\Plugin\Core();
 	$plugin->run();
 }

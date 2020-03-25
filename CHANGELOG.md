@@ -3,13 +3,16 @@ All notable changes to **DecaLog** are documented in this *changelog*.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased - will be 1.11.1]
+## [Unreleased - will be 1.12.0]
+### Added
+- New option to early load DecaLog as a mu-plugin.
 ### Changed
-- The settings page have now the standard WordPress style.
+- The settings page has now the standard WordPress style.
 - Better styling in "PerfOps Settings" page.
 ### Fixed
 - The update indicator is sometimes hidden.
 - If there's no GeoIP detection handler, a wrong flag is shown for public IPs.
+- An error may appear when updating plugin's empty tables.
 
 ## [1.11.0] - 2020-03-09
 ### Added

@@ -31,9 +31,11 @@ class Uninstaller {
 	public static function uninstall() {
 		Option::site_delete_all();
 		User::delete_all_meta();
-		// Delete cache?
-
-		// Delete tables!
+		$file = WP_PLUGIN_DIR . '/decalog/decalog.php';
+		if ( file_exists( $file ) ) {
+			// phpcs:ignore
+			@unlink( $file );
+		}
 	}
 
 }

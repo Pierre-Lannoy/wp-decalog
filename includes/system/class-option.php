@@ -78,7 +78,8 @@ class Option {
 		self::$defaults['autolisteners']     = true;  // In plugin settings.
 		self::$defaults['listeners']         = [];    // In plugin settings.
 		self::$defaults['pseudonymization']  = false; // In plugin settings.
-		self::$network                       = [ 'version', 'use_cdn', 'download_favicons', 'script_in_footer', 'display_nag', 'respect_wp_debug', 'logger_autostart', 'pseudonymization' ];
+		self::$defaults['earlyloading']      = true;  // In plugin settings.
+		self::$network                       = [ 'version', 'earlyloading', 'use_cdn', 'download_favicons', 'script_in_footer', 'display_nag', 'respect_wp_debug', 'logger_autostart', 'pseudonymization' ];
 	}
 
 	/**
@@ -235,6 +236,7 @@ class Option {
 		self::network_set( 'respect_wp_debug', self::$defaults['respect_wp_debug'] );
 		self::network_set( 'logger_autostart', self::$defaults['logger_autostart'] );
 		self::network_set( 'pseudonymization', self::$defaults['pseudonymization'] );
+		self::network_set( 'earlyloading', self::$defaults['earlyloading'] );
 	}
 
 	/**
