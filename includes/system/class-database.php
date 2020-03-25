@@ -236,26 +236,8 @@ class Database {
 	 */
 	public function safe_add_column( $table, $column, $alter ) {
 		global $wpdb;
-		try {
-			// phpcs:ignore
-			$data = $wpdb->get_results( "SELECT * FROM " . $table, ARRAY_A );
-		} catch ( \Exception $ex ) {
-			$data = [];
-		}
-		$do_action = false;
-		$result    = false;
-		if ( count( $data ) > 0 ) {
-			if ( is_array( $data[0] ) ) {
-				if ( ! array_key_exists( $column, $data[0] ) ) {
-					$do_action = true;
-				}
-			} else {
-				$do_action = true;
-			}
-		} else {
-			$do_action = true;
-		}
-		if ( $do_action ) {
+		$result = false;
+		if ( ! $wpdb->get_var( "SHOW COLUMNS FROM `" . $table . "` LIKE '" . $column . "'" ) ) {
 			try {
 				// phpcs:ignore
 				$wpdb->query( $alter );
