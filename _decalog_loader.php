@@ -4,7 +4,7 @@
  * Plugin Name:       DecaLog Early Loader
  * Plugin URI:        https://github.com/Pierre-Lannoy/wp-decalog
  * Description:       MU plugin to early initialize DecaLog engine and listeners.
- * Version:           1.0.0
+ * Version:           100x
  * Author:            Pierre Lannoy
  * Author URI:        https://pierre.lannoy.fr
  * License:           GPLv3
