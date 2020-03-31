@@ -128,7 +128,7 @@ class Option {
 	 * @since 1.0.0
 	 */
 	public static function site_get( $option, $default = null ) {
-		if ( array_key_exists( $option, self::$defaults ) ) {
+		if ( array_key_exists( $option, self::$defaults ) && ! isset( $default ) ) {
 			$default = self::$defaults[ $option ];
 		}
 		return get_option( DECALOG_PRODUCT_ABBREVIATION . '_' . $option, $default );
@@ -145,7 +145,7 @@ class Option {
 	 * @since 1.0.0
 	 */
 	public static function network_get( $option, $default = null ) {
-		if ( array_key_exists( $option, self::$defaults ) ) {
+		if ( array_key_exists( $option, self::$defaults ) && ! isset( $default ) ) {
 			$default = self::$defaults[ $option ];
 		}
 		return get_site_option( DECALOG_PRODUCT_ABBREVIATION . '_' . $option, $default );
