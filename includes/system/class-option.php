@@ -122,8 +122,6 @@ class Option {
 	 *
 	 * @param   string  $option     Option name. Expected to not be SQL-escaped.
 	 * @param   boolean $default    Optional. The default value if option doesn't exists.
-	 *                              This default value is used only if $option is not present
-	 *                              in the $defaults array.
 	 * @return  mixed   The value of the option.
 	 * @since 1.0.0
 	 */
@@ -139,8 +137,6 @@ class Option {
 	 *
 	 * @param   string  $option     Option name. Expected to not be SQL-escaped.
 	 * @param   boolean $default    Optional. The default value if option doesn't exists.
-	 *                              This default value is used only if $option is not present
-	 *                              in the $defaults array.
 	 * @return  mixed   The value of the option.
 	 * @since 1.0.0
 	 */
