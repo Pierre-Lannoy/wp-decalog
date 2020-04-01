@@ -129,7 +129,11 @@ class Option {
 		if ( array_key_exists( $option, self::$defaults ) && ! isset( $default ) ) {
 			$default = self::$defaults[ $option ];
 		}
-		return get_option( DECALOG_PRODUCT_ABBREVIATION . '_' . $option, $default );
+		$val = get_option( DECALOG_PRODUCT_ABBREVIATION . '_' . $option, $default );
+		if ( empty( $val ) && is_bool( $default ) ) {
+			return $default;
+		}
+		return $val;
 	}
 
 	/**
@@ -144,7 +148,11 @@ class Option {
 		if ( array_key_exists( $option, self::$defaults ) && ! isset( $default ) ) {
 			$default = self::$defaults[ $option ];
 		}
-		return get_site_option( DECALOG_PRODUCT_ABBREVIATION . '_' . $option, $default );
+		$val = get_site_option( DECALOG_PRODUCT_ABBREVIATION . '_' . $option, $default );
+		if ( empty( $val ) && is_bool( $default ) ) {
+			return $default;
+		}
+		return $val;
 	}
 
 	/**
