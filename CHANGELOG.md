@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - The settings page has now the standard WordPress style.
 - Better styling in "PerfOps Settings" page.
 - In site health "info" tab, the boolean are now clearly displayed.
+- Displaying of PIv6 has been improved.
 ### Fixed
 - The update indicator is sometimes hidden.
 - If there's no GeoIP detection handler, a wrong flag is shown for public IPs.

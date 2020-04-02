@@ -16,6 +16,7 @@ use Monolog\Processor\ProcessorInterface;
 use Decalog\System\Blog;
 use Decalog\System\Hash;
 use Decalog\System\User;
+use Decalog\System\IP;
 
 /**
  * Define the WordPress processor functionality.
@@ -93,7 +94,7 @@ class WordpressProcessor implements ProcessorInterface {
 		$record['extra']['sitename'] = Blog::get_current_blog_name();
 		$record['extra']['userid']   = User::get_current_user_id( 0 );
 		$record['extra']['username'] = User::get_current_user_name();
-		$record['extra']['ip']       = Environment::current_ip();
+		$record['extra']['ip']       = IP::get_current();
 		if ( $this->obfuscation ) {
 			if ( array_key_exists( 'ip', $record['extra'] ) ) {
 				$record['extra']['ip'] = Hash::simple_hash( $record['extra']['ip'] );
