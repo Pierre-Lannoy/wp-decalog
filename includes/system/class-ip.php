@@ -51,30 +51,34 @@ class IP {
 	}
 
 	/**
-	 * Get the current client IP.
-	 *
-	 * @return  string The current client IP.
-	 * @since 1.0.0
-	 */
-	public static function get_current() {
-		$ip = '';
-		if ( array_key_exists( 'REMOTE_ADDR', $_SERVER ) ) {
-			$iplist = explode( ',', filter_input( INPUT_SERVER, 'REMOTE_ADDR' ) );
-			$ip     = trim( end( $iplist ) );
-		}
-		if ( array_key_exists( 'HTTP_X_REAL_IP', $_SERVER ) ) {
-			$iplist = explode( ',', filter_input( INPUT_SERVER, 'HTTP_X_REAL_IP' ) );
-			$ip     = trim( end( $iplist ) );
-		}
-		if ( '' === $ip && array_key_exists( 'HTTP_X_FORWARDED_FOR', $_SERVER ) ) {
-			$iplist = array_reverse( explode( ',', filter_input( INPUT_SERVER, 'HTTP_X_FORWARDED_FOR' ) ) );
-			$ip     = trim( end( $iplist ) );
-		}
-		if ( '' === $ip ) {
-			$ip = '127.0.0.1';
-		}
-		return self::expand( $ip );
-	}
+     * Get the current client IP.
+     *
+     * @return  string The current client IP.
+     * @since 1.0.0
+     */
+    public static function get_current() {
+        $ip = '';
+        if ( array_key_exists( 'REMOTE_ADDR', $_SERVER ) ) {
+            $iplist = explode( ',', filter_input( INPUT_SERVER, 'REMOTE_ADDR' ) );
+            $ip     = trim( end( $iplist ) );
+        }
+        if ( array_key_exists( 'HTTP_X_REAL_IP', $_SERVER ) ) {
+            $iplist = explode( ',', filter_input( INPUT_SERVER, 'HTTP_X_REAL_IP' ) );
+            $ip     = trim( end( $iplist ) );
+        }
+        if ( array_key_exists( 'HTTP_CF_CONNECTING_IP', $_SERVER ) ) {
+            $iplist = explode( ',', filter_input( INPUT_SERVER, 'HTTP_CF_CONNECTING_IP' ) );
+            $ip     = trim( end( $iplist ) );
+        }
+        if ( '' === $ip && array_key_exists( 'HTTP_X_FORWARDED_FOR', $_SERVER ) ) {
+            $iplist = array_reverse( explode( ',', filter_input( INPUT_SERVER, 'HTTP_X_FORWARDED_FOR' ) ) );
+            $ip     = trim( end( $iplist ) );
+        }
+        if ( '' === $ip ) {
+            $ip = '127.0.0.1';
+        }
+        return self::expand( $ip );
+    }
 
 	/**
 	 * Expands an IPv4 or IPv6 address.
