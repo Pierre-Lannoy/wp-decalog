@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased - will be 1.12.0]
 ### Added
 - New option to early load DecaLog as a mu-plugin.
-- Full integration with [IP Locator](https://wordpress.org/plugins/ip-locator/)
+- Full integration with [IP Locator](https://wordpress.org/plugins/ip-locator/).
 ### Changed
 - There's now a flag for each IP address in WordPress events logs.
 - The settings page has now the standard WordPress style.
