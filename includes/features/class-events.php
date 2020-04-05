@@ -17,6 +17,7 @@ use Decalog\System\Option;
 use Decalog\System\Role;
 use Decalog\System\Timezone;
 use Feather\Icons;
+use Decalog\System\GeoIP;
 
 
 if ( ! class_exists( 'WP_List_Table' ) ) {
@@ -99,6 +100,14 @@ class Events extends \WP_List_Table {
 	private $logger = null;
 
 	/**
+	 * GeoIP helper.
+	 *
+	 * @since    1.0.0
+	 * @var      \Decalog\System\GeoIP    $geoip    GeoIP helper.
+	 */
+	private $geoip = null;
+
+	/**
 	 * The main filter.
 	 *
 	 * @since    1.0.0
@@ -127,6 +136,7 @@ class Events extends \WP_List_Table {
 				'ajax'     => true,
 			]
 		);
+		$this->geoip = new GeoIP();
 	}
 
 	/**
@@ -233,11 +243,14 @@ class Events extends \WP_List_Table {
 	 * @since   1.0.0
 	 */
 	protected function column_ip( $item ) {
-		$ip = $item['remote_ip'];
+		$ip   = $item['remote_ip'];
+		$icon = '';
 		if ( 0 === strpos( $ip, '{' ) ) {
 			$ip = '<em>' . esc_html__( 'Obfuscated', 'decalog' ) . '</em>';
+		} else {
+			$icon = $this->geoip->get_flag( $ip, '', 'width:14px;padding-left:4px;padding-right:4px;vertical-align:baseline;' );
 		}
-		$result = $ip . $this->get_filter( 'remote_ip', $item['remote_ip'] );
+		$result = $icon . $ip . $this->get_filter( 'remote_ip', $item['remote_ip'] );
 		return $result;
 	}
 

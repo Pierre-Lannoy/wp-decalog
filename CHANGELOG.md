@@ -6,15 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased - will be 1.12.0]
 ### Added
 - New option to early load DecaLog as a mu-plugin.
+- Full integration with [IP Locator](https://wordpress.org/plugins/ip-locator/)
 ### Changed
 - The settings page has now the standard WordPress style.
 - Better styling in "PerfOps Settings" page.
 - In site health "info" tab, the boolean are now clearly displayed.
-- Displaying of PIv6 has been improved.
+- Displaying of IPv6 has been improved.
 ### Fixed
 - The update indicator is sometimes hidden.
 - If there's no GeoIP detection handler, a wrong flag is shown for public IPs.
 - An error may appear when updating plugin's empty tables.
+### Removed
+- Dependency to "Geolocation IP Detection" plugin. Nevertheless, this plugin can be used as a fallback solution.
+- Flagiconcss as library. If there's no other way, flags will be rendered as emoji.
 
 ## [1.11.0] - 2020-03-09
 ### Added

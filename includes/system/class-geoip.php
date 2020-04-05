@@ -11,7 +11,7 @@
 
 namespace Decalog\System;
 
-use Decalog\System\Logger;
+use Decalog\System\EmojiFlag;
 
 /**
  * Define the GeoIP functionality.
@@ -23,14 +23,6 @@ use Decalog\System\Logger;
  * @since   1.0.0
  */
 class GeoIP {
-
-	/**
-	 * Already loaded raw flags.
-	 *
-	 * @since  1.0.0
-	 * @var    array    $flags    Already loaded raw flags.
-	 */
-	private static $flags = [];
 
 	/**
 	 * Is IPv4 supported.
@@ -89,12 +81,19 @@ class GeoIP {
 	private function detect() {
 		if ( defined( 'GEOIP_DETECT_VERSION' ) && function_exists( 'geoip_detect2_get_info_from_ip' ) ) {
 			$this->provider_id      = 'geoip-detect';
-			$this->provider_name    = 'GeoIP Detection';
+			$this->provider_name    = 'Geolocation IP Detection';
 			$this->provider_version = GEOIP_DETECT_VERSION;
 			$this->ipv4             = true;
 			if ( defined( 'GEOIP_DETECT_IPV6_SUPPORTED' ) ) {
 				$this->ipv6 = GEOIP_DETECT_IPV6_SUPPORTED;
 			}
+		}
+		if ( defined( 'IPLOCATOR_VERSION' ) && class_exists( '\IPLocator\API\Country' ) ) {
+			$this->provider_id      = 'ip-locator';
+			$this->provider_name    = 'IP Locator';
+			$this->provider_version = IPLOCATOR_VERSION;
+			$this->ipv4             = true;
+			$this->ipv6             = true;
 		}
 	}
 
@@ -147,8 +146,15 @@ class GeoIP {
 		if ( '' === $ip && $this->ipv6 && filter_var( $host, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6 | FILTER_FLAG_NO_RES_RANGE | FILTER_FLAG_NO_PRIV_RANGE ) ) {
 			$ip = $host;
 		}
+		// IP Locator.
+		if ( '' !== $ip && 'ip-locator' === $this->provider_id ) {
+			$country = iplocator_get_country_name( $ip );
+			if ( empty( $country ) || 2 !== strlen( $country ) ) {
+				$country = null;
+			}
+		}
 		// GeoIP Detect.
-		if ( '' !== $ip && 'geoip-detect' === $this->provider_id ) {
+		elseif ( '' !== $ip && 'geoip-detect' === $this->provider_id ) {
 			$info    = geoip_detect2_get_info_from_ip( $ip );
 			$country = strtoupper( $info->country->isoCode );
 			if ( empty( $country ) || 2 !== strlen( $country ) ) {
@@ -162,6 +168,31 @@ class GeoIP {
 			}
 		}
 		return $country;
+	}
+
+	/**
+	 * Get the image flag.
+	 *
+	 * @param   string    $ip         Optional. The ip to detect from.
+	 *                                If not specified, get the ip of the current request.
+	 * @param   string    $class      Optional. The class(es) name(s).
+	 * @param   string    $style      Optional. The style.
+	 * @param   string    $id         Optional. The ID.
+	 * @param   string    $alt        Optional. The alt text.
+	 * @param   boolean   $squared    Optional. The flag must be squared.
+	 * @return  string                The svg flag base 64 encoded.
+	 * @since 1.0.0
+	 */
+	public function get_flag( $ip = null, $class = '', $style = '', $id = '', $alt = '', $squared = false ) {
+		// IP Locator.
+		if ( '' !== $ip && 'ip-locator' === $this->provider_id ) {
+			return iplocator_get_flag_image( $ip, $class, $style, $id, $alt, $squared );
+		}
+		// GeoIP Detect.
+		elseif ( '' !== $ip && 'geoip-detect' === $this->provider_id ) {
+			return EmojiFlag::get( $this->get_iso3166_alpha2( $ip ) ) . '&nbsp;';
+		}
+		return '';
 	}
 
 }

@@ -425,16 +425,13 @@ class EventViewer {
 			$ip = esc_html__( 'obfuscated IP', 'decalog' );
 		} else {
 			if ( filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_RES_RANGE | FILTER_FLAG_NO_PRIV_RANGE ) ) {
-				$geoip   = new GeoIP();
-				$country = $geoip->get_iso3166_alpha2( $ip );
-				if ( isset( $country ) ) {
-					$icon = '<img style="width:14px;padding-left:4px;vertical-align:baseline;" src="' . Flags::get_base64( $country ) . '" />';
-				}
+				$geoip = new GeoIP();
+				$icon  = $geoip->get_flag( $ip, '', 'width:14px;padding-left:4px;padding-right:4px;vertical-align:baseline;' );
 			}
 		}
 		// phpcs:ignore
-		$ip      = sprintf( esc_html__( 'from %s', 'decalog' ), $ip );
-		$content = '<span style="width:100%;cursor: default;word-break: break-all;">' . $this->get_icon( 'layout' ) . $this->event['server'] . ' ' . $ip . $icon . '</span>';
+		$ip      = sprintf( esc_html__( 'from %s', 'decalog' ), $icon . $ip );
+		$content = '<span style="width:100%;cursor: default;word-break: break-all;">' . $this->get_icon( 'layout' ) . $this->event['server'] . ' ' .  $ip  . '</span>';
 		$server  = $this->get_section( $content );
 		// Request detail.
 		$verb = $this->event['verb'];
