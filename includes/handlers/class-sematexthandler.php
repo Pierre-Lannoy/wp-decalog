@@ -40,9 +40,8 @@ class SematextHandler extends ElasticsearchHandler {
 	public function __construct( string $host, string $token, $level = Logger::DEBUG, bool $bubble = true ) {
 		$client  = \Elasticsearch\ClientBuilder::create()->setHosts( [ 'https://' . $host . ':443' ] )->build();
 		$options = [
-			'index_name' => $token,
-			'index'      => $token,
-			'type'       => 'wordpress_decalog',
+			'index' => $token,
+			'type'  => 'wordpress_decalog',
 		];
 		parent::__construct( $client, $options, $level, $bubble );
 	}
