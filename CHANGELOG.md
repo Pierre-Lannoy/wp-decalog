@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased - will be 1.12.0]
 ### Added
+- New logger to send logs to Elastic Cloud / Elastic Cloud Enterprise.
 - New logger to send logs to Sematext.
 - New option to early load DecaLog as a mu-plugin.
 - Full integration with [IP Locator](https://wordpress.org/plugins/ip-locator/).
