@@ -313,7 +313,7 @@ class DLogger {
 	 */
 	public function log( $level, $message, $code = 0 ) {
 		if ( ! $this->allowed ) {
-			return;
+			return false;
 		}
 		try {
 			$context = [
@@ -365,6 +365,7 @@ class DLogger {
 				return $result;
 			}
 		}
+		return true;
 	}
 
 	/**
@@ -376,7 +377,7 @@ class DLogger {
 	 */
 	public function info( $message, $code = 0 ) {
 		if ( ! $this->allowed ) {
-			return;
+			return false;
 		}
 		try {
 			$context = [
@@ -408,7 +409,7 @@ class DLogger {
 	 */
 	public function notice( $message, $code = 0 ) {
 		if ( ! $this->allowed ) {
-			return;
+			return false;
 		}
 		try {
 			$context = [
@@ -440,7 +441,7 @@ class DLogger {
 	 */
 	public function warning( $message, $code = 0 ) {
 		if ( ! $this->allowed ) {
-			return;
+			return false;
 		}
 		try {
 			$context = [
@@ -472,7 +473,7 @@ class DLogger {
 	 */
 	public function error( $message, $code = 0 ) {
 		if ( ! $this->allowed ) {
-			return;
+			return false;
 		}
 		try {
 			$context = [
@@ -504,7 +505,7 @@ class DLogger {
 	 */
 	public function critical( $message, $code = 0 ) {
 		if ( ! $this->allowed ) {
-			return;
+			return false;
 		}
 		try {
 			$context = [
@@ -536,7 +537,7 @@ class DLogger {
 	 */
 	public function alert( $message, $code = 0 ) {
 		if ( ! $this->allowed ) {
-			return;
+			return false;
 		}
 		try {
 			$context = [
@@ -568,7 +569,7 @@ class DLogger {
 	 */
 	public function emergency( $message, $code = 0 ) {
 		if ( ! $this->allowed ) {
-			return;
+			return false;
 		}
 		try {
 			$context = [

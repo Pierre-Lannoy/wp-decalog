@@ -69,7 +69,6 @@ class WpseoListener extends AbstractListener {
 	 */
 	public function wpseo_logger( $old_logger ) {
 		$a = new Logger( $this->class, $this->name, $this->version );
-		error_log('gkejh gkje fkejdfgn kvjdf bkvdjfb vkdjfb vkdjfbgbkv ejdnfvked;jfn vkdjfxcbv kdjfxcbv kdjfxcbv kdfjxcbv kdjfxcbnv kdj fncb vkd;j fncb kdjfncv peso cpzqsedk,f cpzsekdnfvoeldrjfhgn calzqekdnf kedjfnd');
 		$a->warning('test');
 		return $a;
 	}

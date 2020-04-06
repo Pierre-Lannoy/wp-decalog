@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased - will be 1.12.0]
 ### Added
+- New logger to send logs to Sematext.
 - New option to early load DecaLog as a mu-plugin.
 - Full integration with [IP Locator](https://wordpress.org/plugins/ip-locator/).
 ### Changed
@@ -17,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - The update indicator is sometimes hidden.
 - If there's no GeoIP detection handler, a wrong flag is shown for public IPs.
 - An error may appear when updating plugin's empty tables.
+- Some placeholders (in text input) may have a wrong example value.
 ### Removed
 - Dependency to "Geolocation IP Detection" plugin. Nevertheless, this plugin can be used as a fallback solution.
 - Flagiconcss as library. If there's no other way, flags will be rendered as emoji.

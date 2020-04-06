@@ -419,14 +419,9 @@ class Decalog_Admin {
 									if ( array_key_exists( $uuid, $loggers ) ) {
 										$test = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION, $uuid );
 										$done = true;
-										$done = $done & $test->debug( 'Debug test message.', 210871 );
-										$done = $done & $test->info( 'Info test message.', 210871 );
-										$done = $done & $test->notice( 'Notice test message.', 210871 );
-										$done = $done & $test->warning( 'Warning test message.', 210871 );
-										$done = $done & $test->error( 'Error test message.', 210871 );
-										$done = $done & $test->critical( 'Critical test message.', 210871 );
-										$done = $done & $test->alert( 'Alert test message.', 210871 );
-										$done = $done & $test->emergency( 'Emergency test message.', 210871 );
+										foreach ( [ 'DEBUG', 'INFO', 'NOTICE', 'WARNING', 'ERROR', 'CRITICAL', 'ALERT', 'EMERGENCY' ] as $level ) {
+											$done &= $test->log( $level, ucfirst( strtolower( $level ) ) . ' test message.', 210871 );
+										}
 										if ( $done ) {
 											$message = sprintf( esc_html__( 'Test messages have been sent to logger %s.', 'decalog' ), '<em>' . $loggers[ $uuid ]['name'] . '</em>' );
 											$code    = 0;
@@ -936,6 +931,7 @@ class Decalog_Admin {
 				'value'       => $this->current_logger['name'],
 				'description' => esc_html__( 'Used only in admin dashboard.', 'decalog' ),
 				'full_width'  => false,
+				'placeholder' => '',
 				'enabled'     => true,
 			]
 		);
@@ -980,6 +976,7 @@ class Decalog_Admin {
 				'value'       => $this->current_logger['name'],
 				'description' => null,
 				'full_width'  => false,
+				'placeholder' => '',
 				'enabled'     => false,
 			]
 		);
@@ -1039,6 +1036,7 @@ class Decalog_Admin {
 				'description' => $configuration['help'],
 				'full_width'  => false,
 				'enabled'     => $configuration['control']['enabled'],
+				'placeholder' => $configuration['default'],
 				'list'        => ( array_key_exists( 'list', $configuration['control'] ) ? $configuration['control']['list'] : [] ),
 			];
 			foreach ( $configuration['control'] as $index => $control ) {

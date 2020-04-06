@@ -67,6 +67,39 @@ class Libraries {
 			'license' => 'mit',
 			'langs'   => 'en',
 		];
+		self::$psr4_libraries['elasticsearch']   = [
+			'name'    => 'Elasticsearch',
+			'prefix'  => 'Elasticsearch',
+			'base'    => DECALOG_VENDOR_DIR . 'elasticsearch/',
+			'version' => '7.6.1',
+			// phpcs:ignore
+			'author'  => sprintf( esc_html__( '%s & contributors', 'decalog' ), 'Elastic' ),
+			'url'     => 'https://github.com/elastic/elasticsearch-php',
+			'license' => 'apl2',
+			'langs'   => 'en',
+		];
+		self::$psr4_libraries['guzzlehttp']   = [
+			'name'    => 'GuzzleHttp Ring & Stream',
+			'prefix'  => 'GuzzleHttp',
+			'base'    => DECALOG_VENDOR_DIR . 'guzzlehttp/',
+			'version' => '',
+			// phpcs:ignore
+			'author'  => sprintf( esc_html__( '%s & contributors', 'decalog' ), 'Michael Dowling' ),
+			'url'     => 'https://github.com/elastic/elasticsearch-php',
+			'license' => 'mit',
+			'langs'   => 'en',
+		];
+		self::$psr4_libraries['react']   = [
+			'name'    => 'ReactPHP Promise',
+			'prefix'  => 'React',
+			'base'    => DECALOG_VENDOR_DIR . 'react/',
+			'version' => '2.7.1',
+			// phpcs:ignore
+			'author'  => sprintf( esc_html__( '%s & contributors', 'decalog' ), 'ReactPHP' ),
+			'url'     => 'https://github.com/elastic/elasticsearch-php',
+			'license' => 'mit',
+			'langs'   => 'en',
+		];
 		self::$psr4_libraries['feather']   = [
 			'name'    => 'Feather',
 			'prefix'  => 'Feather',
