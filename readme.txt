@@ -32,6 +32,7 @@ At this time, **DecaLog** can send events:
 * to its internal logging storage and viewer;
 * to external logger, like Syslog or Fluentd;
 * to external logging services, like Logentries / insightOps or Loggly;
+* to ELK stacks like Sematext or Elastic Cloud;
 * to external alerting services, like Pushover or Slack;
 * to local or network storage (with file rotation);
 
