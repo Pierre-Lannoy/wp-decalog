@@ -87,6 +87,15 @@ class Updater {
 		// DecaLog handlers auto updating.
 		$maintainer = new LoggerMaintainer();
 		$maintainer->update( $from );
+		// Updates MU-Plugin (even if it's not a new version) to avoid update message.
+		$target = WPMU_PLUGIN_DIR . '/_decalog_loader.php';
+		$source = DECALOG_PLUGIN_DIR . '/assets/_decalog_loader.php';
+		if ( file_exists( $source ) ) {
+			// phpcs:ignore
+			@unlink( $target );
+			// phpcs:ignore
+			@copy( $source, $target );
+		}
 	}
 
 	/**
