@@ -225,12 +225,14 @@ class PhpListener extends AbstractListener {
 	 */
 	public function handle_fatal_error() {
 		$last_error = error_get_last();
-		DLogger::ban( $last_error['file'], $last_error['message'] );
-		if ( $last_error && in_array( $last_error['type'], $this->fatal_errors, true ) ) {
-			$file    = './' . str_replace( wp_normalize_path( ABSPATH ), '', wp_normalize_path( $last_error['file'] ) );
-			$file   .= ':' . $last_error['line'];
-			$message = sprintf( 'Fatal error (%s): "%s" at %s', $this->code_to_string( $last_error['type'] ), $last_error['message'], $file );
-			$this->logger->alert( $message, (int) $last_error['type'] );
+		if ( isset( $last_error ) && is_array( $last_error ) ) {
+			DLogger::ban( $last_error['file'], $last_error['message'] );
+			if ( in_array( $last_error['type'], $this->fatal_errors, true ) ) {
+				$file    = './' . str_replace( wp_normalize_path( ABSPATH ), '', wp_normalize_path( $last_error['file'] ) );
+				$file   .= ':' . $last_error['line'];
+				$message = sprintf( 'Fatal error (%s): "%s" at %s', $this->code_to_string( $last_error['type'] ), $last_error['message'], $file );
+				$this->logger->alert( $message, (int) $last_error['type'] );
+			}
 		}
 	}
 
