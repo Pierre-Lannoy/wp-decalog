@@ -144,21 +144,21 @@ class WordpressHandler {
 	 * @since    1.0.0
 	 */
 	public function update( $from ) {
-		global $wpdb;
+		//global $wpdb;
 		// Starting 1.7.2, WordpressHandler is utf8mb4_unicode_ci and "message" and "trace" fields can accept 64K characters.
-		$sql = 'ALTER TABLE ' . $this->table . ' CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;';
+		//$sql = 'ALTER TABLE ' . $this->table . ' CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;';
 		// phpcs:ignore
-		$wpdb->query( $sql );
-		$sql = 'ALTER TABLE ' . $this->table . " MODIFY COLUMN message text;";
+		//$wpdb->query( $sql );
+		//$sql = 'ALTER TABLE ' . $this->table . " MODIFY COLUMN message text;";
 		// phpcs:ignore
-		$wpdb->query( $sql );
-		$sql = 'ALTER TABLE ' . $this->table . " MODIFY COLUMN trace text;";
+		//$wpdb->query( $sql );
+		//$sql = 'ALTER TABLE ' . $this->table . " MODIFY COLUMN trace text;";
 		// phpcs:ignore
-		$wpdb->query( $sql );
+		//$wpdb->query( $sql );
 		// Starting 1.9.0, WordpressHandler records user-agent http field.
-		$database = new Database();
-		$database->safe_add_column( $this->table, 'user_agent', "ALTER TABLE " . $this->table . " ADD `user_agent` varchar(1024) NOT NULL DEFAULT '-' AFTER `referrer`;");
-		$this->log->debug( sprintf( 'Table "%s" updated.', $this->table ) );
+		//$database = new Database();
+		//$database->safe_add_column( $this->table, 'user_agent', "ALTER TABLE " . $this->table . " ADD `user_agent` varchar(1024) NOT NULL DEFAULT '-' AFTER `referrer`;");
+		//$this->log->debug( sprintf( 'Table "%s" updated.', $this->table ) );
 	}
 
 	/**

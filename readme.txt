@@ -4,7 +4,7 @@ Tags: logs, error reporting, monitoring, site health, logging
 Requires at least: 5.2
 Requires PHP: 7.2
 Tested up to: 5.4
-Stable tag: 1.11.0
+Stable tag: 1.12.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -47,6 +47,14 @@ If you're a plugins / themes developer and want to take advantage of the logging
 This plugin is free and provided without warranty of any kind. Use it at your own risk, I'm not responsible for any improper use of this plugin, nor for any damage it might cause to your site. Always backup all your data before installing a new plugin.
 
 Anyway, I'll be glad to help you if you encounter issues when using this plugin. Just use the support section of this plugin page.
+
+= Privacy =
+
+This plugin, as any piece of software, is neither compliant nor non-compliant with privacy laws and regulations. It is your responsibility to use it - by activating the corresponding options or services - with respect for the personal data of your users and applicable laws.
+
+This plugin doesn't set any cookie in the user's browser.
+
+This plugin may handle personally identifiable information (PII). If the GDPR or CCPA or similar regulation applies to your case, you must use the anonymization options embedded in the plugin and/or adapt your processes (consent management, security measure, treatment register, etc.).
 
 = Donation =
 
