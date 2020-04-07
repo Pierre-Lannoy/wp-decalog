@@ -3,6 +3,8 @@ All notable changes to **DecaLog** are documented in this *changelog*.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased - Will be 1.12.1]
+
 ## [1.12.0] - 2020-04-07
 ### Added
 - New logger to send logs to Elastic Cloud / Elastic Cloud Enterprise.
