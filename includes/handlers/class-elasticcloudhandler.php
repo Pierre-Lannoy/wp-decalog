@@ -1,8 +1,8 @@
 <?php
 /**
- * Fluentd handler for Monolog
+ * Elastic Cloud handler for Monolog
  *
- * Handles all features of Fluentd handler for Monolog.
+ * Handles all features of Elastic Cloud handler for Monolog.
  *
  * @package Handlers
  * @author  Pierre Lannoy <https://pierre.lannoy.fr/>.
@@ -22,9 +22,9 @@ use Elasticsearch\Common\Exceptions\RuntimeException as ElasticsearchRuntimeExce
 use Elasticsearch\Client;
 
 /**
- * Define the Monolog Fluentd handler.
+ * Define the Monolog Elastic Cloud handler.
  *
- * Handles all features of Fluentd handler for Monolog.
+ * Handles all features of Elastic Cloud handler for Monolog.
  *
  * @package Handlers
  * @author  Pierre Lannoy <https://pierre.lannoy.fr/>.

@@ -3,6 +3,12 @@ All notable changes to **DecaLog** are documented in this *changelog*.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.12.3] - 2020-04-07
+### Changed
+- Forces mu-plugin dir creation if it doesn't exist.
+### Fixed
+- The doc blocks of some classes wrongly reference Fluentd (thanks to [Nicolas Juen](https://github.com/Rahe)).
+
 ## [1.12.2] - 2020-04-07
 ### Changed
 - Removes the mu-plugin to the plugin update list.
