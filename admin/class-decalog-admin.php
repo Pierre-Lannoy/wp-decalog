@@ -533,7 +533,7 @@ class Decalog_Admin {
 				Option::network_set( 'display_nag', array_key_exists( 'decalog_plugin_options_nag', $_POST ) );
 				Option::network_set( 'download_favicons', array_key_exists( 'decalog_plugin_options_favicons', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_plugin_options_favicons' ) : false );
 				Option::network_set( 'earlyloading', array_key_exists( 'decalog_plugin_options_earlyloading', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_plugin_options_earlyloading' ) : false );
-				Option::network_set( 'logger_autostart', array_key_exists( 'decalog_loggers_options_autostart', $_POST ) );
+				Option::network_set( 'logger_autostart', array_key_exists( 'decalog_loggers_options_autostart', $_POST ) ? true : false );
 				Option::network_set( 'pseudonymization', array_key_exists( 'decalog_loggers_options_pseudonymization', $_POST ) );
 				Option::network_set( 'respect_wp_debug', array_key_exists( 'decalog_loggers_options_wpdebug', $_POST ) );
 				$message = esc_html__( 'Plugin settings have been saved.', 'decalog' );
