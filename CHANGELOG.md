@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 [Unreleased - Will be 1.12.4]
 ### Changed
 - Improved way to handle fatal errors in PHP listener.
+- "Updated user" messages have now "INFO" type (was "notice" previously).
 
 ## [1.12.3] - 2020-04-07
 ### Changed

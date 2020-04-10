@@ -476,7 +476,7 @@ class CoreListener extends AbstractListener {
 	 */
 	public function profile_update( $user_id, $old_user_data = null ) {
 		if ( isset( $this->logger ) ) {
-			$this->logger->notice( sprintf( 'User updated: %s.', $this->get_user( $user_id ) ) );
+			$this->logger->info( sprintf( 'User updated: %s.', $this->get_user( $user_id ) ) );
 		}
 	}
 
@@ -553,14 +553,17 @@ class CoreListener extends AbstractListener {
 	 *
 	 * @since    1.0.0
 	 */
-	public function wp_login( $user_login, $user ) {
+	public function wp_login( $user_login, $user = null ) {
+		if ( ! $user ) {
+			$user = get_user_by( 'login', $user_login );
+		}
 		if ( $user instanceof \WP_User ) {
 			$id = $user->ID;
 		} else {
 			$id = 0;
 		}
 		if ( isset( $this->logger ) ) {
-			$this->logger->info( sprintf( 'User logged-in: %s.', $this->get_user( $id ) ) );
+			$this->logger->notice( sprintf( 'User logged-in: %s.', $this->get_user( $id ) ) );
 		}
 	}
 

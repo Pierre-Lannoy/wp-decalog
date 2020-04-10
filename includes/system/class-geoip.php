@@ -148,7 +148,7 @@ class GeoIP {
 		}
 		// IP Locator.
 		if ( '' !== $ip && 'ip-locator' === $this->provider_id ) {
-			$country = iplocator_get_country_name( $ip );
+			$country = iplocator_get_country_code( $ip );
 			if ( empty( $country ) || 2 !== strlen( $country ) ) {
 				$country = null;
 			}
