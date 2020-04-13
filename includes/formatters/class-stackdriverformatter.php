@@ -42,7 +42,7 @@ class StackdriverFormatter implements FormatterInterface {
 		$tag     = strtolower( DECALOG_PRODUCT_SHORTNAME . '.' . $record['channel'] . '.' . $level );
 		$message = [
 			'severity' => $level,
-			'message'  => '[' . $record['channel'] . '] ' . $record['message'],
+			'message'  => $record['message'],
 			'context'  => $record['context'],
 			'extra'    => $record['extra'],
 		];
