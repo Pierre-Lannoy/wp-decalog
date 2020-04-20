@@ -103,7 +103,7 @@ class Cache {
 	 */
 	public static function init() {
 		self::$ttls = [
-			'ephemeral'         => -1,
+			'ephemeral'         => 0,
 			'infinite'          => 10 * YEAR_IN_SECONDS,
 			'diagnosis'         => HOUR_IN_SECONDS,
 			'plugin-statistics' => DAY_IN_SECONDS,
@@ -286,7 +286,7 @@ class Cache {
 		if ( array_key_exists( $ttl, self::$ttls ) ) {
 			$expiration = self::$ttls[ $ttl ];
 		}
-		if ( $expiration >= 0 ) {
+		if ( $expiration > 0 ) {
 			if ( wp_using_ext_object_cache() ) {
 				$result = wp_cache_set( $item_name, $value, self::$pool_name, (int) $expiration );
 			} elseif ( self::$apcu_available ) {
