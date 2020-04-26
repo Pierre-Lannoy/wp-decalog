@@ -32,8 +32,8 @@ An ___event___ is composed of:
 - A __timestamp__, which is the time when ___event___ was triggered.
 - A versioned __source__, which is the component or the subsystem where the ___event___ is triggered. It maybe things like `PHP`/`7.2` or `WordPress`/`5.2.2` and so on...
 - The __class__ of the source, which can take the following values: `core`, `plugin`, `theme`, `db`, `php`.
-- A __message__ in plain text. I it always in English: messages are not localized.
-- An numerical __code__, which may be everything which makes sense regarding the ___event___ (an error code, for instance).
+- A __message__ in plain text. It is always in English: messages are not localized.
+- A numerical __code__, which may be everything which makes sense regarding the ___event___ (an error code, for instance).
 
 Depending on each ___loggers___ settings, an ___event___ may contains many other fields which are automaticaly detected and filled by DecaLog.
 
@@ -42,7 +42,7 @@ Depending on each ___loggers___ settings, an ___event___ may contains many other
 In fact, as a developer, you will have to deal only with ___level___, ___message___ and ___code___. All other fields of the ___event___ being handled internaly by DecaLog.
 
 ### Simple usage
-The simplest way to generate an ___event___ from your code is to use DecaLog as a standard PSR-3 logger. You can do so as soon as all code for `plugins_loaded` WordPress hook is executed.
+The simplest way to generate an ___event___ from your code is to use DecaLog as a standard PSR-3 logger. You can do so as soon as all code for `plugins_loaded` WordPress hook is executed (in standard mode) or as soon as `muplugins_loaded` WordPress hook is executed (if the corresponding option is activated in settings).
 ```php
     
     // Initializes the events logger
