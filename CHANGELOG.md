@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 - There's an error while activating the plugin when the server is Microsoft IIS with Windows 10.
 - Some tabs may be hidden when site is switched in another language.
+- With Microsoft Edge, some layouts may be ugly.
 ### Removed
 - The "channel" starting the "message" from Stackdriver formatter, because channel is now usable as "summary field" in Stackdriver interface.
 

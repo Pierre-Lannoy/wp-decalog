@@ -292,7 +292,7 @@ if ( ! class_exists( 'PerfOpsOne\AdminMenus' ) ) {
 			$disp .= '  <style>';
 			$disp .= '   .perfopsone-admin-inside .po-container {flex:none;padding:10px;}';
 			$disp .= '   .perfopsone-admin-inside .po-actionable:hover {border-radius:6px;cursor:pointer; -moz-transition: all .2s ease-in; -o-transition: all .2s ease-in; -webkit-transition: all .2s ease-in; transition: all .2s ease-in; background: #f5f5f5;border:1px solid #e0e0e0;filter: grayscale(0%) opacity(100%);}';
-			$disp .= '   .perfopsone-admin-inside .po-actionable {overflow:scroll;width:400px;height:120px;border-radius:6px;cursor:pointer; -moz-transition: all .4s ease-in; -o-transition: all .4s ease-in; -webkit-transition: all .4s ease-in; transition: all .4s ease-in; background: transparent;border:1px solid transparent;filter: grayscale(80%) opacity(66%);}';
+			$disp .= '   .perfopsone-admin-inside .po-actionable {overflow:hidden;width:400px;height:120px;border-radius:6px;cursor:pointer; -moz-transition: all .4s ease-in; -o-transition: all .4s ease-in; -webkit-transition: all .4s ease-in; transition: all .4s ease-in; background: transparent;border:1px solid transparent;filter: grayscale(80%) opacity(66%);}';
 			$disp .= '   .perfopsone-admin-inside .po-actionable a {font-style:normal;text-decoration:none;color:#73879C;}';
 			$disp .= '   .perfopsone-admin-inside .po-icon {display:block;width:120px;float:left;padding-top:10px;}';
 			$disp .= '   .perfopsone-admin-inside .po-text {display:grid;text-align:left;padding-top:16px;padding-right:16px;}';
