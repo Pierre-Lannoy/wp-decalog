@@ -88,6 +88,23 @@ class LoggerMaintainer {
 	}
 
 	/**
+	 * Finalize the logger.
+	 *
+	 * @since    1.0.0
+	 */
+	public function finalize() {
+		foreach ( Option::network_get( 'loggers' ) as $key => $logger ) {
+			$classname = 'Decalog\Plugin\Feature\\' . $logger['handler'];
+			if ( class_exists( $classname ) ) {
+				$logger['uuid'] = $key;
+				$instance       = $this->create_instance( $classname );
+				$instance->set_logger( $logger );
+				$instance->finalize();
+			}
+		}
+	}
+
+	/**
 	 * Get loggers debug info (for Site Health).
 	 *
 	 * @return array    The loggers definitions.

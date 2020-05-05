@@ -9,6 +9,7 @@
 
 namespace Decalog\Plugin;
 
+use Decalog\Plugin\Feature\LoggerMaintainer;
 use Decalog\System\Option;
 use Decalog\System\User;
 
@@ -31,6 +32,8 @@ class Uninstaller {
 	public static function uninstall() {
 		Option::site_delete_all();
 		User::delete_all_meta();
+		$maintainer = new LoggerMaintainer();
+		$maintainer->finalize();
 		$file = WP_PLUGIN_DIR . '/decalog/decalog.php';
 		if ( file_exists( $file ) ) {
 			// phpcs:ignore
