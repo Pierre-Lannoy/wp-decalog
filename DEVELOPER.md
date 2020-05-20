@@ -66,7 +66,7 @@ As previously said, a ___listener___ is a piece of code that listens to a specif
 
 Before writing a ___listener___ your plugin or theme must define actions hooks with `do_action()` function each time a significant condition occurs. Like this:
 
-```php
+```php <?php
     /**
     * Fires immediately after a content is deleted.
     *
