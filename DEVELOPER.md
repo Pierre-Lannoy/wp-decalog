@@ -67,7 +67,8 @@ As previously said, a ___listener___ is a piece of code that listens to a specif
 
 Before writing a ___listener___ your plugin or theme must define actions hooks with `do_action()` function each time a significant condition occurs. Like this:
 
-```php <?php
+```php
+<?php <?php
     /**
     * Fires immediately after a content is deleted.
     *
@@ -86,6 +87,7 @@ Once done, you can write your ___listener___ by extending the class `Decalog\Lis
 Here is an example that implements a simple ___listener___ able to listen the action defined sooner in this section:
 
 ```php
+<?php
     /**
      * My Plugin listener for DecaLog.
      *
@@ -181,6 +183,7 @@ DecaLog let its users to set the needed level of privacy. To respects this level
 
 To respect the choices made by DecaLog users, you must use the `get_user()` method in your ___listener___ each time it handles names and user IDs:
 ```php
+<?php
     // DO NOT DO THAT, PLEASE:
     $this->logger->info( sprintf ( 'User %1$s done something', $user_ID ) );
     
