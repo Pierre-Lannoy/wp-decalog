@@ -185,13 +185,17 @@ class WordpressHandler {
 		if ( '' !== $this->table_name ) {
 			$count    = 0;
 			$database = new Database();
-			if ( $hour_done = $database->purge( $this->table_name, 'timestamp', 24 * (int) $this->logger['configuration']['purge'] ) ) {
-				$count += $hour_done;
+			if ( 0 > (int) $this->logger['configuration']['purge'] ) {
+				if ( $hour_done = $database->purge( $this->table_name, 'timestamp', 24 * (int) $this->logger['configuration']['purge'] ) ) {
+					$count += $hour_done;
+				}
 			}
-			$limit = $database->count_lines( $this->table_name ) - (int) $this->logger['configuration']['rotate'];
-			if ( $limit > 0 ) {
-				if ( $max_done = $database->rotate( $this->table_name, 'id', $limit ) ) {
-					$count += $max_done;
+			if ( 0 > (int) $this->logger['configuration']['rotate'] ) {
+				$limit = $database->count_lines( $this->table_name ) - (int) $this->logger['configuration']['rotate'];
+				if ( $limit > 0 ) {
+					if ( $max_done = $database->rotate( $this->table_name, 'id', $limit ) ) {
+						$count += $max_done;
+					}
 				}
 			}
 			if ( 0 === $count ) {

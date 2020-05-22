@@ -4,6 +4,8 @@ All notable changes to **DecaLog** are documented in this *changelog*.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased - will be 1.12.7]
+### Fixed
+- The WordPress events may be wrongly purged when '0' is set as a limit (thanks to [Emil1](https://wordpress.org/support/users/milouze/)).
 
 ##[1.12.6] - 2020-05-15
 ### Changed
