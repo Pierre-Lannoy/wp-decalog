@@ -461,6 +461,64 @@ class Cache {
 	}
 
 	/**
+	 * Get the minimum value of a ttl time range.
+	 *
+	 * This function accepts generic car "*" for transients.
+	 *
+	 * @param  string  $ttl_range   The time range in seconds. May be something like '5-600' or '200'.
+	 * @return integer The ttl in seconds.
+	 * @since  1.0.0
+	 */
+	public static function get_min( $ttl_range ) {
+		if ( ! is_string( $ttl_range) ) {
+			return 0;
+		}
+		$ttls = explode( '-', $ttl_range );
+		if ( 1 === count( $ttls ) ) {
+			return (int) $ttls[0];
+		} else {
+			return (int) min( (int) $ttls[0], (int) $ttls[1] );
+		}
+	}
+
+	/**
+	 * Get the maximum value of a ttl time range.
+	 *
+	 * This function accepts generic car "*" for transients.
+	 *
+	 * @param  string  $ttl_range   The time range in seconds. May be something like '5-600' or '200'.
+	 * @return integer The ttl in seconds.
+	 * @since  1.0.0
+	 */
+	public static function get_max( $ttl_range ) {
+		if ( ! is_string( $ttl_range) ) {
+			return 0;
+		}
+		$ttls = explode( '-', $ttl_range );
+		if ( 1 === count( $ttls ) ) {
+			return (int) $ttls[0];
+		} else {
+			return (int) max( (int) $ttls[0], (int) $ttls[1] );
+		}
+	}
+
+	/**
+	 * Get the medium value of a ttl time range.
+	 *
+	 * This function accepts generic car "*" for transients.
+	 *
+	 * @param  string  $ttl_range   The time range in seconds. May be something like '5-600' or '200'.
+	 * @return integer The ttl in seconds.
+	 * @since  1.0.0
+	 */
+	public static function get_med( $ttl_range ) {
+		$min = self::get_min( $ttl_range );
+		$max = self::get_max( $ttl_range );
+		$med = $max - ( ( $max - $min ) / 2 );
+		return (int) round( $med );
+	}
+
+	/**
 	 * Get cache analytics.
 	 *
 	 * @return array The cache analytics.
