@@ -276,15 +276,19 @@ class Cache {
 	 * @param  string $item_name Item name. Expected to not be SQL-escaped.
 	 * @param  mixed  $value     Item value. Must be serializable if non-scalar.
 	 *                           Expected to not be SQL-escaped.
-	 * @param  string $ttl       Optional. The previously defined ttl @see self::init().
+	 * @param  int|string $ttl       Optional. The previously defined ttl @see self::init() if it's a string.
+	 *                               The ttl value in seconds if it's and integer.
 	 * @return bool False if value was not set and true if value was set.
 	 * @since  1.0.0
 	 */
 	private static function set_for_full_name( $item_name, $value, $ttl = 'default' ) {
 		$item_name  = self::normalized_item_name( $item_name );
 		$expiration = self::$default_ttl;
-		if ( array_key_exists( $ttl, self::$ttls ) ) {
+		if ( is_string( $ttl ) && array_key_exists( $ttl, self::$ttls ) ) {
 			$expiration = self::$ttls[ $ttl ];
+		}
+		if ( is_integer( $ttl ) && 0 < (int) $ttl ) {
+			$expiration = (int) $ttl;
 		}
 		if ( $expiration > 0 ) {
 			if ( wp_using_ext_object_cache() ) {
@@ -315,7 +319,8 @@ class Cache {
 	 * @param  string $item_name Item name. Expected to not be SQL-escaped.
 	 * @param  mixed  $value     Item value. Must be serializable if non-scalar.
 	 *                           Expected to not be SQL-escaped.
-	 * @param  string $ttl       Optional. The previously defined ttl @see self::init().
+	 * @param  int|string $ttl       Optional. The previously defined ttl @see self::init() if it's a string.
+	 *                               The ttl value in seconds if it's and integer.
 	 * @return bool False if value was not set and true if value was set.
 	 * @since  1.0.0
 	 */
@@ -336,7 +341,8 @@ class Cache {
 	 * @param  string $item_name Item name. Expected to not be SQL-escaped.
 	 * @param  mixed  $value     Item value. Must be serializable if non-scalar.
 	 *                           Expected to not be SQL-escaped.
-	 * @param  string $ttl       Optional. The previously defined ttl @see self::init().
+	 * @param  int|string $ttl       Optional. The previously defined ttl @see self::init() if it's a string.
+	 *                               The ttl value in seconds if it's and integer.
 	 * @return bool False if value was not set and true if value was set.
 	 * @since  1.0.0
 	 */
