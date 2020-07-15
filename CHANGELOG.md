@@ -3,6 +3,8 @@ All notable changes to **DecaLog** are documented in this *changelog*.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased - will be 1.12.9]
+
 ##[1.12.8] - 2020-07-15
 ### Fixed
 - PHP deprecated warning emitted while debugging WordPress cache.
