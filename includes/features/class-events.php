@@ -622,85 +622,6 @@ class Events extends \WP_List_Table {
 	}
 
 	/**
-	 * Save the screen option setting.
-	 *
-	 * @param string $status The default value for the filter. Using anything other than false assumes you are handling saving the option.
-	 * @param string $option The option name.
-	 * @param array  $value  Whatever option you're setting.
-	 * @@return  array  The values to store.
-	 */
-	public static function save_screen_option( $status, $option, $value ) {
-		if ( isset( $_POST['wp_screen_options_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['wp_screen_options_nonce'] ) ), 'wp_screen_options_nonce' ) ) {
-			if ( 'decalog_options' === $option ) {
-				// phpcs:ignore
-				return isset( $_POST['decalog'] ) && is_array( $_POST['decalog'] ) ? $_POST['decalog'] : [];
-			}
-		}
-		return $status;
-	}
-
-	/**
-	 * Get the column options checkboxes.
-	 *
-	 * @return string The HTML code to append.
-	 * @since 1.0.0
-	 */
-	public static function get_column_options() {
-		$result = '';
-		foreach ( self::$extra_columns as $key => $extra_column ) {
-			// phpcs:ignore
-			$result .= '<label for="decalog_' . $key . '" ><input name="decalog[' . $key . ']" type="checkbox" id="decalog_' . $key . '" ' . ( in_array( $key, self::$user_columns, true ) ? ' checked="checked"' : '' ) . ' />' . $extra_column . '</label>';
-		}
-		return $result;
-	}
-
-	/**
-	 * Append custom panel HTML to the "Screen Options" box of the current page.
-	 * Callback for the 'screen_settings' filter.
-	 *
-	 * @param string     $current Current content.
-	 * @param \WP_Screen $screen Screen object.
-	 * @return string The HTML code to append to "Screen Options".
-	 * @since 1.0.0
-	 */
-	public static function display_screen_settings( $current, $screen ) {
-		if ( ! is_object( $screen ) || false === strpos( $screen->id, 'page_decalog-viewer' ) ) {
-			return $current;
-		}
-		$current .= '<fieldset>';
-		$current .= '<input type="hidden" name="wp_screen_options_nonce" value="' . wp_create_nonce( 'wp_screen_options_nonce' ) . '" />';
-		$current .= '<legend>' . esc_html__( 'Extra columns', 'decalog' ) . '</legend>';
-		$current .= '<div class="metabox-prefs">';
-		$current .= '<div><input type="hidden" name="wp_screen_options[option]" value="decalog_options"></div>';
-		$current .= '<div><input type="hidden" name="wp_screen_options[value]" value="yes"></div>';
-		$current .= '<div class="decalog_custom_fields">' . self::get_column_options() . '</div>';
-		$current .= '</div>';
-		$current .= get_submit_button( esc_html__( 'Apply', 'decalog' ), 'primary', 'screen-options-apply' );
-		return $current;
-	}
-
-	/**
-	 * Adds the extra-columns options.
-	 *
-	 * @since 1.0.0
-	 */
-	public static function add_column_options() {
-		$screen = get_current_screen();
-		if ( ! is_object( $screen ) || false === strpos( $screen->id, 'page_decalog-viewer' ) ) {
-			return;
-		}
-		foreach ( self::$extra_columns as $key => $extra_column ) {
-			add_screen_option(
-				'decalog_' . $key,
-				[
-					'option' => $extra_column,
-					'value'  => false,
-				]
-			);
-		}
-	}
-
-	/**
 	 * Initialize the meta class and set its columns properties.
 	 *
 	 * @since    1.0.0
@@ -716,13 +637,10 @@ class Events extends \WP_List_Table {
 		self::$extra_columns['user']       = esc_html__( 'User', 'decalog' );
 		self::$extra_columns['ip']         = esc_html__( 'Remote IP', 'decalog' );
 		self::$columns_order               = [ 'event', 'component', 'time', 'site', 'user', 'ip', 'message' ];
-		$user_meta                         = get_user_meta( get_current_user_id(), 'decalog_options' );
 		self::$user_columns                = [];
-		if ( $user_meta ) {
-			foreach ( self::$extra_columns as $key => $extra_column ) {
-				if ( is_array( $user_meta[0] ) && array_key_exists( $key, $user_meta[0] ) ) {
-					self::$user_columns[] = $key;
-				}
+		foreach ( self::$extra_columns as $key => $extra_column ) {
+			if ( 'site' !== $key || ( 'site' === $key && is_multisite() ) ) {
+				self::$user_columns[] = $key;
 			}
 		}
 	}

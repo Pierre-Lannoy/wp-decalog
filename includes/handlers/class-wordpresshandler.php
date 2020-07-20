@@ -78,6 +78,7 @@ class WordpressHandler extends AbstractProcessingHandler {
 	 * @since    1.0.0
 	 */
 	protected function write( array $record ): void {
+		// phpcs:ignore
 		$messages = unserialize( $record['formatted'] );
 		if ( is_array( $messages ) ) {
 			foreach ( $messages as $message ) {

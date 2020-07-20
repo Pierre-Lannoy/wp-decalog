@@ -131,9 +131,6 @@ class Decalog_Admin {
 				add_action( 'load-' . $hook_suffix, [ $this->current_view, 'add_metaboxes_options' ] );
 				add_action( 'admin_footer-' . $hook_suffix, [ $this->current_view, 'add_footer' ] );
 				add_filter( 'screen_settings', [ $this->current_view, 'display_screen_settings' ], 10, 2 );
-			} else {
-				add_action( 'load-' . $hook_suffix, [ 'Decalog\Plugin\Feature\Events', 'add_column_options' ] );
-				add_filter( 'screen_settings', [ 'Decalog\Plugin\Feature\Events', 'display_screen_settings' ], 10, 2 );
 			}
 		}
 	}

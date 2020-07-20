@@ -30,8 +30,6 @@ class Uninstaller {
 	 * @since 1.0.0
 	 */
 	public static function uninstall() {
-		Option::site_delete_all();
-		User::delete_all_meta();
 		$maintainer = new LoggerMaintainer();
 		$maintainer->finalize();
 		$file = WP_PLUGIN_DIR . '/decalog/decalog.php';
@@ -39,6 +37,8 @@ class Uninstaller {
 			// phpcs:ignore
 			@unlink( $file );
 		}
+		Option::site_delete_all();
+		User::delete_all_meta();
 	}
 
 }

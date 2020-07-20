@@ -38,7 +38,6 @@ class Initializer {
 		\Decalog\System\Cache::init();
 		\Decalog\System\Sitehealth::init();
 		\Decalog\System\APCu::init();
-		add_filter( 'set-screen-option', [ 'Decalog\Plugin\Feature\Events', 'save_screen_option' ], 100, 3 );
 	}
 
 	/**

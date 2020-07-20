@@ -3,7 +3,18 @@ All notable changes to **DecaLog** are documented in this *changelog*.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased - will be 1.12.9]
+## [1.13.0] - 2020-07-20
+### Added
+- Compatibility with WordPress 5.5.
+### Changed
+- Optimized early loading.
+- Improved installation/uninstallation and activation/deactivation processes.
+- In WordPress logger, the shown columns are now automatically set.
+### Fixed
+- Uninstalling the plugin may produce a PHP error (thanks to [Emil1](https://wordpress.org/support/users/milouze/)).
+- In some conditions, some tables may not be deleted while uninstalling.
+### Removed
+- The screen options in WordPress logger (as it is now automatically set).
 
 ##[1.12.8] - 2020-07-15
 ### Fixed

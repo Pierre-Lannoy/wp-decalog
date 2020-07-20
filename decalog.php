@@ -10,7 +10,7 @@
  * Plugin Name:       DecaLog
  * Plugin URI:        https://github.com/Pierre-Lannoy/wp-decalog
  * Description:       Capture and log events on your site. View them in your dashboard and send them to logging services.
- * Version:           1.12.8
+ * Version:           1.13.0
  * Requires at least: 5.2
  * Requires PHP:      7.2
  * Author:            Pierre Lannoy
@@ -73,11 +73,11 @@ function decalog_muplugin() {
 	}
 	$target = WPMU_PLUGIN_DIR . '/_decalog_loader.php';
 	$source = __DIR__ . '/assets/_decalog_loader.php';
-	if ( ! file_exists( WPMU_PLUGIN_DIR ) ) {
-		// phpcs:ignore
-		@mkdir( WPMU_PLUGIN_DIR );
-	}
 	if ( ! file_exists( $target ) ) {
+		if ( ! file_exists( WPMU_PLUGIN_DIR ) ) {
+			// phpcs:ignore
+			@mkdir( WPMU_PLUGIN_DIR );
+		}
 		if ( file_exists( $source ) ) {
 			// phpcs:ignore
 			@copy( $source, $target );
