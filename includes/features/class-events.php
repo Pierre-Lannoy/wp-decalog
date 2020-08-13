@@ -674,6 +674,14 @@ class Events extends \WP_List_Table {
 				}
 			}
 		}
+		uasort(
+			self::$logs,
+			function ( $a, $b ) {
+				if ( $a['running'] === $b['running'] ) {
+					return strcasecmp( str_replace( ' ', '', $a['name'] ), str_replace( ' ', '', $b['name'] ) );
+				} return $a['running'] ? -1 : 1;
+			}
+		);
 		self::load_columns();
 	}
 

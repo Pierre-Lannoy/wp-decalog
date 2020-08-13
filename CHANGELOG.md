@@ -5,7 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased - Will be 1.14.0]
 ### Added
-- Now detects environment type changes (feature introduced in WordPress 5.5).
+- Detection of environment type changes (feature introduced in WordPress 5.5).
+### Changed
+- The selector for WordPress events logs is now sorted: running first, paused after (thanks to [Loïc Antignac](https://github.com/webaxones)).
 
 ## [1.13.0] - 2020-07-20
 ### Added
