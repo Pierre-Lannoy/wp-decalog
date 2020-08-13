@@ -60,6 +60,7 @@ class CoreListener extends AbstractListener {
 	 */
 	protected function launch() {
 		add_action( 'wp_loaded', [ $this, 'version_check' ], 10, 0 );
+		add_action( 'wp_loaded', [ $this, 'environment_check' ], 10, 0 );
 		// Attachments.
 		add_action( 'add_attachment', [ $this, 'add_attachment' ], 10, 1 );
 		add_action( 'delete_attachment', [ $this, 'delete_attachment' ], 10, 1 );
@@ -150,6 +151,26 @@ class CoreListener extends AbstractListener {
 			return;
 		}
 		$this->logger->notice( sprintf( 'WordPress version upgraded from %s to %s.', $old_version, $wp_version ) );
+	}
+
+	/**
+	 * Check environment modifications.
+	 *
+	 * @since    1.14.0
+	 */
+	public function environment_check() {
+		if ( function_exists( 'wp_get_environment_type' ) ) {
+			$wp_env  = wp_get_environment_type();
+			$old_env = Option::network_get( 'wp_env', 'x' );
+			if ( 'x' === $old_env ) {
+				Option::network_set( 'wp_env', $wp_env );
+				return;
+			}
+			if ( $wp_env === $old_env ) {
+				return;
+			}
+			$this->logger->warning( sprintf( 'WordPress environment type switched from "%s" to "%s".', $old_env, $wp_env ) );
+		}
 	}
 
 	/**

@@ -3,7 +3,9 @@ All notable changes to **DecaLog** are documented in this *changelog*.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased - Will be 1.13.1]
+## [Unreleased - Will be 1.14.0]
+### Added
+- Now detects environment type changes (feature introduced in WordPress 5.5).
 
 ## [1.13.0] - 2020-07-20
 ### Added
