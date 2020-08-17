@@ -405,6 +405,36 @@ class Cache {
 	}
 
 	/**
+	 * Delete the full pool.
+	 *
+	 * @return integer Number of deleted items.
+	 * @since  1.0.0
+	 */
+	public static function delete_pool() {
+		$result = 0;
+		if ( self::$apcu_available ) {
+			if ( function_exists( 'apcu_cache_info' ) && function_exists( 'apcu_delete' ) ) {
+				try {
+					$infos = apcu_cache_info( false );
+					if ( array_key_exists( 'cache_list', $infos ) && is_array( $infos['cache_list'] ) ) {
+						foreach ( $infos['cache_list'] as $script ) {
+							if ( 0 === strpos( $script['info'], self::$pool_name . '_' ) ) {
+								apcu_delete( $script['info'] );
+								$result++;
+							}
+						}
+					}
+				} catch ( \Throwable $e ) {
+					Logger::error( sprintf( 'Unable to query APCu status: %s.', $e->getMessage() ), $e->getCode() );
+				}
+			}
+		} else {
+			$result = self::delete_global( '/*' );
+		}
+		return $result;
+	}
+
+	/**
 	 * Delete the value of a shared cache item.
 	 *
 	 * This function accepts generic car "*" for transients.
