@@ -51,23 +51,23 @@ if ( ! class_exists( 'PerfOpsOne\AdminMenus' ) ) {
 				if ( ! in_array( 'perfopsone-' . $menu, self::$slugs, true ) ) {
 					switch ( $menu ) {
 						case 'analytics':
-							add_menu_page( esc_html__( 'Dashboard', 'decalog' ), sprintf( esc_html__( '%s Analytics', 'decalog' ), 'PerfOps' ), 'manage_options', 'perfopsone-' . $menu, [ self::class, 'get_analytics_page' ], 'dashicons-chart-bar', 81 );
+							add_menu_page( esc_html__( 'Dashboard', 'decalog' ), sprintf( esc_html__( '%s Analytics', 'decalog' ), 'PerfOps' ), 'manage_options', 'perfopsone-' . $menu, [ self::class, 'get_analytics_page' ], 'dashicons-chart-bar', 6666 );
 							add_submenu_page( 'perfopsone-' . $menu, esc_html__( 'Dashboard', 'decalog' ), __( 'Dashboard', 'decalog' ), 'manage_options', 'perfopsone-' . $menu, [ self::class, 'get_analytics_page' ], 0 );
 							break;
 						case 'tools':
-							add_menu_page( esc_html__( 'Available Tools', 'decalog' ), sprintf( esc_html__( '%s Tools', 'decalog' ), 'PerfOps' ), 'manage_options', 'perfopsone-' . $menu, [ self::class, 'get_tools_page' ], 'dashicons-admin-tools', 81 );
+							add_menu_page( esc_html__( 'Available Tools', 'decalog' ), sprintf( esc_html__( '%s Tools', 'decalog' ), 'PerfOps' ), 'manage_options', 'perfopsone-' . $menu, [ self::class, 'get_tools_page' ], 'dashicons-admin-tools', 6666 );
 							add_submenu_page( 'perfopsone-' . $menu, esc_html__( 'Available Tools', 'decalog' ), __( 'Available Tools', 'decalog' ), 'manage_options', 'perfopsone-' . $menu, [ self::class, 'get_tools_page' ], 0 );
 							break;
 						case 'insights':
-							add_menu_page( esc_html__( 'Available Reports', 'decalog' ), sprintf( esc_html__( '%s Insights', 'decalog' ), 'PerfOps' ), 'manage_options', 'perfopsone-' . $menu, [ self::class, 'get_insights_page' ], 'dashicons-lightbulb', 81 );
+							add_menu_page( esc_html__( 'Available Reports', 'decalog' ), sprintf( esc_html__( '%s Insights', 'decalog' ), 'PerfOps' ), 'manage_options', 'perfopsone-' . $menu, [ self::class, 'get_insights_page' ], 'dashicons-lightbulb', 6666 );
 							add_submenu_page( 'perfopsone-' . $menu, esc_html__( 'Available Reports', 'decalog' ), __( 'Available Reports', 'decalog' ), 'manage_options', 'perfopsone-' . $menu, [ self::class, 'get_insights_page' ], 0 );
 							break;
 						case 'records':
-							add_menu_page( esc_html__( 'Available Catalogues', 'decalog' ), sprintf( esc_html__( '%s Records', 'decalog' ), 'PerfOps' ), 'manage_options', 'perfopsone-' . $menu, [ self::class, 'get_records_page' ], 'dashicons-book', 81 );
+							add_menu_page( esc_html__( 'Available Catalogues', 'decalog' ), sprintf( esc_html__( '%s Records', 'decalog' ), 'PerfOps' ), 'manage_options', 'perfopsone-' . $menu, [ self::class, 'get_records_page' ], 'dashicons-book', 6666 );
 							add_submenu_page( 'perfopsone-' . $menu, esc_html__( 'Available Catalogues', 'decalog' ), __( 'Available Catalogues', 'decalog' ), 'manage_options', 'perfopsone-' . $menu, [ self::class, 'get_records_page' ], 0 );
 							break;
 						case 'settings':
-							add_menu_page( esc_html__( 'Control Center', 'decalog' ), sprintf( esc_html__( '%s Settings', 'decalog' ), 'PerfOps' ), 'manage_options', 'perfopsone-' . $menu, [ self::class, 'get_settings_page' ], 'dashicons-admin-settings', 81 );
+							add_menu_page( esc_html__( 'Control Center', 'decalog' ), sprintf( esc_html__( '%s Settings', 'decalog' ), 'PerfOps' ), 'manage_options', 'perfopsone-' . $menu, [ self::class, 'get_settings_page' ], 'dashicons-admin-settings', 6666 );
 							add_submenu_page( 'perfopsone-' . $menu, esc_html__( 'Control Center', 'decalog' ), __( 'Control Center', 'decalog' ), 'manage_options', 'perfopsone-' . $menu, [ self::class, 'get_settings_page' ], 0 );
 							break;
 					}
