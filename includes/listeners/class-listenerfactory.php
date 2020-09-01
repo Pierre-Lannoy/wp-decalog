@@ -45,7 +45,6 @@ class ListenerFactory {
 		'index.php',
 		'class-abstractlistener.php',
 		'class-listenerfactory.php',
-		'class-wpseolistener.php',
 		'class-secupresslistener.php',
 	];
 
