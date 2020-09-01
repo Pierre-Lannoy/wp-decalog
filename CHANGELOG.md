@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 > Needs Monolog upgrade! 
 
 ### Added
+- New listener for UpdraftPlus Backup/Restore plugin.
 - Detection of environment type changes (feature introduced in WordPress 5.5).
 ### Changed
 - The positions of PerfOps menus are pushed lower to avoid collision with other plugins. (thanks to [Loïc Antignac](https://github.com/webaxones)).

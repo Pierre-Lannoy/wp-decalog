@@ -140,10 +140,10 @@ abstract class AbstractListener {
 		}
 		if ( 0 === $id && ! empty( $user ) ) {
 			if ( $user instanceof WP_User ) {
-				return $user->ID;
+				$id = $user->ID;
 			}
 			if ( is_object( $user ) && isset( $user->ID ) ) {
-				return $user->ID;
+				$id = $user->ID;
 			}
 		}
 		return User::get_user_string( $id, Option::network_get( 'pseudonymization' ) );
