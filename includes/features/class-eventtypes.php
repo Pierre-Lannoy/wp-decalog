@@ -144,6 +144,25 @@ class EventTypes {
 		self::$level_texts['emergency'] = esc_html__( 'A panic condition. WordPress is unusable.', 'decalog' );
 	}
 
+	/**
+	 * Get a standardized level.
+	 *
+	 * @return integer The standardized level.
+	 * @since    1.14.0
+	 */
+	public static function get_standard_level( $level ) {
+		if ( is_string( $level ) ) {
+			if ( array_key_exists( strtolower( $level ), self::$levels ) ) {
+				return self::$levels[ strtolower( $level ) ];
+			} else {
+				return 0;
+			}
+		}
+		if (  is_int( $level ) ) {
+			return 0;
+		}
+	}
+
 }
 
 EventTypes::init();

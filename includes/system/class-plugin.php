@@ -36,10 +36,13 @@ class Plugin {
 	 * @since 1.0.0
 	 */
 	public function __construct( $slug ) {
+		if ( ! function_exists( 'get_plugin_data' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
 		$this->slug = $slug . '/' . $slug . '.php';
 		$plugin     = WP_PLUGIN_DIR . '/' . $this->slug;
 		if ( file_exists( $plugin ) ) {
-			$this->details = get_plugin_data( $plugin, false );
+			$this->details = \get_plugin_data( $plugin, false );
 		}
 	}
 

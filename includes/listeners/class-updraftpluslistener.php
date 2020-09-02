@@ -11,7 +11,7 @@
 
 namespace Decalog\Listener;
 
-use Decalog\Logger;
+use Decalog\Plugin\Feature\EventTypes;
 
 /**
  * WP Super Cache listener for DecaLog.
@@ -78,7 +78,7 @@ class UpdraftplusListener extends AbstractListener {
 			default:
 				$severity = $level;
 		}
-		$this->logger->log( $severity, '[' . strtolower( $destination ) . '] ' . $line );
+		$this->logger->log( EventTypes::get_standard_level( $severity ), '[' . strtolower( $destination ) . '] ' . $line );
 		return $line;
 	}
 }

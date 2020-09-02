@@ -98,6 +98,9 @@ class WsalListener extends AbstractListener {
 		if ( 7 < $severity ) {
 			$severity = 7;
 		}
+		if ( 0 > $severity ) {
+			$severity = 0;
+		}
 		$this->logger->log( EventTypes::$wsal_levels[ $severity ], $message, $code );
 	}
 }
