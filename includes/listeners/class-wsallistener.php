@@ -1,8 +1,8 @@
 <?php
 /**
- * WP Security Audit Log listener for DecaLog.
+ * WP Activity Log listener for DecaLog.
  *
- * Defines class for WP Security Audit Log listener.
+ * Defines class for WP Activity Log listener.
  *
  * @package Listeners
  * @author  Pierre Lannoy <https://pierre.lannoy.fr/>.
@@ -15,9 +15,9 @@ use Decalog\System\Option;
 use Decalog\Plugin\Feature\EventTypes;
 
 /**
- * WP Security Audit Log listener for DecaLog.
+ * WP Activity Log listener for DecaLog.
  *
- * Defines methods and properties for WP Security Audit Log class.
+ * Defines methods and properties for WP Activity Log class.
  *
  * @package Listeners
  * @author  Pierre Lannoy <https://pierre.lannoy.fr/>.
@@ -33,8 +33,8 @@ class WsalListener extends AbstractListener {
 	protected function init() {
 		$this->id      = 'wsal';
 		$this->class   = 'plugin';
-		$this->product = 'WP Security Audit Log';
-		$this->name    = 'WP Security Audit Log';
+		$this->product = 'WP Activity Log';
+		$this->name    = 'WP Activity Log';
 		if ( defined( 'WSAL_VERSION' ) ) {
 			$this->version = WSAL_VERSION;
 		} else {
