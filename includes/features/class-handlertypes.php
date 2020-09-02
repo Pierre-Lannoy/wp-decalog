@@ -718,6 +718,159 @@ class HandlerTypes {
 			],
 		];
 		$this->handlers[] = [
+			'id'            => 'SumoSysHandler',
+			'ancestor'      => 'SocketHandler',
+			'namespace'     => 'Decalog\\Handler',
+			'class'         => 'logging',
+			'minimal'       => Logger::DEBUG,
+			'name'          => 'Sumo Logic cloud-syslog',
+			'help'          => esc_html__( 'An events log sent to a Sumo Logic cloud-syslog source.', 'decalog' ),
+			'icon'          => $this->get_base64_syslog_icon(),
+			'params'        => [ 'processors', 'privacy' ],
+			'configuration' => [
+				'host'     => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Region', 'decalog' ),
+					'help'    => esc_html__( 'The deployment region of the cloud-syslog endpoint.', 'decalog' ),
+					'default' => 'syslog.collection.eu.sumologic.com',
+					'control' => [
+						'type'    => 'field_select',
+						'cast'    => 'string',
+						'enabled' => true,
+						'list'    => [ [ 'syslog.collection.au.sumologic.com', esc_html__( 'Australia', 'decalog' ) ], [ 'syslog.collection.de.sumologic.com', esc_html__( 'Germany', 'decalog' ) ], [ 'syslog.collection.eu.sumologic.com', esc_html__( 'Europe', 'decalog' ) ] ],
+					],
+				],
+				'token'    => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Source token', 'decalog' ),
+					'help'    => esc_html__( 'The token of cloud-syslog source.', 'decalog' ),
+					'default' => '',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
+				'proto'    => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Protocol', 'decalog' ),
+					'help'    => esc_html__( 'The used cloud-syslog protocol.', 'decalog' ),
+					'default' => 'TCP',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => false,
+					],
+				],
+				'port'     => [
+					'type'    => 'integer',
+					'show'    => true,
+					'name'    => esc_html__( 'Port', 'decalog' ),
+					'help'    => esc_html__( 'The opened port on remote host to receive cloud-syslog messages.', 'decalog' ),
+					'default' => 6514,
+					'control' => [
+						'type'    => 'field_input_integer',
+						'cast'    => 'integer',
+						'min'     => 1,
+						'max'     => 64738,
+						'step'    => 1,
+						'enabled' => false,
+					],
+				],
+				'timeout'  => [
+					'type'    => 'integer',
+					'show'    => true,
+					'name'    => esc_html__( 'Socket timeout', 'decalog' ),
+					'help'    => esc_html__( 'Max number of milliseconds to wait for the socket.', 'decalog' ),
+					'default' => 800,
+					'control' => [
+						'type'    => 'field_input_integer',
+						'cast'    => 'integer',
+						'min'     => 100,
+						'max'     => 10000,
+						'step'    => 100,
+						'enabled' => true,
+					],
+				],
+				'facility' => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Facility', 'decalog' ),
+					'help'    => esc_html__( 'The cloud-syslog facility for messages sent by DecaLog.', 'decalog' ),
+					'default' => 'LOG_USER',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => false,
+					],
+				],
+				'ident'    => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Identifier', 'decalog' ),
+					'help'    => esc_html__( 'The program identifier for messages sent by DecaLog.', 'decalog' ),
+					'default' => 'DecaLog',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
+				'format'   => [
+					'type'    => 'integer',
+					'show'    => true,
+					'name'    => esc_html__( 'Time format', 'decalog' ),
+					'help'    => esc_html__( 'The time format standard to use.', 'decalog' ),
+					'default' => 1,
+					'control' => [
+						'type'    => 'field_select',
+						'cast'    => 'integer',
+						'enabled' => false,
+						'list'    => [ [ 0, 'BSD (RFC 3164)' ], [ 1, 'IETF (RFC 5424)' ] ],
+					],
+				],
+			],
+			'init'          => [
+				[
+					'type'  => 'configuration',
+					'value' => 'host',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'port',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'timeout',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'token',
+				],
+				[
+					'type'  => 'literal',
+					'value' => 8,
+				],
+				[ 'type' => 'level' ],
+				[
+					'type'  => 'literal',
+					'value' => true,
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'ident',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'format',
+				],
+
+			],
+		];
+		$this->handlers[] = [
 			'id'            => 'SyslogUdpHandler',
 			'ancestor'      => 'UdpSocket',
 			'namespace'     => 'Monolog\Handler',
@@ -796,7 +949,7 @@ class HandlerTypes {
 					'show'    => true,
 					'name'    => esc_html__( 'Time format', 'decalog' ),
 					'help'    => esc_html__( 'The time format standard to use.', 'decalog' ),
-					'default' => 514,
+					'default' => 0,
 					'control' => [
 						'type'    => 'field_select',
 						'cast'    => 'integer',
