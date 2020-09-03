@@ -4,10 +4,8 @@ All notable changes to **DecaLog** are documented in this *changelog*.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased - Will be 1.14.0]
-
-> Needs Monolog upgrade! 
-
 ### Added
+- New logger to send logs to Sumo Logic cloud-syslog.
 - New listener for UpdraftPlus Backup/Restore plugin.
 - New listener for iThemes Security plugin.
 - Detection of environment type changes (feature introduced in WordPress 5.5).
