@@ -822,8 +822,8 @@ class HandlerTypes {
 				'format'   => [
 					'type'    => 'integer',
 					'show'    => true,
-					'name'    => esc_html__( 'Time format', 'decalog' ),
-					'help'    => esc_html__( 'The time format standard to use.', 'decalog' ),
+					'name'    => esc_html__( 'Message format', 'decalog' ),
+					'help'    => esc_html__( 'The syslog format standard to use.', 'decalog' ),
 					'default' => 1,
 					'control' => [
 						'type'    => 'field_select',
@@ -947,14 +947,14 @@ class HandlerTypes {
 				'format'   => [
 					'type'    => 'integer',
 					'show'    => true,
-					'name'    => esc_html__( 'Time format', 'decalog' ),
-					'help'    => esc_html__( 'The time format standard to use.', 'decalog' ),
+					'name'    => esc_html__( 'Message format', 'decalog' ),
+					'help'    => esc_html__( 'The syslog format standard to use.', 'decalog' ),
 					'default' => 1,
 					'control' => [
 						'type'    => 'field_select',
 						'cast'    => 'integer',
 						'enabled' => true,
-						'list'    => [ [ 0, 'BSD (RFC 3164)' ], [ 1, 'IETF (RFC 5424)' ] ],
+						'list'    => [ [ 0, 'BSD (RFC 3164)' ], [ 1, 'IETF (RFC 5424)' ], [ 2, 'IETF extended (RFC 5424)' ] ],
 					],
 				],
 			],
