@@ -725,7 +725,7 @@ class HandlerTypes {
 			'minimal'       => Logger::DEBUG,
 			'name'          => 'Sumo Logic cloud-syslog',
 			'help'          => esc_html__( 'An events log sent to a Sumo Logic cloud-syslog source.', 'decalog' ),
-			'icon'          => $this->get_base64_syslog_icon(),
+			'icon'          => $this->get_base64_sumosys_icon(),
 			'params'        => [ 'processors', 'privacy' ],
 			'configuration' => [
 				'host'     => [
@@ -738,7 +738,7 @@ class HandlerTypes {
 						'type'    => 'field_select',
 						'cast'    => 'string',
 						'enabled' => true,
-						'list'    => [ [ 'syslog.collection.au.sumologic.com', esc_html__( 'Australia', 'decalog' ) ], [ 'syslog.collection.de.sumologic.com', esc_html__( 'Germany', 'decalog' ) ], [ 'syslog.collection.eu.sumologic.com', esc_html__( 'Europe', 'decalog' ) ] ],
+						'list'    => [ [ 'syslog.collection.au.sumologic.com', esc_html__( 'Australia', 'decalog' ) ], [ 'syslog.collection.ca.sumologic.com', esc_html__( 'Canada', 'decalog' ) ], [ 'syslog.collection.de.sumologic.com', esc_html__( 'Germany', 'decalog' ) ], [ 'syslog.collection.eu.sumologic.com', esc_html__( 'Europe', 'decalog' ) ], [ 'syslog.collection.jp.sumologic.com', esc_html__( 'Japan', 'decalog' ) ], [ 'syslog.collection.us1.sumologic.com', esc_html__( 'United States 1', 'decalog' ) ], [ 'syslog.collection.us2.sumologic.com', esc_html__( 'United States 2', 'decalog' ) ] ],
 					],
 				],
 				'token'    => [
@@ -828,8 +828,8 @@ class HandlerTypes {
 					'control' => [
 						'type'    => 'field_select',
 						'cast'    => 'integer',
-						'enabled' => false,
-						'list'    => [ [ 0, 'BSD (RFC 3164)' ], [ 1, 'IETF (RFC 5424)' ] ],
+						'enabled' => true,
+						'list'    => [ [ 0, 'BSD (RFC 3164)' ], [ 1, 'IETF (RFC 5424)' ], [ 2, 'IETF extended (RFC 5424)' ] ],
 					],
 				],
 			],
@@ -949,7 +949,7 @@ class HandlerTypes {
 					'show'    => true,
 					'name'    => esc_html__( 'Time format', 'decalog' ),
 					'help'    => esc_html__( 'The time format standard to use.', 'decalog' ),
-					'default' => 0,
+					'default' => 1,
 					'control' => [
 						'type'    => 'field_select',
 						'cast'    => 'integer',
@@ -1432,6 +1432,37 @@ class HandlerTypes {
 		$source .= '<path style="fill:' . $color1 . '" d="M-30.5,460.5c-8.7-2.6-18-1.8-26.1,2.3c-19.9,9.7-43.2,9.7-63.2,0c-8.1-4-17.4-4.8-26.1-2.3 c-35.9,11.1-67.8,32.4-91.8,61.2c68.9,82.6,191.7,93.6,274.2,24.8c9-7.5,17.3-15.8,24.8-24.8C37.3,492.9,5.4,471.6-30.5,460.5z"/>';
 		$source .= '<path style="fill:' . $color2 . '" d="M-88.2,202.3c-57.8-0.1-112.5,25.6-149.5,70c24,28.8,55.9,50.1,91.8,61.2c8.7,2.6,18,1.8,26.1-2.3 c19.9-9.7,43.2-9.7,63.2,0c8.1,4,17.4,4.8,26.1,2.3c35.9-11.1,67.8-32.4,91.8-61.2C24.3,227.9-30.4,202.2-88.2,202.3z"/>';
 		$source .= '<path style="fill:' . $color3 . '" d="M-119.5,331.2L-119.5,331.2c-8.1,4-17.4,4.8-26.1,2.3c-36-11-67.9-32.3-92.1-61.1l0,0c-51.2,61.6-59.5,148.3-20.9,218.4c27.6-30.4,62.7-52.8,101.9-65.1h1.2c-15.1-36,0.7-77.4,36-94.2V331.2z"/>';
+		$source .= '</g>';
+		$source .= '</svg>';
+		// phpcs:ignore
+		return 'data:image/svg+xml;base64,' . base64_encode( $source );
+	}
+
+	/**
+	 * Returns a base64 svg resource for the Sematext icon.
+	 *
+	 * @param string $color1 Optional. Color of the icon.
+	 * @param string $color2 Optional. Color of the icon.
+	 * @param string $color3 Optional. Color of the icon.
+	 * @return string The svg resource as a base64.
+	 * @since 1.0.0
+	 */
+	private function get_base64_sumosys_icon( $color1 = '#000099', $color2 = '#FEFEFE' ) {
+		$source  = '<svg width="256px" height="256px" viewBox="0 0 256 256"  version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xml:space="preserve">';
+		$source .= '<g id="v1" transform="translate(26,26) scale(0.068,0.068)">';
+		$source .= '<g id="modern-app-report-hero-banner-mobile" transform="translate(-20.000000, -19.000000)">';
+		$source .= '<g id="Nav">';
+		$source .= '<g id="Group" transform="translate(20.000000, 19.000000)">';
+		$source .= '<polygon id="Fill-1" fill="' . $color1 . '" points="128.948,2871.053 2871.053,2871.053 2871.053,128.948 128.948,128.948"/>';
+		$source .= '<g id="Group-10" transform="translate(4.030534, 4.648885)">';
+		$source .= '<path id="Fill-2" fill="' . $color2 . '" d="M1192.155,817.998l-84.861,103.039c-72.772-56.974-118.837-72.72-185.519-72.72 c-52.213,0-89.433,16.594-100.718,43.685v35.072c7.073,14.949,24.342,24.282,49.841,31.543 c16.961,4.88,47.221,12.141,90.897,21.841c135.197,30.019,204.981,63.019,229.511,129.821c0,22.511,0.12,110.788,0.12,131.466 c-29.591,85.168-121.156,138.793-255.13,138.793c-117.56,0-201.196-30.319-299.415-117.62l90.897-101.821 c44.9,36.355,81.264,60.578,111.583,72.719c30.319,13.357,63.019,19.402,100.599,19.402c51.425,0,90.717-15.31,103.466-43.985 v-42.22c-9.152-19.642-31.482-31.235-57.41-38.676c-16.894-3.597-47.281-10.857-90.897-20.618 c-132.262-28.983-194.125-60.646-216.942-120.856V854.602c29.411-77.352,116.832-133.545,247.261-133.545 C1032.074,721.056,1106.078,746.495,1192.155,817.998"/>';
+		$source .= '<path id="Fill-4" fill="' . $color2 . '" d="M2332.12,741.614v619.523h-144.342v-65.519c-32.693,53.377-93.338,84.92-181.795,84.92 c-146.656,0-219.504-76.384-219.504-196.444V741.614h157.641v398.864c0,64.243,35.139,103.039,103.098,103.039 c78.705,0,127.262-44.841,127.262-128.478V741.614H2332.12z"/>';
+		$source .= '<path id="Fill-6" fill="' . $color2 . '" d="M1565.641,1817.343v432.902h-157.641v-385.561c0-73.943-30.327-118.844-98.219-118.844 c-69.063,0-109.083,51.004-109.083,123.725v380.68h-157.64v-385.561c0-78.824-32.699-118.844-98.158-118.844 c-69.123,0-109.143,51.004-109.143,123.725v380.68H678.178v-619.584h146.723v69.182c36.356-59.42,95.718-89.68,176.975-89.68 c78.764,0,138.186,32.699,172.102,90.777c42.46-60.518,104.322-90.777,185.519-90.777 C1490.421,1610.164,1565.641,1690.083,1565.641,1817.343"/>';
+		$source .= '<path id="Fill-8" fill="' . $color2 . '" d="M1909.108,2032.328c24.643,65.398,77.23,103.953,147.023,103.953 c68.934,0,121.275-38.555,145.926-103.953c0-31.236,0-150.809,0-183.748c-24.521-65.279-76.871-105.18-145.926-105.18 c-69.793,0-122.502,39.9-147.023,105.18C1909.108,1879.566,1909.108,2004.019,1909.108,2032.328z M2354.938,2070.394 c-45.756,122.502-157.273,199.252-298.807,199.252c-142.393,0-254.154-76.75-299.912-199.252v-261.105 c45.758-122.621,157.52-199.125,299.912-199.125c141.533,0,253.051,76.504,298.807,199.125V2070.394z"/>';
+		$source .= '</g>';
+		$source .= '</g>';
+		$source .= '</g>';
+		$source .= '</g>';
 		$source .= '</g>';
 		$source .= '</svg>';
 		// phpcs:ignore
