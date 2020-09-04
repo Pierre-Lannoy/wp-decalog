@@ -3,18 +3,18 @@ All notable changes to **DecaLog** are documented in this *changelog*.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased - Will be 1.14.0]
+## [1.14.0] - 2020-09-04
 ### Added
 - New logger to send logs to Sumo Logic cloud-syslog.
 - New listener for UpdraftPlus Backup/Restore plugin.
 - New listener for iThemes Security plugin.
 - Detection of environment type changes (feature introduced in WordPress 5.5).
-- The Syslog handler can now send extended timestamps (RFC5424)
 ### Changed
+- The Syslog logger can now send extended timestamps (RFC5424) if needed.
 - The positions of PerfOps menus are pushed lower to avoid collision with other plugins. (thanks to [Loïc Antignac](https://github.com/webaxones)).
 - The selector for WordPress events logs is now sorted: running first, paused after (thanks to [Loïc Antignac](https://github.com/webaxones)).
 ### Fixed
-- Some typos in new logger UI.
+- Some typos in "add a logger" screen.
 
 ## [1.13.0] - 2020-07-20
 ### Added
