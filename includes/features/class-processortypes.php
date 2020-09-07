@@ -81,7 +81,7 @@ class ProcessorTypes {
 		$this->processors[] = [
 			'id'        => 'WordpressProcessor',
 			'namespace' => 'Decalog\\Processor',
-			'name'      => esc_html__( 'WordPress ', 'decalog' ),
+			'name'      => esc_html__( 'WordPress', 'decalog' ),
 			'help'      => esc_html__( 'Allows to log site, user and remote IP of the current request.', 'decalog' ),
 			'init'      => [
 				[
