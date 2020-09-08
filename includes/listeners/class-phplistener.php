@@ -158,23 +158,30 @@ class PhpListener extends AbstractListener {
 	 * @since    1.2.0
 	 */
 	public function extensions_check() {
-		$old_extensions = Option::network_get( 'php_extensions', 'x' );
+		if ( 1 === Environment::exec_mode() ) {
+			$prefix = 'command_line_';
+			$name   = 'to command-line configuration';
+		} else {
+			$prefix = 'web_server_';
+			$name   = 'to web server configuration';
+		}
+		$old_extensions = Option::network_get( $prefix . 'php_extensions', 'x' );
 		$new_extensions = get_loaded_extensions();
 		if ( 'x' === $old_extensions ) {
-			Option::network_set( 'php_extensions', $new_extensions );
+			Option::network_set( $prefix . 'php_extensions', $new_extensions );
 			return;
 		}
 		if ( $new_extensions === $old_extensions ) {
 			return;
 		}
-		Option::network_set( 'php_extensions', $new_extensions );
+		Option::network_set( $prefix . 'php_extensions', $new_extensions );
 		$added   = array_diff( $new_extensions, $old_extensions );
 		$removed = array_diff( $old_extensions, $new_extensions );
 		if ( count( $added ) > 0 ) {
-			$this->logger->notice( sprintf( 'Added PHP extension(s): %s.', implode( ', ', $added ) ) );
+			$this->logger->notice( sprintf( 'Added PHP extension(s) %s : %s.', $name, implode( ', ', $added ) ) );
 		}
 		if ( count( $removed ) > 0 ) {
-			$this->logger->warning( sprintf( 'Removed PHP extension(s): %s.', implode( ', ', $removed ) ) );
+			$this->logger->warning( sprintf( 'Removed PHP extension(s) %s : %s.', $name, implode( ', ', $removed ) ) );
 		}
 	}
 
