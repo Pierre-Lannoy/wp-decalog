@@ -93,7 +93,7 @@ class Wpcli {
 	 *
 	 * ## OPTIONS
 	 *
-	 * <list|start|pause|purge|remove>
+	 * <list|start|pause|clean|purge|remove>
 	 * : The action to take.
 	 * ---
 	 * default: list
