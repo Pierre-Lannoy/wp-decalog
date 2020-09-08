@@ -101,12 +101,13 @@ class Wpcli {
 	 *  - list
 	 *  - start
 	 *  - pause
+	 *  - clean
 	 *  - purge
 	 *  - remove
 	 * ---
 	 *
 	 * [<logger_uuid>]
-	 * : The id of the logger to perform an action on.
+	 * : The uuid of the logger to perform an action on.
 	 *
 	 * [--detail=<detail>]
 	 * : The details of the output when listing loggers.
@@ -130,30 +131,47 @@ class Wpcli {
 	 *  - count
 	 * ---
 	 *
+	 * [--yes]
+	 * : Answer yes to the confirmation message, if any.
+	 *
 	 * ## EXAMPLES
 	 *
-	 * wp decalog logger list
-	 * wp decalog logger list --detail=full
-	 * wp decalog logger list --format=json
-	 * wp jetpack module activate stats
-	 * wp jetpack module deactivate stats
-	 * wp jetpack module toggle stats
-	 * wp jetpack module activate all
-	 * wp jetpack module deactivate all
+	 * Lists configured loggers:
+	 * + wp decalog logger list
+	 * + wp decalog logger list --detail=full
+	 * + wp decalog logger list --format=json
+	 *
+	 * Starts a logger:
+	 * + wp decalog logger start 37cf1c00-d67d-4e7d-9518-e579f01407a7
+	 *
+	 * Pauses a logger:
+	 * + wp decalog logger pause 37cf1c00-d67d-4e7d-9518-e579f01407a7
+	 *
+	 * Deletes old records of a logger:
+	 * + wp decalog logger clean 37cf1c00-d67d-4e7d-9518-e579f01407a7
+	 *
+	 * Deletes all records of a logger:
+	 * + wp decalog logger purge 37cf1c00-d67d-4e7d-9518-e579f01407a7
+	 * + wp decalog logger purge 37cf1c00-d67d-4e7d-9518-e579f01407a7 --yes
+	 *
+	 * Permanently deletes a logger:
+	 * + wp decalog logger remove 37cf1c00-d67d-4e7d-9518-e579f01407a7
+	 * + wp decalog logger remove 37cf1c00-d67d-4e7d-9518-e579f01407a7 --yes
+	 *
 	 */
 	public static function logger( $args, $assoc_args ) {
 		$loggers_list = Option::network_get( 'loggers' );
+		$uuid         = '';
+		$ilog         = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
 		$action       = isset( $args[0] ) ? $args[0] : 'list';
 		if ( isset( $args[1] ) ) {
-			$logger_id = $args[1];
-
-
-
-
-
-
-		} elseif ( 'list' !== $action ) {
-			\WP_CLI::line( 'Please specify a valid logger.' );
+			$uuid = $args[1];
+			if ( ! array_key_exists( $uuid, $loggers_list ) ) {
+				$uuid = '';
+			}
+		}
+		if ( 'list' !== $action && '' === $uuid ) {
+			\WP_CLI::warning( 'Invalid logger uuid supplied. Please specify a valid logger uuid:' );
 			$action = 'list';
 		}
 
@@ -188,6 +206,59 @@ class Wpcli {
 					$detail = [ 'uuid', 'type', 'name', 'running' ];
 				}
 				\WP_CLI\Utils\format_items( $assoc_args['format'], $loggers, $detail );
+				break;
+			case 'start':
+				if ( $loggers_list[$uuid]['running'] ) {
+					\WP_CLI::line( sprintf( 'The logger %s is already running.', $uuid ) );
+				} else {
+					$loggers_list[$uuid]['running'] = true;
+					Option::network_set( 'loggers', $loggers_list );
+					$ilog->info( sprintf( 'Logger "%s" has started.', $loggers_list[ $uuid ]['name'] ) );
+					\WP_CLI::success( sprintf( 'The logger %s is now running.', $uuid ) );
+				}
+				break;
+			case 'pause':
+				if ( ! $loggers_list[$uuid]['running'] ) {
+					\WP_CLI::line( sprintf( 'The logger %s is already paused.', $uuid ) );
+				} else {
+					$loggers_list[$uuid]['running'] = false;
+					$ilog->info( sprintf( 'Logger "%s" has been paused.', $loggers_list[ $uuid ]['name'] ) );
+					Option::network_set( 'loggers', $loggers_list );
+					\WP_CLI::success( sprintf( 'The logger %s is now paused.', $uuid ) );
+				}
+				break;
+			case 'purge':
+				$loggers_list[$uuid]['uuid'] = $uuid;
+				if ( 'WordpressHandler' !== $loggers_list[$uuid]['handler'] ) {
+					\WP_CLI::warning( sprintf( 'The logger %s can\'t be purged.', $uuid ) );
+				} else {
+					\WP_CLI::confirm( sprintf( 'Are you sure you want to purge logger %s?', $uuid ), $assoc_args );
+					$factory = new LoggerFactory();
+					$factory->purge( $loggers_list[$uuid] );
+					$ilog->notice( sprintf( 'Logger "%s" has been purged.', $loggers_list[ $uuid ]['name'] ) );
+					\WP_CLI::success( sprintf( 'The logger %s has been purged.', $uuid ) );
+				}
+				break;
+			case 'clean':
+				$loggers_list[$uuid]['uuid'] = $uuid;
+				if ( 'WordpressHandler' !== $loggers_list[$uuid]['handler'] ) {
+					\WP_CLI::warning( sprintf( 'The logger %s can\'t be cleaned.', $uuid ) );
+				} else {
+					$factory = new LoggerFactory();
+					$count   = $factory->clean( $loggers_list[$uuid] );
+					\WP_CLI::log( sprintf( '%d record(s) deleted.', $count ) );
+					\WP_CLI::success( sprintf( 'The logger %s has been cleaned.', $uuid ) );
+				}
+				break;
+			case 'remove':
+				$loggers_list[$uuid]['uuid'] = $uuid;
+				\WP_CLI::confirm( sprintf( 'Are you sure you want to remove logger %s?', $uuid ), $assoc_args );
+				$factory = new LoggerFactory();
+				$factory->destroy( $loggers_list[$uuid] );
+				unset( $loggers_list[$uuid] );
+				$ilog->notice( sprintf( 'Logger "%s" has been removed.', $loggers_list[ $uuid ]['name'] ) );
+				Option::network_set( 'loggers', $loggers_list );
+				\WP_CLI::success( sprintf( 'The logger %s has been removed.', $uuid ) );
 				break;
 		}
 

@@ -175,10 +175,45 @@ class LoggerFactory {
 	}
 
 	/**
-	 * Clean the logger.
+	 * Destroy the logger.
 	 *
 	 * @param   array $logger  The logger definition.
 	 * @since    1.0.0
+	 */
+	public function destroy( $logger ) {
+		if ( array_key_exists( 'uuid', $logger ) ) {
+			$classname = 'Decalog\Plugin\Feature\\' . $logger['handler'];
+			if ( class_exists( $classname ) ) {
+				$instance = $this->create_instance( $classname );
+				$instance->set_logger( $logger );
+				$instance->finalize();
+			}
+		}
+	}
+
+	/**
+	 * Force purge the logger.
+	 *
+	 * @param   array $logger  The logger definition.
+	 * @since    2.0.0
+	 */
+	public function purge( $logger ) {
+		if ( array_key_exists( 'uuid', $logger ) ) {
+			$classname = 'Decalog\Plugin\Feature\\' . $logger['handler'];
+			if ( class_exists( $classname ) ) {
+				$instance = $this->create_instance( $classname );
+				$instance->set_logger( $logger );
+				$instance->force_purge();
+			}
+		}
+	}
+
+	/**
+	 *Clean the logger.
+	 *
+	 * @param   array $logger  The logger definition.
+	 * @return  integer     The number of deleted records.
+	 * @since    2.0.0
 	 */
 	public function clean( $logger ) {
 		if ( array_key_exists( 'uuid', $logger ) ) {
@@ -186,7 +221,7 @@ class LoggerFactory {
 			if ( class_exists( $classname ) ) {
 				$instance = $this->create_instance( $classname );
 				$instance->set_logger( $logger );
-				$instance->finalize();
+				return $instance->cron_clean();
 			}
 		}
 	}

@@ -177,8 +177,24 @@ class WordpressHandler {
 	}
 
 	/**
+	 * Force table purge.
+	 *
+	 * @since    2.0.0
+	 */
+	public function force_purge() {
+		global $wpdb;
+		if ( '' !== $this->table ) {
+			$this->log->debug( sprintf( 'Table "%s" purged.', $this->table ) );
+			$sql = 'TRUNCATE TABLE ' . $this->table;
+			// phpcs:ignore
+			$wpdb->query( $sql );
+		}
+	}
+
+	/**
 	 * Rotate and purge.
 	 *
+	 * @return  integer     The number of deleted records.
 	 * @since    1.0.0
 	 */
 	public function cron_clean() {
@@ -205,6 +221,7 @@ class WordpressHandler {
 			} else {
 				$this->log->info( sprintf( '%1$s old records deleted for logger "%2$s".', $count, $this->logger['name'] ) );
 			}
+			return $count;
 		}
 	}
 

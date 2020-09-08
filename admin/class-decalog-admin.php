@@ -638,7 +638,7 @@ class Decalog_Admin {
 					$uuid    = $this->current_logger['uuid'];
 					$loggers = Option::network_get( 'loggers' );
 					$factory = new LoggerFactory();
-					$factory->clean( $this->current_logger );
+					$factory->destroy( $this->current_logger );
 					unset( $loggers[ $uuid ] );
 					Option::network_set( 'loggers', $loggers );
 					$this->logger = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
