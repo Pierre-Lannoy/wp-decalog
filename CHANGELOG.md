@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased - Will be 2.0.0]
 ### Added
-- New WP-CLI command to manage loggers (list, start, pause, clean, purge and remove).
+- New WP-CLI command to manage loggers (list, start, pause, clean, purge and remove): see `wp help decalog logger` for details.
 ### Changed
 - The PHP listener now takes care of activated/deactivated modules between web server and command-line configurations.
 ### Fixed
