@@ -268,7 +268,7 @@ class Wpcli {
 	 *
 	 * ## OPTIONS
 	 *
-	 * <list|enable|disable|auto-off|auto-on>
+	 * <list|enable|disable|auto-on|auto-off>
 	 * : The action to take.
 	 * ---
 	 * default: list
@@ -276,9 +276,8 @@ class Wpcli {
 	 *  - list
 	 *  - enable
 	 *  - disable
-	 *  - clean
-	 *  - purge
-	 *  - remove
+	 *  - auto-on
+	 *  - auto-off
 	 * ---
 	 *
 	 * [<listener_id>]
@@ -316,33 +315,30 @@ class Wpcli {
 	 * + wp decalog listener list --detail=full
 	 * + wp decalog listener list --format=json
 	 *
-	 * Starts a listener:
-	 * + wp decalog listener start 37cf1c00-d67d-4e7d-9518-e579f01407a7
+	 * Enables a listener:
+	 * + wp decalog listener enable wpdb
 	 *
-	 * Pauses a listener:
-	 * + wp decalog listener pause 37cf1c00-d67d-4e7d-9518-e579f01407a7
+	 * Disables a listener:
+	 * wp decalog listener disable wpdb
 	 *
-	 * Deletes old records of a listener:
-	 * + wp decalog listener clean 37cf1c00-d67d-4e7d-9518-e579f01407a7
+	 * Activates auto-listening:
+	 * + wp decalog listener auto-on
+	 * + wp decalog listener auto-on --yes
 	 *
-	 * Deletes all records of a listener:
-	 * + wp decalog listener purge 37cf1c00-d67d-4e7d-9518-e579f01407a7
-	 * + wp decalog listener purge 37cf1c00-d67d-4e7d-9518-e579f01407a7 --yes
-	 *
-	 * Permanently deletes a listener:
-	 * + wp decalog listener remove 37cf1c00-d67d-4e7d-9518-e579f01407a7
-	 * + wp decalog listener remove 37cf1c00-d67d-4e7d-9518-e579f01407a7 --yes
+	 * Deactivates auto-listening:
+	 * + wp decalog listener auto-off
+	 * + wp decalog listener auto-off --yes
 	 *
 	 */
 	public static function listener( $args, $assoc_args ) {
 		$activated = Option::network_get( 'listeners' );
 		$listeners = [];
 		foreach ( ListenerFactory::$infos as $listener ) {
-			$listener['activated'] = in_array( $listener['id'], $activated, true ) ? 'yes' : 'no';
-			$listener['available'] = $listener['available'] ? 'yes' : 'no';
-			$listeners[]           = $listener;
+			$listener['enabled']        = Option::network_get( 'autolisteners') ? 'auto' : ( in_array( $listener['id'], $activated, true ) ? 'yes' : 'no' );
+			$listener['available']      = $listener['available'] ? 'yes' : 'no';
+			$listeners[$listener['id']] = $listener;
 		}
-		usort(
+		uasort(
 			$listeners,
 			function ( $a, $b ) {
 				return strcmp( strtolower( $a[ 'name' ] ), strtolower( $b[ 'name' ] ) );
@@ -351,26 +347,77 @@ class Wpcli {
 		$uuid   = '';
 		$ilog   = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
 		$action = isset( $args[0] ) ? $args[0] : 'list';
-		/*if ( isset( $args[1] ) ) {
-			$uuid = $args[1];
-			if ( ! array_key_exists( $uuid, $loggers_list ) ) {
+		if ( isset( $args[1] ) ) {
+			$uuid = strtolower( $args[1] );
+			if ( ! array_key_exists( $uuid, $listeners ) ) {
 				$uuid = '';
 			}
 		}
-		if ( 'list' !== $action && '' === $uuid ) {
-			\WP_CLI::warning( 'Invalid logger uuid supplied. Please specify a valid logger uuid:' );
+		if ( 'list' !== $action && 'auto-on' !== $action && 'auto-off' !== $action && '' === $uuid ) {
+			\WP_CLI::warning( 'Invalid listener id supplied. Please specify a valid listener id:' );
 			$action = 'list';
-		}*/
+		}
 
 		switch ( $action ) {
 			case 'list':
 				$detail = isset( $assoc_args['detail'] ) ? $assoc_args['detail'] : 'short';
 				if ( 'full' === $detail ) {
-					$detail = [ 'id', 'class', 'name', 'product', 'version', 'available', 'activated' ];
+					$detail = [ 'id', 'class', 'name', 'product', 'version', 'available', 'enabled' ];
 				} else {
-					$detail = [ 'id', 'name', 'available', 'activated' ];
+					$detail = [ 'id', 'name', 'available', 'enabled' ];
 				}
 				\WP_CLI\Utils\format_items( $assoc_args['format'], $listeners, $detail );
+				break;
+			case 'enable':
+				if ( in_array( $uuid, $activated, true ) ) {
+					\WP_CLI::line( sprintf( 'The listener %s is already enabled.', $uuid ) );
+				} else {
+					$activated[] = $uuid;
+					Option::network_set( 'listeners', $activated );
+					$ilog->info( 'Listeners settings updated.' );
+					\WP_CLI::success( sprintf( 'The listener %s is now enabled.', $uuid ) );
+					if ( Option::network_get( 'autolisteners' ) ) {
+						\WP_CLI::warning( 'Auto-listening is activated so, enabling/disabling listeners have no effect.' );
+					}
+				}
+				break;
+			case 'disable':
+				if ( ! in_array( $uuid, $activated, true ) ) {
+					\WP_CLI::line( sprintf( 'The listener %s is already disabled.', $uuid ) );
+				} else {
+					$list = [];
+					foreach ( $activated as $listener ) {
+						if ( $listener !== $uuid ) {
+							$list[] = $listener;
+						}
+					}
+					Option::network_set( 'listeners', $list );
+					$ilog->info( 'Listeners settings updated.' );
+					\WP_CLI::success( sprintf( 'The listener %s is now disabled.', $uuid ) );
+					if ( Option::network_get( 'autolisteners' ) ) {
+						\WP_CLI::warning( 'Auto-listening is activated so, enabling/disabling listeners have no effect.' );
+					}
+				}
+				break;
+			case 'auto-on':
+				if ( Option::network_get( 'autolisteners' ) ) {
+					\WP_CLI::warning( 'Auto-listening is already activated.' );
+				} else {
+					\WP_CLI::confirm( 'Are you sure you want to activate auto-listening?', $assoc_args );
+					Option::network_set( 'autolisteners', true );
+					$ilog->info( 'Listeners settings updated.' );
+					\WP_CLI::success( 'Auto-listening is now activated.' );
+				}
+				break;
+			case 'auto-off':
+				if ( ! Option::network_get( 'autolisteners' ) ) {
+					\WP_CLI::warning( 'Auto-listening is already deactivated.' );
+				} else {
+					\WP_CLI::confirm( 'Are you sure you want to deactivate auto-listening?', $assoc_args );
+					Option::network_set( 'autolisteners', false );
+					$ilog->info( 'Listeners settings updated.' );
+					\WP_CLI::success( 'Auto-listening is now deactivated.' );
+				}
 				break;
 		}
 
