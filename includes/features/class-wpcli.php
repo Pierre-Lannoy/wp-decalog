@@ -174,7 +174,6 @@ class Wpcli {
 			\WP_CLI::warning( 'Invalid logger uuid supplied. Please specify a valid logger uuid:' );
 			$action = 'list';
 		}
-
 		switch ( $action ) {
 			case 'list':
 				$detail          = isset( $assoc_args['detail'] ) ? $assoc_args['detail'] : 'short';
@@ -263,9 +262,123 @@ class Wpcli {
 		}
 
 	}
+
+	/**
+	 * Manage Decalog listener.
+	 *
+	 * ## OPTIONS
+	 *
+	 * <list|enable|disable|auto-off|auto-on>
+	 * : The action to take.
+	 * ---
+	 * default: list
+	 * options:
+	 *  - list
+	 *  - enable
+	 *  - disable
+	 *  - clean
+	 *  - purge
+	 *  - remove
+	 * ---
+	 *
+	 * [<listener_id>]
+	 * : The id of the listener to perform an action on.
+	 *
+	 * [--detail=<detail>]
+	 * : The details of the output when listing listeners.
+	 * ---
+	 * default: short
+	 * options:
+	 *  - short
+	 *  - full
+	 * ---
+	 *
+	 * [--format=<format>]
+	 * : Allows overriding the output of the command when listing listeners.
+	 * ---
+	 * default: table
+	 * options:
+	 *  - table
+	 *  - json
+	 *  - csv
+	 *  - yaml
+	 *  - ids
+	 *  - count
+	 * ---
+	 *
+	 * [--yes]
+	 * : Answer yes to the confirmation message, if any.
+	 *
+	 * ## EXAMPLES
+	 *
+	 * Lists configured listeners:
+	 * + wp decalog listener list
+	 * + wp decalog listener list --detail=full
+	 * + wp decalog listener list --format=json
+	 *
+	 * Starts a listener:
+	 * + wp decalog listener start 37cf1c00-d67d-4e7d-9518-e579f01407a7
+	 *
+	 * Pauses a listener:
+	 * + wp decalog listener pause 37cf1c00-d67d-4e7d-9518-e579f01407a7
+	 *
+	 * Deletes old records of a listener:
+	 * + wp decalog listener clean 37cf1c00-d67d-4e7d-9518-e579f01407a7
+	 *
+	 * Deletes all records of a listener:
+	 * + wp decalog listener purge 37cf1c00-d67d-4e7d-9518-e579f01407a7
+	 * + wp decalog listener purge 37cf1c00-d67d-4e7d-9518-e579f01407a7 --yes
+	 *
+	 * Permanently deletes a listener:
+	 * + wp decalog listener remove 37cf1c00-d67d-4e7d-9518-e579f01407a7
+	 * + wp decalog listener remove 37cf1c00-d67d-4e7d-9518-e579f01407a7 --yes
+	 *
+	 */
+	public static function listener( $args, $assoc_args ) {
+		$activated = Option::network_get( 'listeners' );
+		$listeners = [];
+		foreach ( ListenerFactory::$infos as $listener ) {
+			$listener['activated'] = in_array( $listener['id'], $activated, true ) ? 'yes' : 'no';
+			$listener['available'] = $listener['available'] ? 'yes' : 'no';
+			$listeners[]           = $listener;
+		}
+		usort(
+			$listeners,
+			function ( $a, $b ) {
+				return strcmp( strtolower( $a[ 'name' ] ), strtolower( $b[ 'name' ] ) );
+			}
+		);
+		$uuid   = '';
+		$ilog   = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
+		$action = isset( $args[0] ) ? $args[0] : 'list';
+		/*if ( isset( $args[1] ) ) {
+			$uuid = $args[1];
+			if ( ! array_key_exists( $uuid, $loggers_list ) ) {
+				$uuid = '';
+			}
+		}
+		if ( 'list' !== $action && '' === $uuid ) {
+			\WP_CLI::warning( 'Invalid logger uuid supplied. Please specify a valid logger uuid:' );
+			$action = 'list';
+		}*/
+
+		switch ( $action ) {
+			case 'list':
+				$detail = isset( $assoc_args['detail'] ) ? $assoc_args['detail'] : 'short';
+				if ( 'full' === $detail ) {
+					$detail = [ 'id', 'class', 'name', 'product', 'version', 'available', 'activated' ];
+				} else {
+					$detail = [ 'id', 'name', 'available', 'activated' ];
+				}
+				\WP_CLI\Utils\format_items( $assoc_args['format'], $listeners, $detail );
+				break;
+		}
+
+	}
 }
 
 if ( defined( 'WP_CLI' ) && WP_CLI ) {
 	\WP_CLI::add_command( 'decalog status', [ Wpcli::class, 'status' ] );
 	\WP_CLI::add_command( 'decalog logger', [ Wpcli::class, 'logger' ] );
+	\WP_CLI::add_command( 'decalog listener', [ Wpcli::class, 'listener' ] );
 }
