@@ -422,10 +422,25 @@ class Wpcli {
 		}
 
 	}
+
+
+	public static function test( $args, $assoc_args ) {
+		$test = time();
+		while ( true ) {
+			if ( $test !== time() ) {
+				$date = new \DateTime();
+				$test = time();
+				\WP_CLI::line( $date->format( 'Ymd-H:i:s.u' ) );
+			}
+			usleep(100000);
+		}
+		//\WP_CLI::line( ini_get( 'max_execution_time' ) );
+	}
 }
 
 if ( defined( 'WP_CLI' ) && WP_CLI ) {
 	\WP_CLI::add_command( 'decalog status', [ Wpcli::class, 'status' ] );
 	\WP_CLI::add_command( 'decalog logger', [ Wpcli::class, 'logger' ] );
 	\WP_CLI::add_command( 'decalog listener', [ Wpcli::class, 'listener' ] );
+	\WP_CLI::add_command( 'decalog test', [ Wpcli::class, 'test' ] );
 }

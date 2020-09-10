@@ -42,7 +42,7 @@ class HandlerTypes {
 			'id'            => 'NullHandler',
 			'ancestor'      => 'NullHandler',
 			'namespace'     => 'Monolog\Handler',
-			'class'         => 'null',
+			'class'         => 'system',
 			'minimal'       => Logger::DEBUG,
 			'name'          => esc_html__( 'Blackhole', 'decalog' ),
 			'help'          => esc_html__( 'Any record it can handle will be thrown away.', 'decalog' ),
