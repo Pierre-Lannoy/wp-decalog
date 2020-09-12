@@ -39,6 +39,7 @@ class HandlerTypes {
 	 */
 	public function __construct() {
 		$this->handlers[] = [
+			'version'       => DECALOG_VERSION,
 			'id'            => 'NullHandler',
 			'ancestor'      => 'NullHandler',
 			'namespace'     => 'Monolog\Handler',
@@ -52,6 +53,7 @@ class HandlerTypes {
 			'init'          => [],
 		];
 		$this->handlers[] = [
+			'version'       => DECALOG_MONOLOG_VERSION,
 			'id'            => 'BrowserConsoleHandler',
 			'ancestor'      => 'BrowserConsoleHandler',
 			'namespace'     => 'Monolog\\Handler',
@@ -71,6 +73,7 @@ class HandlerTypes {
 			],
 		];
 		$this->handlers[] = [
+			'version'       => DECALOG_MONOLOG_VERSION,
 			'id'            => 'ChromePHPHandler',
 			'ancestor'      => 'ChromePHPHandler',
 			'namespace'     => 'Monolog\\Handler',
@@ -90,6 +93,7 @@ class HandlerTypes {
 			],
 		];
 		$this->handlers[] = [
+			'version'       => DECALOG_VERSION,
 			'id'            => 'ElasticCloudHandler',
 			'ancestor'      => 'ElasticsearchHandler',
 			'namespace'     => 'Decalog\\Handler',
@@ -174,6 +178,7 @@ class HandlerTypes {
 			],
 		];
 		$this->handlers[] = [
+			'version'       => DECALOG_VERSION,
 			'id'            => 'FluentHandler',
 			'ancestor'      => 'SocketHandler',
 			'namespace'     => 'Decalog\\Handler',
@@ -229,6 +234,7 @@ class HandlerTypes {
 			],
 		];
 		$this->handlers[] = [
+			'version'       => DECALOG_VERSION,
 			'id'            => 'LogentriesHandler',
 			'ancestor'      => 'SocketHandler',
 			'namespace'     => 'Decalog\\Handler',
@@ -297,6 +303,7 @@ class HandlerTypes {
 			],
 		];
 		$this->handlers[] = [
+			'version'       => DECALOG_MONOLOG_VERSION,
 			'id'            => 'LogglyHandler',
 			'ancestor'      => 'LogglyHandler',
 			'namespace'     => 'Monolog\\Handler',
@@ -329,6 +336,7 @@ class HandlerTypes {
 			],
 		];
 		$this->handlers[] = [
+			'version'       => DECALOG_VERSION,
 			'id'            => 'MailHandler',
 			'ancestor'      => 'MailHandler',
 			'namespace'     => 'Decalog\\Handler',
@@ -365,6 +373,7 @@ class HandlerTypes {
 			],
 		];
 		$this->handlers[] = [
+			'version'       => DECALOG_MONOLOG_VERSION,
 			'id'            => 'ErrorLogHandler',
 			'ancestor'      => 'ErrorLogHandler',
 			'namespace'     => 'Monolog\\Handler',
@@ -388,6 +397,7 @@ class HandlerTypes {
 			],
 		];
 		$this->handlers[] = [
+			'version'       => DECALOG_VERSION,
 			'id'            => 'PshHandler',
 			'ancestor'      => 'SocketHandler',
 			'namespace'     => 'Decalog\\Handler',
@@ -471,6 +481,7 @@ class HandlerTypes {
 			],
 		];
 		$this->handlers[] = [
+			'version'       => DECALOG_MONOLOG_VERSION,
 			'id'            => 'RotatingFileHandler',
 			'ancestor'      => 'StreamHandler',
 			'namespace'     => 'Monolog\Handler',
@@ -526,6 +537,7 @@ class HandlerTypes {
 			],
 		];
 		$this->handlers[] = [
+			'version'       => DECALOG_VERSION,
 			'id'            => 'SematextHandler',
 			'ancestor'      => 'ElasticsearchHandler',
 			'namespace'     => 'Decalog\\Handler',
@@ -579,6 +591,7 @@ class HandlerTypes {
 			],
 		];
 		$this->handlers[] = [
+			'version'       => DECALOG_MONOLOG_VERSION,
 			'id'            => 'SlackWebhookHandler',
 			'ancestor'      => 'SlackWebhookHandler',
 			'namespace'     => 'Monolog\Handler',
@@ -663,6 +676,7 @@ class HandlerTypes {
 			],
 		];
 		$this->handlers[] = [
+			'version'       => DECALOG_VERSION,
 			'id'            => 'StackdriverHandler',
 			'ancestor'      => 'SocketHandler',
 			'namespace'     => 'Decalog\\Handler',
@@ -718,6 +732,7 @@ class HandlerTypes {
 			],
 		];
 		$this->handlers[] = [
+			'version'       => DECALOG_VERSION,
 			'id'            => 'SumoSysHandler',
 			'ancestor'      => 'SocketHandler',
 			'namespace'     => 'Decalog\\Handler',
@@ -871,6 +886,7 @@ class HandlerTypes {
 			],
 		];
 		$this->handlers[] = [
+			'version'       => DECALOG_MONOLOG_VERSION,
 			'id'            => 'SyslogUdpHandler',
 			'ancestor'      => 'UdpSocket',
 			'namespace'     => 'Monolog\Handler',
@@ -988,6 +1004,7 @@ class HandlerTypes {
 			],
 		];
 		$this->handlers[] = [
+			'version'       => DECALOG_VERSION,
 			'id'            => 'WordpressHandler',
 			'ancestor'      => 'WordpressHandler',
 			'namespace'     => 'Decalog\Handler',
