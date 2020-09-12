@@ -73,7 +73,7 @@ class Log {
 		$result = [];
 		foreach ( EventTypes::$level_names as $key => $name ) {
 			if ( $key >= $minimal ) {
-				$result[] = [ $key, $name ];
+				$result[] = [ $key, $name, EventTypes::$level_texts[ strtolower( $name ) ] ];
 			}
 		}
 		return array_reverse( $result );

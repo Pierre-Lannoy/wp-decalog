@@ -5,11 +5,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased - Will be 2.0.0]
 ### Added
-- New WP-CLI command to manage loggers (list, start, pause, clean, purge and remove): see `wp help decalog logger` for details.
+- New WP-CLI command to manage loggers (list, start, pause, clean, purge, remove, add and set): see `wp help decalog logger` for details.
+- New WP-CLI command to view available logger types (list and describe): see `wp help decalog type` for details.
 - New WP-CLI command to manage listeners (list, enable, disable and auto-listening on/off): see `wp help decalog listener` for details.
 ### Changed
 - The PHP listener now takes care of activated/deactivated modules between web server and command-line configurations.
+- The consistency checker has been improved. 
 ### Fixed
+- For some logger types the minimal level may be wrongly set to "debug" at creation.
 - Some typos in processors' names.
 
 ## [1.14.0] - 2020-09-04

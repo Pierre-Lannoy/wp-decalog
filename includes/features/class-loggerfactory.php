@@ -152,8 +152,8 @@ class LoggerFactory {
 	 * @since    1.0.0
 	 */
 	public function check( $logger, $init_handler = false ) {
-		$logger  = $this->standard_check( $logger );
 		$handler = $this->handler_types->get( $logger['handler'] );
+		$logger  = $this->standard_check( $logger, $handler );
 		if ( $handler && in_array( 'privacy', $handler['params'], true ) ) {
 			$logger = $this->privacy_check( $logger );
 		}
@@ -229,11 +229,12 @@ class LoggerFactory {
 	/**
 	 * Check the standard part of the logger.
 	 *
-	 * @param   array $logger  The logger definition.
+	 * @param   array $logger   The logger definition.
+	 * @param   array $handler  The handler definition.
 	 * @return  array   The checked logger definition.
 	 * @since    1.0.0
 	 */
-	private function standard_check( $logger ) {
+	private function standard_check( $logger, $handler ) {
 		if ( ! array_key_exists( 'name', $logger ) ) {
 			$logger['name'] = esc_html__( 'Unnamed logger', 'decalog' );
 		}
@@ -246,9 +247,11 @@ class LoggerFactory {
 			$logger['handler'] = 'NullHandler';
 		}
 		if ( ! array_key_exists( 'level', $logger ) ) {
-			$logger['level'] = Logger::DEBUG;
+			$logger['level'] = $handler['minimal'];
 		} elseif ( ! in_array( $logger['level'], EventTypes::$level_values, false ) ) {
-			$logger['level'] = Logger::DEBUG;
+			$logger['level'] = $handler['minimal'];
+		} elseif ( $logger['level'] < $handler['minimal'] ) {
+			$logger['level'] = $handler['minimal'];
 		}
 		return $logger;
 	}
@@ -315,6 +318,33 @@ class LoggerFactory {
 		foreach ( $configuration as $key => $conf ) {
 			if ( ! array_key_exists( $key, $logger['configuration'] ) ) {
 				$logger['configuration'][ $key ] = $conf['default'];
+			} else {
+				if ( 'integer' === $conf['control']['cast'] && 'field_input_integer' === $conf['control']['type'] ) {
+					if ( (integer) $logger['configuration'][ $key ] < $conf['control']['min'] || (integer) $logger['configuration'][ $key ] > $conf['control']['max'] ) {
+						$logger['configuration'][ $key ] = $conf['default'];
+					}
+				}
+				if ( 'field_select' === $conf['control']['type'] ) {
+					$found = false;
+					if ( 'integer' === $conf['control']['cast'] ) {
+						foreach ( $conf['control']['list'] as $choice ) {
+							if ( (integer) $logger['configuration'][ $key ] == (integer) $choice[0] ) {
+								$found = true;
+								break;
+							}
+						}
+					} else {
+						foreach ( $conf['control']['list'] as $choice ) {
+							if ( (string) $logger['configuration'][ $key ] == (string) $choice[0] ) {
+								$found = true;
+								break;
+							}
+						}
+					}
+					if ( ! $found ) {
+						$logger['configuration'][ $key ] = $conf['default'];
+					}
+				}
 			}
 		}
 		return $logger;

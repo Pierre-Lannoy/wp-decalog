@@ -1,9 +1,8 @@
 <?php
 /**
- * Watchdog for DecaLog.
+ * WP-CLI for DecaLog.
  *
- * This listener is used in case of 'PhpListener' deactivation to
- * allow class banning.
+ * Adds WP-CLI commands to DecaLog
  *
  * @package Features
  * @author  Pierre Lannoy <https://pierre.lannoy.fr/>.
@@ -17,11 +16,12 @@ use Decalog\Plugin\Feature\Log;
 use Decalog\System\Environment;
 use Decalog\System\Option;
 use Decalog\System\GeoIP;
+use Decalog\System\UUID;
 
 /**
- * Watchdog for DecaLog.
+ * WP-CLI for DecaLog.
  *
- * Defines methods and properties for watchdog class.
+ * Defines methods and properties for WP-CLI commands.
  *
  * @package Features
  * @author  Pierre Lannoy <https://pierre.lannoy.fr/>.
@@ -30,11 +30,158 @@ use Decalog\System\GeoIP;
 class Wpcli {
 
 	/**
+	 * Get params from command line.
+	 *
+	 * @param   array   $args   The command line parameters.
+	 * @return  array The true parameters.
+	 * @since   2.0.0
+	 */
+	private static function get_params ( $args ) {
+		$result = '';
+		if ( array_key_exists( 'settings', $args ) ) {
+			$result = \json_decode( $args['settings'], true );
+		}
+		if ( ! $result || ! is_array( $result ) ) {
+			$result = [];
+		}
+		return $result;
+	}
+
+	/**
+	 * Update processors.
+	 *
+	 * @param   array   $processors     The current processors.
+	 * @param   string  $proc           The processor to set.
+	 * @param   boolean $value          The value to set.
+	 * @return  array The updated processors.
+	 * @since   2.0.0
+	 */
+	private static function updated_proc ( $processors, $proc, $value ) {
+		$key = '';
+		switch ( $proc ) {
+			case 'proc_wp':
+				$key = 'WordpressProcessor';
+				break;
+			case 'proc_http':
+				$key = 'WWWProcessor';
+				break;
+			case 'proc_php':
+				$key = 'IntrospectionProcessor';
+				break;
+			case 'proc_trace':
+				$key = 'BacktraceProcessor';
+				break;
+		}
+		if ( '' !== $key ) {
+			if ( $value && ! in_array( $key, $processors, true ) ) {
+				$processors[] = $key;
+			}
+			if ( ! $value && in_array( $key, $processors, true ) ) {
+				$processors = array_diff( $processors, [$key] );
+			}
+		}
+		return $processors;
+	}
+
+	/**
+	 * Modify a logger.
+	 *
+	 * @param   string  $uuid   The logger uuid.
+	 * @param   array   $args   The command line parameters.
+	 * @param   boolean $start  Optional. Force running mode.
+	 * @return  string The logger uuid.
+	 * @since   2.0.0
+	 */
+	private static function logger_modify ( $uuid, $args, $start = false ) {
+		$params        = self::get_params( $args );
+		$loggers       = Option::network_get( 'loggers' );
+		$logger        = $loggers[$uuid];
+		$handler_types = new HandlerTypes();
+		$handler       = $handler_types->get( $logger['handler'] );
+		unset ( $loggers[$uuid] );
+		foreach ( $params as $param => $value ) {
+			switch ( $param ) {
+				case 'obfuscation':
+				case 'pseudonymization':
+					$logger['privacy'][$param] = (bool) $value;
+					break;
+				case 'proc_wp':
+				case 'proc_http':
+				case 'proc_php':
+				case 'proc_trace':
+					$logger['processors'] = self::updated_proc( $logger['processors'], $param, (bool) $value );
+					break;
+				case 'level':
+					if ( array_key_exists( strtolower( $value ), EventTypes::$levels ) ) {
+						$logger['level'] = EventTypes::$levels[ strtolower( $value ) ];
+					} else {
+						$logger['level'] = $handler['minimal'];
+					}
+					break;
+				case 'name':
+					$logger['name'] = esc_html( (string) $value) ;
+					break;
+				default:
+					if ( array_key_exists( $param, $handler['configuration'] ) ) {
+						switch ( $handler['configuration'][$param]['control']['cast'] ) {
+							case 'boolean':
+								$logger['configuration'][$param] = (bool) $value;
+								break;
+							case 'integer':
+								$logger['configuration'][$param] = (integer) $value;
+								break;
+							case 'string':
+								$logger['configuration'][$param] = (string) $value;
+								break;
+						}
+					}
+					break;
+			}
+		}
+		if ( $start ) {
+			$logger['running'] = true;
+		}
+		$loggers[$uuid] = $logger;
+		Option::network_set( 'loggers', $loggers );
+		return $uuid;
+	}
+
+	/**
+	 * Add a logger.
+	 *
+	 * @param   string  $uuid   The logger uuid.
+	 * @param   array   $args   The command line parameters.
+	 * @return  string The logger uuid.
+	 * @since   2.0.0
+	 */
+	private static function logger_add ( $handler, $args ) {
+		$uuid             = UUID::generate_v4();
+		$logger           = [
+			'uuid'    => $uuid,
+			'name'    => esc_html__( 'New logger', 'decalog' ),
+			'handler' => $handler,
+			'running' => false,
+		];
+		$loggers          = Option::network_get( 'loggers' );
+		$factory          = new LoggerFactory();
+		$loggers[ $uuid ] = $factory->check( $logger, true );
+		Option::network_set( 'loggers', $loggers );
+		if ( self::logger_modify( $uuid, $args, Option::network_get( 'logger_autostart' ) ) === $uuid ) {
+			return $uuid;
+		}
+		return '';
+	}
+
+	/**
 	 * Get DecaLog details and operation modes
 	 *
 	 * ## EXAMPLES
 	 *
 	 * wp decalog status
+	 *
+	 *
+	 *   === For other examples and recipes, visit https://github.com/Pierre-Lannoy/wp-decalog/blob/master/WP-CLI.md ===
+	 *
 	 */
 	public static function status( $args, $assoc_args ) {
 		$run  = 0;
@@ -89,14 +236,202 @@ class Wpcli {
 	}
 
 	/**
+	 * Get informations on logger types.
+	 *
+	 * ## OPTIONS
+	 *
+	 * <list|describe>
+	 * : The action to take.
+	 * ---
+	 * options:
+	 *  - list
+	 *  - describe
+	 * ---
+	 *
+	 * [<logger_type>]
+	 * : The type of the logger to describe.
+	 *
+	 * [--format=<format>]
+	 * : Allows overriding the output of the command when listing loggers.
+	 * ---
+	 * default: table
+	 * options:
+	 *  - table
+	 *  - json
+	 *  - csv
+	 *  - yaml
+	 *  - ids
+	 *  - count
+	 * ---
+	 *
+	 * ## EXAMPLES
+	 *
+	 * Lists available types:
+	 * + wp decalog type list
+	 * + wp decalog type list --format=json
+	 *
+	 * Starts a logger:
+	 * + wp decalog type describe WordpressHandler
+	 *
+	 *
+	 *   === For other examples and recipes, visit https://github.com/Pierre-Lannoy/wp-decalog/blob/master/WP-CLI.md ===
+	 *
+	 */
+	public static function handler( $args, $assoc_args ) {
+		$handler_types = new HandlerTypes();
+		$handlers      = [];
+		foreach ( $handler_types->get_all() as $key => $handler ) {
+			if ( 'system' !== $handler['class'] ) {
+				$handler['type']                        = $handler['id'];
+				$handlers[strtolower( $handler['id'] )] = $handler;
+			}
+		}
+		uasort(
+			$handlers,
+			function ( $a, $b ) {
+				return strcmp( strtolower( $a[ 'name' ] ), strtolower( $b[ 'name' ] ) );
+			}
+		);
+		$uuid   = '';
+		$action = isset( $args[0] ) ? $args[0] : 'list';
+		if ( isset( $args[1] ) ) {
+			$uuid = strtolower( $args[1] );
+			if ( ! array_key_exists( $uuid, $handlers ) ) {
+				$uuid = '';
+			}
+		}
+		if ( 'list' !== $action && '' === $uuid ) {
+			\WP_CLI::warning( 'Invalid logger type supplied. Please specify a valid logger type:' );
+			$action = 'list';
+		}
+		switch ( $action ) {
+			case 'list':
+				\WP_CLI\Utils\format_items( $assoc_args['format'], $handlers, [ 'type', 'class', 'name', 'version' ] );
+				break;
+			case 'describe':
+				$example = [];
+				$handler = $handlers[$uuid];
+				\WP_CLI::line( '' );
+				\WP_CLI::line( \WP_CLI::colorize( '%8' . $handler['name'] . ' - ' . $handler['id'] . '%n' ) );
+				\WP_CLI::line( $handler['help'] );
+				\WP_CLI::line( '' );
+				\WP_CLI::line( \WP_CLI::colorize( '%UMinimal Level%n' ) );
+				\WP_CLI::line( '' );
+				\WP_CLI::line( '  ' .  strtolower( Log::level_name( $handler['minimal'] ) ) );
+				\WP_CLI::line( '' );
+				\WP_CLI::line( \WP_CLI::colorize( '%UParameters%n' ) );
+				\WP_CLI::line( '' );
+				$param = '  * ';
+				$elem  = '    - ';
+				$list  = '       ';
+				\WP_CLI::line( $param . 'Name - Used only in admin dashboard.' );
+				\WP_CLI::line( $elem . 'field name: name' );
+				\WP_CLI::line( $elem . 'field type: string' );
+				\WP_CLI::line( $elem . 'default value: "New Logger"' );
+				\WP_CLI::line( '' );
+				\WP_CLI::line( $param . 'Minimal level - Minimal reported level.' );
+				\WP_CLI::line( $elem . 'field name: level' );
+				\WP_CLI::line( $elem . 'field type: string' );
+				\WP_CLI::line( $elem . 'default value: "' . strtolower( Log::level_name( $handler['minimal'] ) ) . '"' );
+				\WP_CLI::line( $elem . 'available values:' );
+				foreach ( Log::get_levels( EventTypes::$levels[ strtolower( Log::level_name( $handler['minimal'] ) ) ] ) as $level ) {
+					\WP_CLI::line( $list . '"' . strtolower( $level[1] ) . '": ' . $level[2]);
+				}
+				\WP_CLI::line( '' );
+				foreach ( $handler['configuration'] as $key => $conf ) {
+					if ( ! $conf['show'] || ! $conf['control']['enabled'] ) {
+						continue;
+					}
+					\WP_CLI::line( $param . $conf['name'] . ' - ' . $conf['help'] );
+					\WP_CLI::line( $elem . 'field name: ' . $key );
+					\WP_CLI::line( $elem . 'field type: ' . $conf['type'] );
+					switch ( $conf['control']['type'] ) {
+						case 'field_input_integer':
+							\WP_CLI::line( $elem . 'default value: ' . $conf['default'] );
+							\WP_CLI::line( $elem . 'range: [' . $conf['control']['min'] . '-' . $conf['control']['max'] . ']' );
+							$example[] = '"' . $key . '": ' . $conf['default'];
+							break;
+						case 'field_checkbox':
+							\WP_CLI::line( $elem . 'default value: ' . ( $conf['default'] ? 'true' : 'false' ) );
+							$example[] = '"' . $key . '": ' . ( $conf['default'] ? 'true' : 'false' );
+							break;
+						case 'field_input_text':
+							\WP_CLI::line( $elem . 'default value: "' . $conf['default'] . '"' );
+							$example[] = '"' . $key . '": "' . $conf['default'] . '"';
+							break;
+						case 'field_select':
+							switch ( $conf['control']['cast'] ) {
+								case 'integer':
+									\WP_CLI::line( $elem . 'default value: ' . $conf['default'] );
+									$example[] = '"' . $key . '": ' . $conf['default'];
+									break;
+								case 'string':
+									\WP_CLI::line( $elem . 'default value: "' . $conf['default'] . '"' );
+									$example[] = '"' . $key . '": "' . $conf['default'] . '"';
+									break;
+							}
+							\WP_CLI::line( $elem . 'available values:' );
+							foreach ( $conf['control']['list'] as $point ) {
+								switch ( $conf['control']['cast'] ) {
+									case 'integer':
+										\WP_CLI::line( $list . $point[0] . ': ' . $point[1]);
+										break;
+									case 'string':
+										\WP_CLI::line( $list . '"' . $point[0] . '": ' . $point[1]);
+										break;
+								}
+							}
+							break;
+					}
+					\WP_CLI::line( '' );
+				}
+				\WP_CLI::line( $param . 'IP obfuscation - Log fields will contain hashes instead of real IPs.' );
+				\WP_CLI::line( $elem . 'field name: obfuscation' );
+				\WP_CLI::line( $elem . 'field type: boolean' );
+				\WP_CLI::line( $elem . 'default value: false' );
+				\WP_CLI::line( '' );
+				\WP_CLI::line( $param . 'User pseudonymization - Log fields will contain hashes instead of user IDs & names.' );
+				\WP_CLI::line( $elem . 'field name: pseudonymization' );
+				\WP_CLI::line( $elem . 'field type: boolean' );
+				\WP_CLI::line( $elem . 'default value: false' );
+				\WP_CLI::line( '' );
+				\WP_CLI::line( $param . 'Reported details: WordPress - Allows to log site, user and remote IP of the current request.' );
+				\WP_CLI::line( $elem . 'field name: proc_wp' );
+				\WP_CLI::line( $elem . 'field type: boolean' );
+				\WP_CLI::line( $elem . 'default value: true' );
+				\WP_CLI::line( '' );
+				\WP_CLI::line( $param . 'Reported details: HTTP request - Allows to log url, method, referrer and remote IP of the current web request.' );
+				\WP_CLI::line( $elem . 'field name: proc_http' );
+				\WP_CLI::line( $elem . 'field type: boolean' );
+				\WP_CLI::line( $elem . 'default value: true' );
+				\WP_CLI::line( '' );
+				\WP_CLI::line( $param . 'Reported details: PHP introspection - Allows to log line, file, class and function generating the event.' );
+				\WP_CLI::line( $elem . 'field name: proc_php' );
+				\WP_CLI::line( $elem . 'field type: boolean' );
+				\WP_CLI::line( $elem . 'default value: true' );
+				\WP_CLI::line( '' );
+				\WP_CLI::line( $param . 'Reported details: Backtrace - Allows to log the full PHP and WordPress call stack.' );
+				\WP_CLI::line( $elem . 'field name: proc_trace' );
+				\WP_CLI::line( $elem . 'field type: boolean' );
+				\WP_CLI::line( $elem . 'default value: false' );
+				\WP_CLI::line( '' );
+				\WP_CLI::line( \WP_CLI::colorize( '%UExample%n' ) );
+				\WP_CLI::line( '' );
+				\WP_CLI::line( '  {' . implode( ', ', $example ) . '}' );
+				\WP_CLI::line( '' );
+				break;
+		}
+
+	}
+
+	/**
 	 * Manage Decalog loggers.
 	 *
 	 * ## OPTIONS
 	 *
-	 * <list|start|pause|clean|purge|remove>
+	 * <list|start|pause|clean|purge|remove|add|set>
 	 * : The action to take.
 	 * ---
-	 * default: list
 	 * options:
 	 *  - list
 	 *  - start
@@ -104,10 +439,20 @@ class Wpcli {
 	 *  - clean
 	 *  - purge
 	 *  - remove
+	 *  - add
+	 *  - set
 	 * ---
 	 *
-	 * [<logger_uuid>]
-	 * : The uuid of the logger to perform an action on.
+	 * [<uuid_or_type>]
+	 * : The uuid of the logger to perform an action on or the type of the logger to add.
+	 *
+	 * [--settings=<settings>]
+	 * : The settings needed by "add" and "modify" actions.
+	 * MUST be a string containing a json configuration.
+	 * ---
+	 * default: '{}'
+	 * example: '{"host": "syslog.collection.eu.sumologic.com", "timeout": 800, "ident": "DecaLog", "format": 1}'
+	 * ---
 	 *
 	 * [--detail=<detail>]
 	 * : The details of the output when listing loggers.
@@ -158,6 +503,15 @@ class Wpcli {
 	 * + wp decalog logger remove 37cf1c00-d67d-4e7d-9518-e579f01407a7
 	 * + wp decalog logger remove 37cf1c00-d67d-4e7d-9518-e579f01407a7 --yes
 	 *
+	 * Adds a new logger:
+	 * + wp decalog logger add WordpressHandler {"rotate": 8000, "purge": 5, "level":"warning", "proc_wp": true}
+	 *
+	 * Change the settings of a logger
+	 * + wp decalog logger set 37cf1c00-d67d-4e7d-9518-e579f01407a7 --settings='{"proc_trace": false, "level":"warning"}'
+	 *
+	 *
+	 *   === For other examples and recipes, visit https://github.com/Pierre-Lannoy/wp-decalog/blob/master/WP-CLI.md ===
+	 *
 	 */
 	public static function logger( $args, $assoc_args ) {
 		$loggers_list = Option::network_get( 'loggers' );
@@ -166,11 +520,26 @@ class Wpcli {
 		$action       = isset( $args[0] ) ? $args[0] : 'list';
 		if ( isset( $args[1] ) ) {
 			$uuid = $args[1];
-			if ( ! array_key_exists( $uuid, $loggers_list ) ) {
-				$uuid = '';
+			if ( 'add' === $action ) {
+				$handler_types = new HandlerTypes();
+				$t = '';
+				foreach ( $handler_types->get_all() as $handler ) {
+					if ( 'system' !== $handler['class'] && strtolower( $uuid ) === strtolower( $handler['id'] ) ) {
+						$t = $uuid;
+					}
+				}
+				$uuid = $t;
+			} else {
+				if ( ! array_key_exists( $uuid, $loggers_list ) ) {
+					$uuid = '';
+				}
 			}
 		}
-		if ( 'list' !== $action && '' === $uuid ) {
+		if ( 'add' === $action && '' === $uuid ) {
+			\WP_CLI::warning( 'Invalid logger type supplied. Please specify a valid logger type:' );
+			self::handler( [], $assoc_args);
+			$action = '';
+		} elseif ( 'list' !== $action && '' === $uuid ) {
 			\WP_CLI::warning( 'Invalid logger uuid supplied. Please specify a valid logger uuid:' );
 			$action = 'list';
 		}
@@ -259,6 +628,26 @@ class Wpcli {
 				Option::network_set( 'loggers', $loggers_list );
 				\WP_CLI::success( sprintf( 'The logger %s has been removed.', $uuid ) );
 				break;
+			case 'add':
+				$result = self::logger_add( $uuid, $assoc_args );
+				if ( '' === $result ) {
+					$ilog->error( 'Unable to add a logger.', 1 );
+					\WP_CLI::error( 'Unable to add logger.' );
+				} else {
+					\WP_CLI::line( $result );
+					\WP_CLI::success( 'Logger successfully added.' );
+				}
+				break;
+			case 'set':
+				$result = self::logger_modify( $uuid, $assoc_args );
+				if ( '' === $result ) {
+					$ilog->error( 'Unable to modify a logger.', 1 );
+					\WP_CLI::error( 'Unable to modify logger.' );
+				} else {
+					\WP_CLI::line( $result );
+					\WP_CLI::success( 'Logger successfully modified.' );
+				}
+				break;
 		}
 
 	}
@@ -328,6 +717,9 @@ class Wpcli {
 	 * Deactivates auto-listening:
 	 * + wp decalog listener auto-off
 	 * + wp decalog listener auto-off --yes
+	 *
+	 *
+	 *   === For other examples and recipes, visit https://github.com/Pierre-Lannoy/wp-decalog/blob/master/WP-CLI.md ===
 	 *
 	 */
 	public static function listener( $args, $assoc_args ) {
@@ -424,6 +816,7 @@ class Wpcli {
 	}
 
 
+
 	public static function test( $args, $assoc_args ) {
 		$test = time();
 		while ( true ) {
@@ -441,6 +834,7 @@ class Wpcli {
 if ( defined( 'WP_CLI' ) && WP_CLI ) {
 	\WP_CLI::add_command( 'decalog status', [ Wpcli::class, 'status' ] );
 	\WP_CLI::add_command( 'decalog logger', [ Wpcli::class, 'logger' ] );
+	\WP_CLI::add_command( 'decalog type', [ Wpcli::class, 'handler' ] );
 	\WP_CLI::add_command( 'decalog listener', [ Wpcli::class, 'listener' ] );
-	\WP_CLI::add_command( 'decalog test', [ Wpcli::class, 'test' ] );
+	//\WP_CLI::add_command( 'decalog test', [ Wpcli::class, 'test' ] );
 }
