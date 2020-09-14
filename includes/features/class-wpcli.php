@@ -13,6 +13,7 @@ namespace Decalog\Plugin\Feature;
 
 use Decalog\Listener\ListenerFactory;
 use Decalog\Plugin\Feature\Log;
+use Decalog\System\Cache;
 use Decalog\System\Environment;
 use Decalog\System\Option;
 use Decalog\System\GeoIP;
@@ -522,7 +523,7 @@ class Wpcli {
 			$uuid = $args[1];
 			if ( 'add' === $action ) {
 				$handler_types = new HandlerTypes();
-				$t = '';
+				$t             = '';
 				foreach ( $handler_types->get_all() as $handler ) {
 					if ( 'system' !== $handler['class'] && strtolower( $uuid ) === strtolower( $handler['id'] ) ) {
 						$t = $uuid;
@@ -623,8 +624,8 @@ class Wpcli {
 				\WP_CLI::confirm( sprintf( 'Are you sure you want to remove logger %s?', $uuid ), $assoc_args );
 				$factory = new LoggerFactory();
 				$factory->destroy( $loggers_list[$uuid] );
-				unset( $loggers_list[$uuid] );
 				$ilog->notice( sprintf( 'Logger "%s" has been removed.', $loggers_list[ $uuid ]['name'] ) );
+				unset( $loggers_list[$uuid] );
 				Option::network_set( 'loggers', $loggers_list );
 				\WP_CLI::success( sprintf( 'The logger %s has been removed.', $uuid ) );
 				break;
@@ -634,6 +635,8 @@ class Wpcli {
 					$ilog->error( 'Unable to add a logger.', 1 );
 					\WP_CLI::error( 'Unable to add logger.' );
 				} else {
+					$loggers_list = Option::network_get( 'loggers' );
+					$ilog->notice( sprintf( 'Logger "%s" has been saved.', $loggers_list[ $uuid ]['name'] ) );
 					\WP_CLI::line( $result );
 					\WP_CLI::success( 'Logger successfully added.' );
 				}
@@ -642,14 +645,15 @@ class Wpcli {
 				$result = self::logger_modify( $uuid, $assoc_args );
 				if ( '' === $result ) {
 					$ilog->error( 'Unable to modify a logger.', 1 );
-					\WP_CLI::error( 'Unable to modify logger.' );
+					\WP_CLI::error( 'Unable to set logger.' );
 				} else {
+					$loggers_list = Option::network_get( 'loggers' );
+					$ilog->notice( sprintf( 'Logger "%s" has been saved.', $loggers_list[ $uuid ]['name'] ) );
 					\WP_CLI::line( $result );
-					\WP_CLI::success( 'Logger successfully modified.' );
+					\WP_CLI::success( 'Logger successfully set.' );
 				}
 				break;
 		}
-
 	}
 
 	/**
@@ -815,6 +819,39 @@ class Wpcli {
 
 	}
 
+	/**
+	 * Launch a live logging session in this console. Use CTRL-C to end the session.
+	 *
+	 * [--level=<level>]
+	 * : The minimal level to log.
+	 * ---
+	 * default: info
+	 * options:
+	 *  - debug
+	 *  - info
+	 *  - notice
+	 *  - warning
+	 *  - error
+	 *  - critical
+	 *  - alert
+	 *  - emergency
+	 * ---
+	 *
+	 * ## EXAMPLES
+	 *
+	 * wp decalog live --level=debug
+	 *
+	 *
+	 *   === For other examples and recipes, visit https://github.com/Pierre-Lannoy/wp-decalog/blob/master/WP-CLI.md ===
+	 *
+	 */
+	public static function live( $args, $assoc_args ) {
+		Cache::init();
+		if ( ! Cache::is_memory() ) {
+			\WP_CLI::error( 'Unable to launch live logging, no memory cache mechanism found.' );
+		}
+	}
+
 
 
 	public static function test( $args, $assoc_args ) {
@@ -836,5 +873,6 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
 	\WP_CLI::add_command( 'decalog logger', [ Wpcli::class, 'logger' ] );
 	\WP_CLI::add_command( 'decalog type', [ Wpcli::class, 'handler' ] );
 	\WP_CLI::add_command( 'decalog listener', [ Wpcli::class, 'listener' ] );
+	\WP_CLI::add_command( 'decalog live', [ Wpcli::class, 'live' ] );
 	//\WP_CLI::add_command( 'decalog test', [ Wpcli::class, 'test' ] );
 }

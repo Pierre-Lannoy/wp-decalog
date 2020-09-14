@@ -93,7 +93,7 @@ class Cache {
 	 * @since 1.0.0
 	 */
 	public static function is_memory() {
-		return wp_using_ext_object_cache() || self::$apcu_available;
+		return ( wp_using_ext_object_cache() || self::$apcu_available );
 	}
 
 	/**
