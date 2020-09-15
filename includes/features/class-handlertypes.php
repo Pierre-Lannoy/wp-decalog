@@ -53,6 +53,56 @@ class HandlerTypes {
 			'init'          => [],
 		];
 		$this->handlers[] = [
+			'version'       => DECALOG_VERSION,
+			'id'            => 'SharedMemoryHandler',
+			'ancestor'      => 'SharedMemoryHandler',
+			'namespace'     => 'Decalog\\Handler',
+			'class'         => 'system',
+			'minimal'       => Logger::DEBUG,
+			'name'          => esc_html__( 'Shared memory logger', 'decalog' ),
+			'help'          => esc_html__( 'An events log observable in wp-cli console.', 'decalog' ),
+			'icon'          => $this->get_base64_php_icon(),
+			'params'        => [ 'processors', 'privacy' ],
+			'configuration' => [
+				'ftok'     => [
+					'type'    => 'string',
+					'show'    => false,
+					'name'    => 'ftok seed',
+					'help'    => 'The seed letter for ftok function. Must be always "z".',
+					'default' => 'z',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => false,
+					],
+				],
+				'source'     => [
+					'type'    => 'string',
+					'show'    => false,
+					'name'    => 'Source filter',
+					'help'    => 'The filter for the source.',
+					'default' => '',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => false,
+					],
+				],
+			],
+			'init'          => [
+				[ 'type' => 'uuid' ],
+				[
+					'type'  => 'configuration',
+					'value' => 'ftok',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'source',
+				],
+				[ 'type' => 'level' ],
+			],
+		];
+		$this->handlers[] = [
 			'version'       => DECALOG_MONOLOG_VERSION,
 			'id'            => 'BrowserConsoleHandler',
 			'ancestor'      => 'BrowserConsoleHandler',
