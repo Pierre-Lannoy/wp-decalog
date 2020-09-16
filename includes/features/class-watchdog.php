@@ -65,9 +65,9 @@ class Watchdog {
 	 */
 	public function __construct() {
 		// phpcs:ignore
-		//$this->previous_error_handler = set_error_handler( [ $this, 'handle_error' ] );
+		$this->previous_error_handler = set_error_handler( [ $this, 'handle_error' ] );
 		// phpcs:ignore
-		//$this->previous_exception_handler = set_exception_handler( [ $this, 'handle_exception' ] );
+		$this->previous_exception_handler = set_exception_handler( [ $this, 'handle_exception' ] );
 	}
 
 	/**

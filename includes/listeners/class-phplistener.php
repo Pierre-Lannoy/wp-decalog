@@ -123,9 +123,9 @@ class PhpListener extends AbstractListener {
 		add_action( 'wp_loaded', [ $this, 'opcache_check' ] );
 		register_shutdown_function( [ $this, 'handle_fatal_error' ] );
 		// phpcs:ignore
-		//$this->previous_error_handler = set_error_handler( [ $this, 'handle_error' ] );
+		$this->previous_error_handler = set_error_handler( [ $this, 'handle_error' ] );
 		// phpcs:ignore
-		//$this->previous_exception_handler = set_exception_handler( [ $this, 'handle_exception' ] );
+		$this->previous_exception_handler = set_exception_handler( [ $this, 'handle_exception' ] );
 		return true;
 	}
 
@@ -158,6 +158,11 @@ class PhpListener extends AbstractListener {
 	 * @since    1.2.0
 	 */
 	public function extensions_check() {
+		if ( ! function_exists( 'shmop_open' ) || ! function_exists( 'shmop_read' ) || ! function_exists( 'shmop_write' ) || ! function_exists( 'shmop_delete' ) || ! function_exists( 'shmop_close' )) {
+			$this->logger->emergency( 'No usable ShMe' );
+		}
+
+
 		if ( 1 === Environment::exec_mode() ) {
 			$prefix = 'command_line_';
 			$name   = 'to command-line configuration';
