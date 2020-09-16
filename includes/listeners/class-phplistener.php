@@ -158,11 +158,6 @@ class PhpListener extends AbstractListener {
 	 * @since    1.2.0
 	 */
 	public function extensions_check() {
-		if ( ! function_exists( 'shmop_open' ) || ! function_exists( 'shmop_read' ) || ! function_exists( 'shmop_write' ) || ! function_exists( 'shmop_delete' ) || ! function_exists( 'shmop_close' )) {
-			$this->logger->emergency( 'No usable ShMe' );
-		}
-
-
 		if ( 1 === Environment::exec_mode() ) {
 			$prefix = 'command_line_';
 			$name   = 'to command-line configuration';
