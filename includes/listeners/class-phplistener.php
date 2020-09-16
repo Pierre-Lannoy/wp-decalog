@@ -123,9 +123,9 @@ class PhpListener extends AbstractListener {
 		add_action( 'wp_loaded', [ $this, 'opcache_check' ] );
 		register_shutdown_function( [ $this, 'handle_fatal_error' ] );
 		// phpcs:ignore
-		$this->previous_error_handler = set_error_handler( [ $this, 'handle_error' ] );
+		//$this->previous_error_handler = set_error_handler( [ $this, 'handle_error' ] );
 		// phpcs:ignore
-		$this->previous_exception_handler = set_exception_handler( [ $this, 'handle_exception' ] );
+		//$this->previous_exception_handler = set_exception_handler( [ $this, 'handle_exception' ] );
 		return true;
 	}
 

@@ -11,6 +11,7 @@
 
 namespace Decalog\Plugin\Feature;
 
+use Decalog\Handler\SharedMemoryHandler;
 use Decalog\Listener\ListenerFactory;
 use Decalog\Plugin\Feature\Log;
 use Decalog\System\Cache;
@@ -846,10 +847,30 @@ class Wpcli {
 	 *
 	 */
 	public static function live( $args, $assoc_args ) {
-		Cache::init();
-		if ( ! Cache::is_memory() ) {
-			\WP_CLI::error( 'Unable to launch live logging, no memory cache mechanism found.' );
+		if ( ! function_exists( 'shmop_open' ) || ! function_exists( 'shmop_read' ) || ! function_exists( 'shmop_write' ) || ! function_exists( 'shmop_delete' ) || ! function_exists( 'shmop_close' )) {
+			\WP_CLI::error( 'Unable to launch live logging, no shared memory manager found.' );
 		}
+
+		//$levelstr = isset( $assoc_args['level'] ) ? $assoc_args['level'] : 'notice';
+
+
+
+
+
+		$uuid = self::logger_add( 'SharedMemoryHandler', [ 'level' => 100, 'ftok' => 'z', 'source' => '' ] );
+		self::logger( [ 0 => 'start', 1 => $uuid ], [ 'quiet' => 'yes' ] );
+		while ( true ) {
+			$records = [];//SharedMemoryHandler::read( $uuid );
+			foreach ( $records as $record ) {
+				\WP_CLI::line( $record['timestamp'] . '  ' . $record['channel'] . '  ' . $record['level'] );
+			}
+			//usleep(100000);
+		}
+
+
+
+
+
 	}
 
 
@@ -865,6 +886,8 @@ class Wpcli {
 			usleep(100000);
 		}
 		//\WP_CLI::line( ini_get( 'max_execution_time' ) );
+
+
 	}
 }
 

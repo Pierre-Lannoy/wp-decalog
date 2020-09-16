@@ -88,6 +88,9 @@ class LoggerFactory {
 					$args = [];
 					foreach ( $handler_def['init'] as $p ) {
 						switch ( $p['type'] ) {
+							case 'uuid':
+								$args[] = (string) $logger['uuid'];
+								break;
 							case 'level':
 								$args[] = (int) $logger['level'];
 								break;
