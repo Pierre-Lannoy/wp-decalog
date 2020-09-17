@@ -48,6 +48,7 @@ class HandlerTypes {
 			'name'          => esc_html__( 'Blackhole', 'decalog' ),
 			'help'          => esc_html__( 'Any record it can handle will be thrown away.', 'decalog' ),
 			'icon'          => $this->get_base64_php_icon(),
+			'needs'         => [],
 			'params'        => [],
 			'configuration' => [],
 			'init'          => [],
@@ -62,45 +63,10 @@ class HandlerTypes {
 			'name'          => esc_html__( 'Shared memory logger', 'decalog' ),
 			'help'          => esc_html__( 'An events log observable in wp-cli console.', 'decalog' ),
 			'icon'          => $this->get_base64_php_icon(),
-			'params'        => [ 'processors', 'privacy' ],
-			'configuration' => [
-				'ftok'     => [
-					'type'    => 'string',
-					'show'    => false,
-					'name'    => 'ftok seed',
-					'help'    => 'The seed letter for ftok function. Must be always "z".',
-					'default' => 'z',
-					'control' => [
-						'type'    => 'field_input_text',
-						'cast'    => 'string',
-						'enabled' => false,
-					],
-				],
-				'source'     => [
-					'type'    => 'string',
-					'show'    => false,
-					'name'    => 'Source filter',
-					'help'    => 'The filter for the source.',
-					'default' => '',
-					'control' => [
-						'type'    => 'field_input_text',
-						'cast'    => 'string',
-						'enabled' => false,
-					],
-				],
-			],
-			'init'          => [
-				[ 'type' => 'uuid' ],
-				[
-					'type'  => 'configuration',
-					'value' => 'ftok',
-				],
-				[
-					'type'  => 'configuration',
-					'value' => 'source',
-				],
-				[ 'type' => 'level' ],
-			],
+			'needs'         => [],
+			'params'        => [],
+			'configuration' => [],
+			'init'          => [],
 		];
 		$this->handlers[] = [
 			'version'       => DECALOG_MONOLOG_VERSION,
@@ -112,6 +78,7 @@ class HandlerTypes {
 			'name'          => esc_html__( 'Browser console', 'decalog' ),
 			'help'          => esc_html__( 'An events log sent to browser\'s javascript console with no browser extension required.', 'decalog' ),
 			'icon'          => $this->get_base64_browserconsole_icon(),
+			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
 			'configuration' => [],
 			'init'          => [
@@ -132,6 +99,7 @@ class HandlerTypes {
 			'name'          => 'ChromePHP',
 			'help'          => esc_html__( 'An events log sent to the ChromePHP extension (http://www.chromephp.com/).', 'decalog' ),
 			'icon'          => $this->get_base64_chrome_icon(),
+			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
 			'configuration' => [],
 			'init'          => [
@@ -152,6 +120,7 @@ class HandlerTypes {
 			'name'          => 'Elastic Cloud',
 			'help'          => esc_html__( 'An events log sent to Elastic Cloud / Elastic Cloud Enterprise.', 'decalog' ),
 			'icon'          => $this->get_base64_elasticcloud_icon(),
+			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
 			'configuration' => [
 				'cloudid'     => [
@@ -237,6 +206,7 @@ class HandlerTypes {
 			'name'          => 'Fluentd',
 			'help'          => esc_html__( 'An events log sent to a Fluentd collector.', 'decalog' ),
 			'icon'          => $this->get_base64_fluentd_icon(),
+			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
 			'configuration' => [
 				'host'    => [
@@ -293,6 +263,7 @@ class HandlerTypes {
 			'name'          => 'Logentries & insightOps',
 			'help'          => esc_html__( 'An events log sent to Logentries & insightOps service.', 'decalog' ),
 			'icon'          => $this->get_base64_logentries_icon(),
+			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
 			'configuration' => [
 				'host'     => [
@@ -362,6 +333,7 @@ class HandlerTypes {
 			'name'          => 'Loggly',
 			'help'          => esc_html__( 'An events log sent to Solawinds Loggly service.', 'decalog' ),
 			'icon'          => $this->get_base64_loggly_icon(),
+			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
 			'configuration' => [
 				'token' => [
@@ -395,6 +367,7 @@ class HandlerTypes {
 			'name'          => esc_html__( 'Mail', 'decalog' ),
 			'help'          => esc_html__( 'Events alerts sent by WordPress via mail.', 'decalog' ),
 			'icon'          => $this->get_base64_mail_icon(),
+			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
 			'configuration' => [
 				'recipients' => [
@@ -432,6 +405,7 @@ class HandlerTypes {
 			'name'          => esc_html__( 'PHP error log', 'decalog' ),
 			'help'          => esc_html__( 'An events log stored in the standard PHP error log, as with the error_log() function.', 'decalog' ),
 			'icon'          => $this->get_base64_php_icon(),
+			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
 			'configuration' => [],
 			'init'          => [
@@ -456,6 +430,7 @@ class HandlerTypes {
 			'name'          => 'Pushover',
 			'help'          => esc_html__( 'Events alerts sent via Pushover service.', 'decalog' ),
 			'icon'          => $this->get_base64_pushover_icon(),
+			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
 			'configuration' => [
 				'token' => [
@@ -540,6 +515,7 @@ class HandlerTypes {
 			'name'          => esc_html__( 'Rotating files', 'decalog' ),
 			'help'          => esc_html__( 'An events log sent to files that are rotated every day and a limited number of files are kept.', 'decalog' ),
 			'icon'          => $this->get_base64_rotatingfiles_icon(),
+			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
 			'configuration' => [
 				'filename' => [
@@ -596,6 +572,7 @@ class HandlerTypes {
 			'name'          => 'Sematext',
 			'help'          => esc_html__( 'An events log sent to Sematext using Elasticsearch APIs.', 'decalog' ),
 			'icon'          => $this->get_base64_sematext_icon(),
+			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
 			'configuration' => [
 				'host'       => [
@@ -650,6 +627,7 @@ class HandlerTypes {
 			'name'          => 'Slack',
 			'help'          => esc_html__( 'Events alerts sent through Slack Webhooks.', 'decalog' ),
 			'icon'          => $this->get_base64_slack_icon(),
+			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
 			'configuration' => [
 				'webhook' => [
@@ -735,6 +713,7 @@ class HandlerTypes {
 			'name'          => 'Stackdriver',
 			'help'          => esc_html__( 'An events log sent to Google Stackdriver Logging via a Google-Fluentd collector.', 'decalog' ),
 			'icon'          => $this->get_base64_stackdriver_icon(),
+			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
 			'configuration' => [
 				'host'    => [
@@ -791,6 +770,7 @@ class HandlerTypes {
 			'name'          => 'Sumo Logic cloud-syslog',
 			'help'          => esc_html__( 'An events log sent to a Sumo Logic cloud-syslog source.', 'decalog' ),
 			'icon'          => $this->get_base64_sumosys_icon(),
+			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
 			'configuration' => [
 				'host'     => [
@@ -945,6 +925,7 @@ class HandlerTypes {
 			'name'          => 'Syslog',
 			'help'          => esc_html__( 'An events log sent to a remote syslogd server.', 'decalog' ),
 			'icon'          => $this->get_base64_syslog_icon(),
+			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
 			'configuration' => [
 				'host'     => [
@@ -1063,6 +1044,7 @@ class HandlerTypes {
 			'name'          => esc_html__( 'WordPress events log', 'decalog' ),
 			'help'          => esc_html__( 'An events log stored in your WordPress database and available right in your admin dashboard.', 'decalog' ),
 			'icon'          => $this->get_base64_wordpress_icon(),
+			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
 			'configuration' => [
 				'rotate' => [
