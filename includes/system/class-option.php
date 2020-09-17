@@ -73,13 +73,14 @@ class Option {
 		self::$defaults['nags']              = [];
 		self::$defaults['version']           = '0.0.0';
 		self::$defaults['loggers']           = [];
+		self::$defaults['livelog']           = false;
 		self::$defaults['respect_wp_debug']  = false; // In plugin settings.
 		self::$defaults['logger_autostart']  = true;  // In plugin settings.
 		self::$defaults['autolisteners']     = true;  // In plugin settings.
 		self::$defaults['listeners']         = [];    // In plugin settings.
 		self::$defaults['pseudonymization']  = false; // In plugin settings.
 		self::$defaults['earlyloading']      = true;  // In plugin settings.
-		self::$network                       = [ 'version', 'earlyloading', 'use_cdn', 'download_favicons', 'script_in_footer', 'display_nag', 'respect_wp_debug', 'logger_autostart', 'pseudonymization' ];
+		self::$network                       = [ 'version', 'earlyloading', 'use_cdn', 'download_favicons', 'script_in_footer', 'display_nag', 'respect_wp_debug', 'livelog', 'logger_autostart', 'pseudonymization' ];
 	}
 
 	/**
@@ -246,6 +247,7 @@ class Option {
 		self::network_set( 'download_favicons', self::$defaults['download_favicons'] );
 		self::network_set( 'script_in_footer', self::$defaults['script_in_footer'] );
 		self::network_set( 'display_nag', self::$defaults['display_nag'] );
+		self::network_set( 'livelog', self::$defaults['livelog'] );
 		self::network_set( 'respect_wp_debug', self::$defaults['respect_wp_debug'] );
 		self::network_set( 'logger_autostart', self::$defaults['logger_autostart'] );
 		self::network_set( 'pseudonymization', self::$defaults['pseudonymization'] );

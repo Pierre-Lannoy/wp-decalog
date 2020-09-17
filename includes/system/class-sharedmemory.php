@@ -27,176 +27,172 @@ use Decalog\Logger;
 class SharedMemory {
 
 	/**
-	 * Holds the system id for the shared memory block
+	 * Is shmop module available?
 	 *
-	 * @var int
-	 * @access protected
+	 * @since  2.0.0
+	 * @var boolean $available Maintains availability of shmop module.
 	 */
-	protected $id;
+	public static $available = false;
 
 	/**
-	 * Holds the shared memory block id returned by shmop_open
+	 * The system V id.
 	 *
-	 * @var int
-	 * @access protected
+	 * @since  2.0.0
+	 * @var integer $id    Maintains the system V id.
 	 */
-	protected $shmid = null;
+	private $id;
 
 	/**
-	 * Holds the default permission (octal) that will be used in created memory blocks
+	 * The opened resource.
 	 *
-	 * @var int
-	 * @access protected
+	 * @since  2.0.0
+	 * @var resource    $shmid     Maintains the opened resource.
 	 */
-	protected $perms = 0766;
+	private $shmid = null;
 
 	/**
-	 * Shared memory block instantiation
+	 * The permissions to access the memory block.
 	 *
-	 * In the constructor we'll check if the block we're going to manipulate
-	 * already exists or needs to be created. If it exists, let's open it.
-	 *
-	 * @access public
-	 * @param string $id ID of the shared memory block you want to manipulate
+	 * @since  2.0.0
+	 * @var integer $id    Maintains the octal permission mask.
 	 */
-	public function __construct($id)
-	{
+	private $perms = 0666;
+
+	/**
+	 * Init the class.
+	 *
+	 * @since    1.0.0
+	 */
+	public static function init() {
+		self::$available = ( function_exists( 'shmop_open' ) && function_exists( 'shmop_read' ) && function_exists( 'shmop_write' ) && function_exists( 'shmop_delete' ) && function_exists( 'shmop_close' ) );
+	}
+
+	/**
+	 * Initialize the class and set its properties.
+	 *
+	 * @param   string  $id     The system V id.
+	 * @since    2.0.0
+	 */
+	public function __construct( $id ) {
 		$this->id = $id;
 	}
 
 	/**
-	 * Checks if a shared memory block with the provided id exists or not
+	 * Acquire a ressource.
 	 *
-	 * In order to check for shared memory existance, we have to open it with
-	 * reading access. If it doesn't exist, warnings will be cast, therefore we
-	 * suppress those with the @ operator.
-	 *
-	 * @access public
-	 * @return boolean True if the block exists, false if it doesn't
+	 * @param   string  $flags     Optional. The flags for opening.
+	 * @param   integer $mode      Optional. The permissions needed.
+	 * @param   integer $size      Optional. The size of opening.
+	 * @return  null|resource   The opened resource, or null if it's not possible.
+	 * @since    2.0.0
 	 */
-	public function exists()
-	{
-		error_log('testing');
-		//set_error_handler( function() { /* ignore errors */ } );
-		try {
-			$status = \shmop_open($this->id, "a", 0, 0);
-		}  catch ( \Throwable $t ) {
-			error_log('--' . $t->getMessage());
-			return false;
+	private function acquire( $flags = 'a', $mode = 0, $size = 0 ) {
+		if ( ! self::$available ) {
+			return null;
 		}
-
-		error_log('passed');
-		//restore_error_handler();
-		return is_resource( $status );
+		$this->shmid = null;
+		// phpcs:ignore
+		set_error_handler( null );
+		// phpcs:ignore
+		$this->shmid = @shmop_open( $this->id, $flags, $mode, $size );
+		// phpcs:ignore
+		restore_error_handler();
+		return $this->shmid;
 	}
 
 	/**
-	 * Writes on a shared memory block
+	 * Check if block exists.
 	 *
-	 * First we check for the block existance, and if it doesn't, we'll create it. Now, if the
-	 * block already exists, we need to delete it and create it again with a new byte allocation that
-	 * matches the size of the data that we want to write there. We mark for deletion,  close the semaphore
-	 * and create it again.
-	 *
-	 * @access public
-	 * @param string $data The data that you wan't to write into the shared memory block
+	 * @return  boolean   True if the block already exists, false otherwise.
+	 * @since    2.0.0
 	 */
-	public function write($data)
-	{
-
-		$size = mb_strlen($data, 'UTF-8');
-
-		//set_error_handler( function() { /* ignore errors */ } );
-		if($this->exists()) {
-			error_log('already exists');
-			$this->shmid = @shmop_open($this->id, "w", 0, 0);
-			@shmop_delete($this->shmid);
-			@shmop_close($this->shmid);
-			$this->shmid = @shmop_open($this->id, "c", $this->perms, $size);
-			@shmop_write($this->shmid, $data, 0);
-		} else {
-			error_log('creation needed');
-			$this->shmid = @shmop_open($this->id, "c", $this->perms, $size);
-			@shmop_write($this->shmid, $data, 0);
+	private function exists() {
+		$result = is_resource( $this->acquire() );
+		if ( $result ) {
+			shmop_close( $this->shmid );
 		}
-		//restore_error_handler();
+		return $result;
+	}
+	/**
+	 * Writes an array.
+	 *
+	 * @param   array   $data   The data to write.
+	 * @return  false|int       TThe number of written bytes, false if something went wrong.
+	 * @since    2.0.0
+	 */
+	public function write( $data ) {
+		if ( ! self::$available || ! is_array( $data ) ) {
+			return 0;
+		}
+		$data = wp_json_encode( $data, true );
+		$size = mb_strlen( $data, 'UTF-8' );
+		if ( $this->exists() ) {
+			$cpt = 0;
+			while ( 20 > $cpt ) {
+				$this->shmid = $this->acquire( 'w', $this->perms, 0 );
+				if ( is_resource( $this->shmid ) ) {
+					break;
+				} else {
+					$cpt++;
+					usleep( 100 );
+				}
+			}
+			if ( is_resource( $this->shmid ) ) {
+				shmop_delete( $this->shmid );
+				shmop_close( $this->shmid );
+			} else {
+				return false;
+			}
+		}
+		$this->shmid = $this->acquire( 'c', $this->perms, $size );
+		if ( is_resource( $this->shmid ) ) {
+			$result = shmop_write( $this->shmid, $data, 0 );
+			shmop_close( $this->shmid );
+			return $result;
+		}
+		return false;
 	}
 
 	/**
-	 * Reads from a shared memory block
+	 * Reads an array.
 	 *
-	 * @access public
-	 * @return string The data read from the shared memory block
+	 * @return  array   The read data.
+	 * @since    2.0.0
 	 */
-	public function read()
-	{
-		return '';
-		if ( ! is_resource( $this->shmid ) ) {
-			return '';
+	public function read() {
+		if ( ! self::$available ) {
+			return [];
 		}
-		//set_error_handler( function() { /* ignore errors */ } );
-		if($this->exists()) {
-			$size = shmop_size( $this->shmid );
-			$data = shmop_read( $this->shmid, 0, $size );
+		$data = '';
+		if ( $this->exists() ) {
+			$cpt = 0;
+			while ( 20 > $cpt ) {
+				$this->shmid = $this->acquire( 'w', $this->perms, 0 );
+				if ( is_resource( $this->shmid ) ) {
+					break;
+				} else {
+					$cpt++;
+					usleep( 100 );
+				}
+			}
+			if ( is_resource( $this->shmid ) ) {
+				$size = shmop_size( $this->shmid );
+				$data = shmop_read( $this->shmid, 0, $size );
+				shmop_close( $this->shmid );
+			} else {
+				return [];
+			}
 		}
-		//restore_error_handler();
-
+		if ( '' === (string) $data ) {
+			$data = '{}';
+		}
+		$data = \json_decode( $data, true );
+		if ( ! is_array( $data ) ) {
+			$data = [];
+		}
 		return $data;
 	}
 
-	/**
-	 * Mark a shared memory block for deletion
-	 *
-	 * @access public
-	 */
-	public function delete()
-	{
-		shmop_delete($this->shmid);
-	}
-
-	/**
-	 * Gets the current shared memory block id
-	 *
-	 * @access public
-	 */
-	public function getId()
-	{
-		return $this->id;
-	}
-
-	/**
-	 * Gets the current shared memory block permissions
-	 *
-	 * @access public
-	 */
-	public function getPermissions()
-	{
-		return $this->perms;
-	}
-
-	/**
-	 * Sets the default permission (octal) that will be used in created memory blocks
-	 *
-	 * @access public
-	 * @param string $perms Permissions, in octal form
-	 */
-	public function setPermissions($perms)
-	{
-		$this->perms = $perms;
-	}
-
-	/**
-	 * Closes the shared memory block and stops manipulation
-	 *
-	 * @access public
-	 */
-	public function __destruct()
-	{
-		if ( is_resource( $this->shmid ) ) {
-			//set_error_handler( function() { /* ignore errors */ } );
-			@shmop_close($this->shmid);
-			//restore_error_handler();
-		}
-	}
-
 }
+
+SharedMemory::init();

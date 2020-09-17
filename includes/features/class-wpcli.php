@@ -224,6 +224,11 @@ class Wpcli {
 		} else {
 			\WP_CLI::line( 'Early-Loading: disabled.' );
 		}
+		if ( Option::network_get( 'livelog' ) ) {
+			\WP_CLI::line( 'Auto-Logging: enabled.' );
+		} else {
+			\WP_CLI::line( 'Auto-Logging: disabled.' );
+		}
 		$geo = new GeoIP();
 		if ( $geo->is_installed() ) {
 			\WP_CLI::line( 'IP information support: yes (' . $geo->get_full_name() . ').');
@@ -637,7 +642,7 @@ class Wpcli {
 					\WP_CLI::error( 'Unable to add logger.' );
 				} else {
 					$loggers_list = Option::network_get( 'loggers' );
-					$ilog->notice( sprintf( 'Logger "%s" has been saved.', $loggers_list[ $uuid ]['name'] ) );
+					$ilog->notice( sprintf( 'Logger "%s" has been saved.', $loggers_list[ $result ]['name'] ) );
 					\WP_CLI::line( $result );
 					\WP_CLI::success( 'Logger successfully added.' );
 				}
@@ -649,7 +654,7 @@ class Wpcli {
 					\WP_CLI::error( 'Unable to set logger.' );
 				} else {
 					$loggers_list = Option::network_get( 'loggers' );
-					$ilog->notice( sprintf( 'Logger "%s" has been saved.', $loggers_list[ $uuid ]['name'] ) );
+					$ilog->notice( sprintf( 'Logger "%s" has been saved.', $loggers_list[ $result ]['name'] ) );
 					\WP_CLI::line( $result );
 					\WP_CLI::success( 'Logger successfully set.' );
 				}
@@ -851,18 +856,11 @@ class Wpcli {
 			\WP_CLI::error( 'Unable to launch live logging, no shared memory manager found.' );
 		}
 
-		//$levelstr = isset( $assoc_args['level'] ) ? $assoc_args['level'] : 'notice';
 
-
-
-
-
-		$uuid = self::logger_add( 'SharedMemoryHandler', [ 'level' => 100, 'ftok' => 'z', 'source' => '' ] );
-		self::logger( [ 0 => 'start', 1 => $uuid ], [ 'quiet' => 'yes' ] );
 		while ( true ) {
-			$records = [];//SharedMemoryHandler::read( $uuid );
+			$records = SharedMemoryHandler::read();
 			foreach ( $records as $record ) {
-				\WP_CLI::line( $record['timestamp'] . '  ' . $record['channel'] . '  ' . $record['level'] );
+				\WP_CLI::line( $record['timestamp'] . '  ' . $record['channel'] . '  ' . $record['level'] . '  ' . $record['message'] );
 			}
 			//usleep(100000);
 		}

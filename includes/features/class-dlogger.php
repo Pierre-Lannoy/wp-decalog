@@ -232,7 +232,7 @@ class DLogger {
 			$shm['name']             = __( 'System auto-logger', 'decalog' );
 			$shm['handler']          = 'SharedMemoryHandler';
 			$shm['running']          = Option::network_get( 'livelog' );
-			$shm['level']            = Logger::DEBUG;
+			$shm['level']            = Logger::INFO;
 			$shm['privacy']          = [ 'obfuscation' => 0, 'pseudonymization' => 0 ];
 			$shm['processors']       = [ 'WordpressProcessor', 'IntrospectionProcessor', 'WWWProcessor' ];
 			$loggers[DECALOG_SHM_ID] = $shm;
