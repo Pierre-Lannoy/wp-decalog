@@ -11,6 +11,7 @@
 
 namespace Decalog\Plugin\Feature;
 
+use Decalog\System\Option;
 use Monolog\Logger;
 
 /**
@@ -110,7 +111,26 @@ class LoggerFactory {
 								break;
 						}
 					}
-					$handler = $this->create_instance( $classname, $args );
+					$launchable = true;
+					if ( array_key_exists( 'option', $handler_def['needs'] ) ) {
+						foreach ( $handler_def['needs']['option'] as $option ) {
+							if ( ! Option::network_get( $option ) ) {
+								$launchable = false;
+								break;
+							}
+						}
+					}
+					if ( array_key_exists( 'function_exists', $handler_def['needs'] ) ) {
+						foreach ( $handler_def['needs']['function_exists'] as $function ) {
+							if ( ! function_exists( $function ) ) {
+								$launchable = false;
+								break;
+							}
+						}
+					}
+					if ( $launchable ) {
+						$handler = $this->create_instance( $classname, $args );
+					}
 				}
 			}
 			if ( $handler ) {
