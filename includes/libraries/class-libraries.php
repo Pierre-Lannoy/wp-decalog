@@ -67,6 +67,17 @@ class Libraries {
 			'license' => 'mit',
 			'langs'   => 'en',
 		];
+		self::$psr4_libraries['lock']   = [
+			'name'    => 'Lock',
+			'prefix'  => 'malkusch\lock',
+			'base'    => DECALOG_VENDOR_DIR . 'lock/',
+			'version' => '2.1',
+			// phpcs:ignore
+			'author'  => sprintf( esc_html__( '%s & contributors', 'decalog' ), 'Willem Stuursma-Ruwen' ),
+			'url'     => 'https://github.com/willemstuursma',
+			'license' => 'wtpfl',
+			'langs'   => 'en',
+		];
 		self::$psr4_libraries['elasticsearch']   = [
 			'name'    => 'Elasticsearch',
 			'prefix'  => 'Elasticsearch',
@@ -178,6 +189,9 @@ class Libraries {
 		switch ( $license ) {
 			case 'mit':
 				$result = esc_html__( 'MIT license', 'decalog' );
+				break;
+			case 'wtpfl':
+				$result = esc_html__( 'WTFPL license', 'decalog' );
 				break;
 			case 'apl2':
 				$result = esc_html__( 'Apache license, version 2.0', 'decalog' );
