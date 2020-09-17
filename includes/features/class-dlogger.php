@@ -180,7 +180,8 @@ class DLogger {
 		$diagnosis     = new HandlerDiagnosis();
 		$banned        = [];
 		$unloadable    = [];
-		foreach ( Option::network_get( 'loggers' ) as $key => $logger ) {
+		$skipped       = [];
+		foreach ( $this->loggers_check() as $key => $logger ) {
 			if ( $this->in_test && $key !== $test ) {
 				continue;
 			}
@@ -191,6 +192,8 @@ class DLogger {
 					$handler = $factory->create_logger( $logger );
 					if ( $handler ) {
 						$this->logger->pushHandler( $handler );
+					} elseif ( $logger['running'] ) {
+						$skipped[] = sprintf( 'Skipping loading of a %s logger.', $handler_def['name'] );
 					}
 				} else {
 					$unloadable[] = sprintf( 'Unable to load a %s logger. %s', $handler_def['name'], $diagnosis->error_string( $handler_def['id'] ) );
@@ -208,6 +211,34 @@ class DLogger {
 				$this->error( $item, 666 );
 			}
 		}
+		if ( count( $skipped ) > 0 ) {
+			foreach ( $skipped as $item ) {
+				$this->emergency( $item );
+			}
+		}
+	}
+
+	/**
+	 * Check the loggers.
+	 *
+	 * @return  array   The logger list.
+	 * @since 2.0.0
+	 */
+	private function loggers_check() {
+		$loggers = Option::network_get( 'loggers' );
+		// Verify shared memory logger
+		if ( ! array_key_exists( DECALOG_SHM_ID, $loggers ) ) {
+			$shm                     = [];
+			$shm['name']             = __( 'System auto-logger', 'decalog' );
+			$shm['handler']          = 'SharedMemoryHandler';
+			$shm['running']          = Option::network_get( 'livelog' );
+			$shm['level']            = Logger::DEBUG;
+			$shm['privacy']          = [ 'obfuscation' => 0, 'pseudonymization' => 0 ];
+			$shm['processors']       = [ 'WordpressProcessor', 'IntrospectionProcessor', 'WWWProcessor' ];
+			$loggers[DECALOG_SHM_ID] = $shm;
+			Option::network_set( 'loggers', $loggers );
+		}
+		return Option::network_get( 'loggers' );
 	}
 
 	/**
