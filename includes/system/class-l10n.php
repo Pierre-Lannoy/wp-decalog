@@ -432,7 +432,7 @@ class L10n {
 	 */
 	public static function get_language_markup( $langs = [] ) {
 		if ( count( $langs ) > 0 ) {
-			return '<span style="white-space:nowrap;font-size:65%;vertical-align: super;line-height: 1em;"> (' . implode( '/', $langs ) . ')</span>';
+			return '<span style="white-space:nowrap;font-size:65%;vertical-align: super;line-height: 1em;">&nbsp;(' . implode( '/', $langs ) . ')</span>';
 		} else {
 			return '';
 		}

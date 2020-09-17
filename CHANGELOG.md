@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 - The PHP listener now takes care of activated/deactivated modules between web server and command-line configurations.
 - The consistency checker has been improved. 
+- Improved layout for language indicator.
 ### Fixed
 - For some logger types the minimal level may be wrongly set to "debug" at creation.
 - Some typos in processors' names.
