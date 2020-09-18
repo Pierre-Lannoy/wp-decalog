@@ -4,6 +4,13 @@ All notable changes to **DecaLog** are documented in this *changelog*.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased - Will be 2.0.0]
+### Todo
+- Warning when shmop module not installed.
+- Purge shared memory when auto-logging is disabled.
+- Disable the UI to modify system loggers.
+- Live log in the browser.
+- Interactive send message.
+
 ### Added
 - New WP-CLI command to manage loggers (list, start, pause, clean, purge, remove, add and set): see `wp help decalog logger` for details.
 - New WP-CLI command to view available logger types (list and describe): see `wp help decalog type` for details.
@@ -13,6 +20,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - The consistency checker has been improved. 
 - Improved layout for language indicator.
 ### Fixed
+- The rotating file wrongly skips events when sent from external process.
 - For some logger types the minimal level may be wrongly set to "debug" at creation.
 - Some typos in processors' names.
 
