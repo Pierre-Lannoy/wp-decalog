@@ -58,7 +58,7 @@ class HandlerTypes {
 			'id'            => 'SharedMemoryHandler',
 			'ancestor'      => 'SharedMemoryHandler',
 			'namespace'     => 'Decalog\\Handler',
-			'class'         => 'logging',
+			'class'         => 'system',
 			'minimal'       => Logger::INFO,
 			'name'          => esc_html__( 'Shared memory', 'decalog' ),
 			'help'          => esc_html__( 'An automatic events log, stored in server shared memory.', 'decalog' ),
