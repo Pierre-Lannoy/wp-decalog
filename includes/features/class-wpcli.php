@@ -15,9 +15,11 @@ use Decalog\Handler\SharedMemoryHandler;
 use Decalog\Listener\ListenerFactory;
 use Decalog\Plugin\Feature\Log;
 use Decalog\System\Cache;
+use Decalog\System\Date;
 use Decalog\System\Environment;
 use Decalog\System\Option;
 use Decalog\System\GeoIP;
+use Decalog\System\Timezone;
 use Decalog\System\UUID;
 use Decalog\Plugin\Feature\Autolog;
 
@@ -33,13 +35,30 @@ use Decalog\Plugin\Feature\Autolog;
 class Wpcli {
 
 	/**
+	 * List of color format per level.
+	 *
+	 * @since    2.0.0
+	 * @var array $level_color Level colors.
+	 */
+	private static $level_color = [
+		'debug'     => [ '', '' ],
+		'info'      => [ '%4%c', '%0%c' ],
+		'notice'    => [ '%4%C', '%0%C' ],
+		'warning'   => [ '%3%r', '%0%Y' ],
+		'error'     => [ '%1%y', '%0%r' ],
+		'critical'  => [ '%1%Y', '%0%R' ],
+		'alert'     => [ '%F%1%Y', '%0%F%R' ],
+		'emergency' => [ '', '' ],
+	];
+
+	/**
 	 * Get params from command line.
 	 *
 	 * @param   array   $args   The command line parameters.
 	 * @return  array The true parameters.
 	 * @since   2.0.0
 	 */
-	private static function get_params ( $args ) {
+	private static function get_params( $args ) {
 		$result = '';
 		if ( array_key_exists( 'settings', $args ) ) {
 			$result = \json_decode( $args['settings'], true );
@@ -59,7 +78,7 @@ class Wpcli {
 	 * @return  array The updated processors.
 	 * @since   2.0.0
 	 */
-	private static function updated_proc ( $processors, $proc, $value ) {
+	private static function updated_proc( $processors, $proc, $value ) {
 		$key = '';
 		switch ( $proc ) {
 			case 'proc_wp':
@@ -95,7 +114,7 @@ class Wpcli {
 	 * @return  string The logger uuid.
 	 * @since   2.0.0
 	 */
-	private static function logger_modify ( $uuid, $args, $start = false ) {
+	private static function logger_modify( $uuid, $args, $start = false ) {
 		$params        = self::get_params( $args );
 		$loggers       = Option::network_get( 'loggers' );
 		$logger        = $loggers[$uuid];
@@ -157,7 +176,7 @@ class Wpcli {
 	 * @return  string The logger uuid.
 	 * @since   2.0.0
 	 */
-	private static function logger_add ( $handler, $args ) {
+	private static function logger_add( $handler, $args ) {
 		$uuid             = UUID::generate_v4();
 		$logger           = [
 			'uuid'    => $uuid,
@@ -173,6 +192,50 @@ class Wpcli {
 			return $uuid;
 		}
 		return '';
+	}
+
+	/**
+	 * Filters records.
+	 *
+	 * @param   array   $records   The records to filter.
+	 * @param   array   $filter    The filter to apply.
+	 * @return  array   The filtered records.
+	 * @since   2.0.0
+	 */
+	private static function records_filter( $records, $filter = [] ) {
+		return $records;
+	}
+
+	/**
+	 * Displays records.
+	 *
+	 * @param   array   $records    The records to display.
+	 * @param   string  $mode       Optional. The displaying mode.
+	 * @param   boolean $soft       Optional. Soften colors.
+	 * @param   integer $pad        Optional. Line padding.
+	 * @since   2.0.0
+	 */
+	private static function records_display( $records, $mode = '', $soft = false, $pad = 160 ) {
+		foreach ( $records as $record ) {
+			$timestamp     = '[' . Date::get_date_from_mysql_utc( $record['timestamp'], Timezone::network_get()->getName(), 'Y-m-d H:i:s' ) . ']';
+			$channel_level = strtoupper( str_pad( $record['channel'], 6 ) ) . ' ' . strtoupper( str_pad( $record['level'], 8 ) );
+			$component     = $record['component'];
+			$message       = trim( $record['message'] );
+
+			switch ( $mode ) {
+				case 'wp':
+					break;
+				default:
+					$line = "$timestamp $channel_level $component: $message";
+			}
+
+			$line = preg_replace( '/[\x00-\x1F\x7F\xA0]/u', '', $line );
+			if ( $pad - 1 < strlen( $line ) ) {
+				$line = substr( $line, 0, $pad - 1 ) . '…';
+			}
+			$line = decalog_mb_str_pad( $line, $pad );
+			\WP_CLI::line( \WP_CLI::colorize( self::$level_color[ strtolower( $record['level'] ) ][$soft ? 1 : 0] ) . $line . \WP_CLI::colorize( '%n' ) );
+		}
 	}
 
 	/**
@@ -224,6 +287,11 @@ class Wpcli {
 			\WP_CLI::line( 'Early-Loading: enabled.' );
 		} else {
 			\WP_CLI::line( 'Early-Loading: disabled.' );
+		}
+		if ( Option::network_get( 'logger_autostart' ) ) {
+			\WP_CLI::line( 'Auto-Start: enabled.' );
+		} else {
+			\WP_CLI::line( 'Auto-Start: disabled.' );
 		}
 		if ( Autolog::is_enabled() ) {
 			\WP_CLI::line( 'Auto-Logging: enabled.' );
@@ -847,7 +915,7 @@ class Wpcli {
 	 * <enable|disable>
 	 * : The action to take.
 	 *
-	 * <early-loading|auto-logging>
+	 * <early-loading|auto-logging|auto-start>
 	 * : The setting to change.
 	 *
 	 * [--yes]
@@ -872,6 +940,10 @@ class Wpcli {
 						Option::network_set( 'earlyloading', true );
 						\WP_CLI::success( 'early-loading is now activated.' );
 						break;
+					case 'auto-start':
+						Option::network_set( 'logger_autostart', true );
+						\WP_CLI::success( 'auto-start is now activated.' );
+						break;
 					case 'auto-logging':
 						Autolog::activate();
 						\WP_CLI::success( 'auto-logging is now activated.' );
@@ -886,6 +958,11 @@ class Wpcli {
 						\WP_CLI::confirm( 'Are you sure you want to deactivate early-loading?', $assoc_args );
 						Option::network_set( 'earlyloading', false );
 						\WP_CLI::success( 'early-loading is now deactivated.' );
+						break;
+					case 'auto-start':
+						\WP_CLI::confirm( 'Are you sure you want to deactivate auto-start?', $assoc_args );
+						Option::network_set( 'logger_autostart', false );
+						\WP_CLI::success( 'auto-start is now deactivated.' );
 						break;
 					case 'auto-logging':
 						\WP_CLI::confirm( 'Are you sure you want to deactivate auto-logging?', $assoc_args );
@@ -927,10 +1004,13 @@ class Wpcli {
 		$level   = isset( $args[0] ) ? strtolower( $args[0] ) : '';
 		$message = isset( $args[1] ) ? (string) $args[1] : '';
 		$code    = isset( $assoc_args['code'] ) ? (int) $assoc_args['code'] : 0;
+		if ( 0 > $code ) {
+			$code = 0;
+		}
 		if ( ! in_array( $level, ['info', 'notice', 'warning', 'error', 'critical', 'alert' ], true ) ) {
 			\WP_CLI::error( 'forbidden or unknown level.' );
 		}
-		$logger = Log::bootstrap( 'core', 'WP-CLI', WP_CLI_VERSION );
+		$logger = Log::bootstrap( 'core', 'WP-CLI', defined( 'WP_CLI_VERSION' ) ? WP_CLI_VERSION : 'x' );
 		$logger->log( $level, $message, $code );
 		\WP_CLI::success( 'message sent.' );
 	}
@@ -939,7 +1019,7 @@ class Wpcli {
 	 * Display past or current events.
 	 *
 	 * [<count>]
-	 * : An integer value [1-50] indicating how many most recent events to display. If 0 or nothing is supplied as value, a live session is launched, displaying events as soon as they occur.
+	 * : An integer value [1-40] indicating how many most recent events to display. If 0 or nothing is supplied as value, a live session is launched, displaying events as soon as they occur.
 	 *
 	 * [--level=<level>]
 	 * : The minimal level to log.
@@ -954,6 +1034,18 @@ class Wpcli {
 	 *  - alert
 	 *  - emergency
 	 * ---
+	 *
+	 *
+	 *
+	 *
+	 * [--col=<columns>]
+	 * : The Number of columns (char in a row) to display. Default is 160. Min is 80.
+	 *
+	 * [--soft]
+	 * : Soften the colors to save your eyes.
+	 *
+	 * [--yes]
+	 * : Answer yes to the confirmation message, if any.
 	 *
 	 * ## NOTES
 	 *
@@ -973,32 +1065,37 @@ class Wpcli {
 	 */
 	public static function tail( $args, $assoc_args ) {
 		if ( ! function_exists( 'shmop_open' ) || ! function_exists( 'shmop_read' ) || ! function_exists( 'shmop_write' ) || ! function_exists( 'shmop_delete' ) || ! function_exists( 'shmop_close' )) {
-			\WP_CLI::error( 'unable to launch live logging, no shared memory manager found.' );
+			\WP_CLI::error( 'unable to launch tail command, no shared memory manager found.' );
 		}
-
+		if ( ! Autolog::is_enabled() ) {
+			\WP_CLI::warning( 'auto-logging is currently disabled. The tail command needs auto-logging...' );
+			\WP_CLI::confirm( 'Would you like to enable auto-logging and to resume command?', $assoc_args );
+			Autolog::activate();
+		}
 		$count = isset( $args[0] ) ? (int) $args[0] : 0;
-
-
-
-		/*while ( true ) {
-			$records = SharedMemoryHandler::read();
-			foreach ( $records as $record ) {
-				\WP_CLI::line( $record['timestamp'] . '  ' . $record['channel'] . '  ' . $record['level'] . '  ' . $record['message'] );
-			}
-			//usleep(100000);
+		if ( 0 > $count || 40 < $count ) {
+			$count = 0;
 		}
-*/
-
-
-
-
+		$col = isset( $assoc_args['col'] ) ? (int) $assoc_args['col'] : 160;
+		if ( 80 > $col ) {
+			$col = 80;
+		}
+		$filter = [];
+		$mode   = '';
+		$records = self::records_filter( SharedMemoryHandler::read(), $filter );
+		if ( 0 === $count ) {
+			while ( true ) {
+				self::records_display( self::records_filter( SharedMemoryHandler::read(), $filter ), $mode, isset( $assoc_args['soft'] ), $col );
+			}
+		} else {
+			self::records_display( array_slice( $records, -$count ), $mode, isset( $assoc_args['soft'] ), $col );
+		}
 	}
 
 
 
 	public static function test( $args, $assoc_args ) {
-		$logger = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
-		$logger->error( 'TEST!' );
+
 
 
 	}
