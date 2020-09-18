@@ -19,6 +19,7 @@ use Decalog\System\Environment;
 use Decalog\System\Option;
 use Decalog\System\GeoIP;
 use Decalog\System\UUID;
+use Decalog\Plugin\Feature\Autolog;
 
 /**
  * WP-CLI for DecaLog.
@@ -175,7 +176,7 @@ class Wpcli {
 	}
 
 	/**
-	 * Get DecaLog details and operation modes
+	 * Get DecaLog details and operation modes.
 	 *
 	 * ## EXAMPLES
 	 *
@@ -224,7 +225,7 @@ class Wpcli {
 		} else {
 			\WP_CLI::line( 'Early-Loading: disabled.' );
 		}
-		if ( Option::network_get( 'livelog' ) ) {
+		if ( Autolog::is_enabled() ) {
 			\WP_CLI::line( 'Auto-Logging: enabled.' );
 		} else {
 			\WP_CLI::line( 'Auto-Logging: disabled.' );
@@ -308,7 +309,7 @@ class Wpcli {
 			}
 		}
 		if ( 'list' !== $action && '' === $uuid ) {
-			\WP_CLI::warning( 'Invalid logger type supplied. Please specify a valid logger type:' );
+			\WP_CLI::warning( 'invalid logger type supplied. Please specify a valid logger type:' );
 			$action = 'list';
 		}
 		switch ( $action ) {
@@ -554,15 +555,15 @@ class Wpcli {
 			}
 		}
 		if ( 'add' === $action && '' === $uuid ) {
-			\WP_CLI::warning( 'Invalid logger type supplied. Please specify a valid logger type:' );
+			\WP_CLI::warning( 'invalid logger type supplied. Please specify a valid logger type:' );
 			self::handler( [], $assoc_args);
 			$action = '';
 		} elseif ( 'set' === $action && 'system' === $uuid ) {
-			\WP_CLI::error( 'You can not modify a system logger.' );
+			\WP_CLI::error( 'you can not modify a system logger.' );
 			self::handler( [], $assoc_args);
 			$action = '';
 		} elseif ( 'list' !== $action && '' === $uuid ) {
-			\WP_CLI::warning( 'Invalid logger uuid supplied. Please specify a valid logger uuid:' );
+			\WP_CLI::warning( 'invalid logger uuid supplied. Please specify a valid logger uuid:' );
 			$action = 'list';
 		}
 		switch ( $action ) {
@@ -604,7 +605,7 @@ class Wpcli {
 					$loggers_list[$uuid]['running'] = true;
 					Option::network_set( 'loggers', $loggers_list );
 					$ilog->info( sprintf( 'Logger "%s" has started.', $loggers_list[ $uuid ]['name'] ) );
-					\WP_CLI::success( sprintf( 'The logger %s is now running.', $uuid ) );
+					\WP_CLI::success( sprintf( 'the logger %s is now running.', $uuid ) );
 				}
 				break;
 			case 'pause':
@@ -614,30 +615,30 @@ class Wpcli {
 					$loggers_list[$uuid]['running'] = false;
 					$ilog->info( sprintf( 'Logger "%s" has been paused.', $loggers_list[ $uuid ]['name'] ) );
 					Option::network_set( 'loggers', $loggers_list );
-					\WP_CLI::success( sprintf( 'The logger %s is now paused.', $uuid ) );
+					\WP_CLI::success( sprintf( 'the logger %s is now paused.', $uuid ) );
 				}
 				break;
 			case 'purge':
 				$loggers_list[$uuid]['uuid'] = $uuid;
 				if ( 'WordpressHandler' !== $loggers_list[$uuid]['handler'] ) {
-					\WP_CLI::warning( sprintf( 'The logger %s can\'t be purged.', $uuid ) );
+					\WP_CLI::warning( sprintf( 'the logger %s can\'t be purged.', $uuid ) );
 				} else {
 					\WP_CLI::confirm( sprintf( 'Are you sure you want to purge logger %s?', $uuid ), $assoc_args );
 					$factory = new LoggerFactory();
 					$factory->purge( $loggers_list[$uuid] );
 					$ilog->notice( sprintf( 'Logger "%s" has been purged.', $loggers_list[ $uuid ]['name'] ) );
-					\WP_CLI::success( sprintf( 'The logger %s has been purged.', $uuid ) );
+					\WP_CLI::success( sprintf( 'the logger %s has been purged.', $uuid ) );
 				}
 				break;
 			case 'clean':
 				$loggers_list[$uuid]['uuid'] = $uuid;
 				if ( 'WordpressHandler' !== $loggers_list[$uuid]['handler'] ) {
-					\WP_CLI::warning( sprintf( 'The logger %s can\'t be cleaned.', $uuid ) );
+					\WP_CLI::warning( sprintf( 'the logger %s can\'t be cleaned.', $uuid ) );
 				} else {
 					$factory = new LoggerFactory();
 					$count   = $factory->clean( $loggers_list[$uuid] );
 					\WP_CLI::log( sprintf( '%d record(s) deleted.', $count ) );
-					\WP_CLI::success( sprintf( 'The logger %s has been cleaned.', $uuid ) );
+					\WP_CLI::success( sprintf( 'the logger %s has been cleaned.', $uuid ) );
 				}
 				break;
 			case 'remove':
@@ -648,30 +649,30 @@ class Wpcli {
 				$ilog->notice( sprintf( 'Logger "%s" has been removed.', $loggers_list[ $uuid ]['name'] ) );
 				unset( $loggers_list[$uuid] );
 				Option::network_set( 'loggers', $loggers_list );
-				\WP_CLI::success( sprintf( 'The logger %s has been removed.', $uuid ) );
+				\WP_CLI::success( sprintf( 'the logger %s has been removed.', $uuid ) );
 				break;
 			case 'add':
 				$result = self::logger_add( $uuid, $assoc_args );
 				if ( '' === $result ) {
 					$ilog->error( 'Unable to add a logger.', 1 );
-					\WP_CLI::error( 'Unable to add logger.' );
+					\WP_CLI::error( 'unable to add logger.' );
 				} else {
 					$loggers_list = Option::network_get( 'loggers' );
 					$ilog->notice( sprintf( 'Logger "%s" has been saved.', $loggers_list[ $result ]['name'] ) );
 					\WP_CLI::line( $result );
-					\WP_CLI::success( 'Logger successfully added.' );
+					\WP_CLI::success( 'logger successfully added.' );
 				}
 				break;
 			case 'set':
 				$result = self::logger_modify( $uuid, $assoc_args );
 				if ( '' === $result ) {
 					$ilog->error( 'Unable to modify a logger.', 1 );
-					\WP_CLI::error( 'Unable to set logger.' );
+					\WP_CLI::error( 'unable to set logger.' );
 				} else {
 					$loggers_list = Option::network_get( 'loggers' );
 					$ilog->notice( sprintf( 'Logger "%s" has been saved.', $loggers_list[ $result ]['name'] ) );
 					\WP_CLI::line( $result );
-					\WP_CLI::success( 'Logger successfully set.' );
+					\WP_CLI::success( 'logger successfully set.' );
 				}
 				break;
 		}
@@ -771,7 +772,7 @@ class Wpcli {
 			}
 		}
 		if ( 'list' !== $action && 'auto-on' !== $action && 'auto-off' !== $action && '' === $uuid ) {
-			\WP_CLI::warning( 'Invalid listener id supplied. Please specify a valid listener id:' );
+			\WP_CLI::warning( 'invalid listener id supplied. Please specify a valid listener id:' );
 			$action = 'list';
 		}
 
@@ -792,9 +793,9 @@ class Wpcli {
 					$activated[] = $uuid;
 					Option::network_set( 'listeners', $activated );
 					$ilog->info( 'Listeners settings updated.' );
-					\WP_CLI::success( sprintf( 'The listener %s is now enabled.', $uuid ) );
+					\WP_CLI::success( sprintf( 'the listener %s is now enabled.', $uuid ) );
 					if ( Option::network_get( 'autolisteners' ) ) {
-						\WP_CLI::warning( 'Auto-listening is activated so, enabling/disabling listeners have no effect.' );
+						\WP_CLI::warning( 'auto-listening is activated so, enabling/disabling listeners have no effect.' );
 					}
 				}
 				break;
@@ -810,30 +811,30 @@ class Wpcli {
 					}
 					Option::network_set( 'listeners', $list );
 					$ilog->info( 'Listeners settings updated.' );
-					\WP_CLI::success( sprintf( 'The listener %s is now disabled.', $uuid ) );
+					\WP_CLI::success( sprintf( 'the listener %s is now disabled.', $uuid ) );
 					if ( Option::network_get( 'autolisteners' ) ) {
-						\WP_CLI::warning( 'Auto-listening is activated so, enabling/disabling listeners have no effect.' );
+						\WP_CLI::warning( 'auto-listening is activated so, enabling/disabling listeners have no effect.' );
 					}
 				}
 				break;
 			case 'auto-on':
 				if ( Option::network_get( 'autolisteners' ) ) {
-					\WP_CLI::warning( 'Auto-listening is already activated.' );
+					\WP_CLI::warning( 'auto-listening is already activated.' );
 				} else {
 					\WP_CLI::confirm( 'Are you sure you want to activate auto-listening?', $assoc_args );
 					Option::network_set( 'autolisteners', true );
 					$ilog->info( 'Listeners settings updated.' );
-					\WP_CLI::success( 'Auto-listening is now activated.' );
+					\WP_CLI::success( 'auto-listening is now activated.' );
 				}
 				break;
 			case 'auto-off':
 				if ( ! Option::network_get( 'autolisteners' ) ) {
-					\WP_CLI::warning( 'Auto-listening is already deactivated.' );
+					\WP_CLI::warning( 'auto-listening is already deactivated.' );
 				} else {
 					\WP_CLI::confirm( 'Are you sure you want to deactivate auto-listening?', $assoc_args );
 					Option::network_set( 'autolisteners', false );
 					$ilog->info( 'Listeners settings updated.' );
-					\WP_CLI::success( 'Auto-listening is now deactivated.' );
+					\WP_CLI::success( 'auto-listening is now deactivated.' );
 				}
 				break;
 		}
@@ -841,14 +842,110 @@ class Wpcli {
 	}
 
 	/**
-	 * Launch a live logging session in this console. Use CTRL-C to end the session.
+	 * Modify DecaLog main settings.
+	 *
+	 * <enable|disable>
+	 * : The action to take.
+	 *
+	 * <early-loading|auto-logging>
+	 * : The setting to change.
+	 *
+	 * [--yes]
+	 * : Answer yes to the confirmation message, if any.
+	 *
+	 * ## EXAMPLES
+	 *
+	 * wp decalog settings enable auto-logging
+	 * wp decalog settingsdisable early-loading --yes
+	 *
+	 *
+	 *   === For other examples and recipes, visit https://github.com/Pierre-Lannoy/wp-decalog/blob/master/WP-CLI.md ===
+	 *
+	 */
+	public static function settings( $args, $assoc_args ) {
+		$action  = isset( $args[0] ) ? (string) $args[0] : '';
+		$setting = isset( $args[1] ) ? (string) $args[1] : '';
+		switch ( $action ) {
+			case 'enable':
+				switch ( $setting ) {
+					case 'early-loading':
+						Option::network_set( 'earlyloading', true );
+						\WP_CLI::success( 'early-loading is now activated.' );
+						break;
+					case 'auto-logging':
+						Autolog::activate();
+						\WP_CLI::success( 'auto-logging is now activated.' );
+						break;
+					default:
+						\WP_CLI::error( 'unrecognized setting.' );
+				}
+				break;
+			case 'disable':
+				switch ( $setting ) {
+					case 'early-loading':
+						\WP_CLI::confirm( 'Are you sure you want to deactivate early-loading?', $assoc_args );
+						Option::network_set( 'earlyloading', false );
+						\WP_CLI::success( 'early-loading is now deactivated.' );
+						break;
+					case 'auto-logging':
+						\WP_CLI::confirm( 'Are you sure you want to deactivate auto-logging?', $assoc_args );
+						Autolog::deactivate();
+						\WP_CLI::success( 'auto-logging is now deactivated.' );
+						break;
+						break;
+					default:
+						\WP_CLI::error( 'unrecognized setting.' );
+				}
+				break;
+			default:
+				\WP_CLI::error( 'unrecognized action.' );
+		}
+	}
+
+	/**
+	 * Send a message to all running loggers.
+	 *
+	 * <info|notice|warning|error|critical|alert>
+	 * : The level of the event.
+	 *
+	 * <message>
+	 * : The message.
+	 *
+	 * [--code=<code>]
+	 * : The code of the event. Must be a positive integer. Default is 0.
+	 *
+	 * ## EXAMPLES
+	 *
+	 * wp decalog send info 'This is an informational message'
+	 * wp decalog send warning 'Page not found' --code=404
+	 *
+	 *
+	 *   === For other examples and recipes, visit https://github.com/Pierre-Lannoy/wp-decalog/blob/master/WP-CLI.md ===
+	 *
+	 */
+	public static function send( $args, $assoc_args ) {
+		$level   = isset( $args[0] ) ? strtolower( $args[0] ) : '';
+		$message = isset( $args[1] ) ? (string) $args[1] : '';
+		$code    = isset( $assoc_args['code'] ) ? (int) $assoc_args['code'] : 0;
+		if ( ! in_array( $level, ['info', 'notice', 'warning', 'error', 'critical', 'alert' ], true ) ) {
+			\WP_CLI::error( 'forbidden or unknown level.' );
+		}
+		$logger = Log::bootstrap( 'core', 'WP-CLI', WP_CLI_VERSION );
+		$logger->log( $level, $message, $code );
+		\WP_CLI::success( 'message sent.' );
+	}
+
+	/**
+	 * Display past or current events.
+	 *
+	 * [<count>]
+	 * : An integer value [1-50] indicating how many most recent events to display. If 0 or nothing is supplied as value, a live session is launched, displaying events as soon as they occur.
 	 *
 	 * [--level=<level>]
 	 * : The minimal level to log.
 	 * ---
 	 * default: info
 	 * options:
-	 *  - debug
 	 *  - info
 	 *  - notice
 	 *  - warning
@@ -858,28 +955,39 @@ class Wpcli {
 	 *  - emergency
 	 * ---
 	 *
+	 * ## NOTES
+	 *
+	 * + This command needs shared memory support for PHP: the PHP module "shmop" must be activated in your PHP web configuration AND in your PHP command-line configuration.
+	 * + This command relies on an internal logger. If this logger is not started at launch time, you will be prompted to starting it - this logger may be left in the "running" state without impact on your website.
+	 * + This internal logger records events from info to emergency levels. It doesn't record debug-level events.
+	 * + If the logger has just been started there will not be much to display if <count> is different from 0...
+	 * + In a live session, just use CTRL-C to terminate it.
+	 *
 	 * ## EXAMPLES
 	 *
-	 * wp decalog live --level=debug
+	 * wp decalog tail
 	 *
 	 *
 	 *   === For other examples and recipes, visit https://github.com/Pierre-Lannoy/wp-decalog/blob/master/WP-CLI.md ===
 	 *
 	 */
-	public static function live( $args, $assoc_args ) {
+	public static function tail( $args, $assoc_args ) {
 		if ( ! function_exists( 'shmop_open' ) || ! function_exists( 'shmop_read' ) || ! function_exists( 'shmop_write' ) || ! function_exists( 'shmop_delete' ) || ! function_exists( 'shmop_close' )) {
-			\WP_CLI::error( 'Unable to launch live logging, no shared memory manager found.' );
+			\WP_CLI::error( 'unable to launch live logging, no shared memory manager found.' );
 		}
 
+		$count = isset( $args[0] ) ? (int) $args[0] : 0;
 
-		while ( true ) {
+
+
+		/*while ( true ) {
 			$records = SharedMemoryHandler::read();
 			foreach ( $records as $record ) {
 				\WP_CLI::line( $record['timestamp'] . '  ' . $record['channel'] . '  ' . $record['level'] . '  ' . $record['message'] );
 			}
 			//usleep(100000);
 		}
-
+*/
 
 
 
@@ -889,16 +997,8 @@ class Wpcli {
 
 
 	public static function test( $args, $assoc_args ) {
-		$test = time();
-		while ( true ) {
-			if ( $test !== time() ) {
-				$date = new \DateTime();
-				$test = time();
-				\WP_CLI::line( $date->format( 'Ymd-H:i:s.u' ) );
-			}
-			usleep(100000);
-		}
-		//\WP_CLI::line( ini_get( 'max_execution_time' ) );
+		$logger = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
+		$logger->error( 'TEST!' );
 
 
 	}
@@ -909,6 +1009,8 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
 	\WP_CLI::add_command( 'decalog logger', [ Wpcli::class, 'logger' ] );
 	\WP_CLI::add_command( 'decalog type', [ Wpcli::class, 'handler' ] );
 	\WP_CLI::add_command( 'decalog listener', [ Wpcli::class, 'listener' ] );
-	\WP_CLI::add_command( 'decalog live', [ Wpcli::class, 'live' ] );
+	\WP_CLI::add_command( 'decalog tail', [ Wpcli::class, 'tail' ] );
+	\WP_CLI::add_command( 'decalog settings', [ Wpcli::class, 'settings' ] );
+	\WP_CLI::add_command( 'decalog send', [ Wpcli::class, 'send' ] );
 	//\WP_CLI::add_command( 'decalog test', [ Wpcli::class, 'test' ] );
 }

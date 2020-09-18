@@ -9,9 +9,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Purge shared memory when auto-logging is disabled.
 - Disable the UI to modify system loggers.
 - Live log in the browser.
-- Interactive send message.
 
 ### Added
+- New WP-CLI command to send messages to running loggers: see `wp help decalog send` for details.
 - New WP-CLI command to manage loggers (list, start, pause, clean, purge, remove, add and set): see `wp help decalog logger` for details.
 - New WP-CLI command to view available logger types (list and describe): see `wp help decalog type` for details.
 - New WP-CLI command to manage listeners (list, enable, disable and auto-listening on/off): see `wp help decalog listener` for details.
