@@ -28,6 +28,7 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 require_once __DIR__ . '/init.php';
+require_once __DIR__ . '/functions.php';
 require_once __DIR__ . '/includes/system/class-option.php';
 require_once __DIR__ . '/includes/system/class-environment.php';
 require_once __DIR__ . '/autoload.php';
