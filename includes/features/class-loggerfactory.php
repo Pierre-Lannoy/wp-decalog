@@ -112,14 +112,14 @@ class LoggerFactory {
 						}
 					}
 					$launchable = true;
-					/*if ( array_key_exists( 'option', $handler_def['needs'] ) ) {
+					if ( array_key_exists( 'option', $handler_def['needs'] ) ) {
 						foreach ( $handler_def['needs']['option'] as $option ) {
 							if ( ! Option::network_get( $option ) ) {
 								$launchable = false;
 								break;
 							}
 						}
-					}*/
+					}
 					if ( array_key_exists( 'function_exists', $handler_def['needs'] ) ) {
 						foreach ( $handler_def['needs']['function_exists'] as $function ) {
 							if ( ! function_exists( $function ) ) {
