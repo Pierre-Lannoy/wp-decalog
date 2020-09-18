@@ -536,6 +536,17 @@ class Wpcli {
 					}
 				}
 				$uuid = $t;
+			} elseif ( 'set' === $action ) {
+				if ( ! array_key_exists( $uuid, $loggers_list ) ) {
+					$uuid = '';
+				} else {
+					$handler_types = new HandlerTypes();
+					foreach ( $handler_types->get_all() as $handler ) {
+						if ( 'system' === $handler['class'] && $loggers_list[$uuid]['handler'] === $handler['id'] ) {
+							$uuid = 'system';
+						}
+					}
+				}
 			} else {
 				if ( ! array_key_exists( $uuid, $loggers_list ) ) {
 					$uuid = '';
@@ -544,6 +555,10 @@ class Wpcli {
 		}
 		if ( 'add' === $action && '' === $uuid ) {
 			\WP_CLI::warning( 'Invalid logger type supplied. Please specify a valid logger type:' );
+			self::handler( [], $assoc_args);
+			$action = '';
+		} elseif ( 'set' === $action && 'system' === $uuid ) {
+			\WP_CLI::error( 'You can not modify a system logger.' );
 			self::handler( [], $assoc_args);
 			$action = '';
 		} elseif ( 'list' !== $action && '' === $uuid ) {
