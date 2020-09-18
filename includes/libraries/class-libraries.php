@@ -74,7 +74,7 @@ class Libraries {
 			'version' => '2.1',
 			// phpcs:ignore
 			'author'  => sprintf( esc_html__( '%s & contributors', 'decalog' ), 'Willem Stuursma-Ruwen' ),
-			'url'     => 'https://github.com/willemstuursma',
+			'url'     => 'https://github.com/php-lock/lock',
 			'license' => 'wtpfl',
 			'langs'   => 'en',
 		];
