@@ -15,7 +15,7 @@ use Decalog\System\Option;
 use Monolog\Logger;
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Formatter\FormatterInterface;
-use Decalog\Formatter\WordpressFormatter;
+use Decalog\Formatter\GenericFormatter;
 use Decalog\System\SharedMemory;
 use Decalog\System\Environment;
 use malkusch\lock\mutex\FlockMutex;
@@ -76,7 +76,7 @@ class SharedMemoryHandler extends AbstractProcessingHandler {
 	 * {@inheritDoc}
 	 */
 	protected function getDefaultFormatter(): FormatterInterface {
-		return new WordpressFormatter();
+		return new GenericFormatter();
 	}
 
 	/**
