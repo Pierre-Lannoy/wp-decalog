@@ -21,6 +21,7 @@ use Decalog\System\Option;
 use Decalog\System\GeoIP;
 use Decalog\System\Timezone;
 use Decalog\System\UUID;
+use Decalog\Plugin\Feature\EventTypes;
 use Decalog\Plugin\Feature\Autolog;
 
 /**
@@ -198,12 +199,29 @@ class Wpcli {
 	 * Filters records.
 	 *
 	 * @param   array   $records   The records to filter.
-	 * @param   array   $filter    The filter to apply.
+	 * @param   array   $filters    The filter to apply.
 	 * @return  array   The filtered records.
 	 * @since   2.0.0
 	 */
-	private static function records_filter( $records, $filter = [] ) {
-		return $records;
+	private static function records_filter( $records, $filters = [] ) {
+		$result = [];
+		foreach ( $records as $record ) {
+			foreach ( $filters as $key => $filter ) {
+				switch ( $key ) {
+					case 'level':
+						if ( EventTypes::$levels[$record['level']] < EventTypes::$levels[$filter] ) {
+							continue 3;
+						}
+						break;
+					default:
+						if ( ! preg_match( $filter, $record[$key]) ) {
+							continue 3;
+						}
+				}
+			}
+			$result[] = $record;
+		}
+		return $result;
 	}
 
 	/**
@@ -218,17 +236,21 @@ class Wpcli {
 	private static function records_display( $records, $mode = '', $soft = false, $pad = 160 ) {
 		foreach ( $records as $record ) {
 			$timestamp     = '[' . Date::get_date_from_mysql_utc( $record['timestamp'], Timezone::network_get()->getName(), 'Y-m-d H:i:s' ) . ']';
-			$channel_level = strtoupper( str_pad( $record['channel'], 6 ) ) . ' ' . strtoupper( str_pad( $record['level'], 8 ) );
+			$channel_level = strtoupper( str_pad( $record['channel'], 6 ) ) . ' ' . strtoupper( str_pad( $record['level'], 9 ) );
 			$component     = $record['component'];
 			$message       = trim( $record['message'] );
+			if ( !Environment::is_wordpress_multisite() ) {
+				$sid = ' SID:' . str_pad( (string) $record['site_id'], 5, '0', STR_PAD_LEFT ) . ' ';
+			} else {
+				$sid = ' ';
+			}
 
 			switch ( $mode ) {
 				case 'wp':
 					break;
 				default:
-					$line = "$timestamp $channel_level $component: $message";
+					$line = "$timestamp $channel_level$sid$component: $message";
 			}
-
 			$line = preg_replace( '/[\x00-\x1F\x7F\xA0]/u', '', $line );
 			if ( $pad - 1 < strlen( $line ) ) {
 				$line = substr( $line, 0, $pad - 1 ) . '…';
@@ -1022,7 +1044,7 @@ class Wpcli {
 	 * : An integer value [1-40] indicating how many most recent events to display. If 0 or nothing is supplied as value, a live session is launched, displaying events as soon as they occur.
 	 *
 	 * [--level=<level>]
-	 * : The minimal level to log.
+	 * : The minimal level to display.
 	 * ---
 	 * default: info
 	 * options:
@@ -1035,7 +1057,27 @@ class Wpcli {
 	 *  - emergency
 	 * ---
 	 *
+	 *[--filter=<filter>]
+	 * : The misc. filters to apply.
+	 * MUST be a json string containing pairs "field":"regexp".
+	 * ---
+	 * default: '{}'
+	 * available fields: 'channel', 'message', 'class', 'source', 'code', 'site_id', 'user_id', 'remote_ip', 'url', 'verb', 'server','referrer', 'file', 'line', 'classname', 'function'
+	 * example: '{"source":"/Jetpack/", "remote_ip":"/(135.|164.)/"}'
+	 * ---
 	 *
+	 * [--format=<format>]
+	 * : Allows overriding the output of the command when listing loggers.
+	 * ---
+	 * default: classic
+	 * options:
+	 *  - classic
+	 *  - json
+	 *  - csv
+	 *  - yaml
+	 *  - ids
+	 *  - count
+	 * ---
 	 *
 	 *
 	 * [--col=<columns>]
@@ -1058,6 +1100,10 @@ class Wpcli {
 	 * ## EXAMPLES
 	 *
 	 * wp decalog tail
+	 * wp decalog tail 20
+	 * wp decalog tail 20 --level=warning
+	 * wp decalog tail --filter='{"source":"/Jetpack/", "remote_ip":"/(135.|164.)/"}'
+	 * wp decalog tail --filter='{"source":"/WordPress/"} --soft --format=wp'
 	 *
 	 *
 	 *   === For other examples and recipes, visit https://github.com/Pierre-Lannoy/wp-decalog/blob/master/WP-CLI.md ===
@@ -1072,7 +1118,9 @@ class Wpcli {
 			\WP_CLI::confirm( 'Would you like to enable auto-logging and to resume command?', $assoc_args );
 			Autolog::activate();
 		}
-		$count = isset( $args[0] ) ? (int) $args[0] : 0;
+		$filters = [];
+		$mode    = '';
+		$count   = isset( $args[0] ) ? (int) $args[0] : 0;
 		if ( 0 > $count || 40 < $count ) {
 			$count = 0;
 		}
@@ -1080,12 +1128,33 @@ class Wpcli {
 		if ( 80 > $col ) {
 			$col = 80;
 		}
-		$filter = [];
-		$mode   = '';
-		$records = self::records_filter( SharedMemoryHandler::read(), $filter );
+		$filter = \json_decode( isset( $assoc_args['filter'] ) ? (string) $assoc_args['filter'] : '{}', true );
+		if ( is_array( $filter ) ) {
+			foreach( [ 'channel', 'message', 'class', 'source', 'code', 'site_id', 'user_id', 'remote_ip', 'url', 'verb', 'server','referrer', 'file', 'line', 'classname', 'function' ] as $field ) {
+				if ( array_key_exists( $field, $filter ) ) {
+					$value = (string) $filter[$field];
+					if ( '' === $value ) {
+						continue;
+					}
+					switch ( $field ) {
+						case 'source':
+							$filters['component'] = $value;
+							break;
+						default:
+							$filters[$field] = $value;
+					}
+				}
+			}
+		}
+		$level = isset( $assoc_args['level'] ) ? (string) $assoc_args['level'] : 'info';
+		if ( ! in_array( $level, ['info', 'notice', 'warning', 'error', 'critical', 'alert', 'emergency' ], true ) ) {
+			\WP_CLI::error( 'unknown level supplied.' );
+		}
+		$filters['level'] = $level;
+		$records = self::records_filter( SharedMemoryHandler::read(), $filters );
 		if ( 0 === $count ) {
 			while ( true ) {
-				self::records_display( self::records_filter( SharedMemoryHandler::read(), $filter ), $mode, isset( $assoc_args['soft'] ), $col );
+				self::records_display( self::records_filter( SharedMemoryHandler::read(), $filters ), $mode, isset( $assoc_args['soft'] ), $col );
 			}
 		} else {
 			self::records_display( array_slice( $records, -$count ), $mode, isset( $assoc_args['soft'] ), $col );
