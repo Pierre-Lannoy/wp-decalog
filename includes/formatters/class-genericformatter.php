@@ -36,8 +36,28 @@ class GenericFormatter implements FormatterInterface {
 	 */
 	public function format( array $record ): string {
 		$message             = [];
-		$values              = array();
+		$values              = [];
 		$values['timestamp'] = date( 'Y-m-d H:i:s' );
+		$values['level']     = 'unknown';
+		$values['channel']   = 'unknown';
+		$values['class']     = 'unknown';
+		$values['component'] = 'Unknown';
+		$values['version']   = 'N/A';
+		$values['code']      = '0';
+		$values['message']   = '';
+		$values['site_id']   = '0';
+		$values['site_name'] = 'Unknown';
+		$values['user_id']   = '0';
+		$values['user_name'] = 'Unknown';
+		$values['remote_ip'] = '127.0.0.1';
+		$values['url']       = '-';
+		$values['verb']      = 'unknown';
+		$values['server']    = 'unknown';
+		$values['referrer']  = '';
+		$values['file']      = 'unknown';
+		$values['line']      = '0';
+		$values['classname'] = 'unknown';
+		$values['function']  = 'unknown';
 		if ( array_key_exists( 'level', $record ) ) {
 			if ( array_key_exists( $record['level'], EventTypes::$level_names ) ) {
 				$values['level'] = strtolower( EventTypes::$level_names[ $record['level'] ] );
@@ -113,18 +133,6 @@ class GenericFormatter implements FormatterInterface {
 			}
 			if ( array_key_exists( 'function', $extra ) && $extra['function'] && is_string( $extra['function'] ) ) {
 				$values['function'] = substr( $extra['function'], 0, 100 );
-			}
-			if ( array_key_exists( 'trace', $extra ) && $extra['trace'] ) {
-				// phpcs:ignore
-				$s = serialize( $extra['trace'] );
-				if ( strlen( $s ) < 65000 ) {
-					$values['trace'] = $s;
-				} else {
-					$s          = [];
-					$s['error'] = 'This backtrace was not recorded: size exceeds limit.';
-					// phpcs:ignore
-					$values['trace'] = serialize( $s );
-				}
 			}
 		}
 		$message[] = $values;
