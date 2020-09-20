@@ -69,14 +69,14 @@ class EmojiFlag {
 	}
 
 	/**
-	 * Adds APCu identification.
+	 * Get flag.
 	 *
 	 * @param   string $cc  The country code (ISO 3166-1 alpha-2).
 	 * @return  string      The emoji flag.
 	 * @since 1.0.0
 	 */
 	public static function get( $cc ) {
-		$result = '🏁';
+		$result = \mb_convert_encoding( '&#x1F3C1;', 'UTF-8', 'HTML-ENTITIES' ) . \mb_convert_encoding( '&#xFEFF;', 'UTF-8', 'HTML-ENTITIES' ) . \mb_convert_encoding( '&#xFEFF;', 'UTF-8', 'HTML-ENTITIES' );
 		$cc     = strtoupper( $cc );
 		$tmp    = '';
 		$err    = false;
@@ -87,13 +87,13 @@ class EmojiFlag {
 		}
 		foreach ( str_split( $cc ) as $c ) {
 			if ( array_key_exists( $c, self::$unicode ) ) {
-				$tmp .= mb_convert_encoding( '&#x' . self::$unicode[ $c ] . ';', 'UTF-8', 'HTML-ENTITIES' );
+				$tmp .= \mb_convert_encoding( '&#x' . self::$unicode[ $c ] . ';', 'UTF-8', 'HTML-ENTITIES' );
 			} else {
 				$err = true;
 			}
 		}
 		if ( ! $err ) {
-			$result = $tmp;
+			$result = $tmp . \mb_convert_encoding( '&#x200B;', 'UTF-8', 'HTML-ENTITIES' );
 		}
 		return $result;
 	}
