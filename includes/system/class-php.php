@@ -33,11 +33,28 @@ class PHP {
 	 * @return  string  The normalized file name.
 	 * @since   2.0.0
 	 */
-	public static function normalized_file( $file ) {
+	public static function normalized_file( $file = '' ) {
+		if ( 'unknown' === $file || '' === $file ) {
+			return 'PHP kernel';
+		}
 		if ( false !== strpos( $file, 'phar://' ) ) {
 			return str_replace( 'phar://', '', wp_normalize_path( $file ) );
 		}
 		return './' . str_replace( wp_normalize_path( ABSPATH ), '', wp_normalize_path( $file ) );
+	}
+
+	/**
+	 * Normalizes a path+file.
+	 *
+	 * @param   string  $file   The raw file name.
+	 * @return  string  The normalized file name.
+	 * @since   2.0.0
+	 */
+	public static function normalized_file_line( $file = '', $line = '' ) {
+		if ( '' === $line ) {
+			return self::normalized_file( $file );
+		}
+		return self::normalized_file( $file ) . ':' . $line;
 	}
 
 }
