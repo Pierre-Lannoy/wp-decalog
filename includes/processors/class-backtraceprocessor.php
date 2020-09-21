@@ -11,6 +11,7 @@
 
 namespace Decalog\Processor;
 
+use Decalog\System\PHP;
 use Monolog\Logger;
 use Monolog\Processor\ProcessorInterface;
 
@@ -57,7 +58,7 @@ class BacktraceProcessor implements ProcessorInterface {
 			if ( '' === $file ) {
 				$file = '[PHP Kernel]';
 			} else {
-				$file = './' . str_replace( wp_normalize_path( ABSPATH ), '', wp_normalize_path( $file ) );
+				$file = PHP::normalized_file( $file );
 			}
 			$line     = ( array_key_exists( 'line', $call ) ? ':' . $call['line'] : '' );
 			$class    = ( array_key_exists( 'class', $call ) ? $call['class'] : '' );

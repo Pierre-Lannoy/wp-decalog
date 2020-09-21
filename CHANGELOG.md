@@ -23,6 +23,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - The PHP listener now takes care of activated/deactivated modules between web server and command-line configurations.
 - The consistency checker has been improved. 
 - Improved layout for language indicator.
+- If GeoIP support is not done via [IP Locator](https://wordpress.org/plugins/ip-locator/), the flags are now correctly downgraded to emojis.
+- Improved file name and file normalization in backtraces.
 ### Fixed
 - The rotating file wrongly skips events when sent from external process.
 - For some logger types the minimal level may be wrongly set to "debug" at creation.

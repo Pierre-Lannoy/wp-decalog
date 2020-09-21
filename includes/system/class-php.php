@@ -1,0 +1,43 @@
+<?php
+/**
+ * PHP utilities.
+ *
+ * Helpers for PHP paths and files handling.
+ *
+ * @package System
+ * @author  Pierre Lannoy <https://pierre.lannoy.fr/>.
+ * @since   2.0.0
+ */
+
+namespace Decalog\System;
+
+use Decalog\System\Option;
+use Decalog\System\File;
+use Decalog\Logger;
+
+/**
+ * Define the PHP functionality.
+ *
+ * Helpers for PHP paths and files handling.
+ *
+ * @package System
+ * @author  Pierre Lannoy <https://pierre.lannoy.fr/>.
+ * @since   2.0.0
+ */
+class PHP {
+
+	/**
+	 * Normalizes a path+file.
+	 *
+	 * @param   string  $file   The raw file name.
+	 * @return  string  The normalized file name.
+	 * @since   2.0.0
+	 */
+	public static function normalized_file( $file ) {
+		if ( false !== strpos( $file, 'phar://' ) ) {
+			return str_replace( 'phar://', '', wp_normalize_path( $file ) );
+		}
+		return './' . str_replace( wp_normalize_path( ABSPATH ), '', wp_normalize_path( $file ) );
+	}
+
+}

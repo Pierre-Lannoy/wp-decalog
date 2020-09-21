@@ -12,13 +12,13 @@
 namespace Decalog\Plugin\Feature;
 
 use Decalog\System\Date;
+use Decalog\System\PHP;
 use Decalog\System\Timezone;
 use Feather;
 use Decalog\System\Database;
 use Decalog\System\User;
 use Decalog\System\UserAgent;
 use Decalog\System\L10n;
-use Flagiconcss\Flags;
 use Decalog\System\GeoIP;
 
 /**
@@ -545,7 +545,7 @@ class EventViewer {
 	 */
 	public function php_widget() {
 		// File detail.
-		$element = './' . str_replace( wp_normalize_path( ABSPATH ), '', wp_normalize_path( $this->event['file'] ) );
+		$element = PHP::normalized_file( $this->event['file'] );
 		$element = '<span style="width:100%;cursor: default;word-break: break-all;">' . $this->get_icon( 'file-text' ) . $element . ':' . $this->event['line'] . '</span>';
 		$file    = $this->get_section( $element );
 		// Function detail.

@@ -14,6 +14,7 @@ namespace Decalog\Listener;
 use Decalog\Plugin\Feature\DLogger;
 use Decalog\System\Environment;
 use Decalog\System\Option;
+use Decalog\System\PHP;
 use Monolog\Logger;
 use Monolog\Utils;
 
@@ -235,7 +236,7 @@ class PhpListener extends AbstractListener {
 		if ( isset( $last_error ) && is_array( $last_error ) ) {
 			DLogger::ban( $last_error['file'], $last_error['message'] );
 			if ( in_array( $last_error['type'], $this->fatal_errors, true ) ) {
-				$file    = './' . str_replace( wp_normalize_path( ABSPATH ), '', wp_normalize_path( $last_error['file'] ) );
+				$file    = PHP::normalized_file( $last_error['file'] );
 				$file   .= ':' . $last_error['line'];
 				$message = sprintf( 'Fatal error (%s): "%s" at %s', $this->code_to_string( $last_error['type'] ), $last_error['message'], $file );
 				$this->logger->alert( $message, (int) $last_error['type'] );
@@ -257,7 +258,7 @@ class PhpListener extends AbstractListener {
 		DLogger::ban( $file, $message );
 		if ( ! in_array( $code, $this->fatal_errors, true ) ) {
 			$level   = $this->error_level_map[ $code ] ?? Logger::CRITICAL;
-			$file    = './' . str_replace( wp_normalize_path( ABSPATH ), '', wp_normalize_path( $file ) );
+			$file    = PHP::normalized_file( $file );
 			$file   .= ':' . $line;
 			$message = sprintf( 'Error (%s): "%s" at %s', $this->code_to_string( $code ), $message, $file );
 			$this->logger->log( $level, $message, (int) $code );
@@ -277,7 +278,7 @@ class PhpListener extends AbstractListener {
 	 */
 	public function handle_exception( $exception ) {
 		DLogger::ban( $exception->getFile(), $exception->getMessage() );
-		$file    = './' . str_replace( wp_normalize_path( ABSPATH ), '', wp_normalize_path( $exception->getFile() ) );
+		$file    = PHP::normalized_file( $exception->getFile() );
 		$file   .= ':' . $exception->getLine();
 		$message = sprintf( 'Uncaught exception (%s): "%s" at %s', Utils::getClass( $exception ), $exception->getMessage(), $file );
 		$this->logger->error( $message, (int) $exception->getCode() );
