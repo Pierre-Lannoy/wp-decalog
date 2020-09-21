@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Auto-logging option in settings page.
 
 ### Added
+- New WP-CLI command to display (past or current) events in console: see `wp help decalog tail` for details.
 - New WP-CLI command to send messages to running loggers: see `wp help decalog send` for details.
 - New WP-CLI command to toggle on/off main settings: see `wp help decalog settings` for details.
 - New WP-CLI command to manage loggers (list, start, pause, clean, purge, remove, add and set): see `wp help decalog logger` for details.
@@ -30,6 +31,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - The rotating file wrongly skips events when sent from external process.
 - For some logger types the minimal level may be wrongly set to "debug" at creation.
 - Some typos in processors' names.
+- The WordPress viewer maybe unable to display correct details about "generic" devices.
 ### Removed
 - The "HTTP request" box of WordPress viewer is no more displayed if the call is made from local command-line.
 

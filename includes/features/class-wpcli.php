@@ -16,9 +16,11 @@ use Decalog\Listener\ListenerFactory;
 use Decalog\Plugin\Feature\Log;
 use Decalog\System\Cache;
 use Decalog\System\Date;
+use Decalog\System\EmojiFlag;
 use Decalog\System\Environment;
 use Decalog\System\Option;
 use Decalog\System\GeoIP;
+use Decalog\System\PHP;
 use Decalog\System\Timezone;
 use Decalog\System\UUID;
 use Decalog\Plugin\Feature\EventTypes;
@@ -234,22 +236,50 @@ class Wpcli {
 	 * @since   2.0.0
 	 */
 	private static function records_display( $records, $mode = '', $soft = false, $pad = 160 ) {
+		$geoip = new GeoIP();
 		foreach ( $records as $record ) {
 			$timestamp     = '[' . Date::get_date_from_mysql_utc( $record['timestamp'], Timezone::network_get()->getName(), 'Y-m-d H:i:s' ) . ']';
 			$channel_level = strtoupper( str_pad( $record['channel'], 6 ) ) . ' ' . strtoupper( str_pad( $record['level'], 9 ) );
 			$component     = $record['component'];
 			$message       = trim( $record['message'] );
-			if ( !Environment::is_wordpress_multisite() ) {
-				$sid = ' SID:' . str_pad( (string) $record['site_id'], 5, '0', STR_PAD_LEFT ) . ' ';
+			if ( 'unknown' !== $record['verb'] ) {
+				$verb = str_pad( '[' . strtoupper( $record['verb'] ) . ']', 9 );
+			} else {
+				$verb = str_pad( '[-]', 9 );
+			}
+
+			if ( $geoip->is_installed() ) {
+				$ip = EmojiFlag::get( $geoip->get_iso3166_alpha2( $record['remote_ip'] ) ) . ' ' . $record['remote_ip'];
+			} else {
+				$ip = $record['remote_ip'];
+			}
+			$url = $record['url'];
+			if ( 'unknown' === $record['classname'] ) {
+				$func = $record['function'] . '()';
+			} else {
+				$func = $record['classname'] . '::' . $record['function'] . '()';
+			}
+			$file = PHP::normalized_file_line( $record['file'], $record['line'] );
+			if ( Environment::is_wordpress_multisite() ) {
+				$sid = ' SID:' . str_pad( (string) $record['site_id'], 4, '0', STR_PAD_LEFT ) . ' ';
 			} else {
 				$sid = ' ';
 			}
-
+			$uid  = ' UID:' . str_pad( (string) $record['user_id'], 6, '0', STR_PAD_LEFT ) . ' ';
+			$line = "$timestamp $channel_level$sid";
 			switch ( $mode ) {
-				case 'wp':
+				case 'http':
+					if ( 'unknown' !== $record['verb'] ) {
+						$line = $line . "$verb $ip → $url";
+					} else {
+						$line = $line . "$verb $ip <No HTTP request>";
+					}
+					break;
+				case 'php':
+					$line = $line . "$func in $file";
 					break;
 				default:
-					$line = "$timestamp $channel_level$sid$component: $message";
+					$line = $line . "$uid$component: $message";
 			}
 			$line = preg_replace( '/[\x00-\x1F\x7F\xA0]/u', '', $line );
 			if ( $pad - 1 < strlen( $line ) ) {
@@ -991,7 +1021,6 @@ class Wpcli {
 						Autolog::deactivate();
 						\WP_CLI::success( 'auto-logging is now deactivated.' );
 						break;
-						break;
 					default:
 						\WP_CLI::error( 'unrecognized setting.' );
 				}
@@ -1041,7 +1070,7 @@ class Wpcli {
 	 * Display past or current events.
 	 *
 	 * [<count>]
-	 * : An integer value [1-40] indicating how many most recent events to display. If 0 or nothing is supplied as value, a live session is launched, displaying events as soon as they occur.
+	 * : An integer value [1-60] indicating how many most recent events to display. If 0 or nothing is supplied as value, a live session is launched, displaying events as soon as they occur.
 	 *
 	 * [--level=<level>]
 	 * : The minimal level to display.
@@ -1058,7 +1087,7 @@ class Wpcli {
 	 * ---
 	 *
 	 *[--filter=<filter>]
-	 * : The misc. filters to apply.
+	 * : The misc. filters to apply. Show only records matching the specified pattern.
 	 * MUST be a json string containing pairs "field":"regexp".
 	 * ---
 	 * default: '{}'
@@ -1067,18 +1096,14 @@ class Wpcli {
 	 * ---
 	 *
 	 * [--format=<format>]
-	 * : Allows overriding the output of the command when listing loggers.
+	 * : Specifies the outputted event format.
 	 * ---
-	 * default: classic
+	 * default: wp
 	 * options:
-	 *  - classic
-	 *  - json
-	 *  - csv
-	 *  - yaml
-	 *  - ids
-	 *  - count
+	 *  - wp
+	 *  - http
+	 *  - php
 	 * ---
-	 *
 	 *
 	 * [--col=<columns>]
 	 * : The Number of columns (char in a row) to display. Default is 160. Min is 80.
@@ -1119,9 +1144,8 @@ class Wpcli {
 			Autolog::activate();
 		}
 		$filters = [];
-		$mode    = '';
 		$count   = isset( $args[0] ) ? (int) $args[0] : 0;
-		if ( 0 > $count || 40 < $count ) {
+		if ( 0 > $count || 60 < $count ) {
 			$count = 0;
 		}
 		$col = isset( $assoc_args['col'] ) ? (int) $assoc_args['col'] : 160;
@@ -1151,22 +1175,15 @@ class Wpcli {
 			\WP_CLI::error( 'unknown level supplied.' );
 		}
 		$filters['level'] = $level;
-		$records = self::records_filter( SharedMemoryHandler::read(), $filters );
+		$mode             = isset( $assoc_args['format'] ) ? (string) $assoc_args['format'] : 'classic';
+		$records          = SharedMemoryHandler::read();
 		if ( 0 === $count ) {
 			while ( true ) {
 				self::records_display( self::records_filter( SharedMemoryHandler::read(), $filters ), $mode, isset( $assoc_args['soft'] ), $col );
 			}
 		} else {
-			self::records_display( array_slice( $records, -$count ), $mode, isset( $assoc_args['soft'] ), $col );
+			self::records_display( array_slice( self::records_filter( $records, $filters ), -$count ), $mode, isset( $assoc_args['soft'] ), $col );
 		}
-	}
-
-
-
-	public static function test( $args, $assoc_args ) {
-
-
-
 	}
 }
 
@@ -1178,5 +1195,4 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
 	\WP_CLI::add_command( 'decalog tail', [ Wpcli::class, 'tail' ] );
 	\WP_CLI::add_command( 'decalog settings', [ Wpcli::class, 'settings' ] );
 	\WP_CLI::add_command( 'decalog send', [ Wpcli::class, 'send' ] );
-	//\WP_CLI::add_command( 'decalog test', [ Wpcli::class, 'test' ] );
 }

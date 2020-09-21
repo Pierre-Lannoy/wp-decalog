@@ -52,10 +52,10 @@ class PHP {
 	 * @since   2.0.0
 	 */
 	public static function normalized_file_line( $file, $line = '' ) {
-		if ( '' === $line ) {
+		if ( '' === (string) $line || '0' === (string) $line ) {
 			return self::normalized_file( $file );
 		}
-		return self::normalized_file( $file ) . ':' . $line;
+		return self::normalized_file( $file ) . ':' . (string) $line;
 	}
 
 }
