@@ -489,14 +489,19 @@ class EventViewer {
 	 * @since 1.0.0
 	 */
 	public function device_widget() {
+		if ( '' === $this->device->brand_short_name ) {
+			$id = '-';
+		} else {
+			$id = $this->device->brand_short_name;
+		}
 		$url      = [
 			'site'     => $this->event['site_id'],
 			'type'     => 'device',
-			'id'       => $this->device->brand_short_name,
+			'id'       => $id,
 			'extended' => '' !== $this->device->model_name ? $this->device->model_name : '-',
 		];
 		$idevice  = '<img style="width:16px;float:left;padding-right:6px;" src="' . $this->device->brand_icon_base64() . '" />';
-		$device   = ( '-' !== $this->device->brand_name ? $this->device->brand_name : esc_html__( 'Generic', 'decalog' ) ) . ( '-' !== $this->device->model_name ? ' ' . $this->device->model_name : '' );
+		$device   = ( '-' !== $this->device->brand_name && '' !== $this->device->brand_name ? $this->device->brand_name : esc_html__( 'Generic', 'decalog' ) ) . ( '-' !== $this->device->model_name ? ' ' . $this->device->model_name : '' );
 		$device   = $this->get_internal_link( UserAgent::get_analytics_url( $url ), $device );
 		$url      = [
 			'site' => $this->event['site_id'],
