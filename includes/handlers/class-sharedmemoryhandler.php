@@ -96,13 +96,10 @@ class SharedMemoryHandler extends AbstractProcessingHandler {
 			foreach ( $messages as $message ) {
 				if ( is_array( $message ) ) {
 					$date = new \DateTime();
-					if ( array_key_exists( 'trace', $message ) ) {
-						unset( $message['trace'] );
-					}
 					$data[ $date->format( 'YmdHisu' ) ] = $message;
 				}
 			}
-			$data = array_slice( $data, -$this->buffer/*, $this->buffer, true*/ );
+			$data = array_slice( $data, -$this->buffer );
 			if ( false === $sm->write( $data ) ) {
 				//error_log( 'ERROR' );
 			}
@@ -131,10 +128,6 @@ class SharedMemoryHandler extends AbstractProcessingHandler {
 		});
 		$data = array_merge( $data1, $data2 );
 		uksort($data, 'strcmp' );
-
-
-
-
 		$result = [];
 		foreach ( $data as $key => $line ) {
 			if ( 0 < strcmp( $key, self::$index ) ) {
