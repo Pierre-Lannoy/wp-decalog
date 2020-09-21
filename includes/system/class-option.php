@@ -73,7 +73,7 @@ class Option {
 		self::$defaults['nags']              = [];
 		self::$defaults['version']           = '0.0.0';
 		self::$defaults['loggers']           = [];
-		self::$defaults['livelog']           = false;
+		self::$defaults['livelog']           = true;
 		self::$defaults['respect_wp_debug']  = false; // In plugin settings.
 		self::$defaults['logger_autostart']  = true;  // In plugin settings.
 		self::$defaults['autolisteners']     = true;  // In plugin settings.
