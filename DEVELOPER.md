@@ -23,14 +23,14 @@ DecaLog is WordPress plugin which that to:
 When using (and developing for) DecaLog, you will have to deal with the following notions:
 - __Event__ - An event is some bits of information regarding something which happened while executing WordPress. See [Anatomy of an event](#anatomy-of-an-event) to know what it's made of.
 - __Listener__ - A listener is, as its name suggests, something that listens to what's going on in a specific _perimeter_ (mainly a specific WordPress component or subsystem), make it an ___event___ and pass this ___event___ to the running ___loggers___.
-- __Logger__ - A logger is a _recorder_ of ___events___. It can filter them (accept or refuse to record the ___event___ based on settings) then store them (in a database, a file, etc.) or send them (via API calls, sockets, mails, etc.).
+- __Logger__ - A logger is a _recorder_ of ___events___. It can filter them (accept or refuse to record the ___event___ based on settings) then store them (in a database, a file, etc.), send them (via API calls, sockets, mails, etc.) or display them in WP-CLI console.
 
 ## Anatomy of an event
 An ___event___ is composed of:
 - A __channel__, which is the type of "execution pipe" that triggered the ___event___. It can take the following values: `CLI` (command-line interface), `CRON` (cron job), `AJAX` (Ajax request), `XMLRPC` (XML-RPC request), `API` (Rest API request), `FEED` (Atom/RDF/RSS feed), `WBACK` (site backend), `WFRONT` (site frontend).
 - A __level__, which represents the severity of the ___event___. This level is set by the ___listener___, regarding what triggered the ___event___. It can take the following values (from the lowest severity to the highest severity): `DEBUG`, `INFO`, `NOTICE`, `WARNING`, `ERROR`, `CRITICAL`, `ALERT`, `EMERGENCY`. For a detail on how it is used, please read "Events standards" in [Conventions](#conventions).
 - A __timestamp__, which is the time when ___event___ was triggered.
-- A versioned __source__, which is the component or the subsystem where the ___event___ is triggered. It maybe things like `PHP`/`7.2` or `WordPress`/`5.2.2` and so on...
+- A versioned __source__, which is the component or the subsystem where the ___event___ is triggered. It may be things like `PHP`/`7.2` or `WordPress`/`5.2.2` and so on...
 - The __class__ of the source, which can take the following values: `core`, `plugin`, `theme`, `db`, `php`.
 - A __message__ in plain text. It is always in English: messages are not localized.
 - A numerical __code__, which may be everything which makes sense regarding the ___event___ (an error code, for instance).
