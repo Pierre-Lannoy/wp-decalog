@@ -24,11 +24,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - The consistency checker has been improved. 
 - Improved layout for language indicator.
 - If GeoIP support is not done via [IP Locator](https://wordpress.org/plugins/ip-locator/), the flags are now correctly downgraded to emojis.
-- Improved file name and file normalization in backtraces.
+- Improved file names and paths normalization in backtraces.
+- In WordPress viewer, the client detail is now "Local shell" if the call is made from local command-line.
 ### Fixed
 - The rotating file wrongly skips events when sent from external process.
 - For some logger types the minimal level may be wrongly set to "debug" at creation.
 - Some typos in processors' names.
+### Removed
+- The "HTTP request" box of WordPress viewer is no more displayed if the call is made from local command-line.
 
 ## [1.14.0] - 2020-09-04
 ### Added

@@ -271,7 +271,9 @@ class EventViewer {
 		} elseif ( class_exists( 'PODeviceDetector\API\Device' ) ) {
 			add_meta_box( 'decalog-other', esc_html__( 'Client details', 'decalog' ), [ $this, 'call_widget' ], self::$screen_id, 'advanced' );
 		}
-		add_meta_box( 'decalog-http', esc_html__( 'HTTP request', 'decalog' ), [ $this, 'http_widget' ], self::$screen_id, 'advanced' );
+		if ( 'unknown' !== $this->event['verb'] ) {
+			add_meta_box( 'decalog-http', esc_html__( 'HTTP request', 'decalog' ), [ $this, 'http_widget' ], self::$screen_id, 'advanced' );
+		}
 		add_meta_box( 'decalog-php', esc_html__( 'PHP introspection', 'decalog' ), [ $this, 'php_widget' ], self::$screen_id, 'advanced' );
 		// Right column.
 		/* translators: like in the sentence "PHP backtrace" or "WordPress backtrace" */
@@ -466,13 +468,18 @@ class EventViewer {
 			$content = '<span style="width:100%;cursor: default;">' . $iclient . $client . '</span> <span style="color:silver">(' . $this->device->client_engine . ')</span>';
 			return $this->get_section( $content );
 		}
-		$url     = [
+		$url = [
 			'site' => $this->event['site_id'],
 			'type' => 'browser',
 			'id'   => $this->device->client_short_name,
 		];
-		$client  = $this->get_internal_link( UserAgent::get_analytics_url( $url ), ( '-' !== $this->device->client_name ? $this->device->client_name : esc_html__( 'Generic', 'decalog' ) ) ) . ( '-' !== $this->device->client_version ? ' ' . $this->device->client_version : '' );
-		$content = '<span style="width:100%;cursor: default;">' . $this->get_icon( 'play-circle' ) . $client . '</span> <span style="color:silver">' . $this->device->client_full_type . '</span>';
+		if ( '' !== $this->device->client_name ) {
+			$client  = $this->get_internal_link( UserAgent::get_analytics_url( $url ), ( '-' !== $this->device->client_name ? $this->device->client_name : esc_html__( 'Generic', 'decalog' ) ) ) . ( '-' !== $this->device->client_version ? ' ' . $this->device->client_version : '' );
+			$content = '<span style="width:100%;cursor: default;">' . $this->get_icon( 'play-circle' ) . $client . '</span> <span style="color:silver">' . $this->device->client_full_type . '</span>';
+		} else {
+			$content = '<span style="width:100%;cursor: default;">' . $this->get_icon( 'play-circle' ) . esc_html__( 'Local shell', 'decalog' ) . '</span>';
+		}
+
 		return $this->get_section( $content );
 	}
 
