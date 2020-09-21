@@ -6,7 +6,7 @@
  *
  * @package System
  * @author  Pierre Lannoy <https://pierre.lannoy.fr/>.
- * @since   1.0.0
+ * @since   2.0.0
  */
 
 namespace Decalog\System;
@@ -31,7 +31,7 @@ class Markdown {
 	 * @param   array   $attributes  'style' => 'markdown', 'html'.
 	 *                               'mode'  => 'raw', 'clean'.
 	 * @return  string  The output of the shortcode, ready to print.
-	 * @since 1.0.0
+	 * @since 2.0.0
 	 */
 	public function get_shortcode( $file, $attributes ) {
 		$_attributes = shortcode_atts(
@@ -72,7 +72,7 @@ class Markdown {
 	 * @param   string  $content  The raw changelog in markdown.
 	 * @param   boolean $clean    Optional. Should the output be cleaned?.
 	 * @return  string  The converted changelog, ready to print.
-	 * @since   1.0.0
+	 * @since   2.0.0
 	 */
 	private function html_changelog( $content, $clean = false ) {
 		$markdown = new Parsedown();
