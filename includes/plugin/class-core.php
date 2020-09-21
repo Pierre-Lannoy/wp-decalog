@@ -91,6 +91,7 @@ class Core {
 		$this->loader->add_action( 'plugins_loaded', $listeners, 'launch_late_init', PHP_INT_MAX );
 		$this->loader->add_action( 'wp_head', $assets, 'prefetch' );
 		add_shortcode( 'decalog-changelog', [ $updater, 'sc_get_changelog' ] );
+		add_shortcode( 'decalog-wpcli', [ 'Decalog\Plugin\Feature\Wpcli', 'sc_get_helpfile' ] );
 		add_shortcode( 'decalog-libraries', [ $libraries, 'sc_get_list' ] );
 		add_shortcode( 'decalog-statistics', [ 'Decalog\System\Statistics', 'sc_get_raw' ] );
 		if ( ! wp_next_scheduled( DECALOG_CRON_NAME ) ) {

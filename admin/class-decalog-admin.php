@@ -9,6 +9,8 @@
 
 namespace Decalog\Plugin;
 
+use Decalog\Plugin\Feature\Autolog;
+use Decalog\System\SharedMemory;
 use Decalog\Plugin\Feature\Log;
 use Decalog\Plugin\Feature\EventViewer;
 use Decalog\Plugin\Feature\HandlerTypes;
@@ -558,6 +560,12 @@ class Decalog_Admin {
 				Option::network_set( 'logger_autostart', array_key_exists( 'decalog_loggers_options_autostart', $_POST ) ? true : false );
 				Option::network_set( 'pseudonymization', array_key_exists( 'decalog_loggers_options_pseudonymization', $_POST ) );
 				Option::network_set( 'respect_wp_debug', array_key_exists( 'decalog_loggers_options_wpdebug', $_POST ) );
+				$autolog = array_key_exists( 'decalog_plugin_options_livelog', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_plugin_options_livelog' ) : false;
+				if ( $autolog ) {
+					Autolog::activate();
+				} else {
+					Autolog::deactivate();
+				}
 				$message = esc_html__( 'Plugin settings have been saved.', 'decalog' );
 				$code    = 0;
 				add_settings_error( 'decalog_no_error', $code, $message, 'updated' );
@@ -844,6 +852,24 @@ class Decalog_Admin {
 			]
 		);
 		register_setting( 'decalog_plugin_options_section', 'decalog_plugin_options_earlyloading' );
+		if ( SharedMemory::$available ) {
+			add_settings_field(
+				'decalog_plugin_options_livelog',
+				__( 'Live console', 'decalog' ),
+				[ $form, 'echo_field_checkbox' ],
+				'decalog_plugin_options_section',
+				'decalog_plugin_options_section',
+				[
+					'text'        => esc_html__( 'Activate auto-logging', 'decalog' ),
+					'id'          => 'decalog_plugin_options_livelog',
+					'checked'     => Autolog::is_enabled(),
+					'description' => esc_html__( 'If checked, DecaLog will silently start the features needed by live console logging.', 'decalog' ),
+					'full_width'  => false,
+					'enabled'     => true,
+				]
+			);
+			register_setting( 'decalog_plugin_options_section', 'decalog_plugin_options_livelog' );
+		}
 		add_settings_field(
 			'decalog_plugin_options_favicons',
 			__( 'Favicons', 'decalog' ),

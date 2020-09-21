@@ -18,6 +18,7 @@ use Decalog\System\Cache;
 use Decalog\System\Date;
 use Decalog\System\EmojiFlag;
 use Decalog\System\Environment;
+use Decalog\System\Markdown;
 use Decalog\System\Option;
 use Decalog\System\GeoIP;
 use Decalog\System\PHP;
@@ -1184,6 +1185,19 @@ class Wpcli {
 		} else {
 			self::records_display( array_slice( self::records_filter( $records, $filters ), -$count ), $mode, isset( $assoc_args['soft'] ), $col );
 		}
+	}
+
+	/**
+	 * Get the WP-CLI help file.
+	 *
+	 * @param   array $attributes  'style' => 'markdown', 'html'.
+	 *                             'mode'  => 'raw', 'clean'.
+	 * @return  string  The output of the shortcode, ready to print.
+	 * @since 1.0.0
+	 */
+	public static function sc_get_helpfile( $attributes ) {
+		$md = new Markdown();
+		return $md->get_shortcode(  'WP-CLI.md', $attributes  );
 	}
 }
 

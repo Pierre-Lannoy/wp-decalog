@@ -59,7 +59,7 @@ $active_tab = ( isset( $_GET['tab'] ) ? $_GET['tab'] : 'loggers' );
 		);
 		?>
 		" class="nav-tab <?php echo 'misc' === $active_tab ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( 'Options', 'decalog' ); ?></a>
-		<a href="
+        <a href="
 		<?php
 		echo esc_url(
 			add_query_arg(
@@ -72,6 +72,19 @@ $active_tab = ( isset( $_GET['tab'] ) ? $_GET['tab'] : 'loggers' );
 		);
 		?>
 		" class="nav-tab <?php echo 'about' === $active_tab ? 'nav-tab-active' : ''; ?>" style="float:right;"><?php esc_html_e( 'About', 'decalog' ); ?></a>
+        <a href="
+		<?php
+		echo esc_url(
+			add_query_arg(
+				array(
+					'page' => 'decalog-settings',
+					'tab'  => 'wpcli',
+				),
+				admin_url( 'admin.php' )
+			)
+		);
+		?>
+		" class="nav-tab <?php echo 'wpcli' === $active_tab ? 'nav-tab-active' : ''; ?>" style="float:right;">WP-CLI</a>
 	</h2>
 
 	<?php if ( 'loggers' === $active_tab ) { ?>
@@ -82,6 +95,9 @@ $active_tab = ( isset( $_GET['tab'] ) ? $_GET['tab'] : 'loggers' );
 	<?php } ?>
 	<?php if ( 'misc' === $active_tab ) { ?>
 		<?php include __DIR__ . '/decalog-admin-settings-options.php'; ?>
+	<?php } ?>
+	<?php if ( 'wpcli' === $active_tab ) { ?>
+		<?php include __DIR__ . '/decalog-admin-settings-wpcli.php'; ?>
 	<?php } ?>
 	<?php if ( 'about' === $active_tab ) { ?>
 		<?php include __DIR__ . '/decalog-admin-settings-about.php'; ?>

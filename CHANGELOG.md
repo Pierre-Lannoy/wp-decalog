@@ -10,7 +10,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Live log in the browser.
 - Filters in WordPress viewer.
 - Analytics?
-- Auto-logging option in settings page.
 
 ### Added
 - New WP-CLI command to display (past or current) events in console: see `wp help decalog tail` for details.
@@ -19,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - New WP-CLI command to manage loggers (list, start, pause, clean, purge, remove, add and set): see `wp help decalog logger` for details.
 - New WP-CLI command to view available logger types (list and describe): see `wp help decalog type` for details.
 - New WP-CLI command to manage listeners (list, enable, disable and auto-listening on/off): see `wp help decalog listener` for details.
+- New tab in plugin settings for WP-CLI commands.
 ### Changed
 - The PHP listener now takes care of activated/deactivated modules between web server and command-line configurations.
 - The consistency checker has been improved. 
@@ -30,7 +30,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - The rotating file wrongly skips events when sent from external process.
 - For some logger types the minimal level may be wrongly set to "debug" at creation.
 - Some typos in processors' names.
-- The WordPress viewer maybe unable to display correct details about "generic" devices.
+- The WordPress viewer maybe display wrong details about "generic" devices.
 ### Removed
 - The "HTTP request" box of WordPress viewer is no more displayed if the call is made from local command-line.
 - It's no more possible to modify/remove/start/pause a system logger.
