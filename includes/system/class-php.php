@@ -33,7 +33,7 @@ class PHP {
 	 * @return  string  The normalized file name.
 	 * @since   2.0.0
 	 */
-	public static function normalized_file( $file = '' ) {
+	public static function normalized_file( $file ) {
 		if ( 'unknown' === $file || '' === $file ) {
 			return 'PHP kernel';
 		}
@@ -47,10 +47,11 @@ class PHP {
 	 * Normalizes a path+file.
 	 *
 	 * @param   string  $file   The raw file name.
+	 * @param   string  $line   Optional. The file line.
 	 * @return  string  The normalized file name.
 	 * @since   2.0.0
 	 */
-	public static function normalized_file_line( $file = '', $line = '' ) {
+	public static function normalized_file_line( $file, $line = '' ) {
 		if ( '' === $line ) {
 			return self::normalized_file( $file );
 		}
