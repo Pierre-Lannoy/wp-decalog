@@ -7,7 +7,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Todo
 - Warning when shmop module not installed.
 - Purge shared memory when auto-logging is disabled.
-- Disable the UI to modify system loggers.
 - Live log in the browser.
 - Filters in WordPress viewer.
 - Analytics?
@@ -34,6 +33,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - The WordPress viewer maybe unable to display correct details about "generic" devices.
 ### Removed
 - The "HTTP request" box of WordPress viewer is no more displayed if the call is made from local command-line.
+- It's no more possible to modify/remove/start/pause a system logger.
 
 ## [1.14.0] - 2020-09-04
 ### Added

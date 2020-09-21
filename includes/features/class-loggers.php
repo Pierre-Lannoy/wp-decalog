@@ -168,15 +168,17 @@ class Loggers extends \WP_List_Table {
 		);
 		$handler           = $this->handler_types->get( $item['handler'] );
 		$icon              = '<img style="width:34px;float:left;padding-right:6px;" src="' . $handler['icon'] . '" />';
-		$actions['edit']   = sprintf( '<a href="%s">' . esc_html__( 'Edit', 'decalog' ) . '</a>', $edit );
-		$actions['delete'] = sprintf( '<a href="%s">' . esc_html__( 'Remove', 'decalog' ) . '</a>', $delete );
-		if ( $item['running'] ) {
-			$actions['pause'] = sprintf( '<a href="%s">' . esc_html__( 'Pause', 'decalog' ) . '</a>', $pause );
-		} else {
-			$actions['start'] = sprintf( '<a href="%s">' . esc_html__( 'Start', 'decalog' ) . '</a>', $start );
-		}
-		if ( 'WordpressHandler' === $handler['id'] ) {
-			$actions['view'] = sprintf( '<a href="%s">' . esc_html__( 'View', 'decalog' ) . '</a>', $view );
+		if ( 'system' !== $handler['class'] ) {
+			$actions['edit']   = sprintf( '<a href="%s">' . esc_html__( 'Edit', 'decalog' ) . '</a>', $edit );
+			$actions['delete'] = sprintf( '<a href="%s">' . esc_html__( 'Remove', 'decalog' ) . '</a>', $delete );
+			if ( $item['running'] ) {
+				$actions['pause'] = sprintf( '<a href="%s">' . esc_html__( 'Pause', 'decalog' ) . '</a>', $pause );
+			} else {
+				$actions['start'] = sprintf( '<a href="%s">' . esc_html__( 'Start', 'decalog' ) . '</a>', $start );
+			}
+			if ( 'WordpressHandler' === $handler['id'] ) {
+				$actions['view'] = sprintf( '<a href="%s">' . esc_html__( 'View', 'decalog' ) . '</a>', $view );
+			}
 		}
 		if ( $item['running'] ) {
 			$actions['test'] = sprintf( '<a href="%s">' . esc_html__( 'Send Test', 'decalog' ) . '</a>', $test );

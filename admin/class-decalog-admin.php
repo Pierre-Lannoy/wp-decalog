@@ -359,6 +359,13 @@ class Decalog_Admin {
 								$args            = compact( 'current_logger', 'current_handler' );
 								$view            = 'decalog-admin-settings-logger-edit';
 							}
+							if ( 'system' === $current_handler['class'] ) {
+								$view    = 'decalog-admin-settings-main';
+								$message = esc_html__( 'You can not modify or remove a system logger.', 'decalog' );
+								$code    = 403;
+								$this->logger->error( $message, $code );
+								add_settings_error( 'decalog_error', $code, $message, 'error' );
+							}
 							break;
 						case 'form-delete':
 							if ( Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type() ) {
@@ -366,6 +373,13 @@ class Decalog_Admin {
 								$current_handler = $this->current_handler;
 								$args            = compact( 'current_logger', 'current_handler' );
 								$view            = 'decalog-admin-settings-logger-delete';
+							}
+							if ( 'system' === $current_handler['class'] ) {
+								$view    = 'decalog-admin-settings-main';
+								$message = esc_html__( 'You can not modify or remove a system logger.', 'decalog' );
+								$code    = 403;
+								$this->logger->error( $message, $code );
+								add_settings_error( 'decalog_error', $code, $message, 'error' );
 							}
 							break;
 						case 'do-edit':
@@ -382,7 +396,7 @@ class Decalog_Admin {
 							if ( Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type() ) {
 								if ( $nonce && $uuid && wp_verify_nonce( $nonce, 'decalog-logger-start-' . $uuid ) ) {
 									$loggers = Option::network_get( 'loggers' );
-									if ( array_key_exists( $uuid, $loggers ) ) {
+									if ( array_key_exists( $uuid, $loggers ) && 'system' !== $this->current_handler['class'] ) {
 										$loggers[ $uuid ]['running'] = true;
 										Option::network_set( 'loggers', $loggers );
 										$this->logger = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
@@ -390,6 +404,11 @@ class Decalog_Admin {
 										$code         = 0;
 										add_settings_error( 'decalog_no_error', $code, $message, 'updated' );
 										$this->logger->info( sprintf( 'Logger "%s" has started.', $loggers[ $uuid ]['name'] ), $code );
+									} else {
+										$message = esc_html__( 'You can not start or pause a system logger.', 'decalog' );
+										$code    = 403;
+										$this->logger->error( $message, $code );
+										add_settings_error( 'decalog_error', $code, $message, 'error' );
 									}
 								}
 							}
@@ -398,7 +417,7 @@ class Decalog_Admin {
 							if ( Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type() ) {
 								if ( $nonce && $uuid && wp_verify_nonce( $nonce, 'decalog-logger-pause-' . $uuid ) ) {
 									$loggers = Option::network_get( 'loggers' );
-									if ( array_key_exists( $uuid, $loggers ) ) {
+									if ( array_key_exists( $uuid, $loggers ) && 'system' !== $this->current_handler['class'] ) {
 										$message = sprintf( esc_html__( 'Logger %s has been paused.', 'decalog' ), '<em>' . $loggers[ $uuid ]['name'] . '</em>' );
 										$code    = 0;
 										$this->logger->notice( sprintf( 'Logger "%s" has been paused.', $loggers[ $uuid ]['name'] ), $code );
@@ -406,6 +425,12 @@ class Decalog_Admin {
 										Option::network_set( 'loggers', $loggers );
 										$this->logger = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
 										add_settings_error( 'decalog_no_error', $code, $message, 'updated' );
+									}
+									else {
+										$message = esc_html__( 'You can not start or pause a system logger.', 'decalog' );
+										$code    = 403;
+										$this->logger->error( $message, $code );
+										add_settings_error( 'decalog_error', $code, $message, 'error' );
 									}
 								}
 							}
