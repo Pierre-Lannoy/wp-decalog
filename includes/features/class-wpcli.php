@@ -201,14 +201,15 @@ class Wpcli {
 	/**
 	 * Filters records.
 	 *
-	 * @param   array   $records   The records to filter.
-	 * @param   array   $filters    The filter to apply.
+	 * @param   array   $records    The records to filter.
+	 * @param   array   $filters    Optional. The filter to apply.
+	 * @param   string  $index      Optional. The starting index.
 	 * @return  array   The filtered records.
 	 * @since   2.0.0
 	 */
-	private static function records_filter( $records, $filters = [] ) {
+	public static function records_filter( $records, $filters = [], $index ='' ) {
 		$result = [];
-		foreach ( $records as $record ) {
+		foreach ( $records as $idx => $record ) {
 			foreach ( $filters as $key => $filter ) {
 				switch ( $key ) {
 					case 'level':
@@ -222,23 +223,35 @@ class Wpcli {
 						}
 				}
 			}
-			$result[] = $record;
+			$result[$idx] = $record;
 		}
+		if ( '' !== $index ) {
+			$tmp = [];
+			foreach ( $result as $key => $record ) {
+				if ( 0 < strcmp( $key, $index ) ) {
+					$tmp[$key] = $record;
+				}
+			}
+			$result = $tmp;
+		}
+		uksort($result, 'strcmp' );
 		return $result;
 	}
 
 	/**
-	 * Displays records.
+	 * Format records records.
 	 *
 	 * @param   array   $records    The records to display.
 	 * @param   string  $mode       Optional. The displaying mode.
 	 * @param   boolean $soft       Optional. Soften colors.
 	 * @param   integer $pad        Optional. Line padding.
+	 * @return  array   The ready to print records.
 	 * @since   2.0.0
 	 */
-	private static function records_display( $records, $mode = '', $soft = false, $pad = 160 ) {
+	public static function records_format( $records, $mode = '', $soft = false, $pad = 160 ) {
+		$result = [];
 		$geoip = new GeoIP();
-		foreach ( $records as $record ) {
+		foreach ( $records as $idx => $record ) {
 			$timestamp     = '[' . Date::get_date_from_mysql_utc( $record['timestamp'], Timezone::network_get()->getName(), 'Y-m-d H:i:s' ) . ']';
 			$channel_level = strtoupper( str_pad( $record['channel'], 6 ) ) . ' ' . strtoupper( str_pad( $record['level'], 9 ) );
 			$component     = $record['component'];
@@ -286,8 +299,23 @@ class Wpcli {
 			if ( $pad - 1 < strlen( $line ) ) {
 				$line = substr( $line, 0, $pad - 1 ) . '…';
 			}
-			$line = decalog_mb_str_pad( $line, $pad );
-			\WP_CLI::line( \WP_CLI::colorize( self::$level_color[ strtolower( $record['level'] ) ][$soft ? 1 : 0] ) . $line . \WP_CLI::colorize( '%n' ) );
+			$result[$idx] = [ 'level' => strtolower( $record['level'] ), 'line' => decalog_mb_str_pad( $line, $pad ) ];
+		}
+		return $result;
+	}
+
+	/**
+	 * Displays records.
+	 *
+	 * @param   array   $records    The records to display.
+	 * @param   string  $mode       Optional. The displaying mode.
+	 * @param   boolean $soft       Optional. Soften colors.
+	 * @param   integer $pad        Optional. Line padding.
+	 * @since   2.0.0
+	 */
+	private static function records_display( $records, $mode = '', $soft = false, $pad = 160 ) {
+		foreach ( self::records_format( $records, $mode, $soft, $pad ) as $record ) {
+			\WP_CLI::line( \WP_CLI::colorize( self::$level_color[ strtolower( $record['level'] ) ][$soft ? 1 : 0] ) . $record['line'] . \WP_CLI::colorize( '%n' ) );
 		}
 	}
 
