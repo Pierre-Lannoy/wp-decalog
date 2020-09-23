@@ -28,6 +28,7 @@ use Decalog\System\GeoIP;
 use Decalog\System\Environment;
 use Monolog\Logger;
 use PerfOpsOne\AdminMenus;
+use Decalog\Plugin\Feature\DLogger;
 
 /**
  * The admin-specific functionality of the plugin.
@@ -222,7 +223,7 @@ class Decalog_Admin {
 				'position'      => 50,
 				'plugin'        => DECALOG_SLUG,
 				'activated'     => SharedMemory::$available,
-				'remedy'        => '',
+				'remedy'        => esc_url( admin_url( 'admin.php?page=decalog&tab=misc' ) ),
 				'post_callback' => [ $this, 'set_console_help' ],
 			];
 		}
