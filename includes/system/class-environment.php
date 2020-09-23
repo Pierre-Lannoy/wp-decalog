@@ -54,6 +54,7 @@ class Environment {
 		define( 'DECALOG_PLUGIN_SIGNATURE', DECALOG_PRODUCT_NAME . ' v' . DECALOG_VERSION );
 		define( 'DECALOG_PLUGIN_AGENT', DECALOG_PRODUCT_NAME . ' (' . self::wordpress_version_id() . '; ' . self::plugin_version_id() . '; +' . DECALOG_PRODUCT_URL . ')' );
 		define( 'DECALOG_ASSETS_ID', DECALOG_PRODUCT_ABBREVIATION . '-assets' );
+		define( 'DECALOG_LIVELOG_ID', DECALOG_PRODUCT_ABBREVIATION . '-console' );
 		define( 'DECALOG_REST_NAMESPACE', DECALOG_SLUG . '/v' . DECALOG_API_VERSION );
 	}
 
