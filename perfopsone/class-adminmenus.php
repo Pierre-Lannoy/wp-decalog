@@ -70,6 +70,10 @@ if ( ! class_exists( 'PerfOpsOne\AdminMenus' ) ) {
 							add_menu_page( esc_html__( 'Control Center', 'decalog' ), sprintf( esc_html__( '%s Settings', 'decalog' ), 'PerfOps' ), 'manage_options', 'perfopsone-' . $menu, [ self::class, 'get_settings_page' ], 'dashicons-admin-settings', 6666 );
 							add_submenu_page( 'perfopsone-' . $menu, esc_html__( 'Control Center', 'decalog' ), __( 'Control Center', 'decalog' ), 'manage_options', 'perfopsone-' . $menu, [ self::class, 'get_settings_page' ], 0 );
 							break;
+						case 'consoles':
+							add_menu_page( esc_html__( 'Available Consoles', 'decalog' ), sprintf( esc_html__( '%s Consoles', 'decalog' ), 'PerfOps' ), 'manage_options', 'perfopsone-' . $menu, [ self::class, 'get_consoles_page' ], 'dashicons-embed-generic', 6666 );
+							add_submenu_page( 'perfopsone-' . $menu, esc_html__( 'Available Consoles', 'decalog' ), __( 'Available Consoles', 'decalog' ), 'manage_options', 'perfopsone-' . $menu, [ self::class, 'get_sconsoles_page' ], 0 );
+							break;
 					}
 					self::$slugs[] = 'perfopsone-' . $menu;
 				}
@@ -173,6 +177,29 @@ if ( ! class_exists( 'PerfOpsOne\AdminMenus' ) ) {
 					$i['icon']  = call_user_func( $item['icon_callback'] );
 					$i['title'] = $item['name'];
 					$i['id']    = 'records-' . $item['slug'];
+					if ( $item['activated'] ) {
+						$i['text'] = $item['description'];
+						$i['url']  = esc_url( admin_url( 'admin.php?page=' . $item['slug'] ) );
+						$items[]   = $i;
+					}
+				}
+				self::display_as_bubbles( $items );
+			}
+		}
+
+		/**
+		 * Get the records main page.
+		 *
+		 * @since 2.0.0
+		 */
+		public static function get_consoles_page() {
+			if ( array_key_exists( 'consoles', self::$menus ) ) {
+				$items = [];
+				foreach ( self::$menus['consoles'] as $item ) {
+					$i          = [];
+					$i['icon']  = call_user_func( $item['icon_callback'] );
+					$i['title'] = $item['name'];
+					$i['id']    = 'consoles-' . $item['slug'];
 					if ( $item['activated'] ) {
 						$i['text'] = $item['description'];
 						$i['url']  = esc_url( admin_url( 'admin.php?page=' . $item['slug'] ) );

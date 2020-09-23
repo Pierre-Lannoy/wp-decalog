@@ -138,6 +138,27 @@ class Decalog_Admin {
 	}
 
 	/**
+	 * Sets the help action (and boxes settings) for the console.
+	 *
+	 * @param string $hook_suffix    The hook suffix.
+	 * @since 1.0.0
+	 */
+	public function set_console_help( $hook_suffix ) {
+		/*$this->current_view = null;
+		add_action( 'load-' . $hook_suffix, [ new InlineHelp(), 'set_contextual_viewer' ] );
+		$logid   = filter_input( INPUT_GET, 'logid', FILTER_SANITIZE_STRING );
+		$eventid = filter_input( INPUT_GET, 'eventid', FILTER_SANITIZE_NUMBER_INT );
+		if ( 'decalog-viewer' === filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING ) ) {
+			if ( isset( $logid ) && isset( $eventid ) && 0 !== $eventid ) {
+				$this->current_view = new EventViewer( $logid, $eventid, $this->logger );
+				add_action( 'load-' . $hook_suffix, [ $this->current_view, 'add_metaboxes_options' ] );
+				add_action( 'admin_footer-' . $hook_suffix, [ $this->current_view, 'add_footer' ] );
+				add_filter( 'screen_settings', [ $this->current_view, 'display_screen_settings' ], 10, 2 );
+			}
+		}*/
+	}
+
+	/**
 	 * Init PerfOps admin menus.
 	 *
 	 * @param array $perfops    The already declared menus.
@@ -185,6 +206,25 @@ class Decalog_Admin {
 					'post_callback' => [ $this, 'set_viewer_help' ],
 				];
 			}
+		}
+		if ( Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type() ) {
+			$perfops['consoles'][] = [
+				'name'          => esc_html__( 'Live Events', 'decalog' ),
+				/* translators: as in the sentence "Check the events that occurred on your network." or "Check the events that occurred on your website." */
+				'description'   => sprintf( esc_html__( 'Displays events as soon as they occur on your %s.', 'decalog' ), Environment::is_wordpress_multisite() ? esc_html__( 'network', 'decalog' ) : esc_html__( 'website', 'decalog' ) ),
+				'icon_callback' => [ \Decalog\Plugin\Core::class, 'get_base64_logo' ],
+				'slug'          => 'decalog-console',
+				/* translators: as in the sentence "DecaLog Viewer" */
+				'page_title'    => sprintf( esc_html__( '%s Live Events', 'decalog' ), DECALOG_PRODUCT_NAME ),
+				'menu_title'    => esc_html__( 'Live Events', 'decalog' ),
+				'capability'    => 'manage_options',
+				'callback'      => [ $this, 'get_console_page' ],
+				'position'      => 50,
+				'plugin'        => DECALOG_SLUG,
+				'activated'     => SharedMemory::$available,
+				'remedy'        => '',
+				'post_callback' => [ $this, 'set_console_help' ],
+			];
 		}
 		return $perfops;
 	}
@@ -299,6 +339,19 @@ class Decalog_Admin {
 			$this->current_view->get();
 		} else {
 			include DECALOG_ADMIN_DIR . 'partials/decalog-admin-view-events.php';
+		}
+	}
+
+	/**
+	 * Get the content of the console page.
+	 *
+	 * @since 1.0.0
+	 */
+	public function get_console_page() {
+		if ( isset( $this->current_view ) ) {
+			$this->current_view->get();
+		} else {
+			include DECALOG_ADMIN_DIR . 'partials/decalog-admin-view-console.php';
 		}
 	}
 
