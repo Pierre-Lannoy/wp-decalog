@@ -863,7 +863,7 @@ class Decalog_Admin {
 					'text'        => esc_html__( 'Activate auto-logging', 'decalog' ),
 					'id'          => 'decalog_plugin_options_livelog',
 					'checked'     => Autolog::is_enabled(),
-					'description' => esc_html__( 'If checked, DecaLog will silently start the features needed by live console logging.', 'decalog' ),
+					'description' => esc_html__( 'If checked, DecaLog will silently start the features needed by live console.', 'decalog' ),
 					'full_width'  => false,
 					'enabled'     => true,
 				]
@@ -923,6 +923,24 @@ class Decalog_Admin {
 			]
 		);
 		register_setting( 'decalog_plugin_options_section', 'decalog_plugin_options_geoip' );
+		if ( SharedMemory::$available ) {
+			$help  = '<img style="width:16px;vertical-align:text-bottom;" src="' . \Feather\Icons::get_base64( 'thumbs-up', 'none', '#00C800' ) . '" />&nbsp;';
+			$help .= esc_html__('Shared memory is available on your server: you can use live console.', 'decalog' );
+		} else {
+			$help  = '<img style="width:16px;vertical-align:text-bottom;" src="' . \Feather\Icons::get_base64( 'alert-triangle', 'none', '#FF8C00' ) . '" />&nbsp;';
+			$help .= sprintf( esc_html__('Shared memory is not available on your server. To use live console you must activate %s PHP module.', 'decalog' ), '<code>shmop</code>' );
+		}
+		add_settings_field(
+			'decalog_plugin_options_shmop',
+			__( 'Shared memory', 'decalog' ),
+			[ $form, 'echo_field_simple_text' ],
+			'decalog_plugin_options_section',
+			'decalog_plugin_options_section',
+			[
+				'text' => $help
+			]
+		);
+		register_setting( 'decalog_plugin_options_section', 'decalog_plugin_options_shmop' );
 		add_settings_field(
 			'decalog_plugin_options_usecdn',
 			__( 'Resources', 'decalog' ),
