@@ -14,6 +14,8 @@ namespace Decalog;
 use Decalog\Plugin\Feature\Log;
 use Decalog\System\Role;
 use Decalog\Plugin\Feature\DLogger;
+use Decalog\Plugin\Feature\Wpcli;
+use Decalog\Handler\SharedMemoryHandler;
 
 /**
  * Define the item operations functionality.
@@ -29,10 +31,26 @@ class LoggerRoute extends \WP_REST_Controller {
 	/**
 	 * The internal logger.
 	 *
-	 * @since  1.0.0
+	 * @since  2.0.0
 	 * @var    DLogger    $logger    The plugin rest logger.
 	 */
 	protected $logger;
+
+	/**
+	 * The acceptable levels.
+	 *
+	 * @since  2.0.0
+	 * @var    array    $levels    The acceptable levels.
+	 */
+	protected $levels = [ 'info', 'notice', 'warning', 'error', 'critical', 'alert', 'emergency' ];
+
+	/**
+	 * The acceptable modes.
+	 *
+	 * @since  2.0.0
+	 * @var    array    $modes    The acceptable modes.
+	 */
+	protected $modes =  [ 'wp', 'http', 'php' ];
 
 	/**
 	 * Register the routes for the objects of the controller.
@@ -83,10 +101,18 @@ class LoggerRoute extends \WP_REST_Controller {
 			'level' => [
 				'description'       => 'The minimum level to get.',
 				'type'              => 'string',
-				'enum'              => [ 'info', 'notice', 'warning', 'error', 'critical', 'alert', 'emergency' ],
+				'enum'              => $this->levels,
 				'required'          => false,
 				'default'           => 'info',
-				'sanitize_callback' => 'sanitize_text_field',
+				'sanitize_callback' => [ $this, 'sanitize_level' ],
+			],
+			'mode'  => [
+				'description'       => 'The details shown.',
+				'type'              => 'string',
+				'enum'              => $this->modes,
+				'required'          => false,
+				'default'           => 'wp',
+				'sanitize_callback' => [ $this, 'sanitize_mode' ],
 			],
 		];
 	}
@@ -106,19 +132,37 @@ class LoggerRoute extends \WP_REST_Controller {
 	}
 
 	/**
-	 * Get a list of items
+	 * Sanitization callback for level.
 	 *
-	 * @param       integer     $page           The page number.
-	 * @param       integer     $per_page       The number of items per page.
-	 * @param       integer     $owner          The user ID filter.
-	 * @param       integer     $site           The site ID filter.
-	 * @param       string      $search         The search string.
-	 * @param       string      $order          The order selector.
-	 * @return      array       The list of items.
+	 * @param   mixed             $value      Value of the arg.
+	 * @param   \WP_REST_Request  $request    Current request object.
+	 * @param   string            $param      Name of the arg.
+	 * @return  string  The level sanitized.
 	 * @since  2.0.0
 	 */
-	protected function get_list( $page, $per_page, $owner, $site, $search, $order ) {
-		return [];
+	public function sanitize_level( $value, $request = null, $param = null ) {
+		$result = 'info';
+		if ( in_array( (string) $value, $this->levels, true ) ) {
+			$result = (string) $value;
+		}
+		return $result;
+	}
+
+	/**
+	 * Sanitization callback for mode.
+	 *
+	 * @param   mixed             $value      Value of the arg.
+	 * @param   \WP_REST_Request  $request    Current request object.
+	 * @param   string            $param      Name of the arg.
+	 * @return  string  The mode sanitized.
+	 * @since  2.0.0
+	 */
+	public function sanitize_mode( $value, $request = null, $param = null ) {
+		$result = 'wp';
+		if ( in_array( (string) $value, $this->levels, true ) ) {
+			$result = (string) $value;
+		}
+		return $result;
 	}
 
 	/**
@@ -129,42 +173,23 @@ class LoggerRoute extends \WP_REST_Controller {
 	 */
 	public function get_livelog( $request ) {
 		if ( '0' === $request['index'] ) {
-
-		}
-
-
-
-
-
-
-		return new \WP_REST_Response( ['status'=>'OK'], 200 );
-
-
-
-		$list = $this->get_list( $request['page'], $request['per_page'], $request['owner'], $request['site'], $request['search'] ? $request['search'] : '', $request['order'] );
-		$data = [];
-		foreach ( $list['data'] as $item ) {
-			if ( 'details' === $request['view'] ) {
-				$data[] = $item->as_details();
-			} else {
-				$data[] = $item->as_raw();
+			$index = array_key_last( SharedMemoryHandler::read() );
+			if ( ! isset( $index ) ) {
+				$index = '0';
+			}
+			$records = [];
+			$this->logger->notice( 'Live console launched.' );
+		} else {
+			$records = Wpcli::records_format( Wpcli::records_filter( SharedMemoryHandler::read(), [ 'level' => $request['level'] ], $request['index'] ), $request['mode'], false, 200 );
+			$index   = array_key_last( $records );
+			if ( ! isset( $index ) ) {
+				$index = $request['index'];
 			}
 		}
-		if ( 'details' === $request['view'] ) {
-			$result = [
-				'has_previous' => $list['previous'] ? 1 : 0,
-				'has_next'     => $list['next'] ? 1 : 0,
-				'total_pages'  => $list['pages'],
-				'current_page' => $list['page'],
-				'total_items'  => $list['items'],
-				'count_items'  => $list['count'],
-				'items'        => $data,
-			];
-		} else {
-			$result = $data;
-		}
+		$result            = [];
+		$result['index']   = $index;
+		$result['records'] = $records;
 		return new \WP_REST_Response( $result, 200 );
-
 	}
 
 }
