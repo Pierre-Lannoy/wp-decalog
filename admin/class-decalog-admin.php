@@ -96,6 +96,7 @@ class Decalog_Admin {
 	 */
 	public function register_styles() {
 		$this->assets->register_style( DECALOG_ASSETS_ID, DECALOG_ADMIN_URL, 'css/decalog.min.css' );
+		$this->assets->register_style( DECALOG_LIVELOG_ID, DECALOG_ADMIN_URL, 'css/livelog.min.css' );
 	}
 
 	/**
@@ -105,6 +106,7 @@ class Decalog_Admin {
 	 */
 	public function register_scripts() {
 		$this->assets->register_script( DECALOG_ASSETS_ID, DECALOG_ADMIN_URL, 'js/decalog.min.js', [ 'jquery' ] );
+		$this->assets->register_script( DECALOG_LIVELOG_ID, DECALOG_ADMIN_URL, 'js/decalog.min.js', [ 'jquery' ] );
 	}
 
 	/**
