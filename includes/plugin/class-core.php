@@ -21,6 +21,7 @@ use Decalog\System\Nag;
 use Decalog\Plugin\Feature\LoggerMaintainer;
 use Decalog\Listener\ListenerFactory;
 use Decalog\Integration\IntegrationsLoader;
+use Decalog\LoggerRoute;
 
 /**
  * The core plugin class.
@@ -101,6 +102,9 @@ class Core {
 		$this->loader->add_action( DECALOG_CRON_NAME, $maintainer, 'cron_clean' );
 		$integrations_loader = new IntegrationsLoader();
 		$integrations_loader->load_psr3();
+		// REST API
+		$routes = new LoggerRoute();
+		$this->loader->add_action( 'rest_api_init', $routes, 'register_routes' );
 	}
 
 	/**
