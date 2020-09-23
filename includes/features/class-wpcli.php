@@ -1179,6 +1179,8 @@ class Wpcli {
 		$mode             = isset( $assoc_args['format'] ) ? (string) $assoc_args['format'] : 'classic';
 		$records          = SharedMemoryHandler::read();
 		if ( 0 === $count ) {
+			$logger = Log::bootstrap( 'plugin', DECALOG_PRODUCT_NAME, DECALOG_VERSION );
+			$logger->notice( 'Live console launched.' );
 			while ( true ) {
 				self::records_display( self::records_filter( SharedMemoryHandler::read(), $filters ), $mode, isset( $assoc_args['soft'] ), $col );
 			}
