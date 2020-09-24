@@ -158,8 +158,8 @@ class LoggerRoute extends \WP_REST_Controller {
 	 * @since  2.0.0
 	 */
 	public function sanitize_mode( $value, $request = null, $param = null ) {
-		$result = 'wp';
-		if ( in_array( (string) $value, $this->levels, true ) ) {
+		$result = 'http';
+		if ( in_array( (string) $value, $this->modes, true ) ) {
 			$result = (string) $value;
 		}
 		return $result;
@@ -180,15 +180,15 @@ class LoggerRoute extends \WP_REST_Controller {
 			$records = [];
 			$this->logger->notice( 'Live console launched.' );
 		} else {
-			$records = Wpcli::records_format( Wpcli::records_filter( SharedMemoryHandler::read(), [ 'level' => $request['level'] ], $request['index'] ), $request['mode'], false, 200 );
+			$records = Wpcli::records_format( Wpcli::records_filter( SharedMemoryHandler::read(), [ 'level' => $request['level'] ], $request['index'] ), $request['mode'], false, 320 );
 			$index   = array_key_last( $records );
 			if ( ! isset( $index ) ) {
 				$index = $request['index'];
 			}
 		}
-		$result            = [];
-		$result['index']   = $index;
-		$result['records'] = $records;
+		$result          = [];
+		$result['index'] = $index;
+		$result['items'] = $records;
 		return new \WP_REST_Response( $result, 200 );
 	}
 

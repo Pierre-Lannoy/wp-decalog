@@ -113,21 +113,25 @@ class SharedMemoryHandler extends AbstractProcessingHandler {
 	 * @since    2.0.0
 	 */
 	public static function read(): array {
-		$mutex = new FlockMutex( fopen( __FILE__, 'r' ), 1 );
-		$ftok  = ftok( __FILE__, 'w' );
-		$data1 = $mutex->synchronized(function () use ($ftok) {
-			$log  = new SharedMemory( $ftok );
-			$data = $log->read();
-			return $data;
-		});
-		$ftok  = ftok( __FILE__, 'c' );
-		$data2 = $mutex->synchronized(function () use ($ftok) {
-			$log  = new SharedMemory( $ftok );
-			$data = $log->read();
-			return $data;
-		});
-		$data = array_merge( $data1, $data2 );
-		uksort($data, 'strcmp' );
+		try {
+			$mutex = new FlockMutex( fopen( __FILE__, 'r' ), 1 );
+			$ftok  = ftok( __FILE__, 'w' );
+			$data1 = $mutex->synchronized(function () use ($ftok) {
+				$log  = new SharedMemory( $ftok );
+				$data = $log->read();
+				return $data;
+			});
+			$ftok  = ftok( __FILE__, 'c' );
+			$data2 = $mutex->synchronized(function () use ($ftok) {
+				$log  = new SharedMemory( $ftok );
+				$data = $log->read();
+				return $data;
+			});
+			$data = array_merge( $data1, $data2 );
+			uksort($data, 'strcmp' );
+		} catch ( \Throwable $e ) {
+			$data = [];
+		}
 		$result = [];
 		foreach ( $data as $key => $line ) {
 			if ( 0 < strcmp( $key, self::$index ) ) {

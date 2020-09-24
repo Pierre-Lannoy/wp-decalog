@@ -1,7 +1,95 @@
 .decalog-logger-view {
-    background-color: #0a0a0a;
-    color: #0ab152;
+    background-color: #23282d;
     width: 100%;
-    min-height: 500px;
+    height: 60vh;
     float: right;
+    border-radius: 4px;
+}
+
+#decalog-logger-lines {
+    padding: 2px 14px;
+    overflow: scroll;
+    height: 58vh;
+}
+
+.decalog-logger-line {
+    display: block;
+    font-family: monospace;
+    font-size: 12px;
+    line-height: 0.9em;
+}
+
+.decalog-logger-line-init {
+    color:#999999;
+}
+
+.decalog-logger-line-info {
+    color:#4444AA;
+}
+
+.decalog-logger-line-notice {
+    color:#9999FF;
+}
+
+.decalog-logger-line-warning {
+    color:#FFAB10;
+}
+
+.decalog-logger-line-error {
+    color:#FB7B00;
+}
+
+.decalog-logger-line-critical {
+    color:#FF0000;
+}
+
+.decalog-logger-line-alert {
+    color:#DD0000;
+    font-weight: bold;
+}
+
+.decalog-logger-line-emergency {
+    color:#AA0000;
+    font-weight: bold;
+}
+
+.decalog-control{
+    border-radius: 4px;
+    padding: 4px;
+}
+
+.decalog-control-inactive{
+    background-color: #f1f1f1;
+    color: #AAAAAA;
+    cursor: default;
+}
+
+.decalog-control-active{
+    background-color: #f1f1f1;
+    color: #0073aa;
+    cursor: pointer;
+}
+
+.decalog-control-active:hover{
+    background-color: #0073aa;
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
+.decalog-control-hint {
+    font-size: 12px;
+    line-height: 2.4em;
+    font-family: sans-serif;
+    color: #808080;
+    text-align: right;
+    float: right;
+    margin-top: 12px;
+    margin-right: 12px;
+    /*animation: blinker 1s linear infinite;*/
+}
+
+@keyframes blinker {
+    50% {
+        opacity: 0.2;
+    }
 }

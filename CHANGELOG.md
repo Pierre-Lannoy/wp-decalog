@@ -8,7 +8,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Purge shared memory when auto-logging is disabled.
 - Live log in the browser.
 - Filters in WordPress viewer.
-- Analytics?
 
 ### Added
 - New WP-CLI command to display (past or current) events in console: see `wp help decalog tail` for details.
@@ -27,7 +26,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Improved file names and paths normalization in backtraces.
 - In WordPress viewer, the client detail is now "Local shell" if the call is made from local command-line.
 ### Fixed
-- The rotating file wrongly skips events when sent from external process.
+- The rotating file logger wrongly skips events when sent from external process.
 - For some logger types the minimal level may be wrongly set to "debug" at creation.
 - Some typos in processors' names.
 - The WordPress viewer may display wrong details about "generic" devices.

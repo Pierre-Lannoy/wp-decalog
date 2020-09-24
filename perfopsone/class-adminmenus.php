@@ -72,7 +72,7 @@ if ( ! class_exists( 'PerfOpsOne\AdminMenus' ) ) {
 							break;
 						case 'consoles':
 							add_menu_page( esc_html__( 'Available Consoles', 'decalog' ), sprintf( esc_html__( '%s Consoles', 'decalog' ), 'PerfOps' ), 'manage_options', 'perfopsone-' . $menu, [ self::class, 'get_consoles_page' ], 'dashicons-embed-generic', 6666 );
-							add_submenu_page( 'perfopsone-' . $menu, esc_html__( 'Available Consoles', 'decalog' ), __( 'Available Consoles', 'decalog' ), 'manage_options', 'perfopsone-' . $menu, [ self::class, 'get_sconsoles_page' ], 0 );
+							add_submenu_page( 'perfopsone-' . $menu, esc_html__( 'Available Consoles', 'decalog' ), __( 'Available Consoles', 'decalog' ), 'manage_options', 'perfopsone-' . $menu, [ self::class, 'get_consoles_page' ], 0 );
 							break;
 					}
 					self::$slugs[] = 'perfopsone-' . $menu;

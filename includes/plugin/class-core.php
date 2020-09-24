@@ -116,6 +116,7 @@ class Core {
 	private function define_admin_hooks() {
 		$plugin_admin = new Decalog_Admin();
 		$nag          = new Nag();
+		$this->loader->add_action( 'init', $plugin_admin, 'disable_wp_emojis', PHP_INT_MAX );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'register_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'register_scripts' );
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'init_admin_menus' );
