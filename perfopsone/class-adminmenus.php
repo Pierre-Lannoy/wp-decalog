@@ -373,11 +373,11 @@ if ( ! class_exists( 'PerfOpsOne\AdminMenus' ) ) {
 			$disp .= '   .perfopsone-admin-inside .po-actionable a {font-style:normal;text-decoration:none;}';
 			$disp .= '   .perfopsone-admin-inside .po-icon {display:block;width:120px;float:left;padding-top:10px;}';
 			$disp .= '   .perfopsone-admin-inside .po-text {width:70%;display: grid;text-align:left;padding-top:20px;padding-right:16px;}';
-			$disp .= '   .perfopsone-admin-inside .po-title {height: 0;font-size:1.8em;font-weight: 600;}';
+			$disp .= '   .perfopsone-admin-inside .po-title {height: 0;font-size:1.8em;font-weight: 600;margin-bottom: 10px;}';
 			$disp .= '   .perfopsone-admin-inside .po-stars {height:0;font-size:1.8em;font-weight: 600;}';
 			$disp .= '   .perfopsone-admin-inside .po-version {font-size:0.6em;font-weight: 500;padding-left: 10px;vertical-align: middle;}';
-			$disp .= '   .perfopsone-admin-inside .po-update {font-size:1.1em;font-weight: 400;color:#9B59B6;padding-top: 20px;}';
-			$disp .= '   .perfopsone-admin-inside .po-description {font-size:1em;padding-top:0px;margin-bottom: -10px;}';
+			$disp .= '   .perfopsone-admin-inside .po-update {font-size:1.1em;font-weight: 400;color:#9B59B6;margin-top: 20px;}';
+			$disp .= '   .perfopsone-admin-inside .po-description {line-height: 1em;font-size:1em;padding-top:0px;margin-bottom: -10px;}';
 			$disp .= '   .perfopsone-admin-inside .po-requires {font-size:1em;}';
 			$disp .= '   .perfopsone-admin-inside .po-link {padding-left:14px;font-size:0.6em;vertical-align: middle;color:#73879C;}';
 			$disp .= '   .perfopsone-admin-inside .po-link a:hover {text-decoration:underline;}';

@@ -4,12 +4,8 @@ All notable changes to **DecaLog** are documented in this *changelog*.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased - Will be 2.0.0]
-### Todo
-- Purge shared memory when auto-logging is disabled.
-- Live log in the browser.
-- Filters in WordPress viewer.
-
 ### Added
+- New live console-in-browser to see events as soon as they occur.
 - New WP-CLI command to display (past or current) events in console: see `wp help decalog tail` for details.
 - New WP-CLI command to send messages to running loggers: see `wp help decalog send` for details.
 - New WP-CLI command to toggle on/off main settings: see `wp help decalog settings` for details.
@@ -30,6 +26,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - For some logger types the minimal level may be wrongly set to "debug" at creation.
 - Some typos in processors' names.
 - The WordPress viewer may display wrong details about "generic" devices.
+- With Firefox, some links are unclickable in the Control Center (thanks to [Emil1](https://wordpress.org/support/users/milouze/)).
 ### Removed
 - The "HTTP request" box of WordPress viewer is no more displayed if the event is triggered from local command-line.
 - It's no more possible to modify/remove/start/pause a system logger.
