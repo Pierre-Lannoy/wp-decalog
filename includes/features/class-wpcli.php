@@ -1005,7 +1005,7 @@ class Wpcli {
 	 * ## EXAMPLES
 	 *
 	 * wp decalog settings enable auto-logging
-	 * wp decalog settingsdisable early-loading --yes
+	 * wp decalog settings disable early-loading --yes
 	 *
 	 *
 	 *   === For other examples and recipes, visit https://github.com/Pierre-Lannoy/wp-decalog/blob/master/WP-CLI.md ===
