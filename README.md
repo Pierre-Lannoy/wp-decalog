@@ -60,12 +60,12 @@ Based on the amazing [Monolog 2](https://github.com/Seldaek/monolog) logger, Dec
 
 __DecaLog__ supports an extensive set of WP-CLI commands to:
 
-* display (past or current) events in console - see `wp help decalog tail` for details;
-* send messages to running loggers - see `wp help decalog send` for details;
-* toggle on/off main settings - see `wp help decalog settings` for details;
-* manage loggers (list, start, pause, clean, purge, remove, add and set) - see `wp help decalog logger` for details;
-* view available logger types (list and describe) - see `wp help decalog type` for details;
-* manage listeners (list, enable, disable and auto-listening toggle) - see `wp help decalog listener` for details.
+* display (past or current) events in console - see `wp help log tail` for details;
+* send messages to running loggers - see `wp help log send` for details;
+* toggle on/off main settings - see `wp help log settings` for details;
+* manage loggers (list, start, pause, clean, purge, remove, add and set) - see `wp help log logger` for details;
+* view available logger types (list and describe) - see `wp help log type` for details;
+* manage listeners (list, enable, disable and auto-listening toggle) - see `wp help log listener` for details.
 
 For a full help on WP-CLI commands in DecaLog, please [read this guide](WP-CLI.md).
 
