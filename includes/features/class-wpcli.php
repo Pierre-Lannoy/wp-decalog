@@ -324,7 +324,7 @@ class Wpcli {
 	 *
 	 * ## EXAMPLES
 	 *
-	 * wp decalog status
+	 * wp log status
 	 *
 	 *
 	 *   === For other examples and recipes, visit https://github.com/Pierre-Lannoy/wp-decalog/blob/master/WP-CLI.md ===
@@ -424,11 +424,11 @@ class Wpcli {
 	 * ## EXAMPLES
 	 *
 	 * Lists available types:
-	 * + wp decalog type list
-	 * + wp decalog type list --format=json
+	 * + wp log type list
+	 * + wp log type list --format=json
 	 *
 	 * Starts a logger:
-	 * + wp decalog type describe WordpressHandler
+	 * + wp log type describe WordpressHandler
 	 *
 	 *
 	 *   === For other examples and recipes, visit https://github.com/Pierre-Lannoy/wp-decalog/blob/master/WP-CLI.md ===
@@ -639,32 +639,32 @@ class Wpcli {
 	 * ## EXAMPLES
 	 *
 	 * Lists configured loggers:
-	 * + wp decalog logger list
-	 * + wp decalog logger list --detail=full
-	 * + wp decalog logger list --format=json
+	 * + wp log logger list
+	 * + wp log logger list --detail=full
+	 * + wp log logger list --format=json
 	 *
 	 * Starts a logger:
-	 * + wp decalog logger start 37cf1c00-d67d-4e7d-9518-e579f01407a7
+	 * + wp log logger start 37cf1c00-d67d-4e7d-9518-e579f01407a7
 	 *
 	 * Pauses a logger:
-	 * + wp decalog logger pause 37cf1c00-d67d-4e7d-9518-e579f01407a7
+	 * + wp log logger pause 37cf1c00-d67d-4e7d-9518-e579f01407a7
 	 *
 	 * Deletes old records of a logger:
-	 * + wp decalog logger clean 37cf1c00-d67d-4e7d-9518-e579f01407a7
+	 * + wp log logger clean 37cf1c00-d67d-4e7d-9518-e579f01407a7
 	 *
 	 * Deletes all records of a logger:
-	 * + wp decalog logger purge 37cf1c00-d67d-4e7d-9518-e579f01407a7
-	 * + wp decalog logger purge 37cf1c00-d67d-4e7d-9518-e579f01407a7 --yes
+	 * + wp log logger purge 37cf1c00-d67d-4e7d-9518-e579f01407a7
+	 * + wp log logger purge 37cf1c00-d67d-4e7d-9518-e579f01407a7 --yes
 	 *
 	 * Permanently deletes a logger:
-	 * + wp decalog logger remove 37cf1c00-d67d-4e7d-9518-e579f01407a7
-	 * + wp decalog logger remove 37cf1c00-d67d-4e7d-9518-e579f01407a7 --yes
+	 * + wp log logger remove 37cf1c00-d67d-4e7d-9518-e579f01407a7
+	 * + wp log logger remove 37cf1c00-d67d-4e7d-9518-e579f01407a7 --yes
 	 *
 	 * Adds a new logger:
-	 * + wp decalog logger add WordpressHandler {"rotate": 8000, "purge": 5, "level":"warning", "proc_wp": true}
+	 * + wp log logger add WordpressHandler {"rotate": 8000, "purge": 5, "level":"warning", "proc_wp": true}
 	 *
 	 * Change the settings of a logger
-	 * + wp decalog logger set 37cf1c00-d67d-4e7d-9518-e579f01407a7 --settings='{"proc_trace": false, "level":"warning"}'
+	 * + wp log logger set 37cf1c00-d67d-4e7d-9518-e579f01407a7 --settings='{"proc_trace": false, "level":"warning"}'
 	 *
 	 *
 	 *   === For other examples and recipes, visit https://github.com/Pierre-Lannoy/wp-decalog/blob/master/WP-CLI.md ===
@@ -875,23 +875,23 @@ class Wpcli {
 	 * ## EXAMPLES
 	 *
 	 * Lists configured listeners:
-	 * + wp decalog listener list
-	 * + wp decalog listener list --detail=full
-	 * + wp decalog listener list --format=json
+	 * + wp log listener list
+	 * + wp log listener list --detail=full
+	 * + wp log listener list --format=json
 	 *
 	 * Enables a listener:
-	 * + wp decalog listener enable wpdb
+	 * + wp log listener enable wpdb
 	 *
 	 * Disables a listener:
-	 * wp decalog listener disable wpdb
+	 * wp log listener disable wpdb
 	 *
 	 * Activates auto-listening:
-	 * + wp decalog listener auto-on
-	 * + wp decalog listener auto-on --yes
+	 * + wp log listener auto-on
+	 * + wp log listener auto-on --yes
 	 *
 	 * Deactivates auto-listening:
-	 * + wp decalog listener auto-off
-	 * + wp decalog listener auto-off --yes
+	 * + wp log listener auto-off
+	 * + wp log listener auto-off --yes
 	 *
 	 *
 	 *   === For other examples and recipes, visit https://github.com/Pierre-Lannoy/wp-decalog/blob/master/WP-CLI.md ===
@@ -1004,8 +1004,8 @@ class Wpcli {
 	 *
 	 * ## EXAMPLES
 	 *
-	 * wp decalog settings enable auto-logging
-	 * wp decalog settings disable early-loading --yes
+	 * wp log settings enable auto-logging
+	 * wp log settings disable early-loading --yes
 	 *
 	 *
 	 *   === For other examples and recipes, visit https://github.com/Pierre-Lannoy/wp-decalog/blob/master/WP-CLI.md ===
@@ -1073,8 +1073,8 @@ class Wpcli {
 	 *
 	 * ## EXAMPLES
 	 *
-	 * wp decalog send info 'This is an informational message'
-	 * wp decalog send warning 'Page not found' --code=404
+	 * wp log send info 'This is an informational message'
+	 * wp log send warning 'Page not found' --code=404
 	 *
 	 *
 	 *   === For other examples and recipes, visit https://github.com/Pierre-Lannoy/wp-decalog/blob/master/WP-CLI.md ===
@@ -1153,11 +1153,11 @@ class Wpcli {
 	 *
 	 * ## EXAMPLES
 	 *
-	 * wp decalog tail
-	 * wp decalog tail 20
-	 * wp decalog tail 20 --level=warning
-	 * wp decalog tail --filter='{"source":"/Jetpack/", "remote_ip":"/(135.|164.)/"}'
-	 * wp decalog tail --filter='{"source":"/WordPress/"} --soft --format=wp'
+	 * wp log tail
+	 * wp log tail 20
+	 * wp log tail 20 --level=warning
+	 * wp log tail --filter='{"source":"/Jetpack/", "remote_ip":"/(135.|164.)/"}'
+	 * wp log tail --filter='{"source":"/WordPress/"} --soft --format=wp'
 	 *
 	 *
 	 *   === For other examples and recipes, visit https://github.com/Pierre-Lannoy/wp-decalog/blob/master/WP-CLI.md ===
@@ -1232,11 +1232,11 @@ class Wpcli {
 }
 
 if ( defined( 'WP_CLI' ) && WP_CLI ) {
-	\WP_CLI::add_command( 'decalog status', [ Wpcli::class, 'status' ] );
-	\WP_CLI::add_command( 'decalog logger', [ Wpcli::class, 'logger' ] );
-	\WP_CLI::add_command( 'decalog type', [ Wpcli::class, 'handler' ] );
-	\WP_CLI::add_command( 'decalog listener', [ Wpcli::class, 'listener' ] );
-	\WP_CLI::add_command( 'decalog tail', [ Wpcli::class, 'tail' ] );
-	\WP_CLI::add_command( 'decalog settings', [ Wpcli::class, 'settings' ] );
-	\WP_CLI::add_command( 'decalog send', [ Wpcli::class, 'send' ] );
+	\WP_CLI::add_command( 'log status', [ Wpcli::class, 'status' ] );
+	\WP_CLI::add_command( 'log logger', [ Wpcli::class, 'logger' ] );
+	\WP_CLI::add_command( 'log type', [ Wpcli::class, 'handler' ] );
+	\WP_CLI::add_command( 'log listener', [ Wpcli::class, 'listener' ] );
+	\WP_CLI::add_command( 'log tail', [ Wpcli::class, 'tail' ] );
+	\WP_CLI::add_command( 'log settings', [ Wpcli::class, 'settings' ] );
+	\WP_CLI::add_command( 'log send', [ Wpcli::class, 'send' ] );
 }
