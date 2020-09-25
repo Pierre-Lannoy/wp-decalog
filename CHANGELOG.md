@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 - New live console-in-browser to see events as soon as they occur.
 - New WP-CLI command to display (past or current) events in console: see `wp help decalog tail` for details.
+- New WP-CLI command to display DecaLog status: see `wp help decalog status` for details.
 - New WP-CLI command to send messages to running loggers: see `wp help decalog send` for details.
 - New WP-CLI command to toggle on/off main settings: see `wp help decalog settings` for details.
 - New WP-CLI command to manage loggers (list, start, pause, clean, purge, remove, add and set): see `wp help decalog logger` for details.
