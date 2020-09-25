@@ -69,7 +69,7 @@ class Option {
 		self::$defaults['use_cdn']           = false;
 		self::$defaults['download_favicons'] = false;
 		self::$defaults['script_in_footer']  = false;
-		self::$defaults['display_nag']       = true;  // In plugin settings.
+		self::$defaults['display_nag']       = false;  // In plugin settings.
 		self::$defaults['nags']              = [];
 		self::$defaults['version']           = '0.0.0';
 		self::$defaults['loggers']           = [];

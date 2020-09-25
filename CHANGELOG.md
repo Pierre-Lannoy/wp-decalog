@@ -21,6 +21,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - If GeoIP support is not done via [IP Locator](https://wordpress.org/plugins/ip-locator/), the flags are now correctly downgraded to emojis.
 - Improved file names and paths normalization in backtraces.
 - In WordPress viewer, the client detail is now "Local shell" if the call is made from local command-line.
+- Admin notices are now set to "don't display" by default.
 ### Fixed
 - The rotating file logger wrongly skips events when sent from external process.
 - For some logger types the minimal level may be wrongly set to "debug" at creation.
