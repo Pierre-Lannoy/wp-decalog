@@ -35,7 +35,7 @@ An ___event___ is composed of:
 - A __message__ in plain text. It is always in English: messages are not localized.
 - A numerical __code__, which may be everything which makes sense regarding the ___event___ (an error code, for instance).
 
-Depending on each ___loggers___ settings, an ___event___ may contains many other fields which are automaticaly detected and filled by DecaLog.
+Depending on each ___loggers___ settings, an ___event___ may contains many other fields which are automatically detected and filled by DecaLog.
 
 
 ## Coding with DecaLog
