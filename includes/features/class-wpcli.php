@@ -427,7 +427,7 @@ class Wpcli {
 	 * + wp log type list
 	 * + wp log type list --format=json
 	 *
-	 * Starts a logger:
+	 * Details the WordpressHandler logger type:
 	 * + wp log type describe WordpressHandler
 	 *
 	 *
