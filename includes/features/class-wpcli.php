@@ -1231,6 +1231,8 @@ class Wpcli {
 	}
 }
 
+add_shortcode( 'decalog-wpcli', [ 'Decalog\Plugin\Feature\Wpcli', 'sc_get_helpfile' ] );
+
 if ( defined( 'WP_CLI' ) && WP_CLI ) {
 	\WP_CLI::add_command( 'log status', [ Wpcli::class, 'status' ] );
 	\WP_CLI::add_command( 'log logger', [ Wpcli::class, 'logger' ] );
