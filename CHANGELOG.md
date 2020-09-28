@@ -4,6 +4,7 @@ All notable changes to **DecaLog** are documented in this *changelog*.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased - Will be 2.0.0]
+
 ### Added
 - New live console-in-browser to see events as soon as they occur.
 - New WP-CLI command to display (past or current) events in console: see `wp help log tail` for details.
@@ -15,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - New WP-CLI command to manage listeners (list, enable, disable and auto-listening on/off): see `wp help log listener` for details.
 - New tab in plugin settings for WP-CLI commands.
 - A warning is shown in the settings page if `shmop` PHP module is not enabled.
+
 ### Changed
 - The PHP listener now takes care of activated/deactivated modules between web server and command-line configurations.
 - The consistency checker has been improved. 
@@ -23,148 +25,185 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Improved file names and paths normalization in backtraces.
 - In WordPress viewer, the client detail is now "Local shell" if the call is made from local command-line.
 - Admin notices are now set to "don't display" by default.
+
 ### Fixed
 - The rotating file logger wrongly skips events when sent from external process.
 - For some logger types the minimal level may be wrongly set to "debug" at creation.
 - Some typos in processors' names.
 - The WordPress viewer may display wrong details about "generic" devices.
 - With Firefox, some links are unclickable in the Control Center (thanks to [Emil1](https://wordpress.org/support/users/milouze/)).
+
 ### Removed
 - The "HTTP request" box of WordPress viewer is no more displayed if the event is triggered from local command-line.
 - It's no more possible to modify/remove/start/pause a system logger.
 
 ## [1.14.0] - 2020-09-04
+
 ### Added
 - New logger to send logs to Sumo Logic cloud-syslog.
 - New listener for UpdraftPlus Backup/Restore plugin.
 - New listener for iThemes Security plugin.
 - Detection of environment type changes (feature introduced in WordPress 5.5).
+
 ### Changed
 - The Syslog logger can now send extended timestamps (RFC5424) if needed.
 - The positions of PerfOps menus are pushed lower to avoid collision with other plugins. (thanks to [Loïc Antignac](https://github.com/webaxones)).
 - The selector for WordPress events logs is now sorted: running first, paused after (thanks to [Loïc Antignac](https://github.com/webaxones)).
+
 ### Fixed
 - Some typos in "add a logger" screen.
 
 ## [1.13.0] - 2020-07-20
+
 ### Added
 - Compatibility with WordPress 5.5.
+
 ### Changed
 - Optimized early loading.
 - Improved installation/uninstallation and activation/deactivation processes.
 - In WordPress logger, the shown columns are now automatically set.
+
 ### Fixed
 - Uninstalling the plugin may produce a PHP error (thanks to [Emil1](https://wordpress.org/support/users/milouze/)).
 - In some conditions, some tables may not be deleted while uninstalling.
+
 ### Removed
 - The screen options in WordPress logger (as it is now automatically set).
 
 ##[1.12.8] - 2020-07-15
+
 ### Fixed
 - PHP deprecated warning emitted while debugging WordPress cache.
 - The WordPress events may be not purged when it should be (thanks to [Emil1](https://wordpress.org/support/users/milouze/)).
 
 ##[1.12.7] - 2020-06-29
+
 ### Changed
 - Full compatibility with PHP 7.4.
 - Automatic switching between memory and transient when a cache plugin is installed without a properly configured Redis / Memcached.
+
 ### Fixed
 - The WordPress events may be wrongly purged when '0' is set as a limit (thanks to [Emil1](https://wordpress.org/support/users/milouze/)).
 
 ##[1.12.6] - 2020-05-15
+
 ### Changed
 - Supports now Wordfence alerting system inconsistency.
+
 ### Fixed
 - When used for the first time, settings checkboxes may remain checked after being unchecked.
 
 ##[1.12.5] - 2020-05-05
+
 ### Changed
 - The WordPress events tables are now deleted when plugin is uninstalled.
+
 ### Fixed
 - There's an error while activating the plugin when the server is Microsoft IIS with Windows 10.
 - Some tabs may be hidden when site is switched in another language.
 - With Microsoft Edge, some layouts may be ugly.
+
 ### Removed
 - The "channel" starting the "message" from Stackdriver formatter, because channel is now usable as "summary field" in Stackdriver interface.
 
 ##[1.12.4] - 2020-04-10
+
 ### Changed
 - Improved way to handle fatal errors in PHP listener.
 - "Updated user" messages have now "INFO" type (was "NOTICE" previously).
 - "Logged-in user" messages have now "NOTICE" type (was "INFO" previously).
+
 ### Fixed
 - Some main settings may be not saved.
 
 ## [1.12.3] - 2020-04-07
+
 ### Changed
 - Forces mu-plugin dir creation if it doesn't exist.
+
 ### Fixed
 - The doc blocks of some classes wrongly reference Fluentd (thanks to [Nicolas Juen](https://github.com/Rahe)).
 
 ## [1.12.2] - 2020-04-07
+
 ### Changed
 - Removes the mu-plugin to the plugin update list.
 
 ## [1.12.1] - 2020-04-07
+
 ### Fixed
 - The version number of the mu-plugin is wrong.
 
 ## [1.12.0] - 2020-04-07
+
 ### Added
 - New logger to send logs to Elastic Cloud / Elastic Cloud Enterprise.
 - New logger to send logs to Sematext.
 - New option to early load DecaLog as a mu-plugin.
 - Full integration with [IP Locator](https://wordpress.org/plugins/ip-locator/).
+
 ### Changed
 - There's now a flag for each IP address in WordPress events logs (when a GeoIP detection handler is installed).
 - The settings page has now the standard WordPress style.
 - Better styling in "PerfOps Settings" page.
 - In site health "info" tab, the boolean are now clearly displayed.
 - Displaying of IPv6 addresses has been improved.
+
 ### Fixed
 - The update indicator is sometimes hidden.
 - If there's no GeoIP detection handler, a wrong flag is shown for public IPs.
 - An error may appear when updating plugin's empty tables.
 - Some placeholders (in text input) may have a wrong example value.
+
 ### Removed
 - Dependency to "Geolocation IP Detection" plugin. Nevertheless, this plugin can be used as a fallback solution.
 - Flagiconcss as library. If there's no other way, flags will be rendered as emoji.
 - Integrated migration helpers prior to 1.9.x.
 
 ## [1.11.0] - 2020-03-09
+
 ### Added
 - New logger to send logs to Google Stackdriver via Google-Fluentd.
+
 ### Changed
 - Improved IP detection for multi-proxying.
 - Double quotation mark `"` is now replaced by a left double quotation mark `“` in event message, context and extra.
 - Single quotation mark `'` is now replaced by a grave accent in event message, context and extra.
 - "HTTP request" reported details have been fully redesigned.
 - Better styling in "PerfOps Settings" page.
+
 ### Fixed
 - In some cases, the referer and method are wrongly detected.
 - In some cases, the "screen options" tab may be invisible.
 
 ## [1.10.0] - 2020-03-01
+
 ### Added
 - New listener for Wordfence plugin.
 - Full integration with PerfOps.One suite.
 - Compatibility with WordPress 5.4.
+
 ### Changed
 - New menus (in the left admin bar) for accessing features: "PerfOps Records" and "PerfOps Settings".
+
 ### Fixed
 - The shutdown action of [APCu Manager](https://wordpress.org/plugins/apcu-manager/) can cause a PHP notice in DecaLog.
+
 ### Removed
 - Compatibility with WordPress versions prior to 5.2.
 - Old menus entries, due to PerfOps integration.
 
 ## [1.9.1] - 2020-02-13
+
 ### Changed
 - The method for remote IP detection has been improved.
 - All loggers are now paused when deactivating/reactivating DecaLog (thanks to [jimmy19742](https://wordpress.org/support/users/jimmy19742/)).
+
 ### Fixed
 - Warning is generated when WP Security Audit Log set out-of-scope severity levels.
 
 ## [1.9.0] - 2020-01-22
+
 ### Added
 - New listener for WP-Optimize plugin.
 - New listener for Redirection plugin.
@@ -173,14 +212,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - The user-agent is now collected as an extra field when HTTP request is selected as reported details.
 - In WordPress logger, if Device Detector is installed, a new box displays device, bot or client details.
 - In WordPress logger, if GeoIP is installed, a flag is displayed after the "from" IP.
+
 ### Changed
 - The number limit of items in traces is now fixed at 40.
+
 ### Fixed
 - Typos in developer's documentation.
+
 ### Removed
 - The self reference in recorded stack traces.
 
 ## [1.8.0] - 2020-01-02
+
 ### Added
 - Full compatibility (for internal cache) with Redis and Memcached.
 - Using APCu rather than database transients if APCu is available.
@@ -189,52 +232,65 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - New Site Health "info" sections about OPcache and object cache. 
 - New Site Health "info" section about the plugin itself.
 - New Site Health "info" section about loggers settings. 
+
 ### Changed
 - Upgraded Monolog library from version 2.0.1 to version 2.0.2.
 - The SQL listener now generates multiple critical errors if there's more than one SQL error during page rendering.
+
 ### Fixed
 - Updating plugin from prior versions may generates a (innocuous) warning.
 
 ## [1.7.2] - 2019-12-18
+
 ### Changed
 - Error message field can now handle up to 64K characters in WordPress events logs.
 - Traces can now contain up to 64K characters in WordPress events logs.
 - All fields can now handle emojis.
 - The cleaning cron job is now launched hourly.
+
 ### Fixed
 - Some debug events might be ignored when they shouldn't.
 - Some plugin options may be not saved when needed (thanks to [Lucas Bustamante](https://github.com/Luc45)).
 
 ## [1.7.1] - 2019-12-12
+
 ### Changed
 - Improved layout for mobile usage. 
+
 ### Fixed
 - In rare conditions, displayed/hidden columns in WordPress logger are not saved.
 
 ## [1.7.0] - 2019-12-03
+
 ### Added
 - Full compatibility with [MailArchiver](https://wordpress.org/plugins/mailarchiver/).
+
 ### Changed
 - The status of the user in the event viewer is now clearly visible. 
+
 ### Fixed
 - Removing a WordPress logger may produce a wrong backtrace. 
 - The selector for number of displayed lines (in WordPress logger) show sometimes a wrong value.
+
 ### Removed
 - As a result of the Plugin Team's request, the auto-update feature has been removed.
 
 ## [1.6.1] - 2019-11-22
+
 ### Changed
 - Upgraded Monolog library from version 2.0.0 to version 2.0.1.
 - Events for `wp_ajax_sample_permalink` hook are now rendered at debug level.
 - The events levels from WP Security Audit Log listener are now more consistent. 
 - Unit symbols and abbreviations are now visually differentiated.
 - There's now a non-breaking space between values and units.
+
 ### Fixed
 - Some very long fields may be displayed outside the box in the WordPress events logs. 
 - With some OPcache configurations there may be PHP warning in "CoreListener".
 - Some cached items may not be deleted when needed.
 
 ## [1.6.0] - 2019-11-11
+
 ### Added
 - New listener for WooCommerce plugin.
 - New listener for Jetpack plugin.
@@ -244,6 +300,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - New logger to send logs to Solawinds Loggly.
 - New logger to send logs to Logentries / insightOps.
 - New "Content" box in event viewer (for WordPress events logs) to display detailed error code and message.
+
 ### Changed
 - PHP listener now detects all OPcache resets or status changes.
 - Message size (for WordPress events logs) has been increased from 1000 to 7500 characters.
@@ -252,21 +309,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - The PHP and WordPress backtraces are now cleaned from DecaLog and Monolog references.
 - The name and help message for backtraces settings are more clear.
 - cURL timeouts have now an "error" level (it was previously a "critical" one).
+
 ### Fixed
 - Non blocking HTTP request may sometimes generate a "Global Timeout" event in core listener (thanks to [Julio Potier](https://github.com/JulioPotier)).
 - Changelog date of version 1.5.3 is wrong.
+
 ### Security
 - [PRV001] In case of failed login, the username may appear in clear text logs even if pseudonymisation is activated.
 
 ## [1.5.3] - 2019-11-01
+
 ### Fixed
 - The message for PHP upgrading/downgrading was wrongly named "WordPress" (instead of "PHP").
 - A PHP notice may appear when enqueuing some plugin assets.
 
 ## [1.5.2] - 2019-10-24
+
 ### Changed
 - Normalization of cache IDs to avoid name collisions.
 - Developer's documentation modified as wp.org [now allows](https://meta.trac.wordpress.org/ticket/3791) PHP7.1+ code.
+
 ### Fixed
 - Some cached elements may be autoloaded even if not needed.
 - [MultiSite] The "what's new?" screen is only viewable by network admin.
@@ -274,29 +336,36 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - [MultiSite] Action link in "my sites" for local admins.
 
 ## [1.5.1] - 2019-10-05
+
 ### Changed
 - New logo, more in line with the plugin topic.
 - The (nag) update message has now a link to display changelog.
 
 ## [1.5.0] - 2019-10-04
+
 ### Added
 - Compatibility with WordPress 5.3.
 - It's now possible to use public CDN to serve DecaLog scripts and stylesheets (see _Settings | DecaLog | Options_).
+
 ### Changed
 - Finally better IP reporting with local address fallback.
 - Improved information message when in developer preview or release candidate version.
 - The right logo is now displayed in the "about box".
+
 ### Removed
 - "Compatibility Mode" for Monolog 2, as wp.org [now allows](https://meta.trac.wordpress.org/ticket/3791) PHP7.1+ code.
 
 ## [1.4.1] - 2019-09-17
+
 ### Changed
 - Better IP reporting with local address fallback.
 - Better timezone detection for multisites.
+
 ### Fixed
 - In some cases, the remote IP is not correctly set (for sites behind a proxy).
 
 ## [1.4.0] - 2019-09-13
+
 ### Added
 - Full support for [User Switching](https://wordpress.org/plugins/user-switching/) plugin.
 - New events in core listener for posts (trashed, untrashed, drafted, draft saved, published, privately published, scheduled, unscheduled, pending review).
@@ -306,6 +375,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - New events in WPMU listener for users (marked as "spam", marked as "not spam").
 - The core listener can now detect plugin and theme installations/updates.
 - The core listener can now detect translations updates.
+
 ### Changed
 - Plugin activation/deactivation give the full plugin name (instead of its slug).
 - Events regarding "options" and "transients" now differentiate site/network operations.
@@ -313,74 +383,93 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - The word "blog" has been replaced by "site" in events messages.
 - Some help strings have been modified to be more clear.
 - Lower severity of serialized json messages (triggered by `wp_die` handler) from criticial to debug.
+
 ### Removed
 - "Switch Blog" event (for WPMU) because lack of documentation.
+
 ### Fixed
 - PHP notice when accessing a multisites log as a local admin.
 - PHP notice when displaying an event with no backtrace.
 - Removing a user of a site may produce an inconsistent log message.
 
 ## [1.3.0] - 2019-09-11
+
 ### Added
 - New listener for WordPress multisite specific events.
 - New listener for [htaccess Server-Info & Server-Status](https://wordpress.org/plugins/htaccess-server-info-server-status/) plugin.
 - Links to support, site and GitHub repository in plugin list.
 - New class (Decalog\Logger) to use as a standard PSR-3 logger (for plugins and themes developers).
 - New shortcodes to query the plugin statistics.
+
 ### Removed
 - WordPress release now excludes GitHub .wordpress-org directory.
+
 ### Fixed
 - A WordPress logger may record log in the wrong table in multisites instances.
 
 ## [1.2.1] - 2019-09-05
+
 ### Changed
 - Pushover logger now allows to set socket timeout.
 - Watchdog (for self listening) is now fully operational for PHP and MySQL channels.
+
 ### Fixed
 - ChromePHP logger header size limit is unsuitable for the most recent Chromium versions (thanks to [dotMastaz](https://github.com/dotMastaz)).
 
 ## [1.2.0] - 2019-08-31
+
 ### Added
 - The WordPress listener can now detect version upgrading/downgrading.
 - The PHP listener can now detect version upgrading/downgrading.
 - The PHP listener can now detect extensions activation/deactivation.
 - The database listener can now detect version upgrading/downgrading.
 - The plugin now embeds its own inline help (help tab in all screens).
+
 ### Changed
 - Upgraded Monolog version from 2.0.0-beta-2 to 2.0.0.
+
 ### Security
 - In a multisite, a non-admin user was able to read the name of a logger (not its content).
 
 ## [1.1.1] - 2019-08-29
+
 ### Changed
 - Better 'Page not found' detection and report.
 - Better handling of malformed `wp_die` calls.
 - 'Component' become 'source' in WordPress events viewer.
 - Some events have new levels and/or messages to comply with rules described in `DEVELOPER.md`.
+
 ### Fixed
 - WordPress formatter may (wrongly) emit warnings when source ip is unknown.
 
 ## [1.1.0] - 2019-08-28
+
 ### Added
 - A test message can now be sent to a specific logger, from the loggers list.
+
 ### Changed
 - Status (in loggers list) have now their own column.
 - Polishing loggers list.
 - The `README.md` displays badges.
+
 ### Removed
 - DecaLog admin pages no longer render emoji.
 - The section "install from GitHub" has been removed from `README.md`.
+
 ### Fixed
 - Url of the EFF website was wrong in `readme.txt`.
 
 ## [1.0.1] - 2019-08-26
+
 ### Changed
 - Language file (`.pot`) is updated.
 - Main file has now a consistent GPL version license.
 - In admin dashboard, `&` character is now outputted in UTF, not with its HTML entity equivalent.
+
 ### Fixed
 - Erroneous date in `CHANGELOG.md` is changed.
 - Wrongly rendered unordered lists in `readme.txt` are fixed.
 
 ## [1.0.0] - 2019-08-26
-### Initial release
+
+Initial release

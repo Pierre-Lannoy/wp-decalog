@@ -53,7 +53,7 @@ class Markdown {
 				if ( $content ) {
 					switch ( $style ) {
 						case 'html':
-							$result = $this->html_changelog( $content, ( 'clean' === $mode ) );
+							$result = '<div class="markdown">' . $this->html_from_markdown( $content, ( 'clean' === $mode ) ) . '</div>';
 							break;
 						default:
 							$result = esc_html( $content );
@@ -74,14 +74,21 @@ class Markdown {
 	 * @return  string  The converted changelog, ready to print.
 	 * @since   2.0.0
 	 */
-	private function html_changelog( $content, $clean = false ) {
+	private function html_from_markdown( $content, $clean = false ) {
 		$markdown = new Parsedown();
 		$result   = $markdown->text( $content );
 		if ( $clean ) {
 			$result = preg_replace( '/<h1>.*<\/h1>/iU', '', $result );
 			for ( $i = 8; $i > 1; $i-- ) {
-				$result = str_replace( array( '<h' . $i . '>', '</h' . $i . '>' ), array( '<h' . (string) ( $i + 1 ) . '>', '</h' . (string) ( $i + 1 ) . '>' ), $result );
+				$result = str_replace( [ '<h' . $i . '>', '</h' . $i . '>' ], [ '<h' . (string) ( $i + 1 ) . '>', '</h' . (string) ( $i + 1 ) . '>' ], $result );
 			}
+			$result = preg_replace_callback(
+				'/<h([0-9])>(.*)<\/h([0-9])>/iU',
+				function( $matches ) {
+					return '<h' . $matches[1] . ' id="' . sanitize_title_with_dashes( $matches[2] ) . '">' . $matches[2] . '</h' . $matches[3] . '>';
+				},
+				$result
+			);
 		}
 		return wp_kses(
 			$result,
@@ -101,8 +108,10 @@ class Markdown {
 				'ul'         => [],
 				'ol'         => [],
 				'li'         => [],
-				'h3'         => [],
-				'h4'         => [],
+				'h3'         => [ 'id' => [] ],
+				'h4'         => [ 'id' => [] ],
+				'h5'         => [ 'id' => [] ],
+				'h6'         => [ 'id' => [] ],
 			]
 		);
 	}

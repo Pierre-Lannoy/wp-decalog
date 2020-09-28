@@ -5,6 +5,15 @@
     transition: opacity 1.4s ease-in;
 }
 
+.markdown ul{
+    list-style: disc;
+    margin-left: 20px;
+}
+
+.markdown h3 {
+    margin: 40px 0 0 0;
+}
+
 @media only screen and (max-width: 500px) {
     .decalog-about-logo {
         width: 92px;
