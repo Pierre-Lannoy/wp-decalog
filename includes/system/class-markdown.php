@@ -11,7 +11,7 @@
 
 namespace Decalog\System;
 
-use Parsedown;
+use cebe\markdownparser\GithubMarkdown;
 
 /**
  * Define the Markdown functionality.
@@ -75,8 +75,10 @@ class Markdown {
 	 * @since   2.0.0
 	 */
 	private function html_from_markdown( $content, $clean = false ) {
-		$markdown = new Parsedown();
-		$result   = $markdown->text( $content );
+		$markdown                 = new GithubMarkdown();
+		$markdown->html5          = true;
+		$markdown->enableNewlines = true;
+		$result                   = $markdown->parse( $content );
 		if ( $clean ) {
 			$result = preg_replace( '/<h1>.*<\/h1>/iU', '', $result );
 			for ( $i = 8; $i > 1; $i-- ) {

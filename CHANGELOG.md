@@ -26,6 +26,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Improved file names and paths normalization in backtraces.
 - In WordPress viewer, the client detail is now "Local shell" if the call is made from local command-line.
 - Admin notices are now set to "don't display" by default.
+- The integrated markdown parser is now [Markdown](https://github.com/cebe/markdown) from Carsten Brandt.
 
 ### Fixed
 - The rotating file logger wrongly skips events when sent from external process.
@@ -37,6 +38,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Removed
 - The "HTTP request" box of WordPress viewer is no more displayed if the event is triggered from local command-line.
 - It's no more possible to modify/remove/start/pause a system logger.
+- Parsedown as integrated markdown parser.
 
 ## [1.14.0] - 2020-09-04
 
