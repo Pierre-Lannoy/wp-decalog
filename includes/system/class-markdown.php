@@ -49,7 +49,7 @@ class Markdown {
 		if ( file_exists( $changelog ) ) {
 			try {
 				// phpcs:ignore
-				$content = wp_kses(file_get_contents( $changelog ), [] );
+				$content = file_get_contents( $changelog );
 				if ( $content ) {
 					switch ( $style ) {
 						case 'html':
