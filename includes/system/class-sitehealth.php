@@ -77,6 +77,7 @@ class Sitehealth {
 	private static function perfopsone_test_init() {
 		add_filter( 'site_status_tests', [ self::class, 'perfopsone_test_objectcache' ] );
 		add_filter( 'site_status_tests', [ self::class, 'perfopsone_test_opcache' ] );
+		add_filter( 'site_status_tests', [ self::class, 'perfopsone_test_shmop' ] );
 		if ( 'en_US' !== get_locale() ) {
 			add_filter( 'site_status_tests', [ self::class, 'perfopsone_test_i18n' ] );
 		}
@@ -284,6 +285,60 @@ class Sitehealth {
 					'color' => 'orange',
 				],
 				'description' => sprintf( '<p>%s</p>', esc_html__( 'You should consider using OPcache. It would improve PHP performance of your site.', 'decalog' ) ),
+				'actions'     => '',
+				'test'        => $key,
+			];
+		}
+		return $result;
+	}
+
+	/**
+	 * Adds a test.
+	 *
+	 * @param array $tests The already set tests.
+	 * @return array    The extended tests if needed.
+	 * @since 1.0.0
+	 */
+	public static function perfopsone_test_shmop( $tests ) {
+		$key = 'perfopsone_shmop';
+		if ( ! array_key_exists( $key, $tests['direct'] ) ) {
+			$tests['direct'][ $key ] = [
+				'label' => __( 'Shared Memory Test', 'decalog' ),
+				'test'  => [ self::class, 'perfopsone_test_shmop_do' ],
+			];
+		}
+		return $tests;
+	}
+
+	/**
+	 * Does a test.
+	 *
+	 * @return array    The result of the test.
+	 * @since 1.0.0
+	 */
+	public static function perfopsone_test_shmop_do() {
+		$key = 'perfopsone_shmop';
+		if ( function_exists( 'shmop_open' ) && function_exists( 'shmop_read' ) && function_exists( 'shmop_write' ) && function_exists( 'shmop_delete' ) && function_exists( 'shmop_close' ) ) {
+			$result = [
+				'label'       => esc_html__( 'Your site can use shared memory', 'decalog' ),
+				'status'      => 'good',
+				'badge'       => [
+					'label' => esc_html__( 'Performance', 'decalog' ),
+					'color' => 'blue',
+				],
+				'description' => sprintf( '<p>%s</p>', esc_html__( 'Your site can use shared memory to allow inter-process communication. That\'s great.', 'decalog' ) ),
+				'actions'     => '',
+				'test'        => $key,
+			];
+		} else {
+			$result = [
+				'label'       => esc_html__( 'You should allow inter-process communication', 'decalog' ),
+				'status'      => 'recommended',
+				'badge'       => [
+					'label' => esc_html__( 'Performance', 'decalog' ),
+					'color' => 'orange',
+				],
+				'description' => sprintf( '<p>%s</p>', esc_html__( 'You should consider using shared memory (PHP shmop) to allow inter-process communication.', 'decalog' ) ),
 				'actions'     => '',
 				'test'        => $key,
 			];

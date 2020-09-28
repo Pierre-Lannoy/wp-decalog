@@ -15,6 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - New WP-CLI command to view available logger types (list and describe): see `wp help log type` for details.
 - New WP-CLI command to manage listeners (list, enable, disable and auto-listening on/off): see `wp help log listener` for details.
 - New tab in plugin settings for WP-CLI commands.
+- New Site Health "info" section about shared memory.
 - A warning is shown in the settings page if `shmop` PHP module is not enabled.
 
 ### Changed
@@ -229,7 +230,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Using APCu rather than database transients if APCu is available.
 - New Site Health "status" sections about OPcache and object cache. 
 - New Site Health "status" section about i18n extension for non `en_US` sites.
-- New Site Health "info" sections about OPcache and object cache. 
+- New Site Health "info" sections about OPcache and object cache.
 - New Site Health "info" section about the plugin itself.
 - New Site Health "info" section about loggers settings. 
 
