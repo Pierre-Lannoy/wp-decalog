@@ -176,7 +176,8 @@ wp log logger purge c40c59dc-5e34-44a1-986d-e1ecb520e3ca --yes
 
 To remove the logger identified by 'c40c59dc-5e34-44a1-986d-e1ecb520e3ca' without confirmation prompt, type the following command:
 ```console
-:~$ wp log logger remove c40c59dc-5e34-44a1-986d-e1ecb520e3ca --yes
+pierre@dev:~$ wp log logger remove c40c59dc-5e34-44a1-986d-e1ecb520e3ca --yes
+c40c59dc-5e34-44a1-986d-e1ecb520e3ca
 ```
 
 To change the settings of the logger identified by 'c40c59dc-5e34-44a1-986d-e1ecb520e3ca', type the following command:
