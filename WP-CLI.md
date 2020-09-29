@@ -88,22 +88,25 @@ To change the default color scheme to something more *eyes-saving*, use `--soft`
 
 To see all "live" events, type the following command:
 ```console
-wp log tail
+pierre@dev:~$ wp log tail
 ```
 
 To see past alerts for user 1, type the following command:
 ```console
-wp log tail 20 --filter='{"user_id":"/1+/"}' --level=alert
+pierre@dev:~$ wp log tail 20 --filter='{"user_id":"/1+/"}' --level=alert
+...
 ```
 
 To see "live" events only triggered by WordPress core on cron calls, type the following command:
 ```console
-wp log tail --filter='{"channel":"/cron/", "class":"/core/"}'
+pierre@dev:~$ wp log tail --filter='{"channel":"/cron/", "class":"/core/"}'
+...
 ```
 
 To see "live" error that occur with specific http verbs, type the following command:
 ```console
-wp log tail --filter='{"verb":"/(options|connect|trace)/", "class":"/api/"}' --level=error --format=http
+pierre@dev:~$ wp log tail --filter='{"verb":"/(options|connect|trace)/", "class":"/api/"}' --level=error --format=http
+...
 ```
 
 ## Triggering events
@@ -120,12 +123,14 @@ You can specify a numerical error code with `--code=<code>`. If not specified, t
 
 To trigger a simple notice, type the following command:
 ```console
-wp log send notice 'All good!'
+pierre@dev:~$ wp log send notice 'All good!'
+Success: message sent.
 ```
 
 To trigger an error with a 500 error code, type the following command:
 ```console
 wp log send error 'Something went wrong' --code=500
+Success: message sent.
 ```
 
 ## Managing loggers
@@ -161,7 +166,21 @@ To modify a logger, use `wp log logger set <uuid> --settings=<settings>` where `
 
 To list the loggers, type the following command:
 ```console
-wp log logger list --detail=full
+pierre@dev:~$ wp log logger list
++--------------------------------------+-------------------------+---------------------------------+---------+
+| uuid                                 | type                    | name                            | running |
++--------------------------------------+-------------------------+---------------------------------+---------+
+| f1ee25c7-d9fe-42ee-86df-9394b411e2a7 | Pushover                | Alerting for helpdesk team      | no      |
+| 93f84673-a623-4c15-825e-d867f35565ff | ChromePHP               | Debug in Chrome                 | no      |
+| 078e124b-2122-4f03-91e9-2bbf70964618 | Browser console         | Debug in FireFox                | no      |
+| 9553830a-75e7-4405-80c5-8bf726ccf45c | PHP error log           | Detailed logs                   | no      |
+| 37cf1c00-d67d-4e7d-9518-e579f01407a7 | WordPress events log    | Events shared with sites admins | yes     |
+| 5bacf078-2a1f-4c43-8961-4d8ca647661b | Rotating files          | Files on backup server          | yes     |
+| df59a30d-dc30-4771-a4a5-a654f0a5cd46 | Fluentd                 | Full logs for StackDriver       | no      |
+| 6d9943e5-b4fa-4dee-8b02-93a9294b1373 | Syslog                  | Logs on Synology                | no      |
+| dce759b8-e9e8-4e9c-b62a-7d5c9fe160bf | Shared memory           | System auto-logger              | yes     |
+| 8e2ee516-6f8d-40d1-ac16-c3e61274a41a | Slack                   | Warnings in #SysOps channel     | no      |
++--------------------------------------+-------------------------+---------------------------------+---------+
 ```
 
 To start the logger identified by 'c40c59dc-5e34-44a1-986d-e1ecb520e3ca', type the following command:
