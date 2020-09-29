@@ -28,15 +28,18 @@
     display: block;
     padding: 14px;
     border-radius: 4px;
+    padding-left: 36px;
+}
+
+.markdown code.language-console {
+    background-color: #23282d;
+    color:#AAAAAA;
 }
 
 .markdown code.language-bash {
     background-color: #23282d;
     color:#AAAAAA;
-}
-
-.markdown code.language-bash::before {
-    content: " > ";
+    padding-left: 36px;
 }
 
 @media only screen and (max-width: 500px) {

@@ -87,22 +87,22 @@ To change the default color scheme to something more *eyes-saving*, use `--soft`
 ### Examples
 
 To see all "live" events, type the following command:
-```bash
+```console
 wp log tail
 ```
 
 To see past alerts for user 1, type the following command:
-```bash
+```console
 wp log tail 20 --filter='{"user_id":"/1+/"}' --level=alert
 ```
 
 To see "live" events only triggered by WordPress core on cron calls, type the following command:
-```bash
+```console
 wp log tail --filter='{"channel":"/cron/", "class":"/core/"}'
 ```
 
 To see "live" error that occur with specific http verbs, type the following command:
-```bash
+```console
 wp log tail --filter='{"verb":"/(options|connect|trace)/", "class":"/api/"}' --level=error --format=http
 ```
 
@@ -119,12 +119,12 @@ You can specify a numerical error code with `--code=<code>`. If not specified, t
 ### Examples
 
 To trigger a simple notice, type the following command:
-```bash
+```console
 wp log send notice 'All good!'
 ```
 
 To trigger an error with a 500 error code, type the following command:
-```bash
+```console
 wp log send error 'Something went wrong' --code=500
 ```
 
@@ -160,17 +160,17 @@ To modify a logger, use `wp log logger set <uuid> --settings=<settings>` where `
 ### Examples
 
 To list the loggers, type the following command:
-```bash
+```console
 wp log logger list --detail=full
 ```
 
 To start the logger identified by 'c40c59dc-5e34-44a1-986d-e1ecb520e3ca', type the following command:
-```bash
+```console
 wp log logger start c40c59dc-5e34-44a1-986d-e1ecb520e3ca
 ```
 
 To purge the logger identified by 'c40c59dc-5e34-44a1-986d-e1ecb520e3ca' without confirmation prompt, type the following command:
-```bash
+```console
 wp log logger purge c40c59dc-5e34-44a1-986d-e1ecb520e3ca --yes
 ```
 
@@ -249,6 +249,6 @@ If you try to disable a setting, wp-cli will ask you to confirm. To force answer
 ### Example
 
 To disable early-loading without confirmation prompt, type the following command:
-```bash
+```console
 wp log settings disable early-loading --yes
 ```
