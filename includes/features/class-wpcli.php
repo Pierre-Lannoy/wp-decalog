@@ -661,7 +661,7 @@ class Wpcli {
 	 * + wp log logger remove 37cf1c00-d67d-4e7d-9518-e579f01407a7 --yes
 	 *
 	 * Adds a new logger:
-	 * + wp log logger add WordpressHandler {"rotate": 8000, "purge": 5, "level":"warning", "proc_wp": true}
+	 * + wp log logger add WordpressHandler --settings={"rotate": 8000, "purge": 5, "level":"warning", "proc_wp": true}
 	 *
 	 * Change the settings of a logger
 	 * + wp log logger set 37cf1c00-d67d-4e7d-9518-e579f01407a7 --settings='{"proc_trace": false, "level":"warning"}'
@@ -1135,7 +1135,7 @@ class Wpcli {
 	 * ---
 	 *
 	 * [--col=<columns>]
-	 * : The Number of columns (char in a row) to display. Default is 160. Min is 80.
+	 * : The Number of columns (char in a row) to display. Default is 160. Min is 80 and max is 400.
 	 *
 	 * [--soft]
 	 * : Soften the colors to save your eyes.
@@ -1180,6 +1180,9 @@ class Wpcli {
 		$col = isset( $assoc_args['col'] ) ? (int) $assoc_args['col'] : 160;
 		if ( 80 > $col ) {
 			$col = 80;
+		}
+		if ( 400 < $col ) {
+			$col = 400;
 		}
 		$filter = \json_decode( isset( $assoc_args['filter'] ) ? (string) $assoc_args['filter'] : '{}', true );
 		if ( is_array( $filter ) ) {
