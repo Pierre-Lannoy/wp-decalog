@@ -129,7 +129,7 @@ Success: message sent.
 
 To trigger an error with a 500 error code, type the following command:
 ```console
-wp log send error 'Something went wrong' --code=500
+pierre@dev:~$ wp log send error 'Something went wrong' --code=500
 Success: message sent.
 ```
 
@@ -185,64 +185,27 @@ pierre@dev:~$ wp log logger list
 
 To start the logger identified by 'c40c59dc-5e34-44a1-986d-e1ecb520e3ca', type the following command:
 ```console
-wp log logger start c40c59dc-5e34-44a1-986d-e1ecb520e3ca
+pierre@dev:~$ wp log logger start c40c59dc-5e34-44a1-986d-e1ecb520e3ca
+Success: the logger c40c59dc-5e34-44a1-986d-e1ecb520e3ca is now running.
 ```
 
 To purge the logger identified by 'c40c59dc-5e34-44a1-986d-e1ecb520e3ca' without confirmation prompt, type the following command:
 ```console
-wp log logger purge c40c59dc-5e34-44a1-986d-e1ecb520e3ca --yes
+pierre@dev:~$ wp log logger purge c40c59dc-5e34-44a1-986d-e1ecb520e3ca --yes
+Success: the logger c40c59dc-5e34-44a1-986d-e1ecb520e3ca has been purged.
 ```
 
 To remove the logger identified by 'c40c59dc-5e34-44a1-986d-e1ecb520e3ca' without confirmation prompt, type the following command:
 ```console
 pierre@dev:~$ wp log logger remove c40c59dc-5e34-44a1-986d-e1ecb520e3ca --yes
-c40c59dc-5e34-44a1-986d-e1ecb520e3ca
+Success: the logger c40c59dc-5e34-44a1-986d-e1ecb520e3ca has been removed.
 ```
 
 To change the settings of the logger identified by 'c40c59dc-5e34-44a1-986d-e1ecb520e3ca', type the following command:
-```bash
-#!/bin/bash
-# Simple line count example, using bash
-#
-# Bash tutorial: http://linuxconfig.org/Bash_scripting_Tutorial#8-2-read-file-into-bash-array
-# My scripting link: http://www.macs.hw.ac.uk/~hwloidl/docs/index.html#scripting
-#
-# Usage: ./line_count.sh file
-# -----------------------------------------------------------------------------
-
-# Link filedescriptor 10 with stdin
-exec 10<&0
-# stdin replaced with a file supplied as a first argument
-exec < $1
-# remember the name of the input file
-in=$1
-
-# init
-file="current_line.txt"
-let count=0
-
-# this while loop iterates over all lines of the file
-while read LINE
-do
-    # increase line counter 
-    ((count++))
-    # write current line to a tmp file with name $file (not needed for counting)
-    echo $LINE > $file
-    # this checks the return code of echo (not needed for writing; just for demo)
-    if [ $? -ne 0 ] 
-     then echo "Error in writing to file ${file}; check its permissions!"
-    fi
-done
-
-echo "Number of lines: $count"
-echo "The last line of the file is: `cat ${file}`"
-
-# Note: You can achieve the same by just using the tool wc like this
-echo "Expected number of lines: `wc -l $in`"
-
-# restore stdin from filedescriptor 10
-# and close filedescriptor 10
-exec 0<&10 10<&-
+```console
+pierre@dev:~$ wp log logger set f3c27b6f-1bc3-48e8-90d6-9b10c737e419 --settings='{"proc_trace": false, "level":"warning"}'
+f3c27b6f-1bc3-48e8-90d6-9b10c737e419
+Success: logger successfully set.
 ```
 
 ## Using logger types
