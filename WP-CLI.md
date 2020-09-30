@@ -438,7 +438,28 @@ The logger 8e2ee516-6f8d-40d1-ac16-c3e61274a41a is already paused.
 You can use, of course, `--stdout` to store command result in variable when you write scripts:
 
 ```bash
-result=$(wp @dev log logger start 37cf1c00-d67d-4e7d-9518-e579f01407a7 --stdout)
-echo $result
+#!/bin/bash
+
+uuid=$(wp log logger start 37cf1c00-d67d-4e7d-9518-e579f01407a7 --stdout)
+echo $uuid
 ```
 
+And, as DecaLog set exit code, you can use `$?` to write scripts too:
+
+```bash
+#!/bin/bash
+
+wp log logger start 37cf1c00-d67d-4e7d-9518-e579f01407a7 --stdout
+
+if [ $? -eq 0 ]
+then
+  wp log send notice "All right!"
+else
+  wp log send error "Unable to start, aborting..."
+  exit 1
+fi
+
+# continue
+```
+
+> To know the meaning of DecaLog exit codes, just use this command: `wp log exitcode list`.
