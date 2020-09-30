@@ -143,6 +143,7 @@ class OPcache {
 	public static function invalidate( $files, $force = false ) {
 		$cpt = 0;
 		if ( function_exists( 'opcache_invalidate' ) ) {
+			$logger = new Logger( 'plugin', DECALOG_PRODUCT_NAME, DECALOG_VERSION );
 			foreach ( $files as $file ) {
 				if ( 0 === strpos( $file, './' ) ) {
 					$file = str_replace( '..', '', $file );
