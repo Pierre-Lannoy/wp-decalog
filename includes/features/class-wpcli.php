@@ -892,7 +892,7 @@ class Wpcli {
 					$loggers_list[$uuid]['running'] = true;
 					Option::network_set( 'loggers', $loggers_list );
 					$ilog->info( sprintf( 'Logger "%s" has started.', $loggers_list[ $uuid ]['name'] ) );
-					self::success( sprintf( 'the logger %s is now running.', $uuid ), $uuid, $stdout );
+					self::success( sprintf( 'logger %s is now running.', $uuid ), $uuid, $stdout );
 				}
 				break;
 			case 'pause':
@@ -902,30 +902,30 @@ class Wpcli {
 					$loggers_list[$uuid]['running'] = false;
 					$ilog->info( sprintf( 'Logger "%s" has been paused.', $loggers_list[ $uuid ]['name'] ) );
 					Option::network_set( 'loggers', $loggers_list );
-					self::success( sprintf( 'the logger %s is now paused.', $uuid ), $uuid, $stdout );
+					self::success( sprintf( 'logger %s is now paused.', $uuid ), $uuid, $stdout );
 				}
 				break;
 			case 'purge':
 				$loggers_list[$uuid]['uuid'] = $uuid;
 				if ( 'WordpressHandler' !== $loggers_list[$uuid]['handler'] ) {
-					self::warning( sprintf( 'the logger %s can\'t be purged.', $uuid ), $uuid, $stdout );
+					self::warning( sprintf( 'logger %s can\'t be purged.', $uuid ), $uuid, $stdout );
 				} else {
 					\WP_CLI::confirm( sprintf( 'Are you sure you want to purge logger %s?', $uuid ), $assoc_args );
 					$factory = new LoggerFactory();
 					$factory->purge( $loggers_list[$uuid] );
 					$ilog->notice( sprintf( 'Logger "%s" has been purged.', $loggers_list[ $uuid ]['name'] ) );
-					self::success( sprintf( 'the logger %s successfully purged.', $uuid ), $uuid, $stdout );
+					self::success( sprintf( 'logger %s successfully purged.', $uuid ), $uuid, $stdout );
 				}
 				break;
 			case 'clean':
 				$loggers_list[$uuid]['uuid'] = $uuid;
 				if ( 'WordpressHandler' !== $loggers_list[$uuid]['handler'] ) {
-					self::warning( sprintf( 'the logger %s can\'t be cleaned.', $uuid ), $uuid, $stdout );
+					self::warning( sprintf( 'logger %s can\'t be cleaned.', $uuid ), $uuid, $stdout );
 				} else {
 					$factory = new LoggerFactory();
 					$count   = $factory->clean( $loggers_list[$uuid] );
 					self::log( sprintf( '%d record(s) deleted.', $count ), $stdout );
-					self::success( sprintf( 'the logger %s successfully cleaned.', $uuid ), $uuid, $stdout );
+					self::success( sprintf( 'logger %s successfully cleaned.', $uuid ), $uuid, $stdout );
 				}
 				break;
 			case 'remove':
@@ -936,7 +936,7 @@ class Wpcli {
 				$ilog->notice( sprintf( 'Logger "%s" has been removed.', $loggers_list[ $uuid ]['name'] ) );
 				unset( $loggers_list[$uuid] );
 				Option::network_set( 'loggers', $loggers_list );
-				self::success( sprintf( 'the logger %s successfully removed.', $uuid ), $uuid, $stdout );
+				self::success( sprintf( 'logger %s successfully removed.', $uuid ), $uuid, $stdout );
 				break;
 			case 'add':
 				$result = self::logger_add( $uuid, $assoc_args );
