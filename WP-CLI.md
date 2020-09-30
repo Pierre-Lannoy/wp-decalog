@@ -168,7 +168,7 @@ To modify a logger, use `wp log logger set <uuid> --settings=<settings>` where:
 
 ### Adding a logger
 
-To add a logger, use `wp log logger ad <type> --settings=<settings>` where:
+To add a logger, use `wp log logger add <type> --settings=<settings>` where:
 
 - `<type>` is the type of the logger. The available types can be obtained with the `wp log type list` command (see [using logger types](#managing-loggers)).
 - `<settings>` a json string containing ***"parameter":value*** pairs. The available parameters can be browsed with the `wp log type describe` command (see [using logger types](#managing-loggers)).
@@ -232,11 +232,17 @@ With the `wp log type` command you can query all types available for logger crea
 
 ### Listing types
 
-To obtain a list of set loggers, use `wp log type list`.
+To obtain a list of available types, use `wp log type list`.
+
+### Describing types
+
+To obtain the detail of a specific type, use `wp log type describe <logger_type>` where `<logger_type>` is one of the type listed by the `wp log type list` command.
+
+In addition to a general description "sheet", this command outputs a detailed listing of the available settings that can be used in the `wp log logger set` and `wp log logger add` commands.
 
 ### Examples
 
-To list the loggers, type the following command:
+To list the types, type the following command:
 ```console
 pierre@dev:~$ wp log type list
 +-----------------------+-----------+-------------------------+------------+
@@ -313,6 +319,60 @@ Example
 ```
 
 ## Managing listeners
+
+With the `wp log listener` command you can perform all available operations on listeners.
+
+### Listing listeners
+
+To obtain a list of available listeners, use `wp log listener list`.
+
+### Enabling or disabling listeners
+
+To change enable or disable a listener, use `wp log listener <enable|disable> <listener_id>` where `<listener_id>` is the identifier of the listener.
+
+> You can individually enable or disable a listener nevertheless, if DecaLog is set to "auto-on", it will have no effect: all available listeners will be listening.
+
+### Auto listening
+
+To change auto-listening mode, use `wp log listener <auto-on|auto-off>`.
+
+### Examples
+
+To list the listeners, type the following command:
+```console
+pierre@dev:~$ wp log listener list
++----------------+----------------------------+-----------+---------+
+| id             | name                       | available | enabled |
++----------------+----------------------------+-----------+---------+
+| wpdb           | Database                   | yes       | auto    |
+| itsec          | iThemes Security           | no        | auto    |
+| jetpack        | Jetpack                    | yes       | auto    |
+| php            | PHP                        | yes       | auto    |
+| psr3           | PSR-3 compliant listeners  | yes       | auto    |
+| redirection    | Redirection                | yes       | auto    |
+| updraftplus    | UpdraftPlus Backup/Restore | no        | auto    |
+| user-switching | User Switching             | no        | auto    |
+| w3tc           | W3 Total Cache             | no        | auto    |
+| woo            | WooCommerce                | no        | auto    |
+| wordfence      | Wordfence Security         | no        | auto    |
+| wpcore         | WordPress core             | yes       | auto    |
+| wpmu           | WordPress MU               | no        | auto    |
+| wsal           | WP Activity Log            | no        | auto    |
+| supercache     | WP Super Cache             | no        | auto    |
++----------------+----------------------------+-----------+---------+
+```
+
+To enable the listener identified by 'php', type the following command:
+```console
+pierre@dev:~$ wp log listener enable php
+Success: the listener php is now enabled.
+```
+
+To deactivate auto-listening without confirmation prompt, type the following command:
+```console
+pierre@dev:~$ wp log listener auto-off --yes
+Success: auto-listening is now deactivated.
+```
 
 ## Getting DecaLog status
 
