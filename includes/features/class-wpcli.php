@@ -56,6 +56,136 @@ class Wpcli {
 	];
 
 	/**
+	 * List of exit codes.
+	 *
+	 * @since    2.0.0
+	 * @var array $exit_codes Exit codes.
+	 */
+	private static $exit_codes = [
+		0   => 'operation successful.',
+		1   => 'invalid logger type supplied.',
+		2   => 'invalid logger uuid supplied.',
+		3   => 'system loggers can\'t be managed.',
+		4   => 'unable to create a new logger.',
+		5   => 'unable to modify this logger.',
+		6   => 'invalid listener id supplied.',
+		7   => 'unrecognized setting.',
+		8   => 'unrecognized action.',
+		255 => 'unknown error.',
+	];
+
+	/**
+	 * Write ids as clean stdout.
+	 *
+	 * @param   array   $ids   The ids.
+	 * @param   string  $field  Optional. The field to output.
+	 * @since   2.0.0
+	 */
+	private static function write_ids( $ids, $field = '' ) {
+		$result = '';
+		$last   = end( $ids );
+		foreach ( $ids as $key => $id ) {
+			if ( '' === $field ) {
+				$result .= $key;
+			} else {
+				$result .= $id[$field];
+			}
+			if ( $id !== $last ) {
+				$result .= ' ';
+			}
+		}
+		// phpcs:ignore
+		fwrite( STDOUT, $result );
+	}
+
+	/**
+	 * Write an error.
+	 *
+	 * @param   integer  $code      Optional. The error code.
+	 * @param   boolean  $stdout    Optional. Clean stdout output.
+	 * @since   2.0.0
+	 */
+	private static function error( $code = 255, $stdout = false ) {
+		if ( \WP_CLI\Utils\isPiped() ) {
+			// phpcs:ignore
+			fwrite( STDOUT, '' );
+			// phpcs:ignore
+			exit( $code );
+		} elseif ( $stdout ) {
+			// phpcs:ignore
+			fwrite( STDERR, ucfirst( self::$exit_codes[ $code ] ) );
+			// phpcs:ignore
+			exit( $code );
+		} else {
+			\WP_CLI::error( self::$exit_codes[ $code ] );
+		}
+	}
+
+	/**
+	 * Write a warning.
+	 *
+	 * @param   string   $msg       The message.
+	 * @param   string   $result    Optional. The result.
+	 * @param   boolean  $stdout    Optional. Clean stdout output.
+	 * @since   2.0.0
+	 */
+	private static function warning( $msg, $result = '', $stdout = false ) {
+		if ( \WP_CLI\Utils\isPiped() || $stdout ) {
+			// phpcs:ignore
+			fwrite( STDOUT, $result );
+		} else {
+			\WP_CLI::warning( $msg );
+		}
+	}
+
+	/**
+	 * Write a success.
+	 *
+	 * @param   string   $msg       The message.
+	 * @param   string   $result    Optional. The result.
+	 * @param   boolean  $stdout    Optional. Clean stdout output.
+	 * @since   2.0.0
+	 */
+	private static function success( $msg, $result = '', $stdout = false ) {
+		if ( \WP_CLI\Utils\isPiped() || $stdout ) {
+			// phpcs:ignore
+			fwrite( STDOUT, $result );
+		} else {
+			\WP_CLI::success( $msg );
+		}
+	}
+
+	/**
+	 * Write a wimple line.
+	 *
+	 * @param   string   $msg       The message.
+	 * @param   string   $result    Optional. The result.
+	 * @param   boolean  $stdout    Optional. Clean stdout output.
+	 * @since   2.0.0
+	 */
+	private static function line( $msg, $result = '', $stdout = false ) {
+		if ( \WP_CLI\Utils\isPiped() || $stdout ) {
+			// phpcs:ignore
+			fwrite( STDOUT, $result );
+		} else {
+			\WP_CLI::line( $msg );
+		}
+	}
+
+	/**
+	 * Write a wimple log line.
+	 *
+	 * @param   string   $msg       The message.
+	 * @param   boolean  $stdout    Optional. Clean stdout output.
+	 * @since   2.0.0
+	 */
+	private static function log( $msg, $stdout = false ) {
+		if ( ! \WP_CLI\Utils\isPiped() && ! $stdout ) {
+			\WP_CLI::log( $msg );
+		}
+	}
+
+	/**
 	 * Get params from command line.
 	 *
 	 * @param   array   $args   The command line parameters.
@@ -393,7 +523,7 @@ class Wpcli {
 	}
 
 	/**
-	 * Get informations on logger types.
+	 * Get information on logger types.
 	 *
 	 * ## OPTIONS
 	 *
@@ -409,7 +539,7 @@ class Wpcli {
 	 * : The type of the logger to describe.
 	 *
 	 * [--format=<format>]
-	 * : Allows overriding the output of the command when listing loggers.
+	 * : Allows overriding the output of the command when listing types.
 	 * ---
 	 * default: table
 	 * options:
@@ -435,6 +565,8 @@ class Wpcli {
 	 *
 	 */
 	public static function handler( $args, $assoc_args ) {
+		$stdout        = \WP_CLI\Utils\get_flag_value( $assoc_args, 'stdout', false );
+		$format        = \WP_CLI\Utils\get_flag_value( $assoc_args, 'format', 'table' );
 		$handler_types = new HandlerTypes();
 		$handlers      = [];
 		foreach ( $handler_types->get_all() as $key => $handler ) {
@@ -458,12 +590,15 @@ class Wpcli {
 			}
 		}
 		if ( 'list' !== $action && '' === $uuid ) {
-			\WP_CLI::warning( 'invalid logger type supplied. Please specify a valid logger type:' );
-			$action = 'list';
+			self::error( 1, $stdout );
 		}
 		switch ( $action ) {
 			case 'list':
-				\WP_CLI\Utils\format_items( $assoc_args['format'], $handlers, [ 'type', 'class', 'name', 'version' ] );
+				if ( 'ids' === $format ) {
+					self::write_ids( $handlers, 'type' );
+				} else {
+					\WP_CLI\Utils\format_items( $format, $handlers, [ 'type', 'class', 'name', 'version' ] );
+				}
 				break;
 			case 'describe':
 				$example = [];
@@ -636,6 +771,9 @@ class Wpcli {
 	 * [--yes]
 	 * : Answer yes to the confirmation message, if any.
 	 *
+	 * [--stdout]
+	 * : Use clean STDOUT output to use results in scripts. Unnecessary when piping commands because piping is detected by DecaLog.
+	 *
 	 * ## EXAMPLES
 	 *
 	 * Lists configured loggers:
@@ -661,7 +799,7 @@ class Wpcli {
 	 * + wp log logger remove 37cf1c00-d67d-4e7d-9518-e579f01407a7 --yes
 	 *
 	 * Adds a new logger:
-	 * + wp log logger add WordpressHandler --settings={"rotate": 8000, "purge": 5, "level":"warning", "proc_wp": true}
+	 * + wp log logger add WordpressHandler --settings='{"rotate": 8000, "purge": 5, "level":"warning", "proc_wp": true}'
 	 *
 	 * Change the settings of a logger
 	 * + wp log logger set 37cf1c00-d67d-4e7d-9518-e579f01407a7 --settings='{"proc_trace": false, "level":"warning"}'
@@ -671,10 +809,13 @@ class Wpcli {
 	 *
 	 */
 	public static function logger( $args, $assoc_args ) {
-		$loggers_list = Option::network_get( 'loggers' );
+		$stdout       = \WP_CLI\Utils\get_flag_value( $assoc_args, 'stdout', false );
+		$format       = \WP_CLI\Utils\get_flag_value( $assoc_args, 'format', 'table' );
+		$detail       = \WP_CLI\Utils\get_flag_value( $assoc_args, 'detail', 'short' );
 		$uuid         = '';
 		$ilog         = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
 		$action       = isset( $args[0] ) ? $args[0] : 'list';
+		$loggers_list = Option::network_get( 'loggers' );
 		if ( isset( $args[1] ) ) {
 			$uuid = $args[1];
 			if ( 'add' === $action ) {
@@ -684,9 +825,12 @@ class Wpcli {
 					if ( 'system' !== $handler['class'] && strtolower( $uuid ) === strtolower( $handler['id'] ) ) {
 						$t = $uuid;
 					}
+					if ( 'system' === $handler['class'] && strtolower( $uuid ) === strtolower( $handler['id'] ) ) {
+						$t = 'system';
+					}
 				}
 				$uuid = $t;
-			} elseif ( 'set' === $action ) {
+			} else {
 				if ( ! array_key_exists( $uuid, $loggers_list ) ) {
 					$uuid = '';
 				} else {
@@ -697,27 +841,17 @@ class Wpcli {
 						}
 					}
 				}
-			} else {
-				if ( ! array_key_exists( $uuid, $loggers_list ) ) {
-					$uuid = '';
-				}
 			}
 		}
 		if ( 'add' === $action && '' === $uuid ) {
-			\WP_CLI::warning( 'invalid logger type supplied. Please specify a valid logger type:' );
-			self::handler( [], $assoc_args);
-			$action = '';
-		} elseif ( 'set' === $action && 'system' === $uuid ) {
-			\WP_CLI::error( 'you can not modify a system logger.' );
-			self::handler( [], $assoc_args);
-			$action = '';
+			self::error( 1, $stdout );
+		} elseif ( 'system' === $uuid ) {
+			self::error( 3, $stdout );
 		} elseif ( 'list' !== $action && '' === $uuid ) {
-			\WP_CLI::warning( 'invalid logger uuid supplied. Please specify a valid logger uuid:' );
-			$action = 'list';
+			self::error( 2, $stdout );
 		}
 		switch ( $action ) {
 			case 'list':
-				$detail          = isset( $assoc_args['detail'] ) ? $assoc_args['detail'] : 'short';
 				$handler_types   = new HandlerTypes();
 				$processor_types = new ProcessorTypes();
 				$loggers         = [];
@@ -745,49 +879,53 @@ class Wpcli {
 				} else {
 					$detail = [ 'uuid', 'type', 'name', 'running' ];
 				}
-				\WP_CLI\Utils\format_items( $assoc_args['format'], $loggers, $detail );
+				if ( 'ids' === $format ) {
+					self::write_ids( $loggers, 'uuid' );
+				} else {
+					\WP_CLI\Utils\format_items( $format, $loggers, $detail );
+				}
 				break;
 			case 'start':
 				if ( $loggers_list[$uuid]['running'] ) {
-					\WP_CLI::line( sprintf( 'The logger %s is already running.', $uuid ) );
+					self::line( sprintf( 'The logger %s is already running.', $uuid ), $uuid, $stdout );
 				} else {
 					$loggers_list[$uuid]['running'] = true;
 					Option::network_set( 'loggers', $loggers_list );
 					$ilog->info( sprintf( 'Logger "%s" has started.', $loggers_list[ $uuid ]['name'] ) );
-					\WP_CLI::success( sprintf( 'the logger %s is now running.', $uuid ) );
+					self::success( sprintf( 'the logger %s is now running.', $uuid ), $uuid, $stdout );
 				}
 				break;
 			case 'pause':
 				if ( ! $loggers_list[$uuid]['running'] ) {
-					\WP_CLI::line( sprintf( 'The logger %s is already paused.', $uuid ) );
+					self::line( sprintf( 'The logger %s is already paused.', $uuid ), $uuid, $stdout );
 				} else {
 					$loggers_list[$uuid]['running'] = false;
 					$ilog->info( sprintf( 'Logger "%s" has been paused.', $loggers_list[ $uuid ]['name'] ) );
 					Option::network_set( 'loggers', $loggers_list );
-					\WP_CLI::success( sprintf( 'the logger %s is now paused.', $uuid ) );
+					self::success( sprintf( 'the logger %s is now paused.', $uuid ), $uuid, $stdout );
 				}
 				break;
 			case 'purge':
 				$loggers_list[$uuid]['uuid'] = $uuid;
 				if ( 'WordpressHandler' !== $loggers_list[$uuid]['handler'] ) {
-					\WP_CLI::warning( sprintf( 'the logger %s can\'t be purged.', $uuid ) );
+					self::warning( sprintf( 'the logger %s can\'t be purged.', $uuid ), $uuid, $stdout );
 				} else {
 					\WP_CLI::confirm( sprintf( 'Are you sure you want to purge logger %s?', $uuid ), $assoc_args );
 					$factory = new LoggerFactory();
 					$factory->purge( $loggers_list[$uuid] );
 					$ilog->notice( sprintf( 'Logger "%s" has been purged.', $loggers_list[ $uuid ]['name'] ) );
-					\WP_CLI::success( sprintf( 'the logger %s has been purged.', $uuid ) );
+					self::success( sprintf( 'the logger %s successfully purged.', $uuid ), $uuid, $stdout );
 				}
 				break;
 			case 'clean':
 				$loggers_list[$uuid]['uuid'] = $uuid;
 				if ( 'WordpressHandler' !== $loggers_list[$uuid]['handler'] ) {
-					\WP_CLI::warning( sprintf( 'the logger %s can\'t be cleaned.', $uuid ) );
+					self::warning( sprintf( 'the logger %s can\'t be cleaned.', $uuid ), $uuid, $stdout );
 				} else {
 					$factory = new LoggerFactory();
 					$count   = $factory->clean( $loggers_list[$uuid] );
-					\WP_CLI::log( sprintf( '%d record(s) deleted.', $count ) );
-					\WP_CLI::success( sprintf( 'the logger %s has been cleaned.', $uuid ) );
+					self::log( sprintf( '%d record(s) deleted.', $count ), $stdout );
+					self::success( sprintf( 'the logger %s successfully cleaned.', $uuid ), $uuid, $stdout );
 				}
 				break;
 			case 'remove':
@@ -798,30 +936,28 @@ class Wpcli {
 				$ilog->notice( sprintf( 'Logger "%s" has been removed.', $loggers_list[ $uuid ]['name'] ) );
 				unset( $loggers_list[$uuid] );
 				Option::network_set( 'loggers', $loggers_list );
-				\WP_CLI::success( sprintf( 'the logger %s has been removed.', $uuid ) );
+				self::success( sprintf( 'the logger %s successfully removed.', $uuid ), $uuid, $stdout );
 				break;
 			case 'add':
 				$result = self::logger_add( $uuid, $assoc_args );
 				if ( '' === $result ) {
 					$ilog->error( 'Unable to add a logger.', 1 );
-					\WP_CLI::error( 'unable to add logger.' );
+					self::error( 4, $stdout );
 				} else {
 					$loggers_list = Option::network_get( 'loggers' );
 					$ilog->notice( sprintf( 'Logger "%s" has been saved.', $loggers_list[ $result ]['name'] ) );
-					\WP_CLI::line( $result );
-					\WP_CLI::success( 'logger successfully added.' );
+					self::success( sprintf( 'logger %s successfully created.', $result ), $result, $stdout );
 				}
 				break;
 			case 'set':
 				$result = self::logger_modify( $uuid, $assoc_args );
 				if ( '' === $result ) {
 					$ilog->error( 'Unable to modify a logger.', 1 );
-					\WP_CLI::error( 'unable to set logger.' );
+					self::error( 5, $stdout );
 				} else {
 					$loggers_list = Option::network_get( 'loggers' );
 					$ilog->notice( sprintf( 'Logger "%s" has been saved.', $loggers_list[ $result ]['name'] ) );
-					\WP_CLI::line( $result );
-					\WP_CLI::success( 'logger successfully set.' );
+					self::success( sprintf( 'logger %s successfully saved.', $result ), $result, $stdout );
 				}
 				break;
 		}
@@ -872,6 +1008,9 @@ class Wpcli {
 	 * [--yes]
 	 * : Answer yes to the confirmation message, if any.
 	 *
+	 * [--stdout]
+	 * : Use clean STDOUT output to use results in scripts. Unnecessary when piping commands because piping is detected by DecaLog.
+	 *
 	 * ## EXAMPLES
 	 *
 	 * Lists configured listeners:
@@ -898,6 +1037,9 @@ class Wpcli {
 	 *
 	 */
 	public static function listener( $args, $assoc_args ) {
+		$stdout    = \WP_CLI\Utils\get_flag_value( $assoc_args, 'stdout', false );
+		$format    = \WP_CLI\Utils\get_flag_value( $assoc_args, 'format', 'table' );
+		$detail    = \WP_CLI\Utils\get_flag_value( $assoc_args, 'detail', 'short' );
 		$activated = Option::network_get( 'listeners' );
 		$listeners = [];
 		foreach ( ListenerFactory::$infos as $listener ) {
@@ -921,36 +1063,34 @@ class Wpcli {
 			}
 		}
 		if ( 'list' !== $action && 'auto-on' !== $action && 'auto-off' !== $action && '' === $uuid ) {
-			\WP_CLI::warning( 'invalid listener id supplied. Please specify a valid listener id:' );
-			$action = 'list';
+			self::error( 6, $stdout );
 		}
-
 		switch ( $action ) {
 			case 'list':
-				$detail = isset( $assoc_args['detail'] ) ? $assoc_args['detail'] : 'short';
 				if ( 'full' === $detail ) {
 					$detail = [ 'id', 'class', 'name', 'product', 'version', 'available', 'enabled' ];
 				} else {
 					$detail = [ 'id', 'name', 'available', 'enabled' ];
 				}
-				\WP_CLI\Utils\format_items( $assoc_args['format'], $listeners, $detail );
+				if ( 'ids' === $format ) {
+					self::write_ids( $listeners, 'id' );
+				} else {
+					\WP_CLI\Utils\format_items( $format, $listeners, $detail );
+				}
 				break;
 			case 'enable':
 				if ( in_array( $uuid, $activated, true ) ) {
-					\WP_CLI::line( sprintf( 'The listener %s is already enabled.', $uuid ) );
+					self::line( sprintf( 'the listener %s is already enabled.', $uuid ), $uuid, $stdout );
 				} else {
 					$activated[] = $uuid;
 					Option::network_set( 'listeners', $activated );
 					$ilog->info( 'Listeners settings updated.' );
-					\WP_CLI::success( sprintf( 'the listener %s is now enabled.', $uuid ) );
-					if ( Option::network_get( 'autolisteners' ) ) {
-						\WP_CLI::warning( 'auto-listening is activated so, enabling/disabling listeners have no effect.' );
-					}
+					self::success( sprintf( 'the listener %s is now enabled.', $uuid ), $uuid, $stdout );
 				}
 				break;
 			case 'disable':
 				if ( ! in_array( $uuid, $activated, true ) ) {
-					\WP_CLI::line( sprintf( 'The listener %s is already disabled.', $uuid ) );
+					self::line( sprintf( 'the listener %s is already disabled.', $uuid ), $uuid, $stdout );
 				} else {
 					$list = [];
 					foreach ( $activated as $listener ) {
@@ -960,30 +1100,27 @@ class Wpcli {
 					}
 					Option::network_set( 'listeners', $list );
 					$ilog->info( 'Listeners settings updated.' );
-					\WP_CLI::success( sprintf( 'the listener %s is now disabled.', $uuid ) );
-					if ( Option::network_get( 'autolisteners' ) ) {
-						\WP_CLI::warning( 'auto-listening is activated so, enabling/disabling listeners have no effect.' );
-					}
+					self::success( sprintf( 'the listener %s is now disabled.', $uuid ), $uuid, $stdout );
 				}
 				break;
 			case 'auto-on':
 				if ( Option::network_get( 'autolisteners' ) ) {
-					\WP_CLI::warning( 'auto-listening is already activated.' );
+					self::line( 'auto-listening is already activated.', '', $stdout );
 				} else {
 					\WP_CLI::confirm( 'Are you sure you want to activate auto-listening?', $assoc_args );
 					Option::network_set( 'autolisteners', true );
 					$ilog->info( 'Listeners settings updated.' );
-					\WP_CLI::success( 'auto-listening is now activated.' );
+					self::success( 'auto-listening is now activated.', '', $stdout );
 				}
 				break;
 			case 'auto-off':
 				if ( ! Option::network_get( 'autolisteners' ) ) {
-					\WP_CLI::warning( 'auto-listening is already deactivated.' );
+					self::line( 'auto-listening is already deactivated.', '', $stdout );
 				} else {
 					\WP_CLI::confirm( 'Are you sure you want to deactivate auto-listening?', $assoc_args );
 					Option::network_set( 'autolisteners', false );
 					$ilog->info( 'Listeners settings updated.' );
-					\WP_CLI::success( 'auto-listening is now deactivated.' );
+					self::success( 'auto-listening is now deactivated.', '', $stdout );
 				}
 				break;
 		}
@@ -1002,6 +1139,9 @@ class Wpcli {
 	 * [--yes]
 	 * : Answer yes to the confirmation message, if any.
 	 *
+	 * [--stdout]
+	 * : Use clean STDOUT output to use results in scripts. Unnecessary when piping commands because piping is detected by DecaLog.
+	 *
 	 * ## EXAMPLES
 	 *
 	 * wp log settings enable auto-logging
@@ -1012,6 +1152,7 @@ class Wpcli {
 	 *
 	 */
 	public static function settings( $args, $assoc_args ) {
+		$stdout  = \WP_CLI\Utils\get_flag_value( $assoc_args, 'stdout', false );
 		$action  = isset( $args[0] ) ? (string) $args[0] : '';
 		$setting = isset( $args[1] ) ? (string) $args[1] : '';
 		switch ( $action ) {
@@ -1019,18 +1160,18 @@ class Wpcli {
 				switch ( $setting ) {
 					case 'early-loading':
 						Option::network_set( 'earlyloading', true );
-						\WP_CLI::success( 'early-loading is now activated.' );
+						self::success( 'early-loading is now activated.', '', $stdout );
 						break;
 					case 'auto-start':
 						Option::network_set( 'logger_autostart', true );
-						\WP_CLI::success( 'auto-start is now activated.' );
+						self::success( 'auto-start is now activated.', '', $stdout );
 						break;
 					case 'auto-logging':
 						Autolog::activate();
-						\WP_CLI::success( 'auto-logging is now activated.' );
+						self::success( 'auto-logging is now activated.', '', $stdout );
 						break;
 					default:
-						\WP_CLI::error( 'unrecognized setting.' );
+						self::error( 7, $stdout );
 				}
 				break;
 			case 'disable':
@@ -1038,24 +1179,24 @@ class Wpcli {
 					case 'early-loading':
 						\WP_CLI::confirm( 'Are you sure you want to deactivate early-loading?', $assoc_args );
 						Option::network_set( 'earlyloading', false );
-						\WP_CLI::success( 'early-loading is now deactivated.' );
+						self::success( 'early-loading is now deactivated.', '', $stdout );
 						break;
 					case 'auto-start':
 						\WP_CLI::confirm( 'Are you sure you want to deactivate auto-start?', $assoc_args );
 						Option::network_set( 'logger_autostart', false );
-						\WP_CLI::success( 'auto-start is now deactivated.' );
+						self::success( 'auto-start is now deactivated.', '', $stdout );
 						break;
 					case 'auto-logging':
 						\WP_CLI::confirm( 'Are you sure you want to deactivate auto-logging?', $assoc_args );
 						Autolog::deactivate();
-						\WP_CLI::success( 'auto-logging is now deactivated.' );
+						self::success( 'auto-logging is now deactivated.', '', $stdout );
 						break;
 					default:
-						\WP_CLI::error( 'unrecognized setting.' );
+						self::error( 7, $stdout );
 				}
 				break;
 			default:
-				\WP_CLI::error( 'unrecognized action.' );
+				self::error( 8, $stdout );
 		}
 	}
 
@@ -1093,6 +1234,60 @@ class Wpcli {
 		$logger = Log::bootstrap( 'core', 'WP-CLI', defined( 'WP_CLI_VERSION' ) ? WP_CLI_VERSION : 'x' );
 		$logger->log( $level, $message, $code );
 		\WP_CLI::success( 'message sent.' );
+	}
+
+	/**
+	 * Get information on exit codes.
+	 *
+	 * ## OPTIONS
+	 *
+	 * <list>
+	 * : The action to take.
+	 * ---
+	 * options:
+	 *  - list
+	 * ---
+	 *
+	 * [--format=<format>]
+	 * : Allows overriding the output of the command when listing types.
+	 * ---
+	 * default: table
+	 * options:
+	 *  - table
+	 *  - json
+	 *  - csv
+	 *  - yaml
+	 *  - ids
+	 *  - count
+	 * ---
+	 *
+	 * ## EXAMPLES
+	 *
+	 * Lists available exit codes:
+	 * + wp log exitcode list
+	 * + wp log exitcode list --format=json
+	 *
+	 *
+	 *   === For other examples and recipes, visit https://github.com/Pierre-Lannoy/wp-decalog/blob/master/WP-CLI.md ===
+	 *
+	 */
+	public static function exitcode( $args, $assoc_args ) {
+		$stdout = \WP_CLI\Utils\get_flag_value( $assoc_args, 'stdout', false );
+		$format = \WP_CLI\Utils\get_flag_value( $assoc_args, 'format', 'table' );
+		$action = isset( $args[0] ) ? $args[0] : 'list';
+		$codes  = [];
+		foreach ( self::$exit_codes as $key => $msg ) {
+			$codes[ $key ] = [ 'code' => $key, 'meaning' => ucfirst( $msg ) ];
+		}
+		switch ( $action ) {
+			case 'list':
+				if ( 'ids' === $format ) {
+					self::write_ids( $codes );
+				} else {
+					\WP_CLI\Utils\format_items( $format, $codes, [ 'code', 'meaning' ] );
+				}
+				break;
+		}
 	}
 
 	/**
@@ -1232,6 +1427,7 @@ class Wpcli {
 		$md = new Markdown();
 		return $md->get_shortcode(  'WP-CLI.md', $attributes  );
 	}
+
 }
 
 add_shortcode( 'decalog-wpcli', [ 'Decalog\Plugin\Feature\Wpcli', 'sc_get_helpfile' ] );
@@ -1244,4 +1440,5 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
 	\WP_CLI::add_command( 'log tail', [ Wpcli::class, 'tail' ] );
 	\WP_CLI::add_command( 'log settings', [ Wpcli::class, 'settings' ] );
 	\WP_CLI::add_command( 'log send', [ Wpcli::class, 'send' ] );
+	\WP_CLI::add_command( 'log exitcode', [ Wpcli::class, 'exitcode' ] );
 }
