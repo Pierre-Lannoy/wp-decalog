@@ -7,13 +7,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 - New live console-in-browser to see events as soon as they occur.
-- New WP-CLI command to display (past or current) events in console: see `wp help log tail` for details.
-- New WP-CLI command to display DecaLog status: see `wp help log status` for details.
-- New WP-CLI command to send messages to running loggers: see `wp help log send` for details.
-- New WP-CLI command to toggle on/off main settings: see `wp help log settings` for details.
-- New WP-CLI command to manage loggers (list, start, pause, clean, purge, remove, add and set): see `wp help log logger` for details.
-- New WP-CLI command to view available logger types (list and describe): see `wp help log type` for details.
-- New WP-CLI command to manage listeners (list, enable, disable and auto-listening on/off): see `wp help log listener` for details.
+- [WP-CLI] New command to display (past or current) events in console: see `wp help log tail` for details.
+- [WP-CLI] New command to display DecaLog status: see `wp help log status` for details.
+- [WP-CLI] New command to send messages to running loggers: see `wp help log send` for details.
+- [WP-CLI] New command to toggle on/off main settings: see `wp help log settings` for details.
+- [WP-CLI] New command to manage loggers (list, start, pause, clean, purge, remove, add and set): see `wp help log logger` for details.
+- [WP-CLI] New command to view available logger types (list and describe): see `wp help log type` for details.
+- [WP-CLI] New command to manage listeners (list, enable, disable and auto-listening on/off): see `wp help log listener` for details.
 - New tab in plugin settings for WP-CLI commands.
 - New Site Health "info" section about shared memory.
 - A warning is shown in the settings page if `shmop` PHP module is not enabled.
