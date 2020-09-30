@@ -8,7 +8,7 @@ DecaLog is fully usable from command-line, thanks to [WP-CLI](https://wp-cli.org
 6. [Managing listeners](#managing-loggers) - `wp log listener`
 7. [Getting DecaLog status](#getting-decalog-status) - `wp log status`
 8. [Managing main settings](#managing-main-settings) - `wp log settings`
-9. [Misc glags](#misc-flags)
+9. [Misc flags](#misc-flags)
 10. [Piping and storing](#piping-and-storing)
 
 ## Introduction
@@ -49,7 +49,7 @@ In order to be similar to other log management systems and to maintain consisten
 
 ## Viewing events
 
-DecaLog lets you use command-line to view past and currents events. All is done via the `wp log tail <count>` command.
+DecaLog lets you use command-line to view past and currents events. All is done via the `wp log tail [<count>] [--level=<level>] [--filter=<filter>] [--format=<format>] [--col=<columns>] [--soft] [--yes]` command.
 
 If you don't specify `<count>`, DecaLog will launch an interactive logging session: it will display events as soon as they occur on your site. To quit this session, hit `CTRL+C``
 
@@ -93,6 +93,7 @@ If you prefer, you can even suppress all colorization with the standard `--no-co
 To see all "live" events, type the following command:
 ```console
 pierre@dev:~$ wp log tail
+...
 ```
 
 To see past alerts for user 1, type the following command:
@@ -107,7 +108,7 @@ pierre@dev:~$ wp log tail --filter='{"channel":"/cron/", "class":"/core/"}'
 ...
 ```
 
-To see "live" error that occur with specific http verbs, type the following command:
+To see "live" error that occur with specific http verbs on Rest API calls, type the following command:
 ```console
 pierre@dev:~$ wp log tail --filter='{"verb":"/(options|connect|trace)/", "class":"/api/"}' --level=error --format=http
 ...
@@ -139,7 +140,7 @@ Success: message sent.
 
 ## Managing loggers
 
-With the `wp log logger` command you can perform all available operations on loggers.
+With the `wp log logger <list|start|pause|clean|purge|remove|add|set> [<uuid_or_type>] [--settings=<settings>] [--detail=<detail>] [--format=<format>] [--yes] [--stdout]` command you can perform all available operations on loggers.
 
 ### Listing loggers
 
@@ -199,19 +200,19 @@ pierre@dev:~$ wp log logger list
 To start the logger identified by 'c40c59dc-5e34-44a1-986d-e1ecb520e3ca', type the following command:
 ```console
 pierre@dev:~$ wp log logger start c40c59dc-5e34-44a1-986d-e1ecb520e3ca
-Success: the logger c40c59dc-5e34-44a1-986d-e1ecb520e3ca is now running.
+Success: logger c40c59dc-5e34-44a1-986d-e1ecb520e3ca is now running.
 ```
 
 To purge the logger identified by 'c40c59dc-5e34-44a1-986d-e1ecb520e3ca' without confirmation prompt, type the following command:
 ```console
 pierre@dev:~$ wp log logger purge c40c59dc-5e34-44a1-986d-e1ecb520e3ca --yes
-Success: the logger c40c59dc-5e34-44a1-986d-e1ecb520e3ca successfully purged.
+Success: logger c40c59dc-5e34-44a1-986d-e1ecb520e3ca successfully purged.
 ```
 
 To remove the logger identified by 'c40c59dc-5e34-44a1-986d-e1ecb520e3ca' without confirmation prompt, type the following command:
 ```console
 pierre@dev:~$ wp log logger remove c40c59dc-5e34-44a1-986d-e1ecb520e3ca --yes
-Success: the logger c40c59dc-5e34-44a1-986d-e1ecb520e3ca successfully removed.
+Success: logger c40c59dc-5e34-44a1-986d-e1ecb520e3ca successfully removed.
 ```
 
 To change the settings of the logger identified by 'c40c59dc-5e34-44a1-986d-e1ecb520e3ca', type the following command:
@@ -228,7 +229,7 @@ Success: logger 5b09be13-16f6-4ced-972e-98408df0fd49 successfully created.
 
 ## Using logger types
 
-With the `wp log type` command you can query all types available for logger creation / modification and obtain description of corresponding settings. This command helps you to fine-tune loggers via the command-line.
+With the `wp log type <list|describe> [<logger_type>] [--format=<format>]` command you can query all types available for logger creation / modification and obtain description of corresponding settings. This command helps you to fine-tune loggers via the command-line.
 
 ### Listing types
 
@@ -320,7 +321,7 @@ Example
 
 ## Managing listeners
 
-With the `wp log listener` command you can perform all available operations on listeners.
+With the `wp log listener <list|enable|disable|auto-on|auto-off> [<listener_id>] [--detail=<detail>] [--format=<format>] [--yes] [--stdout]` command you can perform all available operations on listeners.
 
 ### Listing listeners
 
@@ -328,7 +329,7 @@ To obtain a list of available listeners, use `wp log listener list`.
 
 ### Enabling or disabling listeners
 
-To change enable or disable a listener, use `wp log listener <enable|disable> <listener_id>` where `<listener_id>` is the identifier of the listener.
+To enable or disable a listener, use `wp log listener <enable|disable> <listener_id>` where `<listener_id>` is the identifier of the listener.
 
 > You can individually enable or disable a listener nevertheless, if DecaLog is set to "auto-on", it will have no effect: all available listeners will be listening.
 
@@ -397,8 +398,11 @@ wp log settings disable early-loading --yes
 
 ## Misc flags
 
-count & ids => force --stdout
+For most commands, DecaLog lets you use the following flags:
+- `--yes`: automatically answer "yes" when a question is prompted during the command execution.
+- `--stdout`: output a clean STDOUT string so you can pipe or store result of command execution (see [piping and storing](#piping-and-storing)).
 
+> It's not mandatory to use `--stdout` when using `--format=count` or `--format=ids`: in such cases `--stdout` is assumed.
 
 ## Piping and storing
 
