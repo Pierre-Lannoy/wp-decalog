@@ -434,3 +434,11 @@ The logger 83fdd893-0979-4bbb-848b-d38e8fbf813d is already paused.
 The logger 9c6e7967-a1b7-447c-9ed5-ec73853a6867 is already paused.
 The logger 8e2ee516-6f8d-40d1-ac16-c3e61274a41a is already paused.
 ```
+
+You can use, of course, `--stdout` to store command result in variable when you write scripts:
+
+```bash
+result=$(wp @dev log logger start 37cf1c00-d67d-4e7d-9518-e579f01407a7 --stdout)
+echo $result
+```
+
