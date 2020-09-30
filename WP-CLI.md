@@ -8,6 +8,8 @@ DecaLog is fully usable from command-line, thanks to [WP-CLI](https://wp-cli.org
 6. [Managing listeners](#managing-loggers) - `wp log listener`
 7. [Getting DecaLog status](#getting-decalog-status) - `wp log status`
 8. [Managing main settings](#managing-main-settings) - `wp log settings`
+9. [Misc glags](#misc-flags)
+10. [Piping and storing](#piping-and-storing)
 
 ## Introduction
 DecaLog is WordPress plugin which that to:
@@ -84,6 +86,8 @@ By default, DecaLog will output each event string on a 160 character basis. If y
 
 To change the default color scheme to something more *eyes-saving*, use `--soft`.
 
+If you prefer, you can even suppress all colorization with the standard `--no-color` flag.
+
 ### Examples
 
 To see all "live" events, type the following command:
@@ -155,12 +159,21 @@ To permanently remove a logger, use `wp log logger remove <uuid>` where `<uuid>`
 
 ### Modifying a logger
 
-To modify a logger, use `wp log logger set <uuid> --settings=<settings>` where `<uuid>` is the identifier of the logger and `<settings>` a json string containing "parameter":value pairs. The available parameters can be browsed with the `wp log type describe` command (see [using logger types](#managing-loggers)).
+To modify a logger, use `wp log logger set <uuid> --settings=<settings>` where: 
+
+- `<uuid>` is the identifier of the logger.
+- `<settings>` a json string containing ***"parameter":value*** pairs. The available parameters can be browsed with the `wp log type describe` command (see [using logger types](#managing-loggers)).
                                                                                                                                          
 `<settings>`  must start with `'{` and end with `}'` (see examples).
 
-> The `wp log logger set` and `wp log logger add` command return the uuid of the corresponding logger. It allows to pipe commands or store the uuid in a variable. To make it more convenient, use `--quiet` (see examples).
+### Adding a logger
 
+To add a logger, use `wp log logger ad <type> --settings=<settings>` where:
+
+- `<type>` is the type of the logger. The available types can be obtained with the `wp log type list` command (see [using logger types](#managing-loggers)).
+- `<settings>` a json string containing ***"parameter":value*** pairs. The available parameters can be browsed with the `wp log type describe` command (see [using logger types](#managing-loggers)).
+                                                                                                                                         
+`<settings>`  must start with `'{` and end with `}'` (see examples).
 
 ### Examples
 
@@ -192,23 +205,112 @@ Success: the logger c40c59dc-5e34-44a1-986d-e1ecb520e3ca is now running.
 To purge the logger identified by 'c40c59dc-5e34-44a1-986d-e1ecb520e3ca' without confirmation prompt, type the following command:
 ```console
 pierre@dev:~$ wp log logger purge c40c59dc-5e34-44a1-986d-e1ecb520e3ca --yes
-Success: the logger c40c59dc-5e34-44a1-986d-e1ecb520e3ca has been purged.
+Success: the logger c40c59dc-5e34-44a1-986d-e1ecb520e3ca successfully purged.
 ```
 
 To remove the logger identified by 'c40c59dc-5e34-44a1-986d-e1ecb520e3ca' without confirmation prompt, type the following command:
 ```console
 pierre@dev:~$ wp log logger remove c40c59dc-5e34-44a1-986d-e1ecb520e3ca --yes
-Success: the logger c40c59dc-5e34-44a1-986d-e1ecb520e3ca has been removed.
+Success: the logger c40c59dc-5e34-44a1-986d-e1ecb520e3ca successfully removed.
 ```
 
 To change the settings of the logger identified by 'c40c59dc-5e34-44a1-986d-e1ecb520e3ca', type the following command:
 ```console
-pierre@dev:~$ wp log logger set f3c27b6f-1bc3-48e8-90d6-9b10c737e419 --settings='{"proc_trace": false, "level":"warning"}'
-f3c27b6f-1bc3-48e8-90d6-9b10c737e419
-Success: logger successfully set.
+pierre@dev:~$ wp log logger set c40c59dc-5e34-44a1-986d-e1ecb520e3ca --settings='{"proc_trace": false, "level":"warning"}'
+Success: logger c40c59dc-5e34-44a1-986d-e1ecb520e3ca successfully set.
+```
+
+To add a WordPress logger, type the following command:
+```console
+pierre@dev:~$ wp log logger add WordpressHandler --settings='{"rotate": 8000, "purge": 5, "level":"warning", "proc_wp": true}'
+Success: logger 5b09be13-16f6-4ced-972e-98408df0fd49 successfully created.
 ```
 
 ## Using logger types
+
+With the `wp log type` command you can query all types available for logger creation / modification and obtain description of corresponding settings. This command helps you to fine-tune loggers via the command-line.
+
+### Listing types
+
+To obtain a list of set loggers, use `wp log type list`.
+
+### Examples
+
+To list the loggers, type the following command:
+```console
+pierre@dev:~$ wp log type list
++-----------------------+-----------+-------------------------+------------+
+| type                  | class     | name                    | version    |
++-----------------------+-----------+-------------------------+------------+
+| BrowserConsoleHandler | debugging | Browser console         | 2.0.2      |
+| ChromePHPHandler      | debugging | ChromePHP               | 2.0.2      |
+| ElasticCloudHandler   | logging   | Elastic Cloud           | 2.0.0-dev1 |
+| FluentHandler         | logging   | Fluentd                 | 2.0.0-dev1 |
+| LogentriesHandler     | logging   | Logentries & insightOps | 2.0.0-dev1 |
+| LogglyHandler         | logging   | Loggly                  | 2.0.2      |
+| MailHandler           | alerting  | Mail                    | 2.0.0-dev1 |
+| ErrorLogHandler       | logging   | PHP error log           | 2.0.2      |
+| PshHandler            | alerting  | Pushover                | 2.0.0-dev1 |
+| RotatingFileHandler   | logging   | Rotating files          | 2.0.2      |
+| SematextHandler       | logging   | Sematext                | 2.0.0-dev1 |
+| SlackWebhookHandler   | alerting  | Slack                   | 2.0.2      |
+| StackdriverHandler    | logging   | Stackdriver             | 2.0.0-dev1 |
+| SumoSysHandler        | logging   | Sumo Logic cloud-syslog | 2.0.0-dev1 |
+| SyslogUdpHandler      | logging   | Syslog                  | 2.0.2      |
+| WordpressHandler      | logging   | WordPress events log    | 2.0.0-dev1 |
++-----------------------+-----------+-------------------------+------------+
+```
+
+To obtain details about the WordpressHandler type, type the following command:
+```console
+pierre@dev:~$ wp @dev log type describe WordpressHandler
+              
+WordPress events log - WordpressHandler
+An events log stored in your WordPress database and available right in your admin dashboard.
+
+Minimal Level
+
+debug
+
+Parameters
+
+* Name - Used only in admin dashboard.
+  - field name: name
+  - field type: string
+  - default value: "New Logger"
+
+* Minimal level - Minimal reported level.
+  - field name: level
+  - field type: string
+  - default value: "debug"
+  - available values:
+     "emergency": A panic condition. WordPress is unusable.
+     "alert": A major operating error that undoubtedly affects the operations. It requires immediate investigation and corrective treatment.
+     "critical": An operating error that undoubtedly affects the operations. It requires investigation and corrective treatment.
+     "error": A minor operating error that may affects the operations. It requires investigation and preventive treatment.
+     "warning": A significant condition indicating a situation that may lead to an error if recurring or if no action is taken. Does not usually affect the operations.
+     "notice": A normal but significant condition. Now you know!
+     "info": A standard information, just for you to know… and forget!
+     "debug": An information for developers and testers. Only used for events related to application/system debugging.
+
+* Events - Maximum number of events stored in this events log (0 for no limit).
+  - field name: rotate
+  - field type: integer
+  - default value: 10000
+  - range: [0-10000000]
+
+[...]
+
+* Reported details: Backtrace - Allows to log the full PHP and WordPress call stack.
+  - field name: proc_trace
+  - field type: boolean
+  - default value: false
+
+Example
+
+{"rotate": 10000, "purge": 15}
+
+```
 
 ## Managing listeners
 
@@ -219,8 +321,6 @@ To get detailed status and operation mode, use the `wp log status` command.
 ## Managing main settings
 
 To toggle on/off main settings, use `wp log settings <enable|disable> <early-loading|auto-logging|auto-start>`.
-
-If you try to disable a setting, wp-cli will ask you to confirm. To force answer to yes without prompting, just use `--yes`.
 
 ### Available settings
 
@@ -234,3 +334,13 @@ To disable early-loading without confirmation prompt, type the following command
 ```console
 wp log settings disable early-loading --yes
 ```
+
+## Misc flags
+
+count & ids => force --stdout
+
+
+## Piping and storing
+
+wp @dev log logger add WordpressHandler --stdout | xargs wp @dev log logger set --settings='{"name":"Nice logger!"}' --stdout | xargs wp @dev log logger start
+Success: the logger f75dc435-2c63-4f16-bb29-cf77a478da4a is now running.

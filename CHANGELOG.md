@@ -33,6 +33,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - For some logger types the minimal level may be wrongly set to "debug" at creation.
 - Some typos in processors' names.
 - The WordPress viewer may display wrong details about "generic" devices.
+- The call to OPcache functions may trigger a PHP warning.
 - With Firefox, some links are unclickable in the Control Center (thanks to [Emil1](https://wordpress.org/support/users/milouze/)).
 
 ### Removed
