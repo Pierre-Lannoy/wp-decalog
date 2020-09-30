@@ -400,11 +400,37 @@ wp log settings disable early-loading --yes
 
 For most commands, DecaLog lets you use the following flags:
 - `--yes`: automatically answer "yes" when a question is prompted during the command execution.
-- `--stdout`: output a clean STDOUT string so you can pipe or store result of command execution (see [piping and storing](#piping-and-storing)).
+- `--stdout`: outputs a clean STDOUT string so you can pipe or store result of command execution (see [piping and storing](#piping-and-storing)).
 
 > It's not mandatory to use `--stdout` when using `--format=count` or `--format=ids`: in such cases `--stdout` is assumed.
 
 ## Piping and storing
 
-wp @dev log logger add WordpressHandler --stdout | xargs wp @dev log logger set --settings='{"name":"Nice logger!"}' --stdout | xargs wp @dev log logger start
-Success: the logger f75dc435-2c63-4f16-bb29-cf77a478da4a is now running.
+As DecaLog outputs only the element that makes the most sense when you use the `--stdout` flag, you can pipe commands the way you are used to doing it.
+
+The `wp log logger ... --stdout`, for example, will in most case return the logger uuid. So you can "chain" commands to create, set and start a logger in one line:
+
+```console
+pierre@dev:~$ wp log logger add WordpressHandler --stdout | xargs wp log logger set --settings='{"name":"Nice logger!"}' --stdout | xargs wp log logger start
+Success: logger f75dc435-2c63-4f16-bb29-cf77a478da4a is now running.
+```
+
+On the same "scheme" you can pause all set loggers by iterating the `wp log logger pause` on all uuid returned by `wp log logger list`:
+```console
+pierre@dev:~$ wp log logger list --format=ids | xargs -0 -d ' ' -I % wp log logger pause %
+The logger c40c59dc-5e34-44a1-986d-e1ecb520e3ca is already paused.
+The logger f1ee25c7-d9fe-42ee-86df-9394b411e2a7 is already paused.
+The logger 93f84673-a623-4c15-825e-d867f35565ff is already paused.
+The logger 078e124b-2122-4f03-91e9-2bbf70964618 is already paused.
+The logger 9553830a-75e7-4405-80c5-8bf726ccf45c is already paused.
+Success: logger 37cf1c00-d67d-4e7d-9518-e579f01407a7 is now paused.
+Success: logger 5bacf078-2a1f-4c43-8961-4d8ca647661b is now paused.
+The logger df59a30d-dc30-4771-a4a5-a654f0a5cd46 is already paused.
+The logger 6d9943e5-b4fa-4dee-8b02-93a9294b1373 is already paused.
+The logger 972d417f-2294-4888-8bfe-bf038e39f8e8 is already paused.
+The logger 29fdb590-41a8-4a1d-98e5-465a7be10a96 is already paused.
+Error: system loggers can't be managed.
+The logger 83fdd893-0979-4bbb-848b-d38e8fbf813d is already paused.
+The logger 9c6e7967-a1b7-447c-9ed5-ec73853a6867 is already paused.
+The logger 8e2ee516-6f8d-40d1-ac16-c3e61274a41a is already paused.
+```
