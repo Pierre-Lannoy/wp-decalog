@@ -49,6 +49,7 @@ class Autolog {
 	 * @since    2.0.0
 	 */
 	public static function activate() {
+		$old = Option::network_get( 'livelog' );
 		Option::network_set( 'livelog', true );
 		$loggers = Option::network_get( 'loggers' );
 		foreach ( $loggers as $uuid => $logger ) {
@@ -57,8 +58,10 @@ class Autolog {
 			}
 		}
 		Option::network_set( 'loggers', $loggers );
-		$logger = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
-		$logger->notice( 'Auto-logging is now activated.' );
+		if ( ! $old ) {
+			$logger = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
+			$logger->notice( 'Auto-logging is now activated.' );
+		}
 	}
 
 	/**
@@ -67,6 +70,7 @@ class Autolog {
 	 * @since    2.0.0
 	 */
 	public static function deactivate() {
+		$old     = Option::network_get( 'livelog' );
 		$loggers = Option::network_get( 'loggers' );
 		foreach ( $loggers as $uuid => $logger ) {
 			if ( 'SharedMemoryHandler' === $logger['handler'] ) {
@@ -75,7 +79,9 @@ class Autolog {
 		}
 		Option::network_set( 'loggers', $loggers );
 		Option::network_set( 'livelog', false );
-		$logger = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
-		$logger->notice( 'Auto-logging is now deactivated.' );
+		if ( $old ) {
+			$logger = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
+			$logger->notice( 'Auto-logging is now deactivated.' );
+		}
 	}
 }

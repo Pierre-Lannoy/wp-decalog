@@ -444,12 +444,12 @@ uuid=$(wp log logger start 37cf1c00-d67d-4e7d-9518-e579f01407a7 --stdout)
 echo $uuid
 ```
 
-And, as DecaLog set exit code, you can use `$?` to write scripts too:
+And, as DecaLog sets exit code, you can use `$?` to write scripts too:
 
 ```bash
 #!/bin/bash
 
-wp log logger start 37cf1c00-d67d-4e7d-9518-e579f01407a7 --stdout
+wp log logger add FluentHandler --stdout | xargs wp log logger start
 
 if [ $? -eq 0 ]
 then
@@ -462,4 +462,4 @@ fi
 # continue
 ```
 
-> To know the meaning of DecaLog exit codes, just use this command: `wp log exitcode list`.
+> To know the meaning of DecaLog exit codes, just use the command `wp log exitcode list`.
