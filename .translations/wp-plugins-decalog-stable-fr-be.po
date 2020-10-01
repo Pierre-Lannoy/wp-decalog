@@ -1,14 +1,14 @@
-# Translation of Plugins - DecaLog - Stable (latest release) in French (France)
+# Translation of Plugins - DecaLog - Stable (latest release) in French (Belgium)
 # This file is distributed under the same license as the Plugins - DecaLog - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-10-01 16:47+0200\n"
+"PO-Revision-Date: 2020-10-01 16:54+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Generator: Poedit 2.4.1\n"
-"Language: fr\n"
+"Language: fr_BE\n"
 "Project-Id-Version: Plugins - DecaLog - Stable (latest release)\n"
 "POT-Creation-Date: \n"
 "Last-Translator: \n"
@@ -32,7 +32,7 @@ msgstr "Si coché, DecaLog va charger discrètement les fonctionnalités nécess
 
 #: admin/class-decalog-admin.php:936
 msgid "Activate auto-logging"
-msgstr "Activer la journalisation automatique"
+msgstr "Activer l’enregsitrement automatique"
 
 #: admin/class-decalog-admin.php:931
 msgid "Live console"
@@ -40,11 +40,11 @@ msgstr "Console en direct"
 
 #: admin/class-decalog-admin.php:483 admin/class-decalog-admin.php:505
 msgid "You can not start or pause a system logger."
-msgstr "Vous ne pouvez pas démarrer ou mettre en pause un journaliseur système."
+msgstr "Vous ne pouvez pas démarrer ou mettre en pause un enregistreur système."
 
 #: admin/class-decalog-admin.php:439 admin/class-decalog-admin.php:454
 msgid "You can not modify or remove a system logger."
-msgstr "Vous ne pouvez pas modifier ou supprimer un journaliseur système."
+msgstr "Vous ne pouvez pas modifier ou supprimer un enregistreur système."
 
 #. translators: as in the sentence "DecaLog Viewer"
 #: admin/class-decalog-admin.php:238
@@ -64,7 +64,7 @@ msgstr "Évènements en direct"
 
 #: includes/features/class-handlertypes.php:64
 msgid "An automatic events log, stored in server shared memory."
-msgstr "Un journal automatique des évènements, stocké dans la mémoire partagée du serveur."
+msgstr "Un registre automatique des évènements, stocké dans la mémoire partagée du serveur."
 
 #: includes/features/class-handlertypes.php:63
 #: admin/class-decalog-admin.php:1008
@@ -77,7 +77,7 @@ msgstr "Shell local"
 
 #: includes/features/class-dlogger.php:232
 msgid "System auto-logger"
-msgstr "Auto-journaliseur système"
+msgstr "Auto-enregistreur système"
 
 #: includes/system/class-markdown.php:46
 msgid "Sorry, unable to find or read the specified file."
@@ -174,7 +174,7 @@ msgstr "Région"
 
 #: includes/features/class-handlertypes.php:778
 msgid "An events log sent to a Sumo Logic cloud-syslog source."
-msgstr "Un journal d’évènements envoyé à une source cloud-syslog de Sumo Logic."
+msgstr "Un registre d’évènements envoyé à une source cloud-syslog de Sumo Logic."
 
 #: includes/features/class-handlertypes.php:602
 msgid "The \"Logs App Token\" set in Sematext."
@@ -198,7 +198,7 @@ msgstr "Emplacement"
 
 #: includes/features/class-handlertypes.php:580
 msgid "An events log sent to Sematext using Elasticsearch APIs."
-msgstr "Un journal d’évènements envoyé à Sematext en utilisant les APIs Elasticsearch."
+msgstr "Un registre d’évènements envoyé à Sematext en utilisant les APIs Elasticsearch."
 
 #: includes/features/class-handlertypes.php:169
 msgid "The index name."
@@ -222,7 +222,7 @@ msgstr "Le nom d’utilisateur de l’instance."
 
 #: includes/features/class-handlertypes.php:144
 msgid "Username"
-msgstr "Nom d’utilisateur"
+msgstr "Nom d'utilisateur"
 
 #: includes/features/class-handlertypes.php:133
 msgid "The generated cloud ID."
@@ -234,7 +234,7 @@ msgstr "Cloud ID"
 
 #: includes/features/class-handlertypes.php:124
 msgid "An events log sent to Elastic Cloud / Elastic Cloud Enterprise."
-msgstr "Un journal d’évènements envoyé à Elastic Cloud / Elastic Cloud Enterprise."
+msgstr "Un registre d’évènements envoyé à Elastic Cloud / Elastic Cloud Enterprise."
 
 #: admin/class-decalog-admin.php:922
 msgid "If checked, DecaLog will be loaded before all other plugins (recommended)."
@@ -250,7 +250,7 @@ msgstr "Démarrage"
 
 #: includes/features/class-handlertypes.php:721
 msgid "An events log sent to Google Stackdriver Logging via a Google-Fluentd collector."
-msgstr "Un journal d’évènements envoyé à Google Stackdriver Logging via un collecteur Google-Fluentd."
+msgstr "Un registre d’évènements envoyé à Google Stackdriver Logging via un collecteur Google-Fluentd."
 
 #. translators: as in the sentence "Check the events that occurred on your
 #. network." or "Check the events that occurred on your website."
@@ -272,7 +272,7 @@ msgstr "Vérifiez les évènements qui se sont produits sur votre %s."
 
 #: admin/class-decalog-admin.php:212 admin/class-decalog-admin.php:219
 msgid "Events Log"
-msgstr "Journal des évènements"
+msgstr "Registre d’évènements"
 
 #: perfopsone/class-adminmenus.php:406
 msgid "Requires at least PHP %1$s%2$s and WordPress %3$s%4$s."
@@ -365,7 +365,7 @@ msgstr "Tableau de bord"
 #: includes/integrations/class-optimizelogger.php:58
 #: includes/integrations/class-wpseologger.php:56
 msgid "Log all events via DecaLog"
-msgstr "Journalisez tous les évènements via DecaLog"
+msgstr "Enregistrez tous les évènements via DecaLog"
 
 #: includes/features/class-eventviewer.php:467
 #: includes/features/class-eventviewer.php:477
@@ -511,7 +511,7 @@ msgstr "Test de cache d’objets"
 
 #: includes/system/class-sitehealth.php:167
 msgid "Loggers list"
-msgstr "Liste des journaliseurs"
+msgstr "Liste des enregistreurs"
 
 #: includes/system/class-sitehealth.php:150
 msgid "Plugin diagnostic information"
@@ -535,15 +535,15 @@ msgstr "Le jeton d’application Solawinds Loggly."
 
 #: includes/features/class-handlertypes.php:337
 msgid "An events log sent to Solawinds Loggly service."
-msgstr "Un journal d’évènements envoyé au service Solawinds Loggly."
+msgstr "Un registre d’évènements envoyé au service Solawinds Loggly."
 
 #: includes/features/class-handlertypes.php:289
 msgid "The token of the Logentries/insightOps log."
-msgstr "Le jeton du journal Logentries/insightOps.."
+msgstr "Le jeton du registre Logentries/insightOps."
 
 #: includes/features/class-handlertypes.php:288
 msgid "Log token"
-msgstr "Jeton du journal"
+msgstr "Jeton de l’enregistreur"
 
 #: includes/features/class-handlertypes.php:282
 msgid "USA"
@@ -561,11 +561,11 @@ msgstr "La région de l’hôte distant recevant les messages."
 
 #: includes/features/class-handlertypes.php:275
 msgid "Log endpoint region"
-msgstr "Région du journal"
+msgstr "Région du registre"
 
 #: includes/features/class-handlertypes.php:267
 msgid "An events log sent to Logentries & insightOps service."
-msgstr "Un journal d’évènements envoyé au service Logentries & insightOps."
+msgstr "Un registre d’évènements envoyé au service Logentries & insightOps."
 
 #: includes/features/class-inlinehelp.php:344
 msgid "Event code and message."
@@ -582,7 +582,7 @@ msgstr "Permet d’enregistrer les piles d’appels complètes de PHP et WordPre
 
 #: admin/class-decalog-admin.php:276 admin/class-decalog-admin.php:293
 msgid "Events log"
-msgstr "Journal des évènements"
+msgstr "Registre d’évènements"
 
 #: includes/plugin/class-updater.php:52
 msgid "See <a href=\"%s\">what's new</a>."
@@ -712,7 +712,7 @@ msgstr "Assistance"
 
 #: admin/class-decalog-admin.php:528
 msgid "Test messages have not been sent to logger %s. Please check the logger's settings."
-msgstr "Les messages de test n’ont été envoyés correctement au journaliseur %s. Veuillez vérifier les réglages de ce journaliseur."
+msgstr "Les messages de test n’ont été envoyés correctement à l’enregistreur %s. Veuillez vérifier les réglages de cet enregistreur."
 
 #. translators: definition of an event typed 'EMERGENCY', see
 #. https://github.com/Pierre-Lannoy/wp-decalog/blob/master/DEVELOPER.md for
@@ -849,7 +849,7 @@ msgstr "Vous pouvez utiliser les contrôles suivants pour organiser l’écran e
 
 #: includes/features/class-inlinehelp.php:308
 msgid "Note these filters are effective even on pseudonymized or obfuscated fields."
-msgstr "Notez que ces filtres sont effectifs même sur les champs pseudonymisés ou obscurcis."
+msgstr "Notez que ces filtres sont effectifs même sur les champs pseudonymisés ou obscurcies."
 
 #: includes/features/class-inlinehelp.php:307
 msgid "To filter the displayed events, use the small blue funnel next to the filterable items. These filters are cumulative, you can activate simultaneously several filters."
@@ -857,7 +857,7 @@ msgstr "Pour filtrer les évènements affichés, utilisez le petit entonnoir ble
 
 #: includes/features/class-inlinehelp.php:306
 msgid "You can change the events log being viewed (if you have set more than one WordPress logger) with the selector at the top left of the list (don't forget to click on the \"apply\" button)."
-msgstr "Vous pouvez sélectionner le journal des évènements affiché (si vous avez réglé plus d’un journaliseur WordPress) avec le sélecteur en haut à gauche de la liste (n’oubliez pas de cliquer sur le bouton « Appliquer »)."
+msgstr "Vous pouvez sélectionner le registre d’évènements affiché (si vous avez réglé plus d’un enregistreur WordPress) avec le sélecteur en haut à gauche de la liste (n’oubliez pas de cliquer sur le bouton « Appliquer »)."
 
 #: includes/features/class-inlinehelp.php:305
 msgid "You can restrict the display of events according to their severity levels. To do so, use the three links at the top left of the list."
@@ -869,15 +869,15 @@ msgstr "Pour avancer ou reculer dans le temps, utilisez les boutons de navigatio
 
 #: includes/features/class-inlinehelp.php:303
 msgid "This screen displays the list of events belonging to a specific WordPress logger. This list is sorted with the most recent event at the top."
-msgstr "Cet écran affiche la liste des évènements appartenant à un journaliseur WordPress particulier. Cette liste est triée de telles sorte que l’évènement le plus récent soit en haut."
+msgstr "Cet écran affiche la liste des évènements appartenant à un enregistreur WordPress particulier. Cette liste est triée de telles sorte que l’évènement le plus récent soit en haut."
 
 #: includes/features/class-inlinehelp.php:249
 msgid "Note these options are global. They are set for all loggers."
-msgstr "Notez que ces options sont globales. Elles sont réglées pour tous les journaliseurs."
+msgstr "Notez que ces options sont globales. Elles sont réglées pour tous les enregistreurs."
 
 #: includes/features/class-inlinehelp.php:247
 msgid "Note these options are global. They are set for all loggers, for all sites in your network."
-msgstr "Notez que ces options sont globales. Elles sont réglées pour tous les journaliseurs, pour tous les sites de votre réseau."
+msgstr "Notez que ces options sont globales. Elles sont réglées pour tous les enregistreurs, pour tous les sites de votre réseau."
 
 #: includes/features/class-inlinehelp.php:245
 msgid "This screen allows you to set misc options of %s."
@@ -910,11 +910,11 @@ msgstr "Droits d’administration"
 
 #: includes/features/class-inlinehelp.php:183
 msgid "Logging"
-msgstr "Journalisation"
+msgstr "Enregistrement"
 
 #: includes/features/class-inlinehelp.php:181
 msgid "These loggers send events to logging services. It may be local or SaaS, free or paid services."
-msgstr "Ces journaliseurs envoient des évènements à des services de journalisation. Il peut s’agire de services locaux ou SaaS, gratuits ou payants."
+msgstr "Ces enregistreurs envoient des évènements à des services d’enregistrement. Il peut s’agire de services locaux ou SaaS, gratuits ou payants."
 
 #: includes/features/class-inlinehelp.php:176
 msgid "Debugging"
@@ -922,7 +922,7 @@ msgstr "Débogage"
 
 #: includes/features/class-inlinehelp.php:174
 msgid "These loggers can help you to debug your site:"
-msgstr "Ces journaliseurs peuvent vous aider à déboguer votre site :"
+msgstr "Ces enregistreurs peuvent vous aider à déboguer votre site :"
 
 #: includes/features/class-inlinehelp.php:169
 msgid "Alerting"
@@ -930,7 +930,7 @@ msgstr "Alerte"
 
 #: includes/features/class-inlinehelp.php:167
 msgid "These loggers allow you to send alerts:"
-msgstr "Ces journaliseurs vous permettent d’envoyer des alertes :"
+msgstr "Ces enregistreurs vous permettent d’envoyer des alertes :"
 
 #: includes/features/class-inlinehelp.php:162
 #: includes/features/class-inlinehelp.php:219
@@ -942,23 +942,23 @@ msgstr "Vue d’ensemble"
 
 #: includes/features/class-inlinehelp.php:160
 msgid "Loggers are classified in three main categories: alerting, debugging and logging. You can find details on these categories on the corresponding tabs of this help."
-msgstr "Les journaliseurs sont classés selon trois catégories principales : alerte, débogage et journalisation. Vous trouverez des détails sur ces catégories dans les onglets correspondants de cette aide."
+msgstr "Les enregistreurs sont classés selon trois catégories principales : alerte, débogage et enregistrement. Vous trouverez des détails sur ces catégories dans les onglets correspondants de cette aide."
 
 #: includes/features/class-inlinehelp.php:159
 msgid "You can set as many loggers as you want. All the set loggers will receive all events and, regarding their own settings, will enrich them and record them or not."
-msgstr "Vous pouvez ajouter autant de journaliseurs que vous le souhaitez. Tous les journaliseurs recevront tous les évènements et, selon leurs réglages individuels, les enrichiront et les enregistreront ou non."
+msgstr "Vous pouvez ajouter autant d’enregistreurs que vous le souhaitez. Tous les enregistreurs recevront tous les évènements et, selon leurs réglages individuels, les enrichiront et les enregistreront ou non."
 
 #: includes/features/class-inlinehelp.php:158
 msgid "A logger is a recorder of events. It can filter them (accept or refuse to record the event based on settings) then store them or send them to logging/alerting services."
-msgstr "Un journaliseur est un enregistreur d’évènements. Il peut les filtrer (accepter ou refuser d’enregistrer l’évènement en fonction des réglages) puis les stocker ou les envoyer à des services de journalisation ou d’alerte."
+msgstr "Un enregistreur est un enregistreur d’évènements. Il peut les filtrer (accepter ou refuser d’enregistrer l’évènement en fonction des réglages) puis les stocker ou les envoyer à des services d’enregistrement ou d’alerte."
 
 #: includes/features/class-inlinehelp.php:157
 msgid "This screen allows you to set the %s loggers."
-msgstr "Cet écran vous permet de régler les journaliseurs de %s."
+msgstr "Cet écran vous permet de régler les enregistreurs de %s."
 
 #: includes/features/class-inlinehelp.php:144
 msgid "Can't set loggers, can only view events regarding their own sites in all authorized WordPress events log."
-msgstr "Ne peut pas régler des journaliseurs, ne peut voir que les évènements de ses propres sites dans les journaux d’évènements WordPress pour lesquels une autorisation lui a été accordée."
+msgstr "Ne peut pas régler des enregistreurs, ne peut voir que les évènements de ses propres sites dans les registres d’évènements WordPress pour lesquels une autorisation lui a été accordée."
 
 #: includes/features/class-inlinehelp.php:144
 msgctxt "WordPress multisite"
@@ -972,7 +972,7 @@ msgstr "C’est votre rôle actuel."
 
 #: includes/features/class-inlinehelp.php:143
 msgid "Can set loggers, can view all events in all WordPress events log."
-msgstr "Peut régler des journaliseurs, peut afficher tous les évènements dans tous les journaux d’évènements WordPress."
+msgstr "Peut régler des enregistreurs, peut afficher tous les évènements dans tous les registres d’évènements WordPress."
 
 #: includes/features/class-inlinehelp.php:143
 msgctxt "WordPress multisite"
@@ -981,7 +981,7 @@ msgstr "Administrateur du réseau"
 
 #: includes/features/class-inlinehelp.php:142
 msgid "Because your site takes part in a sites network, admin ability to view and configure events logs differ as follows:"
-msgstr "Étant donné que votre site participe à un réseau de sites, la capacité d’administrer, visualiser et configurer les journaux d’évènements diffère comme suit :"
+msgstr "Étant donné que votre site participe à un réseau de sites, la capacité d’administrer, visualiser et configurer les registres d’évènements diffère comme suit :"
 
 #: includes/features/class-inlinehelp.php:108
 msgid "The severity of an event is indicated by a \"level\". %s uses the following levels classification:"
@@ -1009,7 +1009,7 @@ msgstr "Source"
 
 #: admin/class-decalog-admin.php:523
 msgid "Test messages have been sent to logger %s."
-msgstr "Les messages de test ont été envoyés au journaliseur %s."
+msgstr "Les messages de test ont été envoyés à l’enregistreur %s."
 
 #: includes/features/class-loggers.php:237
 msgid "Status"
@@ -1091,7 +1091,7 @@ msgstr "Évènement : %s"
 
 #: includes/features/class-eventviewer.php:230
 msgid "Events log: %s"
-msgstr "Journal des évènements : %s"
+msgstr "Registre d’évènements : %s"
 
 #: includes/features/class-eventviewer.php:227
 msgid "If you think this is an error, please contact the network administrator with these details:"
@@ -1099,7 +1099,7 @@ msgstr "Si vous pensez qu’il s’agit d’une erreur, veuillez contacter l’a
 
 #: includes/features/class-eventviewer.php:226
 msgid "The event or events log you tried to access is out of your scope."
-msgstr "L’évènement ou le journal d’évènements auquel vous avez tenté d’accéder est hors de votre portée."
+msgstr "L’évènement ou le registre d’évènements auquel vous avez tenté d’accéder est hors de votre portée."
 
 #: includes/features/class-eventviewer.php:224
 msgid "Forbidden"
@@ -1111,7 +1111,7 @@ msgstr "Blocs"
 
 #: includes/features/class-loggerfactory.php:262
 msgid "Unnamed logger"
-msgstr "Journal sans nom"
+msgstr "Registre sans nom"
 
 #: includes/features/class-classtypes.php:51
 msgid "PHP"
@@ -1155,7 +1155,7 @@ msgstr "Requête HTTP"
 
 #: includes/features/class-processortypes.php:52
 msgid "Allows to log line, file, class and function generating the event."
-msgstr "Permet de journaliser la ligne, le fichier, la classe et la fonction générant l’évènement."
+msgstr "Permet de consigner la ligne, le fichier, la classe et la fonction générant l’évènement."
 
 #: includes/features/class-eventviewer.php:277
 #: includes/features/class-inlinehelp.php:347
@@ -1214,7 +1214,7 @@ msgstr "Partitionnement multisite"
 
 #: includes/features/class-handlertypes.php:1076
 msgid "Maximum age of events stored in this events log (0 for no limit)."
-msgstr "Âge maximal des évènements conservés dans ce journal (0 pour aucune limite)."
+msgstr "Âge maximal des évènements conservés dans ce registre (0 pour aucune limite)."
 
 #: includes/features/class-handlertypes.php:1075
 msgid "Days"
@@ -1222,7 +1222,7 @@ msgstr "Jours"
 
 #: includes/features/class-handlertypes.php:1061
 msgid "Maximum number of events stored in this events log (0 for no limit)."
-msgstr "Nombre maximal d’évènements conservés dans ce journal (0 pour aucune limite)."
+msgstr "Nombre maximal d’évènements conservés dans ce registre (0 pour aucune limite)."
 
 #: includes/features/class-handlertypes.php:1060
 msgid "Events"
@@ -1230,11 +1230,11 @@ msgstr "Évènements"
 
 #: includes/features/class-handlertypes.php:1052
 msgid "An events log stored in your WordPress database and available right in your admin dashboard."
-msgstr "Un journal des évènements stocké dans votre base de données WordPress et disponible directement dans votre Tableau de bord."
+msgstr "Un registre d’évènements stocké dans votre base de données WordPress et disponible directement dans votre Tableau de bord."
 
 #: includes/features/class-handlertypes.php:1051
 msgid "WordPress events log"
-msgstr "Journal des évènements WordPress"
+msgstr "Registre d’évènements WordPress"
 
 #: includes/features/class-handlertypes.php:878
 #: includes/features/class-handlertypes.php:1005
@@ -1288,7 +1288,7 @@ msgstr "Hôte"
 
 #: includes/features/class-handlertypes.php:933
 msgid "An events log sent to a remote syslogd server."
-msgstr "Un journal d’évènements envoyé à un serveur syslogd."
+msgstr "Un registre d’évènements envoyé à un serveur syslogd."
 
 #: includes/features/class-handlertypes.php:668
 msgid "Whether the attachments should include context and extra data."
@@ -1336,7 +1336,7 @@ msgstr "Fichier"
 
 #: includes/features/class-handlertypes.php:519
 msgid "An events log sent to files that are rotated every day and a limited number of files are kept."
-msgstr "Un journal des évènements envoyé dans des fichiers différents tous les jours et dont un nombre limité est conservé."
+msgstr "Un registre d’évènements envoyé dans des fichiers différents tous les jours et dont un nombre limité est conservé."
 
 #: includes/features/class-handlertypes.php:518
 msgid "Rotating files"
@@ -1373,15 +1373,15 @@ msgstr "Alertes d’évènements envoyées via le service Pushover."
 
 #: includes/features/class-handlertypes.php:409
 msgid "An events log stored in the standard PHP error log, as with the error_log() function."
-msgstr "Un journal des évènements stocké dans le journal d’erreurs PHP standard, comme avec la fonction error_log() ."
+msgstr "Un registre d’évènements stocké dans le registre d’erreurs PHP standard, comme avec la fonction error_log() ."
 
 #: includes/features/class-handlertypes.php:408
 msgid "PHP error log"
-msgstr "Journal d’erreur PHP"
+msgstr "Registre d’erreur PHP"
 
 #: includes/features/class-handlertypes.php:380
 msgid "The recipients mail address, in coma separated list."
-msgstr "Les adresse e-mail des destinataires, dans une liste séparée par des virgules."
+msgstr "Les adresses courriel des destinataires, dans une liste séparée par des virgules."
 
 #: includes/features/class-handlertypes.php:379
 msgid "Recipients"
@@ -1389,11 +1389,11 @@ msgstr "Destinataires"
 
 #: includes/features/class-handlertypes.php:371
 msgid "Events alerts sent by WordPress via mail."
-msgstr "Alertes d’évènements envoyées par WordPress sous forme d’e-mail."
+msgstr "Alertes d’évènements envoyées par WordPress sous forme de courriel."
 
 #: includes/features/class-handlertypes.php:370
 msgid "Mail"
-msgstr "E-mail"
+msgstr "Courriel"
 
 #: includes/features/class-handlertypes.php:231
 #: includes/features/class-handlertypes.php:301
@@ -1423,15 +1423,15 @@ msgstr "Chaîne de connexion"
 
 #: includes/features/class-handlertypes.php:210
 msgid "An events log sent to a Fluentd collector."
-msgstr "Un journal d’évènements envoyé à un collecteur Fluentd."
+msgstr "Un registre d’évènements envoyé à un collecteur Fluentd."
 
 #: includes/features/class-handlertypes.php:103
 msgid "An events log sent to the ChromePHP extension (http://www.chromephp.com/)."
-msgstr "Un journal des évènements envoyé à l’extension ChromePHP (http://www.chromephp.com/)."
+msgstr "Un registre d’évènements envoyé à l’extension ChromePHP (http://www.chromephp.com/)."
 
 #: includes/features/class-handlertypes.php:82
 msgid "An events log sent to browser's javascript console with no browser extension required."
-msgstr "Un journal d’évènements envoyé à la console javascript du navigateur, ne nécessite pas d’extension de navigateur."
+msgstr "Un registre d’évènements envoyé à la console javascript du navigateur, ne nécessite pas d’extension de navigateur."
 
 #: includes/features/class-handlertypes.php:81
 msgid "Browser console"
@@ -1490,7 +1490,7 @@ msgstr "Supprimer ce filtre"
 
 #: includes/features/class-events.php:249
 msgid "Obfuscated"
-msgstr "Obscurcis"
+msgstr "Obscurci"
 
 #: includes/features/class-events.php:232
 msgid "User ID %s"
@@ -1517,7 +1517,7 @@ msgstr "%1$s code %2$s"
 
 #: includes/features/class-loggers.php:236
 msgid "Logger"
-msgstr "Journaliseur"
+msgstr "Enregistreur"
 
 #: includes/features/class-loggers.php:180
 msgid "View"
@@ -1565,7 +1565,7 @@ msgstr "affichage"
 
 #: includes/system/class-environment.php:195
 msgid "log"
-msgstr "journal"
+msgstr "registre"
 
 #: includes/plugin/class-updater.php:48
 msgid "%1$s has been correctly updated from version %2$s to version %3$s."
@@ -1585,15 +1585,15 @@ msgstr "Abandonner"
 
 #: admin/partials/decalog-admin-settings-logger-delete.php:32
 msgid "Are you sure you want to permanently remove this logger?"
-msgstr "Êtes-vous certain de vouloir supprimer définitivement ce journaliseur ?"
+msgstr "Êtes-vous certain de vouloir supprimer définitivement cet enregistreur ?"
 
 #: admin/partials/decalog-admin-settings-loggers.php:17
 msgid "Add a Logger"
-msgstr "Ajouter un journaliseur"
+msgstr "Ajouter un enregistreur"
 
 #: admin/partials/decalog-admin-settings-about.php:41
 msgid "Changelog"
-msgstr "Journal des modifications"
+msgstr "Historique des changements"
 
 #: admin/partials/decalog-admin-settings-about.php:37
 msgid "Disclaimer"
@@ -1634,7 +1634,7 @@ msgstr "Réinitialiser les paramètres par défaut"
 
 #: admin/partials/decalog-admin-settings-logger-choose.php:20
 msgid "Please, select the type of logger you want to add"
-msgstr "Veuillez sélectionner le type de journaliseur que vous souhaitez ajouter"
+msgstr "Veuillez sélectionner le type d’enregistreur que vous souhaitez ajouter"
 
 #: admin/partials/decalog-admin-settings-main.php:74
 msgid "About"
@@ -1651,7 +1651,7 @@ msgstr "Observateurs"
 #: includes/system/class-sitehealth.php:166
 #: admin/partials/decalog-admin-settings-main.php:35
 msgid "Loggers"
-msgstr "Journaliseurs"
+msgstr "Enregistreurs"
 
 #: admin/partials/decalog-admin-view-events-bottom.php:21
 #: admin/partials/decalog-admin-view-events-top.php:21
@@ -1668,7 +1668,7 @@ msgstr "en fonctionnement"
 
 #: admin/partials/decalog-admin-view-events-top.php:15
 msgid "Choose events log to display"
-msgstr "Choisissez le journal des évènements à afficher"
+msgstr "Choisissez le registre d’évènements à afficher"
 
 #: admin/class-decalog-admin.php:1257
 msgid "Allows to log standard DecaLog information."
@@ -1684,7 +1684,7 @@ msgstr "Standard"
 
 #: admin/class-decalog-admin.php:1231
 msgid "If checked, log fields will contain hashes instead of user IDs & names."
-msgstr "Si coché, les champs du journal vont contenir des clés de hachage à la place des noms et ID d’utilisateurs."
+msgstr "Si coché, les champs du registre vont contenir des clés de hachage à la place des noms et ID d’utilisateurs."
 
 #: admin/class-decalog-admin.php:1228
 msgid "Pseudonymisation"
@@ -1700,7 +1700,7 @@ msgstr "Remarque : cela concerne tous les champs sauf le message en lui-même."
 
 #: admin/class-decalog-admin.php:1215
 msgid "If checked, log fields will contain hashes instead of real IPs."
-msgstr "Si coché, les champs du journal vont contenir des clés de hachage à la place des IPs réelles."
+msgstr "Si coché, les champs du registre vont contenir des clés de hachage à la place des IPs réelles."
 
 #: admin/class-decalog-admin.php:1212
 msgid "Obfuscation"
@@ -1720,11 +1720,11 @@ msgstr "Valeur fixée dans le fichier php.ini."
 
 #: admin/class-decalog-admin.php:1151
 msgid "Log file"
-msgstr "Fichier journal"
+msgstr "Fichier registre"
 
 #: admin/class-decalog-admin.php:1088
 msgid "Minimal reported level. May be overridden by the \"respect WP_DEBUG directive\" option."
-msgstr "Niveau minimal de consigne. Peut être surchargé par l’option « respecter la directive WP-DEBUG »."
+msgstr "Niveau minimal de consigne. Peut être outrepassé par l’option « respecter la directive WP-DEBUG »."
 
 #: includes/features/class-loggers.php:238 admin/class-decalog-admin.php:1080
 #: admin/class-decalog-admin.php:1125
@@ -1757,7 +1757,7 @@ msgstr "Avis d’administration"
 
 #: admin/class-decalog-admin.php:897
 msgid "If checked, the value of WP_DEBUG will override each logger's settings for minimal level of logging."
-msgstr "Si coché, la valeur de WP-DEBUG remplacera les paramètres de chaque journaliseur concernant le niveau minimal de consigne."
+msgstr "Si coché, la valeur de WP-DEBUG outrepassera les paramètres de chaque enregistreur concernant le niveau minimal de consigne."
 
 #: admin/class-decalog-admin.php:894
 msgid "Respect WP_DEBUG"
@@ -1781,7 +1781,7 @@ msgstr "Messages d’évènements"
 
 #: admin/class-decalog-admin.php:865
 msgid "If checked, when a new logger is added it automatically starts."
-msgstr "Si coché, lorsqu’un nouveau journaliseur est ajouté, il démarre automatiquement."
+msgstr "Si coché, lorsqu’un nouvel enregistreur est ajouté, il démarre automatiquement."
 
 #: admin/class-decalog-admin.php:862
 msgid "Auto-start"
@@ -1817,19 +1817,19 @@ msgstr "Activer"
 
 #: admin/class-decalog-admin.php:757
 msgid "Logger %s has not been removed. Please try again."
-msgstr "Le journaliseur %s n’a pas été supprimé. Veuillez réessayer."
+msgstr "L’enregistreur %s n’a pas été supprimé. Veuillez réessayer."
 
 #: admin/class-decalog-admin.php:751
 msgid "Logger %s has been removed."
-msgstr "Le journaliseur %s a été supprimé."
+msgstr "L’enregistreur %s a été supprimé."
 
 #: admin/class-decalog-admin.php:727
 msgid "Logger %s has not been saved. Please try again."
-msgstr "Le journaliseur %s n’a pas été mis à jour. Veuillez réessayer."
+msgstr "L’enregistreur %s n’a pas été mis à jour. Veuillez réessayer."
 
 #: admin/class-decalog-admin.php:721
 msgid "Logger %s has been saved."
-msgstr "Le journaliseur %s a été mis à jour."
+msgstr "L’enregistreur %s a été mis à jour."
 
 #: admin/class-decalog-admin.php:669
 msgid "Plugin settings have not been reset to defaults. Please try again."
@@ -1865,20 +1865,20 @@ msgstr "Les réglages des observateurs ont été mis à jour."
 
 #: admin/class-decalog-admin.php:496
 msgid "Logger %s has been paused."
-msgstr "Le journaliseur %s a été mis en pause."
+msgstr "L’enregistreur %s a été mis en pause."
 
 #: admin/class-decalog-admin.php:478
 msgid "Logger %s has started."
-msgstr "Le journaliseur %s a démarré."
+msgstr "L’enregistreur %s a démarré."
 
 #: includes/features/class-wpcli.php:317 admin/class-decalog-admin.php:416
 #: admin/class-decalog-admin.php:857
 msgid "New logger"
-msgstr "Nouveau journaliseur"
+msgstr "Nouvel enregistreur"
 
 #: admin/class-decalog-admin.php:330
 msgid "Events Logs"
-msgstr "Journaux d’évènements"
+msgstr "Registres d’évènements"
 
 #: admin/class-decalog-admin.php:328
 msgid "Settings"
@@ -1898,7 +1898,7 @@ msgstr "Options de l’extension"
 
 #: admin/class-decalog-admin.php:304
 msgid "Loggers options"
-msgstr "Options de journalisation"
+msgstr "Options d’enregistrement"
 
 #. translators: as in the sentence "DecaLog Viewer"
 #: admin/class-decalog-admin.php:218
@@ -1922,7 +1922,7 @@ msgstr "Pierre Lannoy"
 
 #. Description of the plugin
 msgid "Capture and log events on your site. View them in your dashboard and send them to logging services."
-msgstr "Capturez et journalisez les évènements qui surviennent sur votre site. Affichez-les dans votre Tableau de bord et envoyez-les à des services de journalisation."
+msgstr "Capturez et consignez les évènements qui surviennent sur votre site. Affichez-les dans votre Tableau de bord et envoyez-les à des services d’enregistrement."
 
 #. Plugin URI of the plugin
 msgid "https://github.com/Pierre-Lannoy/wp-decalog"

@@ -1,90 +1,328 @@
-# Translation of Plugins - DecaLog - Stable (latest release) in French (Belgium)
+# Translation of Plugins - DecaLog - Stable (latest release) in French (Canada)
 # This file is distributed under the same license as the Plugins - DecaLog - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-03-01 20:32+0100\n"
+"PO-Revision-Date: 2020-10-01 16:51+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 2.2.4\n"
-"Language: fr_BE\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Poedit 2.4.1\n"
+"Language: fr_CA\n"
 "Project-Id-Version: Plugins - DecaLog - Stable (latest release)\n"
 "POT-Creation-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
 
+#: admin/partials/decalog-admin-view-console.php:48
+msgid "WordPress details"
+msgstr "Détails WordPress"
+
+#: admin/class-decalog-admin.php:1004
+msgid "Shared memory is not available on your server. To use live console you must activate %s PHP module."
+msgstr "La mémoire partagée n’est pas disponible sur votre serveur. Pour utiliser la console en direct, vous devez activer le module PHP %s."
+
+#: admin/class-decalog-admin.php:1001
+msgid "Shared memory is available on your server: you can use live console."
+msgstr "La mémoire partagée est disponible sur votre serveur : vous pouvez utiliser la console en direct."
+
+#: admin/class-decalog-admin.php:939
+msgid "If checked, DecaLog will silently start the features needed by live console."
+msgstr "Si coché, DecaLog va charger discrètement les fonctionnalités nécessaires à la console en direct."
+
+#: admin/class-decalog-admin.php:936
+msgid "Activate auto-logging"
+msgstr "Activer l’enregistrement automatique"
+
+#: admin/class-decalog-admin.php:931
+msgid "Live console"
+msgstr "Console en direct"
+
+#: admin/class-decalog-admin.php:483 admin/class-decalog-admin.php:505
+msgid "You can not start or pause a system logger."
+msgstr "Vous ne pouvez pas démarrer ou mettre en pause un enregistreur système."
+
+#: admin/class-decalog-admin.php:439 admin/class-decalog-admin.php:454
+msgid "You can not modify or remove a system logger."
+msgstr "Vous ne pouvez pas modifier ou supprimer un enregistreur système."
+
+#. translators: as in the sentence "DecaLog Viewer"
+#: admin/class-decalog-admin.php:238
+#: admin/partials/decalog-admin-view-console.php:35
+msgid "%s Live Events"
+msgstr "Évènements en direct %s"
+
 #. translators: as in the sentence "Check the events that occurred on your
 #. network." or "Check the events that occurred on your website."
-#: admin/class-decalog-admin.php:174
+#: admin/class-decalog-admin.php:234
+msgid "Displays events as soon as they occur on your %s."
+msgstr "Affiche les événements dès qu’ils se produisent sur votre %s."
+
+#: admin/class-decalog-admin.php:232 admin/class-decalog-admin.php:239
+msgid "Live Events"
+msgstr "Évènements en direct"
+
+#: includes/features/class-handlertypes.php:64
+msgid "An automatic events log, stored in server shared memory."
+msgstr "Un registre automatique des évènements, stocké dans la mémoire partagée du serveur."
+
+#: includes/features/class-handlertypes.php:63
+#: admin/class-decalog-admin.php:1008
+msgid "Shared memory"
+msgstr "Mémoire partagée"
+
+#: includes/features/class-eventviewer.php:480
+msgid "Local shell"
+msgstr "Shell local"
+
+#: includes/features/class-dlogger.php:232
+msgid "System auto-logger"
+msgstr "Auto-enregistreur système"
+
+#: includes/system/class-markdown.php:46
+msgid "Sorry, unable to find or read the specified file."
+msgstr "Désolé, il est impossible de trouver ou de lire le fichier spécifié."
+
+#: includes/system/class-sitehealth.php:341
+msgid "You should consider using shared memory (PHP shmop) to allow inter-process communication."
+msgstr "Vous devriez envisager d’utiliser la mémoire partagée (PHP shmop) pour permettre la communication inter-processus."
+
+#: includes/system/class-sitehealth.php:335
+msgid "You should allow inter-process communication"
+msgstr "Vous devriez autoriser la communication inter-processus"
+
+#: includes/system/class-sitehealth.php:329
+msgid "Your site can use shared memory to allow inter-process communication. That's great."
+msgstr "Votre site peut utiliser la mémoire partagée pour permettre la communication inter-processus. C'est super."
+
+#: includes/system/class-sitehealth.php:323
+msgid "Your site can use shared memory"
+msgstr "Votre site peut utiliser la mémoire partagée"
+
+#: includes/system/class-sitehealth.php:306
+msgid "Shared Memory Test"
+msgstr "Test de mémoire partagée"
+
+#: includes/libraries/class-libraries.php:194
+msgid "WTFPL license"
+msgstr "Licence WTFPL"
+
+#: perfopsone/class-adminmenus.php:74
+msgid "%s Consoles"
+msgstr "Consoles %s"
+
+#: perfopsone/class-adminmenus.php:74 perfopsone/class-adminmenus.php:75
+msgid "Available Consoles"
+msgstr "Consoles disponibles"
+
+#: includes/features/class-handlertypes.php:877
+#: includes/features/class-handlertypes.php:1004
+msgid "Message format"
+msgstr "Format de message"
+
+#: includes/features/class-handlertypes.php:854
+msgid "The cloud-syslog facility for messages sent by DecaLog."
+msgstr "L’identifiant d’équipement pour les messages envoyés par DecaLog."
+
+#: includes/features/class-handlertypes.php:824
+msgid "The opened port on remote host to receive cloud-syslog messages."
+msgstr "Le port ouvert sur l’hôte distant permettant de recevoir les messages cloud-syslog."
+
+#: includes/features/class-handlertypes.php:812
+msgid "The used cloud-syslog protocol."
+msgstr "Le protocole utilisé pour cloud-syslog."
+
+#: includes/features/class-handlertypes.php:800
+msgid "The token of cloud-syslog source."
+msgstr "Le jeton de la source cloud-syslog."
+
+#: includes/features/class-handlertypes.php:799
+msgid "Source token"
+msgstr "Jeton (source)"
+
+#: includes/features/class-handlertypes.php:793
+msgid "United States 2"
+msgstr "États-Unis 2"
+
+#: includes/features/class-handlertypes.php:793
+msgid "United States 1"
+msgstr "États-Unis 1"
+
+#: includes/features/class-handlertypes.php:793
+msgid "Japan"
+msgstr "Japon"
+
+#: includes/features/class-handlertypes.php:793
+msgid "Germany"
+msgstr "Allemagne"
+
+#: includes/features/class-handlertypes.php:793
+msgid "Canada"
+msgstr "Canada"
+
+#: includes/features/class-handlertypes.php:793
+msgid "Australia"
+msgstr "Australie"
+
+#: includes/features/class-handlertypes.php:787
+msgid "The deployment region of the cloud-syslog endpoint."
+msgstr "Région de déploiement du point de terminaison cloud-syslog."
+
+#: includes/features/class-handlertypes.php:786
+msgid "Region"
+msgstr "Région"
+
+#: includes/features/class-handlertypes.php:778
+msgid "An events log sent to a Sumo Logic cloud-syslog source."
+msgstr "Un registre d’évènements envoyé à une source cloud-syslog de Sumo Logic."
+
+#: includes/features/class-handlertypes.php:602
+msgid "The \"Logs App Token\" set in Sematext."
+msgstr "Le « Logs App Token » défini dans Sematext."
+
+#: includes/features/class-handlertypes.php:601
+msgid "Application Token"
+msgstr "Jeton d’application"
+
+#: includes/features/class-handlertypes.php:595
+msgid "North America"
+msgstr "Amérique du Nord"
+
+#: includes/features/class-handlertypes.php:589
+msgid "The Sematext cloud location."
+msgstr "L’emplacement du cloud Sematext."
+
+#: includes/features/class-handlertypes.php:588
+msgid "Location"
+msgstr "Emplacement"
+
+#: includes/features/class-handlertypes.php:580
+msgid "An events log sent to Sematext using Elasticsearch APIs."
+msgstr "Un registre d’évènements envoyé à Sematext en utilisant les APIs Elasticsearch."
+
+#: includes/features/class-handlertypes.php:169
+msgid "The index name."
+msgstr "Le nom de l’index."
+
+#: includes/features/class-handlertypes.php:168
+msgid "Index"
+msgstr "Index."
+
+#: includes/features/class-handlertypes.php:157
+msgid "The password of the instance."
+msgstr "Le mot de passe de l’instance."
+
+#: includes/features/class-handlertypes.php:156
+msgid "Password"
+msgstr "Mot de passe"
+
+#: includes/features/class-handlertypes.php:145
+msgid "The username of the instance."
+msgstr "Le nom d’utilisateur de l’instance."
+
+#: includes/features/class-handlertypes.php:144
+msgid "Username"
+msgstr "Nom d’utilisateur"
+
+#: includes/features/class-handlertypes.php:133
+msgid "The generated cloud ID."
+msgstr "Le cloud ID généré."
+
+#: includes/features/class-handlertypes.php:132
+msgid "Cloud ID"
+msgstr "Cloud ID"
+
+#: includes/features/class-handlertypes.php:124
+msgid "An events log sent to Elastic Cloud / Elastic Cloud Enterprise."
+msgstr "Un registre d’évènements envoyé à Elastic Cloud / Elastic Cloud Enterprise."
+
+#: admin/class-decalog-admin.php:922
+msgid "If checked, DecaLog will be loaded before all other plugins (recommended)."
+msgstr "Si coché, DecaLog va se charger avant toutes les autres extensions (recommandé)."
+
+#: admin/class-decalog-admin.php:919
+msgid "Activate early loading"
+msgstr "Activer le chargement anticipé"
+
+#: admin/class-decalog-admin.php:914
+msgid "Initialization"
+msgstr "Démarrage"
+
+#: includes/features/class-handlertypes.php:721
+msgid "An events log sent to Google Stackdriver Logging via a Google-Fluentd collector."
+msgstr "Un registre d’évènements envoyé à Google Stackdriver Logging via un collecteur Google-Fluentd."
+
+#. translators: as in the sentence "Check the events that occurred on your
+#. network." or "Check the events that occurred on your website."
+#: admin/class-decalog-admin.php:214 admin/class-decalog-admin.php:234
 msgid "website"
 msgstr "site web"
 
 #. translators: as in the sentence "Check the events that occurred on your
 #. network." or "Check the events that occurred on your website."
-#: admin/class-decalog-admin.php:174
+#: admin/class-decalog-admin.php:214 admin/class-decalog-admin.php:234
 msgid "network"
 msgstr "réseau"
 
 #. translators: as in the sentence "Check the events that occurred on your
 #. network." or "Check the events that occurred on your website."
-#: admin/class-decalog-admin.php:174
+#: admin/class-decalog-admin.php:214
 msgid "Check the events that occurred on your %s."
 msgstr "Vérifiez les évènements qui se sont produits sur votre %s."
 
-#: admin/class-decalog-admin.php:172 admin/class-decalog-admin.php:179
+#: admin/class-decalog-admin.php:212 admin/class-decalog-admin.php:219
 msgid "Events Log"
 msgstr "Registre d’évènements"
 
-#: perfopsone/class-adminmenus.php:378
+#: perfopsone/class-adminmenus.php:406
 msgid "Requires at least PHP %1$s%2$s and WordPress %3$s%4$s."
 msgstr "Nécessite au moins PHP %1$s%2$s et WordPress %3$s%4$s."
 
-#: perfopsone/class-adminmenus.php:369
+#: perfopsone/class-adminmenus.php:397
 msgid "contribution"
 msgstr "contribution"
 
-#: perfopsone/class-adminmenus.php:368
+#: perfopsone/class-adminmenus.php:396
 msgid "support"
 msgstr "assistance"
 
-#: perfopsone/class-adminmenus.php:367
+#: perfopsone/class-adminmenus.php:395
 msgid "about"
 msgstr "à propos"
 
-#: perfopsone/class-adminmenus.php:366
+#: perfopsone/class-adminmenus.php:394
 msgid "settings"
 msgstr "réglages"
 
-#: perfopsone/class-adminmenus.php:241
+#: perfopsone/class-adminmenus.php:268
 msgid "No review yet."
 msgstr "Pas encore d’avis."
 
-#: perfopsone/class-adminmenus.php:238
+#: perfopsone/class-adminmenus.php:265
 msgid "%s reviews."
 msgstr "%s avis."
 
-#: perfopsone/class-adminmenus.php:233
+#: perfopsone/class-adminmenus.php:260
 msgid "%s downloads."
 msgstr "%s téléchargements."
 
-#: perfopsone/class-adminmenus.php:228
+#: perfopsone/class-adminmenus.php:255
 msgid "%s+ installs."
 msgstr "%s+ installations."
 
-#: perfopsone/class-adminmenus.php:211 perfopsone/class-adminmenus.php:218
+#: perfopsone/class-adminmenus.php:238 perfopsone/class-adminmenus.php:245
 msgid "need update"
 msgstr "nécessite une mise à jour"
 
-#: perfopsone/class-adminmenus.php:209 perfopsone/class-adminmenus.php:216
+#: perfopsone/class-adminmenus.php:236 perfopsone/class-adminmenus.php:243
 msgid "OK"
 msgstr "OK"
 
-#: perfopsone/class-adminmenus.php:203
+#: perfopsone/class-adminmenus.php:230
 msgid "Need to be updated to %s."
 msgstr "Nécessite d’être mis à jour vers %s."
 
-#: perfopsone/class-adminmenus.php:108
+#: perfopsone/class-adminmenus.php:112
 msgid "This analytics feature is currently disabled. Click here to activate it."
 msgstr "Cette fonctionnalité d’analyse est actuellement désactivée. Cliquez ici pour l’activer."
 
@@ -125,12 +363,13 @@ msgid "Dashboard"
 msgstr "Tableau de bord"
 
 #: includes/integrations/class-optimizelogger.php:58
+#: includes/integrations/class-wpseologger.php:56
 msgid "Log all events via DecaLog"
 msgstr "Enregistrez tous les évènements via DecaLog"
 
-#: includes/features/class-eventviewer.php:465
-#: includes/features/class-eventviewer.php:474
-#: includes/features/class-eventviewer.php:492
+#: includes/features/class-eventviewer.php:467
+#: includes/features/class-eventviewer.php:477
+#: includes/features/class-eventviewer.php:504
 msgid "Generic"
 msgstr "Générique"
 
@@ -146,198 +385,194 @@ msgstr "Détails de l’appareil"
 msgid "Bot details"
 msgstr "Détails du robot"
 
-#: admin/class-decalog-admin.php:857
+#: admin/class-decalog-admin.php:990
 msgid "IP information"
 msgstr "Géolocalisation IP"
 
-#: admin/class-decalog-admin.php:853
+#: admin/class-decalog-admin.php:986
 msgid "Your site does not use any IP geographic information plugin. To display callers geographical details in DecaLog, I recommend you to install the excellent (and free) %s. But it is not mandatory."
 msgstr "Votre site n’utilise aucune extension de géolocalisation d’IP. Pour afficher le détails des provenances géographique dans DecaLog, je vous recommande d’installer l’excellent (et gratuit) %s. Mais ce n’est pas obligatoire."
 
-#: admin/class-decalog-admin.php:838
+#: admin/class-decalog-admin.php:971
 msgid "Device Detection"
 msgstr "Détection d’appareil"
 
-#: admin/class-decalog-admin.php:834
+#: admin/class-decalog-admin.php:967
 msgid "Your site does not use any device detection mechanism. To handle user-agents and callers reporting in DecaLog, I recommend you to install the excellent (and free) %s. But it is not mandatory."
 msgstr "Votre site n’utilise aucun mécanisme de détection d’appareil. Pour tirer parti des user-agents et obtenir un détail des appelants dans DecaLog, je vous recommande d’installer l’excellent (et gratuit) %s. Mais ce n’est pas obligatoire."
 
-#: admin/class-decalog-admin.php:831 admin/class-decalog-admin.php:850
+#: admin/class-decalog-admin.php:964 admin/class-decalog-admin.php:983
 msgid "Your site is currently using %s."
 msgstr "Votre site utilise actuellement %s."
 
-#: admin/class-decalog-admin.php:823
+#: admin/class-decalog-admin.php:956
 msgid "Note: This feature uses the (free) Google Favicon Service."
 msgstr "Remarque : cette fonctionnalité utilise le service Google Favicon (gratuit)."
 
-#: admin/class-decalog-admin.php:823
+#: admin/class-decalog-admin.php:956
 msgid "If checked, DecaLog will download favicons of websites to display them in reports."
 msgstr "Si coché, DecaLog téléchargera les favicons des sites Web pour les afficher dans les rapports."
 
-#: admin/class-decalog-admin.php:820
+#: admin/class-decalog-admin.php:953
 msgid "Download and display"
 msgstr "Téléchargement et affichage"
 
-#: admin/class-decalog-admin.php:815
+#: admin/class-decalog-admin.php:948
 msgid "Favicons"
 msgstr "Favicons"
 
-#: includes/system/class-sitehealth.php:340
+#: includes/system/class-sitehealth.php:395
 msgid "You should consider using PHP Intl extension. It would improve localization features on your site."
 msgstr "Vous devriez envisager d’utiliser l’extension PHP Intl. Cela permettrait d’améliorer les fonctionnalités de traduction sur votre site."
 
-#: includes/system/class-sitehealth.php:334
+#: includes/system/class-sitehealth.php:389
 msgid "You should use Intl extension"
 msgstr "Vous devriez utiliser l’extension Intl"
 
-#: includes/system/class-sitehealth.php:328
+#: includes/system/class-sitehealth.php:383
 msgid "Your site uses PHP Intl extension to improve localization features. That's great."
 msgstr "Votre site utilise l’extension PHP Intl pour améliorer les fonctionnalités de traduction. C’est super."
 
-#: includes/system/class-sitehealth.php:325
-#: includes/system/class-sitehealth.php:337
+#: includes/system/class-sitehealth.php:380
+#: includes/system/class-sitehealth.php:392
 msgid "Internationalization"
 msgstr "Internationalisation"
 
-#: includes/system/class-sitehealth.php:322
+#: includes/system/class-sitehealth.php:377
 msgid "Your site uses Intl extension"
 msgstr "Votre site utilise l’extension Intl"
 
-#: includes/system/class-sitehealth.php:305
+#: includes/system/class-sitehealth.php:360
 msgid "I18n Extension Test"
 msgstr "Test d’extension I18n"
 
-#: includes/system/class-sitehealth.php:286
+#: includes/system/class-sitehealth.php:287
 msgid "You should consider using OPcache. It would improve PHP performance of your site."
 msgstr "Vous devriez envisager d’utiliser OPcache. Cela permettrait d’améliorer les performances PHP de votre site."
 
-#: includes/system/class-sitehealth.php:280
+#: includes/system/class-sitehealth.php:281
 msgid "You should use OPcache"
 msgstr "Vous devriez utiliser OPcache"
 
-#: includes/system/class-sitehealth.php:274
+#: includes/system/class-sitehealth.php:275
 msgid "Your site uses OPcache to improve PHP performance. That's great."
 msgstr "Votre site utilise OPcache pour améliorer les performances de PHP. C’est super."
 
-#: includes/system/class-sitehealth.php:268
+#: includes/system/class-sitehealth.php:269
 msgid "Your site uses OPcache"
 msgstr "Votre site utilise OPcache"
 
-#: includes/system/class-sitehealth.php:251
+#: includes/system/class-sitehealth.php:252
 msgid "OPcache Test"
 msgstr "Test OPcache"
 
-#: includes/system/class-sitehealth.php:232
+#: includes/system/class-sitehealth.php:233
 msgid "Your site uses a dedicated object caching mechanism. That's great."
 msgstr "Votre site utilise un mécanisme dédié de mise cache d’objets. C'est super."
 
-#: includes/system/class-sitehealth.php:226
+#: includes/system/class-sitehealth.php:227
 msgid "Your site uses object caching"
 msgstr "Votre site utilise la mise en cache d’objets"
 
-#: includes/system/class-sitehealth.php:220
+#: includes/system/class-sitehealth.php:221
 msgid "Your site uses APCu, but only a few plugins know how to take advantage of it."
 msgstr "Votre site utilise APCu, mais seules quelques extensions savent comment en profiter."
 
-#: includes/system/class-sitehealth.php:214
+#: includes/system/class-sitehealth.php:215
 msgid "You should improve object caching"
 msgstr "Vous devriez améliorer la mise en cache d’objets"
 
-#: includes/system/class-sitehealth.php:208
-#: includes/system/class-sitehealth.php:220
+#: includes/system/class-sitehealth.php:209
+#: includes/system/class-sitehealth.php:221
 msgid "You should consider using a dedicated object caching mechanism, like Memcached or Redis, to improve your site's speed."
 msgstr "Vous devriez envisager d’utiliser un mécanisme dédié de mise en cache d’objets, comme Memcached ou Redis, pour améliorer la vitesse de votre site."
 
-#: includes/system/class-sitehealth.php:208
+#: includes/system/class-sitehealth.php:209
 msgid "Your site uses database transient."
 msgstr "Votre site utilise des Transients stockés en base de données."
 
-#: includes/system/class-sitehealth.php:205
-#: includes/system/class-sitehealth.php:217
-#: includes/system/class-sitehealth.php:229
-#: includes/system/class-sitehealth.php:271
-#: includes/system/class-sitehealth.php:283
+#: includes/system/class-sitehealth.php:206
+#: includes/system/class-sitehealth.php:218
+#: includes/system/class-sitehealth.php:230
+#: includes/system/class-sitehealth.php:272
+#: includes/system/class-sitehealth.php:284
+#: includes/system/class-sitehealth.php:326
+#: includes/system/class-sitehealth.php:338
 msgid "Performance"
 msgstr "Performance"
 
-#: includes/system/class-sitehealth.php:202
+#: includes/system/class-sitehealth.php:203
 msgid "You should use object caching"
 msgstr "Vous devriez utiliser la mise en cache d’objets"
 
-#: includes/system/class-sitehealth.php:184
+#: includes/system/class-sitehealth.php:185
 msgid "Object Cache Test"
 msgstr "Test de cache d’objets"
 
-#: includes/system/class-sitehealth.php:166
+#: includes/system/class-sitehealth.php:167
 msgid "Loggers list"
 msgstr "Liste des enregistreurs"
 
-#: includes/system/class-sitehealth.php:149
+#: includes/system/class-sitehealth.php:150
 msgid "Plugin diagnostic information"
 msgstr "Informations de diagnostique de l’extension"
 
-#: includes/system/class-sitehealth.php:132
+#: includes/system/class-sitehealth.php:133
 msgid "OPcache settings and status"
 msgstr "Réglages et état OPcache"
 
-#: includes/system/class-sitehealth.php:124
+#: includes/system/class-sitehealth.php:125
 msgid "Object cache"
 msgstr "Cache d’objets"
 
-#: includes/features/class-eventviewer.php:406
+#: includes/features/class-eventviewer.php:408
 msgid "Deleted user"
 msgstr "Utilisateur supprimé"
 
-#: includes/features/class-handlertypes.php:230
+#: includes/features/class-handlertypes.php:346
 msgid "The token of the Solawinds Loggly application."
 msgstr "Le jeton d’application Solawinds Loggly."
 
-#: includes/features/class-handlertypes.php:222
+#: includes/features/class-handlertypes.php:337
 msgid "An events log sent to Solawinds Loggly service."
 msgstr "Un registre d’évènements envoyé au service Solawinds Loggly."
 
-#: includes/features/class-handlertypes.php:221
-msgid "Loggly"
-msgstr "Loggly"
-
-#: includes/features/class-handlertypes.php:175
+#: includes/features/class-handlertypes.php:289
 msgid "The token of the Logentries/insightOps log."
 msgstr "Le jeton du registre Logentries/insightOps."
 
-#: includes/features/class-handlertypes.php:174
+#: includes/features/class-handlertypes.php:288
 msgid "Log token"
 msgstr "Jeton de l’enregistreur"
 
-#: includes/features/class-handlertypes.php:168
+#: includes/features/class-handlertypes.php:282
 msgid "USA"
 msgstr "États-Unis"
 
-#: includes/features/class-handlertypes.php:168
+#: includes/features/class-handlertypes.php:282
+#: includes/features/class-handlertypes.php:595
+#: includes/features/class-handlertypes.php:793
 msgid "Europe"
 msgstr "Europe"
 
-#: includes/features/class-handlertypes.php:162
+#: includes/features/class-handlertypes.php:276
 msgid "The region of remote host receiving messages."
 msgstr "La région de l’hôte distant recevant les messages."
 
-#: includes/features/class-handlertypes.php:161
+#: includes/features/class-handlertypes.php:275
 msgid "Log endpoint region"
 msgstr "Région du registre"
 
-#: includes/features/class-handlertypes.php:154
+#: includes/features/class-handlertypes.php:267
 msgid "An events log sent to Logentries & insightOps service."
 msgstr "Un registre d’évènements envoyé au service Logentries & insightOps."
 
-#: includes/features/class-handlertypes.php:153
-msgid "Logentries & insightOps"
-msgstr "Logentries & insightOps"
-
-#: includes/features/class-inlinehelp.php:352
+#: includes/features/class-inlinehelp.php:344
 msgid "Event code and message."
 msgstr "Code et message de l’évènement."
 
-#: includes/features/class-inlinehelp.php:352
 #: includes/features/class-eventviewer.php:265
+#: includes/features/class-inlinehelp.php:344
 msgid "Content"
 msgstr "Contenu"
 
@@ -345,7 +580,7 @@ msgstr "Contenu"
 msgid "Allows to log the full PHP and WordPress call stack."
 msgstr "Permet d’enregistrer les piles d’appels complètes de PHP et WordPress."
 
-#: admin/class-decalog-admin.php:217 admin/class-decalog-admin.php:234
+#: admin/class-decalog-admin.php:276 admin/class-decalog-admin.php:293
 msgid "Events log"
 msgstr "Registre d’évènements"
 
@@ -451,15 +686,15 @@ msgctxt "Unit abbreviation - Stands for \"second\"."
 msgid "sec"
 msgstr "sec."
 
-#: admin/class-decalog-admin.php:876
+#: admin/class-decalog-admin.php:1027
 msgid "Use CDN (jsDelivr) to serve DecaLog scripts and stylesheets."
 msgstr "Utiliser un CDN (jsDelivr) pour la distribution des feuilles de styles et scripts DecaLog."
 
-#: admin/class-decalog-admin.php:873
+#: admin/class-decalog-admin.php:1024
 msgid "Use public CDN"
 msgstr "Utiliser un CDN public"
 
-#: admin/class-decalog-admin.php:868
+#: admin/class-decalog-admin.php:1019
 msgid "Resources"
 msgstr "Ressources"
 
@@ -471,11 +706,11 @@ msgstr "Observateurs conformes PSR-3"
 msgid "WordPress MU"
 msgstr "WordPress MU"
 
-#: admin/class-decalog-admin.php:286
+#: admin/class-decalog-admin.php:345
 msgid "Support"
 msgstr "Assistance"
 
-#: admin/class-decalog-admin.php:436
+#: admin/class-decalog-admin.php:528
 msgid "Test messages have not been sent to logger %s. Please check the logger's settings."
 msgstr "Les messages de test n’ont été envoyés correctement à l’enregistreur %s. Veuillez vérifier les réglages de cet enregistreur."
 
@@ -544,78 +779,71 @@ msgstr "L’évènement n’a pas pas de type, ça ne peut pas être une bonne n
 msgid "Backtrace"
 msgstr "Trace d’exécution"
 
-#: includes/features/class-inlinehelp.php:367
+#: includes/features/class-inlinehelp.php:359
 msgid "Click the title bar of the box to expand or collapse it."
 msgstr "Cliquez sur la barre de titre d’un bloc pour l’ouvrir ou la fermer."
 
-#: includes/features/class-inlinehelp.php:367
+#: includes/features/class-inlinehelp.php:359
 msgid "Box Controls"
 msgstr "Contrôles des blocs"
 
-#: includes/features/class-inlinehelp.php:366
+#: includes/features/class-inlinehelp.php:358
 msgid "To rearrange the boxes, drag and drop by clicking on the title bar of the selected box and releasing when you see a gray dotted-line rectangle appear in the location you want to place the box."
 msgstr "Pour réarranger les blocs, glissez/déposez-les en cliquant sur la barre de titre du bloc sélectionné, et relâchez-la lorsque vous apercevez un rectangle avec une bordure grise à l’emplacement où vous souhaitez placer le bloc."
 
-#: includes/features/class-inlinehelp.php:366
+#: includes/features/class-inlinehelp.php:358
 msgid "Drag and Drop"
 msgstr "Glisser/déposer"
 
-#: includes/features/class-inlinehelp.php:365
+#: includes/features/class-inlinehelp.php:357
 msgid "Use the Screen Options tab to choose which boxes to show."
 msgstr "Utilisez l’onglet Options de l’écran pour choisir les blocs à afficher."
 
 #. translators: like in the sentence "PHP backtrace" or "WordPress backtrace"
-#: includes/features/class-inlinehelp.php:357
+#: includes/features/class-inlinehelp.php:349
 msgid "Two different views of the same informations: the backtrace of the call that led to this event."
 msgstr "Deux points de vue différents de la même information : la trace d’exécution de l’appel qui a conduit à cet évènement."
 
 #. translators: like in the sentence "PHP backtrace" or "WordPress backtrace"
-#: includes/features/class-inlinehelp.php:357
-#: includes/features/class-eventviewer.php:278
 #: includes/features/class-eventviewer.php:280
+#: includes/features/class-eventviewer.php:282
+#: includes/features/class-inlinehelp.php:349
 msgid "%s backtrace"
 msgstr "Trace d’exécution de %s"
 
-#: includes/features/class-inlinehelp.php:355
+#: includes/features/class-inlinehelp.php:347
 msgid "The code location where this event was generated."
 msgstr "L’emplacement du code où cet évènement a été généré."
 
-#: includes/features/class-inlinehelp.php:354
+#: includes/features/class-inlinehelp.php:346
 msgid "The detail of the request that led to this event."
 msgstr "Le détail de la requête qui a conduit à cet évènement."
 
-#: includes/features/class-inlinehelp.php:353
+#: includes/features/class-inlinehelp.php:345
 msgid "User and site where the event occurs."
 msgstr "Utilisateur et site où l’évènement s’est produit."
 
-#: includes/features/class-inlinehelp.php:351
+#: includes/features/class-inlinehelp.php:343
 msgid "General information about the event."
 msgstr "Informations générales sur l’évènement."
 
-#: includes/features/class-inlinehelp.php:350
+#: includes/features/class-inlinehelp.php:342
 msgid "It consists of four to six boxes, depending on your settings, which give specific details of the event:"
 msgstr "Il se compose de quatre à six blocs, selon vos réglages, qui donnent des informations spécifiques sur l’évènement :"
 
-#: includes/features/class-inlinehelp.php:350
+#: includes/features/class-inlinehelp.php:342
 msgid "This screen displays the details of a specific event."
 msgstr "Cet écran affiche les détails d’un évènement spécifique."
 
-#: includes/features/class-inlinehelp.php:318
-#: includes/features/class-inlinehelp.php:369
+#: includes/features/class-inlinehelp.php:361
 msgid "Layout"
 msgstr "Disposition"
 
-#: includes/features/class-inlinehelp.php:316
-msgid "Use the Screen Options tab to choose which extra columns to show."
-msgstr "Utilisez l’onglet Options d’écran pour sélectionner les colonnes supplémentaires à afficher."
-
-#: includes/features/class-inlinehelp.php:316
-#: includes/features/class-inlinehelp.php:365
+#: includes/features/class-inlinehelp.php:357
 msgid "Screen Options"
 msgstr "Options de l’écran"
 
-#: includes/features/class-inlinehelp.php:315
-#: includes/features/class-inlinehelp.php:364
+#: includes/features/class-inlinehelp.php:356
 msgid "You can use the following controls to arrange the screen to suit your usage preferences:"
 msgstr "Vous pouvez utiliser les contrôles suivants pour organiser l’écran en fonction de vos préférences d’utilisation :"
 
@@ -668,15 +896,15 @@ msgid "This screen allows you to set the way %s uses listeners."
 msgstr "Cet écran vous permet de définir la façon dont %s utilise les observateurs."
 
 #: includes/features/class-inlinehelp.php:197
-#: includes/features/class-inlinehelp.php:332
-#: includes/features/class-inlinehelp.php:375
+#: includes/features/class-inlinehelp.php:324
+#: includes/features/class-inlinehelp.php:367
 msgid "Events levels"
 msgstr "Niveaux des évènements"
 
 #: includes/features/class-inlinehelp.php:190
 #: includes/features/class-inlinehelp.php:226
 #: includes/features/class-inlinehelp.php:259
-#: includes/features/class-inlinehelp.php:325
+#: includes/features/class-inlinehelp.php:317
 msgid "Admin rights"
 msgstr "Droits d’administration"
 
@@ -708,7 +936,7 @@ msgstr "Ces enregistreurs vous permettent d’envoyer des alertes :"
 #: includes/features/class-inlinehelp.php:219
 #: includes/features/class-inlinehelp.php:252
 #: includes/features/class-inlinehelp.php:310
-#: includes/features/class-inlinehelp.php:359
+#: includes/features/class-inlinehelp.php:351
 msgid "Overview"
 msgstr "Vue d’ensemble"
 
@@ -759,7 +987,7 @@ msgstr "Étant donné que votre site participe à un réseau de sites, la capaci
 msgid "The severity of an event is indicated by a \"level\". %s uses the following levels classification:"
 msgstr "La gravité d’un évènement est indiquée par un « niveau ». %s utilise la classification suivante pour les niveaux :"
 
-#: includes/features/class-inlinehelp.php:97 admin/class-decalog-admin.php:288
+#: includes/features/class-inlinehelp.php:97 admin/class-decalog-admin.php:347
 msgid "GitHub repository"
 msgstr "Dépôt GitHub"
 
@@ -775,68 +1003,73 @@ msgstr "Assistance utilisateur"
 msgid "For more help:"
 msgstr "Plus d’informations :"
 
-#: includes/features/class-events.php:701
+#: includes/features/class-events.php:635
 msgid "Source"
 msgstr "Source"
 
-#: admin/class-decalog-admin.php:431
+#: admin/class-decalog-admin.php:523
 msgid "Test messages have been sent to logger %s."
 msgstr "Les messages de test ont été envoyés à l’enregistreur %s."
 
-#: includes/features/class-loggers.php:235
+#: includes/features/class-loggers.php:237
 msgid "Status"
 msgstr "État"
 
-#: includes/features/class-loggers.php:195
+#: includes/features/class-loggers.php:197
 msgid "Paused"
 msgstr "En pause"
 
-#: includes/features/class-loggers.php:195
+#: includes/features/class-loggers.php:197
 msgid "Running"
 msgstr "En cours d’exécution"
 
-#: includes/features/class-loggers.php:182
+#: includes/features/class-loggers.php:184
 msgid "Send Test"
 msgstr "Envoyer un test"
 
-#: includes/features/class-events.php:438
+#: includes/features/class-events.php:451
+#: admin/partials/decalog-admin-view-console.php:45
 msgid "Errors & beyond"
 msgstr "Erreurs & au-delà"
 
-#: includes/features/class-events.php:436
+#: includes/features/class-events.php:449
+#: admin/partials/decalog-admin-view-console.php:44
 msgid "Notices & beyond"
 msgstr "Notices & au-delà"
 
 #. translators: as in the sentence "Product W version X by author Y (license
 #. Z)"
-#: includes/libraries/class-libraries.php:222
+#: includes/libraries/class-libraries.php:258
 msgid "<a href=\"%1$s\">%2$s %3$s</a>%4$s by %5$s (%6$s)"
 msgstr "<a href=\"%1$s\">%2$s %3$s</a>%4$s par %5$s (%6$s)"
 
-#: includes/libraries/class-libraries.php:170
+#: includes/libraries/class-libraries.php:206
 msgid "unknown license"
 msgstr "licence inconnue"
 
-#: includes/libraries/class-libraries.php:167
+#: includes/libraries/class-libraries.php:203
 msgid "GPL-3.0 license"
 msgstr "Licence GPL-3.0"
 
-#: includes/libraries/class-libraries.php:164
+#: includes/libraries/class-libraries.php:200
 msgid "GPL-2.0 license"
 msgstr "Licence GPL-2.0"
 
-#: includes/libraries/class-libraries.php:161
+#: includes/libraries/class-libraries.php:197
 msgid "Apache license, version 2.0"
 msgstr "Licence Apache, version 2.0"
 
-#: includes/libraries/class-libraries.php:158
+#: includes/libraries/class-libraries.php:191
 msgid "MIT license"
 msgstr "Licence MIT"
 
 #: includes/libraries/class-libraries.php:65
 #: includes/libraries/class-libraries.php:76
 #: includes/libraries/class-libraries.php:87
+#: includes/libraries/class-libraries.php:98
 #: includes/libraries/class-libraries.php:109
+#: includes/libraries/class-libraries.php:120
+#: includes/libraries/class-libraries.php:141
 msgid "%s & contributors"
 msgstr "%s et contributeurs"
 
@@ -844,11 +1077,11 @@ msgstr "%s et contributeurs"
 msgid "WordPress core"
 msgstr "Cœur de WordPress"
 
-#: includes/features/class-eventviewer.php:433
+#: includes/features/class-eventviewer.php:435
 msgid "from %s"
 msgstr "à partir de %s"
 
-#: includes/features/class-eventviewer.php:425
+#: includes/features/class-eventviewer.php:427
 msgid "obfuscated IP"
 msgstr "IP obscurcie"
 
@@ -876,7 +1109,7 @@ msgstr "Interdit"
 msgid "Boxes"
 msgstr "Blocs"
 
-#: includes/features/class-loggerfactory.php:203
+#: includes/features/class-loggerfactory.php:262
 msgid "Unnamed logger"
 msgstr "Registre sans nom"
 
@@ -884,8 +1117,8 @@ msgstr "Registre sans nom"
 msgid "PHP"
 msgstr "PHP"
 
-#: includes/features/class-classtypes.php:50
 #: includes/listeners/class-databaselistener.php:36
+#: includes/features/class-classtypes.php:50
 msgid "Database"
 msgstr "Base de données"
 
@@ -906,16 +1139,17 @@ msgid "Allows to log site, user and remote IP of the current request."
 msgstr "Permet de consigner le site, l’utilisateur et l’adresse IP de provenance de la requête courante."
 
 #: includes/features/class-processortypes.php:84
-msgid "WordPress "
-msgstr "WordPress "
+msgid "WordPress"
+msgstr "WordPress"
 
 #: includes/features/class-processortypes.php:65
 msgid "Allows to log url, method, referrer and remote IP of the current web request."
 msgstr "Permet de consigner l’url, la méthode, le référent et l’adresse IP de provenance de la requête web."
 
-#: includes/features/class-inlinehelp.php:354
-#: includes/features/class-eventviewer.php:274
+#: includes/features/class-eventviewer.php:275
+#: includes/features/class-inlinehelp.php:346
 #: includes/features/class-processortypes.php:64
+#: admin/partials/decalog-admin-view-console.php:49
 msgid "HTTP request"
 msgstr "Requête HTTP"
 
@@ -923,9 +1157,10 @@ msgstr "Requête HTTP"
 msgid "Allows to log line, file, class and function generating the event."
 msgstr "Permet de consigner la ligne, le fichier, la classe et la fonction générant l’évènement."
 
-#: includes/features/class-inlinehelp.php:355
-#: includes/features/class-eventviewer.php:275
+#: includes/features/class-eventviewer.php:277
+#: includes/features/class-inlinehelp.php:347
 #: includes/features/class-processortypes.php:51
+#: admin/partials/decalog-admin-view-console.php:50
 msgid "PHP introspection"
 msgstr "Introspection PHP"
 
@@ -961,361 +1196,346 @@ msgstr "Tâche planifiée"
 msgid "Command Line Interface"
 msgstr "Interface de ligne de commande"
 
+#: includes/features/class-eventviewer.php:512
+#: includes/features/class-eventviewer.php:527
+#: includes/features/class-eventviewer.php:533
 #: includes/features/class-channeltypes.php:47
 #: includes/features/class-classtypes.php:52
-#: includes/features/class-eventviewer.php:500
-#: includes/features/class-eventviewer.php:515
-#: includes/features/class-eventviewer.php:521
 msgid "Unknown"
 msgstr "Inconnu"
 
-#: includes/features/class-handlertypes.php:690
+#: includes/features/class-handlertypes.php:1091
 msgid "Local administrators can view events that relate to their site."
 msgstr "Les administrateurs locaux peuvent afficher uniquement les évènements liés à leur site."
 
-#: includes/features/class-handlertypes.php:689
+#: includes/features/class-handlertypes.php:1090
 msgid "Multisite partitioning"
 msgstr "Partitionnement multisite"
 
-#: includes/features/class-handlertypes.php:675
+#: includes/features/class-handlertypes.php:1076
 msgid "Maximum age of events stored in this events log (0 for no limit)."
 msgstr "Âge maximal des évènements conservés dans ce registre (0 pour aucune limite)."
 
-#: includes/features/class-handlertypes.php:674
+#: includes/features/class-handlertypes.php:1075
 msgid "Days"
 msgstr "Jours"
 
-#: includes/features/class-handlertypes.php:660
+#: includes/features/class-handlertypes.php:1061
 msgid "Maximum number of events stored in this events log (0 for no limit)."
 msgstr "Nombre maximal d’évènements conservés dans ce registre (0 pour aucune limite)."
 
-#: includes/features/class-handlertypes.php:659
+#: includes/features/class-handlertypes.php:1060
 msgid "Events"
 msgstr "Évènements"
 
-#: includes/features/class-handlertypes.php:652
+#: includes/features/class-handlertypes.php:1052
 msgid "An events log stored in your WordPress database and available right in your admin dashboard."
 msgstr "Un registre d’évènements stocké dans votre base de données WordPress et disponible directement dans votre Tableau de bord."
 
-#: includes/features/class-handlertypes.php:651
+#: includes/features/class-handlertypes.php:1051
 msgid "WordPress events log"
 msgstr "Registre d’évènements WordPress"
 
-#: includes/features/class-handlertypes.php:606
-msgid "The time format standard to use."
-msgstr "Le format horaire à utiliser."
+#: includes/features/class-handlertypes.php:878
+#: includes/features/class-handlertypes.php:1005
+msgid "The syslog format standard to use."
+msgstr "Norme de format syslog à utiliser."
 
-#: includes/features/class-handlertypes.php:605
-msgid "Time format"
-msgstr "Format de l’heure"
-
-#: includes/features/class-handlertypes.php:594
+#: includes/features/class-handlertypes.php:866
+#: includes/features/class-handlertypes.php:993
 msgid "The program identifier for messages sent by DecaLog."
 msgstr "L’identifiant d’application pour les messages envoyés par DecaLog."
 
-#: includes/features/class-handlertypes.php:593
+#: includes/features/class-handlertypes.php:865
+#: includes/features/class-handlertypes.php:992
 msgid "Identifier"
 msgstr "Identifiant"
 
-#: includes/features/class-handlertypes.php:582
+#: includes/features/class-handlertypes.php:981
 msgid "The syslog facility for messages sent by DecaLog."
 msgstr "L’identifiant d’équipement pour les messages envoyés par DecaLog."
 
-#: includes/features/class-handlertypes.php:581
+#: includes/features/class-handlertypes.php:853
+#: includes/features/class-handlertypes.php:980
 msgid "Facility"
 msgstr "Équipement"
 
-#: includes/features/class-handlertypes.php:567
+#: includes/features/class-handlertypes.php:966
 msgid "The opened port on remote host to receive syslog messages."
 msgstr "Le port ouvert sur l’hôte distant permettant de recevoir les messages syslog."
 
-#: includes/features/class-handlertypes.php:566
+#: includes/features/class-handlertypes.php:823
+#: includes/features/class-handlertypes.php:965
 msgid "Port"
 msgstr "Port"
 
-#: includes/features/class-handlertypes.php:555
+#: includes/features/class-handlertypes.php:954
 msgid "The used syslog protocol."
 msgstr "Le protocole utilisé pour syslogd."
 
-#: includes/features/class-handlertypes.php:554
+#: includes/features/class-handlertypes.php:811
+#: includes/features/class-handlertypes.php:953
 msgid "Protocol"
 msgstr "Protocole"
 
-#: includes/features/class-handlertypes.php:543
+#: includes/features/class-handlertypes.php:942
 msgid "The remote host receiving syslog messages."
 msgstr "L’hôte distant recevant les messages syslog."
 
-#: includes/features/class-handlertypes.php:542
+#: includes/features/class-handlertypes.php:941
 msgid "Host"
 msgstr "Hôte"
 
-#: includes/features/class-handlertypes.php:535
+#: includes/features/class-handlertypes.php:933
 msgid "An events log sent to a remote syslogd server."
 msgstr "Un registre d’évènements envoyé à un serveur syslogd."
 
-#: includes/features/class-handlertypes.php:534
-msgid "Syslog"
-msgstr "Syslog"
-
-#: includes/features/class-handlertypes.php:483
+#: includes/features/class-handlertypes.php:668
 msgid "Whether the attachments should include context and extra data."
 msgstr "Indique si les pièces jointes doivent inclure le contexte et les données supplémentaires."
 
-#: includes/features/class-handlertypes.php:482
+#: includes/features/class-handlertypes.php:667
 msgid "Full data"
 msgstr "Données complètes"
 
-#: includes/features/class-handlertypes.php:471
+#: includes/features/class-handlertypes.php:656
 msgid "Use a shortened version for attachments sent in channel."
 msgstr "Utiliser une version simple pour les pièces jointes envoyées dans le canal."
 
-#: includes/features/class-handlertypes.php:470
+#: includes/features/class-handlertypes.php:655
 msgid "Short attachment"
 msgstr "Pièce jointe simple"
 
-#: includes/features/class-handlertypes.php:459
+#: includes/features/class-handlertypes.php:644
 msgid "The Webhook URL set in the Slack application."
 msgstr "L’URL du Webhook fixée dans l’application Slack."
 
-#: includes/features/class-handlertypes.php:458
+#: includes/features/class-handlertypes.php:643
 msgid "Webhook URL"
 msgstr "URL Webhook"
 
-#: includes/features/class-handlertypes.php:451
+#: includes/features/class-handlertypes.php:635
 msgid "Events alerts sent through Slack Webhooks."
 msgstr "Alertes d’évènements envoyées par l’intermédiaire de Webhooks Slack."
 
-#: includes/features/class-handlertypes.php:450
-msgid "Slack"
-msgstr "Slack"
-
-#: includes/features/class-handlertypes.php:416
+#: includes/features/class-handlertypes.php:540
 msgid "The maximal number of files to keep (0 means unlimited)."
 msgstr "Le nombre maximum de fichiers à conserver (0 signifie illimité)."
 
-#: includes/features/class-handlertypes.php:415
+#: includes/features/class-handlertypes.php:539
 msgid "Maximum"
 msgstr "Maximum"
 
-#: includes/features/class-handlertypes.php:404
+#: includes/features/class-handlertypes.php:528
 msgid "The full absolute path and filename, like \"/path/to/file\"."
 msgstr "Le chemin absolu complet et le nom de fichier, comme « /chemin/complet/du/fichier »."
 
-#: includes/features/class-handlertypes.php:403
+#: includes/features/class-handlertypes.php:527
 msgid "File"
 msgstr "Fichier"
 
-#: includes/features/class-handlertypes.php:396
+#: includes/features/class-handlertypes.php:519
 msgid "An events log sent to files that are rotated every day and a limited number of files are kept."
 msgstr "Un registre d’évènements envoyé dans des fichiers différents tous les jours et dont un nombre limité est conservé."
 
-#: includes/features/class-handlertypes.php:395
+#: includes/features/class-handlertypes.php:518
 msgid "Rotating files"
 msgstr "Fichiers en rotation"
 
-#: includes/features/class-handlertypes.php:345
+#: includes/features/class-handlertypes.php:467
 msgid "The title of the message which will be sent."
 msgstr "Le titre du message qui sera envoyé."
 
-#: includes/features/class-handlertypes.php:344
+#: includes/features/class-handlertypes.php:466
 msgid "Message title"
 msgstr "Titre du message"
 
-#: includes/features/class-handlertypes.php:333
+#: includes/features/class-handlertypes.php:455
 msgid "The recipient key. It can be a \"user key\" or a \"group key\"."
 msgstr "La clé du destinataire. Il peut s’agir d’une « clé d’utilisateur » ou d’une « clé de groupe »."
 
-#: includes/features/class-handlertypes.php:332
+#: includes/features/class-handlertypes.php:454
 msgid "Recipient"
 msgstr "Destinataire"
 
-#: includes/features/class-handlertypes.php:321
+#: includes/features/class-handlertypes.php:443
 msgid "The token of the Pushover application."
 msgstr "Le jeton d’application Pushover."
 
-#: includes/features/class-handlertypes.php:229
-#: includes/features/class-handlertypes.php:320
+#: includes/features/class-handlertypes.php:345
+#: includes/features/class-handlertypes.php:442
 msgid "Application token"
 msgstr "Jeton d’application"
 
-#: includes/features/class-handlertypes.php:313
+#: includes/features/class-handlertypes.php:434
 msgid "Events alerts sent via Pushover service."
 msgstr "Alertes d’évènements envoyées via le service Pushover."
 
-#: includes/features/class-handlertypes.php:312
-msgid "Pushover"
-msgstr "Pushover"
-
-#: includes/features/class-handlertypes.php:290
+#: includes/features/class-handlertypes.php:409
 msgid "An events log stored in the standard PHP error log, as with the error_log() function."
 msgstr "Un registre d’évènements stocké dans le registre d’erreurs PHP standard, comme avec la fonction error_log() ."
 
-#: includes/features/class-handlertypes.php:289
+#: includes/features/class-handlertypes.php:408
 msgid "PHP error log"
 msgstr "Registre d’erreur PHP"
 
-#: includes/features/class-handlertypes.php:262
+#: includes/features/class-handlertypes.php:380
 msgid "The recipients mail address, in coma separated list."
 msgstr "Les adresses courriel des destinataires, dans une liste séparée par des virgules."
 
-#: includes/features/class-handlertypes.php:261
+#: includes/features/class-handlertypes.php:379
 msgid "Recipients"
 msgstr "Destinataires"
 
-#: includes/features/class-handlertypes.php:254
+#: includes/features/class-handlertypes.php:371
 msgid "Events alerts sent by WordPress via mail."
 msgstr "Alertes d’évènements envoyées par WordPress sous forme de courriel."
 
-#: includes/features/class-handlertypes.php:253
+#: includes/features/class-handlertypes.php:370
 msgid "Mail"
 msgstr "Courriel"
 
-#: includes/features/class-handlertypes.php:119
-#: includes/features/class-handlertypes.php:187
-#: includes/features/class-handlertypes.php:357
+#: includes/features/class-handlertypes.php:231
+#: includes/features/class-handlertypes.php:301
+#: includes/features/class-handlertypes.php:479
+#: includes/features/class-handlertypes.php:742
+#: includes/features/class-handlertypes.php:839
 msgid "Max number of milliseconds to wait for the socket."
 msgstr "Nombre maximal de millisecondes que le socket doit attendre."
 
-#: includes/features/class-handlertypes.php:118
-#: includes/features/class-handlertypes.php:186
-#: includes/features/class-handlertypes.php:356
+#: includes/features/class-handlertypes.php:230
+#: includes/features/class-handlertypes.php:300
+#: includes/features/class-handlertypes.php:478
+#: includes/features/class-handlertypes.php:741
+#: includes/features/class-handlertypes.php:838
 msgid "Socket timeout"
 msgstr "Délai d’attente du socket"
 
-#: includes/features/class-handlertypes.php:107
+#: includes/features/class-handlertypes.php:219
+#: includes/features/class-handlertypes.php:730
 msgid "Connection string to Fluentd. Can be something like \"tcp://127.0.0.1:24224\" or something like \"unix:///var/run/td-agent/td-agent.sock\"."
 msgstr "Chaîne de connexion à Fluentd. Peut être quelque chose comme « tcp://127.0.0.1:24224 » ou « unix:///var/run/td-agent/td-agent.sock »."
 
-#: includes/features/class-handlertypes.php:106
+#: includes/features/class-handlertypes.php:218
+#: includes/features/class-handlertypes.php:729
 msgid "Connection string"
 msgstr "Chaîne de connexion"
 
-#: includes/features/class-handlertypes.php:99
+#: includes/features/class-handlertypes.php:210
 msgid "An events log sent to a Fluentd collector."
 msgstr "Un registre d’évènements envoyé à un collecteur Fluentd."
 
-#: includes/features/class-handlertypes.php:98
-msgid "Fluentd"
-msgstr "Fluentd"
-
-#: includes/features/class-handlertypes.php:80
+#: includes/features/class-handlertypes.php:103
 msgid "An events log sent to the ChromePHP extension (http://www.chromephp.com/)."
 msgstr "Un registre d’évènements envoyé à l’extension ChromePHP (http://www.chromephp.com/)."
 
-#: includes/features/class-handlertypes.php:79
-msgid "ChromePHP"
-msgstr "ChromePHP"
-
-#: includes/features/class-handlertypes.php:61
+#: includes/features/class-handlertypes.php:82
 msgid "An events log sent to browser's javascript console with no browser extension required."
 msgstr "Un registre d’évènements envoyé à la console javascript du navigateur, ne nécessite pas d’extension de navigateur."
 
-#: includes/features/class-handlertypes.php:60
+#: includes/features/class-handlertypes.php:81
 msgid "Browser console"
 msgstr "Console de navigateur"
 
-#: includes/features/class-handlertypes.php:48
+#: includes/features/class-handlertypes.php:49
 msgid "Any record it can handle will be thrown away."
 msgstr "Tout enregistrement qu’il peut gérer sera oublié aussitôt."
 
-#: includes/features/class-handlertypes.php:47
+#: includes/features/class-handlertypes.php:48
 msgid "Blackhole"
 msgstr "Trou noir"
 
-#: includes/features/class-events.php:704
+#: includes/features/class-events.php:638
 msgid "Remote IP"
 msgstr "IP distante"
 
-#: includes/features/class-events.php:703
+#: includes/features/class-events.php:637
 msgid "User"
 msgstr "Utilisateur"
 
-#: includes/features/class-events.php:702 admin/class-decalog-admin.php:287
+#: includes/features/class-events.php:636 admin/class-decalog-admin.php:346
 msgid "Site"
 msgstr "Site"
 
-#: includes/features/class-events.php:699
+#: includes/features/class-events.php:633
 msgid "Message"
 msgstr "Message"
 
-#: includes/features/class-events.php:698
+#: includes/features/class-events.php:632
 msgid "Time"
 msgstr "Moment"
 
-#: includes/features/class-inlinehelp.php:351
+#: includes/features/class-events.php:631
 #: includes/features/class-eventviewer.php:264
-#: includes/features/class-events.php:697
+#: includes/features/class-inlinehelp.php:343
 msgid "Event"
 msgstr "Évènement"
 
-#: includes/features/class-events.php:659
-msgid "Extra columns"
-msgstr "Colonnes supplémentaires"
-
-#: includes/features/class-events.php:490
+#: includes/features/class-events.php:503
 msgid "Show %d lines per page"
 msgstr "Afficher %d lignes par page"
 
-#: includes/features/class-events.php:434
+#: includes/features/class-events.php:447
+#: admin/partials/decalog-admin-view-console.php:43
 msgid "All"
 msgstr "Tout"
 
-#: includes/features/class-events.php:332
+#: includes/features/class-events.php:345
 msgid "Add as filter"
 msgstr "Ajouter comme filtre"
 
-#: includes/features/class-events.php:326
+#: includes/features/class-events.php:339
 msgid "Remove this filter"
 msgstr "Supprimer ce filtre"
 
-#: includes/features/class-events.php:238
+#: includes/features/class-events.php:249
 msgid "Obfuscated"
 msgstr "Obscurci"
 
-#: includes/features/class-events.php:222
+#: includes/features/class-events.php:232
 msgid "User ID %s"
 msgstr "ID d’utilisateur %s"
 
-#: includes/features/class-eventviewer.php:402
-#: includes/features/class-events.php:219
+#: includes/features/class-events.php:229
+#: includes/features/class-eventviewer.php:404
 msgid "Pseudonymized user"
 msgstr "Utilisateur pseudonymisé"
 
-#: includes/features/class-eventviewer.php:400
-#: includes/features/class-events.php:215
+#: includes/features/class-events.php:225
+#: includes/features/class-eventviewer.php:402
 msgid "Anonymous user"
 msgstr "Utilisateur anonyme"
 
-#: includes/features/class-events.php:201
+#: includes/features/class-events.php:211
 msgid "Site ID %s"
 msgstr "Site ID %s"
 
 #. translators: as in the sentence "Error code 501" or "Alert code 0"
-#: includes/features/class-events.php:160
+#: includes/features/class-events.php:170
 msgid "%1$s code %2$s"
 msgstr "%1$s code %2$s"
 
-#: includes/features/class-loggers.php:234
+#: includes/features/class-loggers.php:236
 msgid "Logger"
 msgstr "Enregistreur"
 
-#: includes/features/class-loggers.php:179
+#: includes/features/class-loggers.php:180
 msgid "View"
 msgstr "Voir"
 
-#: includes/features/class-loggers.php:176
+#: includes/features/class-loggers.php:177
 msgid "Start"
 msgstr "Démarrer"
 
-#: includes/features/class-loggers.php:174
+#: includes/features/class-loggers.php:175
 msgid "Pause"
 msgstr "Mettre en pause"
 
-#: includes/features/class-loggers.php:172
+#: includes/features/class-loggers.php:173
 msgid "Remove"
 msgstr "Supprimer"
 
-#: includes/features/class-loggers.php:171
+#: includes/features/class-loggers.php:172
 msgid "Edit"
 msgstr "Modifier"
 
@@ -1331,25 +1551,21 @@ msgstr "actuellement"
 msgid "%s ago"
 msgstr "il y a %s"
 
-#: includes/system/class-environment.php:229
+#: includes/system/class-environment.php:206
 msgid "Debug disabled"
 msgstr "Débogage désactivé"
 
-#: includes/system/class-environment.php:229
+#: includes/system/class-environment.php:206
 msgid "Debug enabled"
 msgstr "Débogage activé"
 
-#: includes/system/class-environment.php:223
+#: includes/system/class-environment.php:200
 msgid "display"
 msgstr "affichage"
 
-#: includes/system/class-environment.php:218
+#: includes/system/class-environment.php:195
 msgid "log"
 msgstr "registre"
-
-#: includes/plugin/class-updater.php:110
-msgid "Sorry, unable to find or read changelog file."
-msgstr "Désolé, il est impossible de trouver ou de lire l’historique des changements."
 
 #: includes/plugin/class-updater.php:48
 msgid "%1$s has been correctly updated from version %2$s to version %3$s."
@@ -1411,8 +1627,8 @@ msgstr "Annuler"
 msgid "Number of lines to display"
 msgstr "Nombre de lignes à afficher"
 
-#: admin/partials/decalog-admin-settings-options.php:31
 #: admin/partials/decalog-admin-settings-listeners.php:33
+#: admin/partials/decalog-admin-settings-options.php:31
 msgid "Reset to Defaults"
 msgstr "Réinitialiser les paramètres par défaut"
 
@@ -1432,12 +1648,11 @@ msgstr "Options"
 msgid "Listeners"
 msgstr "Observateurs"
 
-#: includes/system/class-sitehealth.php:165
+#: includes/system/class-sitehealth.php:166
 #: admin/partials/decalog-admin-settings-main.php:35
 msgid "Loggers"
 msgstr "Enregistreurs"
 
-#: includes/features/class-events.php:665
 #: admin/partials/decalog-admin-view-events-bottom.php:21
 #: admin/partials/decalog-admin-view-events-top.php:21
 msgid "Apply"
@@ -1455,243 +1670,244 @@ msgstr "en fonctionnement"
 msgid "Choose events log to display"
 msgstr "Choisissez le registre d’évènements à afficher"
 
-#: admin/class-decalog-admin.php:1103
+#: admin/class-decalog-admin.php:1257
 msgid "Allows to log standard DecaLog information."
 msgstr "Permet de consigner les informations standards fournies par DecaLog."
 
-#: admin/class-decalog-admin.php:1100 admin/class-decalog-admin.php:1119
+#: admin/class-decalog-admin.php:1254 admin/class-decalog-admin.php:1273
 msgid "Included"
 msgstr "Inclus"
 
-#: includes/features/class-loggers.php:207 admin/class-decalog-admin.php:1095
+#: includes/features/class-loggers.php:209 admin/class-decalog-admin.php:1249
 msgid "Standard"
 msgstr "Standard"
 
-#: admin/class-decalog-admin.php:1077
+#: admin/class-decalog-admin.php:1231
 msgid "If checked, log fields will contain hashes instead of user IDs & names."
 msgstr "Si coché, les champs du registre vont contenir des clés de hachage à la place des noms et ID d’utilisateurs."
 
-#: admin/class-decalog-admin.php:1074
+#: admin/class-decalog-admin.php:1228
 msgid "Pseudonymisation"
 msgstr "Pseudonymisation"
 
-#: admin/class-decalog-admin.php:1069
+#: admin/class-decalog-admin.php:1223
 msgid "Users"
 msgstr "Utilisateurs"
 
-#: admin/class-decalog-admin.php:1061 admin/class-decalog-admin.php:1077
+#: admin/class-decalog-admin.php:1215 admin/class-decalog-admin.php:1231
 msgid "Note: it concerns all fields except events messages."
 msgstr "Remarque : cela concerne tous les champs sauf le message en lui-même."
 
-#: admin/class-decalog-admin.php:1061
+#: admin/class-decalog-admin.php:1215
 msgid "If checked, log fields will contain hashes instead of real IPs."
 msgstr "Si coché, les champs du registre vont contenir des clés de hachage à la place des IPs réelles."
 
-#: admin/class-decalog-admin.php:1058
+#: admin/class-decalog-admin.php:1212
 msgid "Obfuscation"
 msgstr "Obscurcissement"
 
-#: admin/class-decalog-admin.php:1053
+#: admin/class-decalog-admin.php:1207
 msgid "Remote IPs"
 msgstr "IPs distantes"
 
-#: admin/class-decalog-admin.php:1019
+#: admin/class-decalog-admin.php:1172
 msgid "Enabled"
 msgstr "Activé"
 
-#: admin/class-decalog-admin.php:1005
+#: admin/class-decalog-admin.php:1158
 msgid "Value set in php.ini file."
 msgstr "Valeur fixée dans le fichier php.ini."
 
-#: admin/class-decalog-admin.php:998
+#: admin/class-decalog-admin.php:1151
 msgid "Log file"
 msgstr "Fichier registre"
 
-#: admin/class-decalog-admin.php:936
+#: admin/class-decalog-admin.php:1088
 msgid "Minimal reported level. May be overridden by the \"respect WP_DEBUG directive\" option."
 msgstr "Niveau minimal de consigne. Peut être outrepassé par l’option « respecter la directive WP-DEBUG »."
 
-#: includes/features/class-loggers.php:236 admin/class-decalog-admin.php:928
-#: admin/class-decalog-admin.php:972
+#: includes/features/class-loggers.php:238 admin/class-decalog-admin.php:1080
+#: admin/class-decalog-admin.php:1125
 msgid "Minimal level"
 msgstr "Niveau minimal"
 
-#: admin/class-decalog-admin.php:920
+#: admin/class-decalog-admin.php:1071
 msgid "Used only in admin dashboard."
 msgstr "Utilisé uniquement dans le Tableau de bord d’administration."
 
-#: admin/class-decalog-admin.php:913 admin/class-decalog-admin.php:957
+#: admin/class-decalog-admin.php:1064 admin/class-decalog-admin.php:1109
 msgid "Name"
 msgstr "Nom"
 
-#: admin/class-decalog-admin.php:892
+#: admin/class-decalog-admin.php:1043
 msgid "Note: DecaLog respects DISABLE_NAG_NOTICES flag."
 msgstr "Note : DecaLog respecte l’indicateur DISABLE_NAG_NOTICES."
 
-#: admin/class-decalog-admin.php:892
+#: admin/class-decalog-admin.php:1043
 msgid "Allows DecaLog to display admin notices throughout the admin dashboard."
 msgstr "Autoriser DecaLog à afficher les avis d’administration dans le Tableau de bord."
 
-#: admin/class-decalog-admin.php:889
+#: admin/class-decalog-admin.php:1040
 msgid "Display"
 msgstr "Affichage"
 
-#: admin/class-decalog-admin.php:884
+#: admin/class-decalog-admin.php:1035
 msgid "Admin notices"
 msgstr "Avis d’administration"
 
-#: admin/class-decalog-admin.php:798
+#: admin/class-decalog-admin.php:897
 msgid "If checked, the value of WP_DEBUG will override each logger's settings for minimal level of logging."
 msgstr "Si coché, la valeur de WP-DEBUG outrepassera les paramètres de chaque enregistreur concernant le niveau minimal de consigne."
 
-#: admin/class-decalog-admin.php:795
+#: admin/class-decalog-admin.php:894
 msgid "Respect WP_DEBUG"
 msgstr "Respecter WP-DEBUG"
 
-#: admin/class-decalog-admin.php:790
+#: admin/class-decalog-admin.php:889
 msgid "Rules"
 msgstr "Règles"
 
-#: admin/class-decalog-admin.php:782
+#: admin/class-decalog-admin.php:881
 msgid "If checked, DecaLog will try to obfuscate personal information in events messages."
 msgstr "Si coché, DecaLog va essayer d’obscurcir les informations personnelles dans les messages d’évènements."
 
-#: admin/class-decalog-admin.php:779
+#: admin/class-decalog-admin.php:878
 msgid "Respect privacy"
 msgstr "Respect de la confidentialité"
 
-#: admin/class-decalog-admin.php:774
+#: admin/class-decalog-admin.php:873
 msgid "Events messages"
 msgstr "Messages d’évènements"
 
-#: admin/class-decalog-admin.php:766
+#: admin/class-decalog-admin.php:865
 msgid "If checked, when a new logger is added it automatically starts."
 msgstr "Si coché, lorsqu’un nouvel enregistreur est ajouté, il démarre automatiquement."
 
-#: admin/class-decalog-admin.php:763
+#: admin/class-decalog-admin.php:862
 msgid "Auto-start"
 msgstr "Démarrage automatique"
 
-#: admin/class-decalog-admin.php:722
+#: admin/class-decalog-admin.php:821
 msgid "Theme listeners"
 msgstr "Observateurs de thèmes"
 
-#: admin/class-decalog-admin.php:721
+#: admin/class-decalog-admin.php:820
 msgid "Plugin listeners"
 msgstr "Observateurs d’extensions"
 
-#: admin/class-decalog-admin.php:720
+#: admin/class-decalog-admin.php:819
 msgid "Standard listeners"
 msgstr "Observateurs standards"
 
-#: admin/class-decalog-admin.php:686
+#: admin/class-decalog-admin.php:785
 msgid "Automatically or selectively choose which sources to listen."
 msgstr "Choisissez automatiquement ou sélectivement les sources à observer."
 
-#: admin/class-decalog-admin.php:682
+#: admin/class-decalog-admin.php:781
 msgid "All available listeners (recommended)"
 msgstr "Tous les observateurs disponibles (recommandé)"
 
-#: admin/class-decalog-admin.php:681
+#: admin/class-decalog-admin.php:780
 msgid "Selected listeners"
 msgstr "Observateurs sélectionnés"
 
-#: admin/class-decalog-admin.php:675
+#: admin/class-decalog-admin.php:774
 msgid "Activate"
 msgstr "Activer"
 
-#: admin/class-decalog-admin.php:658
+#: admin/class-decalog-admin.php:757
 msgid "Logger %s has not been removed. Please try again."
 msgstr "L’enregistreur %s n’a pas été supprimé. Veuillez réessayer."
 
-#: admin/class-decalog-admin.php:652
+#: admin/class-decalog-admin.php:751
 msgid "Logger %s has been removed."
 msgstr "L’enregistreur %s a été supprimé."
 
-#: admin/class-decalog-admin.php:628
+#: admin/class-decalog-admin.php:727
 msgid "Logger %s has not been saved. Please try again."
 msgstr "L’enregistreur %s n’a pas été mis à jour. Veuillez réessayer."
 
-#: admin/class-decalog-admin.php:622
+#: admin/class-decalog-admin.php:721
 msgid "Logger %s has been saved."
 msgstr "L’enregistreur %s a été mis à jour."
 
-#: admin/class-decalog-admin.php:570
+#: admin/class-decalog-admin.php:669
 msgid "Plugin settings have not been reset to defaults. Please try again."
 msgstr "Les réglages n’ont pas été réinitialisés à leurs valeurs par défaut. Veuillez réessayer."
 
-#: admin/class-decalog-admin.php:565
+#: admin/class-decalog-admin.php:664
 msgid "Plugin settings have been reset to defaults."
 msgstr "Le réglages ont été réinitialisées aux valeurs par défaut."
 
-#: admin/class-decalog-admin.php:548
+#: admin/class-decalog-admin.php:647
 msgid "Plugin settings have not been saved. Please try again."
 msgstr "Les réglages n’ont pas été mis à jour. Veuillez réessayer."
 
-#: admin/class-decalog-admin.php:543
+#: admin/class-decalog-admin.php:642
 msgid "Plugin settings have been saved."
 msgstr "Les réglages ont été mis à jour."
 
-#: admin/class-decalog-admin.php:521
+#: admin/class-decalog-admin.php:613
 msgid "Listeners settings have not been reset to defaults. Please try again."
 msgstr "Les réglages des observateurs n’ont pas été réinitialisés à leurs valeurs par défaut. Veuillez réessayer."
 
-#: admin/class-decalog-admin.php:516
+#: admin/class-decalog-admin.php:608
 msgid "Listeners settings have been reset to defaults."
 msgstr "Les réglages des observateurs ont été réinitialisés à leurs valeurs par défaut."
 
-#: admin/class-decalog-admin.php:499
+#: admin/class-decalog-admin.php:591
 msgid "Listeners settings have not been saved. Please try again."
 msgstr "Les réglages des observateurs n’ont pas été mis à jour. Veuillez réessayer."
 
-#: admin/class-decalog-admin.php:494
+#: admin/class-decalog-admin.php:586
 msgid "Listeners settings have been saved."
 msgstr "Les réglages des observateurs ont été mis à jour."
 
-#: admin/class-decalog-admin.php:405
+#: admin/class-decalog-admin.php:496
 msgid "Logger %s has been paused."
 msgstr "L’enregistreur %s a été mis en pause."
 
-#: admin/class-decalog-admin.php:392
+#: admin/class-decalog-admin.php:478
 msgid "Logger %s has started."
 msgstr "L’enregistreur %s a démarré."
 
-#: admin/class-decalog-admin.php:344 admin/class-decalog-admin.php:758
+#: includes/features/class-wpcli.php:317 admin/class-decalog-admin.php:416
+#: admin/class-decalog-admin.php:857
 msgid "New logger"
 msgstr "Nouvel enregistreur"
 
-#: admin/class-decalog-admin.php:271
+#: admin/class-decalog-admin.php:330
 msgid "Events Logs"
 msgstr "Registres d’évènements"
 
-#: admin/class-decalog-admin.php:269
+#: admin/class-decalog-admin.php:328
 msgid "Settings"
 msgstr "Réglages"
 
-#: includes/features/class-loggers.php:237 admin/class-decalog-admin.php:253
+#: includes/features/class-loggers.php:239 admin/class-decalog-admin.php:312
 msgid "Reported details"
 msgstr "Détails consignés"
 
-#: admin/class-decalog-admin.php:252
+#: admin/class-decalog-admin.php:311
 msgid "Privacy options"
 msgstr "Options de confidentialité"
 
-#: admin/class-decalog-admin.php:246
+#: admin/class-decalog-admin.php:305
 msgid "Plugin options"
 msgstr "Options de l’extension"
 
-#: admin/class-decalog-admin.php:245
+#: admin/class-decalog-admin.php:304
 msgid "Loggers options"
 msgstr "Options d’enregistrement"
 
 #. translators: as in the sentence "DecaLog Viewer"
-#: admin/class-decalog-admin.php:178
+#: admin/class-decalog-admin.php:218
 #: admin/partials/decalog-admin-view-events.php:20
 msgid "%s Viewer"
 msgstr "Visualiseur %s"
 
 #. translators: as in the sentence "DecaLog Settings" or "WordPress Settings"
-#: perfopsone/class-adminmenus.php:70 admin/class-decalog-admin.php:156
+#: perfopsone/class-adminmenus.php:70 admin/class-decalog-admin.php:196
 #: admin/partials/decalog-admin-settings-main.php:19
 msgid "%s Settings"
 msgstr "Réglages %s"
