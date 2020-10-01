@@ -1,8 +1,8 @@
 <?php
 /**
- * APCu handling
+ * shmop handling
  *
- * Handles all APCu operations and detection.
+ * Handles all shmop operations and detection.
  *
  * @package System
  * @author  Pierre Lannoy <https://pierre.lannoy.fr/>.
@@ -16,9 +16,9 @@ use Decalog\System\File;
 use Decalog\Logger;
 
 /**
- * Define the APCu functionality.
+ * Define the shmop functionality.
  *
- * Handles all APCu operations and detection.
+ * Handles all shmop operations and detection.
  *
  * @package System
  * @author  Pierre Lannoy <https://pierre.lannoy.fr/>.
