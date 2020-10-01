@@ -51,34 +51,72 @@ class IP {
 	}
 
 	/**
-     * Get the current client IP.
-     *
-     * @return  string The current client IP.
-     * @since 1.0.0
-     */
-    public static function get_current() {
-        $ip = '';
-        if ( array_key_exists( 'REMOTE_ADDR', $_SERVER ) ) {
-            $iplist = explode( ',', filter_input( INPUT_SERVER, 'REMOTE_ADDR' ) );
-            $ip     = trim( end( $iplist ) );
-        }
-        if ( array_key_exists( 'HTTP_X_REAL_IP', $_SERVER ) ) {
-            $iplist = explode( ',', filter_input( INPUT_SERVER, 'HTTP_X_REAL_IP' ) );
-            $ip     = trim( end( $iplist ) );
-        }
-        if ( array_key_exists( 'HTTP_CF_CONNECTING_IP', $_SERVER ) ) {
-            $iplist = explode( ',', filter_input( INPUT_SERVER, 'HTTP_CF_CONNECTING_IP' ) );
-            $ip     = trim( end( $iplist ) );
-        }
-        if ( '' === $ip && array_key_exists( 'HTTP_X_FORWARDED_FOR', $_SERVER ) ) {
-            $iplist = array_reverse( explode( ',', filter_input( INPUT_SERVER, 'HTTP_X_FORWARDED_FOR' ) ) );
-            $ip     = trim( end( $iplist ) );
-        }
-        if ( '' === $ip ) {
-            $ip = '127.0.0.1';
-        }
-        return self::expand( $ip );
-    }
+	 * Try to extract real ip if any exists.
+	 *
+	 * @param   array   $iplist             A list of IPs.
+	 * @param   boolean $include_private    optional. Include private IPs too.
+	 * @return  string  The real ip if found, '' otherwise.
+	 * @since 1.0.0
+	 */
+	public static function maybe_extract_ip( $iplist, $include_private = false ) {
+		if ( $include_private ) {
+			foreach ( $iplist as $ip ) {
+				if ( filter_var( trim( $ip ), FILTER_VALIDATE_IP ) ) {
+					return self::expand( $ip );
+				}
+			}
+		}
+		foreach ( $iplist as $ip ) {
+			if ( filter_var( trim( $ip ), FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE ) ) {
+				return self::expand( $ip );
+			}
+		}
+		return '';
+	}
+
+	/**
+	 * Get the current client IP.
+	 *
+	 * @return  string The current client IP.
+	 * @since 1.0.0
+	 */
+	public static function get_current() {
+		for ( $i = 0 ; $i < 2 ; $i++ ) {
+			foreach (
+				[
+					'REMOTE_ADDR',
+					'HTTP_X_REAL_IP',
+					'HTTP_CF_CONNECTING_IP',
+					'HTTP_X_CLUSTER_CLIENT_IP',
+					'TRUE-CLIENT-IP',
+				] as $field
+			) {
+				if ( array_key_exists( $field, $_SERVER ) ) {
+					$ip = self::maybe_extract_ip( explode( ',', filter_input( INPUT_SERVER, $field ) ), 1 === $i );
+					if ( '' !== $ip ) {
+						return $ip;
+					}
+				}
+			}
+			foreach (
+				[
+					'HTTP_X_FORWARDED_FOR',
+					'HTTP_CLIENT_IP',
+					'HTTP_X_FORWARDED',
+					'HTTP_FORWARDED_FOR',
+					'HTTP_FORWARDED',
+				] as $field
+			) {
+				if ( array_key_exists( $field, $_SERVER ) ) {
+					$ip = self::maybe_extract_ip( array_reverse( explode( ',', filter_input( INPUT_SERVER, $field ) ) ), 1 === $i );
+					if ( '' !== $ip ) {
+						return $ip;
+					}
+				}
+			}
+		}
+		return '127.0.0.1';
+	}
 
 	/**
 	 * Expands an IPv4 or IPv6 address.
