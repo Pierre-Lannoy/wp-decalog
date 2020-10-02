@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 - Improved IP detection  (thanks to [Ludovic Riaudel](https://github.com/lriaudel)).
+- Improved orders and sections in "options" settings tab.
 
 ## [2.0.0] - 2020-09-30
 

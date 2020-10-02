@@ -302,6 +302,7 @@ class Decalog_Admin {
 	 */
 	public function init_settings_sections() {
 		add_settings_section( 'decalog_loggers_options_section', esc_html__( 'Loggers options', 'decalog' ), [ $this, 'loggers_options_section_callback' ], 'decalog_loggers_options_section' );
+		add_settings_section( 'decalog_plugin_features_section', esc_html__( 'Plugin features', 'decalog' ), [ $this, 'plugin_features_section_callback' ], 'decalog_plugin_features_section' );
 		add_settings_section( 'decalog_plugin_options_section', esc_html__( 'Plugin options', 'decalog' ), [ $this, 'plugin_options_section_callback' ], 'decalog_plugin_options_section' );
 		add_settings_section( 'decalog_listeners_options_section', null, [ $this, 'listeners_options_section_callback' ], 'decalog_listeners_options_section' );
 		add_settings_section( 'decalog_listeners_settings_section', null, [ $this, 'listeners_settings_section_callback' ], 'decalog_listeners_settings_section' );
@@ -629,11 +630,11 @@ class Decalog_Admin {
 				Option::network_set( 'use_cdn', array_key_exists( 'decalog_plugin_options_usecdn', $_POST ) );
 				Option::network_set( 'display_nag', array_key_exists( 'decalog_plugin_options_nag', $_POST ) );
 				Option::network_set( 'download_favicons', array_key_exists( 'decalog_plugin_options_favicons', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_plugin_options_favicons' ) : false );
-				Option::network_set( 'earlyloading', array_key_exists( 'decalog_plugin_options_earlyloading', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_plugin_options_earlyloading' ) : false );
+				Option::network_set( 'earlyloading', array_key_exists( 'decalog_plugin_features_earlyloading', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_plugin_features_earlyloading' ) : false );
 				Option::network_set( 'logger_autostart', array_key_exists( 'decalog_loggers_options_autostart', $_POST ) ? true : false );
 				Option::network_set( 'pseudonymization', array_key_exists( 'decalog_loggers_options_pseudonymization', $_POST ) );
 				Option::network_set( 'respect_wp_debug', array_key_exists( 'decalog_loggers_options_wpdebug', $_POST ) );
-				$autolog = array_key_exists( 'decalog_plugin_options_livelog', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_plugin_options_livelog' ) : false;
+				$autolog = array_key_exists( 'decalog_plugin_features_livelog', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_plugin_features_livelog' ) : false;
 				if ( $autolog ) {
 					Autolog::activate();
 				} else {
@@ -910,40 +911,6 @@ class Decalog_Admin {
 	public function plugin_options_section_callback() {
 		$form = new Form();
 		add_settings_field(
-			'decalog_plugin_options_earlyloading',
-			__( 'Initialization', 'decalog' ),
-			[ $form, 'echo_field_checkbox' ],
-			'decalog_plugin_options_section',
-			'decalog_plugin_options_section',
-			[
-				'text'        => esc_html__( 'Activate early loading', 'decalog' ),
-				'id'          => 'decalog_plugin_options_earlyloading',
-				'checked'     => Option::network_get( 'earlyloading' ),
-				'description' => esc_html__( 'If checked, DecaLog will be loaded before all other plugins (recommended).', 'decalog' ),
-				'full_width'  => false,
-				'enabled'     => true,
-			]
-		);
-		register_setting( 'decalog_plugin_options_section', 'decalog_plugin_options_earlyloading' );
-		if ( SharedMemory::$available ) {
-			add_settings_field(
-				'decalog_plugin_options_livelog',
-				__( 'Live console', 'decalog' ),
-				[ $form, 'echo_field_checkbox' ],
-				'decalog_plugin_options_section',
-				'decalog_plugin_options_section',
-				[
-					'text'        => esc_html__( 'Activate auto-logging', 'decalog' ),
-					'id'          => 'decalog_plugin_options_livelog',
-					'checked'     => Autolog::is_enabled(),
-					'description' => esc_html__( 'If checked, DecaLog will silently start the features needed by live console.', 'decalog' ),
-					'full_width'  => false,
-					'enabled'     => true,
-				]
-			);
-			register_setting( 'decalog_plugin_options_section', 'decalog_plugin_options_livelog' );
-		}
-		add_settings_field(
 			'decalog_plugin_options_favicons',
 			__( 'Favicons', 'decalog' ),
 			[ $form, 'echo_field_checkbox' ],
@@ -1046,6 +1013,49 @@ class Decalog_Admin {
 			]
 		);
 		register_setting( 'decalog_plugin_options_section', 'decalog_plugin_options_nag' );
+	}
+
+	/**
+	 * Callback for plugin features section.
+	 *
+	 * @since 1.0.0
+	 */
+	public function plugin_features_section_callback() {
+		$form = new Form();
+		add_settings_field(
+			'decalog_plugin_features_earlyloading',
+			__( 'Initialization', 'decalog' ),
+			[ $form, 'echo_field_checkbox' ],
+			'decalog_plugin_features_section',
+			'decalog_plugin_features_section',
+			[
+				'text'        => esc_html__( 'Activate early loading', 'decalog' ),
+				'id'          => 'decalog_plugin_features_earlyloading',
+				'checked'     => Option::network_get( 'earlyloading' ),
+				'description' => esc_html__( 'If checked, DecaLog will be loaded before all other plugins (recommended).', 'decalog' ),
+				'full_width'  => false,
+				'enabled'     => true,
+			]
+		);
+		register_setting( 'decalog_plugin_features_section', 'decalog_plugin_features_earlyloading' );
+		if ( SharedMemory::$available ) {
+			add_settings_field(
+				'decalog_plugin_features_livelog',
+				__( 'Live console', 'decalog' ),
+				[ $form, 'echo_field_checkbox' ],
+				'decalog_plugin_features_section',
+				'decalog_plugin_features_section',
+				[
+					'text'        => esc_html__( 'Activate auto-logging', 'decalog' ),
+					'id'          => 'decalog_plugin_features_livelog',
+					'checked'     => Autolog::is_enabled(),
+					'description' => esc_html__( 'If checked, DecaLog will silently start the features needed by live console.', 'decalog' ),
+					'full_width'  => false,
+					'enabled'     => true,
+				]
+			);
+			register_setting( 'decalog_plugin_features_section', 'decalog_plugin_features_livelog' );
+		}
 	}
 
 	/**

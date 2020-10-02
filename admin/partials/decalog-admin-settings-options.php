@@ -26,6 +26,7 @@
 		?>
 	" method="POST">
 	<?php do_settings_sections( 'decalog_loggers_options_section' ); ?>
+	<?php do_settings_sections( 'decalog_plugin_features_section' ); ?>
 	<?php do_settings_sections( 'decalog_plugin_options_section' ); ?>
 	<?php wp_nonce_field( 'decalog-plugin-options' ); ?>
 	<p><?php echo get_submit_button( esc_html__( 'Reset to Defaults', 'decalog' ), 'secondary', 'reset-to-defaults', false ); ?>&nbsp;&nbsp;&nbsp;<?php echo get_submit_button( null, 'primary', 'submit', false ); ?></p>
