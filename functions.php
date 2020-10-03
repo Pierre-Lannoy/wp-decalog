@@ -38,7 +38,7 @@ function decalog_mb_str_pad( $input, $length, $padding = ' ', $padType = STR_PAD
 			case STR_PAD_BOTH:
 				$left_padding_length  = floor( $padding_required / 2 );
 				$right_padding_length = $padding_required - $left_padding_length;
-				$result             =
+				$result               =
 					mb_substr( str_repeat( $padding, $left_padding_length ), 0, $left_padding_length, $encoding ) .
 					$input .
 					mb_substr( str_repeat( $padding, $right_padding_length ), 0, $right_padding_length, $encoding );
@@ -46,4 +46,29 @@ function decalog_mb_str_pad( $input, $length, $padding = ' ', $padType = STR_PAD
 		}
 	}
 	return $result;
+}
+
+
+/**
+ * Provide PHP 7.3 compatibility for array_key_last() function.
+ */
+if ( ! function_exists( 'array_key_last' ) ) {
+	// phpcs:ignore
+	function array_key_last( array $array ) {
+		if ( ! empty( $array ) ) {
+			return key( array_slice( $array, -1, 1, true ) );
+		}
+	}
+}
+
+/**
+ * Provide PHP 7.3 compatibility for array_key_first() function.
+ */
+if ( ! function_exists( 'array_key_first' ) ) {
+	// phpcs:ignore
+	function array_key_first( array $arr ) {
+		foreach ( $arr as $key => $unused ) {
+			return $key;
+		}
+	}
 }
