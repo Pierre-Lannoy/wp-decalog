@@ -3,11 +3,14 @@ All notable changes to **DecaLog** are documented in this *changelog*.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased - will be 2.1.0]
+## [2.0.1] - 2020-10-03
 
 ### Changed
 - Improved IP detection  (thanks to [Ludovic Riaudel](https://github.com/lriaudel)).
 - Improved orders and sections in "options" settings tab.
+
+### Fixed
+- Console source code is not fully compatible with PHP 7.2.
 
 ## [2.0.0] - 2020-09-30
 
