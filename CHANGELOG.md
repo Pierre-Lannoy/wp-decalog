@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 - Console source code is not fully compatible with PHP 7.2.
+- Some typos in wp-cli help.
 
 ## [2.0.0] - 2020-09-30
 

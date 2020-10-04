@@ -1249,7 +1249,7 @@ class Wpcli {
 	 * ---
 	 *
 	 * [--format=<format>]
-	 * : Allows overriding the output of the command when listing types.
+	 * : Allows overriding the output of the command when listing exit codes.
 	 * ---
 	 * default: table
 	 * options:
