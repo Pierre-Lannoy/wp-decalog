@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased - will be 2.0.2]
 
+### Added
+- [WP-CLI] PHP shmop module status added to the `wp log status` command.
+
+### Fixed
+- Some typos in wp-cli help.
+
 ## [2.0.1] - 2020-10-03
 
 ### Changed
@@ -13,7 +19,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 - Console source code is not fully compatible with PHP 7.2.
-- Some typos in wp-cli help.
 
 ## [2.0.0] - 2020-09-30
 

@@ -22,6 +22,7 @@ use Decalog\System\Markdown;
 use Decalog\System\Option;
 use Decalog\System\GeoIP;
 use Decalog\System\PHP;
+use Decalog\System\SharedMemory;
 use Decalog\System\Timezone;
 use Decalog\System\UUID;
 use Decalog\Plugin\Feature\EventTypes;
@@ -519,6 +520,11 @@ class Wpcli {
 			\WP_CLI::line( 'Device detection support: yes (Device Detector v' . PODD_VERSION . ').');
 		} else {
 			\WP_CLI::line( 'Device detection support: no.' );
+		}
+		if ( SharedMemory::$available ) {
+			\WP_CLI::line( 'Shared memory support: yes (shmop v' . phpversion( 'shmop' ) . ').');
+		} else {
+			\WP_CLI::line( 'Shared memory support: no.' );
 		}
 	}
 
