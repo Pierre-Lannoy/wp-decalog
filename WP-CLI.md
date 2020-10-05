@@ -385,9 +385,9 @@ To toggle on/off main settings, use `wp log settings <enable|disable> <early-loa
 
 ### Available settings
 
-- `early-loading`: 
-- `auto-logging`:
-- `auto-start`:
+- `early-loading`: if activated, DecaLog will be loaded before all other plugins (recommended).
+- `auto-logging`: if activated, DecaLog will silently start the features needed by live console.
+- `auto-start`: if activated, when a new logger is added it automatically starts.
 
 ### Example
 

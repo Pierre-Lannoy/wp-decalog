@@ -3,12 +3,13 @@ All notable changes to **DecaLog** are documented in this *changelog*.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased - will be 2.0.2]
+## [Unreleased - will be 2.1.0]
 
 ### Added
 - [WP-CLI] PHP shmop module status added to the `wp log status` command.
 
 ### Fixed
+- In wp-cli, some arguments are not described.
 - Some typos in wp-cli help.
 
 ## [2.0.1] - 2020-10-03
