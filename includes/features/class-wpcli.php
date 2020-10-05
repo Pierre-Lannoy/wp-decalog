@@ -76,6 +76,20 @@ class Wpcli {
 	];
 
 	/**
+	 * Flush output without warnings.
+	 *
+	 * @since    2.0.2
+	 */
+	private static function flush() {
+		// phpcs:ignore
+		set_error_handler( null );
+		// phpcs:ignore
+		@ob_flush();
+		// phpcs:ignore
+		restore_error_handler();
+	}
+
+	/**
 	 * Write ids as clean stdout.
 	 *
 	 * @param   array   $ids   The ids.
@@ -1415,6 +1429,7 @@ class Wpcli {
 			$logger->notice( 'Live console launched.' );
 			while ( true ) {
 				self::records_display( self::records_filter( SharedMemoryHandler::read(), $filters ), $mode, isset( $assoc_args['soft'] ), $col );
+				self::flush();
 			}
 		} else {
 			self::records_display( array_slice( self::records_filter( $records, $filters ), -$count ), $mode, isset( $assoc_args['soft'] ), $col );
