@@ -51,7 +51,7 @@ In order to be similar to other log management systems and to maintain consisten
 
 DecaLog lets you use command-line to view past and currents events. All is done via the `wp log tail [<count>] [--level=<level>] [--filter=<filter>] [--format=<format>] [--col=<columns>] [--soft] [--yes]` command.
 
-If you don't specify `<count>`, DecaLog will launch an interactive logging session: it will display events as soon as they occur on your site. To quit this session, hit `CTRL+C``
+If you don't specify `<count>`, DecaLog will launch an interactive logging session: it will display events as soon as they occur on your site. To quit this session, hit `CTRL+C`.
 
 If you specifiy a value for `<count>` between 1 to 60, DecaLog will show you the *count* last events triggered on your site.
 
