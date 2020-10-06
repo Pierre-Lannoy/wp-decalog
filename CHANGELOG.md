@@ -8,6 +8,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 - DecaLog now integrates [Spyc](https://github.com/mustangostang/spyc) as yaml parser.
 
+### Changed
+- Strongly improved yaml and json output for `wp log type list`, `wp log logger list` and `wp log listener list`.
+
+### Fixed
+- [WP-CLI] The `wp log type list --format=json` fails to render right json output.
+
 ## [2.1.0] - 2020-10-05
 
 ### Added

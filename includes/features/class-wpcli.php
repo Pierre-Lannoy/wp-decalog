@@ -27,6 +27,7 @@ use Decalog\System\Timezone;
 use Decalog\System\UUID;
 use Decalog\Plugin\Feature\EventTypes;
 use Decalog\Plugin\Feature\Autolog;
+use Spyc;
 
 /**
  * WP-CLI for DecaLog.
@@ -614,10 +615,26 @@ class Wpcli {
 		}
 		switch ( $action ) {
 			case 'list':
+				$details= [];
+				foreach ( $handlers as $key => $handler ) {
+					$item = [];
+					foreach ( $handler as $i => $h ) {
+						if ( in_array( $i, [ 'class', 'name', 'version' ], true ) ) {
+							$item[ $i ] = $h;
+						}
+					}
+					$details[ $handler['type'] ] = $item;
+				}
 				if ( 'ids' === $format ) {
 					self::write_ids( $handlers, 'type' );
+				} elseif ( 'yaml' === $format ) {
+					$details = Spyc::YAMLDump( $details, true, true, true );
+					self::line( $details, $details, $stdout );
+				}  elseif ( 'json' === $format ) {
+					$details = wp_json_encode( $details );
+					self::line( $details, $details, $stdout );
 				} else {
-					\WP_CLI\Utils\format_items( $format, $handlers, [ 'type', 'class', 'name', 'version' ] );
+					\WP_CLI\Utils\format_items( $format, $details, [ 'type', 'class', 'name', 'version' ] );
 				}
 				break;
 			case 'describe':
@@ -776,7 +793,7 @@ class Wpcli {
 	 * ---
 	 *
 	 * [--format=<format>]
-	 * : Allows overriding the output of the command when listing loggers.
+	 * : Allows overriding the output of the command when listing loggers. Note if json or yaml is chosen: full metadata is outputted too.
 	 * ---
 	 * default: table
 	 * options:
@@ -886,7 +903,7 @@ class Wpcli {
 						$list[] = $processor_types->get( $processor )['name'];
 					}
 					$logger['processors'] =  implode( ', ', $list );
-					$loggers[]            = $logger;
+					$loggers[$key]        = $logger;
 				}
 				usort(
 					$loggers,
@@ -901,6 +918,12 @@ class Wpcli {
 				}
 				if ( 'ids' === $format ) {
 					self::write_ids( $loggers, 'uuid' );
+				} elseif ( 'yaml' === $format ) {
+					$details = Spyc::YAMLDump( $loggers_list, true, true, true );
+					self::line( $details, $details, $stdout );
+				}  elseif ( 'json' === $format ) {
+					$details = wp_json_encode( $loggers_list );
+					self::line( $details, $details, $stdout );
 				} else {
 					\WP_CLI\Utils\format_items( $format, $loggers, $detail );
 				}
@@ -1004,7 +1027,7 @@ class Wpcli {
 	 * : The id of the listener to perform an action on.
 	 *
 	 * [--detail=<detail>]
-	 * : The details of the output when listing listeners.
+	 * : The details of the output when listing listeners. Note if json or yaml is chosen: full metadata is outputted too.
 	 * ---
 	 * default: short
 	 * options:
@@ -1066,6 +1089,9 @@ class Wpcli {
 			$listener['enabled']        = Option::network_get( 'autolisteners') ? 'auto' : ( in_array( $listener['id'], $activated, true ) ? 'yes' : 'no' );
 			$listener['available']      = $listener['available'] ? 'yes' : 'no';
 			$listeners[$listener['id']] = $listener;
+			if ( 'yaml' === $format || 'json' === $format ) {
+				unset( $listeners[$listener['id']]['id'] );
+			}
 		}
 		uasort(
 			$listeners,
@@ -1094,6 +1120,12 @@ class Wpcli {
 				}
 				if ( 'ids' === $format ) {
 					self::write_ids( $listeners, 'id' );
+				} elseif ( 'yaml' === $format ) {
+					$details = Spyc::YAMLDump( $listeners, true, true, true );
+					self::line( $details, $details, $stdout );
+				}  elseif ( 'json' === $format ) {
+					$details = wp_json_encode( $listeners );
+					self::line( $details, $details, $stdout );
 				} else {
 					\WP_CLI\Utils\format_items( $format, $listeners, $detail );
 				}
