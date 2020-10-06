@@ -395,6 +395,7 @@ class Decalog_Admin {
 				'name'    => esc_html__( 'New logger', 'decalog' ),
 				'handler' => $this->current_handler['id'],
 				'running' => Option::network_get( 'logger_autostart' ),
+				'level'   => Logger::INFO,
 			];
 		}
 		if ( $this->current_logger ) {
@@ -1070,7 +1071,7 @@ class Decalog_Admin {
 			'decalog_logger_misc_section',
 			'decalog_logger_misc_section',
 			[
-				'list'        => Log::get_levels( $this->current_handler['minimal'] ),
+				'list'        => Log::get_levels( $this->current_handler['minimal'], true ),
 				'id'          => 'decalog_logger_misc_level',
 				'value'       => $this->current_logger['level'],
 				'description' => esc_html__( 'Minimal reported level. May be overridden by the "respect WP_DEBUG directive" option.', 'decalog' ),

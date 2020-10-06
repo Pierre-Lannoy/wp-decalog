@@ -7,9 +7,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 - DecaLog now integrates [Spyc](https://github.com/mustangostang/spyc) as yaml parser.
+- DecaLog now warns user when "DEBUG" level is chosen for a logger.
 
 ### Changed
 - Strongly improved yaml and json output for `wp log type list`, `wp log logger list` and `wp log listener list`.
+- For loggers allowing it, default level is now "INFO" (it was previously "DEBUG").
 
 ### Fixed
 - [WP-CLI] The `wp log type list --format=json` fails to render right json output.

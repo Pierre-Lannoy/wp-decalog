@@ -65,15 +65,21 @@ class Log {
 	/**
 	 * Get the levels list.
 	 *
-	 * @param   integer $minimal    optional. The minimal level to add.
+	 * @param   integer $minimal    Optional. The minimal level to add.
+	 * @param   boolean $warn       Optional. Adds a warning to the DEBUG string.
 	 * @return  array The level list.
 	 * @since   1.0.0
 	 */
-	public static function get_levels( $minimal = Logger::DEBUG ) {
-		$result = [];
+	public static function get_levels( $minimal = Logger::DEBUG, $warn = false ) {
+		$result  = [];
+		$warning = ' (' . esc_html__( 'use this only if you know what you do', 'decalog' ) . ')';
 		foreach ( EventTypes::$level_names as $key => $name ) {
 			if ( $key >= $minimal ) {
-				$result[] = [ $key, $name, EventTypes::$level_texts[ strtolower( $name ) ] ];
+				if ( Logger::DEBUG == $key && $warn) {
+					$result[] = [ $key, $name . $warning, EventTypes::$level_texts[ strtolower( $name ) ] . $warning ];
+				} else {
+					$result[] = [ $key, $name, EventTypes::$level_texts[ strtolower( $name ) ] ];
+				}
 			}
 		}
 		return array_reverse( $result );
