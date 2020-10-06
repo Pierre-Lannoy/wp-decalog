@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 - Strongly improved yaml and json output for `wp log type list`, `wp log logger list` and `wp log listener list`.
 - For loggers allowing it, default level is now "INFO" (it was previously "DEBUG").
+- [WP-CLI] Improved documentation.
 
 ### Fixed
 - [WP-CLI] The `wp log type list --format=json` fails to render right json output.

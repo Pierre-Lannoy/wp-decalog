@@ -1182,6 +1182,8 @@ class Wpcli {
 	/**
 	 * Modify DecaLog main settings.
 	 *
+	 * ## OPTIONS
+	 *
 	 * <enable|disable>
 	 * : The action to take.
 	 *
@@ -1254,6 +1256,8 @@ class Wpcli {
 
 	/**
 	 * Send a message to all running loggers.
+	 *
+	 * ## OPTIONS
 	 *
 	 * <info|notice|warning|error|critical|alert>
 	 * : The level of the event.
@@ -1344,6 +1348,8 @@ class Wpcli {
 
 	/**
 	 * Display past or current events.
+	 *
+	 * ## OPTIONS
 	 *
 	 * [<count>]
 	 * : An integer value [1-60] indicating how many most recent events to display. If 0 or nothing is supplied as value, a live session is launched, displaying events as soon as they occur.
