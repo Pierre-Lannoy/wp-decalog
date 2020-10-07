@@ -110,12 +110,12 @@ class Blog {
 	 */
 	public static function get_full_blog_name( $id = 0 ) {
 		if ( is_numeric( $id ) ) {
-			return sprintf( '"%s" (blog ID %s)', self::get_blog_name( $id ), $id );
+			return sprintf( '"%s" (site ID %s)', self::get_blog_name( $id ), $id );
 		}
 		if ( $id instanceof \WP_Site ) {
-			return sprintf( '"%s" (blog ID %s)', (string) $id->blogname, $id->id );
+			return sprintf( '"%s" (site ID %s)', (string) $id->blogname, $id->id );
 		}
-		return 'unknow blog';
+		return 'unknow site';
 	}
 
 	/**
