@@ -20,7 +20,8 @@
     margin-left: 20px;
 }
 
-.markdown blockquote p {
+.markdown blockquote p,
+.markdown blockquote code {
     font-size: smaller !important;
 }
 
