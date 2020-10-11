@@ -15,6 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - [WP-CLI] Improved documentation.
 
 ### Fixed
+- The remote IP can be wrongly detected when behind some types of reverse-proxies.
 - [WP-CLI] The `wp log type list --format=json` fails to render right json output.
 
 ## [2.1.0] - 2020-10-05
