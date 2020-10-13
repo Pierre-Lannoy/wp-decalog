@@ -78,11 +78,11 @@ if ( ! class_exists( 'PerfOpsOne\AdminMenus' ) ) {
 					self::$slugs[] = 'perfopsone-' . $menu;
 				}
 				foreach ( $submenus as $submenu ) {
-					if ( $submenu['activated'] ) {
-						if ( ! in_array( $submenu['slug'], self::$slugs, true ) ) {
-							$hook_suffix            = add_submenu_page( 'perfopsone-' . $menu, $submenu['page_title'], $submenu['menu_title'], $submenu['capability'], $submenu['slug'], $submenu['callback'], $submenu['position'] );
-							self::$slugs[]          = $submenu['slug'];
-							self::$menus[ $menu ][] = $submenu;
+					if ( ! in_array( $submenu['slug'], self::$slugs, true ) ) {
+						self::$slugs[]          = $submenu['slug'];
+						self::$menus[ $menu ][] = $submenu;
+						if ( $submenu['activated'] ) {
+							$hook_suffix = add_submenu_page( 'perfopsone-' . $menu, $submenu['page_title'], $submenu['menu_title'], $submenu['capability'], $submenu['slug'], $submenu['callback'], $submenu['position'] );
 							if ( isset( $submenu['post_callback'] ) && is_callable( $submenu['post_callback'] ) && $hook_suffix ) {
 								call_user_func( $submenu['post_callback'], $hook_suffix );
 							}

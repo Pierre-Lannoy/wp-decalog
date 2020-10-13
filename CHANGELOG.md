@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased - will be 2.2.1]
 
+### Changed
+- Hardening (once again) IPs detection.
+
+### Fixed
+- The remote IP can be wrongly detected when in AWS or GCP environments.
+
 ## [2.2.0] - 2020-10-11
 
 ### Added
