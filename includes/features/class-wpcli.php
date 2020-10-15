@@ -619,7 +619,7 @@ class Wpcli {
 				foreach ( $handlers as $key => $handler ) {
 					$item = [];
 					foreach ( $handler as $i => $h ) {
-						if ( in_array( $i, [ 'class', 'name', 'version' ], true ) ) {
+						if ( in_array( $i, [ 'type', 'class', 'name', 'version' ], true ) ) {
 							$item[ $i ] = $h;
 						}
 					}

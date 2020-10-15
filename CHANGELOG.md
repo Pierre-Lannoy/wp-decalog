@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Prepares PerfOps menus to future 5.6 version of WordPress.
 
 ### Fixed
+- [WP_CLI] The command `wp log type list --format=table` sometimes triggers an error. 
 - The remote IP can be wrongly detected when in AWS or GCP environments.
 
 ## [2.2.0] - 2020-10-11
