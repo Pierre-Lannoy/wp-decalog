@@ -393,7 +393,8 @@ To toggle on/off main settings, use `wp log settings <enable|disable> <early-loa
 
 To disable early-loading without confirmation prompt, type the following command:
 ```console
-wp log settings disable early-loading --yes
+pierre@dev:~$ wp log settings disable early-loading --yes
+Success: early-loading is now deactivated.
 ```
 
 ## Misc flags
