@@ -10,7 +10,7 @@
  * Plugin Name:       DecaLog
  * Plugin URI:        https://github.com/Pierre-Lannoy/wp-decalog
  * Description:       Capture and log events on your site. View them in your dashboard and send them to logging services.
- * Version:           2.2.1
+ * Version:           2.2.2
  * Requires at least: 5.2
  * Requires PHP:      7.2
  * Author:            Pierre Lannoy

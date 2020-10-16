@@ -3,6 +3,11 @@ All notable changes to **DecaLog** are documented in this *changelog*.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2.2] - 2020-10-16
+
+### Fixed
+- The DecaLog menus may be hidden when they should be visible (thanks to [Emil1](https://wordpress.org/support/users/milouze/)).
+
 ## [2.2.1] - 2020-10-13
 
 ### Changed

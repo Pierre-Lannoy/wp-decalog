@@ -238,7 +238,7 @@ class Decalog_Admin {
 			remove_action( 'admin_print_styles', 'print_emoji_styles' );
 		}
 		add_filter( 'init_perfops_admin_menus', [ $this, 'init_perfops_admin_menus' ] );
-		//AdminMenus::initialize();
+		AdminMenus::initialize();
 	}
 
 	/**
