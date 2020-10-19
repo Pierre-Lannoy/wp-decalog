@@ -12,7 +12,7 @@
 use Decalog\System\Option;
 use Decalog\Plugin\Feature\Autolog;
 
-if ( ! Option::network_get( 'livelog' ) ) {
+if ( ! Autolog::is_enabled() ) {
 	Autolog::activate();
 }
 
