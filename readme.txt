@@ -3,7 +3,7 @@ Contributors: PierreLannoy
 Tags: logs, error reporting, monitoring, site health, logging
 Requires at least: 5.2
 Requires PHP: 7.2
-Tested up to: 5.5
+Tested up to: 5.6
 Stable tag: 2.2.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html

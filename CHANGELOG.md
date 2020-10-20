@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 - Supports for new application passwords events (WordPress 5.6 and higher).
+- Compatibility with WordPress 5.6.
 
 ### Changed
 - Console now starts automatically in the admin dashboard if clicked.
