@@ -126,7 +126,12 @@ class CoreListener extends AbstractListener {
 		add_filter( 'wp_die_jsonp_handler', [ $this, 'wp_die_handler' ], 10, 1 );
 		add_filter( 'wp_die_xml_handler', [ $this, 'wp_die_handler' ], 10, 1 );
 		add_filter( 'wp', [ $this, 'wp' ], 10, 1 );
+		// Rest API
 		add_filter( 'http_api_debug', [ $this, 'http_api_debug' ], 10, 5 );
+		// Aplications Passwords
+		add_action( 'wp_create_application_password', [ $this, 'wp_create_application_password' ], 10, 4 );
+		add_action( 'wp_update_application_password', [ $this, 'wp_update_application_password' ], 10, 3 );
+		add_action( 'wp_delete_application_password', [ $this, 'wp_delete_application_password' ], 10, 2 );
 		return true;
 	}
 
@@ -1112,6 +1117,33 @@ class CoreListener extends AbstractListener {
 		} else {
 			$this->logger->debug( $message, $code );
 		}
+	}
+
+	/**
+	 * "wp_create_application_password" event.
+	 *
+	 * @since    2.3.0
+	 */
+	public function wp_create_application_password( $user_id, $new_item, $new_password = '', $args = [] ) {
+		$this->logger->notice( sprintf( 'Application password "%s" created for %s.', $new_item['name'], $this->get_user( $user_id ) ) );
+	}
+
+	/**
+	 * "wp_update_application_password" event.
+	 *
+	 * @since    2.3.0
+	 */
+	public function wp_update_application_password( $user_id, $item, $update = [] ) {
+		$this->logger->info( sprintf( 'Application password "%s" updated for %s.', $item['name'], $this->get_user( $user_id ) ) );
+	}
+
+	/**
+	 * "wp_delete_application_password" event.
+	 *
+	 * @since    2.3.0
+	 */
+	public function wp_delete_application_password( $user_id, $item ) {
+		$this->logger->notice( sprintf( 'Application password "%s" revoked for %s.', $item['name'], $this->get_user( $user_id ) ) );
 	}
 
 }
