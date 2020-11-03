@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Compatibility with WordPress 5.6.
 
 ### Changed
+- Improvement in the way roles are detected.
 - Console now starts automatically in the admin dashboard if clicked.
 
 ## [2.2.2] - 2020-10-16

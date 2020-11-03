@@ -59,7 +59,7 @@ class Role {
 	 * @since   1.0.0
 	 */
 	public static function admin_type( $user_id = false ) {
-		if ( ! $user_id || $user_id == get_current_user_id() ) {
+		if ( ! $user_id ) {
 			$user = wp_get_current_user();
 		} else {
 			$user = get_userdata( $user_id );
