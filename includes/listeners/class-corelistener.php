@@ -132,6 +132,8 @@ class CoreListener extends AbstractListener {
 		add_action( 'wp_create_application_password', [ $this, 'wp_create_application_password' ], 10, 4 );
 		add_action( 'wp_update_application_password', [ $this, 'wp_update_application_password' ], 10, 3 );
 		add_action( 'wp_delete_application_password', [ $this, 'wp_delete_application_password' ], 10, 2 );
+		add_action( 'application_password_failed_authentication', [ $this, 'application_password_failed_authentication' ], 10, 1 );
+		add_action( 'application_password_did_authenticate', [ $this, 'application_password_did_authenticate' ], 10, 2 );
 		return true;
 	}
 
@@ -1144,6 +1146,24 @@ class CoreListener extends AbstractListener {
 	 */
 	public function wp_delete_application_password( $user_id, $item ) {
 		$this->logger->notice( sprintf( 'Application password "%s" revoked for %s.', $item['name'], $this->get_user( $user_id ) ) );
+	}
+
+	/**
+	 * "application_password_failed_authentication" event.
+	 *
+	 * @since    2.3.0
+	 */
+	public function application_password_failed_authentication( $error ) {
+		$this->logger->notice( sprintf( 'Application password "%s" revoked for %s.', $item['name'], $this->get_user( $user_id ) ) );
+	}
+
+	/**
+	 * "application_password_did_authenticate" event.
+	 *
+	 * @since    2.3.0
+	 */
+	public function application_password_did_authenticate( $user, $item ) {
+		$this->logger->notice( sprintf( 'Application successfully used by "%s".', $this->get_user( $user ) ) );
 	}
 
 }

@@ -77,16 +77,29 @@ class User {
 	 * Get the current user id.
 	 *
 	 * @param   mixed   $default    Optional. Default value to return if user is not detected.
+	 * @param   bool    $force      Optional. Try to force authent if user is not detected at first try.
 	 * @return  mixed|integer The user id if detected, null otherwise.
 	 * @since   1.0.0
 	 */
-	public static function get_current_user_id( $default = null ) {
-		$user_id = $default;
-		$id      = get_current_user_id();
-		if ( $id && is_numeric( $id ) && $id > 0 ) {
-			$user_id = $id;
+	public static function get_current_user_id( $default = null, $force = false ) {
+		if ( $force ) {
+			$user_id = ( isset( $default ) ? (int) $default : 0 );
+			$id      = get_current_user_id();
+			if ( $id && is_numeric( $id ) && $id > 0 ) {
+				$user_id = $id;
+			}
+			return $user_id;
 		}
-		return $user_id;
+		global $current_user;
+		if ( ! empty( $current_user ) ) {
+			if ( $current_user instanceof \WP_User ) {
+				return ( isset( $current_user->ID ) ? (int) $current_user->ID : ( isset( $default ) ? (int) $default : 0 ) );
+			}
+			if ( is_object( $current_user ) && isset( $current_user->ID ) ) {
+				return $current_user->ID;
+			}
+		}
+		return ( isset( $default ) ? (int) $default : 0 );
 	}
 
 	/**
