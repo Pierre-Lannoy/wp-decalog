@@ -1154,7 +1154,7 @@ class CoreListener extends AbstractListener {
 	 * @since    2.3.0
 	 */
 	public function application_password_failed_authentication( $error ) {
-		$this->logger->notice( sprintf( 'Application password "%s" revoked for %s.', $item['name'], $this->get_user( $user_id ) ) );
+		$this->logger->warning( sprintf( 'Application password authentication failure: "%s".',$error->get_error_message() ), 401 );
 	}
 
 	/**
@@ -1163,7 +1163,7 @@ class CoreListener extends AbstractListener {
 	 * @since    2.3.0
 	 */
 	public function application_password_did_authenticate( $user, $item ) {
-		$this->logger->notice( sprintf( 'Application successfully used by "%s".', $this->get_user( $user ) ) );
+		$this->logger->debug( sprintf( 'Application password authentication success for %s.', $this->get_user( $user ) ) );
 	}
 
 }
