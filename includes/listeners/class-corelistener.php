@@ -1136,7 +1136,7 @@ class CoreListener extends AbstractListener {
 	 * @since    2.3.0
 	 */
 	public function wp_update_application_password( $user_id, $item, $update = [] ) {
-		$this->logger->info( sprintf( 'Application password "%s" updated for %s.', $item['name'], $this->get_user( $user_id ) ) );
+		$this->logger->debug( sprintf( 'Application password "%s" updated for %s.', $item['name'], $this->get_user( $user_id ) ) );
 	}
 
 	/**
