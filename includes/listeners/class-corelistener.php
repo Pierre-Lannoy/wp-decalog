@@ -1154,7 +1154,7 @@ class CoreListener extends AbstractListener {
 	 * @since    2.3.0
 	 */
 	public function application_password_failed_authentication( $error ) {
-		$this->logger->warning( sprintf( 'Application password authentication failure: "%s".',$error->get_error_message() ), 401 );
+		$this->logger->warning( sprintf( 'Application password authentication failure: "%s".', $error->get_error_message() ), 401 );
 	}
 
 	/**
