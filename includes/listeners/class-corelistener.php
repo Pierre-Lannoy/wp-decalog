@@ -600,7 +600,7 @@ class CoreListener extends AbstractListener {
 	 *
 	 * @since    1.4.0
 	 */
-	public function wp_insert_comment( $id, $comment ) {
+	public function wp_insert_comment( $id, $comment = null ) {
 		if ( isset( $this->logger ) ) {
 			$this->logger->info( sprintf( 'Comment created: %s.', Comment::get_full_comment_name( $id ) ) );
 		}
@@ -611,7 +611,7 @@ class CoreListener extends AbstractListener {
 	 *
 	 * @since    1.4.0
 	 */
-	public function edit_comment( $id, $comment ) {
+	public function edit_comment( $id, $comment = null ) {
 		if ( isset( $this->logger ) ) {
 			$this->logger->info( sprintf( 'Comment updated: %s.', Comment::get_full_comment_name( $id ) ) );
 		}
@@ -622,9 +622,9 @@ class CoreListener extends AbstractListener {
 	 *
 	 * @since    1.4.0
 	 */
-	public function delete_comment( $id, $comment ) {
+	public function delete_comment( $id, $comment = null ) {
 		if ( isset( $this->logger ) ) {
-			$this->logger->info( sprintf( 'Comment deleted: %s.', Comment::get_full_comment_name( $comment ) ) );
+			$this->logger->info( sprintf( 'Comment deleted: %s.', Comment::get_full_comment_name( $id ) ) );
 		}
 	}
 
