@@ -1,3 +1,11 @@
+.decalog-pilot-toolbar {
+    position: relative;
+    padding: 0 10px;
+    border: 1px solid #ccd0d4;
+    margin: 12px 0;
+    height: auto;
+}
+
 .decalog-logger-view {
     background-color: #23282d;
     width: 100%;

@@ -28,12 +28,14 @@ wp_localize_script(
 );
 
 wp_enqueue_style( DECALOG_LIVELOG_ID );
+wp_dequeue_style('media');
+wp_dequeue_style('media-views');
 wp_enqueue_script( DECALOG_LIVELOG_ID );
 ?>
 
 <div class="wrap">
 	<h2><?php echo sprintf( esc_html__( '%s Live Events', 'decalog' ), DECALOG_PRODUCT_NAME );?></h2>
-    <div class="media-toolbar wp-filter" style=border-radius:4px;>
+    <div class="media-toolbar wp-filter decalog-pilot-toolbar" style="border-radius:4px;">
         <div class="media-toolbar-secondary" data-children-count="2">
             <div class="view-switch media-grid-view-switch">
                 <span class="dashicons dashicons-controls-play decalog-control decalog-control-inactive" id="decalog-control-play"></span>
