@@ -133,17 +133,14 @@ class GeoIP {
 		}
 		$ip      = '';
 		$country = null;
-		if ( ! filter_var( $host, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6 | FILTER_FLAG_IPV4 | FILTER_FLAG_NO_RES_RANGE | FILTER_FLAG_NO_PRIV_RANGE ) ) {
-			$url_parts = wp_parse_url( 'http://' . $host );
-			$host      = $url_parts['host'];
-		}
 		if ( ! filter_var( $host, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6 | FILTER_FLAG_IPV4 ) ) {
-			$host = gethostbyname( $host );
+			$url_parts = wp_parse_url( 'http://' . $host );
+			$host      = gethostbyname( $url_parts['host'] );
 		}
-		if ( filter_var( $host, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_NO_RES_RANGE | FILTER_FLAG_NO_PRIV_RANGE ) ) {
+		if ( filter_var( $host, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 ) ) {
 			$ip = $host;
 		}
-		if ( '' === $ip && $this->ipv6 && filter_var( $host, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6 | FILTER_FLAG_NO_RES_RANGE | FILTER_FLAG_NO_PRIV_RANGE ) ) {
+		if ( '' === $ip && $this->ipv6 && filter_var( $host, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6 ) ) {
 			$ip = $host;
 		}
 		// IP Locator.
