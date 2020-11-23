@@ -19,6 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - [SEC001] User may be wrongly detected in XML-RPC or Rest API calls.
 - Deleting a comment may trigger an error (thanks to [jimmy19742](https://wordpress.org/support/users/jimmy19742/)).
 - When site is in english and a user choose another language for herself/himself, menu may be stuck in english.
+- When shared memory is not available, it is wrongly reported as an emergency.
 
 ## [2.2.2] - 2020-10-16
 

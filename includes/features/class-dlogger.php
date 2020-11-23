@@ -213,7 +213,7 @@ class DLogger {
 		}
 		if ( count( $skipped ) > 0 ) {
 			foreach ( $skipped as $item ) {
-				$this->emergency( $item );
+				$this->debug( $item );
 			}
 		}
 	}
