@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - DecaLog - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-10-18 18:46+0200\n"
+"PO-Revision-Date: 2020-12-07 13:20+0100\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -230,11 +230,11 @@ msgstr "Mot de passe"
 
 #: includes/features/class-handlertypes.php:145
 msgid "The username of the instance."
-msgstr "Le nom d’utilisateur de l’instance."
+msgstr "Le nom d’utilisateur·ice de l’instance."
 
 #: includes/features/class-handlertypes.php:144
 msgid "Username"
-msgstr "Nom d’utilisateur"
+msgstr "Nom d’utilisateur·ice"
 
 #: includes/features/class-handlertypes.php:133
 msgid "The generated cloud ID."
@@ -539,7 +539,7 @@ msgstr "Cache d’objets"
 
 #: includes/features/class-eventviewer.php:408
 msgid "Deleted user"
-msgstr "Utilisateur supprimé"
+msgstr "Compte supprimé"
 
 #: includes/features/class-handlertypes.php:346
 msgid "The token of the Solawinds Loggly application."
@@ -833,7 +833,7 @@ msgstr "Le détail de la requête qui a conduit à cet évènement."
 
 #: includes/features/class-inlinehelp.php:345
 msgid "User and site where the event occurs."
-msgstr "Utilisateur et site où l’évènement s’est produit."
+msgstr "Compte et site où l’évènement s’est produit."
 
 #: includes/features/class-inlinehelp.php:343
 msgid "General information about the event."
@@ -975,7 +975,7 @@ msgstr "Ne peut pas régler des journaliseurs, ne peut voir que les évènements
 #: includes/features/class-inlinehelp.php:144
 msgctxt "WordPress multisite"
 msgid "Sites Admin"
-msgstr "Administrateur de site"
+msgstr "Aadministrateur·ice de site"
 
 #: includes/features/class-inlinehelp.php:143
 #: includes/features/class-inlinehelp.php:144
@@ -989,7 +989,7 @@ msgstr "Peut régler des journaliseurs, peut afficher tous les évènements dans
 #: includes/features/class-inlinehelp.php:143
 msgctxt "WordPress multisite"
 msgid "Network Admin"
-msgstr "Administrateur du réseau"
+msgstr "Administrateur·ice du réseau"
 
 #: includes/features/class-inlinehelp.php:142
 msgid "Because your site takes part in a sites network, admin ability to view and configure events logs differ as follows:"
@@ -1009,7 +1009,7 @@ msgstr "Voir également :"
 
 #: includes/features/class-inlinehelp.php:94
 msgid "User support"
-msgstr "Assistance utilisateur"
+msgstr "Assistance utilisateur·ice"
 
 #: includes/features/class-inlinehelp.php:93
 msgid "For more help:"
@@ -1107,7 +1107,7 @@ msgstr "Journal des évènements : %s"
 
 #: includes/features/class-eventviewer.php:227
 msgid "If you think this is an error, please contact the network administrator with these details:"
-msgstr "Si vous pensez qu’il s’agit d’une erreur, veuillez contacter l’administrateur du réseau avec ces informations :"
+msgstr "Si vous pensez qu’il s’agit d’une erreur, veuillez contacter l’administratrice ou administrateur du réseau avec ces informations :"
 
 #: includes/features/class-eventviewer.php:226
 msgid "The event or events log you tried to access is out of your scope."
@@ -1148,7 +1148,7 @@ msgstr "Cœur"
 
 #: includes/features/class-processortypes.php:85
 msgid "Allows to log site, user and remote IP of the current request."
-msgstr "Permet de consigner le site, l’utilisateur et l’adresse IP de provenance de la requête courante."
+msgstr "Permet de consigner le site, le compte et l’adresse IP de provenance de la requête courante."
 
 #: includes/features/class-processortypes.php:84
 msgid "WordPress"
@@ -1218,7 +1218,7 @@ msgstr "Inconnu"
 
 #: includes/features/class-handlertypes.php:1091
 msgid "Local administrators can view events that relate to their site."
-msgstr "Les administrateurs locaux peuvent afficher uniquement les évènements liés à leur site."
+msgstr "Les administratrices et administrateurs locaux peuvent afficher uniquement les évènements liés à leur site."
 
 #: includes/features/class-handlertypes.php:1090
 msgid "Multisite partitioning"
@@ -1364,7 +1364,7 @@ msgstr "Titre du message"
 
 #: includes/features/class-handlertypes.php:455
 msgid "The recipient key. It can be a \"user key\" or a \"group key\"."
-msgstr "La clé du destinataire. Il peut s’agir d’une « clé d’utilisateur » ou d’une « clé de groupe »."
+msgstr "La clé du destinataire. Il peut s’agir d’une « clé d’utilisateur·ice » ou d’une « clé de groupe »."
 
 #: includes/features/class-handlertypes.php:454
 msgid "Recipient"
@@ -1463,7 +1463,7 @@ msgstr "IP distante"
 
 #: includes/features/class-events.php:637
 msgid "User"
-msgstr "Utilisateur"
+msgstr "Compte"
 
 #: includes/features/class-events.php:636 admin/class-decalog-admin.php:325
 msgid "Site"
@@ -1506,17 +1506,17 @@ msgstr "Obscurcis"
 
 #: includes/features/class-events.php:232
 msgid "User ID %s"
-msgstr "ID d’utilisateur %s"
+msgstr "ID de compte %s"
 
 #: includes/features/class-eventviewer.php:404
 #: includes/features/class-events.php:229
 msgid "Pseudonymized user"
-msgstr "Utilisateur pseudonymisé"
+msgstr "Compte pseudonymisé"
 
 #: includes/features/class-eventviewer.php:402
 #: includes/features/class-events.php:225
 msgid "Anonymous user"
-msgstr "Utilisateur anonyme"
+msgstr "Anonyme"
 
 #: includes/features/class-events.php:211
 msgid "Site ID %s"
@@ -1696,7 +1696,7 @@ msgstr "Standard"
 
 #: admin/class-decalog-admin.php:1220
 msgid "If checked, log fields will contain hashes instead of user IDs & names."
-msgstr "Si coché, les champs du journal vont contenir des clés de hachage à la place des noms et ID d’utilisateurs."
+msgstr "Si coché, les champs du journal vont contenir des clés de hachage à la place des noms et ID de comptes."
 
 #: admin/class-decalog-admin.php:1217
 msgid "Pseudonymisation"
@@ -1704,7 +1704,7 @@ msgstr "Pseudonymisation"
 
 #: admin/class-decalog-admin.php:1212
 msgid "Users"
-msgstr "Utilisateurs"
+msgstr "Comptes"
 
 #: admin/class-decalog-admin.php:1204 admin/class-decalog-admin.php:1220
 msgid "Note: it concerns all fields except events messages."
