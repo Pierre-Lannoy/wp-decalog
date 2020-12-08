@@ -230,7 +230,7 @@ msgstr "Mot de passe"
 
 #: includes/features/class-handlertypes.php:145
 msgid "The username of the instance."
-msgstr "Le nom d’utilisateur·ice de l’instance."
+msgstr "Le nom du compte de l’instance."
 
 #: includes/features/class-handlertypes.php:144
 msgid "Username"
@@ -1364,7 +1364,7 @@ msgstr "Titre du message"
 
 #: includes/features/class-handlertypes.php:455
 msgid "The recipient key. It can be a \"user key\" or a \"group key\"."
-msgstr "La clé du destinataire. Il peut s’agir d’une « clé d’utilisateur·ice » ou d’une « clé de groupe »."
+msgstr "La clé du destinataire. Il peut s’agir d’une « clé de compte » ou d’une « clé de groupe »."
 
 #: includes/features/class-handlertypes.php:454
 msgid "Recipient"
