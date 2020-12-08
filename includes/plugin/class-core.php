@@ -55,7 +55,6 @@ class Core {
 	 */
 	public function __construct() {
 		$this->loader = new Loader();
-		$this->set_locale();
 		$this->define_global_hooks();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();

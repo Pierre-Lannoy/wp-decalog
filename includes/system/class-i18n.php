@@ -42,17 +42,4 @@ class I18n {
 	public function __construct() {
 	}
 
-	/**
-	 * Load the plugin text domain for translation.
-	 *
-	 * @since 1.0.0
-	 */
-	public function load_plugin_textdomain() {
-		load_plugin_textdomain(
-			DECALOG_SLUG,
-			false,
-			DECALOG_LANGUAGES_DIR
-		);
-	}
-
 }
