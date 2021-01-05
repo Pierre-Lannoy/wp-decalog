@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased]
 
 ### Changed
+- When OPcache API is restricted by “restrict_api“ configuration directive, OPcache configuration is no more monitored.
 - Consistent reset for settings.
 - Improved translation loading.
 
