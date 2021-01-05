@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 - [SEC002] The password for ElasticCloud logger is in plain text in "Site Health Info" page.
+- In Site Health section, Opcache status may be wrong (or generates PHP warnings) if OPcache API usage is restricted.
 
 ## [2.3.0] - 2020-11-23
 

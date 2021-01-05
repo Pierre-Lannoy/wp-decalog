@@ -69,33 +69,45 @@ class OPcache {
 			'value' => self::name(),
 		];
 		if ( function_exists( 'opcache_get_configuration' ) && function_exists( 'opcache_get_status' ) ) {
-			$raw = opcache_get_configuration();
-			if ( array_key_exists( 'directives', $raw ) ) {
-				foreach ( $raw['directives'] as $key => $directive ) {
-					$result[ 'directive_' . $key ] = [
-						'label' => '[Directive] ' . str_replace( 'opcache.', '', $key ),
-						'value' => $directive,
-					];
-				}
-			}
-			$raw = opcache_get_status();
-			foreach ( $raw as $key => $status ) {
-				if ( 'scripts' === $key ) {
-					continue;
-				}
-				if ( is_array( $status ) ) {
-					foreach ( $status as $skey => $sstatus ) {
-						$result[ 'status_' . $skey ] = [
-							'label' => '[Status] ' . $skey,
-							'value' => $sstatus,
+			// phpcs:ignore
+			set_error_handler( null );
+			// phpcs:ignore
+			$raw = @opcache_get_configuration();
+			// phpcs:ignore
+			restore_error_handler();
+			if ( is_array( $raw ) ) {
+				if ( array_key_exists( 'directives', $raw ) ) {
+					foreach ( $raw['directives'] as $key => $directive ) {
+						$result[ 'directive_' . $key ] = [
+							'label' => '[Directive] ' . str_replace( 'opcache.', '', $key ),
+							'value' => $directive,
 						];
 					}
-				} else {
-					$result[ 'status_' . $key ] = [
-						'label' => '[Status] ' . $key,
-						'value' => $status,
-					];
 				}
+				$raw = opcache_get_status();
+				foreach ( $raw as $key => $status ) {
+					if ( 'scripts' === $key ) {
+						continue;
+					}
+					if ( is_array( $status ) ) {
+						foreach ( $status as $skey => $sstatus ) {
+							$result[ 'status_' . $skey ] = [
+								'label' => '[Status] ' . $skey,
+								'value' => $sstatus,
+							];
+						}
+					} else {
+						$result[ 'status_' . $key ] = [
+							'label' => '[Status] ' . $key,
+							'value' => $status,
+						];
+					}
+				}
+			} else {
+				$result['product'] = [
+					'label' => 'Status',
+					'value' => 'Unknown - OPcache API usage is restricted',
+				];
 			}
 		} else {
 			$result['product'] = [
