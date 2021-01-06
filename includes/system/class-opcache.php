@@ -59,6 +59,22 @@ class OPcache {
 	}
 
 	/**
+	 * Verify if OPcache API usage is restricted.
+	 *
+	 * @return  boolean     True if it is restricted, false otherwise.
+	 * @since 1.0.0
+	 */
+	public static function is_restricted() {
+		// phpcs:ignore
+		set_error_handler( null );
+		// phpcs:ignore
+		$test = @opcache_get_configuration();
+		// phpcs:ignore
+		restore_error_handler();
+		return ! is_array( $test );
+	}
+
+	/**
 	 * Get the options infos for Site Health "info" tab.
 	 *
 	 * @since 1.0.0
@@ -69,13 +85,9 @@ class OPcache {
 			'value' => self::name(),
 		];
 		if ( function_exists( 'opcache_get_configuration' ) && function_exists( 'opcache_get_status' ) ) {
-			// phpcs:ignore
-			set_error_handler( null );
-			// phpcs:ignore
-			$raw = @opcache_get_configuration();
-			// phpcs:ignore
-			restore_error_handler();
-			if ( is_array( $raw ) ) {
+			if ( ! self::is_restricted() ) {
+				// phpcs:ignore
+				$raw = @opcache_get_configuration();
 				if ( array_key_exists( 'directives', $raw ) ) {
 					foreach ( $raw['directives'] as $key => $directive ) {
 						$result[ 'directive_' . $key ] = [
@@ -127,18 +139,23 @@ class OPcache {
 	public static function name() {
 		$result = '';
 		if ( function_exists( 'opcache_get_configuration' ) ) {
-			$raw = opcache_get_configuration();
-			if ( array_key_exists( 'version', $raw ) ) {
-				if ( array_key_exists( 'opcache_product_name', $raw['version'] ) ) {
-					$result = $raw['version']['opcache_product_name'];
-				}
-				if ( array_key_exists( 'version', $raw['version'] ) ) {
-					$version = $raw['version']['version'];
-					if ( false !== strpos( $version, '-' ) ) {
-						$version = substr( $version, 0, strpos( $version, '-' ) );
+			if ( ! self::is_restricted() ) {
+				// phpcs:ignore
+				$raw = @opcache_get_configuration();
+				if ( array_key_exists( 'version', $raw ) ) {
+					if ( array_key_exists( 'opcache_product_name', $raw['version'] ) ) {
+						$result = $raw['version']['opcache_product_name'];
 					}
-					$result .= ' ' . $version;
+					if ( array_key_exists( 'version', $raw['version'] ) ) {
+						$version = $raw['version']['version'];
+						if ( false !== strpos( $version, '-' ) ) {
+							$version = substr( $version, 0, strpos( $version, '-' ) );
+						}
+						$result .= ' ' . $version;
+					}
 				}
+			} else {
+				$result = '';
 			}
 		}
 		return $result;
@@ -154,7 +171,7 @@ class OPcache {
 	 */
 	public static function invalidate( $files, $force = false ) {
 		$cpt = 0;
-		if ( function_exists( 'opcache_invalidate' ) ) {
+		if ( function_exists( 'opcache_invalidate' ) && ! self::is_restricted() ) {
 			$logger = new Logger( 'plugin', DECALOG_PRODUCT_NAME, DECALOG_VERSION );
 			foreach ( $files as $file ) {
 				if ( 0 === strpos( $file, './' ) ) {
@@ -185,7 +202,7 @@ class OPcache {
 	 */
 	public static function recompile( $files, $force = false ) {
 		$cpt = 0;
-		if ( function_exists( 'opcache_invalidate' ) && function_exists( 'opcache_compile_file' ) && function_exists( 'opcache_is_script_cached' ) ) {
+		if ( function_exists( 'opcache_invalidate' ) && function_exists( 'opcache_compile_file' ) && function_exists( 'opcache_is_script_cached' ) && ! self::is_restricted() ) {
 			$logger = new Logger( 'plugin', DECALOG_PRODUCT_NAME, DECALOG_VERSION );
 			foreach ( $files as $file ) {
 				if ( 0 === strpos( $file, './' ) ) {
@@ -228,11 +245,11 @@ class OPcache {
 	 * @since   1.0.0
 	 */
 	public static function reset( $automatic = true ) {
-		if ( $automatic && Option::network_get( 'warmup' ) ) {
+		if ( $automatic && Option::network_get( 'warmup', false ) ) {
 			self::warmup( $automatic, true );
 		} else {
 			$files = [];
-			if ( function_exists( 'opcache_get_status' ) ) {
+			if ( function_exists( 'opcache_get_status' ) && ! self::is_restricted() ) {
 				try {
 					$raw = opcache_get_status( true );
 					if ( array_key_exists( 'scripts', $raw ) ) {
