@@ -152,13 +152,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Removed
 - The screen options in WordPress logger (as it is now automatically set).
 
-##[1.12.8] - 2020-07-15
+## [1.12.8] - 2020-07-15
 
 ### Fixed
 - PHP deprecated warning emitted while debugging WordPress cache.
 - The WordPress events may be not purged when it should be (thanks to [Emil1](https://wordpress.org/support/users/milouze/)).
 
-##[1.12.7] - 2020-06-29
+## [1.12.7] - 2020-06-29
 
 ### Changed
 - Full compatibility with PHP 7.4.
@@ -167,7 +167,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 - The WordPress events may be wrongly purged when '0' is set as a limit (thanks to [Emil1](https://wordpress.org/support/users/milouze/)).
 
-##[1.12.6] - 2020-05-15
+## [1.12.6] - 2020-05-15
 
 ### Changed
 - Supports now Wordfence alerting system inconsistency.
@@ -175,7 +175,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 - When used for the first time, settings checkboxes may remain checked after being unchecked.
 
-##[1.12.5] - 2020-05-05
+## [1.12.5] - 2020-05-05
 
 ### Changed
 - The WordPress events tables are now deleted when plugin is uninstalled.
@@ -188,7 +188,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Removed
 - The "channel" starting the "message" from Stackdriver formatter, because channel is now usable as "summary field" in Stackdriver interface.
 
-##[1.12.4] - 2020-04-10
+## [1.12.4] - 2020-04-10
 
 ### Changed
 - Improved way to handle fatal errors in PHP listener.
