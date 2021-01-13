@@ -229,7 +229,7 @@ Success: logger 5b09be13-16f6-4ced-972e-98408df0fd49 successfully created.
 
 ## Using logger types
 
-With the `wp log type <list|describe> [<logger_type>] [--format=<format>]` command you can query all types available for logger creation / modification and obtain description of corresponding settings. This command helps you to fine-tune loggers via the command-line.
+With the `wp log type <list|describe> [<logger_type>] [--format=<format>]` command you can query all available types for logger creation / modification and obtain description of corresponding settings. This command helps you to fine-tune loggers via the command-line.
 
 ### Listing types
 
