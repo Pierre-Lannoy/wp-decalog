@@ -99,6 +99,7 @@ class Loggers extends \WP_List_Table {
 	 * @since    1.0.0
 	 */
 	protected function column_name( $item ) {
+		$actions           = [];
 		$edit              = esc_url(
 			add_query_arg(
 				[
