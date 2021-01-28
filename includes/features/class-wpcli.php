@@ -38,7 +38,9 @@ use Spyc;
  * @author  Pierre Lannoy <https://pierre.lannoy.fr/>.
  * @since   2.0.0
  */
-class Wpcli {
+class Wpcli  {
+
+	//extends WP_CLI_Command
 
 	/**
 	 * List of color format per level.

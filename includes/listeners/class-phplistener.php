@@ -136,21 +136,28 @@ class PhpListener extends AbstractListener {
 	 * @since    1.2.0
 	 */
 	public function version_check() {
+		if ( 1 === Environment::exec_mode() ) {
+			$prefix = 'command_line_';
+			$name   = 'command-line';
+		} else {
+			$prefix = 'web_server_';
+			$name   = 'web server';
+		}
 		$php_version = Environment::php_version();
-		$old_version = Option::network_get( 'php_version', 'x' );
+		$old_version = Option::network_get( $prefix . 'php_version', 'x' );
 		if ( 'x' === $old_version ) {
-			Option::network_set( 'php_version', $php_version );
+			Option::network_set( $prefix . 'php_version', $php_version );
 			return;
 		}
 		if ( $php_version === $old_version ) {
 			return;
 		}
-		Option::network_set( 'php_version', $php_version );
+		Option::network_set( $prefix . 'php_version', $php_version );
 		if ( version_compare( $php_version, $old_version, '<' ) ) {
-			$this->logger->warning( sprintf( 'PHP version downgraded from %s to %s.', $old_version, $php_version ) );
+			$this->logger->warning( sprintf( 'PHP version for %s downgraded from %s to %s.', $name, $old_version, $php_version ) );
 			return;
 		}
-		$this->logger->notice( sprintf( 'PHP version upgraded from %s to %s.', $old_version, $php_version ) );
+		$this->logger->notice( sprintf( 'PHP version for %s upgraded from %s to %s.', $name, $old_version, $php_version ) );
 	}
 
 	/**
@@ -192,7 +199,14 @@ class PhpListener extends AbstractListener {
 	 * @since    1.6.0
 	 */
 	public function opcache_check() {
-		$old_opcache = Option::network_get( 'php_opcache', 'x' );
+		if ( 1 === Environment::exec_mode() ) {
+			$prefix = 'command_line_';
+			$name   = 'command-line';
+		} else {
+			$prefix = 'web_server_';
+			$name   = 'web server';
+		}
+		$old_opcache = Option::network_get( $prefix . 'php_opcache', 'x' );
 		if ( function_exists( 'opcache_get_status' ) ) {
 			// phpcs:ignore
 			set_error_handler( null );
@@ -203,32 +217,32 @@ class PhpListener extends AbstractListener {
 			if ( ! is_array( $new_opcache ) ) {
 				$new_opcache = [];
 			}
-			Option::network_set( 'php_opcache', $new_opcache );
+			Option::network_set( $prefix . 'php_opcache', $new_opcache );
 			if ( 'x' === $old_opcache || $new_opcache === $old_opcache || ! is_array( $old_opcache ) || ! is_array( $new_opcache ) ) {
 				return;
 			}
 			if ( array_key_exists( 'cache_full', $old_opcache ) && ! (bool) $old_opcache['cache_full'] && array_key_exists( 'cache_full', $new_opcache ) && (bool) $new_opcache['cache_full'] ) {
-				$this->logger->error( 'OPcache is full.' );
+				$this->logger->error( sprintf( 'OPcache for %s is full.', $name ) );
 			}
 			if ( array_key_exists( 'restart_pending', $old_opcache ) && ! (bool) $old_opcache['restart_pending'] && array_key_exists( 'restart_pending', $new_opcache ) && (bool) $new_opcache['restart_pending'] ) {
-				$this->logger->notice( 'OPcache ready to restart.' );
+				$this->logger->notice( sprintf( 'OPcache for %s ready to restart.', $name ) );
 			}
 			if ( array_key_exists( 'restart_in_progress', $old_opcache ) && ! (bool) $old_opcache['restart_in_progress'] && array_key_exists( 'restart_in_progress', $new_opcache ) && (bool) $new_opcache['restart_in_progress'] ) {
-				$this->logger->notice( 'OPcache restart in progress.' );
+				$this->logger->notice( sprintf( 'OPcache for %s restart in progress.', $name ) );
 			}
 			if ( array_key_exists( 'opcache_statistics', $old_opcache ) && array_key_exists( 'opcache_statistics', $new_opcache ) && array_key_exists( 'oom_restarts', $old_opcache['opcache_statistics'] ) && array_key_exists( 'oom_restarts', $new_opcache['opcache_statistics'] ) ) {
 				if ( (int) $old_opcache['opcache_statistics']['oom_restarts'] !== (int) $new_opcache['opcache_statistics']['oom_restarts'] ) {
-					$this->logger->warning( 'OPcache restarted due to lack of free memory or cache fragmentation.' );
+					$this->logger->warning( sprintf( 'OPcache for %s restarted due to lack of free memory or cache fragmentation.', $name ) );
 				}
 			}
 			if ( array_key_exists( 'opcache_statistics', $old_opcache ) && array_key_exists( 'opcache_statistics', $new_opcache ) && array_key_exists( 'hash_restarts', $old_opcache['opcache_statistics'] ) && array_key_exists( 'hash_restarts', $new_opcache['opcache_statistics'] ) ) {
 				if ( (int) $old_opcache['opcache_statistics']['hash_restarts'] !== (int) $new_opcache['opcache_statistics']['hash_restarts'] ) {
-					$this->logger->warning( 'OPcache restarted due to lack of free key.' );
+					$this->logger->warning( sprintf( 'OPcache for %s restarted due to lack of free key.', $name ) );
 				}
 			}
 			if ( array_key_exists( 'opcache_statistics', $old_opcache ) && array_key_exists( 'opcache_statistics', $new_opcache ) && array_key_exists( 'manual_restarts', $old_opcache['opcache_statistics'] ) && array_key_exists( 'manual_restarts', $new_opcache['opcache_statistics'] ) ) {
 				if ( (int) $old_opcache['opcache_statistics']['manual_restarts'] !== (int) $new_opcache['opcache_statistics']['manual_restarts'] ) {
-					$this->logger->warning( 'OPcache restarted due to an external query.' );
+					$this->logger->warning( sprintf( 'OPcache for %s restarted due to an external query.', $name ) );
 				}
 			}
 		}
