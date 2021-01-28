@@ -32,23 +32,11 @@ use Spyc;
 /**
  * Manages DecaLog, view events logs and send messages to loggers.
  *
- * Defines methods and properties for WP-CLI commands.
- *
  * @package Features
  * @author  Pierre Lannoy <https://pierre.lannoy.fr/>.
  * @since   2.0.0
  */
 class Wpcli {
-
-	/**
-	 * WP-CLI for DecaLog.
-	 *
-	 * Defines methods and properties for WP-CLI commands.
-	 *
-	 * @package Features
-	 * @author  Pierre Lannoy <https://pierre.lannoy.fr/>.
-	 * @since   2.0.0
-	 */
 
 	/**
 	 * List of color format per level.
