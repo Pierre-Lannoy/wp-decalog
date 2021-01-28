@@ -272,7 +272,7 @@ class PhpListener extends AbstractListener {
 		if ( $this->previous_error_handler && is_callable( $this->previous_error_handler ) ) {
 			return call_user_func( $this->previous_error_handler, $code, $message, $file, $line, $context );
 		} else {
-			return true;
+			return false;
 		}
 	}
 
@@ -283,6 +283,7 @@ class PhpListener extends AbstractListener {
 	 * @since    1.0.0
 	 */
 	public function handle_exception( $exception ) {
+		$this->logger->emergency(print_r($this->previous_exception_handler, true));
 		DLogger::ban( $exception->getFile(), $exception->getMessage() );
 		$file    = PHP::normalized_file_line( $exception->getFile(), $exception->getLine() );
 		$message = sprintf( 'Uncaught exception (%s): "%s" at %s', Utils::getClass( $exception ), $exception->getMessage(), $file );

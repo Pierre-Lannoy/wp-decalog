@@ -89,6 +89,24 @@ class Environment {
 	}
 
 	/**
+	 * Verify scrapping mode..
+	 *
+	 * @return  boolean True if we're in scrapping call for theme/plugin editor.
+	 * @since 2.4.0
+	 */
+	public static function is_editor_scrapping() {
+		if ( ! isset( $_REQUEST['wp_scrape_key'] ) || ! isset( $_REQUEST['wp_scrape_nonce'] ) ) {
+			return false;
+		}
+		$key   = substr( sanitize_key( wp_unslash( $_REQUEST['wp_scrape_key'] ) ), 0, 32 );
+		$nonce = wp_unslash( $_REQUEST['wp_scrape_nonce'] );
+		if ( get_transient( 'scrape_key_' . $key ) !== $nonce ) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
 	 * Get the major version number.
 	 *
 	 * @param  string $version Optional. The full version string.

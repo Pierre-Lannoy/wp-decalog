@@ -85,7 +85,7 @@ class Watchdog {
 		if ( $this->previous_error_handler && is_callable( $this->previous_error_handler ) ) {
 			return call_user_func( $this->previous_error_handler, $code, $message, $file, $line, $context );
 		} else {
-			return true;
+			return false;
 		}
 	}
 
@@ -98,9 +98,9 @@ class Watchdog {
 	public function handle_exception( $exception ) {
 		DLogger::ban( $exception->getFile(), $exception->getMessage() );
 		if ( $this->previous_exception_handler && is_callable( $this->previous_exception_handler ) ) {
-			return call_user_func( $this->previous_exception_handler, $exception );
+			call_user_func( $this->previous_exception_handler, $exception );
 		} else {
-			exit( 255 );
+			exit( 254 );
 		}
 	}
 }
