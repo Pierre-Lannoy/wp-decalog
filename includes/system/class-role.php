@@ -83,6 +83,45 @@ class Role {
 	}
 
 	/**
+	 * Verify privileges overriding.
+	 *
+	 * @param   integer $user_id         Optional. The user id.
+	 * @return  boolean  True if privileges can be overridded, false otherwise.
+	 * @since   2.4.0
+	 */
+	public static function override_privileges( $user_id = false ) {
+		if ( ! function_exists( 'wp_get_environment_type' ) ) {
+			return false;
+		}
+		if ( ! $user_id ) {
+			$user = wp_get_current_user();
+		} else {
+			$user = get_userdata( $user_id );
+		}
+		if ( ! $user || ! $user->exists() ) {
+			return false;
+		}
+		switch ( Option::network_get( 'privileges' ) ) {
+			case 1:
+				if ( 'local' === wp_get_environment_type() || 'development' === wp_get_environment_type() ) {
+					return $user->has_cap( 'read_private_pages' );
+				}
+				break;
+			case 2:
+				if ( 'staging' === wp_get_environment_type() ) {
+					return $user->has_cap( 'read_private_pages' );
+				}
+				break;
+			case 3:
+				if ( 'local' === wp_get_environment_type() || 'development' === wp_get_environment_type() || 'staging' === wp_get_environment_type() ) {
+					return $user->has_cap( 'read_private_pages' );
+				}
+				break;
+		}
+		return false;
+	}
+
+	/**
 	 * Get a list of available roles.
 	 *
 	 * @return  array  The list of available roles.

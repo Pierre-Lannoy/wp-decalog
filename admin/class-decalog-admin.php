@@ -185,7 +185,7 @@ class Decalog_Admin {
 				'post_callback' => [ $this, 'set_settings_help' ],
 			];
 		}
-		if ( Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type() || Role::LOCAL_ADMIN === Role::admin_type() ) {
+		if ( Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type() || Role::LOCAL_ADMIN === Role::admin_type() || Role::override_privileges()) {
 			if ( Events::loggers_count() > 0 ) {
 				$perfops['records'][] = [
 					'name'          => esc_html__( 'Events Log', 'decalog' ),
@@ -196,7 +196,7 @@ class Decalog_Admin {
 					/* translators: as in the sentence "DecaLog Viewer" */
 					'page_title'    => sprintf( esc_html__( '%s Viewer', 'decalog' ), DECALOG_PRODUCT_NAME ),
 					'menu_title'    => esc_html__( 'Events Log', 'decalog' ),
-					'capability'    => 'manage_options',
+					'capability'    => 'read_private_pages',
 					'callback'      => [ $this, 'get_tools_page' ],
 					'position'      => 50,
 					'plugin'        => DECALOG_SLUG,
@@ -206,7 +206,7 @@ class Decalog_Admin {
 				];
 			}
 		}
-		if ( Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type() ) {
+		if ( Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type() || Role::override_privileges()) {
 			$perfops['consoles'][] = [
 				'name'          => esc_html__( 'Live Events', 'decalog' ),
 				/* translators: as in the sentence "Check the events that occurred on your network." or "Check the events that occurred on your website." */
@@ -216,7 +216,7 @@ class Decalog_Admin {
 				/* translators: as in the sentence "DecaLog Viewer" */
 				'page_title'    => sprintf( esc_html__( '%s Live Events', 'decalog' ), DECALOG_PRODUCT_NAME ),
 				'menu_title'    => esc_html__( 'Live Events', 'decalog' ),
-				'capability'    => 'manage_options',
+				'capability'    => 'read_private_pages',
 				'callback'      => [ $this, 'get_console_page' ],
 				'position'      => 50,
 				'plugin'        => DECALOG_SLUG,
@@ -250,7 +250,7 @@ class Decalog_Admin {
 	 * @since 1.2.0
 	 */
 	public function blog_action( $actions, $user_blog ) {
-		if ( Role::SUPER_ADMIN === Role::admin_type() || Role::LOCAL_ADMIN === Role::admin_type() && Events::loggers_count() > 0 ) {
+		if ( Role::override_privileges() || Role::SUPER_ADMIN === Role::admin_type() || Role::LOCAL_ADMIN === Role::admin_type() && Events::loggers_count() > 0 ) {
 			$actions .= " | <a href='" . esc_url( admin_url( 'admin.php?page=decalog-viewer&site_id=' . $user_blog->userblog_id ) ) . "'>" . __( 'Events log', 'decalog' ) . '</a>';
 		}
 		return $actions;
@@ -267,7 +267,7 @@ class Decalog_Admin {
 	 * @since 1.2.0
 	 */
 	public function site_action( $actions, $blog_id, $blogname ) {
-		if ( Role::SUPER_ADMIN === Role::admin_type() || Role::LOCAL_ADMIN === Role::admin_type() && Events::loggers_count() > 0 ) {
+		if ( Role::override_privileges() || Role::SUPER_ADMIN === Role::admin_type() || Role::LOCAL_ADMIN === Role::admin_type() && Events::loggers_count() > 0 ) {
 			$actions['events_log'] = "<a href='" . esc_url( admin_url( 'admin.php?page=decalog-viewer&site_id=' . $blog_id ) ) . "' rel='bookmark'>" . __( 'Events log', 'decalog' ) . '</a>';
 		}
 		return $actions;
@@ -613,6 +613,7 @@ class Decalog_Admin {
 				Option::network_set( 'logger_autostart', array_key_exists( 'decalog_loggers_options_autostart', $_POST ) ? true : false );
 				Option::network_set( 'pseudonymization', array_key_exists( 'decalog_loggers_options_pseudonymization', $_POST ) );
 				Option::network_set( 'respect_wp_debug', array_key_exists( 'decalog_loggers_options_wpdebug', $_POST ) );
+				Option::network_set( 'privileges', array_key_exists( 'decalog_plugin_options_privileges', $_POST ) ? (string) filter_input( INPUT_POST, 'decalog_plugin_options_privileges', FILTER_SANITIZE_NUMBER_INT ) : Option::network_get( 'privileges' ) );
 				$autolog = array_key_exists( 'decalog_plugin_features_livelog', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_plugin_features_livelog' ) : false;
 				if ( $autolog ) {
 					Autolog::activate();
@@ -883,12 +884,45 @@ class Decalog_Admin {
 	}
 
 	/**
+	 * Get the available privileges overriding.
+	 *
+	 * @return array An array containing the privileges overriding.
+	 * @since  2.4.0
+	 */
+	protected function get_privileges_array() {
+		$result   = [];
+		$result[] = [ 0, esc_html__( 'Never override privileges', 'decalog' ) ];
+		$result[] = [ 1, esc_html__( 'Override privileges for development environments', 'decalog' ) ];
+		$result[] = [ 2, esc_html__( 'Override privileges for staging environments', 'decalog' ) ];
+		$result[] = [ 3, esc_html__( 'Override privileges for staging and development environments', 'decalog' ) ];
+		return $result;
+	}
+
+	/**
 	 * Callback for plugin options section.
 	 *
 	 * @since 1.0.0
 	 */
 	public function plugin_options_section_callback() {
 		$form = new Form();
+		if ( function_exists( 'wp_get_environment_type' ) ) {
+			add_settings_field(
+				'decalog_plugin_options_privileges',
+				esc_html__( 'Logs accesses', 'decalog' ),
+				[ $form, 'echo_field_select' ],
+				'decalog_plugin_options_section',
+				'decalog_plugin_options_section',
+				[
+					'list'        => $this->get_privileges_array(),
+					'id'          => 'decalog_plugin_options_privileges',
+					'value'       => Option::network_get( 'privileges' ),
+					'description' => esc_html__( 'Allows other users than administrators to access live console and local events logs depending of environments.', 'decalog' ) . '<br/>' . esc_html__( 'Note: choosing something other than "Never override privileges" grants access to all users having "read_private_pages" capability and may have privacy and security implications.', 'decalog' ),
+					'full_width'  => false,
+					'enabled'     => true,
+				]
+			);
+			register_setting( 'decalog_plugin_options_section', 'decalog_plugin_options_privileges' );
+		}
 		add_settings_field(
 			'decalog_plugin_options_favicons',
 			__( 'Favicons', 'decalog' ),

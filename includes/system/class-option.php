@@ -70,6 +70,7 @@ class Option {
 		self::$defaults['download_favicons'] = false;
 		self::$defaults['script_in_footer']  = false;
 		self::$defaults['display_nag']       = false;  // In plugin settings.
+		self::$defaults['privileges']        = 0;
 		self::$defaults['nags']              = [];
 		self::$defaults['version']           = '0.0.0';
 		self::$defaults['loggers']           = [];
@@ -80,7 +81,7 @@ class Option {
 		self::$defaults['listeners']         = [];    // In plugin settings.
 		self::$defaults['pseudonymization']  = false; // In plugin settings.
 		self::$defaults['earlyloading']      = true;  // In plugin settings.
-		self::$network                       = [ 'version', 'earlyloading', 'use_cdn', 'download_favicons', 'script_in_footer', 'display_nag', 'respect_wp_debug', 'livelog', 'logger_autostart', 'pseudonymization' ];
+		self::$network                       = [ 'version', 'earlyloading', 'use_cdn', 'download_favicons', 'script_in_footer', 'display_nag', 'respect_wp_debug', 'livelog', 'logger_autostart', 'pseudonymization', 'privileges' ];
 	}
 
 	/**

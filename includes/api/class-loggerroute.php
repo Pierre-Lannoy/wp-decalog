@@ -128,7 +128,7 @@ class LoggerRoute extends \WP_REST_Controller {
 			$this->logger->warning( 'Unauthenticated API call.', 401 );
 			return new \WP_Error( 'rest_not_logged_in', 'You must be logged in to access live logs.', [ 'status' => 401 ] );
 		}
-		return Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type();
+		return Role::override_privileges() || Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type();
 	}
 
 	/**

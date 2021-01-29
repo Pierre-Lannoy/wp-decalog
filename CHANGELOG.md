@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+- New setting to override live console and local access privileges when in development or staging environments (thanks to [sebastienserre](https://github.com/sebastienserre) for the suggestion).
+
 ### Changed
 - When OPcache API is restricted by “restrict_api“ configuration directive, OPcache configuration is no more monitored.
 - Detection of PHP version upgrade/downgrade now takes care of web vs. WP-CLI difference.
