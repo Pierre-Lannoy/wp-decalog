@@ -19,6 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - DecaLog jams the plugin/theme editor while editing PHP files (thanks to [ajoah](https://github.com/ajoah)).
 - In Site Health section, Opcache status may be wrong (or generates PHP warnings) if OPcache API usage is restricted.
 - PHP notice when trying to display details for "System auto-logger".
+- DecaLog may log multiple times a change about environment type.
 
 ## [2.3.0] - 2020-11-23
 

@@ -176,6 +176,7 @@ class CoreListener extends AbstractListener {
 			if ( $wp_env === $old_env ) {
 				return;
 			}
+			Option::network_set( 'wp_env', $wp_env );
 			$this->logger->warning( sprintf( 'WordPress environment type switched from "%s" to "%s".', $old_env, $wp_env ) );
 		}
 	}
