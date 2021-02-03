@@ -438,7 +438,7 @@ class EventViewer {
 		// Request detail.
 		$verb = $this->event['verb'];
 		if ( '-' !== $verb ) {
-			$verb = '<span style="vertical-align: middle;font-size:8px;padding:2px 6px;text-transform:uppercase;font-weight: bold;background-color:#9999BB;color:#F9F9F9;border-radius:2px;cursor: default;">' . $verb . '</span>';
+			$verb = '<span style="vertical-align: middle;font-size:8px;padding:2px 6px;text-transform:uppercase;font-weight: bold;background-color:#9999BB;color:#F9F9F9;border-radius:2px;cursor: default;word-break: break-word;">' . $verb . '</span>';
 		} else {
 			$verb = '';
 		}

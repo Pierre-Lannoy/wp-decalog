@@ -64,10 +64,23 @@ class Watchdog {
 	 * @since    1.2.1
 	 */
 	public function __construct() {
+		register_shutdown_function( [ $this, 'handle_fatal_error' ] );
 		// phpcs:ignore
 		$this->previous_error_handler = set_error_handler( [ $this, 'handle_error' ] );
 		// phpcs:ignore
 		$this->previous_exception_handler = set_exception_handler( [ $this, 'handle_exception' ] );
+	}
+
+	/**
+	 * Handles fatal errors.
+	 *
+	 * @since    2.4.0
+	 */
+	public function handle_fatal_error() {
+		$last_error = error_get_last();
+		if ( isset( $last_error ) && is_array( $last_error ) ) {
+			DLogger::ban( $last_error['file'], $last_error['message'] );
+		}
 	}
 
 	/**
@@ -84,9 +97,8 @@ class Watchdog {
 		DLogger::ban( $file, $message );
 		if ( $this->previous_error_handler && is_callable( $this->previous_error_handler ) ) {
 			return call_user_func( $this->previous_error_handler, $code, $message, $file, $line, $context );
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	/**
@@ -99,9 +111,8 @@ class Watchdog {
 		DLogger::ban( $exception->getFile(), $exception->getMessage() );
 		if ( $this->previous_exception_handler && is_callable( $this->previous_exception_handler ) ) {
 			call_user_func( $this->previous_exception_handler, $exception );
-		} else {
-			exit( 254 );
 		}
+		exit( 255 );
 	}
 }
 
