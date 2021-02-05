@@ -94,7 +94,10 @@ class Environment {
 	 * @return  boolean True if we're in scrapping call for theme/plugin editor.
 	 * @since 2.4.0
 	 */
-	public static function is_editor_scrapping() {
+	public static function is_sandboxed() {
+		if ( defined( 'WP_SANDBOX_SCRAPING' ) && WP_SANDBOX_SCRAPING ) {
+			return true;
+		}
 		if ( ! isset( $_REQUEST['wp_scrape_key'] ) || ! isset( $_REQUEST['wp_scrape_nonce'] ) ) {
 			return false;
 		}

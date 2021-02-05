@@ -122,6 +122,13 @@ class PhpListener extends AbstractListener {
 		add_action( 'wp_loaded', [ $this, 'version_check' ] );
 		add_action( 'wp_loaded', [ $this, 'extensions_check' ] );
 		add_action( 'wp_loaded', [ $this, 'opcache_check' ] );
+		if ( defined( 'DECALOG_BOOTSTRAPPED' ) && DECALOG_BOOTSTRAPPED ) {
+			if ( defined( 'DECALOG_EARLY_INIT' ) && DECALOG_EARLY_INIT ) {
+				add_action( 'setup_theme', [ $this, 'bootstrap_check' ] );
+			} else {
+				add_action( 'sanitize_comment_cookies', [ $this, 'bootstrap_check' ] );
+			}
+		}
 		register_shutdown_function( [ $this, 'handle_fatal_error' ] );
 		// phpcs:ignore
 		$this->previous_error_handler = set_error_handler( [ $this, 'handle_error' ] );
@@ -158,6 +165,18 @@ class PhpListener extends AbstractListener {
 			return;
 		}
 		$this->logger->notice( sprintf( 'PHP version for %s upgraded from %s to %s.', $name, $old_version, $php_version ) );
+	}
+
+	/**
+	 * Check versions modifications.
+	 *
+	 * @since    2.4.0
+	 */
+	public function bootstrap_check() {
+		global $dclg_btsrp;
+		foreach ( $dclg_btsrp as $event ) {
+			$this->logger->log( $event['level'], $event['message'], $event['code'], 'bootstrap' );
+		}
 	}
 
 	/**
@@ -293,7 +312,7 @@ class PhpListener extends AbstractListener {
 	/**
 	 * Handles errors.
 	 *
-	 * @param   Exception $exception  The uncaught exception.
+	 * @param   \Exception $exception  The uncaught exception.
 	 * @since    1.0.0
 	 */
 	public function handle_exception( $exception ) {

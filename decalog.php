@@ -91,7 +91,7 @@ function decalog_muplugin() {
  * @since 1.0.0
  */
 function decalog_run() {
-	if ( ! Decalog\System\Environment::is_editor_scrapping() ) {
+	if ( ! Decalog\System\Environment::is_sandboxed() ) {
 		require_once __DIR__ . '/includes/features/class-watchdog.php';
 		require_once __DIR__ . '/includes/features/class-wpcli.php';
 		decalog_muplugin();

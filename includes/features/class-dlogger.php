@@ -340,9 +340,10 @@ class DLogger {
 	 * @param mixed   $level The log level.
 	 * @param string  $message The log message.
 	 * @param integer $code Optional. The log code.
+	 * @param string  $phase Optional. The log phase.
 	 * @since 1.0.0
 	 */
-	public function log( $level, $message, $code = 0 ) {
+	public function log( $level, $message, $code = 0, $phase = '' ) {
 		if ( ! $this->allowed ) {
 			return false;
 		}
@@ -351,6 +352,7 @@ class DLogger {
 				'class'     => (string) $this->class,
 				'component' => (string) $this->name,
 				'version'   => (string) $this->version,
+				'phase'     => (string) $phase,
 				'code'      => (int) $code,
 			];
 			$channel = $this->current_channel_tag();

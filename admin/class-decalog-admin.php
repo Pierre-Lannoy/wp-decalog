@@ -10,6 +10,7 @@
 namespace Decalog\Plugin;
 
 use Decalog\Plugin\Feature\Autolog;
+use Decalog\Plugin\Feature\BootstrapManager;
 use Decalog\System\SharedMemory;
 use Decalog\Plugin\Feature\Log;
 use Decalog\Plugin\Feature\EventViewer;
@@ -1069,6 +1070,25 @@ class Decalog_Admin {
 			);
 			register_setting( 'decalog_plugin_features_section', 'decalog_plugin_features_livelog' );
 		}
+		if ( defined( 'DECALOG_BOOTSTRAPPED' ) && DECALOG_BOOTSTRAPPED ) {
+			$help  = '<img style="width:16px;vertical-align:text-bottom;" src="' . \Feather\Icons::get_base64( 'thumbs-up', 'none', '#00C800' ) . '" />&nbsp;';
+			$help .= sprintf( esc_html__('Bootstrap events catching is enabled, you have modified your %s file.', 'decalog' ), '<code>wp-settings.php</code>' );
+		} else {
+			$help  = '<img style="width:16px;vertical-align:text-bottom;" src="' . \Feather\Icons::get_base64( 'alert-triangle', 'none', '#FF8C00' ) . '" />&nbsp;';
+			$help .= sprintf( esc_html__('To allow to catch events before %s is loaded, please add %s to the second line of your %s file.', 'decalog' ), DECALOG_PRODUCT_NAME, '<code>' . BootstrapManager::install_help() . '</code>', '<code>wp-settings.php</code>' );
+		}
+		add_settings_field(
+			'decalog_plugin_features_bootstrap',
+			__( 'Bootstrap', 'decalog' ),
+			[ $form, 'echo_field_simple_text' ],
+			'decalog_plugin_features_section',
+			'decalog_plugin_features_section',
+			[
+				'text' => $help
+			]
+		);
+		register_setting( 'decalog_plugin_features_section', 'decalog_plugin_features_bootstrap' );
+		
 	}
 
 	/**
