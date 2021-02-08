@@ -349,12 +349,14 @@ class DLogger {
 		}
 		try {
 			$context = [
-				'class'     => (string) $this->class,
-				'component' => (string) $this->name,
-				'version'   => (string) $this->version,
-				'phase'     => (string) $phase,
-				'code'      => (int) $code,
+				'class'       => (string) $this->class,
+				'component'   => (string) $this->name,
+				'version'     => (string) $this->version,
+				'phase'       => (string) $phase,
+				'code'        => (int) $code,
+				'environment' => (string) Environment::stage(),
 			];
+
 			$channel = $this->current_channel_tag();
 			if ( $this->logger->getName() !== $channel ) {
 				$this->logger = $this->logger->withName( $channel );
@@ -380,10 +382,11 @@ class DLogger {
 		if ( $this->is_debug_allowed() && $this->allowed ) {
 			try {
 				$context = [
-					'class'     => (string) $this->class,
-					'component' => (string) $this->name,
-					'version'   => (string) $this->version,
-					'code'      => (int) $code,
+					'class'       => (string) $this->class,
+					'component'   => (string) $this->name,
+					'version'     => (string) $this->version,
+					'code'        => (int) $code,
+					'environment' => (string) Environment::stage(),
 				];
 				$channel = $this->current_channel_tag();
 				if ( $this->logger->getName() !== $channel ) {
@@ -414,10 +417,11 @@ class DLogger {
 		}
 		try {
 			$context = [
-				'class'     => (string) $this->class,
-				'component' => (string) $this->name,
-				'version'   => (string) $this->version,
-				'code'      => (int) $code,
+				'class'       => (string) $this->class,
+				'component'   => (string) $this->name,
+				'version'     => (string) $this->version,
+				'code'        => (int) $code,
+				'environment' => (string) Environment::stage(),
 			];
 			$channel = $this->current_channel_tag();
 			if ( $this->logger->getName() !== $channel ) {
@@ -446,10 +450,11 @@ class DLogger {
 		}
 		try {
 			$context = [
-				'class'     => (string) $this->class,
-				'component' => (string) $this->name,
-				'version'   => (string) $this->version,
-				'code'      => (int) $code,
+				'class'       => (string) $this->class,
+				'component'   => (string) $this->name,
+				'version'     => (string) $this->version,
+				'code'        => (int) $code,
+				'environment' => (string) Environment::stage(),
 			];
 			$channel = $this->current_channel_tag();
 			if ( $this->logger->getName() !== $channel ) {
@@ -478,10 +483,11 @@ class DLogger {
 		}
 		try {
 			$context = [
-				'class'     => (string) $this->class,
-				'component' => (string) $this->name,
-				'version'   => (string) $this->version,
-				'code'      => (int) $code,
+				'class'       => (string) $this->class,
+				'component'   => (string) $this->name,
+				'version'     => (string) $this->version,
+				'code'        => (int) $code,
+				'environment' => (string) Environment::stage(),
 			];
 			$channel = $this->current_channel_tag();
 			if ( $this->logger->getName() !== $channel ) {
@@ -510,10 +516,11 @@ class DLogger {
 		}
 		try {
 			$context = [
-				'class'     => (string) $this->class,
-				'component' => (string) $this->name,
-				'version'   => (string) $this->version,
-				'code'      => (int) $code,
+				'class'       => (string) $this->class,
+				'component'   => (string) $this->name,
+				'version'     => (string) $this->version,
+				'code'        => (int) $code,
+				'environment' => (string) Environment::stage(),
 			];
 			$channel = $this->current_channel_tag();
 			if ( $this->logger->getName() !== $channel ) {
@@ -542,10 +549,11 @@ class DLogger {
 		}
 		try {
 			$context = [
-				'class'     => (string) $this->class,
-				'component' => (string) $this->name,
-				'version'   => (string) $this->version,
-				'code'      => (int) $code,
+				'class'       => (string) $this->class,
+				'component'   => (string) $this->name,
+				'version'     => (string) $this->version,
+				'code'        => (int) $code,
+				'environment' => (string) Environment::stage(),
 			];
 			$channel = $this->current_channel_tag();
 			if ( $this->logger->getName() !== $channel ) {
@@ -574,10 +582,11 @@ class DLogger {
 		}
 		try {
 			$context = [
-				'class'     => (string) $this->class,
-				'component' => (string) $this->name,
-				'version'   => (string) $this->version,
-				'code'      => (int) $code,
+				'class'       => (string) $this->class,
+				'component'   => (string) $this->name,
+				'version'     => (string) $this->version,
+				'code'        => (int) $code,
+				'environment' => (string) Environment::stage(),
 			];
 			$channel = $this->current_channel_tag();
 			if ( $this->logger->getName() !== $channel ) {
@@ -606,10 +615,11 @@ class DLogger {
 		}
 		try {
 			$context = [
-				'class'     => (string) $this->class,
-				'component' => (string) $this->name,
-				'version'   => (string) $this->version,
-				'code'      => (int) $code,
+				'class'       => (string) $this->class,
+				'component'   => (string) $this->name,
+				'version'     => (string) $this->version,
+				'code'        => (int) $code,
+				'environment' => (string) Environment::stage(),
 			];
 			$channel = $this->current_channel_tag();
 			if ( $this->logger->getName() !== $channel ) {

@@ -116,7 +116,7 @@ class BootstrapHandler {
 	public function handle_error( $code, $message, $file = '', $line = 0, $context = [] ) {
 		$level   = $this->error_level_map[ $code ] ?? 500;
 		$file    = $this->normalized_file_line( $file, $line );
-		$message = \sprintf( 'Error (%s): "%s" at %s', $this->error_string_map[ $code ] ?? 'Unknown PHP error', $message, $file );
+		$message = \sprintf( 'Error (%s): "%s" at `%s`.', $this->error_string_map[ $code ] ?? 'Unknown PHP error', $message, $file );
 		$this->prelog( $level, $message, (int) $code );
 		if ( $this->previous_error_handler && \is_callable( $this->previous_error_handler ) ) {
 			return \call_user_func( $this->previous_error_handler, $code, $message, $file, $line, $context );
@@ -132,7 +132,7 @@ class BootstrapHandler {
 	 */
 	public function handle_exception( $exception ) {
 		$file    = $this->normalized_file_line( $exception->getFile(), $exception->getLine() );
-		$message = \sprintf( 'Uncaught exception (%s): "%s" at %s', $this->get_class( $exception ), $exception->getMessage(), $file );
+		$message = \sprintf( 'Uncaught exception (%s): "%s" at `%s`.', $this->get_class( $exception ), $exception->getMessage(), $file );
 		$this->prelog( 400, $message, (int) $exception->getCode() );
 		if ( $this->previous_exception_handler && \is_callable( $this->previous_exception_handler ) ) {
 			\call_user_func( $this->previous_exception_handler, $exception );
@@ -150,6 +150,9 @@ class BootstrapHandler {
 	 */
 	private function prelog( $level, $message, int $code = 0 ) {
 		global $dclg_btsrp;
+		if ( ! is_array( $dclg_btsrp ) ) {
+			$dclg_btsrp = [];
+		}
 		$dclg_btsrp[] = [
 			'level'   => $level,
 			'message' => $message,

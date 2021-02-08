@@ -47,15 +47,11 @@ class ProcessorTypes {
 		];
 		$this->processors[] = [
 			'id'        => 'IntrospectionProcessor',
-			'namespace' => 'Monolog\\Processor',
+			'namespace' => 'Decalog\\Processor',
 			'name'      => esc_html__( 'PHP introspection', 'decalog' ),
 			'help'      => esc_html__( 'Allows to log line, file, class and function generating the event.', 'decalog' ),
 			'init'      => [
 				[ 'type' => 'level' ],
-				[
-					'type'  => 'literal',
-					'value' => [ 'Decalog\\' ],
-				],
 			],
 		];
 		$this->processors[] = [

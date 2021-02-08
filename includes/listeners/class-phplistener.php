@@ -174,8 +174,13 @@ class PhpListener extends AbstractListener {
 	 */
 	public function bootstrap_check() {
 		global $dclg_btsrp;
-		foreach ( $dclg_btsrp as $event ) {
-			$this->logger->log( $event['level'], $event['message'], $event['code'], 'bootstrap' );
+		if ( is_array( $dclg_btsrp ) ) {
+			foreach ( $dclg_btsrp as $event ) {
+				$this->logger->log( $event['level'] ?? 550, $event['message'] ?? 'Unknown error', $event['code'] ?? 0, 'bootstrap' );
+			}
+		} else {
+			// phpcs:ignore
+			$this->logger->debug( 'Corrupted data in bootstrap array.' );
 		}
 	}
 
@@ -278,7 +283,7 @@ class PhpListener extends AbstractListener {
 			DLogger::ban( $last_error['file'], $last_error['message'] );
 			if ( in_array( $last_error['type'], $this->fatal_errors, true ) ) {
 				$file    = PHP::normalized_file_line( $last_error['file'], $last_error['line'] );
-				$message = sprintf( 'Fatal error (%s): "%s" at %s', $this->code_to_string( $last_error['type'] ), $last_error['message'], $file );
+				$message = sprintf( 'Fatal error (%s): "%s" at `%s`.', $this->code_to_string( $last_error['type'] ), $last_error['message'], $file );
 				$this->logger->alert( $message, (int) $last_error['type'] );
 			}
 		}
@@ -299,7 +304,7 @@ class PhpListener extends AbstractListener {
 		if ( ! in_array( $code, $this->fatal_errors, true ) ) {
 			$level   = $this->error_level_map[ $code ] ?? Logger::CRITICAL;
 			$file    = PHP::normalized_file_line( $file, $line );
-			$message = sprintf( 'Error (%s): "%s" at %s', $this->code_to_string( $code ), $message, $file );
+			$message = sprintf( 'Error (%s): "%s" at `%s`.', $this->code_to_string( $code ), $message, $file );
 			$this->logger->log( $level, $message, (int) $code );
 		}
 		if ( $this->previous_error_handler && is_callable( $this->previous_error_handler ) ) {
@@ -318,7 +323,7 @@ class PhpListener extends AbstractListener {
 	public function handle_exception( $exception ) {
 		DLogger::ban( $exception->getFile(), $exception->getMessage() );
 		$file    = PHP::normalized_file_line( $exception->getFile(), $exception->getLine() );
-		$message = sprintf( 'Uncaught exception (%s): "%s" at %s', Utils::getClass( $exception ), $exception->getMessage(), $file );
+		$message = sprintf( 'Uncaught exception (%s): "%s" at `%s`.', Utils::getClass( $exception ), $exception->getMessage(), $file );
 		$this->logger->error( $message, (int) $exception->getCode() );
 		if ( $this->previous_exception_handler && is_callable( $this->previous_exception_handler ) ) {
 			call_user_func( $this->previous_exception_handler, $exception );

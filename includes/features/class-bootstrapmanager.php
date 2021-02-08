@@ -32,6 +32,6 @@ class BootstrapManager {
 	 */
 	public static function install_help() {
 		$file = str_replace( ABSPATH, '', DECALOG_PLUGIN_DIR . 'assets/_decalog_bootstrap.php' );
-		return "require_once ABSPATH . '" . $file . "';";
+		return "if (file_exists(ABSPATH.'wp-content/plugins/decalog/assets/_decalog_bootstrap.php')){include ABSPATH.'" . $file . "';}";
 	}
 }

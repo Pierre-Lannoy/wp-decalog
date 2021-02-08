@@ -1072,10 +1072,11 @@ class Decalog_Admin {
 		}
 		if ( defined( 'DECALOG_BOOTSTRAPPED' ) && DECALOG_BOOTSTRAPPED ) {
 			$help  = '<img style="width:16px;vertical-align:text-bottom;" src="' . \Feather\Icons::get_base64( 'thumbs-up', 'none', '#00C800' ) . '" />&nbsp;';
-			$help .= sprintf( esc_html__('Bootstrap events catching is enabled, you have modified your %s file.', 'decalog' ), '<code>wp-settings.php</code>' );
+			$help .= sprintf( esc_html__('Bootstrap events catching is enabled, you have modified your %s file.', 'decalog' ), '<code>wp-config.php</code>' );
 		} else {
 			$help  = '<img style="width:16px;vertical-align:text-bottom;" src="' . \Feather\Icons::get_base64( 'alert-triangle', 'none', '#FF8C00' ) . '" />&nbsp;';
-			$help .= sprintf( esc_html__('To allow to catch events before %s is loaded, please add %s to the second line of your %s file.', 'decalog' ), DECALOG_PRODUCT_NAME, '<code>' . BootstrapManager::install_help() . '</code>', '<code>wp-settings.php</code>' );
+			$help .= sprintf( esc_html__('To allow to catch events occurring before %s is loaded, please add the following instruction to the second line of your %s file:', 'decalog' ), DECALOG_PRODUCT_NAME,  '<code>wp-config.php</code>' );
+			$help .= '<br/><code style="line-height:2.2em;">' . BootstrapManager::install_help() . '</code>';
 		}
 		add_settings_field(
 			'decalog_plugin_features_bootstrap',

@@ -35,6 +35,20 @@ class BacktraceProcessor implements ProcessorInterface {
 	private $level;
 
 	/**
+	 * Classes to exclude.
+	 *
+	 * @since  2.4.0
+	 * @var    array    $skip_classes    List of class partials.
+	 */
+	private $skip_classes = [
+		'Monolog\\',
+		'Decalog\\',
+		'System\\Logger',
+		'Feature\\DecaLog',
+		'Feature\\Capture',
+	];
+
+	/**
 	 * Initializes the class and set its properties.
 	 *
 	 * @param string|int $level The minimum logging level at which this Processor will be triggered
@@ -123,46 +137,68 @@ class BacktraceProcessor implements ProcessorInterface {
 	public function __invoke( array $record ): array {
 		// phpcs:ignore
 		set_error_handler( null );
-		if ( $record['level'] < $this->level ) {
-			return $record;
-		}
-		try {
-			$trace = [];
-			$cpt   = 0;
-			// phpcs:ignore
-			foreach ( array_reverse( debug_backtrace( 0, 40 ) ) as $t ) {
-				if ( array_key_exists( 'class', $t ) && ( 0 === strpos( $t['class'], 'Decalog\\' ) || false !== strpos( $t['class'], '\\System\\Logger' ) ) ) {
-					break;
+		if ( $record['level'] >= $this->level ) {
+			if ( array_key_exists( 'context', $record ) && array_key_exists( 'phase', $record['context'] ) && 'bootstrap' === (string) $record['context']['phase'] ) {
+				$record['extra']['trace']['callstack']   = [];
+				$record['extra']['trace']['callstack'][] = [];
+				$record['extra']['trace']['wordpress']   = [];
+				$record['extra']['trace']['wordpress'][] = '';
+			} else {
+				try {
+					$trace = [];
+					$cpt   = 0;
+					// phpcs:ignore
+					foreach ( array_reverse( debug_backtrace( 0, 40 ) ) as $t ) {
+						if ( array_key_exists( 'class', $t ) && $this->is_skipped( $t['class'] ) ) {
+							break;
+						}
+						if ( 40 < $cpt ++ ) {
+							break;
+						}
+						$trace[] = $t;
+					}
+				} catch ( \Throwable $t ) {
+					//
+				} finally {
+					$record['extra']['trace']['callstack'] = $this->pretty_backtrace( array_reverse( $trace ) );
 				}
-				if ( 40 < $cpt ++ ) {
-					break;
+				try {
+					$wptrace = [];
+					$cpt     = 0;
+					// phpcs:ignore
+					foreach ( array_reverse( wp_debug_backtrace_summary( null, 0, false ) ) as $t ) {
+						if ( $this->is_skipped( $t ) ) {
+							break;
+						}
+						if ( 40 < $cpt++ ) {
+							break;
+						}
+						$wptrace[] = $t;
+					}
+				} catch ( \Throwable $t ) {
+					//
+				} finally {
+					$record['extra']['trace']['wordpress'] = array_reverse( $wptrace );
 				}
-				$trace[] = $t;
 			}
-		} catch ( \Throwable $t ) {
-			//
-		} finally {
-			$record['extra']['trace']['callstack'] = $this->pretty_backtrace( array_reverse( $trace ) );
-		}
-		try {
-			$wptrace = [];
-			$cpt     = 0;
-			// phpcs:ignore
-			foreach ( array_reverse( wp_debug_backtrace_summary( null, 0, false ) ) as $t ) {
-				if ( 0 === strpos( $t, 'Decalog\\' ) || false !== strpos( $t, '\\System\\Logger' ) ) {
-					break;
-				}
-				if ( 40 < $cpt++ ) {
-					break;
-				}
-				$wptrace[] = $t;
-			}
-		} catch ( \Throwable $t ) {
-			//
-		} finally {
-			$record['extra']['trace']['wordpress'] = array_reverse( $wptrace );
 		}
 		restore_error_handler();
 		return $this->normalize_array( $record );
+	}
+
+	/**
+	 * Verify if a trace must be skipped.
+	 *
+	 * @param   string   $class   The class to verify.
+	 * @return  boolean     True if the class must be skipped, false otherwise.
+	 * @since   2.4.0
+	 */
+	private function is_skipped( string $class ) {
+		foreach ( $this->skip_classes as $test_class ) {
+			if ( false !== strpos( $class, $test_class ) ) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

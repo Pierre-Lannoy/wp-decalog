@@ -585,17 +585,23 @@ class EventViewer {
 				$content = $this->get_section( $error );
 			} else {
 				foreach ( array_reverse( $trace['callstack'] ) as $idx => $item ) {
-					if ( $idx < 10 ) {
-						$element = '<span style="font-family:monospace;font-size:8px;font-weight: bold;vertical-align: middle;padding:3px 5px;background-color:#F9F9F9;color:#9999BB;border:2px solid #9999BB;border-radius:50%;cursor: default;">' . $idx . '</span> &nbsp;' . $item['call'];
+					if ( array_key_exists( 'call', $item ) ) {
+						if ( $idx < 10 ) {
+							$element = '<span style="font-family:monospace;font-size:8px;font-weight: bold;vertical-align: middle;padding:3px 5px;background-color:#F9F9F9;color:#9999BB;border:2px solid #9999BB;border-radius:50%;cursor: default;">' . $idx . '</span> &nbsp;' . $item['call'];
+						} else {
+							$element = '<span style="font-family:monospace;font-size:8px;font-weight: bold;vertical-align: middle;padding:3px;background-color:#F9F9F9;color:#9999BB;border:2px solid #9999BB;border-radius:50%;cursor: default;">' . $idx . '</span> &nbsp;' . $item['call'];
+						}
+						if ( array_key_exists( 'file', $item ) ) {
+							$element .= '<br/><span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="width:100%;cursor: default;">' . $this->get_icon( 'file-text' ) . $item['file'] . '</span>';
+						}
 					} else {
-						$element = '<span style="font-family:monospace;font-size:8px;font-weight: bold;vertical-align: middle;padding:3px;background-color:#F9F9F9;color:#9999BB;border:2px solid #9999BB;border-radius:50%;cursor: default;">' . $idx . '</span> &nbsp;' . $item['call'];
+						$element = '<span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="width:100%;cursor: default;">' . $this->get_icon( 'eye-off' ) . esc_html__( 'No backtrace available', 'decalog' ) . '</span>';
 					}
-					$element .= '<br/><span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="width:100%;cursor: default;">' . $this->get_icon( 'file-text' ) . $item['file'] . '</span>';
 					$content .= $this->get_section( $element );
 				}
 			}
 		} else {
-			$content = '- no content- ';
+			$content = '<span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="width:100%;cursor: default;">' . $this->get_icon( 'eye-off' ) . esc_html__( 'No backtrace available', 'decalog' ) . '</span>';
 		}
 		$this->output_activity_block( $content );
 	}
@@ -615,16 +621,20 @@ class EventViewer {
 				$content = $this->get_section( $error );
 			} else {
 				foreach ( array_reverse( $trace['wordpress'] ) as $idx => $item ) {
-					if ( $idx < 10 ) {
-						$element = '<span style="font-family:monospace;font-size:8px;font-weight: bold;vertical-align: middle;padding:3px 5px;background-color:#F9F9F9;color:#9999BB;border:2px solid #9999BB;border-radius:50%;cursor: default;">' . $idx . '</span> &nbsp;' . $item;
+					if ( '' !== $item ) {
+						if ( $idx < 10 ) {
+							$element = '<span style="font-family:monospace;font-size:8px;font-weight: bold;vertical-align: middle;padding:3px 5px;background-color:#F9F9F9;color:#9999BB;border:2px solid #9999BB;border-radius:50%;cursor: default;">' . $idx . '</span> &nbsp;' . $item;
+						} else {
+							$element = '<span style="font-family:monospace;font-size:8px;font-weight: bold;vertical-align: middle;padding:3px;background-color:#F9F9F9;color:#9999BB;border:2px solid #9999BB;border-radius:50%;cursor: default;">' . $idx . '</span> &nbsp;' . $item;
+						}
 					} else {
-						$element = '<span style="font-family:monospace;font-size:8px;font-weight: bold;vertical-align: middle;padding:3px;background-color:#F9F9F9;color:#9999BB;border:2px solid #9999BB;border-radius:50%;cursor: default;">' . $idx . '</span> &nbsp;' . $item;
+						$element = '<span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="width:100%;cursor: default;">' . $this->get_icon( 'eye-off' ) . esc_html__( 'No backtrace available', 'decalog' ) . '</span>';
 					}
 					$content .= $this->get_section( $element );
 				}
 			}
 		} else {
-			$content = '- no content- ';
+			$content = '<span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="width:100%;cursor: default;">' . $this->get_icon( 'eye-off' ) . esc_html__( 'No backtrace available', 'decalog' ) . '</span>';
 		}
 		$this->output_activity_block( $content );
 	}
