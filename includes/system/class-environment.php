@@ -199,16 +199,13 @@ class Environment {
 	/**
 	 * Get the WordPress version Text.
 	 *
+	 * @param   boolean     Optional. Shortened version.
 	 * @return string  The WordPress version in human-readable text.
 	 * @since  1.0.0
 	 */
-	public static function wordpress_version_text() {
+	public static function wordpress_version_text( $short = false ) {
 		global $wp_version;
-		$s = '';
-		if ( is_multisite() ) {
-			$s = 'MU ';
-		}
-		return 'WordPress ' . $s . $wp_version;
+		return ( $short ? 'WP' : 'WordPress ' ) . ( is_multisite() ? 'MU' : '' ) . ' ' . $wp_version;
 	}
 
 	/**

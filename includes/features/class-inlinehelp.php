@@ -157,7 +157,7 @@ class InlineHelp {
 		$content  = '<p>' . sprintf( esc_html__( 'This screen allows you to set the %s loggers.', 'decalog' ), DECALOG_PRODUCT_NAME ) . '</p>';
 		$content .= '<p>' . esc_html__( 'A logger is a recorder of events. It can filter them (accept or refuse to record the event based on settings) then store them or send them to logging/alerting services.', 'decalog' );
 		$content .= ' ' . esc_html__( 'You can set as many loggers as you want. All the set loggers will receive all events and, regarding their own settings, will enrich them and record them or not.', 'decalog' ) . '</p>';
-		$content .= '<p>' . esc_html__( 'Loggers are classified in three main categories: alerting, debugging and logging. You can find details on these categories on the corresponding tabs of this help.', 'decalog' ) . '</p>';
+		$content .= '<p>' . esc_html__( 'Loggers are classified in four main categories: alerting, debugging, logging and crash analytics. You can find details on these categories on the corresponding tabs of this help.', 'decalog' ) . '</p>';
 		$tabs[]   = [
 			'title'   => esc_html__( 'Overview', 'decalog' ),
 			'id'      => 'decalog-contextual-settings-loggers-overview',
@@ -183,6 +183,13 @@ class InlineHelp {
 			'title'   => esc_html__( 'Logging', 'decalog' ),
 			'id'      => 'decalog-contextual-settings-loggers-logging',
 			'content' => $content . $this->get_loggers( 'logging' ),
+		];
+		// Monitoring.
+		$content = '<p>' . esc_html__( 'These loggers send reports to crash analytics services. It may be local or SaaS, free or paid services.', 'decalog' ) . '</p>';
+		$tabs[]  = [
+			'title'   => esc_html__( 'Crash Analytics', 'decalog' ),
+			'id'      => 'decalog-contextual-settings-loggers-analytics',
+			'content' => $content . $this->get_loggers( 'analytics' ),
 		];
 		// Admin Rights.
 		if ( Role::SUPER_ADMIN === Role::admin_type() || Role::LOCAL_ADMIN === Role::admin_type() ) {

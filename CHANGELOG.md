@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased]
 
 ### Added
+- New logger to send crash reports to Bugsnag.
 - New 'environment' context metadata for all external loggers.
 - Compatibility with WordPress 5.7.
 - New setting to override live console and local access privileges when in development or staging environments (thanks to [sebastienserre](https://github.com/sebastienserre) for the suggestion).
@@ -21,7 +22,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Improved display in WordPress event viewer when bactraces are not available.
 - [WP_CLI] `log` command have now a definition and all synopsis are up to date.
 - The display of verb labels in events viewer has been improved.
-- Better PHP introspection and backtrace parsing and rendering.
+- Better PHP introspection and backtrace cleaning, parsing and rendering.
 
 ### Fixed
 - [SEC002] The password for ElasticCloud logger is in plain text in "Site Health Info" page.

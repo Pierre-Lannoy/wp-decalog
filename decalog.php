@@ -99,7 +99,6 @@ function decalog_run() {
 		$plugin->run();
 	}
 }
-
 register_activation_hook( __FILE__, 'decalog_activate' );
 register_deactivation_hook( __FILE__, 'decalog_deactivate' );
 register_uninstall_hook( __FILE__, 'decalog_uninstall' );
