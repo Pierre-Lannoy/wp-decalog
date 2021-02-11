@@ -311,6 +311,58 @@ class HandlerTypes {
 				],
 			],
 		];
+
+		$this->handlers[] = [
+			'version'       => DECALOG_VERSION,
+			'id'            => 'GAnalyticsHandler',
+			'ancestor'      => 'GAnalyticsHandler',
+			'namespace'     => 'Decalog\\Handler',
+			'class'         => 'analytics',
+			'minimal'       => Logger::WARNING,
+			'name'          => 'Google Analytics',
+			'help'          => esc_html__( 'Exceptions sent to Google Analytics service.', 'decalog' ),
+			'icon'          => $this->get_base64_ganalytics_icon(),
+			'needs'         => [],
+			'params'        => [ 'processors', 'privacy' ],
+			'configuration' => [
+				'token'  => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Tracking ID', 'decalog' ),
+					'help'    => esc_html__( 'The tracking ID / web property ID for Google Analytics service. The format must be UA-XXXX-Y.', 'decalog' ),
+					'default' => '',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
+				'buffer' => [
+					'type'    => 'boolean',
+					'show'    => true,
+					'name'    => esc_html__( 'Deferred forwarding', 'decalog' ),
+					'help'    => esc_html__( 'Wait for the full page is rendered before sending exceptions (recommended).', 'decalog' ),
+					'default' => true,
+					'control' => [
+						'type'    => 'field_checkbox',
+						'cast'    => 'boolean',
+						'enabled' => true,
+					],
+				],
+			],
+			'init'          => [
+				[
+					'type'  => 'configuration',
+					'value' => 'token',
+				],
+				[
+					'type'  => 'literal',
+					'value' => true,
+				],
+				[ 'type' => 'level' ],
+			],
+		];
+
 		$this->handlers[] = [
 			'version'       => DECALOG_VERSION,
 			'id'            => 'LogentriesHandler',
@@ -563,6 +615,58 @@ class HandlerTypes {
 				[ 'type' => 'level' ],
 			],
 		];
+
+		$this->handlers[] = [
+			'version'       => DECALOG_VERSION,
+			'id'            => 'RaygunHandler',
+			'ancestor'      => 'RaygungHandler',
+			'namespace'     => 'Decalog\\Handler',
+			'class'         => 'analytics',
+			'minimal'       => Logger::WARNING,
+			'name'          => 'Raygun',
+			'help'          => esc_html__( 'Crash reports sent to Raygun service.', 'decalog' ),
+			'icon'          => $this->get_base64_raygun_icon(),
+			'needs'         => [],
+			'params'        => [ 'processors', 'privacy' ],
+			'configuration' => [
+				'token'  => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'API key', 'decalog' ),
+					'help'    => esc_html__( 'The API key of the service.', 'decalog' ),
+					'default' => '',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
+				'buffer' => [
+					'type'    => 'boolean',
+					'show'    => true,
+					'name'    => esc_html__( 'Deferred forwarding', 'decalog' ),
+					'help'    => esc_html__( 'Wait for the full page is rendered before sending reports (recommended).', 'decalog' ),
+					'default' => true,
+					'control' => [
+						'type'    => 'field_checkbox',
+						'cast'    => 'boolean',
+						'enabled' => true,
+					],
+				],
+			],
+			'init'          => [
+				[
+					'type'  => 'configuration',
+					'value' => 'token',
+				],
+				[
+					'type'  => 'literal',
+					'value' => true,
+				],
+				[ 'type' => 'level' ],
+			],
+		];
+
 		$this->handlers[] = [
 			'version'       => DECALOG_MONOLOG_VERSION,
 			'id'            => 'RotatingFileHandler',
@@ -1402,6 +1506,58 @@ class HandlerTypes {
 		$source  = '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" fill-rule="evenodd"  fill="none" width="100%" height="100%"  viewBox="0 0 256 256">';
 		$source .= '<g transform="translate(70,44) scale(0.47,0.47)">';
 		$source .= '<path style="fill:' . $color . '" d="M65.0423885,2.17395258 C70.4545453,5.19866092 73.8066154,10.9148738 73.8039753,17.1148976 L73.9684716,167.519284 L128,167.519284 C157.528128,167.514849 184.151192,185.29875 195.45419,212.57791 C206.757189,239.857069 200.514033,271.258943 179.636062,292.140051 C158.758091,313.021159 127.357155,319.269032 100.076298,307.970132 C72.7954405,296.671231 55.0075397,270.050839 55.0075394,240.522711 L54.9417409,186.567948 L19.0376971,186.567948 L19.0376971,240.522711 C19.0376971,300.700929 67.8217818,349.485014 128,349.485014 C188.178218,349.485014 236.962303,300.700929 236.962303,240.522711 C236.962303,180.344493 188.178218,131.560408 128,131.560408 L111.484578,131.560408 C106.227464,131.560408 101.96573,127.298675 101.96573,122.04156 C101.96573,116.784445 106.227464,112.522711 111.484578,112.522711 L128,112.522711 C198.692448,112.522711 256,169.830263 256,240.522711 C256,311.215159 198.692448,368.522711 128,368.522711 C57.3401216,368.444143 0.0785681282,311.18259 0,240.522711 L0,177.049099 C0,171.790207 4.25996023,167.525336 9.51884853,167.519284 L54.9198081,167.519284 L54.7662783,20.5693185 L19.0376971,42.5569813 L19.0376971,126.23073 C19.0376971,131.487845 14.7759634,135.749579 9.51884853,135.749579 C4.26173365,135.749579 0,131.487845 0,126.23073 L0,41.4713061 C0.0146388647,35.5314746 3.0957178,30.0203657 8.14804661,26.8969401 L47.7258396,2.54053164 C53.0051433,-0.710507348 59.6302316,-0.85075577 65.0423885,2.17395258 Z M127.945168,186.567948 L73.9904033,186.567948 L73.9904033,240.511745 C73.9859687,262.335407 87.1288121,282.012637 107.289974,290.367265 C127.451136,298.721892 150.65984,294.108459 166.093068,278.678368 C181.526296,263.248276 186.144447,240.040511 177.793918,219.877651 C169.443389,199.714791 149.768831,186.567948 127.945168,186.567948 Z M128,225.257461 C136.430765,225.257461 143.26525,232.091946 143.26525,240.522711 C143.26525,248.953476 136.430765,255.787961 128,255.787961 C119.569235,255.787961 112.73475,248.953476 112.73475,240.522711 C112.73475,232.091946 119.569235,225.257461 128,225.257461 Z"/>';
+		$source .= '</g>';
+		$source .= '</svg>';
+		// phpcs:ignore
+		return 'data:image/svg+xml;base64,' . base64_encode( $source );
+	}
+
+	/**
+	 * Returns a base64 svg resource for the Raygun icon.
+	 *
+	 * @param string $color1 Optional. Color 1 of the icon.
+	 * @param string $color2 Optional. Color 2 of the icon.
+	 * @param string $color3 Optional. Color 3 of the icon.
+	 * @param string $color4 Optional. Color 4 of the icon.
+	 * @param string $color5 Optional. Color 5 of the icon.
+	 * @return string The svg resource as a base64.
+	 * @since 1.0.0
+	 */
+	private function get_base64_raygun_icon( $color1 = '#F4DB12', $color2 = '#DF282B', $color3 = '#D3D2D3', $color4 = '#C02123', $color5 = '#FFFFFF' ) {
+		$source  = '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" fill-rule="evenodd"  fill="none" width="100%" height="100%"  viewBox="0 0 100 100">';
+		$source .= '<g transform="translate(6,3) scale(2.2,2.2)">';
+		$source .= '<path style="fill:' . $color1 . '" d="M23.0848 8.81499C23.0848 8.81499 15.7216 4.938 6.06982 8.51676L8.55739 11.2008L6.16933 12.4932L9.2539 16.0719L23.0848 8.81499Z"/>';
+		$source .= '<path style="fill:' . $color1 . '" d="M29.9502 16.0719V18.6566V20.4459V23.0306C29.9502 23.0306 31.9402 20.4459 35.9203 20.4459V18.6566C31.9402 18.6566 29.9502 16.0719 29.9502 16.0719Z"/>';
+		$source .= '<path style="fill:' . $color2 . '" d="M14.0298 28.7964C14.0298 28.7964 18.9054 30.7846 16.5173 36.5504C16.1193 37.5445 18.9054 38.638 21.2935 37.5445C21.393 37.4451 20.0994 36.7493 20.0994 35.7552C20.0994 35.1587 21.2935 30.8841 21.2935 30.8841L14.0298 28.7964Z"/>';
+		$source .= '<path style="fill:' . $color3 . '" d="M21.1941 37.4451C21.1941 37.4451 17.214 35.5563 19.9006 30.3869C22.4876 25.5159 23.9802 31.381 23.9802 31.381C23.9802 31.381 19.9006 34.4628 21.1941 37.4451Z"/>';
+		$source .= '<path style="fill:' . $color4 . '" d="M37.5125 21.9371C38.8863 21.9371 40 20.8244 40 19.4519C40 18.0793 38.8863 16.9666 37.5125 16.9666C36.1386 16.9666 35.0249 18.0793 35.0249 19.4519C35.0249 20.8244 36.1386 21.9371 37.5125 21.9371Z"/>';
+		$source .= '<path style="fill:' . $color2 . '" d="M28.2586 8.11912C27.6616 8.11912 27.0646 8.01971 26.4676 8.01971C16.0198 8.01971 8.55713 12.1949 8.55713 19.9489C8.55713 27.7029 16.0198 31.8781 26.4676 31.8781C27.0646 31.8781 27.6616 31.8781 28.2586 31.7787V8.11912Z" fill="#DF282B"/>';
+		$source .= '<path style="fill:' . $color4 . '" d="M8.55713 19.9489C8.55713 27.7029 16.0198 31.8781 26.3681 31.8781C26.9651 31.8781 27.5621 31.8781 28.1591 31.7787V20.0483"/>';
+		$source .= '<path style="fill:' . $color2 . '" d="M19.0102 26.0129C22.3074 26.0129 24.9803 23.3424 24.9803 20.0483C24.9803 16.7541 22.3074 14.0837 19.0102 14.0837C15.713 14.0837 13.04 16.7541 13.04 20.0483C13.04 23.3424 15.713 26.0129 19.0102 26.0129Z"/>';
+		$source .= '<path style="fill:' . $color1 . '" d="M19.5076 14.2826C22.4927 14.2826 24.9802 16.8672 24.9802 19.9489C24.9802 23.0307 22.4927 25.6153 19.5076 25.6153C16.5225 25.6153 14.035 23.1301 14.035 19.9489C14.035 16.7678 16.5225 14.2826 19.5076 14.2826ZM19.5076 12.2944C15.428 12.2944 12.0449 15.7737 12.0449 19.9489C12.0449 24.2236 15.428 27.6035 19.5076 27.6035C23.5872 27.6035 26.9703 24.2236 26.9703 19.9489C26.9703 15.7737 23.5872 12.2944 19.5076 12.2944Z"/>';
+		$source .= '<path style="fill:' . $color5 . '" d="M22.6466 19.4929L20.1579 19.0849L21.1317 13.9843L17.02 20.5131L19.5087 20.9211L18.4267 26.3277L22.6466 19.4929Z"/>';
+		$source .= '<path style="fill:' . $color1 . '" d="M13.9353 16.0719C13.9353 16.0719 7.46766 17.1654 4.28358 20.5454L7.46766 21.6389C7.46766 21.6389 3.18906 22.7324 1 25.0188C1 25.0188 8.46269 21.6389 14.9303 25.0188L12.5423 21.8377L12.9403 21.0424L12.3433 20.0483L13.9353 16.0719Z"/>';
+		$source .= '<path style="fill:' . $color3 . '" d="M28.2588 31.7787C29.3533 31.6793 30.3483 31.5799 31.3434 31.4805V8.51674C30.3483 8.31792 29.2538 8.21851 28.2588 8.21851V31.7787Z"/>';
+		$source .= '<path style="fill:' . $color2 . '" d="M39.9005 18.756C39.602 17.7619 38.607 16.9666 37.5125 16.9666C36.1194 16.9666 35.0249 18.0601 35.0249 19.4519C35.0249 19.7501 35.1244 20.0483 35.2239 20.3466C35.7214 20.7442 36.4179 21.0424 37.1145 21.0424C38.408 21.0424 39.5025 20.0483 39.9005 18.756Z"/>';
+		$source .= '</g>';
+		$source .= '</svg>';
+		// phpcs:ignore
+		return 'data:image/svg+xml;base64,' . base64_encode( $source );
+	}
+
+	/**
+	 * Returns a base64 svg resource for the Raygun icon.
+	 *
+	 * @param string $color1 Optional. Color 1 of the icon.
+	 * @param string $color2 Optional. Color 2 of the icon.
+	 * @return string The svg resource as a base64.
+	 * @since 1.0.0
+	 */
+	private function get_base64_ganalytics_icon( $color1 = '#F9AB00', $color2 = '#E37400' ) {
+		$source  = '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" fill-rule="evenodd"  fill="none" width="100%" height="100%"  viewBox="0 0 100 100">';
+		$source .= '<g transform="translate(15,15) scale(1.4,1.4)">';
+		$source .= '<path style="fill:' . $color1 . '" d="M45.3,41.6c0,3.2-2.6,5.9-5.8,5.9c-0.2,0-0.5,0-0.7,0c-3-0.4-5.2-3.1-5.1-6.1V6.6c-0.1-3,2.1-5.6,5.1-6.1c3.2-0.4,6.1,1.9,6.5,5.1c0,0.2,0,0.5,0,0.7V41.6z"/>';
+		$source .= '<path style="fill:' . $color2 . '" d="M8.6,35.9c3.2,0,5.8,2.6,5.8,5.8c0,3.2-2.6,5.8-5.8,5.8s-5.8-2.6-5.8-5.8c0,0,0,0,0,0C2.7,38.5,5.4,35.9,8.6,35.9z M23.9,18.2c-3.2,0.2-5.7,2.9-5.7,6.1V40c0,4.2,1.9,6.8,4.6,7.4c3.2,0.6,6.2-1.4,6.9-4.6c0.1-0.4,0.1-0.8,0.1-1.2V24.1c0-3.2-2.6-5.9-5.8-5.9C24,18.2,23.9,18.2,23.9,18.2z"/>';
 		$source .= '</g>';
 		$source .= '</svg>';
 		// phpcs:ignore
