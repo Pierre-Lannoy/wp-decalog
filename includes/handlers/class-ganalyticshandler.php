@@ -11,9 +11,12 @@
 
 namespace Decalog\Handler;
 
+use Decalog\System\Environment;
+use Decalog\System\UserAgent;
 use Monolog\Logger;
 use Monolog\Formatter\FormatterInterface;
 use Decalog\Formatter\GAnalyticsFormatter;
+use Decalog\System\Http;
 
 /**
  * Define the Monolog Bugsnag handler.
@@ -37,13 +40,12 @@ class GAnalyticsHandler extends AbstractBufferedHTTPHandler {
 	 */
 	public function __construct( string $key, bool $buffered = true, $level = Logger::DEBUG, bool $bubble = true ) {
 		parent::__construct( $level, $buffered, $bubble );
-		$this->endpoint  = 'https://notify.bugsnag.com/';
+		$this->endpoint  = 'https://www.google-analytics.com/collect';
 		$this->post_args = [
-			'headers' => [
-				'Content-Type'            => 'application/json',
-				'Bugsnag-Api-Key'         => $key,
-				'Bugsnag-Payload-Version' => 5,
+			'headers'    => [
+				'User-Agent' => Http::user_agent()
 			],
+			'user-agent' => filter_input( INPUT_SERVER, 'HTTP_USER_AGENT', FILTER_SANITIZE_STRING ),
 		];
 	}
 
