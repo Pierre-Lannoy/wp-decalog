@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 /**
- * BugsnagFormatter formatter for Monolog
+ * Bugsnag formatter for Monolog
  *
- * Handles all features of BugsnagFormatter formatter for Monolog.
+ * Handles all features of Bugsnag formatter for Monolog.
  *
  * @package Formatters
  * @author  Pierre Lannoy <https://pierre.lannoy.fr/>.
@@ -22,9 +22,9 @@ use Monolog\Logger;
 use PODeviceDetector\API\Device;
 
 /**
- * Define the Monolog BugsnagFormatter formatter.
+ * Define the Monolog Bugsnag formatter.
  *
- * Handles all features of BugsnagFormatter formatter for Monolog.
+ * Handles all features of Bugsnag formatter for Monolog.
  *
  * @package Formatters
  * @author  Pierre Lannoy <https://pierre.lannoy.fr/>.
