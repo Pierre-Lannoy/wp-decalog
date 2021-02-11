@@ -11,6 +11,7 @@
 
 namespace Decalog\Handler;
 
+use Decalog\System\Http;
 use Monolog\Logger;
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Handler\HandlerInterface;
@@ -78,7 +79,13 @@ abstract class AbstractBufferedHTTPHandler extends AbstractProcessingHandler {
 	 */
 	public function __construct( $level = Logger::DEBUG, bool $buffered = true, bool $bubble = true ) {
 		parent::__construct( $level, $bubble );
-		$this->buffered = $buffered;
+		$this->buffered  = $buffered;
+		$this->post_args = [
+			'headers'    => [
+				'User-Agent' => Http::user_agent(),
+			],
+			'user-agent' => Http::user_agent(),
+		];
 	}
 
 	/**

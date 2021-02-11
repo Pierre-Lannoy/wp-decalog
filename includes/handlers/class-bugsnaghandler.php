@@ -37,14 +37,10 @@ class BugsnagHandler extends AbstractBufferedHTTPHandler {
 	 */
 	public function __construct( string $key, bool $buffered = true, $level = Logger::DEBUG, bool $bubble = true ) {
 		parent::__construct( $level, $buffered, $bubble );
-		$this->endpoint  = 'https://notify.bugsnag.com/';
-		$this->post_args = [
-			'headers' => [
-				'Content-Type'            => 'application/json',
-				'Bugsnag-Api-Key'         => $key,
-				'Bugsnag-Payload-Version' => 5,
-			],
-		];
+		$this->endpoint                                        = 'https://notify.bugsnag.com/';
+		$this->post_args['headers']['Content-Type']            = 'application/json';
+		$this->post_args['headers']['Bugsnag-Api-Key']         = $key;
+		$this->post_args['headers']['Bugsnag-Payload-Version'] = 5;
 	}
 
 	/**

@@ -37,13 +37,9 @@ class RaygunHandler extends AbstractBufferedHTTPHandler {
 	 */
 	public function __construct( string $key, bool $buffered = true, $level = Logger::DEBUG, bool $bubble = true ) {
 		parent::__construct( $level, $buffered, $bubble );
-		$this->endpoint  = 'https://api.raygun.com/entries';
-		$this->post_args = [
-			'headers' => [
-				'Content-Type' => 'application/json',
-				'X-ApiKey'     => $key,
-			],
-		];
+		$this->endpoint                             = 'https://api.raygun.com/entries';
+		$this->post_args['headers']['Content-Type'] = 'application/json';
+		$this->post_args['headers']['X-ApiKey']     = $key;
 	}
 
 	/**
@@ -53,7 +49,6 @@ class RaygunHandler extends AbstractBufferedHTTPHandler {
 	 * @since    2.4.0
 	 */
 	protected function write( array $events ): void {
-		$this->post_args['headers']['Bugsnag-Sent-At'] = gmdate( 'c' );
 		if ( 1 === count( $events ) ) {
 			$body                    = [
 				'apiKey'         => $this->post_args['headers']['Bugsnag-Api-Key'],
