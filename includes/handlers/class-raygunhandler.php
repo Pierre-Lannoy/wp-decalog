@@ -13,7 +13,7 @@ namespace Decalog\Handler;
 
 use Monolog\Logger;
 use Monolog\Formatter\FormatterInterface;
-use Decalog\Formatter\BugsnagFormatter;
+use Decalog\Formatter\RaygunFormatter;
 
 /**
  * Define the Monolog Raygun handler.
@@ -74,7 +74,7 @@ class RaygunHandler extends AbstractBufferedHTTPHandler {
 	 * {@inheritDoc}
 	 */
 	protected function getDefaultFormatter(): FormatterInterface {
-		return new BugsnagFormatter();
+		return new RaygunFormatter();
 	}
 
 	/**
