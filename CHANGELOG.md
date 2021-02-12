@@ -24,6 +24,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - [WP_CLI] `log` command have now a definition and all synopsis are up to date.
 - The display of verb labels in events viewer has been improved.
 - Better PHP introspection and backtrace cleaning, parsing and rendering.
+- Check on "mandatory" processors are now done for loggers which need it.
 
 ### Fixed
 - [SEC002] The password for ElasticCloud logger is in plain text in "Site Health Info" page.

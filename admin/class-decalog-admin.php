@@ -1319,7 +1319,7 @@ class Decalog_Admin {
 					'checked'     => in_array( $processor['id'], $this->current_logger['processors'], true ),
 					'description' => $processor['help'],
 					'full_width'  => false,
-					'enabled'     => ( 'WordpressHandler' !== $this->current_logger['handler'] || 'BacktraceProcessor' === $processor['id'] ) && ( 'PushoverHandler' !== $this->current_logger['handler'] ),
+					'enabled'     => ! in_array( $processor['id'], array_merge( $this->current_handler['processors']['excluded'] ?? [], $this->current_handler['processors']['included'] ?? [] ), true ),
 				]
 			);
 			register_setting( 'decalog_logger_details_section', $id );

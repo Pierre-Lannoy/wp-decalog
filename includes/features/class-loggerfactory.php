@@ -181,7 +181,7 @@ class LoggerFactory {
 			$logger = $this->privacy_check( $logger );
 		}
 		if ( $handler && in_array( 'processors', $handler['params'], true ) ) {
-			$logger = $this->processor_check( $logger );
+			$logger = $this->processor_check( $logger, $handler );
 		}
 		if ( $handler && array_key_exists( 'configuration', $handler ) ) {
 			$logger = $this->configuration_check( $logger, $handler['configuration'] );
@@ -304,25 +304,30 @@ class LoggerFactory {
 	/**
 	 * Check the processor part of the logger.
 	 *
-	 * @param   array $logger  The logger definition.
+	 * @param   array $logger   The logger definition.
+	 * @param   array $handler  The handler definition.
 	 * @return  array   The checked logger definition.
 	 * @since    1.0.0
 	 */
-	private function processor_check( $logger ) {
+	private function processor_check( $logger, $handler ) {
 		if ( ! array_key_exists( 'processors', $logger ) ) {
 			$logger['processors'] = [];
 		}
-		if ( 'WordpressHandler' === $logger['handler'] ) {
-			$logger['processors'] = array_merge( [ 'WordpressProcessor', 'WWWProcessor', 'IntrospectionProcessor' ], $logger['processors'] );
-		} else {
-			$processors = [];
-			foreach ( $logger['processors'] as $processor ) {
-				if ( in_array( $processor, $this->processor_types->get_list(), true ) ) {
-					$processors[] = $processor;
-				}
+		$processors = [];
+		foreach ( $logger['processors'] as $processor ) {
+			if ( in_array( $processor, $this->processor_types->get_list(), true ) ) {
+				$processors[] = $processor;
 			}
-			$logger['processors'] = $processors;
 		}
+		if ( array_key_exists( 'processors', $handler ) ) {
+			if ( array_key_exists( 'included', $handler['processors'] ) ) {
+				$processors = array_merge( $processors, $handler['processors']['included'] );
+			}
+			if ( array_key_exists( 'excluded', $handler['processors'] ) ) {
+				$processors = array_diff( $processors, $handler['processors']['excluded'] );
+			}
+		}
+		$logger['processors'] = $processors;
 		return $logger;
 	}
 

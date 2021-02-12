@@ -71,8 +71,6 @@ class HandlerTypes {
 			'configuration' => [],
 			'init'          => [],
 		];
-
-
 		$this->handlers[] = [
 			'version'       => DECALOG_VERSION,
 			'id'            => 'BugsnagHandler',
@@ -85,6 +83,10 @@ class HandlerTypes {
 			'icon'          => $this->get_base64_bugsnag_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
+			'processors'    => [
+				'included' => [ 'WordpressProcessor', 'WWWProcessor', 'IntrospectionProcessor' ],
+				'excluded' => [ 'BacktraceProcessor' ],
+			],
 			'configuration' => [
 				'token'  => [
 					'type'    => 'string',
@@ -123,9 +125,6 @@ class HandlerTypes {
 				[ 'type' => 'level' ],
 			],
 		];
-
-
-
 		$this->handlers[] = [
 			'version'       => DECALOG_MONOLOG_VERSION,
 			'id'            => 'BrowserConsoleHandler',
@@ -324,6 +323,10 @@ class HandlerTypes {
 			'icon'          => $this->get_base64_ganalytics_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
+			'processors'    => [
+				'included' => [ 'WordpressProcessor', 'WWWProcessor' ],
+				'excluded' => [ 'BacktraceProcessor','IntrospectionProcessor' ],
+			],
 			'configuration' => [
 				'token'  => [
 					'type'    => 'string',
@@ -615,7 +618,6 @@ class HandlerTypes {
 				[ 'type' => 'level' ],
 			],
 		];
-
 		$this->handlers[] = [
 			'version'       => DECALOG_VERSION,
 			'id'            => 'RaygunHandler',
@@ -628,6 +630,10 @@ class HandlerTypes {
 			'icon'          => $this->get_base64_raygun_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
+			'processors'    => [
+				'included' => [ 'WordpressProcessor', 'WWWProcessor', 'IntrospectionProcessor' ],
+				'excluded' => [ 'BacktraceProcessor' ],
+			],
 			'configuration' => [
 				'token'  => [
 					'type'    => 'string',
@@ -666,7 +672,6 @@ class HandlerTypes {
 				[ 'type' => 'level' ],
 			],
 		];
-
 		$this->handlers[] = [
 			'version'       => DECALOG_MONOLOG_VERSION,
 			'id'            => 'RotatingFileHandler',
@@ -795,6 +800,9 @@ class HandlerTypes {
 			'icon'          => $this->get_base64_slack_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
+			'processors'    => [
+				'excluded' => [ 'BacktraceProcessor' ],
+			],
 			'configuration' => [
 				'webhook' => [
 					'type'    => 'string',
@@ -1212,6 +1220,9 @@ class HandlerTypes {
 			'icon'          => $this->get_base64_wordpress_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
+			'processors'    => [
+				'included' => [ 'WordpressProcessor', 'WWWProcessor', 'IntrospectionProcessor' ],
+			],
 			'configuration' => [
 				'rotate' => [
 					'type'    => 'integer',
