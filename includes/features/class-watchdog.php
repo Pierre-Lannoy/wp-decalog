@@ -64,11 +64,11 @@ class Watchdog {
 	 * @since    1.2.1
 	 */
 	public function __construct() {
-		register_shutdown_function( [ $this, 'handle_fatal_error' ] );
+		add_action( 'shutdown', [ $this, 'handle_fatal_error' ], 10, 0 );
 		// phpcs:ignore
 		$this->previous_error_handler = set_error_handler( [ $this, 'handle_error' ] );
 		// phpcs:ignore
-		$this->previous_exception_handler = set_exception_handler( [ $this, 'handle_exception' ] );
+		//$this->previous_exception_handler = set_exception_handler( [ $this, 'handle_exception' ] );
 	}
 
 	/**
