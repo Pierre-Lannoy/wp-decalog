@@ -94,7 +94,6 @@ class PhpListener extends AbstractListener {
 	 * @since    1.0.0
 	 */
 	protected function init() {
-		global $wpdb;
 		$this->id      = 'php';
 		$this->name    = 'PHP';
 		$this->class   = 'php';
@@ -129,7 +128,7 @@ class PhpListener extends AbstractListener {
 				add_action( 'sanitize_comment_cookies', [ $this, 'bootstrap_check' ] );
 			}
 		}
-		register_shutdown_function( [ $this, 'handle_fatal_error' ] );
+		add_action( 'shutdown', [ $this, 'handle_fatal_error' ], 10, 0 );
 		// phpcs:ignore
 		$this->previous_error_handler = set_error_handler( [ $this, 'handle_error' ] );
 		// phpcs:ignore
