@@ -176,15 +176,14 @@ class Http {
 		599 => 'Network connect timeout error',
 		999 => 'Forbidden by quota manager',
 	];
+
 	/**
 	 * Set the plugin user agent.
 	 *
-	 * @param string $user_agent Plugin user agent string.
-	 * @param string $url        The request URL.
 	 * @return  string  The user agent to use.
 	 * @since  1.0.0
 	 */
-	public static function user_agent( $user_agent, $url ) {
+	public static function user_agent() {
 		return DECALOG_PRODUCT_NAME . ' (' . Environment::wordpress_version_id() . '; ' . Environment::plugin_version_id() . '; +' . DECALOG_PRODUCT_URL . ')';
 	}
 

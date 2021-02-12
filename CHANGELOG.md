@@ -7,10 +7,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 - New logger to send crash reports to Bugsnag.
+- New logger to send exceptions to Google (Universal) Analytics.
 - New 'environment' context metadata for all external loggers.
 - Compatibility with WordPress 5.7.
 - New setting to override live console and local access privileges when in development or staging environments (thanks to [sebastienserre](https://github.com/sebastienserre) for the suggestion).
-- New bootstrap listener allowing to catch PHP events occurring before DecaLog is loaded (see "options" tab in plugin settings).
+- New automatic bootstrap listener allowing to catch PHP events occurring before DecaLog is loaded.
 
 ### Changed
 - When OPcache API is restricted by `restrict_api` configuration directive, OPcache configuration is no more monitored.

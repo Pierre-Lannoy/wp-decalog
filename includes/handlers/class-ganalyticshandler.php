@@ -30,6 +30,14 @@ use Decalog\System\Http;
 class GAnalyticsHandler extends AbstractBufferedHTTPHandler {
 
 	/**
+	 * Standard args.
+	 *
+	 * @since  2.4.0
+	 * @var    array    $std_args    The standard args for the post request.
+	 */
+	private $std_args = [];
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @param   string $key         The Bugsnag API key.
@@ -40,13 +48,8 @@ class GAnalyticsHandler extends AbstractBufferedHTTPHandler {
 	 */
 	public function __construct( string $key, bool $buffered = true, $level = Logger::DEBUG, bool $bubble = true ) {
 		parent::__construct( $level, $buffered, $bubble );
-		$this->endpoint  = 'https://www.google-analytics.com/collect';
-		$this->post_args = [
-			'headers'    => [
-				'User-Agent' => Http::user_agent()
-			],
-			'user-agent' => filter_input( INPUT_SERVER, 'HTTP_USER_AGENT', FILTER_SANITIZE_STRING ),
-		];
+		$this->endpoint = 'https://www.google-analytics.com/batch';
+		$this->std_args = [ 'v=1', 't=exception', 'tid=' . $key ];
 	}
 
 	/**
@@ -56,21 +59,15 @@ class GAnalyticsHandler extends AbstractBufferedHTTPHandler {
 	 * @since    2.4.0
 	 */
 	protected function write( array $events ): void {
-		$this->post_args['headers']['Bugsnag-Sent-At'] = gmdate( 'c' );
-		if ( 1 === count( $events ) ) {
-			$body                    = [
-				'apiKey'         => $this->post_args['headers']['Bugsnag-Api-Key'],
-				'payloadVersion' => $this->post_args['headers']['Bugsnag-Payload-Version'],
-				'notifier'       => (object) [
-					'name'    => DECALOG_PRODUCT_NAME,
-					'version' => DECALOG_VERSION,
-					'url'     => DECALOG_PRODUCT_URL,
-				],
-				'events'         => maybe_unserialize( $events[0] ),
-			];
-			$this->post_args['body'] = wp_json_encode( $body );
-			parent::write( $this->post_args );
+		$this->post_args['body'] = '';
+		foreach ( $events as $args ) {
+			$records = [];
+			foreach ( $args as $key => $arg ) {
+				$records[] = $key . '=' . $arg;
+			}
+			$this->post_args['body'] .= rawurlencode( implode( '&', array_merge( $records, $this->std_args ) ) ) . PHP_EOL;
 		}
+		parent::write( $this->post_args );
 	}
 
 	/**
@@ -92,8 +89,8 @@ class GAnalyticsHandler extends AbstractBufferedHTTPHandler {
 			$messages[] = $record;
 		}
 		if ( ! empty( $messages ) ) {
-			$messages = $this->getFormatter()->formatBatch( $messages );
-			$this->write( [ $messages ] );
+			$messages = maybe_unserialize( $this->getFormatter()->formatBatch( $messages ) );
+			$this->write( $messages );
 		}
 	}
 
