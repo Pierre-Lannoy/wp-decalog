@@ -12,7 +12,7 @@ define( 'DECALOG_PRODUCT_URL', 'https://github.com/Pierre-Lannoy/wp-decalog' );
 define( 'DECALOG_PRODUCT_SHORTNAME', 'DecaLog' );
 define( 'DECALOG_PRODUCT_ABBREVIATION', 'decalog' );
 define( 'DECALOG_SLUG', 'decalog' );
-define( 'DECALOG_VERSION', '2.4.0-dev0' );
+define( 'DECALOG_VERSION', '2.4.0-dev1' );
 define( 'DECALOG_API_VERSION', '1' );
 define( 'DECALOG_MONOLOG_VERSION', '2.2.0' );
 define( 'DECALOG_CODENAME', '"-"' );
