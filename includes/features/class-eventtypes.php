@@ -91,6 +91,22 @@ class EventTypes {
 	];
 
 	/**
+	 * List of the available level emojis.
+	 *
+	 * @var string[] $level_names Logging levels emojis.
+	 */
+	public static $level_emojis = [
+		Logger::DEBUG     => '⬜',
+		Logger::INFO      => '🟦',
+		Logger::NOTICE    => '🟩',
+		Logger::WARNING   => '🟨',
+		Logger::ERROR     => '🟧',
+		Logger::CRITICAL  => '🟥',
+		Logger::ALERT     => '🟪',
+		Logger::EMERGENCY => '⬛',
+	];
+
+	/**
 	 * List of the available levels.
 	 *
 	 * @since    1.0.0
