@@ -279,7 +279,6 @@ class PhpListener extends AbstractListener {
 	public function handle_fatal_error() {
 		$last_error = error_get_last();
 		if ( isset( $last_error ) && is_array( $last_error ) ) {
-			DLogger::ban( $last_error['file'], $last_error['message'] );
 			if ( in_array( $last_error['type'], $this->fatal_errors, true ) ) {
 				$file    = PHP::normalized_file_line( $last_error['file'], $last_error['line'] );
 				$message = sprintf( 'Fatal error (%s): "%s" at `%s`.', $this->code_to_string( $last_error['type'] ), $last_error['message'], $file );
@@ -299,7 +298,6 @@ class PhpListener extends AbstractListener {
 	 * @since    1.0.0
 	 */
 	public function handle_error( $code, $message, $file = '', $line = 0, $context = [] ) {
-		DLogger::ban( $file, $message );
 		if ( ! in_array( $code, $this->fatal_errors, true ) ) {
 			$level   = $this->error_level_map[ $code ] ?? Logger::CRITICAL;
 			$file    = PHP::normalized_file_line( $file, $line );
@@ -320,7 +318,6 @@ class PhpListener extends AbstractListener {
 	 * @since    1.0.0
 	 */
 	public function handle_exception( $exception ) {
-		DLogger::ban( $exception->getFile(), $exception->getMessage() );
 		$file    = PHP::normalized_file_line( $exception->getFile(), $exception->getLine() );
 		$message = sprintf( 'Uncaught exception (%s): "%s" at `%s`.', Utils::getClass( $exception ), $exception->getMessage(), $file );
 		$this->logger->error( $message, (int) $exception->getCode() );

@@ -25,7 +25,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - The display of verb labels in events viewer has been improved.
 - Better PHP introspection and backtrace cleaning, parsing and rendering.
 - Check on "mandatory" processors are now done for loggers which need it.
-- Improved self monitoring to handle loggers internal errors. 
+- Improved self monitoring to handle loggers internal errors.
+- Code refactoring led to a huge execution speed gain: DecaLog is now 40% faster.
 
 ### Fixed
 - [SEC002] The password for ElasticCloud logger is in plain text in "Site Health Info" page.
@@ -34,6 +35,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - In Site Health section, Opcache status may be wrong (or generates PHP warnings) if OPcache API usage is restricted.
 - PHP notice when trying to display details for "System auto-logger".
 - DecaLog may log multiple times a change about environment type.
+
+### Removed
+- DecaLog internal watchdog as it was no longer necessary.
 
 ## [2.3.0] - 2020-11-23
 

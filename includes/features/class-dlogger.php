@@ -31,14 +31,6 @@ use Decalog\Plugin\Feature\HandlerDiagnosis;
 class DLogger {
 
 	/**
-	 * The banned classes.
-	 *
-	 * @since  1.0.0
-	 * @var    array    $banned    Maintains the list of banned classes.
-	 */
-	private static $banned = [];
-
-	/**
 	 * The class of the component.
 	 *
 	 * @since  1.0.0
@@ -103,40 +95,6 @@ class DLogger {
 	private $allowed = true;
 
 	/**
-	 * The bannissable extra classes.
-	 *
-	 * @since  1.0.0
-	 * @var    array    $bannissable    Maintains the bannissable extra classes.
-	 */
-	private static $bannissable = [ 'ssl://api.pushover.net' => 'pshhandler' ];
-
-	/**
-	 * Temporarily ban a class.
-	 *
-	 * @param  string $classname The class name to ban.
-	 * @param  string $message Optional. The message of the initial error.
-	 * @since 1.0.0
-	 */
-	public static function ban( $classname, $message = '' ) {
-		if ( '' !== $message ) {
-			foreach ( self::$bannissable as $key => $val ) {
-				if ( false !== strpos( $message, $key ) ) {
-					if ( ! in_array( $val, self::$banned, true ) ) {
-						self::$banned[] = $val;
-					}
-				}
-			}
-		}
-		while ( false !== strpos( $classname, '/' ) ) {
-			$classname = substr( $classname, strpos( $classname, '/' ) + 1 );
-		}
-		$classname = str_replace( '.php', '', strtolower( $classname ) );
-		if ( ! in_array( $classname, self::$banned, true ) ) {
-			self::$banned[] = $classname;
-		}
-	}
-
-	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @param   string  $class The class identifier, must be in self::$classes.
@@ -178,7 +136,6 @@ class DLogger {
 		$this->logger  = new Logger( $this->current_channel_tag(), [], [], Timezone::network_get() );
 		$handlers      = new HandlerTypes();
 		$diagnosis     = new HandlerDiagnosis();
-		$banned        = [];
 		$unloadable    = [];
 		$skipped       = [];
 		foreach ( $this->loggers_check() as $key => $logger ) {
@@ -187,7 +144,7 @@ class DLogger {
 			}
 			$handler_def    = $handlers->get( $logger['handler'] );
 			$logger['uuid'] = $key;
-			if ( $this->in_test || ( ! in_array( strtolower( $handler_def['ancestor'] ), self::$banned, true ) && ! in_array( strtolower( $handler_def['id'] ), self::$banned, true ) ) ) {
+			if ( $this->in_test ) {
 				if ( $diagnosis->check( $handler_def['id'] ) ) {
 					$handler = $factory->create_logger( $logger );
 					if ( $handler ) {
@@ -198,13 +155,7 @@ class DLogger {
 				} else {
 					$unloadable[] = sprintf( 'Unable to load a %s logger. %s', $handler_def['name'], $diagnosis->error_string( $handler_def['id'] ) );
 				}
-			} else {
-				$banned[] = $handler_def['name'];
 			}
-		}
-		if ( count( $banned ) > 0 ) {
-			// phpcs:ignore
-			$this->critical( sprintf ('Due to DecaLog internal errors, the following logger types have been temporarily deactivated: %s.', implode(', ', $banned ) ), 666 );
 		}
 		if ( count( $unloadable ) > 0 ) {
 			foreach ( $unloadable as $item ) {
@@ -228,45 +179,20 @@ class DLogger {
 		$loggers = Option::network_get( 'loggers' );
 		// Verify shared memory logger
 		if ( ! array_key_exists( DECALOG_SHM_ID, $loggers ) ) {
-			$shm                     = [];
-			$shm['name']             = __( 'System auto-logger', 'decalog' );
-			$shm['handler']          = 'SharedMemoryHandler';
-			$shm['running']          = Option::network_get( 'livelog' );
-			$shm['level']            = Logger::INFO;
-			$shm['privacy']          = [ 'obfuscation' => 0, 'pseudonymization' => 0 ];
-			$shm['processors']       = [ 'WordpressProcessor', 'IntrospectionProcessor', 'WWWProcessor' ];
-			$loggers[DECALOG_SHM_ID] = $shm;
+			$shm                       = [];
+			$shm['name']               = __( 'System auto-logger', 'decalog' );
+			$shm['handler']            = 'SharedMemoryHandler';
+			$shm['running']            = Option::network_get( 'livelog' );
+			$shm['level']              = Logger::INFO;
+			$shm['privacy']            = [
+				'obfuscation'      => 0,
+				'pseudonymization' => 0,
+			];
+			$shm['processors']         = [ 'WordpressProcessor', 'IntrospectionProcessor', 'WWWProcessor' ];
+			$loggers[ DECALOG_SHM_ID ] = $shm;
 			Option::network_set( 'loggers', $loggers );
 		}
 		return Option::network_get( 'loggers' );
-	}
-
-	/**
-	 * Check the integrity of the logger.
-	 *
-	 * @since 1.0.0
-	 */
-	private function integrity_check() {
-		if ( count( self::$banned ) > 0 && ! $this->in_test ) {
-			$handlers = new HandlerTypes();
-			$banned   = [];
-			foreach ( $this->logger->getHandlers() as $handler ) {
-				$classname = get_class( $handler );
-				while ( false !== strpos( $classname, '\\' ) ) {
-					$classname = substr( $classname, strpos( $classname, '\\' ) + 1 );
-				}
-				$handler_def = $handlers->get( $classname );
-				$ancestor    = $handler_def['ancestor'];
-				if ( in_array( strtolower( $classname ), self::$banned, true ) || in_array( strtolower( $ancestor ), self::$banned, true ) ) {
-					$this->logger->popHandler( $handler );
-					$banned[] = $handler_def['name'];
-				}
-			}
-			if ( count( $banned ) > 0 ) {
-				// phpcs:ignore
-				$this->critical( sprintf ('Due to DecaLog internal errors, the following logger types have been temporarily deactivated: %s.', implode(', ', $banned ) ), 666 );
-			}
-		}
 	}
 
 	/**
@@ -330,21 +256,33 @@ class DLogger {
 	 * @since 1.10.0+
 	 */
 	private function normalize_array( $array ) {
-		array_walk_recursive( $array, function ( &$item, $key ) { if ( is_string( $item ) ) { $item = $this->normalize_string( $item ); } } );
+		array_walk_recursive(
+			$array,
+			function ( &$item, $key ) {
+				if ( is_string( $item ) ) {
+					$item = $this->normalize_string( $item );
+				} }
+		);
 		return $array;
 	}
 
 	/**
 	 * Adds a log record at a specific level.
 	 *
-	 * @param mixed   $level The log level.
-	 * @param string  $message The log message.
-	 * @param integer $code Optional. The log code.
-	 * @param string  $phase Optional. The log phase.
+	 * @param mixed    $level   The log level.
+	 * @param string   $message The log message.
+	 * @param integer  $code    Optional. The log code.
+	 * @param string   $phase   Optional. The log phase.
+	 * @param boolean  $signal  Optional. Add .
+	 * @return  boolean     True if message was logged, false otherwise.
 	 * @since 1.0.0
 	 */
-	public function log( $level, $message, $code = 0, $phase = '' ) {
+	public function log( $level, $message, $code = 0, $phase = '', $signal = true ) {
 		if ( ! $this->allowed ) {
+			return false;
+		}
+		$debug = ( Logger::DEBUG === $level || 100 === $level || 'DEBUG' === strtoupper( (string) $level ) );
+		if ( $debug && ! $this->is_debug_allowed() ) {
 			return false;
 		}
 		try {
@@ -356,17 +294,22 @@ class DLogger {
 				'code'        => (int) $code,
 				'environment' => (string) Environment::stage(),
 			];
-
 			$channel = $this->current_channel_tag();
 			if ( $this->logger->getName() !== $channel ) {
 				$this->logger = $this->logger->withName( $channel );
 			}
-			$this->logger->log( $level, $this->normalize_string( $message ), $this->normalize_array( $context ) );
 			$result = true;
+			// phpcs:ignore
+			set_error_handler( function () use (&$result) {$result = false;} );
+			$this->logger->log( $level, $this->normalize_string( $message ), $this->normalize_array( $context ) );
+			// phpcs:ignore
+			restore_error_handler();
 		} catch ( \Throwable $t ) {
-			$this->integrity_check();
 			$result = false;
 		} finally {
+			if ( $signal && ! $result && ! $debug ) {
+				//$this->log( Logger::ALERT, 'error', 666, '', false );
+			}
 			return $result;
 		}
 	}
@@ -376,32 +319,11 @@ class DLogger {
 	 *
 	 * @param string  $message The log message.
 	 * @param integer $code Optional. The log code.
+	 * @return  boolean     True if message was logged, false otherwise.
 	 * @since 1.0.0
 	 */
 	public function debug( $message, $code = 0 ) {
-		if ( $this->is_debug_allowed() && $this->allowed ) {
-			try {
-				$context = [
-					'class'       => (string) $this->class,
-					'component'   => (string) $this->name,
-					'version'     => (string) $this->version,
-					'code'        => (int) $code,
-					'environment' => (string) Environment::stage(),
-				];
-				$channel = $this->current_channel_tag();
-				if ( $this->logger->getName() !== $channel ) {
-					$this->logger = $this->logger->withName( $channel );
-				}
-				$this->logger->debug( $this->normalize_string( $message ), $this->normalize_array( $context ) );
-				$result = true;
-			} catch ( \Throwable $t ) {
-				$this->integrity_check();
-				$result = false;
-			} finally {
-				return $result;
-			}
-		}
-		return true;
+		return $this->log( Logger::DEBUG, $message, $code );
 	}
 
 	/**
@@ -409,32 +331,11 @@ class DLogger {
 	 *
 	 * @param string  $message The log message.
 	 * @param integer $code Optional. The log code.
+	 * @return  boolean     True if message was logged, false otherwise.
 	 * @since 1.0.0
 	 */
 	public function info( $message, $code = 0 ) {
-		if ( ! $this->allowed ) {
-			return false;
-		}
-		try {
-			$context = [
-				'class'       => (string) $this->class,
-				'component'   => (string) $this->name,
-				'version'     => (string) $this->version,
-				'code'        => (int) $code,
-				'environment' => (string) Environment::stage(),
-			];
-			$channel = $this->current_channel_tag();
-			if ( $this->logger->getName() !== $channel ) {
-				$this->logger = $this->logger->withName( $channel );
-			}
-			$this->logger->info( $this->normalize_string( $message ), $this->normalize_array( $context ) );
-			$result = true;
-		} catch ( \Throwable $t ) {
-			$this->integrity_check();
-			$result = false;
-		} finally {
-			return $result;
-		}
+		return $this->log( Logger::INFO, $message, $code );
 	}
 
 	/**
@@ -442,32 +343,11 @@ class DLogger {
 	 *
 	 * @param string  $message The log message.
 	 * @param integer $code Optional. The log code.
+	 * @return  boolean     True if message was logged, false otherwise.
 	 * @since 1.0.0
 	 */
 	public function notice( $message, $code = 0 ) {
-		if ( ! $this->allowed ) {
-			return false;
-		}
-		try {
-			$context = [
-				'class'       => (string) $this->class,
-				'component'   => (string) $this->name,
-				'version'     => (string) $this->version,
-				'code'        => (int) $code,
-				'environment' => (string) Environment::stage(),
-			];
-			$channel = $this->current_channel_tag();
-			if ( $this->logger->getName() !== $channel ) {
-				$this->logger = $this->logger->withName( $channel );
-			}
-			$this->logger->notice( $this->normalize_string( $message ), $this->normalize_array( $context ) );
-			$result = true;
-		} catch ( \Throwable $t ) {
-			$this->integrity_check();
-			$result = false;
-		} finally {
-			return $result;
-		}
+		return $this->log( Logger::NOTICE, $message, $code );
 	}
 
 	/**
@@ -475,32 +355,11 @@ class DLogger {
 	 *
 	 * @param string  $message The log message.
 	 * @param integer $code Optional. The log code.
+	 * @return  boolean     True if message was logged, false otherwise.
 	 * @since 1.0.0
 	 */
 	public function warning( $message, $code = 0 ) {
-		if ( ! $this->allowed ) {
-			return false;
-		}
-		try {
-			$context = [
-				'class'       => (string) $this->class,
-				'component'   => (string) $this->name,
-				'version'     => (string) $this->version,
-				'code'        => (int) $code,
-				'environment' => (string) Environment::stage(),
-			];
-			$channel = $this->current_channel_tag();
-			if ( $this->logger->getName() !== $channel ) {
-				$this->logger = $this->logger->withName( $channel );
-			}
-			$this->logger->warning( $this->normalize_string( $message ), $this->normalize_array( $context ) );
-			$result = true;
-		} catch ( \Throwable $t ) {
-			$this->integrity_check();
-			$result = false;
-		} finally {
-			return $result;
-		}
+		return $this->log( Logger::WARNING, $message, $code );
 	}
 
 	/**
@@ -508,32 +367,11 @@ class DLogger {
 	 *
 	 * @param string  $message The log message.
 	 * @param integer $code Optional. The log code.
+	 * @return  boolean     True if message was logged, false otherwise.
 	 * @since 1.0.0
 	 */
 	public function error( $message, $code = 0 ) {
-		if ( ! $this->allowed ) {
-			return false;
-		}
-		try {
-			$context = [
-				'class'       => (string) $this->class,
-				'component'   => (string) $this->name,
-				'version'     => (string) $this->version,
-				'code'        => (int) $code,
-				'environment' => (string) Environment::stage(),
-			];
-			$channel = $this->current_channel_tag();
-			if ( $this->logger->getName() !== $channel ) {
-				$this->logger = $this->logger->withName( $channel );
-			}
-			$this->logger->error( $this->normalize_string( $message ), $this->normalize_array( $context ) );
-			$result = true;
-		} catch ( \Throwable $t ) {
-			$this->integrity_check();
-			$result = false;
-		} finally {
-			return $result;
-		}
+		return $this->log( Logger::ERROR, $message, $code );
 	}
 
 	/**
@@ -541,32 +379,11 @@ class DLogger {
 	 *
 	 * @param string  $message The log message.
 	 * @param integer $code Optional. The log code.
+	 * @return  boolean     True if message was logged, false otherwise.
 	 * @since 1.0.0
 	 */
 	public function critical( $message, $code = 0 ) {
-		if ( ! $this->allowed ) {
-			return false;
-		}
-		try {
-			$context = [
-				'class'       => (string) $this->class,
-				'component'   => (string) $this->name,
-				'version'     => (string) $this->version,
-				'code'        => (int) $code,
-				'environment' => (string) Environment::stage(),
-			];
-			$channel = $this->current_channel_tag();
-			if ( $this->logger->getName() !== $channel ) {
-				$this->logger = $this->logger->withName( $channel );
-			}
-			$this->logger->critical( $this->normalize_string( $message ), $this->normalize_array( $context ) );
-			$result = true;
-		} catch ( \Throwable $t ) {
-			$this->integrity_check();
-			$result = false;
-		} finally {
-			return $result;
-		}
+		return $this->log( Logger::CRITICAL, $message, $code );
 	}
 
 	/**
@@ -574,32 +391,11 @@ class DLogger {
 	 *
 	 * @param string  $message The log message.
 	 * @param integer $code Optional. The log code.
+	 * @return  boolean     True if message was logged, false otherwise.
 	 * @since 1.0.0
 	 */
 	public function alert( $message, $code = 0 ) {
-		if ( ! $this->allowed ) {
-			return false;
-		}
-		try {
-			$context = [
-				'class'       => (string) $this->class,
-				'component'   => (string) $this->name,
-				'version'     => (string) $this->version,
-				'code'        => (int) $code,
-				'environment' => (string) Environment::stage(),
-			];
-			$channel = $this->current_channel_tag();
-			if ( $this->logger->getName() !== $channel ) {
-				$this->logger = $this->logger->withName( $channel );
-			}
-			$this->logger->alert( $this->normalize_string( $message ), $this->normalize_array( $context ) );
-			$result = true;
-		} catch ( \Throwable $t ) {
-			$this->integrity_check();
-			$result = false;
-		} finally {
-			return $result;
-		}
+		return $this->log( Logger::ALERT, $message, $code );
 	}
 
 	/**
@@ -607,32 +403,11 @@ class DLogger {
 	 *
 	 * @param string  $message The log message.
 	 * @param integer $code Optional. The log code.
+	 * @return  boolean     True if message was logged, false otherwise.
 	 * @since 1.0.0
 	 */
 	public function emergency( $message, $code = 0 ) {
-		if ( ! $this->allowed ) {
-			return false;
-		}
-		try {
-			$context = [
-				'class'       => (string) $this->class,
-				'component'   => (string) $this->name,
-				'version'     => (string) $this->version,
-				'code'        => (int) $code,
-				'environment' => (string) Environment::stage(),
-			];
-			$channel = $this->current_channel_tag();
-			if ( $this->logger->getName() !== $channel ) {
-				$this->logger = $this->logger->withName( $channel );
-			}
-			$this->logger->emergency( $this->normalize_string( $message ), $this->normalize_array( $context ) );
-			$result = true;
-		} catch ( \Throwable $t ) {
-			$this->integrity_check();
-			$result = false;
-		} finally {
-			return $result;
-		}
+		return $this->log( Logger::EMERGENCY, $message, $code );
 	}
 
 }

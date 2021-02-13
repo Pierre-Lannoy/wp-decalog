@@ -50,17 +50,4 @@ class FluentHandler extends SocketHandler {
 	protected function getDefaultFormatter(): FormatterInterface {
 		return new FluentFormatter();
 	}
-
-	/**
-	 * Write to the socket.
-	 *
-	 * @param array $record The record to write.
-	 */
-	protected function write( array $record ): void {
-		try {
-			parent::write( $record );
-		} catch ( \Throwable $t ) {
-			DLogger::ban( 'fluenthandler' );
-		}
-	}
 }

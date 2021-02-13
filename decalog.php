@@ -92,7 +92,6 @@ function decalog_muplugin() {
  */
 function decalog_run() {
 	if ( ! Decalog\System\Environment::is_sandboxed() ) {
-		require_once __DIR__ . '/includes/features/class-watchdog.php';
 		require_once __DIR__ . '/includes/features/class-wpcli.php';
 		decalog_muplugin();
 		$plugin = new Decalog\Plugin\Core();

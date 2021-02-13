@@ -72,21 +72,30 @@ class RaygunFormatter implements FormatterInterface {
 	 * @since   2.4.0
 	 */
 	public function format( array $record ): string {
-		$event      = [];
-		$exception  = [];
-		$stacktrace = [];
-		$request    = [];
-		$user       = [];
-		$device     = [];
-		$app        = [];
+		$event                = [];
+		$exception            = [];
+		$stacktrace           = [];
+		$request              = [];
+		$user                 = [];
+		$device               = [];
+		$app                  = [];
+		$meta                 = [];
+		$meta_app             = [];
+		$meta_evt             = [];
+		$meta_dvc             = [];
+		$exception['message'] = '';
+		$emoji                = '';
 		if ( array_key_exists( 'channel', $record ) ) {
 			$event['context'] = ChannelTypes::$channel_names_en[ strtoupper( $record['channel'] ) ];
 		} else {
 			$event['context'] = ChannelTypes::$channel_names_en['UNKNOWN'];
 		}
+		$meta_evt['channel'] = $event['context'];
 		if ( array_key_exists( 'level', $record ) ) {
 			if ( array_key_exists( $record['level'], self::$level_classes ) ) {
-				$level_class = self::$level_classes[ $record['level'] ];
+				$level_class       = self::$level_classes[ $record['level'] ];
+				$emoji             = EventTypes::$level_emojis[ $record['level'] ] . ' ';
+				$meta_evt['level'] = ucfirst( strtolower( EventTypes::$level_names[ $record['level'] ] ) );
 			} else {
 				$level_class = 'Unknown';
 			}
@@ -99,31 +108,35 @@ class RaygunFormatter implements FormatterInterface {
 		else {
 			$level_class = 'Unknown';
 		}
-		$exception['message'] = '';
-		$app['releaseStage']  = Environment::stage();
-		$app['id']            = str_replace( '/', '_', str_replace( [ 'https://', 'http://' ], '', get_site_url() ) );
-		$app['version']       = Environment::wordpress_version_text( true );
-		$device['hostname']   = gethostname();
+		$app['releaseStage'] = Environment::stage();
+		$app['id']           = str_replace( '/', '_', str_replace( [ 'https://', 'http://' ], '', get_site_url() ) );
+		$app['version']      = Environment::wordpress_version_text( true );
+		$device['hostname']  = gethostname();
 		// Context formatting.
 		if ( array_key_exists( 'context', $record ) ) {
 			$context = $record['context'];
 			if ( array_key_exists( 'class', $context ) ) {
 				$event['unhandled']      = ( 'PHP' === strtoupper( $context['class'] ) );
-				$app['type']             = strtolower( $context['class'] );
 				$exception['type']       = 'php';
 				$exception['errorClass'] = ucfirst( strtolower( $context['class'] ) );
+				$meta_evt['class']       = ucfirst( strtolower( $context['class'] ) );
 			}
 			if ( array_key_exists( 'code', $context ) ) {
-				$exception['message'] .= '[' . $context['code'] . '] ';
+				$meta_evt['code'] = $context['code'];
 			}
 			if ( array_key_exists( 'component', $context ) ) {
-				$exception['errorClass'] = str_replace( ' ', '', $context['component'] ) . $level_class;
+				$exception['errorClass'] = str_replace( [ ' ', '-' ], '', $context['component'] ) . $level_class;
+				if ( array_key_exists( 'version', $context ) ) {
+					$meta_evt['component'] = $context['component'] . ' ' . $context['version'];
+				} else {
+					$meta_evt['component'] = $context['component'];
+				}
 			}
 		}
+		$exception['errorClass'] = $emoji . $exception['errorClass'];
 		if ( array_key_exists( 'message', $record ) ) {
 			$exception['message'] .= substr( $record['message'], 0, 1000 );
 		}
-
 		// Extra formatting.
 		if ( array_key_exists( 'extra', $record ) ) {
 			$extra = $record['extra'];
@@ -176,22 +189,29 @@ class RaygunFormatter implements FormatterInterface {
 			if ( array_key_exists( 'server', $extra ) && is_string( $extra['server'] ) ) {
 				$values['server'] = substr( $extra['server'], 0, 250 );
 			}
-
 			if ( class_exists( 'PODeviceDetector\API\Device' ) && array_key_exists( 'ua', $extra ) && $extra['ua'] && is_string( $extra['ua'] ) ) {
-				$ua = UserAgent::get( $extra['ua'] );
-				if ( ! $ua->class_is_bot ) {
-					$device['manufacturer'] = $ua->brand_name;
-
-
-
-
-
-
-
-
+				$ua                    = UserAgent::get( $extra['ua'] );
+				$meta_dvc['classType'] = $ua->class_full_type;
+				if ( $ua->class_is_bot ) {
+					$meta_dvc['producer'] = $ua->bot_producer_name;
+					$meta_dvc['name']     = $ua->bot_name;
+				} else {
+					$meta_dvc['deviceType'] = $ua->device_full_type;
+					$meta_dvc['clientType'] = $ua->client_full_type;
+					$device['manufacturer'] = ( '' !== $ua->brand_name ? $ua->brand_name : 'generic' );
+					if ( '' !== $ua->model_name ) {
+						$device['model'] = $ua->model_name;
+					}
+					if ( 'UNK' !== $ua->os_name && 'UNK' !== $ua->os_version ) {
+						$device['osName']    = $ua->os_name;
+						$device['osVersion'] = $ua->os_version;
+					}
+					$meta_dvc['clientName']    = $ua->client_name;
+					$meta_dvc['clientVersion'] = $ua->client_version;
 				}
 			}
 		}
+		$meta_app['notifier']    = DECALOG_PRODUCT_NAME . ' ' . DECALOG_VERSION;
 		$exception['stacktrace'] = [ (object) $stacktrace ];
 		$event['exceptions']     = [ (object) $exception ];
 		if ( 0 < count( $request ) ) {
@@ -205,6 +225,18 @@ class RaygunFormatter implements FormatterInterface {
 		}
 		if ( 0 < count( $app ) ) {
 			$event['app'] = (object) $app;
+		}
+		if ( 0 < count( $meta_app ) ) {
+			$meta['app'] = (object) $meta_app;
+		}
+		if ( 0 < count( $meta_evt ) ) {
+			$meta['event'] = (object) $meta_evt;
+		}
+		if ( 0 < count( $meta_dvc ) ) {
+			$meta['device'] = (object) $meta_dvc;
+		}
+		if ( 0 < count( $meta ) ) {
+			$event['metaData'] = (object) $meta;
 		}
 		// phpcs:ignore
 		return serialize( (object) $event );
