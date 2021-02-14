@@ -71,18 +71,10 @@ class DLogger {
 	protected $in_test = false;
 
 	/**
-	 * Is the autolistening mode on.
-	 *
-	 * @since  1.3.0
-	 * @var    boolean    $autolisten    Maintains the autolistenning status of the logger.
-	 */
-	private $autolisten = true;
-
-	/**
 	 * Is this listener a PSR-3 logger.
 	 *
 	 * @since  1.3.0
-	 * @var    boolean    $autolisten    Maintains the psr3 status of the logger.
+	 * @var    boolean    $psr3    Maintains the psr3 status of the logger.
 	 */
 	private $psr3 = false;
 
@@ -144,17 +136,15 @@ class DLogger {
 			}
 			$handler_def    = $handlers->get( $logger['handler'] );
 			$logger['uuid'] = $key;
-			if ( $this->in_test ) {
-				if ( $diagnosis->check( $handler_def['id'] ) ) {
-					$handler = $factory->create_logger( $logger );
-					if ( $handler ) {
-						$this->logger->pushHandler( $handler );
-					} elseif ( $logger['running'] ) {
-						$skipped[] = sprintf( 'Skipping loading of a %s logger.', $handler_def['name'] );
-					}
-				} else {
-					$unloadable[] = sprintf( 'Unable to load a %s logger. %s', $handler_def['name'], $diagnosis->error_string( $handler_def['id'] ) );
+			if ( $diagnosis->check( $handler_def['id'] ) ) {
+				$handler = $factory->create_logger( $logger );
+				if ( $handler ) {
+					$this->logger->pushHandler( $handler );
+				} elseif ( $logger['running'] ) {
+					$skipped[] = sprintf( 'Skipping loading of a %s logger.', $handler_def['name'] );
 				}
+			} else {
+				$unloadable[] = sprintf( 'Unable to load a %s logger. %s', $handler_def['name'], $diagnosis->error_string( $handler_def['id'] ) );
 			}
 		}
 		if ( count( $unloadable ) > 0 ) {
