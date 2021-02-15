@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 - New logger to send crash reports to Bugsnag.
+- New logger to send crash reports to Raygun.
 - New logger to send exceptions to Google (Universal) Analytics.
 - New 'environment' context metadata for all external loggers.
 - Compatibility with WordPress 5.7.

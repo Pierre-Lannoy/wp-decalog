@@ -18,7 +18,7 @@ use Decalog\Formatter\RaygunFormatter;
 /**
  * Define the Monolog Raygun handler.
  *
- * Handles all features of Raygun handler for Monolog.
+ * Handles  all features of Raygun handler for Monolog.
  *
  * @package Handlers
  * @author  Pierre Lannoy <https://pierre.lannoy.fr/>.
