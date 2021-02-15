@@ -110,6 +110,22 @@ class Environment {
 	}
 
 	/**
+	 * Get the current url.
+	 *
+	 * @return string The current full url.
+	 * @since  2.4.0
+	 */
+	public static function get_current_url() {
+		global $wp;
+		if ( '' === get_option( 'permalink_structure' ) ) {
+			// phpcs:ignore
+			return home_url( add_query_arg( [$_GET], $wp->request ) );
+		}
+		// phpcs:ignore
+		return home_url( trailingslashit( add_query_arg( [$_GET], $wp->request ) ) );
+	}
+
+	/**
 	 * Get the major version number.
 	 *
 	 * @param  string $version Optional. The full version string.
