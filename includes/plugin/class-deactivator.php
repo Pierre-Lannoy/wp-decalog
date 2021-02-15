@@ -35,6 +35,11 @@ class Deactivator {
 			// phpcs:ignore
 			@unlink( $file );
 		}
+		$file = WP_CONTENT_DIR . '/fatal-error-handler.php';
+		if ( file_exists( $file ) && defined( 'DECALOG_BOOTSTRAPPED' ) && DECALOG_BOOTSTRAPPED ) {
+			// phpcs:ignore
+			@unlink( $file );
+		}
 	}
 
 }
