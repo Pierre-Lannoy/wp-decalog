@@ -182,10 +182,10 @@ class BugsnagFormatter implements FormatterInterface {
 			if ( array_key_exists( 'referrer', $extra ) && $extra['referrer'] && is_string( $extra['referrer'] ) ) {
 				$request['referrer'] = substr( $extra['referrer'], 0, 250 );
 			}
-			if ( array_key_exists( 'userid', $extra ) && is_numeric( $extra['userid'] ) ) {
+			if ( array_key_exists( 'userid', $extra ) && is_scalar( $extra['userid'] ) ) {
 				$user['id'] = substr( (string) $extra['userid'], 0, 66 );
 			}
-			if ( array_key_exists( 'username', $extra ) && is_string( $extra['username'] ) ) {
+			if ( array_key_exists( 'username', $extra ) && is_string( $extra['username'] ) && '{' !== substr( (string) $extra['userid'], 0, 1 ) ) {
 				$user['name'] = substr( $extra['username'], 0, 250 );
 			}
 			if ( array_key_exists( 'server', $extra ) && is_string( $extra['server'] ) ) {
@@ -243,6 +243,7 @@ class BugsnagFormatter implements FormatterInterface {
 		// phpcs:ignore
 		return serialize( (object) $event );
 	}
+
 	/**
 	 * Formats a set of log records.
 	 *
