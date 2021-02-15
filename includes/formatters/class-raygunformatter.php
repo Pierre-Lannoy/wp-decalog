@@ -16,10 +16,12 @@ use Decalog\Plugin\Feature\EventTypes;
 use Decalog\Plugin\Feature\ChannelTypes;
 use Decalog\System\Environment;
 use Decalog\System\Http;
+use Decalog\System\User;
 use Decalog\System\UserAgent;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Logger;
 use PODeviceDetector\API\Device;
+use Decalog\System\Hash;
 
 /**
  * Define the Monolog Raygun formatter.
@@ -72,18 +74,131 @@ class RaygunFormatter implements FormatterInterface {
 	 * @since   2.4.0
 	 */
 	public function format( array $record ): string {
-		$event                = [];
-		$exception            = [];
-		$stacktrace           = [];
-		$request              = [];
-		$user                 = [];
-		$device               = [];
-		$app                  = [];
-		$meta                 = [];
-		$meta_app             = [];
-		$meta_evt             = [];
-		$meta_dvc             = [];
-		$exception['message'] = '';
+		$event                 = [];
+		$detail                = [];
+		$error                 = [];
+		$data                  = [];
+		$stacktrace            = [];
+		$environment           = [];
+		$request               = [];
+		$response              = [];
+		$user                  = [];
+		$event['occurredOn']   = gmdate( 'c' );
+		$client                = [
+			'name'      => DECALOG_PRODUCT_NAME,
+			'version'   => DECALOG_VERSION,
+			'clientUrl' => DECALOG_PRODUCT_URL,
+		];
+		$detail['machineName'] = gethostname();
+		$detail['version']     = Environment::wordpress_version_text( true );
+		if ( array_key_exists( 'level', $record ) ) {
+			$level_class = ucfirst( strtolower( EventTypes::$level_names[ $record['level'] ] ) );
+		}
+		else {
+			$level_class = 'Unknown';
+		}
+		if ( array_key_exists( 'message', $record ) ) {
+			$error['message'] = substr( $record['message'], 0, 1000 );
+		}
+		// Context formatting.
+		if ( array_key_exists( 'context', $record ) ) {
+			$context = $record['context'];
+			if ( array_key_exists( 'component', $context ) ) {
+				$error['className'] = str_replace( [ ' ', '-' ], '', $context['component'] ) . $level_class;
+			}
+		}
+		// Extra formatting.
+		if ( array_key_exists( 'extra', $record ) ) {
+			$extra = $record['extra'];
+			if ( array_key_exists( 'userid', $extra ) && is_scalar( $extra['userid'] ) ) {
+				if ( '{' === substr( (string) $extra['userid'], 0, 1 ) || 0 === (int) $extra['userid'] ) {
+					$user['isAnonymous'] = true;
+				} else {
+					$user['identifier']  = substr( (string) $extra['userid'], 0, 66 );
+					$user['isAnonymous'] = false;
+					if ( array_key_exists( 'username', $extra ) && is_string( $extra['username'] ) ) {
+						$user['fullName'] = substr( $extra['username'], 0, 250 );
+					}
+				}
+			}
+
+
+
+
+
+			if ( class_exists( 'PODeviceDetector\API\Device' ) && array_key_exists( 'ua', $extra ) && $extra['ua'] && is_string( $extra['ua'] ) ) {
+				$ua                             = UserAgent::get( $extra['ua'] );
+				$environment['browser-Version'] = $extra['ua'];
+				if ( 'UNK' !== $ua->os_name && 'UNK' !== $ua->os_version ) {
+					$environment['osVersion'] = $ua->os_name . ' ' . $ua->os_version;
+				}
+				if ( $ua->class_is_bot ) {
+					$environment['deviceManufacturer'] = $ua->bot_producer_name;
+					$environment['deviceName']         = $ua->bot_name;
+				} else {
+					$environment['deviceManufacturer'] = ( '' !== $ua->brand_name ? $ua->brand_name : 'generic' );
+					if ( '' !== $ua->model_name ) {
+						$environment['deviceName'] = $ua->model_name;
+					}
+					$environment['browserName'] = $ua->client_name . ' ' . $ua->client_version;
+				}
+			}
+
+/*
+
+			if ( array_key_exists( 'file', $extra ) && $extra['file'] && is_string( $extra['file'] ) ) {
+				$stacktrace['file'] = $extra['file'];
+			} else {
+				$stacktrace['file'] = 'unknown';
+			}
+			if ( array_key_exists( 'line', $extra ) && $extra['line'] ) {
+				$stacktrace['lineNumber'] = (int) $extra['line'];
+			} else {
+				$stacktrace['lineNumber'] = 0;
+			}
+			$method = '';
+			if ( array_key_exists( 'class', $extra ) && $extra['class'] && is_string( $extra['class'] ) ) {
+				$method = $extra['class'] . '::';
+			}
+			if ( array_key_exists( 'function', $extra ) && $extra['function'] && is_string( $extra['function'] ) ) {
+				if ( '' === $method ) {
+					$method = '<' . $extra['function'] . '>';
+				} else {
+					$method .= $extra['function'];
+				}
+			}
+			if ( '' === $method ) {
+				$stacktrace['method'] = 'unknown';
+			} else {
+				$stacktrace['method'] = $method;
+			}
+			if ( array_key_exists( 'ip', $extra ) && is_string( $extra['ip'] ) ) {
+				$request['remote_ip'] = substr( $extra['ip'], 0, 66 );
+			}
+			if ( array_key_exists( 'http_method', $extra ) && is_string( $extra['http_method'] ) ) {
+				if ( in_array( strtolower( $extra['http_method'] ), Http::$verbs, true ) ) {
+					$request['httpMethod'] = strtoupper( $extra['http_method'] );
+				}
+			}
+			if ( array_key_exists( 'url', $extra ) && is_string( $extra['url'] ) ) {
+				$request['url'] = substr( $extra['url'], 0, 2083 );
+			}
+			if ( array_key_exists( 'referrer', $extra ) && $extra['referrer'] && is_string( $extra['referrer'] ) ) {
+				$request['referrer'] = substr( $extra['referrer'], 0, 250 );
+			}
+
+			if ( array_key_exists( 'server', $extra ) && is_string( $extra['server'] ) ) {
+				$values['server'] = substr( $extra['server'], 0, 250 );
+			}
+			*/
+		}
+
+
+
+
+
+
+/*
 		$emoji                = '';
 		if ( array_key_exists( 'channel', $record ) ) {
 			$event['context'] = ChannelTypes::$channel_names_en[ strtoupper( $record['channel'] ) ];
@@ -91,23 +206,7 @@ class RaygunFormatter implements FormatterInterface {
 			$event['context'] = ChannelTypes::$channel_names_en['UNKNOWN'];
 		}
 		$meta_evt['channel'] = $event['context'];
-		if ( array_key_exists( 'level', $record ) ) {
-			if ( array_key_exists( $record['level'], self::$level_classes ) ) {
-				$level_class       = self::$level_classes[ $record['level'] ];
-				$emoji             = EventTypes::$level_emojis[ $record['level'] ] . ' ';
-				$meta_evt['level'] = ucfirst( strtolower( EventTypes::$level_names[ $record['level'] ] ) );
-			} else {
-				$level_class = 'Unknown';
-			}
-			if ( array_key_exists( $record['level'], self::$level_severities ) ) {
-				$event['severity'] = self::$level_severities[ $record['level'] ];
-			} else {
-				$event['severity'] = 'error';
-			}
-		}
-		else {
-			$level_class = 'Unknown';
-		}
+
 		$app['releaseStage'] = Environment::stage();
 		$app['id']           = str_replace( '/', '_', str_replace( [ 'https://', 'http://' ], '', get_site_url() ) );
 		$app['version']      = Environment::wordpress_version_text( true );
@@ -180,7 +279,7 @@ class RaygunFormatter implements FormatterInterface {
 			if ( array_key_exists( 'referrer', $extra ) && $extra['referrer'] && is_string( $extra['referrer'] ) ) {
 				$request['referrer'] = substr( $extra['referrer'], 0, 250 );
 			}
-			if ( array_key_exists( 'userid', $extra ) && is_numeric( $extra['userid'] ) ) {
+			if ( array_key_exists( 'userid', $extra ) && is_scalar( $extra['userid'] ) ) {
 				$user['id'] = substr( (string) $extra['userid'], 0, 66 );
 			}
 			if ( array_key_exists( 'username', $extra ) && is_string( $extra['username'] ) ) {
@@ -212,32 +311,36 @@ class RaygunFormatter implements FormatterInterface {
 			}
 		}
 		$meta_app['notifier']    = DECALOG_PRODUCT_NAME . ' ' . DECALOG_VERSION;
-		$exception['stacktrace'] = [ (object) $stacktrace ];
-		$event['exceptions']     = [ (object) $exception ];
+
+*/
+
+
+
+		if ( 0 < count( $client ) ) {
+			$detail['client'] = (object) $client;
+		}
+		if ( 0 < count( $data ) ) {
+			$error['data'] = (object) $data;
+		}
+		if ( 0 < count( $stacktrace ) ) {
+			$error['stackTrace'] = (object) $stacktrace;
+		}
+		if ( 0 < count( $error ) ) {
+			$detail['error'] = (object) $error;
+		}
+		if ( 0 < count( $environment ) ) {
+			$detail['environment'] = (object) $environment;
+		}
 		if ( 0 < count( $request ) ) {
-			$event['request'] = (object) $request;
+			$detail['request'] = (object) $request;
+		}
+		if ( 0 < count( $response ) ) {
+			$detail['response'] = (object) $response;
 		}
 		if ( 0 < count( $user ) ) {
-			$event['user'] = (object) $user;
+			$detail['user'] = (object) $user;
 		}
-		if ( 0 < count( $device ) ) {
-			$event['device'] = (object) $device;
-		}
-		if ( 0 < count( $app ) ) {
-			$event['app'] = (object) $app;
-		}
-		if ( 0 < count( $meta_app ) ) {
-			$meta['app'] = (object) $meta_app;
-		}
-		if ( 0 < count( $meta_evt ) ) {
-			$meta['event'] = (object) $meta_evt;
-		}
-		if ( 0 < count( $meta_dvc ) ) {
-			$meta['device'] = (object) $meta_dvc;
-		}
-		if ( 0 < count( $meta ) ) {
-			$event['metaData'] = (object) $meta;
-		}
+		$event['details'] = (object) $detail;
 		// phpcs:ignore
 		return serialize( (object) $event );
 	}

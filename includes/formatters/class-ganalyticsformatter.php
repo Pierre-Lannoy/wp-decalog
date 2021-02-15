@@ -71,7 +71,7 @@ class GAnalyticsFormatter implements FormatterInterface {
 		$line['exd'] = $class . $level;
 		if ( array_key_exists( 'extra', $record ) ) {
 			$extra = $record['extra'];
-			if ( array_key_exists( 'userid', $extra ) && is_numeric( $extra['userid'] ) ) {
+			if ( array_key_exists( 'userid', $extra ) && is_scalar( $extra['userid'] ) ) {
 				$line['cid'] = substr( (string) $extra['userid'], 0, 66 );
 			}
 			if ( array_key_exists( 'ip', $extra ) && is_string( $extra['ip'] ) ) {

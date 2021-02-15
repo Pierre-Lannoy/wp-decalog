@@ -50,18 +50,8 @@ class RaygunHandler extends AbstractBufferedHTTPHandler {
 	 */
 	protected function write( array $events ): void {
 		if ( 1 === count( $events ) ) {
-			$body                    = [
-				'apiKey'         => $this->post_args['headers']['Bugsnag-Api-Key'],
-				'payloadVersion' => $this->post_args['headers']['Bugsnag-Payload-Version'],
-				'notifier'       => (object) [
-					'name'    => DECALOG_PRODUCT_NAME,
-					'version' => DECALOG_VERSION,
-					'url'     => DECALOG_PRODUCT_URL,
-				],
-				'events'         => maybe_unserialize( $events[0] ),
-			];
-			$this->post_args['body'] = wp_json_encode( $body );
-			//parent::write( $this->post_args );
+			$this->post_args['body'] = wp_json_encode( maybe_unserialize( $events[0] ) );
+			parent::write( $this->post_args );
 		}
 	}
 
@@ -80,7 +70,7 @@ class RaygunHandler extends AbstractBufferedHTTPHandler {
 			if ( $record['level'] < $this->level ) {
 				continue;
 			}
-			$this->write( [ $record ] );
+			$this->write( [ $this->getFormatter()->format( $record ) ] );
 		}
 	}
 

@@ -96,7 +96,7 @@ class GenericFormatter implements FormatterInterface {
 			if ( array_key_exists( 'sitename', $extra ) && is_string( $extra['sitename'] ) ) {
 				$values['site_name'] = substr( $extra['sitename'], 0, 250 );
 			}
-			if ( array_key_exists( 'userid', $extra ) && is_numeric( $extra['userid'] ) ) {
+			if ( array_key_exists( 'userid', $extra ) && is_scalar( $extra['userid'] ) ) {
 				$values['user_id'] = substr( (string) $extra['userid'], 0, 66 );
 			}
 			if ( array_key_exists( 'username', $extra ) && is_string( $extra['username'] ) ) {

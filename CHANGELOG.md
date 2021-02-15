@@ -25,6 +25,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - The display of verb labels in events viewer has been improved.
 - Better PHP introspection and backtrace cleaning, parsing and rendering.
 - Check on "mandatory" processors are now done for loggers which need it.
+- Improved hash handling and reporting for users and IPs.
 - Improved self monitoring to handle loggers internal errors.
 - Code refactoring led to a huge execution speed gain: DecaLog is now 40% faster.
 
