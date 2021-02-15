@@ -42,10 +42,13 @@ class GAnalyticsFormatter implements FormatterInterface {
 	public function format( array $record ): string {
 		$line        = [];
 		$line['cid'] = 0;
+		$line['an']  = str_replace( '/', '_', str_replace( [ 'https://', 'http://' ], '', get_site_url() ) );
+		$line['dl']  = Environment::get_current_url();
+		$line['av']  = Environment::wordpress_version_text( true );
 		if ( array_key_exists( 'channel', $record ) ) {
-			$channel = ucfirst( strtolower( $record['channel'] ) );
+			$line['cd'] = ChannelTypes::$channel_names_en[ strtoupper( $record['channel'] ) ];
 		} else {
-			$channel = '';
+			$line['cd'] = ChannelTypes::$channel_names_en['UNKNOWN'];
 		}
 		if ( array_key_exists( 'level', $record ) ) {
 			if ( array_key_exists( $record['level'], EventTypes::$level_names ) ) {
@@ -65,7 +68,7 @@ class GAnalyticsFormatter implements FormatterInterface {
 		} else {
 			$class = '';
 		}
-		$line['exd'] = $channel . $class . $level;
+		$line['exd'] = $class . $level;
 		if ( array_key_exists( 'extra', $record ) ) {
 			$extra = $record['extra'];
 			if ( array_key_exists( 'userid', $extra ) && is_numeric( $extra['userid'] ) ) {

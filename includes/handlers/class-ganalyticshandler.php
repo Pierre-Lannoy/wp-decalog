@@ -48,8 +48,9 @@ class GAnalyticsHandler extends AbstractBufferedHTTPHandler {
 	 */
 	public function __construct( string $key, bool $buffered = true, $level = Logger::DEBUG, bool $bubble = true ) {
 		parent::__construct( $level, $buffered, $bubble );
-		$this->endpoint = 'https://www.google-analytics.com/batch';
-		$this->std_args = [ 'v=1', 't=exception', 'tid=' . $key ];
+		$this->endpoint = 'https://www.google-analytics.com/collect'; // batch
+		$this->verb     = 'GET';
+		$this->std_args = [ 'v=1', 't=exception', 'tid=' . $key, 'ni=1' ];
 	}
 
 	/**
@@ -65,9 +66,9 @@ class GAnalyticsHandler extends AbstractBufferedHTTPHandler {
 			foreach ( $args as $key => $arg ) {
 				$records[] = $key . '=' . $arg;
 			}
-			$this->post_args['body'] .= rawurlencode( implode( '&', array_merge( $records, $this->std_args ) ) ) . PHP_EOL;
+			$this->endpoint = 'https://www.google-analytics.com/collect?' . implode( '&', array_merge( $records, $this->std_args ) );
+			parent::write( $this->post_args );
 		}
-		parent::write( $this->post_args );
 	}
 
 	/**
