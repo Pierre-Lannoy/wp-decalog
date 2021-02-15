@@ -46,6 +46,14 @@ abstract class AbstractBufferedHTTPHandler extends AbstractProcessingHandler {
 	protected $endpoint = '';
 
 	/**
+	 * Verb to use.
+	 *
+	 * @since  2.4.0
+	 * @var    string    $verb    The verb to use.
+	 */
+	protected $verb = 'POST';
+
+	/**
 	 * The buffer.
 	 *
 	 * @since  2.4.0
@@ -95,7 +103,12 @@ abstract class AbstractBufferedHTTPHandler extends AbstractProcessingHandler {
 	 * @since    2.4.0
 	 */
 	protected function write( array $record ): void {
-		wp_remote_post( esc_url_raw( $this->endpoint ), $record );
+		if ( 'POST' === $this->verb ) {
+			wp_remote_post( esc_url_raw( $this->endpoint ), $record );
+		}
+		if ( 'GET' === $this->verb ) {
+			wp_remote_get( esc_url_raw( $this->endpoint ), $record );
+		}
 	}
 
 	/**
