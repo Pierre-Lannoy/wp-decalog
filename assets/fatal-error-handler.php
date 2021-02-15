@@ -2,15 +2,18 @@
 /**
  * Bootstrap handler for DecaLog.
  *
- * @package Features
+ * @package -
  * @author  Pierre Lannoy <https://pierre.lannoy.fr/>.
  * @since   2.4.0
  */
 
-namespace Decalog\Plugin\Feature;
 
 if ( ! defined( 'DECALOG_BOOTSTRAPPED' ) ) {
 	define( 'DECALOG_BOOTSTRAPPED', true );
+}
+
+if ( ! defined( 'WP_START_TIMESTAMP' ) ) {
+	define( 'WP_START_TIMESTAMP', microtime( true ) );
 }
 
 $dclg_btsrp = [];
@@ -20,11 +23,27 @@ $dclg_btsrp = [];
  *
  * Defines methods and properties for bootstrap handling.
  *
- * @package Features
+ * @package -
  * @author  Pierre Lannoy <https://pierre.lannoy.fr/>.
  * @since   2.4.0
  */
-class BootstrapHandler {
+class DecalogErrorHandler extends \WP_Fatal_Error_Handler {
+
+	/**
+	 * The previous error handler, to restore if needed.
+	 *
+	 * @since  2.4.0
+	 * @var callable $previous_error_handler The previous error handler.
+	 */
+	private $previous_error_handler;
+
+	/**
+	 * The previous exception handler, to restore if needed.
+	 *
+	 * @since  2.4.0
+	 * @var callable $previous_exception_handler The previous exception handler.
+	 */
+	private $previous_exception_handler;
 
 	/**
 	 * The error level mapping.
@@ -75,30 +94,13 @@ class BootstrapHandler {
 	];
 
 	/**
-	 * The unique instance of the class.
-	 *
-	 * @since  2.4.0
-	 * @var self $instance The unique instance of the class.
-	 */
-	private static $instance;
-
-	/**
-	 * Create the class instance.
-	 *
-	 * @since    2.4.0
-	 */
-	public static function init() {
-		self::$instance = new BootstrapHandler();
-	}
-
-	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    2.4.0
 	 */
 	public function __construct() {
 		// phpcs:ignore
-		$this->previous_error_handler = \set_error_handler( [ $this, 'handle_error' ] );
+		//$this->previous_error_handler = \set_error_handler( [ $this, 'handle_error' ] );
 		// phpcs:ignore
 		$this->previous_exception_handler = \set_exception_handler( [ $this, 'handle_exception' ] );
 	}
@@ -247,4 +249,4 @@ class BootstrapHandler {
 	}
 }
 
-BootstrapHandler::init();
+return new DecalogErrorHandler();
