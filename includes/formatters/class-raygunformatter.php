@@ -62,7 +62,8 @@ class RaygunFormatter implements FormatterInterface {
 		$detail['machineName'] = gethostname();
 		$detail['version']     = Environment::wordpress_version_text( true );
 		if ( array_key_exists( 'level', $record ) ) {
-			$level_class = ucfirst( strtolower( EventTypes::$level_names[ $record['level'] ] ) );
+			$level_class      = ucfirst( strtolower( EventTypes::$level_names[ $record['level'] ] ) );
+			$detail['tags'][] = strtolower( EventTypes::$level_names[ $record['level'] ] );
 		}
 		else {
 			$level_class = 'Unknown';
