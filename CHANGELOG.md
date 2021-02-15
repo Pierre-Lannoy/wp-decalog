@@ -20,7 +20,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Upgraded Monolog library from version 2.0.2 to version 2.2.0.
 - Consistent reset for settings.
 - Improved translation loading.
-- Improved display in WordPress event viewer when bactraces are not available.
+- Improved display in WordPress event viewer when backtraces are not available.
 - [WP_CLI] `log` command have now a definition and all synopsis are up to date.
 - The display of verb labels in events viewer has been improved.
 - Better PHP introspection and backtrace cleaning, parsing and rendering.
@@ -35,9 +35,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - In Site Health section, Opcache status may be wrong (or generates PHP warnings) if OPcache API usage is restricted.
 - PHP notice when trying to display details for "System auto-logger".
 - DecaLog may log multiple times a change about environment type.
+- When disabling "early loading", the mu-plugin is not always removed.
 
 ### Removed
-- DecaLog internal watchdog as it was no longer necessary.
+- DecaLog internal watchdog as it is no longer necessary.
 
 ## [2.3.0] - 2020-11-23
 

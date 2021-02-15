@@ -63,24 +63,68 @@ function decalog_uninstall() {
 }
 
 /**
- * Copy the file responsible to early initialization in mu-plugins dir.
+ * Copy the file responsible to early initialization in mu-plugins and drop-ins dir.
  *
- * @since 1.12.0
+ * @since 2.4.0
  */
-function decalog_muplugin() {
-	if ( defined( 'DECALOG_EARLY_INIT' ) ) {
-		return;
-	}
-	$target = WPMU_PLUGIN_DIR . '/_decalog_loader.php';
-	$source = __DIR__ . '/assets/_decalog_loader.php';
-	if ( ! file_exists( $target ) ) {
-		if ( ! file_exists( WPMU_PLUGIN_DIR ) ) {
-			// phpcs:ignore
-			@mkdir( WPMU_PLUGIN_DIR );
+function decalog_check_earlyloading() {
+	if ( (bool) get_site_option( 'decalog_earlyloading', true ) ) {
+		if ( defined( 'DECALOG_EARLY_INIT' ) && defined( 'DECALOG_BOOTSTRAPPED' ) && DECALOG_BOOTSTRAPPED && DECALOG_EARLY_INIT ) {
+			return;
 		}
-		if ( file_exists( $source ) ) {
+		if ( ! defined( 'DECALOG_EARLY_INIT' ) ) {
+			$target = WPMU_PLUGIN_DIR . '/_decalog_loader.php';
+			$source = __DIR__ . '/assets/_decalog_loader.php';
+			if ( ! file_exists( $target ) ) {
+				if ( ! file_exists( WPMU_PLUGIN_DIR ) ) {
+					// phpcs:ignore
+					@mkdir( WPMU_PLUGIN_DIR );
+				}
+				if ( ! file_exists( WPMU_PLUGIN_DIR ) ) {
+					define( 'DECALOG_EARLY_INIT_WPMUDIR_ERROR', true );
+				}
+				if ( file_exists( $source ) ) {
+					// phpcs:ignore
+					@copy( $source, $target );
+					// phpcs:ignore
+					@chmod( $target, 0644 );
+				}
+				if ( ! file_exists( $target ) ) {
+					define( 'DECALOG_EARLY_INIT_COPY_ERROR', true );
+				}
+			} else {
+				define( 'DECALOG_EARLY_INIT_ERROR', true );
+			}
+		}
+		if ( ! defined( 'DECALOG_BOOTSTRAPPED' ) ) {
+			$target = WP_CONTENT_DIR . '/fatal-error-handler.php';
+			$source = __DIR__ . '/assets/fatal-error-handler.php';
+			if ( ! file_exists( $target ) ) {
+				if ( file_exists( $source ) ) {
+					// phpcs:ignore
+					@copy( $source, $target );
+					// phpcs:ignore
+					@chmod( $target, 0644 );
+				}
+				if ( ! file_exists( $target ) ) {
+					define( 'DECALOG_BOOTSTRAP_COPY_ERROR', true );
+				}
+			} else {
+				define( 'DECALOG_BOOTSTRAP_ALREADY_EXISTS_ERROR', true );
+			}
+		}
+	} else {
+		$file = WPMU_PLUGIN_DIR . '/_decalog_loader.php';
+		if ( file_exists( $file ) ) {
 			// phpcs:ignore
-			@copy( $source, $target );
+			@unlink( $file );
+		}
+		if ( defined( 'DECALOG_BOOTSTRAPPED' ) ) {
+			$file = WP_CONTENT_DIR . '/fatal-error-handler.php';
+			if ( file_exists( $file ) ) {
+				// phpcs:ignore
+				@unlink( $file );
+			}
 		}
 	}
 }
@@ -93,7 +137,7 @@ function decalog_muplugin() {
 function decalog_run() {
 	if ( ! Decalog\System\Environment::is_sandboxed() ) {
 		require_once __DIR__ . '/includes/features/class-wpcli.php';
-		decalog_muplugin();
+		decalog_check_earlyloading();
 		$plugin = new Decalog\Plugin\Core();
 		$plugin->run();
 	}
