@@ -35,6 +35,7 @@ class BugsnagFormatter implements FormatterInterface {
 	/**
 	 * List of the available level classes.
 	 *
+	 * @since   2.4.0
 	 * @var string[] $level_names Logging levels classes.
 	 */
 	public static $level_classes = [
@@ -51,6 +52,7 @@ class BugsnagFormatter implements FormatterInterface {
 	/**
 	 * List of the available level severities.
 	 *
+	 * @since   2.4.0
 	 * @var string[] $level_names Logging levels severities.
 	 */
 	public static $level_severities = [
