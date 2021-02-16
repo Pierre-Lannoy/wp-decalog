@@ -295,6 +295,7 @@ class PhpListener extends AbstractListener {
 	 * @param   string  $file The file where the error was raised.
 	 * @param   integer $line The line where the error was raised.
 	 * @param   array   $context The context of the error.
+	 * @return mixed|false  The result of the previous handler if any, or false.
 	 * @since    1.0.0
 	 */
 	public function handle_error( $code, $message, $file = '', $line = 0, $context = [] ) {
