@@ -2,7 +2,6 @@
 /**
  * Bootstrap handler for DecaLog.
  *
- * @package -
  * @author  Pierre Lannoy <https://pierre.lannoy.fr/>.
  * @since   2.4.0
  */
@@ -23,11 +22,10 @@ $dclg_btsrp = [];
  *
  * Defines methods and properties for bootstrap handling.
  *
- * @package -
  * @author  Pierre Lannoy <https://pierre.lannoy.fr/>.
  * @since   2.4.0
  */
-class DecalogErrorHandler extends \WP_Fatal_Error_Handler {
+class Decalog_Error_Handler extends \WP_Fatal_Error_Handler {
 
 	/**
 	 * The previous error handler, to restore if needed.
@@ -36,14 +34,6 @@ class DecalogErrorHandler extends \WP_Fatal_Error_Handler {
 	 * @var callable $previous_error_handler The previous error handler.
 	 */
 	private $previous_error_handler;
-
-	/**
-	 * The previous exception handler, to restore if needed.
-	 *
-	 * @since  2.4.0
-	 * @var callable $previous_exception_handler The previous exception handler.
-	 */
-	private $previous_exception_handler;
 
 	/**
 	 * The error level mapping.
@@ -100,9 +90,7 @@ class DecalogErrorHandler extends \WP_Fatal_Error_Handler {
 	 */
 	public function __construct() {
 		// phpcs:ignore
-		//$this->previous_error_handler = \set_error_handler( [ $this, 'handle_error' ] );
-		// phpcs:ignore
-		$this->previous_exception_handler = \set_exception_handler( [ $this, 'handle_exception' ] );
+		$this->previous_error_handler = \set_error_handler( [ $this, 'handle_error' ] );
 	}
 
 	/**
@@ -113,6 +101,7 @@ class DecalogErrorHandler extends \WP_Fatal_Error_Handler {
 	 * @param   string  $file The file where the error was raised.
 	 * @param   integer $line The line where the error was raised.
 	 * @param   array   $context The context of the error.
+	 * @return mixed|false  The result of the previous handler if any, or false.
 	 * @since    2.4.0
 	 */
 	public function handle_error( $code, $message, $file = '', $line = 0, $context = [] ) {
@@ -127,23 +116,7 @@ class DecalogErrorHandler extends \WP_Fatal_Error_Handler {
 	}
 
 	/**
-	 * Handles errors.
-	 *
-	 * @param   \Throwable $exception  The uncaught exception.
-	 * @since    2.4.0
-	 */
-	public function handle_exception( $exception ) {
-		$file    = $this->normalized_file_line( $exception->getFile(), $exception->getLine() );
-		$message = \sprintf( 'Uncaught exception (%s): "%s" at `%s`.', $this->get_class( $exception ), $exception->getMessage(), $file );
-		$this->prelog( 400, $message, (int) $exception->getCode() );
-		if ( $this->previous_exception_handler && \is_callable( $this->previous_exception_handler ) ) {
-			\call_user_func( $this->previous_exception_handler, $exception );
-		}
-		exit( 255 );
-	}
-
-	/**
-	 * Handles errors.
+	 * In-memory logging.
 	 *
 	 * @param integer   $level      The log level.
 	 * @param string    $message    The log message.
@@ -249,4 +222,4 @@ class DecalogErrorHandler extends \WP_Fatal_Error_Handler {
 	}
 }
 
-return new DecalogErrorHandler();
+return new Decalog_Error_Handler();
