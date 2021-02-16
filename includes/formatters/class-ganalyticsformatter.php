@@ -71,11 +71,15 @@ class GAnalyticsFormatter implements FormatterInterface {
 		$line['exd'] = $class . $level;
 		if ( array_key_exists( 'extra', $record ) ) {
 			$extra = $record['extra'];
-			if ( array_key_exists( 'userid', $extra ) && is_scalar( $extra['userid'] ) ) {
+			if ( array_key_exists( 'userid', $extra ) && is_scalar( $extra['userid'] ) && '{' !== substr( (string) $extra['userid'], 0, 1 ) ) {
 				$line['cid'] = substr( (string) $extra['userid'], 0, 66 );
+			} else {
+				$line['cid'] = 0;
 			}
-			if ( array_key_exists( 'ip', $extra ) && is_string( $extra['ip'] ) ) {
+			if ( array_key_exists( 'ip', $extra ) && is_string( $extra['ip'] ) && '{' !== substr( (string) $extra['ip'], 0, 1 ) ) {
 				$line['uip'] = substr( $extra['ip'], 0, 66 );
+			} else {
+				$line['uip'] = '127.0.0.1';
 			}
 			if ( array_key_exists( 'ua', $extra ) && is_string( $extra['ua'] ) ) {
 				$line['ua'] = $extra['ua'];
