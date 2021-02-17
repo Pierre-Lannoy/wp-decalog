@@ -118,12 +118,13 @@ abstract class AbstractBufferedHTTPHandler extends AbstractProcessingHandler {
 		if ( $record['level'] < $this->level ) {
 			return false;
 		}
-		if ( ! $this->initialized ) {
-			add_action( 'shutdown', [ $this, 'close' ], PHP_INT_MAX - 2, 0 );
-			$this->initialized = true;
-		}
 		$this->buffer[] = $this->processRecord( $record );
-		if ( ! $this->buffered ) {
+		if ( $this->buffered ) {
+			if ( ! $this->initialized ) {
+				add_action( 'shutdown', [ $this, 'close' ], PHP_INT_MAX - 2, 0 );
+				$this->initialized = true;
+			}
+		} else {
 			$this->flush();
 		}
 		return false === $this->bubble;
