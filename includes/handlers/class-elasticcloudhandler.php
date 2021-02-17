@@ -33,12 +33,13 @@ use Elasticsearch\Client;
 class ElasticCloudHandler extends ElasticsearchHandler {
 
 	/**
-	 * @param string     $cloudid   The logsene host (for location selection).
-	 * @param string     $user      The logs app token.
-	 * @param string     $pass      The logsene host (for location selection).
-	 * @param string     $index     The logs app token.
+	 * @param string     $cloudid   The cloudID.
+	 * @param string     $user      The deployment user.
+	 * @param string     $pass      The deployment password.
+	 * @param string     $index     The index name.
 	 * @param int|string $level     The minimum logging level at which this handler will be triggered.
 	 * @param bool       $bubble    Whether the messages that are handled can bubble up the stack or not.
+	 * @since   1.0.0
 	 */
 	public function __construct( string $cloudid, string $user, string $pass, string $index = '', $level = Logger::DEBUG, bool $bubble = true ) {
 		if ( '' === $index ) {
@@ -58,6 +59,7 @@ class ElasticCloudHandler extends ElasticsearchHandler {
 	 *
 	 * @param  array             $records
 	 * @throws \RuntimeException
+	 * @since   1.0.0
 	 */
 	protected function bulkSend( array $records ): void {
 		try {
