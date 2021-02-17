@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - New logger to send crash reports to Bugsnag.
 - New logger to send crash reports to Raygun.
 - New logger to send exceptions to Google (Universal) Analytics.
+- New logger to send logs to an Elasticsearch instance.
 - New 'environment' context metadata for all external loggers.
 - Compatibility with WordPress 5.7.
 - New setting to override live console and local access privileges when in development or staging environments (thanks to [sebastienserre](https://github.com/sebastienserre) for the suggestion).
@@ -29,9 +30,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Improved hash handling and reporting for users and IPs.
 - Improved self monitoring to handle loggers internal errors.
 - Code refactoring led to a huge execution speed gain: DecaLog is now 40% faster.
+- Elastic Cloud logger is renamed for better consistency.
 
 ### Fixed
-- [SEC002] The password for ElasticCloud logger is in plain text in "Site Health Info" page.
+- [SEC002] The password for Elastic Cloud logger is in plain text in "Site Health Info" page.
 - DecaLog doesn't correctly honour previous error handler calls (thanks to [ajoah](https://github.com/ajoah)).
 - DecaLog jams the plugin/theme editor while editing PHP files (thanks to [ajoah](https://github.com/ajoah)).
 - In Site Health section, Opcache status may be wrong (or generates PHP warnings) if OPcache API usage is restricted.

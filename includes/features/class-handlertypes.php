@@ -174,8 +174,8 @@ class HandlerTypes {
 			'namespace'     => 'Decalog\\Handler',
 			'class'         => 'logging',
 			'minimal'       => Logger::DEBUG,
-			'name'          => 'Elastic Cloud',
-			'help'          => esc_html__( 'An events log sent to Elastic Cloud / Elastic Cloud Enterprise.', 'decalog' ),
+			'name'          => 'Elastic Cloud - Logs',
+			'help'          => esc_html__( 'An events log sent to Elastic Cloud.', 'decalog' ),
 			'icon'          => $this->get_base64_elasticcloud_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -233,6 +233,92 @@ class HandlerTypes {
 				[
 					'type'  => 'configuration',
 					'value' => 'cloudid',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'user',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'pass',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'index',
+				],
+				[ 'type' => 'level' ],
+				[
+					'type'  => 'literal',
+					'value' => true,
+				],
+			],
+		];
+		$this->handlers[] = [
+			'version'       => DECALOG_VERSION,
+			'id'            => 'ElasticHandler',
+			'ancestor'      => 'ElasticsearchHandler',
+			'namespace'     => 'Decalog\\Handler',
+			'class'         => 'logging',
+			'minimal'       => Logger::DEBUG,
+			'name'          => 'Elasticsearch - Logs',
+			'help'          => esc_html__( 'An events log sent to Elasticsearch.', 'decalog' ),
+			'icon'          => $this->get_base64_elasticsearch_icon(),
+			'needs'         => [],
+			'params'        => [ 'processors', 'privacy' ],
+			'configuration' => [
+				'url'     => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Service URL', 'decalog' ),
+					'help'    => sprintf( esc_html__( 'URL where to send logs. Format: %s.', 'decalog' ), '<code><proto>://<host>:<port></code>' ),
+					'default' => 'http://localhost:9200',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
+				'user'     => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Username', 'decalog' ),
+					'help'    => esc_html__( 'The username of the instance.', 'decalog' ),
+					'default' => '',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
+				'pass'     => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Password', 'decalog' ),
+					'help'    => esc_html__( 'The password of the instance.', 'decalog' ),
+					'default' => '',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
+				'index'     => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Index', 'decalog' ),
+					'help'    => esc_html__( 'The index name.', 'decalog' ),
+					'default' => '_index',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
+			],
+			'init'          => [
+				[
+					'type'  => 'configuration',
+					'value' => 'url',
 				],
 				[
 					'type'  => 'configuration',
@@ -470,6 +556,62 @@ class HandlerTypes {
 				[ 'type' => 'level' ],
 			],
 		];
+
+		$this->handlers[] = [
+			'version'       => DECALOG_VERSION,
+			'id'            => 'LokiHandler',
+			'ancestor'      => 'LokiHandler',
+			'namespace'     => 'Decalog\\Handler',
+			'class'         => 'logging',
+			'minimal'       => Logger::INFO,
+			'name'          => 'Loki',
+			'help'          => esc_html__( 'An events log sent to Loki (self-hosted or Grafana Cloud).', 'decalog' ),
+			'icon'          => $this->get_base64_loki_icon(),
+			'needs'         => [],
+			'params'        => [ 'processors', 'privacy' ],
+			/*'processors'    => [
+				'included' => [ 'WordpressProcessor', 'WWWProcessor', 'IntrospectionProcessor' ],
+				'excluded' => [ 'BacktraceProcessor' ],
+			],*/
+			'configuration' => [
+				'token'  => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'API key', 'decalog' ),
+					'help'    => esc_html__( 'The API key of the service.', 'decalog' ),
+					'default' => '',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
+				'buffer' => [
+					'type'    => 'boolean',
+					'show'    => true,
+					'name'    => esc_html__( 'Deferred forwarding', 'decalog' ),
+					'help'    => esc_html__( 'Wait for the full page is rendered before sending reports (recommended).', 'decalog' ),
+					'default' => true,
+					'control' => [
+						'type'    => 'field_checkbox',
+						'cast'    => 'boolean',
+						'enabled' => true,
+					],
+				],
+			],
+			'init'          => [
+				[
+					'type'  => 'configuration',
+					'value' => 'token',
+				],
+				[
+					'type'  => 'literal',
+					'value' => true,
+				],
+				[ 'type' => 'level' ],
+			],
+		];
+
 		$this->handlers[] = [
 			'version'       => DECALOG_VERSION,
 			'id'            => 'MailHandler',
@@ -1700,7 +1842,7 @@ class HandlerTypes {
 	 * @since 1.0.0
 	 */
 	private function get_base64_loggly_icon() {
-		$source  = '<svg width="256px" height="256px" viewBox="240 0 347.7 80"  version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xml:space="preserve">';
+		$source  = '<svg width="256px" height="256px" viewBox="240 0 347.7 80"  version="1.1" xmlns="http://www.w3.org/2000/svg" xml:space="preserve">';
 		$source .= '<g transform="translate(-590, -70) scale(3.3,3.3)">';
 		$source .= '<path style="fill:#F99D1C" d="M302.8,32.3c0.3-0.1,0.5-0.1,0.7-0.2c5.5-1.6,10.8-3.7,16.2-5.9c5.2-2.2,10.3-4.8,14.9-8.5 C339.2,13.9,342.9,9,345,3c0.3-0.8,0.9-2.1,0.9-3c-7.2,9.9-35.9,10.9-35.9,10.9l6.8-6.2c-27.2,0.1-46.2,11.6-54.9,17.8 c11.1,1.2,21.2,5.9,29.1,13C294.9,34.3,298.9,33.4,302.8,32.3z"/>';
 		$source .= '<path style="fill:#F99D1C" d="M347.7,31.3c0,0-26.4-2-53.9,6.8c3.6,3.8,6.7,8.2,9.1,12.9C317.3,43.1,337.4,32.8,347.7,31.3z"/>';
@@ -1719,7 +1861,7 @@ class HandlerTypes {
 	 * @since 1.0.0
 	 */
 	private function get_base64_sematext_icon( $color = '#1fa0ed' ) {
-		$source  = '<svg width="256px" height="256px" viewBox="0 0 256 256"  version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xml:space="preserve">';
+		$source  = '<svg width="256px" height="256px" viewBox="0 0 256 256"  version="1.1" xmlns="http://www.w3.org/2000/svg" xml:space="preserve">';
 		$source .= '<g transform="translate(16, 44) scale(4.6,4.6)">';
 		$source .= '<path style="fill:' . $color . '" d="M29.57.15c-1.3 0-2.22.13-2.22.13C18.29.16 17.8 12 17.8 12c-.43 0-.95.05-1.32.31-2.43 1.85-.37 4.12-.37 4.12-.19.15-.35.3-.52.45a3.34 3.34 0 0 1-.34-.73c-2.64-.05-3.7-.74-3.9-1.84-.27-1.32.47-2.8 1.74-2.75 1.84.06.94 1.22.68 1.22a.7.7 0 0 1-.53-.22c-.16-.15-.37-.05-.37.16 0 .53.58 1.27 1.74.69 1.06-.53 1.11-1.37.8-2.06a2.18 2.18 0 0 0-1.7-1.42l-.05-.16c0-.16-.15-.26-.26-.26l-.53-.05c-.15 0-.26.05-.31.2l-.05.27c-.48.05-.95.16-1.32.32l-.27-.21c-.1-.11-.26-.06-.37 0l-.36.31c-.11.1-.16.21-.11.37l.1.21c-.26.27-.57.63-.78 1l-.16-.05c-.16-.05-.27.05-.37.16l-.21.47a.33.33 0 0 0 .05.37l.16.21c-.37 1.43.05 3.17 2.42 4.75.32.2.58.37.85.52l-.1.53a.36.36 0 0 0 .2.42l.58.27a.42.42 0 0 0 .44-.08c-1.01 1.5-1.46 2.8-3.37 4.89a4.63 4.63 0 0 1-3.38 1.68 2.99 2.99 0 0 1-3-3.37 2.82 2.82 0 0 1 2.42-2.59c.16-.05.32-.05.48-.05 1.32 0 1.95 1.11 1.42 2.16 0 0-.42 1.06-1.26 1.11h-.06c-.79 0-.68-.9-.42-1.1.05-.06.16-.06.21-.06.16 0 .27.1.42.1.06 0 .11 0 .16-.05.37-.15.32-.47.32-.47-.05-.42-.37-.58-.8-.58-.26 0-.57.1-.78.21-.8.42-1 1.58-.48 2.32.32.48.85.74 1.48.74 1.1 0 2.48-.8 3-2.37.53-1.53-.63-4.12-3.32-4.12a5.25 5.25 0 0 0-1.9.37c-5.8 2.11-3.1 11.92 2 11.92.27 0 .48 0 .75-.06 1.1-.2 2.1-.73 3.05-1.42l.11.1c.1.11.21.17.32.17.1 0 .2-.06.31-.11l.48-.42c.16-.1.2-.32.15-.53l-.1-.32c.37-.31.68-.68 1-1l.16.1a.47.47 0 0 0 .26.06.48.48 0 0 0 .37-.16l.37-.47c.1-.16.16-.37.05-.53l-.16-.26c.32-.42.64-.8.95-1.16l.11.05c.05.05.16.05.26.05.16 0 .27-.05.37-.2l.37-.48c.1-.16.16-.37.05-.53l-.1-.21c.58-.69 1.05-1.1 1.42-1.1.21 0 .37.15.53.47.1.2.21.47.42.79l-.05.05c-.21.16-.27.42-.1.63l.3.53a.48.48 0 0 0 .43.21h.21c.21.37.42.74.69 1.16-.21.16-.27.42-.1.63l.3.53c.11.16.27.21.43.21h.1l.16-.05c.21.37.48.74.74 1.1l-.05.06a.48.48 0 0 0-.05.63l.36.48c.11.1.22.2.37.2h.16l.1-.05c2.38 3.38 5.28 6.54 7.5 6.54h.1c3.95-.16 3.74-8.33.95-8.33-.16 0-.32 0-.48.05-1.79.53-1.68 2.75-1.68 2.75s.9-1.27 1.42-1.27c.42 0 .68.63.37 2.8-.1.78-.42 1.15-.8 1.15-2 0-6.95-9.64-6.95-11.33 0-.16.1-.21.26-.21.21 0 .48.1.9.26l-.1.37a.53.53 0 0 0 .26.58l.58.21c.05 0 .1.06.15.06a.57.57 0 0 0 .37-.16l.27-.32c.26.16.58.32.9.48l-.11.42a.53.53 0 0 0 .26.58l.58.2c.05 0 .1.06.16.06a.57.57 0 0 0 .37-.16l.26-.26c.37.2.8.42 1.22.68l-.11.37a.53.53 0 0 0 .26.58l.58.21c.06 0 .1.06.16.06a.57.57 0 0 0 .37-.16l.21-.21c.42.2.84.47 1.21.68l-.1.37a.53.53 0 0 0 .26.58l.58.21c.05 0 .1.06.16.06a.57.57 0 0 0 .37-.16l.21-.21c1.58.84 3.22 1.68 4.74 2.37 2 .9 4.06 1.42 5.8 1.42 2.27 0 4.06-.9 4.48-3.21 0-.06 0-.16.06-.21l.2-.06c.22-.05.43-.26.43-.42l.05-.47c.1-.21 0-.32-.16-.37h-.31c0-.58-.1-1.06-.21-1.53l.16-.21c.15-.21.15-.48.05-.58l-.27-.37c-.05-.05-.31-.1-.58-.1h-.05a3.99 3.99 0 0 0-1.1-1L46 21.7c-.05-.21-.21-.42-.42-.48l-.48-.05c-.1 0-.37.21-.52.42a5.82 5.82 0 0 0-1-.1c-1.74 0-3.38.9-3.54 2.58-.05.74-.05 1.63 1.48 2.53.42.26.9.37 1.32.37 1.26 0 2.42-.8 2.1-1.95-.2-.9-.84-1.21-1.47-1.21-.48 0-.9.2-1.1.42-.38.52-.11 1.16.26 1.16s.26-.32.26-.32c-.21-.37.05-.53.42-.53.32 0 .69.16.69.58.05.58-.69.8-.95.85H43c-1.68 0-1.63-1.58-1.31-1.95a2.12 2.12 0 0 1 1.74-.95c1.52 0 2.95 1.63 2 3.58a2 2 0 0 1-2 1.27c-.69 0-1.64-.21-2.9-.8-4.32-1.85-10.38-4.67-11.84-7.25.92.26 2.3.56 2.77.72v.37c0 .16.1.32.26.37l.58.2c.16.06.37 0 .48-.15l.2-.32c.43.11.9.16 1.38.21l.16.48a.4.4 0 0 0 .37.26l.63-.05c.16 0 .32-.16.37-.32l.05-.31a8.2 8.2 0 0 0 1.58-.27l.37.37a.5.5 0 0 0 .48.1l.58-.25a.36.36 0 0 0 .2-.43l-.05-.42c.37-.16.69-.37 1.06-.63 4.37-2.9 2.16-5.33.74-6.49-1.37-1.16.2-2.26 1.9-2.26.47 0 1.31.05 1.84.1.1 0 .16-.15.05-.2a4.6 4.6 0 0 0-3.48-.59l-.1-.1c-.1-.1-.21-.16-.37-.1l-.48.2c-.15.05-.2.21-.2.32v.16c-.27.16-.48.31-.64.52l-.21-.1a.22.22 0 0 0-.18.01c1.02-2.9-.65-6.37-.65-6.37C37.22.83 32.44.17 29.57.15zm9.06 11.99a.3.3 0 0 0 .05.08l.1.1c-.15.37-.2.69-.2 1l-.21.21a.33.33 0 0 0-.06.37l.27.48c.05.1.2.21.37.16l.2-.06c.48.53 1.06.85.9 1.74-.2 1.16-1.47 1.9-4.64 1.85-1.66-.05-3.91-.99-5.07-1.6.63-.24 1.34-.44 2.1-.78.93-.13 2.31-.48 4.48-1.82a4.98 4.98 0 0 0 1.71-1.73zm-13.29 1.24a2 2 0 1 1 0 4 2 2 0 1 1 0-4z"/>';
 		$source .= '<path style="fill:' . $color . '" d="M24.13 14.75s-.26 1.47 1.16 1.47c1.43 0 1.16-1.47 1.16-1.47-1.21.74-2.32 0-2.32 0"/>';
@@ -1730,7 +1872,7 @@ class HandlerTypes {
 	}
 
 	/**
-	 * Returns a base64 svg resource for the Sematext icon.
+	 * Returns a base64 svg resource for the Elastic Cloud icon.
 	 *
 	 * @param string $color1 Optional. Color of the icon.
 	 * @param string $color2 Optional. Color of the icon.
@@ -1739,7 +1881,7 @@ class HandlerTypes {
 	 * @since 1.0.0
 	 */
 	private function get_base64_elasticcloud_icon( $color1 = '#00BFB3', $color2 = '#0077CC', $color3 = '#343741' ) {
-		$source  = '<svg width="256px" height="256px" viewBox="0 0 256 256"  version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xml:space="preserve">';
+		$source  = '<svg width="256px" height="256px" viewBox="0 0 256 256"  version="1.1" xmlns="http://www.w3.org/2000/svg" xml:space="preserve">';
 		$source .= '<g transform="translate(182,-74) scale(0.51,0.51)">';
 		$source .= '<path style="fill:' . $color1 . '" d="M-30.5,460.5c-8.7-2.6-18-1.8-26.1,2.3c-19.9,9.7-43.2,9.7-63.2,0c-8.1-4-17.4-4.8-26.1-2.3 c-35.9,11.1-67.8,32.4-91.8,61.2c68.9,82.6,191.7,93.6,274.2,24.8c9-7.5,17.3-15.8,24.8-24.8C37.3,492.9,5.4,471.6-30.5,460.5z"/>';
 		$source .= '<path style="fill:' . $color2 . '" d="M-88.2,202.3c-57.8-0.1-112.5,25.6-149.5,70c24,28.8,55.9,50.1,91.8,61.2c8.7,2.6,18,1.8,26.1-2.3 c19.9-9.7,43.2-9.7,63.2,0c8.1,4,17.4,4.8,26.1,2.3c35.9-11.1,67.8-32.4,91.8-61.2C24.3,227.9-30.4,202.2-88.2,202.3z"/>';
@@ -1751,7 +1893,7 @@ class HandlerTypes {
 	}
 
 	/**
-	 * Returns a base64 svg resource for the Sematext icon.
+	 * Returns a base64 svg resource for the Elasticsearch icon.
 	 *
 	 * @param string $color1 Optional. Color of the icon.
 	 * @param string $color2 Optional. Color of the icon.
@@ -1759,8 +1901,25 @@ class HandlerTypes {
 	 * @return string The svg resource as a base64.
 	 * @since 1.0.0
 	 */
+	private function get_base64_elasticsearch_icon( $color1 = '#f0bf1a', $color2 = '#3ebeb0', $color3 = '#07a5de', $color4 = '#231f20', $color5 = '#d7a229', $color6 = '#019b8f' ) {
+		$source  = '<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-4 -2 82 82" width="2500" height="2500">';
+		$source .= '<style>.st0{clip-path:url(#SVGID_2_);fill:' . $color1 . '}.st1{clip-path:url(#SVGID_4_);fill:' . $color2 . '}.st2{clip-path:url(#SVGID_6_);fill:' . $color3 . '}.st3{clip-path:url(#SVGID_8_);fill:' . $color4 . '}.st4{fill:' . $color5 . '}.st5{fill:' . $color6 . '}.st6{fill:none}</style>';
+		$source .= '<defs><circle id="SVGID_1_" cx="40" cy="40" r="32"/></defs><clipPath id="SVGID_2_"><use xlink:href="#SVGID_1_" overflow="visible"/></clipPath><path class="st0" d="M53.7 26H10c-1.1 0-2-.9-2-2V10c0-1.1.9-2 2-2h57c1.1 0 2 .9 2 2v.7C68.9 19.1 62.1 26 53.7 26z"/><defs><circle id="SVGID_3_" cx="40" cy="40" r="32"/></defs><clipPath id="SVGID_4_"><use xlink:href="#SVGID_3_" overflow="visible"/></clipPath><path class="st1" d="M69.1 72H8.2V54h45.7c8.4 0 15.2 6.8 15.2 15.2V72z"/><g><defs><circle id="SVGID_5_" cx="40" cy="40" r="32"/></defs><clipPath id="SVGID_6_"><use xlink:href="#SVGID_5_" overflow="visible"/></clipPath><path class="st2" d="M50.1 49H4.8V31h45.3c5 0 9 4 9 9s-4.1 9-9 9z"/></g><g><defs><circle id="SVGID_7_" cx="40" cy="40" r="32"/></defs><clipPath id="SVGID_8_"><use xlink:href="#SVGID_7_" overflow="visible"/></clipPath><path class="st3" d="M36 31H6.4v18H36c.7-2.7 1.1-5.7 1.1-9s-.4-6.3-1.1-9z"/></g><path class="st4" d="M23.9 12.3c-5.4 3.2-9.9 8-12.7 13.7h23.6c-2.4-5.5-6.2-10.1-10.9-13.7z"/><path class="st5" d="M24.9 68.2c4.6-3.7 8.3-8.6 10.6-14.2H11.2c3 6 7.8 11 13.7 14.2z"/><path class="st6" d="M0 0h80v80H0z"/>';
+		$source .= '</svg>';
+		// phpcs:ignore
+		return 'data:image/svg+xml;base64,' . base64_encode( $source );
+	}
+
+	/**
+	 * Returns a base64 svg resource for the Sumo icon.
+	 *
+	 * @param string $color1 Optional. Color of the icon.
+	 * @param string $color2 Optional. Color of the icon.
+	 * @return string The svg resource as a base64.
+	 * @since 1.0.0
+	 */
 	private function get_base64_sumosys_icon( $color1 = '#000099', $color2 = '#FEFEFE' ) {
-		$source  = '<svg width="256px" height="256px" viewBox="0 0 256 256"  version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xml:space="preserve">';
+		$source  = '<svg width="256px" height="256px" viewBox="0 0 256 256"  version="1.1" xmlns="http://www.w3.org/2000/svg" xml:space="preserve">';
 		$source .= '<g id="v1" transform="translate(26,26) scale(0.068,0.068)">';
 		$source .= '<g id="modern-app-report-hero-banner-mobile" transform="translate(-20.000000, -19.000000)">';
 		$source .= '<g id="Nav">';
@@ -1775,6 +1934,58 @@ class HandlerTypes {
 		$source .= '</g>';
 		$source .= '</g>';
 		$source .= '</g>';
+		$source .= '</g>';
+		$source .= '</svg>';
+		// phpcs:ignore
+		return 'data:image/svg+xml;base64,' . base64_encode( $source );
+	}
+
+	/**
+	 * Returns a base64 svg resource for the Sematext icon.
+	 *
+	 * @param string $color1 Optional. Color of the icon.
+	 * @param string $color2 Optional. Color of the icon.
+	 * @return string The svg resource as a base64.
+	 * @since 1.0.0
+	 */
+	private function get_base64_loki_icon( $color1 = '#F9EC1C', $color2 = '#F05A2B' ) {
+		$style = '';
+		for ( $i = 1; $i < 16; $i++ ) {
+			$style .= ' .st' . $i . '{fill:url(#SVGID_' . $i . '_);}';
+		}
+		$source  = '<svg width="256px" height="256px" viewBox="0 0 256 256"  version="1.1" xmlns="http://www.w3.org/2000/svg" xml:space="preserve">';
+		$source .= '<style type="text/css">' . $style . '</style>';
+		$source .= '<g transform="translate(162,70) scale(0.6,0.6)">';
+		$source .= '<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="342.6804" y1="897.3058" x2="342.6804" y2="547.4434" gradientTransform="matrix(0.9805 -0.1964 0.1964 0.9805 -567.5302 -509.0906)"><stop  offset="0" style="stop-color:' . $color1 . '"/><stop  offset="1" style="stop-color:' . $color2 . '"/></linearGradient>';
+		$source .= '<polygon class="st1" points="-127.3,-58.2 -127.5,-59.1 -128.3,-58.9"/>';
+		$source .= '<linearGradient id="SVGID_2_" gradientUnits="userSpaceOnUse" x1="295.8044" y1="887.3397" x2="295.8044" y2="537.4772" gradientTransform="matrix(0.9805 -0.1964 0.1964 0.9805 -567.5302 -509.0906)"><stop  offset="0" style="stop-color:' . $color1 . '"/><stop  offset="1" style="stop-color:' . $color2 . '"/></linearGradient>';
+		$source .= '<polygon class="st2" points="-108.3,219.3 -130.7,223.8 -126.2,246.3 -103.8,241.8"/>';
+		$source .= '<linearGradient id="SVGID_3_" gradientUnits="userSpaceOnUse" x1="442.4363" y1="887.3397" x2="442.4363" y2="537.4772" gradientTransform="matrix(0.9805 -0.1964 0.1964 0.9805 -567.5302 -509.0906)"><stop  offset="0" style="stop-color:' . $color1 . '"/><stop  offset="1" style="stop-color:' . $color2 . '"/></linearGradient>';
+		$source .= '<polygon class="st3" points="-27.8,190 71.3,170.1 66.8,147.7 -32.3,167.5"/>';
+		$source .= '<linearGradient id="SVGID_4_" gradientUnits="userSpaceOnUse" x1="367.5056" y1="887.3397" x2="367.5056" y2="537.4772" gradientTransform="matrix(0.9805 -0.1964 0.1964 0.9805 -567.5302 -509.0906)"><stop  offset="0" style="stop-color:' . $color1 . '"/><stop  offset="1" style="stop-color:' . $color2 . '"/></linearGradient>';
+		$source .= '<polygon class="st4" points="-67.5,174.6 -63,197 -40.5,192.5 -45,170.1"/>';
+		$source .= '<linearGradient id="SVGID_5_" gradientUnits="userSpaceOnUse" x1="331.6549" y1="887.3397" x2="331.6549" y2="537.4772" gradientTransform="matrix(0.9805 -0.1964 0.1964 0.9805 -567.5302 -509.0906)"><stop  offset="0" style="stop-color:' . $color1 . '"/><stop  offset="1" style="stop-color:' . $color2 . '"/></linearGradient>';
+		$source .= '<polygon class="st5" points="-68.6,234.7 -73.1,212.3 -95.6,216.8 -91.1,239.2"/>';
+		$source .= '<linearGradient id="SVGID_6_" gradientUnits="userSpaceOnUse" x1="295.8044" y1="887.3397" x2="295.8044" y2="537.4772" gradientTransform="matrix(0.9805 -0.1964 0.1964 0.9805 -567.5302 -509.0906)"><stop  offset="0" style="stop-color:' . $color1 . '"/><stop  offset="1" style="stop-color:' . $color2 . '"/></linearGradient>';
+		$source .= '<polygon class="st6" points="-133.3,211.1 -110.8,206.6 -115.3,184.2 -137.8,188.7"/>';
+		$source .= '<linearGradient id="SVGID_7_" gradientUnits="userSpaceOnUse" x1="442.4363" y1="887.3397" x2="442.4363" y2="537.4772" gradientTransform="matrix(0.9805 -0.1964 0.1964 0.9805 -567.5302 -509.0906)"><stop  offset="0" style="stop-color:' . $color1 . '"/><stop  offset="1" style="stop-color:' . $color2 . '"/></linearGradient>';
+		$source .= '<polygon class="st7" points="73.8,182.8 -25.3,202.7 -20.8,225.1 78.3,205.3"/>';
+		$source .= '<linearGradient id="SVGID_8_" gradientUnits="userSpaceOnUse" x1="367.5056" y1="887.3397" x2="367.5056" y2="537.4772" gradientTransform="matrix(0.9805 -0.1964 0.1964 0.9805 -567.5302 -509.0906)"><stop  offset="0" style="stop-color:' . $color1 . '"/><stop  offset="1" style="stop-color:' . $color2 . '"/></linearGradient>';
+		$source .= '<polygon class="st8" points="-60.4,209.7 -55.9,232.2 -33.5,227.7 -38,205.2"/>';
+		$source .= '<linearGradient id="SVGID_9_" gradientUnits="userSpaceOnUse" x1="331.6549" y1="887.3397" x2="331.6549" y2="537.4772" gradientTransform="matrix(0.9805 -0.1964 0.1964 0.9805 -567.5302 -509.0906)"><stop  offset="0" style="stop-color:' . $color1 . '"/><stop  offset="1" style="stop-color:' . $color2 . '"/></linearGradient>';
+		$source .= '<polygon class="st9" points="-98.1,204.1 -75.7,199.6 -80.2,177.1 -102.6,181.6"/>';
+		$source .= '<linearGradient id="SVGID_10_" gradientUnits="userSpaceOnUse" x1="289.1909" y1="880.5443" x2="289.1909" y2="548.7296" gradientTransform="matrix(0.9805 -0.1964 0.1964 0.9805 -567.5302 -509.0906)"><stop  offset="0" style="stop-color:' . $color1 . '"/><stop  offset="1" style="stop-color:' . $color2 . '"/></linearGradient>';
+		$source .= '<polygon class="st10" points="-140.3,176 -130.8,174.1 -166.8,-5.6 -176.3,-3.7"/>';
+		$source .= '<linearGradient id="SVGID_11_" gradientUnits="userSpaceOnUse" x1="302.4872" y1="889.7463" x2="302.4872" y2="533.4922" gradientTransform="matrix(0.9805 -0.1964 0.1964 0.9805 -567.5302 -509.0906)"><stop  offset="0" style="stop-color:' . $color1 . '"/><stop  offset="1" style="stop-color:' . $color2 . '"/></linearGradient>';
+		$source .= '<polygon class="st11" points="-127.3,173.4 -117.8,171.5 -156.4,-21.4 -165.9,-19.5"/>';
+		$source .= '<linearGradient id="SVGID_12_" gradientUnits="userSpaceOnUse" x1="325.1889" y1="908.8145" x2="325.1889" y2="501.9178" gradientTransform="matrix(0.9805 -0.1964 0.1964 0.9805 -567.5302 -509.0906)"><stop  offset="0" style="stop-color:' . $color1 . '"/><stop  offset="1" style="stop-color:' . $color2 . '"/></linearGradient>';
+		$source .= '<polygon class="st12" points="-105,168.9 -95.5,167 -139.7,-53.3 -149.2,-51.4"/>';
+		$source .= '<linearGradient id="SVGID_13_" gradientUnits="userSpaceOnUse" x1="338.4852" y1="896.2529" x2="338.4852" y2="522.7181" gradientTransform="matrix(0.9805 -0.1964 0.1964 0.9805 -567.5302 -509.0906)"><stop  offset="0" style="stop-color:' . $color1 . '"/><stop  offset="1" style="stop-color:' . $color2 . '"/></linearGradient>';
+		$source .= '<polygon class="st13" points="-92,166.3 -82.5,164.4 -123,-37.9 -132.5,-36"/>';
+		$source .= '<linearGradient id="SVGID_14_" gradientUnits="userSpaceOnUse" x1="360.8988" y1="870.7903" x2="360.8988" y2="564.8808" gradientTransform="matrix(0.9805 -0.1964 0.1964 0.9805 -567.5302 -509.0906)"><stop  offset="0" style="stop-color:' . $color1 . '"/><stop  offset="1" style="stop-color:' . $color2 . '"/></linearGradient>';
+		$source .= '<polygon class="st14" points="-70,161.9 -60.5,160 -93.7,-5.7 -103.2,-3.8"/>';
+		$source .= '<linearGradient id="SVGID_15_" gradientUnits="userSpaceOnUse" x1="374.1951" y1="875.2039" x2="374.1951" y2="557.5726" gradientTransform="matrix(0.9805 -0.1964 0.1964 0.9805 -567.5302 -509.0906)"><stop  offset="0" style="stop-color:' . $color1 . '"/><stop  offset="1" style="stop-color:' . $color2 . '"/></linearGradient>';
+		$source .= '<polygon class="st15" points="-57,159.3 -47.5,157.4 -81.9,-14.6 -91.4,-12.7"/>';
 		$source .= '</g>';
 		$source .= '</svg>';
 		// phpcs:ignore
