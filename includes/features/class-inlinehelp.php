@@ -164,7 +164,7 @@ class InlineHelp {
 			'content' => $content,
 		];
 		// Alerting.
-		$content = '<p>' . esc_html__( 'These loggers allow you to send alerts:', 'decalog' ) . '</p>';
+		$content = '<p>' . esc_html__( 'These loggers allow you to send event-based alerts:', 'decalog' ) . '</p>';
 		$tabs[]  = [
 			'title'   => esc_html__( 'Alerting', 'decalog' ),
 			'id'      => 'decalog-contextual-settings-loggers-alerting',
@@ -178,14 +178,14 @@ class InlineHelp {
 			'content' => $content . $this->get_loggers( 'debugging' ),
 		];
 		// Logging.
-		$content = '<p>' . esc_html__( 'These loggers send events to logging services. It may be local or SaaS, free or paid services.', 'decalog' ) . '</p>';
+		$content = '<p>' . esc_html__( 'These loggers send events for logging purpose:', 'decalog' ) . '</p>';
 		$tabs[]  = [
 			'title'   => esc_html__( 'Logging', 'decalog' ),
 			'id'      => 'decalog-contextual-settings-loggers-logging',
 			'content' => $content . $this->get_loggers( 'logging' ),
 		];
 		// Monitoring.
-		$content = '<p>' . esc_html__( 'These loggers send reports to crash analytics services. It may be local or SaaS, free or paid services.', 'decalog' ) . '</p>';
+		$content = '<p>' . esc_html__( 'These loggers send event reports for crash analytics purpose:', 'decalog' ) . '</p>';
 		$tabs[]  = [
 			'title'   => esc_html__( 'Crash Analytics', 'decalog' ),
 			'id'      => 'decalog-contextual-settings-loggers-analytics',
