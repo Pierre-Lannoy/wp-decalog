@@ -270,7 +270,7 @@ pierre@dev:~$ wp log type list
 
 To obtain details about the WordpressHandler type, type the following command:
 ```console
-pierre@dev:~$ wp @dev log type describe WordpressHandler
+pierre@dev:~$ wp log type describe WordpressHandler
               
 WordPress events log - WordpressHandler
 An events log stored in your WordPress database and available right in your admin dashboard.
