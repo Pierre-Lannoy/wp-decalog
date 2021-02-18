@@ -41,7 +41,7 @@ abstract class AbstractBufferedHTTPHandler extends AbstractProcessingHandler {
 	 * URL to post.
 	 *
 	 * @since  2.4.0
-	 * @var    string    $post_args    The url.
+	 * @var    string    $endpoint    The url.
 	 */
 	protected $endpoint = '';
 
