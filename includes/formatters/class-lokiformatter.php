@@ -135,7 +135,7 @@ class LokiFormatter implements FormatterInterface {
 		foreach ( $fragments as $key => $fragment ) {
 			$name = $id . ( '' === $id ? '' : $separator ) . $key;
 			if ( is_array( $fragment ) ) {
-				$result .= $this->build_logline( $fragment, $name );
+				$result .= ( '' === $result ? '' : ' ' ) . $this->build_logline( $fragment, $name );
 			}
 			if ( is_scalar( $fragment ) ) {
 				if ( is_string( $fragment ) ) {

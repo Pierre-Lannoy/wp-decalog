@@ -409,12 +409,36 @@ class HandlerTypes {
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
 			'configuration' => [
-				'url'   => [
+				'host'   => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Service URL', 'decalog' ),
-					'help'    => sprintf( esc_html__( 'URL where to send logs. Format: %s.', 'decalog' ), '<code>' . htmlentities( '<proto>://<host>:<port>' ) . '</code>' ),
-					'default' => 'http://localhost:3100',
+					'name'    => esc_html__( 'Loki host', 'decalog' ),
+					'help'    => sprintf( esc_html__( 'The host name portion of the Loki instance url. Something like %s.', 'decalog' ), '<code>logs-prod-us-central1</code>' ),
+					'default' => '',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
+				'user'     => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Username', 'decalog' ),
+					'help'    => sprintf( esc_html__( 'The user name for Basic Auth authentication. Something like %s.', 'decalog' ), '<code>21087</code>' ),
+					'default' => '',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
+				'key'     => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'API key', 'decalog' ),
+					'help'    => esc_html__( 'The Grafana.com API Key.', 'decalog' ),
+					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
 						'cast'    => 'string',
@@ -450,7 +474,15 @@ class HandlerTypes {
 			'init'          => [
 				[
 					'type'  => 'configuration',
-					'value' => 'url',
+					'value' => 'host',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'user',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'key',
 				],
 				[
 					'type'  => 'configuration',
