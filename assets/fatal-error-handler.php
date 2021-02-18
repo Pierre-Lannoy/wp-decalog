@@ -91,6 +91,9 @@ class Decalog_Error_Handler extends \WP_Fatal_Error_Handler {
 	public function __construct() {
 		// phpcs:ignore
 		$this->previous_error_handler = \set_error_handler( [ $this, 'handle_error' ] );
+		if ( ! defined( 'DECALOG_TRACEID' ) ) {
+			define( 'DECALOG_TRACEID', $this->generate_unique_id() );
+		}
 	}
 
 	/**
@@ -211,14 +214,45 @@ class Decalog_Error_Handler extends \WP_Fatal_Error_Handler {
 	}
 
 	/**
-	 * Get the class.
+	 * Generates a v4 UUID.
 	 *
-	 * @return  string     The class of the object.
-	 * @since    2.4.0
+	 * @since  1.0.0
+	 * @return string      A v4 UUID.
 	 */
-	private function get_class( $object ) {
-		$class = \get_class( $object );
-		return 'c' === $class[0] && 0 === \strpos( $class, "class@anonymous\0" ) ? \get_parent_class( $class ) . '@anonymous' : $class;
+	private function generate_v4() {
+		return sprintf(
+			'%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+			// phpcs:disable
+			mt_rand( 0, 0xffff ),
+			mt_rand( 0, 0xffff ),
+			mt_rand( 0, 0xffff ),
+			mt_rand( 0, 0x0fff ) | 0x4000,
+			mt_rand( 0, 0x3fff ) | 0x8000,
+			mt_rand( 0, 0xffff ),
+			mt_rand( 0, 0xffff ),
+			mt_rand( 0, 0xffff )
+		// phpcs:enabled
+		);
+	}
+
+	/**
+	 * Generates a (pseudo) unique ID.
+	 * This function does not generate cryptographically secure values, and should not be used for cryptographic purposes.
+	 *
+	 * @param   integer $length     Optional. The length of the ID.
+	 * @return  string  The unique ID.
+	 * @since  1.0.0
+	 */
+	private function generate_unique_id( $length = 32 ) {
+		$result = '';
+		$date   = new \DateTime();
+		do {
+			$s       = $this->generate_v4();
+			$s       = str_replace( '-', (string) ( $date->format( 'u' ) ), $s );
+			$result .= $s;
+			$l       = strlen( $result );
+		} while ( $l < $length );
+		return substr( str_shuffle( $result ), 0, $length );
 	}
 }
 

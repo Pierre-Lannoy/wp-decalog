@@ -18,6 +18,7 @@ use Decalog\Plugin\Feature\LoggerFactory;
 use Decalog\Plugin\Feature\ClassTypes;
 use Decalog\Plugin\Feature\ChannelTypes;
 use Decalog\Plugin\Feature\HandlerDiagnosis;
+use Decalog\System\UUID;
 
 /**
  * Main DecaLog logger class.
@@ -97,6 +98,9 @@ class DLogger {
 	 * @since   1.0.0
 	 */
 	public function __construct( $class, $name = null, $version = null, $test = null, $psr3 = false ) {
+		if ( ! defined( 'DECALOG_TRACEID' ) ) {
+			define( 'DECALOG_TRACEID', UUID::generate_unique_id( 32 ) );
+		}
 		if ( in_array( $class, ClassTypes::$classes, true ) ) {
 			$this->class = $class;
 		}
@@ -283,6 +287,7 @@ class DLogger {
 				'phase'       => (string) $phase,
 				'code'        => (int) $code,
 				'environment' => (string) Environment::stage(),
+				'traceID'     => (string) DECALOG_TRACEID,
 			];
 			$channel = $this->current_channel_tag();
 			if ( $this->logger->getName() !== $channel ) {

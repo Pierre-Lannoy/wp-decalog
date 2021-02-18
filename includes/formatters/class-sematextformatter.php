@@ -46,6 +46,10 @@ class SematextFormatter extends ElasticsearchFormatter {
 		}
 		$record['_index'] = $this->index;
 		$record['_type']  = $this->type;
+		if ( array_key_exists( 'context', $record ) && array_key_exists( 'traceID', $record['context'] ) ) {
+			$record['traceID'] = $record['context']['traceID'];
+			unset( $record['context']['traceID'] );
+		}
 		return $record;
 	}
 }

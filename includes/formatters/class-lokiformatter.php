@@ -76,6 +76,11 @@ class LokiFormatter implements FormatterInterface {
 		} else {
 			$level_class = 'unknown';
 		}
+		if ( array_key_exists( 'context', $record ) && array_key_exists( 'traceID', $record['context'] ) ) {
+			$record['traceID'] = $record['context']['traceID'];
+			unset( $record['context']['traceID'] );
+		}
+		unset( $record['context']['phase'] );
 		$event  = [];
 		$stream = [];
 		$values = [];
@@ -138,7 +143,9 @@ class LokiFormatter implements FormatterInterface {
 				$result .= ( '' === $result ? '' : ' ' ) . $this->build_logline( $fragment, $name );
 			}
 			if ( is_scalar( $fragment ) ) {
-				if ( is_string( $fragment ) ) {
+				if ( in_array( $key, [ 'traceID', 'environment', 'class', 'channel', 'function', 'ip', 'server', 'level_name', 'http_method', 'version', 'file', 'referrer' ], true ) ) {
+					$result .= ( '' === $result ? '' : ' ' ) . $name . '=' . str_replace( '"', '', $fragment ) . '';
+				} elseif ( is_string( $fragment ) ) {
 					$result .= ( '' === $result ? '' : ' ' ) . $name . '="' . str_replace( '"', '\"', $fragment ) . '"';
 				} else {
 					$result .= ( '' === $result ? '' : ' ' ) . $name . '=' . $fragment;
