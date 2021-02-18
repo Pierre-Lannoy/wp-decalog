@@ -90,7 +90,8 @@ abstract class AbstractBufferedHTTPHandler extends AbstractProcessingHandler {
 		$this->buffered  = $buffered;
 		$this->post_args = [
 			'headers'    => [
-				'User-Agent' => Http::user_agent(),
+				'User-Agent'     => Http::user_agent(),
+				'Decalog-No-Log' => 'outbound',
 			],
 			'user-agent' => Http::user_agent(),
 		];
