@@ -1071,9 +1071,10 @@ class CoreListener extends AbstractListener {
 	 * @since    1.0.0
 	 */
 	public function http_api_debug( $response, $context, $class, $request, $url ) {
-		$error   = false;
-		$code    = 200;
-		$message = '';
+		$log_enabled = ! ( array_key_exists( 'headers', $request ) && array_key_exists( 'Decalog-No-Log', $request['headers'] ) );
+		$error       = false;
+		$code        = 200;
+		$message     = '';
 		if ( function_exists( 'is_wp_error' ) && is_wp_error( $response ) ) {
 			$error   = true;
 			$message = ucfirst( $response->get_error_message() ) . ': ';
@@ -1105,7 +1106,7 @@ class CoreListener extends AbstractListener {
 			$verb     = array_key_exists( 'method', $request ) ? $request['method'] : '';
 			$message .= $verb . ' ' . $url;
 		}
-		if ( $error ) {
+		if ( $error && $log_enabled ) {
 			if ( $code >= 500 ) {
 				$this->logger->error( $message, $code );
 			} elseif ( $code >= 400 ) {
