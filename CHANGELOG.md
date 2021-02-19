@@ -35,6 +35,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Improved self monitoring to handle loggers internal errors.
 - Code refactoring led to a huge execution speed gain: DecaLog is now 40% faster.
 - Elastic Cloud logger is renamed for better consistency.
+- Now fully detects versions for MariaDB, Percona, MySQL and PostgreSQL.
 
 ### Fixed
 - [SEC002] The password for Elastic Cloud logger is in plain text in "Site Health Info" page.

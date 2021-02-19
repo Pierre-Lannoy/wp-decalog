@@ -35,8 +35,8 @@ class DatabaseListener extends AbstractListener {
 		$this->id      = 'wpdb';
 		$this->name    = esc_html__( 'Database', 'decalog' );
 		$this->class   = 'db';
-		$this->product = 'MySQL';
-		$this->version = $wpdb->db_version();
+		$this->product = Environment::mysql_model();
+		$this->version = Environment::mysql_version();
 	}
 
 	/**
@@ -93,10 +93,10 @@ class DatabaseListener extends AbstractListener {
 		}
 		Option::network_set( 'db_version', $db_version );
 		if ( version_compare( $db_version, $old_version, '<' ) ) {
-			$this->logger->warning( sprintf( 'MySQL version downgraded from %s to %s.', $old_version, $db_version ) );
+			$this->logger->warning( sprintf( '%s version downgraded from %s to %s.', Environment::mysql_version(), $old_version, $db_version ) );
 			return;
 		}
-		$this->logger->notice( sprintf( 'MySQL version upgraded from %s to %s.', $old_version, $db_version ) );
+		$this->logger->notice( sprintf( '%s version upgraded from %s to %s.', Environment::mysql_version(), $old_version, $db_version ) );
 	}
 
 	/**

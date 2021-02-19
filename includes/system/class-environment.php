@@ -356,12 +356,35 @@ class Environment {
 	/**
 	 * Get the MYSQL version.
 	 *
-	 * @return string  The MYSQL full version.
+	 * @return string  The DB full version.
 	 * @since  1.0.0
 	 */
 	public static function mysql_version() {
 		global $wpdb;
-		return $wpdb->db_version();
+		$info   = $wpdb->db_server_info();
+		$result = '-';
+		if ( preg_match( '/([0-9\.\-]+\d)\D/x', str_replace( '5.5.5-', '', $info ), $matches ) ) {
+			$result = $matches[1];
+		} elseif ( preg_match( '/([0-9\.\-]+\d)\D/x', $info, $matches ) ) {
+			$result = $matches[1];
+		}
+		return $result;
+	}
+
+	/**
+	 * Get the MYSQL version.
+	 *
+	 * @return string  The DB full model name.
+	 * @since  1.0.0
+	 */
+	public static function mysql_model() {
+		global $wpdb;
+		$info   = $wpdb->db_server_info();
+		$result = 'MySQL compatible';
+		if ( preg_match( '/(mariadb|percona|mysql|postgresql)/iU', $info, $matches ) ) {
+			$result = $matches[1];
+		}
+		return $result;
 	}
 
 	/**
