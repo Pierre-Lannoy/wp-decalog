@@ -86,6 +86,15 @@ class W3tcListener extends AbstractListener {
 	}
 
 	/**
+	 * Performs post-launch operations if needed.
+	 *
+	 * @since    2.4.0
+	 */
+	protected function launched() {
+		// No post-launch operations
+	}
+
+	/**
 	 * "w3tc_flush_dbcache" filter.
 	 *
 	 * @since    1.6.0

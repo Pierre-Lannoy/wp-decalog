@@ -71,6 +71,15 @@ class JetpackListener extends AbstractListener {
 	}
 
 	/**
+	 * Performs post-launch operations if needed.
+	 *
+	 * @since    2.4.0
+	 */
+	protected function launched() {
+		// No post-launch operations
+	}
+
+	/**
 	 * "jetpack_log_entry" event.
 	 *
 	 * @since    1.6.0

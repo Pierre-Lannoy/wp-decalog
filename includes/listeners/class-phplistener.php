@@ -137,6 +137,15 @@ class PhpListener extends AbstractListener {
 	}
 
 	/**
+	 * Performs post-launch operations if needed.
+	 *
+	 * @since    2.4.0
+	 */
+	protected function launched() {
+		// No post-launch operations
+	}
+
+	/**
 	 * Check versions modifications.
 	 *
 	 * @since    1.2.0

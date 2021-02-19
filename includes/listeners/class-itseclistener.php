@@ -65,6 +65,15 @@ class ItsecListener extends AbstractListener {
 	}
 
 	/**
+	 * Performs post-launch operations if needed.
+	 *
+	 * @since    2.4.0
+	 */
+	protected function launched() {
+		// No post-launch operations
+	}
+
+	/**
 	 * "itsec_log_add" event.
 	 *
 	 * @since    1.14.0

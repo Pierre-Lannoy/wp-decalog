@@ -65,6 +65,15 @@ class RedirectionListener extends AbstractListener {
 	}
 
 	/**
+	 * Performs post-launch operations if needed.
+	 *
+	 * @since    2.4.0
+	 */
+	protected function launched() {
+		// No post-launch operations
+	}
+
+	/**
 	 * "redirection_log_data" event.
 	 *
 	 * @since    1.9.0

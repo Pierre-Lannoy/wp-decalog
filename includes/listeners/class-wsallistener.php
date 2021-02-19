@@ -71,6 +71,15 @@ class WsalListener extends AbstractListener {
 	}
 
 	/**
+	 * Performs post-launch operations if needed.
+	 *
+	 * @since    2.4.0
+	 */
+	protected function launched() {
+		// No post-launch operations
+	}
+
+	/**
 	 * "wsal_logged_alert" event.
 	 *
 	 * @since    1.6.0

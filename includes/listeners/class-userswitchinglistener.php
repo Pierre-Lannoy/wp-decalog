@@ -31,10 +31,10 @@ class UserSwitchingListener extends AbstractListener {
 	 * @since    1.0.0
 	 */
 	protected function init() {
-		$this->id    = 'user-switching';
-		$this->class = 'plugin';
+		$this->id      = 'user-switching';
+		$this->class   = 'plugin';
 		$this->product = 'User Switching';
-		$this->name = 'User Switching';
+		$this->name    = 'User Switching';
 		$this->version = '1.x.x';
 		
 	}
@@ -63,6 +63,15 @@ class UserSwitchingListener extends AbstractListener {
 		add_action( 'switch_back_user', [ $this, 'switch_back_user' ], 10, 4 );
 		add_action( 'switch_off_user', [ $this, 'switch_off_user' ], 10, 2 );
 		return true;
+	}
+
+	/**
+	 * Performs post-launch operations if needed.
+	 *
+	 * @since    2.4.0
+	 */
+	protected function launched() {
+		// No post-launch operations
 	}
 
 	/**

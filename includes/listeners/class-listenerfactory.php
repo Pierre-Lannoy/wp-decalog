@@ -57,6 +57,7 @@ class ListenerFactory {
 		'class-wsallistener.php',
 		'class-wordfencelistener.php',
 		'class-updraftpluslistener.php',
+		'class-libstripelistener.php',
 	];
 
 	/**

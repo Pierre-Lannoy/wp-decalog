@@ -105,6 +105,7 @@ abstract class AbstractListener {
 				if ( isset( $this->log ) ) {
 					$this->log->debug( sprintf( 'Listener for %s is launched.', $this->name ) );
 				}
+				$this->launched();
 			}
 		}
 	}
@@ -171,5 +172,12 @@ abstract class AbstractListener {
 	 * @since    1.0.0
 	 */
 	abstract protected function launch();
+
+	/**
+	 * Performs post-launch operations if needed.
+	 *
+	 * @since    2.4.0
+	 */
+	abstract protected function launched();
 
 }

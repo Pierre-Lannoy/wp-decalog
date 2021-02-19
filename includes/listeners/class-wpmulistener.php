@@ -89,6 +89,15 @@ class WpmuListener extends AbstractListener {
 	}
 
 	/**
+	 * Performs post-launch operations if needed.
+	 *
+	 * @since    2.4.0
+	 */
+	protected function launched() {
+		// No post-launch operations
+	}
+
+	/**
 	 * "wpmu_new_user", "network_site_users_created_user" and "network_site_new_created_user" events.
 	 *
 	 * @since    1.0.0
