@@ -122,7 +122,7 @@ class Environment {
 			return home_url( add_query_arg( [$_GET], $wp->request ) );
 		}
 		// phpcs:ignore
-		return home_url( trailingslashit( add_query_arg( [$_GET], $wp->request ) ) );
+		return home_url( trailingslashit( add_query_arg( [$_GET], ( is_object( $wp ) ? $wp->request : [] ) ) ) );
 	}
 
 	/**
