@@ -781,6 +781,7 @@ class Decalog_Admin {
 		$standard  = [];
 		$plugin    = [];
 		$theme     = [];
+		$library   = [];
 		$listeners = ListenerFactory::$infos;
 		usort(
 			$listeners,
@@ -793,6 +794,8 @@ class Decalog_Admin {
 				$plugin[] = $listener;
 			} elseif ( 'theme' === $listener['class'] && $listener['available'] ) {
 				$theme[] = $listener;
+			} elseif ( 'library' === $listener['class'] && $listener['available'] ) {
+				$library[] = $listener;
 			} elseif ( $listener['available'] ) {
 				$standard[] = $listener;
 			}
@@ -800,6 +803,7 @@ class Decalog_Admin {
 		$main = [
 			esc_html__( 'Standard listeners', 'decalog' ) => $standard,
 			esc_html__( 'Plugin listeners', 'decalog' )   => $plugin,
+			esc_html__( 'Library listeners', 'decalog' )  => $library,
 			esc_html__( 'Theme listeners', 'decalog' )    => $theme,
 		];
 		$form = new Form();
