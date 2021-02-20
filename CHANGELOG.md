@@ -33,7 +33,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Check on "mandatory" processors are now done for loggers which need it.
 - Improved hash handling and reporting for users and IPs.
 - Improved self monitoring to handle loggers internal errors.
-- Code refactoring led to a huge execution speed gain: DecaLog is now 40% faster.
+- Code refactoring led to a huge execution speed gain: DecaLog is now 30% faster.
 - Elastic Cloud logger is renamed for better consistency.
 - Now fully detects versions for MariaDB, Percona, MySQL and PostgreSQL.
 
