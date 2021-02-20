@@ -20,8 +20,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 - When OPcache API is restricted by `restrict_api` configuration directive, OPcache configuration is no more monitored.
-- Detection of PHP version upgrade/downgrade now takes care of web vs. WP-CLI difference.
-- Detection of OPcache configuration changes now takes care of web vs. WP-CLI difference.
+- Detection of PHP version upgrade/downgrade now takes care of web vs. command-line difference.
+- Detection of OPcache configuration changes now takes care of web vs. command-line difference.
 - DecaLog now propagates `traceID` for all loggers supporting it.
 - Upgraded Monolog library from version 2.0.2 to version 2.2.0.
 - Consistent reset for settings.
