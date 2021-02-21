@@ -80,6 +80,10 @@ class LokiFormatter implements FormatterInterface {
 			$record['traceID'] = $record['context']['traceID'];
 			unset( $record['context']['traceID'] );
 		}
+		if ( array_key_exists( 'extra', $record ) && array_key_exists( 'usersession', $record['extra'] ) ) {
+			$record['sessionID'] = $record['extra']['usersession'];
+			unset( $record['extra']['usersession'] );
+		}
 		unset( $record['context']['phase'] );
 		$event  = [];
 		$stream = [];
@@ -143,7 +147,7 @@ class LokiFormatter implements FormatterInterface {
 				$result .= ( '' === $result ? '' : ' ' ) . $this->build_logline( $fragment, $name );
 			}
 			if ( is_scalar( $fragment ) ) {
-				if ( in_array( $key, [ 'traceID', 'environment', 'class', 'channel', 'function', 'ip', 'server', 'level_name', 'http_method', 'version', 'file', 'referrer' ], true ) ) {
+				if ( in_array( $key, [ 'traceID', 'sessionID', 'environment', 'class', 'channel', 'function', 'ip', 'server', 'level_name', 'http_method', 'version', 'file', 'referrer' ], true ) ) {
 					$result .= ( '' === $result ? '' : ' ' ) . $name . '=' . str_replace( '"', '', $fragment ) . '';
 				} elseif ( is_string( $fragment ) ) {
 					$result .= ( '' === $result ? '' : ' ' ) . $name . '="' . str_replace( '"', '\"', $fragment ) . '"';

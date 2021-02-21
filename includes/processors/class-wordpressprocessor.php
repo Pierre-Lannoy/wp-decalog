@@ -78,7 +78,13 @@ class WordpressProcessor implements ProcessorInterface {
 	 * @since 1.10.0+
 	 */
 	private function normalize_array( $array ) {
-		array_walk_recursive( $array, function ( &$item, $key ) { if ( is_string( $item ) ) { $item = $this->normalize_string( $item ); } } );
+		array_walk_recursive(
+			$array,
+			function ( &$item, $key ) {
+				if ( is_string( $item ) ) {
+					$item = $this->normalize_string( $item );
+				} }
+		);
 		return $array;
 	}
 
@@ -94,7 +100,10 @@ class WordpressProcessor implements ProcessorInterface {
 		$record['extra']['sitename'] = Blog::get_current_blog_name();
 		$record['extra']['userid']   = User::get_current_user_id( 0 );
 		$record['extra']['username'] = User::get_current_user_name();
-		$record['extra']['ip']       = IP::get_current();
+		if ( 0 !== (int) $record['extra']['userid'] ) {
+			$record['extra']['usersession'] = Hash::simple_hash( wp_get_session_token(), false );
+		}
+		$record['extra']['ip'] = IP::get_current();
 		if ( $this->obfuscation ) {
 			if ( array_key_exists( 'ip', $record['extra'] ) ) {
 				$record['extra']['ip'] = Hash::simple_hash( $record['extra']['ip'] );

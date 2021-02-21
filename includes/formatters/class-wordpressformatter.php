@@ -82,6 +82,9 @@ class WordpressFormatter implements FormatterInterface {
 			if ( array_key_exists( 'username', $extra ) && is_string( $extra['username'] ) ) {
 				$values['user_name'] = substr( $extra['username'], 0, 250 );
 			}
+			if ( array_key_exists( 'usersession', $extra ) && is_scalar( $extra['usersession'] ) ) {
+				$values['user_session'] = substr( (string) $extra['usersession'], 0, 64 );
+			}
 			if ( array_key_exists( 'ip', $extra ) && is_string( $extra['ip'] ) ) {
 				$values['remote_ip'] = substr( $extra['ip'], 0, 66 );
 			}

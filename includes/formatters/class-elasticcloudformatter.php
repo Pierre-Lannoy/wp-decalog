@@ -41,6 +41,10 @@ class ElasticCloudFormatter extends ElasticsearchFormatter {
 			$record['traceID'] = $record['context']['traceID'];
 			unset( $record['context']['traceID'] );
 		}
+		if ( array_key_exists( 'extra', $record ) && array_key_exists( 'usersession', $record['extra'] ) ) {
+			$record['sessionID'] = $record['extra']['usersession'];
+			unset( $record['extra']['usersession'] );
+		}
 		return $record;
 	}
 }

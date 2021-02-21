@@ -119,6 +119,7 @@ class WordpressHandler {
 			$sql            .= " `site_name` varchar(250) NOT NULL DEFAULT 'Unknown',";
 			$sql            .= " `user_id` varchar(66) NOT NULL DEFAULT '0',";  // Needed by SHA-256 pseudonymization.
 			$sql            .= " `user_name` varchar(250) NOT NULL DEFAULT 'Unknown',";
+			$sql            .= " `user_session` varchar(64),";
 			$sql            .= " `remote_ip` varchar(66) NOT NULL DEFAULT '127.0.0.1',";  // Needed by SHA-256 obfuscation.
 			$sql            .= " `url` varchar(2083) NOT NULL DEFAULT '-',";
 			$sql            .= ' `verb` enum(' . $verbs . ") NOT NULL DEFAULT 'unknown',";
@@ -147,7 +148,7 @@ class WordpressHandler {
 	public function update( $from ) {
 		global $wpdb;
 
-		// Starting from 2.4.0, WordpressHandler allows 'library' as class.
+		// Starting from 2.4.0, WordpressHandler allows 'library' as class and session token storing..
 		// We have to make a copy of the table, delete the old one, then rename the newly created table to avoid
 		// potential "#1118 - Row size too large" error that may appear if we just make a "ALTER TABLE ... MODIFY COLUMN ...".
 		if ( version_compare( '2.4.0', $from, '>' ) ) {
@@ -164,7 +165,7 @@ class WordpressHandler {
 				$verbs = implode( ',', $cl );
 				if ( '' !== $this->table ) {
 					$charset_collate = 'DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci';
-					$sql             = 'CREATE TABLE IF NOT EXISTS ' . $this->table . 'mig';
+					$sql             = 'CREATE TABLE IF NOT EXISTS ' . $this->table . '_mig';
 					$sql            .= ' (`id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,';
 					$sql            .= " `timestamp` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',";
 					$sql            .= " `level` enum('emergency','alert','critical','error','warning','notice','info','debug','unknown') NOT NULL DEFAULT 'unknown',";
@@ -178,6 +179,7 @@ class WordpressHandler {
 					$sql            .= " `site_name` varchar(250) NOT NULL DEFAULT 'Unknown',";
 					$sql            .= " `user_id` varchar(66) NOT NULL DEFAULT '0',";  // Needed by SHA-256 pseudonymization.
 					$sql            .= " `user_name` varchar(250) NOT NULL DEFAULT 'Unknown',";
+					$sql            .= " `user_session` varchar(64),";
 					$sql            .= " `remote_ip` varchar(66) NOT NULL DEFAULT '127.0.0.1',";  // Needed by SHA-256 obfuscation.
 					$sql            .= " `url` varchar(2083) NOT NULL DEFAULT '-',";
 					$sql            .= ' `verb` enum(' . $verbs . ") NOT NULL DEFAULT 'unknown',";
@@ -193,7 +195,7 @@ class WordpressHandler {
 					$sql            .= ") $charset_collate;";
 					// phpcs:ignore
 					$wpdb->query( $sql );
-					$sql = 'INSERT INTO ' . $this->table . 'mig SELECT * FROM ' . $this->table . ';';
+					$sql = 'INSERT INTO ' . $this->table . '_mig SELECT `id`, `timestamp`, `level`, `channel`, `class`, `component`, `version`, `code`, `message`, `site_id`, `site_name`, `user_id`, `user_name`, null AS user_session, `remote_ip`, `url`, `verb`, `server`, `referrer`, `user_agent`, `file`, `line`, `classname`, `function`, `trace` FROM ' . $this->table . ';';
 					// phpcs:ignore
 					if ( false === $wpdb->query( $sql ) ) {
 						throw new \Exception();
@@ -203,7 +205,7 @@ class WordpressHandler {
 					if ( false === $wpdb->query( $sql ) ) {
 						throw new \Exception();
 					}
-					$sql = 'RENAME TABLE ' . $this->table . 'mig TO ' . $this->table . ';';
+					$sql = 'RENAME TABLE ' . $this->table . '_mig TO ' . $this->table . ';';
 					// phpcs:ignore
 					if ( false === $wpdb->query( $sql ) ) {
 						throw new \Exception();
