@@ -128,7 +128,7 @@ class LoggerMaintainer {
 			$logger['processors'] = '[' . implode(', ', $logger['processors'] ) . ']';
 			$configuration        = [];
 			foreach ( $logger['configuration'] as $i => $item ) {
-				if ( in_array( $i, [ 'webhook', 'token', 'user', 'users', 'filename', 'pass', 'cloudid' ], true ) ) {
+				if ( in_array( $i, [ 'webhook', 'token', 'user', 'users', 'filename', 'pass', 'cloudid', 'key' ], true ) ) {
 					$configuration[] = $i . ':xxx';
 				} else {
 					$configuration[] = $i . ':' . ( is_bool( $item ) ? ( $item ? 'false' : 'true' ) : $item );
