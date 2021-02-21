@@ -49,3 +49,13 @@
         margin: -16px 6px 6px 16px;
     }
 }
+
+@keyframes decalog-selftoken-blink {
+    from { filter: grayscale(0%) opacity(100%) }
+    50% { filter: grayscale(80%) opacity(20%) }
+    to { filter: grayscale(0%) opacity(100%) }
+}
+
+.decalog-selftoken {
+    animation:decalog-selftoken-blink 1200ms infinite;
+}

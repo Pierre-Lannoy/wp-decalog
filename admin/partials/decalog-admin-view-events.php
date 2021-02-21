@@ -11,6 +11,9 @@
 
 use Decalog\Plugin\Feature\Events;
 
+wp_enqueue_style( DECALOG_ASSETS_ID );
+wp_enqueue_script( DECALOG_ASSETS_ID );
+
 $eventListTable = new Events();
 $eventListTable->prepare_items();
 

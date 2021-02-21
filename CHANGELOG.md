@@ -17,6 +17,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Compatibility with WordPress 5.7.
 - New setting to override live console and local access privileges when in development or staging environments (thanks to [sebastienserre](https://github.com/sebastienserre) for the suggestion).
 - New automatic bootstrap listener allowing to catch PHP events occurring before DecaLog is loaded.
+- It's now possible to filter by session ID in WordPress events viewer.
+- The current session user blinks in WordPress events viewer.
+- The WordPress events viewer allows to manage sessions for a user if [Sessions](https://wordpress.org/plugins/sessions/) plugin is installed.
 
 ### Changed
 - When OPcache API is restricted by `restrict_api` configuration directive, OPcache configuration is no more monitored.

@@ -18,6 +18,7 @@ use Decalog\System\Role;
 use Decalog\System\Timezone;
 use Feather\Icons;
 use Decalog\System\GeoIP;
+use Decalog\System\Hash;
 
 
 if ( ! class_exists( 'WP_List_Table' ) ) {
@@ -124,6 +125,14 @@ class Events extends \WP_List_Table {
 	private $force_siteid = null;
 
 	/**
+	 * The token of the current session.
+	 *
+	 * @since    2.4.0
+	 * @var      string    $selftoken    The token of the current session.
+	 */
+	private $selftoken = '';
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
@@ -136,7 +145,8 @@ class Events extends \WP_List_Table {
 				'ajax'     => true,
 			]
 		);
-		$this->geoip = new GeoIP();
+		$this->geoip     = new GeoIP();
+		$this->selftoken = Hash::simple_hash( wp_get_session_token(), false );
 	}
 
 	/**
@@ -225,14 +235,16 @@ class Events extends \WP_List_Table {
 			$user = '<em>' . esc_html__( 'Anonymous user', 'decalog' ) . '</em>';
 		}
 		$id = '';
+		$se = '';
 		if ( 0 === strpos( $item['user_name'], '{' ) ) {
 			$user = '<em>' . esc_html__( 'Pseudonymized user', 'decalog' ) . '</em>';
 		} elseif ( 0 !== (int) $item['user_id'] ) {
 			// phpcs:ignore
-			$id = '<br /><span style="color:silver">' . sprintf( esc_html__( 'User ID %s', 'decalog' ), $item[ 'user_id' ] ) . '</span>';
+			$id = sprintf( esc_html__( ' (UID %s)', 'decalog' ), $item[ 'user_id' ] );
+			$se = '<br /><span style="color:silver">' . sprintf( esc_html__( 'Session #%s…%s', 'decalog' ), substr( $item[ 'user_session' ], 0, 2 ), substr( $item[ 'user_session' ], -2 ) ) . '</span>';
 		}
-		$result = $user . $this->get_filter( 'user_id', $item['user_id'] ) . $id;
-		return $result;
+		$result = $user . $id . $this->get_filter( 'user_id', $item['user_id'] ) . $se . ( '' !== $se ? $this->get_pose_shortcut( (int) $item['user_id'] ) : '' ) . ( '' !== $se ? $this->get_filter( 'user_session', $item['user_session'] ) : '' );
+		return '<span' . ( $item['user_session'] === $this->selftoken ? ' class="decalog-selftoken"' : '' ) . '>' . $result . '</span>';
 	}
 
 	/**
@@ -311,7 +323,7 @@ class Events extends \WP_List_Table {
 		if ( $level && array_key_exists( strtolower( $level ), EventTypes::$levels ) && 'debug' !== strtolower( $level ) ) {
 			$this->filters['level'] = strtolower( $level );
 		}
-		foreach ( [ 'component', 'class', 'channel', 'site_id', 'user_id', 'remote_ip' ] as $f ) {
+		foreach ( [ 'component', 'class', 'channel', 'site_id', 'user_id', 'remote_ip', 'user_session' ] as $f ) {
 			$v = filter_input( INPUT_GET, $f, FILTER_SANITIZE_STRING );
 			if ( $v ) {
 				$this->filters[ $f ] = strtolower( $v );
@@ -352,6 +364,24 @@ class Events extends \WP_List_Table {
 		}
 		$this->filters = $filters;
 		return '&nbsp;<a href="' . $url . '"><img title="' . $alt . '" style="width:11px;vertical-align:baseline;" src="' . Icons::get_base64( 'filter', $fill, $stroke ) . '" /></a>';
+	}
+
+	/**
+	 * Get a shortcut to Sessions (if running).
+	 *
+	 * @param   string  $uid       The user id.
+	 * @return  string  The shortcut image, ready to print.
+	 * @since   2.4.0
+	 */
+	protected function get_pose_shortcut( $uid ) {
+		if ( 0 === $uid || ! class_exists( 'POSessions\Plugin\Core' ) ) {
+			return '';
+		}
+		$url    = esc_url( admin_url( 'admin.php?page=pose-manager&id=' ) . $uid );
+		$alt    = esc_html__( 'See all sessions', 'decalog' );
+		$fill   = '#C0C0FF';
+		$stroke = '#3333AA';
+		return '&nbsp;<a target="_blank" href="' . $url . '"><img title="' . $alt . '" style="width:11px;vertical-align:baseline;" src="' . Icons::get_base64( 'users', $fill, $stroke ) . '" /></a>';
 	}
 
 	/**
