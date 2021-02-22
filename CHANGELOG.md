@@ -21,6 +21,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - It's now possible to filter by session ID in WordPress events viewer.
 - The current session user blinks in WordPress events viewer.
 - Core listener now reports stuck/unstuck posts.
+- New "early-loading auto diagnostic" in Site Health.
 - The WordPress events viewer allows to manage sessions for a user if [Sessions](https://wordpress.org/plugins/sessions/) plugin is installed.
 
 ### Changed

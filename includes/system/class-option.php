@@ -81,7 +81,7 @@ class Option {
 		self::$defaults['listeners']         = [];    // In plugin settings.
 		self::$defaults['pseudonymization']  = false; // In plugin settings.
 		self::$defaults['earlyloading']      = true;  // In plugin settings.
-		self::$network                       = [ 'version', 'earlyloading', 'use_cdn', 'download_favicons', 'script_in_footer', 'display_nag', 'respect_wp_debug', 'livelog', 'logger_autostart', 'pseudonymization', 'privileges' ];
+		self::$network                       = [ 'version', 'earlyloading', 'use_cdn', 'download_favicons', 'script_in_footer', 'display_nag', 'respect_wp_debug', 'livelog', 'logger_autostart', 'autolisteners', 'pseudonymization', 'privileges' ];
 	}
 
 	/**
@@ -104,10 +104,12 @@ class Option {
 				'private' => in_array( $opt, self::$private, true ),
 			];
 		}
-		$result[ 'listeners' ] = [
-			'label' => $nt . 'listeners',
-			'value' => implode( ', ', self::network_get( 'listeners' ) ),
-		];
+		if ( ! (bool) self::site_get( 'autolisteners' ) ) {
+			$result['listeners'] = [
+				'label' => $nt . 'listeners',
+				'value' => implode( ', ', self::network_get( 'listeners' ) ),
+			];
+		}
 		foreach ( self::$site as $opt ) {
 			$val            = self::site_get( $opt );
 			$result[ $opt ] = [
@@ -116,6 +118,61 @@ class Option {
 				'private' => in_array( $opt, self::$private, true ),
 			];
 		}
+		if ( (bool) self::site_get( 'earlyloading' ) ) {
+			if ( defined( 'DECALOG_EARLY_INIT' ) ) {
+				$result['muplugin'] = [
+					'label' => '[MU-Plugin diagnostic]',
+					'value' => 'OK: loaded and operational',
+				];
+			} else {
+				$result['muplugin'] = [
+					'label' => '[MU-Plugin diagnostic]',
+					'value' => 'Error: not loaded',
+				];
+				$a                  = [];
+				foreach ( [ 'DECALOG_EARLY_INIT_WPMUDIR_ERROR', 'DECALOG_EARLY_INIT_COPY_ERROR', 'DECALOG_EARLY_INIT_ERROR' ] as $err ) {
+					if ( defined( $err ) ) {
+						$a[] = $err;
+					}
+				}
+				if ( 0 < count( $a ) ) {
+					$result['muplugin']['value'] .= ' ' . implode( ' ', $a );
+				}
+			}
+			if ( defined( 'DECALOG_BOOTSTRAPPED' ) ) {
+				$result['dropin'] = [
+					'label' => '[Drop-In diagnostic]',
+					'value' => 'OK: loaded and operational',
+				];
+				if ( defined( 'DECALOG_TRACEID' ) ) {
+					$result['traceid'] = [
+						'label' => '[traceID diagnostic]',
+						'value' => 'OK: ' . DECALOG_TRACEID,
+					];
+				} else {
+					$result['traceid'] = [
+						'label' => '[traceID diagnostic]',
+						'value' => 'Error: no value',
+					];
+				}
+			} else {
+				$result['dropin'] = [
+					'label' => '[Drop-In diagnostic]',
+					'value' => 'Error: not loaded',
+				];
+				$a                = [];
+				foreach ( [ 'DECALOG_BOOTSTRAP_COPY_ERROR', 'DECALOG_BOOTSTRAP_ALREADY_EXISTS_ERROR' ] as $err ) {
+					if ( defined( $err ) ) {
+						$a[] = $err;
+					}
+				}
+				if ( 0 < count( $a ) ) {
+					$result['dropin']['value'] .= ' ' . implode( ' ', $a );
+				}
+			}
+		}
+
+
 		return $result;
 	}
 
