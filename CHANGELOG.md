@@ -19,6 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - New automatic bootstrap listener allowing to catch PHP events occurring before DecaLog is loaded.
 - It's now possible to filter by session ID in WordPress events viewer.
 - The current session user blinks in WordPress events viewer.
+- Core listener now reports stuck/unstuck posts.
 - The WordPress events viewer allows to manage sessions for a user if [Sessions](https://wordpress.org/plugins/sessions/) plugin is installed.
 
 ### Changed
@@ -37,6 +38,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Improved hash handling and reporting for users and IPs.
 - Improved self monitoring to handle loggers internal errors.
 - Code refactoring led to a huge execution speed gain: DecaLog is now 30% faster.
+- Improved message for deleted posts/pages in core listener.
 - Elastic Cloud logger is renamed for better consistency.
 - Now fully detects versions for MariaDB, Percona, MySQL and PostgreSQL (and so, fully detects migrations and upgrades).
 

@@ -67,6 +67,8 @@ class CoreListener extends AbstractListener {
 		add_action( 'edit_attachment', [ $this, 'edit_attachment' ], 10, 1 );
 		// Posts and Pages.
 		add_action( 'deleted_post', [ $this, 'deleted_post' ], 10, 1 );
+		add_action( 'post_stuck', [ $this, 'post_stuck' ], 10, 1 );
+		add_action( 'post_unstuck', [ $this, 'post_unstuck' ], 10, 1 );
 		add_action( 'transition_post_status', [ $this, 'transition_post_status' ], 10, 3 );
 		// Terms.
 		add_action( 'edited_terms', [ $this, 'edited_terms' ], 10, 2 );
@@ -241,12 +243,45 @@ class CoreListener extends AbstractListener {
 	 * @since    1.0.0
 	 */
 	public function deleted_post( $post_ID ) {
-		$message = 'Post deleted.';
-		if ( $post = get_post( $post_ID ) ) {
-			$message = sprintf( 'Post deleted: "%s" by %s.', $post->post_title, $this->get_user( $post->post_author ) );
-		}
 		if ( isset( $this->logger ) ) {
-			$this->logger->info( $message );
+			$post = get_post( $post_ID );
+			if ( $post instanceof \WP_Post ) {
+				$this->logger->info( sprintf( 'Post deleted: "%s" (post ID %s) by %s.', $post->post_title, $post_ID, $this->get_user( $post->post_author ) ) );
+			} else {
+				$this->logger->warning( 'Trying to delete an unknown post.' );
+			}
+		}
+	}
+
+	/**
+	 * "post_stuck" event.
+	 *
+	 * @since    2.4.0
+	 */
+	public function post_stuck( $post_ID = 0 ) {
+		if ( isset( $this->logger ) ) {
+			$post = get_post( $post_ID );
+			if ( $post instanceof \WP_Post ) {
+				$this->logger->info( sprintf( 'Post stuck: "%s" (post ID %s) by %s.', $post->post_title, $post_ID, $this->get_user( $post->post_author ) ) );
+			} else {
+				$this->logger->warning( 'Trying to make sticky an unknown post.' );
+			}
+		}
+	}
+
+	/**
+	 * "post_unstuck" event.
+	 *
+	 * @since    2.4.0
+	 */
+	public function post_unstuck( $post_ID = 0 ) {
+		if ( isset( $this->logger ) ) {
+			$post = get_post( $post_ID );
+			if ( $post instanceof \WP_Post ) {
+				$this->logger->info( sprintf( 'Post unstuck: "%s" (post ID %s) by %s.', $post->post_title, $post_ID, $this->get_user( $post->post_author ) ) );
+			} else {
+				$this->logger->warning( 'Trying to make unsticky an unknown post.' );
+			}
 		}
 	}
 
