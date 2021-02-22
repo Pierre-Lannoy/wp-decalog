@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - New logger to send logs to a Loki instance.
 - New logger to send logs to Grafana Cloud service.
 - New listener for bbPress.
+- New listener for BuddyPress.
 - New listeners for Stripe gateways (standard, Amelia and Forminator).
 - New 'environment' context metadata for all external loggers.
 - Compatibility with WordPress 5.7.
