@@ -59,6 +59,7 @@ class ListenerFactory {
 		'class-updraftpluslistener.php',
 		'class-libforminatorstripelistener.php',
 		'class-libstripelistener.php',
+		'class-libaschedulerlistener.php',
 	];
 
 	/**
