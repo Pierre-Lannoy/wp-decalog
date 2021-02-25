@@ -11,10 +11,6 @@ if ( ! defined( 'DECALOG_BOOTSTRAPPED' ) ) {
 	define( 'DECALOG_BOOTSTRAPPED', true );
 }
 
-if ( ! defined( 'WP_START_TIMESTAMP' ) ) {
-	define( 'WP_START_TIMESTAMP', microtime( true ) );
-}
-
 $dclg_btsrp = [];
 
 /**
@@ -89,10 +85,22 @@ class Decalog_Error_Handler extends \WP_Fatal_Error_Handler {
 	 * @since    2.4.0
 	 */
 	public function __construct() {
-		// phpcs:ignore
-		$this->previous_error_handler = \set_error_handler( [ $this, 'handle_error' ] );
+		if ( ! defined( 'WP_SANDBOX_SCRAPING' ) ) {
+			// phpcs:ignore
+			$this->previous_error_handler = \set_error_handler( [ $this, 'handle_error' ] );
+		}
 		if ( ! defined( 'DECALOG_TRACEID' ) ) {
 			define( 'DECALOG_TRACEID', $this->generate_unique_id() );
+		}
+		if ( ! defined( 'POWP_START_TIMESTAMP' ) ) {
+			define( 'POWP_START_TIMESTAMP', microtime( true ) );
+		}
+		if ( ! defined( 'POWS_START_TIMESTAMP' ) ) {
+			if ( array_key_exists( 'REQUEST_TIME_FLOAT', $_SERVER ) ) {
+				define( 'POWS_START_TIMESTAMP', (float) filter_var( $_SERVER['REQUEST_TIME_FLOAT'], FILTER_VALIDATE_FLOAT ) );
+			} else {
+				define( 'POWS_START_TIMESTAMP', 0.0 );
+			}
 		}
 	}
 
