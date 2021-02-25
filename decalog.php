@@ -135,12 +135,10 @@ function decalog_check_earlyloading() {
  * @since 1.0.0
  */
 function decalog_run() {
-	if ( ! Decalog\System\Environment::is_sandboxed() ) {
-		require_once __DIR__ . '/includes/features/class-wpcli.php';
-		decalog_check_earlyloading();
-		$plugin = new Decalog\Plugin\Core();
-		$plugin->run();
-	}
+	require_once __DIR__ . '/includes/features/class-wpcli.php';
+	decalog_check_earlyloading();
+	$plugin = new Decalog\Plugin\Core();
+	$plugin->run();
 }
 register_activation_hook( __FILE__, 'decalog_activate' );
 register_deactivation_hook( __FILE__, 'decalog_deactivate' );

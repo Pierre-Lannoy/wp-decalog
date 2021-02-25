@@ -128,11 +128,13 @@ class PhpListener extends AbstractListener {
 				add_action( 'sanitize_comment_cookies', [ $this, 'bootstrap_check' ] );
 			}
 		}
-		add_action( 'shutdown', [ $this, 'handle_fatal_error' ], 10, 0 );
-		// phpcs:ignore
-		$this->previous_error_handler = set_error_handler( [ $this, 'handle_error' ] );
-		// phpcs:ignore
-		$this->previous_exception_handler = set_exception_handler( [ $this, 'handle_exception' ] );
+		if ( ! Environment::is_sandboxed() ) {
+			add_action( 'shutdown', [ $this, 'handle_fatal_error' ], 10, 0 );
+			// phpcs:ignore
+			$this->previous_error_handler = set_error_handler( [ $this, 'handle_error' ] );
+			// phpcs:ignore
+			$this->previous_exception_handler = set_exception_handler( [ $this, 'handle_exception' ] );
+		}
 		return true;
 	}
 
@@ -142,7 +144,9 @@ class PhpListener extends AbstractListener {
 	 * @since    2.4.0
 	 */
 	protected function launched() {
-		// No post-launch operations
+		if ( Environment::is_sandboxed() ) {
+			$this->logger->warning( 'The current request is sandboxed. PHP errors and exceptions will not be reported until the end of this request.' );
+		}
 	}
 
 	/**

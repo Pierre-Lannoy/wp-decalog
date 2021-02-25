@@ -34,6 +34,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Upgraded Monolog library from version 2.0.2 to version 2.2.0.
 - Consistent reset for settings.
 - Improved translation loading.
+- Now detects and emits warning when a call is sandboxed (theme/plugin editor, for instance).
 - Improved display in WordPress event viewer when backtraces are not available.
 - [WP_CLI] `log` command have now a definition and all synopsis are up to date.
 - The display of verb labels in events viewer has been improved.
