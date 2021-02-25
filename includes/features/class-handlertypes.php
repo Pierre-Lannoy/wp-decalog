@@ -1041,6 +1041,60 @@ class HandlerTypes {
 			],
 		];
 		$this->handlers[] = [
+			'version'       => DECALOG_VERSION,
+			'id'            => 'SentryHandler',
+			'ancestor'      => 'SentryHandler',
+			'namespace'     => 'Decalog\\Handler',
+			'class'         => 'analytics',
+			'minimal'       => Logger::WARNING,
+			'name'          => 'Sentry',
+			'help'          => esc_html__( 'Crash reports sent to Sentry service.', 'decalog' ),
+			'icon'          => $this->get_base64_sentry_icon(),
+			'needs'         => [],
+			'params'        => [ 'processors', 'privacy' ],
+			'processors'    => [
+				'included' => [ 'WordpressProcessor', 'WWWProcessor', 'IntrospectionProcessor' ],
+				'excluded' => [ 'BacktraceProcessor' ],
+			],
+			'configuration' => [
+				'token'  => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'API key', 'decalog' ),
+					'help'    => esc_html__( 'The API key of the service.', 'decalog' ),
+					'default' => '',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
+				'buffer' => [
+					'type'    => 'boolean',
+					'show'    => true,
+					'name'    => esc_html__( 'Deferred forwarding', 'decalog' ),
+					'help'    => esc_html__( 'Wait for the full page is rendered before sending reports (recommended).', 'decalog' ),
+					'default' => true,
+					'control' => [
+						'type'    => 'field_checkbox',
+						'cast'    => 'boolean',
+						'enabled' => true,
+					],
+				],
+			],
+			'init'          => [
+				[
+					'type'  => 'configuration',
+					'value' => 'token',
+				],
+				[
+					'type'  => 'literal',
+					'value' => true,
+				],
+				[ 'type' => 'level' ],
+			],
+		];
+		$this->handlers[] = [
 			'version'       => DECALOG_MONOLOG_VERSION,
 			'id'            => 'SlackWebhookHandler',
 			'ancestor'      => 'SlackWebhookHandler',
@@ -1769,6 +1823,23 @@ class HandlerTypes {
 		$source  = '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" fill-rule="evenodd"  fill="none" width="100%" height="100%"  viewBox="0 0 256 256">';
 		$source .= '<g transform="translate(70,44) scale(0.47,0.47)">';
 		$source .= '<path style="fill:' . $color . '" d="M65.0423885,2.17395258 C70.4545453,5.19866092 73.8066154,10.9148738 73.8039753,17.1148976 L73.9684716,167.519284 L128,167.519284 C157.528128,167.514849 184.151192,185.29875 195.45419,212.57791 C206.757189,239.857069 200.514033,271.258943 179.636062,292.140051 C158.758091,313.021159 127.357155,319.269032 100.076298,307.970132 C72.7954405,296.671231 55.0075397,270.050839 55.0075394,240.522711 L54.9417409,186.567948 L19.0376971,186.567948 L19.0376971,240.522711 C19.0376971,300.700929 67.8217818,349.485014 128,349.485014 C188.178218,349.485014 236.962303,300.700929 236.962303,240.522711 C236.962303,180.344493 188.178218,131.560408 128,131.560408 L111.484578,131.560408 C106.227464,131.560408 101.96573,127.298675 101.96573,122.04156 C101.96573,116.784445 106.227464,112.522711 111.484578,112.522711 L128,112.522711 C198.692448,112.522711 256,169.830263 256,240.522711 C256,311.215159 198.692448,368.522711 128,368.522711 C57.3401216,368.444143 0.0785681282,311.18259 0,240.522711 L0,177.049099 C0,171.790207 4.25996023,167.525336 9.51884853,167.519284 L54.9198081,167.519284 L54.7662783,20.5693185 L19.0376971,42.5569813 L19.0376971,126.23073 C19.0376971,131.487845 14.7759634,135.749579 9.51884853,135.749579 C4.26173365,135.749579 0,131.487845 0,126.23073 L0,41.4713061 C0.0146388647,35.5314746 3.0957178,30.0203657 8.14804661,26.8969401 L47.7258396,2.54053164 C53.0051433,-0.710507348 59.6302316,-0.85075577 65.0423885,2.17395258 Z M127.945168,186.567948 L73.9904033,186.567948 L73.9904033,240.511745 C73.9859687,262.335407 87.1288121,282.012637 107.289974,290.367265 C127.451136,298.721892 150.65984,294.108459 166.093068,278.678368 C181.526296,263.248276 186.144447,240.040511 177.793918,219.877651 C169.443389,199.714791 149.768831,186.567948 127.945168,186.567948 Z M128,225.257461 C136.430765,225.257461 143.26525,232.091946 143.26525,240.522711 C143.26525,248.953476 136.430765,255.787961 128,255.787961 C119.569235,255.787961 112.73475,248.953476 112.73475,240.522711 C112.73475,232.091946 119.569235,225.257461 128,225.257461 Z"/>';
+		$source .= '</g>';
+		$source .= '</svg>';
+		// phpcs:ignore
+		return 'data:image/svg+xml;base64,' . base64_encode( $source );
+	}
+
+	/**
+	 * Returns a base64 svg resource for the Sentry icon.
+	 *
+	 * @param string $color Optional. Color of the icon.
+	 * @return string The svg resource as a base64.
+	 * @since 1.0.0
+	 */
+	private function get_base64_sentry_icon( $color = '#362d59' ) {
+		$source  = '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" fill-rule="evenodd"  fill="none" width="100%" height="100%"  viewBox="0 0 256 256">';
+		$source .= '<g transform="translate(-8,0) scale(3.8,3.8)">';
+		$source .= '<path d="M29,2.26a4.67,4.67,0,0,0-8,0L14.42,13.53A32.21,32.21,0,0,1,32.17,40.19H27.55A27.68,27.68,0,0,0,12.09,17.47L6,28a15.92,15.92,0,0,1,9.23,12.17H4.62A.76.76,0,0,1,4,39.06l2.94-5a10.74,10.74,0,0,0-3.36-1.9l-2.91,5a4.54,4.54,0,0,0,1.69,6.24A4.66,4.66,0,0,0,4.62,44H19.15a19.4,19.4,0,0,0-8-17.31l2.31-4A23.87,23.87,0,0,1,23.76,44H36.07a35.88,35.88,0,0,0-16.41-31.8l4.67-8a.77.77,0,0,1,1.05-.27c.53.29,20.29,34.77,20.66,35.17a.76.76,0,0,1-.68,1.13H40.6q.09,1.91,0,3.81h4.78A4.59,4.59,0,0,0,50,39.43a4.49,4.49,0,0,0-.62-2.28Z" transform="translate(11, 11)" fill="' . $color . '"></path>';
 		$source .= '</g>';
 		$source .= '</svg>';
 		// phpcs:ignore
