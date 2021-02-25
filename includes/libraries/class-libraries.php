@@ -111,6 +111,17 @@ class Libraries {
 			'license' => 'mit',
 			'langs'   => 'en',
 		];
+		self::$psr4_libraries['sentry']   = [
+			'name'    => 'Sentry SDK',
+			'prefix'  => 'Sentry',
+			'base'    => DECALOG_VENDOR_DIR . 'sentry/',
+			'version' => '3.1.5',
+			// phpcs:ignore
+			'author'  => sprintf( esc_html__( '%s & contributors', 'decalog' ), 'Michael Van Tellingen' ),
+			'url'     => 'https://github.com/getsentry/sentry-php',
+			'license' => 'ukn',
+			'langs'   => 'en',
+		];
 		self::$psr4_libraries['feather']   = [
 			'name'    => 'Feather',
 			'prefix'  => 'Feather',
