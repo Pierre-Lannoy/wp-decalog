@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - DecaLog - Stable Readme (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-12-07 13:05+0100\n"
+"PO-Revision-Date: 2021-02-25 15:15+0100\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -21,6 +21,42 @@ msgstr "Capturez et enregistrez les évènements qui surviennent sur votre site.
 #. Plugin name.
 msgid "DecaLog"
 msgstr "DecaLog"
+
+#. Found in description paragraph.
+msgid "and from the following libraries:"
+msgstr "et des bibliothèques suivantes :"
+
+#. Found in description list item.
+msgid "Stripe gateways (standard, Amelia and Forminator)."
+msgstr "passerelles Stripe (standard, Amelia et Forminator)."
+
+#. Found in description list item.
+msgid "Action Scheduler;"
+msgstr "Action Scheduler ;"
+
+#. Found in description list item.
+msgid "<a href=\"https://wordpress.org/plugins/buddypress/\">BuddyPress</a>"
+msgstr "<a href=\"https://wordpress.org/plugins/buddypress/\">BuddyPress</a>"
+
+#. Found in description list item.
+msgid "<a href=\"https://wordpress.org/plugins/bbpress/\">bbPress</a>"
+msgstr "<a href=\"https://wordpress.org/plugins/bbpress/\">bbPress</a>"
+
+#. Found in description list item.
+msgid "to external crash analytics services like Bugsnag, Google Analytics or Raygun;"
+msgstr "à des services externes d’analyse de plantage comme Bugsnag, Google Analytics ou Raygun ;"
+
+#. Found in description list item.
+msgid "to Loki on-premise or Grafana Cloud;"
+msgstr "à une instance Loki ou Grafana Cloud ;"
+
+#. Found in description list item.
+msgid "to ELK stacks like Sematext, Elasticsearch on-premise or Elastic Cloud;"
+msgstr "à une pile ELK comme Sematext, Elasticsearch ou Elastic Cloud ;"
+
+#. Found in description list item.
+msgid "to external logging services, like Google Stackdriver, Logentries / insightOps or Loggly;"
+msgstr "à des services externes d’enregistrement, comme Google Stackdriver, Logentries / insightOps ou Loggly ;"
 
 #. Found in description paragraph.
 msgid "For a full help on WP-CLI commands in DecaLog, please <a href=\"https://github.com/Pierre-Lannoy/wp-decalog/blob/master/WP-CLI.md\">read this guide</a>."
@@ -166,17 +202,9 @@ msgstr "Cette extension ne dépose pas de témoin dans le fureteur de l’utilis
 msgid "This plugin, as any piece of software, is neither compliant nor non-compliant with privacy laws and regulations. It is your responsibility to use it - by activating the corresponding options or services - with respect for the personal data of your users and applicable laws."
 msgstr "Cette extension, comme tout autre logiciel, n’est ni conforme ni non conforme aux lois et règlements sur la protection de la vie privée. Il est de votre responsabilité de l’utiliser - en activant les options ou services correspondants - dans le respect des données personnelles de vos utilisatrices et utilisateurs ainsi que des lois applicables."
 
-#. Found in description list item.
-msgid "to ELK stacks like Sematext or Elastic Cloud;"
-msgstr "à une pile ELK comme Sematext ou Elastic Cloud ;"
-
 #. Found in description header.
 msgid "Privacy"
 msgstr "Confidentialité"
-
-#. Found in description list item.
-msgid "to external logging services, like Logentries / insightOps or Loggly;"
-msgstr "à des services externes d’enregistrement, comme Logentries / insightOps ou Loggly ;"
 
 #. Screenshot description.
 msgid "Event Details in Internal Viewer"
