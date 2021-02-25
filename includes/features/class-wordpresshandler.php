@@ -195,7 +195,7 @@ class WordpressHandler {
 					$sql            .= ") $charset_collate;";
 					// phpcs:ignore
 					$wpdb->query( $sql );
-					$sql = 'INSERT INTO ' . $this->table . '_mig SELECT `id`, `timestamp`, `level`, `channel`, `class`, `component`, `version`, `code`, `message`, `site_id`, `site_name`, `user_id`, `user_name`, null AS user_session, `remote_ip`, `url`, `verb`, `server`, `referrer`, `user_agent`, `file`, `line`, `classname`, `function`, `trace` FROM ' . $this->table . ';';
+					$sql = 'INSERT INTO ' . $this->table . '_mig (`timestamp`, `level`, `channel`, `class`, `component`, `version`, `code`, `message`, `site_id`, `site_name`, `user_id`, `user_name`, `user_session`, `remote_ip`, `url`, `verb`, `server`, `referrer`, `user_agent`, `file`, `line`, `classname`, `function`, `trace`) SELECT `timestamp`, `level`, `channel`, `class`, `component`, `version`, `code`, `message`, `site_id`, `site_name`, `user_id`, `user_name`, null AS user_session, `remote_ip`, `url`, `verb`, `server`, `referrer`, `user_agent`, `file`, `line`, `classname`, `function`, `trace` FROM ' . $this->table . ';';
 					// phpcs:ignore
 					if ( false === $wpdb->query( $sql ) ) {
 						throw new \Exception();
