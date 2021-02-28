@@ -45,14 +45,28 @@ class Wpcli {
 	 * @var array $level_color Level colors.
 	 */
 	private $level_color = [
-		'debug'     => [ '', '' ],
-		'info'      => [ '%4%c', '%0%c' ],
-		'notice'    => [ '%4%C', '%0%C' ],
-		'warning'   => [ '%3%r', '%0%Y' ],
-		'error'     => [ '%1%y', '%0%r' ],
-		'critical'  => [ '%1%Y', '%0%R' ],
-		'alert'     => [ '%F%1%Y', '%0%F%R' ],
-		'emergency' => [ '', '' ],
+		'standard' =>
+			[
+				'debug'     => '',
+				'info'      => '%4%c',
+				'notice'    => '%4%C',
+				'warning'   => '%3%r',
+				'error'     => '%1%y',
+				'critical'  => '%1%Y',
+				'alert'     => '%F%1%Y',
+				'emergency' => '',
+			],
+		'soft'     =>
+			[
+				'debug'     => '',
+				'info'      => '%0%c',
+				'notice'    => '%0%C',
+				'warning'   => '%0%Y',
+				'error'     => '%0%r',
+				'critical'  => '%0%R',
+				'alert'     => '%0%F%R',
+				'emergency' => '',
+			],
 	];
 
 	/**
@@ -102,7 +116,7 @@ class Wpcli {
 			if ( '' === $field ) {
 				$result .= $key;
 			} else {
-				$result .= $id[$field];
+				$result .= $id[ $field ];
 			}
 			if ( $id !== $last ) {
 				$result .= ' ';
@@ -247,7 +261,7 @@ class Wpcli {
 				$processors[] = $key;
 			}
 			if ( ! $value && in_array( $key, $processors, true ) ) {
-				$processors = array_diff( $processors, [$key] );
+				$processors = array_diff( $processors, [ $key ] );
 			}
 		}
 		return $processors;
@@ -265,15 +279,15 @@ class Wpcli {
 	private function logger_modify( $uuid, $args, $start = false ) {
 		$params        = $this->get_params( $args );
 		$loggers       = Option::network_get( 'loggers' );
-		$logger        = $loggers[$uuid];
+		$logger        = $loggers[ $uuid ];
 		$handler_types = new HandlerTypes();
 		$handler       = $handler_types->get( $logger['handler'] );
-		unset ( $loggers[$uuid] );
+		unset( $loggers[ $uuid ] );
 		foreach ( $params as $param => $value ) {
 			switch ( $param ) {
 				case 'obfuscation':
 				case 'pseudonymization':
-					$logger['privacy'][$param] = (bool) $value;
+					$logger['privacy'][ $param ] = (bool) $value;
 					break;
 				case 'proc_wp':
 				case 'proc_http':
@@ -289,19 +303,19 @@ class Wpcli {
 					}
 					break;
 				case 'name':
-					$logger['name'] = esc_html( (string) $value) ;
+					$logger['name'] = esc_html( (string) $value );
 					break;
 				default:
 					if ( array_key_exists( $param, $handler['configuration'] ) ) {
-						switch ( $handler['configuration'][$param]['control']['cast'] ) {
+						switch ( $handler['configuration'][ $param ]['control']['cast'] ) {
 							case 'boolean':
-								$logger['configuration'][$param] = (bool) $value;
+								$logger['configuration'][ $param ] = (bool) $value;
 								break;
 							case 'integer':
-								$logger['configuration'][$param] = (integer) $value;
+								$logger['configuration'][ $param ] = (int) $value;
 								break;
 							case 'string':
-								$logger['configuration'][$param] = (string) $value;
+								$logger['configuration'][ $param ] = (string) $value;
 								break;
 						}
 					}
@@ -311,7 +325,7 @@ class Wpcli {
 		if ( $start ) {
 			$logger['running'] = true;
 		}
-		$loggers[$uuid] = $logger;
+		$loggers[ $uuid ] = $logger;
 		Option::network_set( 'loggers', $loggers );
 		return $uuid;
 	}
@@ -352,51 +366,50 @@ class Wpcli {
 	 * @return  array   The filtered records.
 	 * @since   2.0.0
 	 */
-	public static function records_filter( $records, $filters = [], $index ='' ) {
+	public static function records_filter( $records, $filters = [], $index = '' ) {
 		$result = [];
 		foreach ( $records as $idx => $record ) {
 			foreach ( $filters as $key => $filter ) {
 				switch ( $key ) {
 					case 'level':
-						if ( EventTypes::$levels[$record['level']] < EventTypes::$levels[$filter] ) {
+						if ( EventTypes::$levels[ $record['level'] ] < EventTypes::$levels[ $filter ] ) {
 							continue 3;
 						}
 						break;
 					default:
-						if ( ! preg_match( $filter, $record[$key]) ) {
+						if ( ! preg_match( $filter, $record[ $key ] ) ) {
 							continue 3;
 						}
 				}
 			}
-			$result[$idx] = $record;
+			$result[ $idx ] = $record;
 		}
 		if ( '' !== $index ) {
 			$tmp = [];
 			foreach ( $result as $key => $record ) {
 				if ( 0 < strcmp( $key, $index ) ) {
-					$tmp[$key] = $record;
+					$tmp[ $key ] = $record;
 				}
 			}
 			$result = $tmp;
 		}
-		uksort($result, 'strcmp' );
+		uksort( $result, 'strcmp' );
 		return $result;
 	}
 
 	/**
 	 * Format records.
 	 *
-	 * @param array $records The records to display.
-	 * @param string $mode Optional. The displaying mode.
-	 * @param boolean $soft Optional. Soften colors.
-	 * @param integer $pad Optional. Line padding.
+	 * @param array     $records    The records to display.
+	 * @param string    $mode       Optional. The displaying mode.
+	 * @param integer   $pad        Optional. Line padding.
 	 *
 	 * @return  array   The ready to print records.
 	 * @since   2.0.0
 	 */
-	public static function records_format( $records, $mode = '', $soft = false, $pad = 160 ) {
+	public static function records_format( $records, $mode = '', $pad = 160 ) {
 		$result = [];
-		$geoip = new GeoIP();
+		$geoip  = new GeoIP();
 		foreach ( $records as $idx => $record ) {
 			$timestamp     = '[' . Date::get_date_from_mysql_utc( $record['timestamp'], Timezone::network_get()->getName(), 'Y-m-d H:i:s' ) . ']';
 			$channel_level = strtoupper( str_pad( $record['channel'], 6 ) ) . ' ' . strtoupper( str_pad( $record['level'], 9 ) );
@@ -445,7 +458,10 @@ class Wpcli {
 			if ( $pad - 1 < strlen( $line ) ) {
 				$line = substr( $line, 0, $pad - 1 ) . '…';
 			}
-			$result[$idx] = [ 'level' => strtolower( $record['level'] ), 'line' => decalog_mb_str_pad( $line, $pad ) ];
+			$result[ $idx ] = [
+				'level' => strtolower( $record['level'] ),
+				'line'  => decalog_mb_str_pad( $line, $pad ),
+			];
 		}
 		return $result;
 	}
@@ -455,13 +471,16 @@ class Wpcli {
 	 *
 	 * @param   array   $records    The records to display.
 	 * @param   string  $mode       Optional. The displaying mode.
-	 * @param   boolean $soft       Optional. Soften colors.
+	 * @param   string  $theme      Optional. Colors scheme.
 	 * @param   integer $pad        Optional. Line padding.
 	 * @since   2.0.0
 	 */
-	private function records_display( $records, $mode = '', $soft = false, $pad = 160 ) {
-		foreach ( self::records_format( $records, $mode, $soft, $pad ) as $record ) {
-			\WP_CLI::line( \WP_CLI::colorize( $this->level_color[ strtolower( $record['level'] ) ][$soft ? 1 : 0] ) . $record['line'] . \WP_CLI::colorize( '%n' ) );
+	private function records_display( $records, $mode = '', $theme = 'standard', $pad = 160 ) {
+		if ( ! array_key_exists( $theme, $this->level_color ) ) {
+			$theme = 'standard';
+		}
+		foreach ( self::records_format( $records, $mode, $pad ) as $record ) {
+			\WP_CLI::line( \WP_CLI::colorize( $this->level_color[ $theme ][ strtolower( $record['level'] ) ] ) . $record['line'] . \WP_CLI::colorize( '%n' ) );
 		}
 	}
 
@@ -492,18 +511,18 @@ class Wpcli {
 					$list++;
 				}
 			}
-			if ( 0 === $list) {
+			if ( 0 === $list ) {
 				$list = 'on no listener';
-			} elseif ( 1 === $list) {
+			} elseif ( 1 === $list ) {
 				$list = 'on 1 listener';
 			} else {
 				$list = sprintf( 'on %d listeners', $list );
 			}
 		}
-		if ( 0 === $run) {
+		if ( 0 === $run ) {
 			$run  = '';
 			$list = '';
-		} elseif ( 1 === $run) {
+		} elseif ( 1 === $run ) {
 			$run = '1 logger';
 		} else {
 			$run = sprintf( '%d loggers', $run );
@@ -526,17 +545,17 @@ class Wpcli {
 		}
 		$geo = new GeoIP();
 		if ( $geo->is_installed() ) {
-			\WP_CLI::line( 'IP information support: yes (' . $geo->get_full_name() . ').');
+			\WP_CLI::line( 'IP information support: yes (' . $geo->get_full_name() . ').' );
 		} else {
 			\WP_CLI::line( 'IP information support: no.' );
 		}
 		if ( class_exists( 'PODeviceDetector\API\Device' ) ) {
-			\WP_CLI::line( 'Device detection support: yes (Device Detector v' . PODD_VERSION . ').');
+			\WP_CLI::line( 'Device detection support: yes (Device Detector v' . PODD_VERSION . ').' );
 		} else {
 			\WP_CLI::line( 'Device detection support: no.' );
 		}
 		if ( SharedMemory::$available ) {
-			\WP_CLI::line( 'Shared memory support: yes (shmop v' . phpversion( 'shmop' ) . ').');
+			\WP_CLI::line( 'Shared memory support: yes (shmop v' . phpversion( 'shmop' ) . ').' );
 		} else {
 			\WP_CLI::line( 'Shared memory support: no.' );
 		}
@@ -591,14 +610,14 @@ class Wpcli {
 		$handlers      = [];
 		foreach ( $handler_types->get_all() as $key => $handler ) {
 			if ( 'system' !== $handler['class'] ) {
-				$handler['type']                        = $handler['id'];
-				$handlers[strtolower( $handler['id'] )] = $handler;
+				$handler['type']                          = $handler['id'];
+				$handlers[ strtolower( $handler['id'] ) ] = $handler;
 			}
 		}
 		uasort(
 			$handlers,
 			function ( $a, $b ) {
-				return strcmp( strtolower( $a[ 'name' ] ), strtolower( $b[ 'name' ] ) );
+				return strcmp( strtolower( $a['name'] ), strtolower( $b['name'] ) );
 			}
 		);
 		$uuid   = '';
@@ -614,7 +633,7 @@ class Wpcli {
 		}
 		switch ( $action ) {
 			case 'list':
-				$details= [];
+				$details = [];
 				foreach ( $handlers as $key => $handler ) {
 					$item = [];
 					foreach ( $handler as $i => $h ) {
@@ -629,7 +648,7 @@ class Wpcli {
 				} elseif ( 'yaml' === $format ) {
 					$details = Spyc::YAMLDump( $details, true, true, true );
 					$this->line( $details, $details, $stdout );
-				}  elseif ( 'json' === $format ) {
+				} elseif ( 'json' === $format ) {
 					$details = wp_json_encode( $details );
 					$this->line( $details, $details, $stdout );
 				} else {
@@ -638,14 +657,14 @@ class Wpcli {
 				break;
 			case 'describe':
 				$example = [];
-				$handler = $handlers[$uuid];
+				$handler = $handlers[ $uuid ];
 				\WP_CLI::line( '' );
 				\WP_CLI::line( \WP_CLI::colorize( '%8' . $handler['name'] . ' - ' . $handler['id'] . '%n' ) );
 				\WP_CLI::line( $handler['help'] );
 				\WP_CLI::line( '' );
 				\WP_CLI::line( \WP_CLI::colorize( '%UMinimal Level%n' ) );
 				\WP_CLI::line( '' );
-				\WP_CLI::line( '  ' .  strtolower( Log::level_name( $handler['minimal'] ) ) );
+				\WP_CLI::line( '  ' . strtolower( Log::level_name( $handler['minimal'] ) ) );
 				\WP_CLI::line( '' );
 				\WP_CLI::line( \WP_CLI::colorize( '%UParameters%n' ) );
 				\WP_CLI::line( '' );
@@ -663,7 +682,7 @@ class Wpcli {
 				\WP_CLI::line( $elem . 'default value: "' . strtolower( Log::level_name( $handler['minimal'] ) ) . '"' );
 				\WP_CLI::line( $elem . 'available values:' );
 				foreach ( Log::get_levels( EventTypes::$levels[ strtolower( Log::level_name( $handler['minimal'] ) ) ] ) as $level ) {
-					\WP_CLI::line( $list . '"' . strtolower( $level[1] ) . '": ' . $level[2]);
+					\WP_CLI::line( $list . '"' . strtolower( $level[1] ) . '": ' . $level[2] );
 				}
 				\WP_CLI::line( '' );
 				foreach ( $handler['configuration'] as $key => $conf ) {
@@ -702,10 +721,10 @@ class Wpcli {
 							foreach ( $conf['control']['list'] as $point ) {
 								switch ( $conf['control']['cast'] ) {
 									case 'integer':
-										\WP_CLI::line( $list . $point[0] . ': ' . $point[1]);
+										\WP_CLI::line( $list . $point[0] . ': ' . $point[1] );
 										break;
 									case 'string':
-										\WP_CLI::line( $list . '"' . $point[0] . '": ' . $point[1]);
+										\WP_CLI::line( $list . '"' . $point[0] . '": ' . $point[1] );
 										break;
 								}
 							}
@@ -872,7 +891,7 @@ class Wpcli {
 				} else {
 					$handler_types = new HandlerTypes();
 					foreach ( $handler_types->get_all() as $handler ) {
-						if ( 'system' === $handler['class'] && $loggers_list[$uuid]['handler'] === $handler['id'] ) {
+						if ( 'system' === $handler['class'] && $loggers_list[ $uuid ]['handler'] === $handler['id'] ) {
 							$uuid = 'system';
 						}
 					}
@@ -901,13 +920,13 @@ class Wpcli {
 					foreach ( $logger['processors'] as $processor ) {
 						$list[] = $processor_types->get( $processor )['name'];
 					}
-					$logger['processors'] =  implode( ', ', $list );
-					$loggers[$key]        = $logger;
+					$logger['processors'] = implode( ', ', $list );
+					$loggers[ $key ]      = $logger;
 				}
 				usort(
 					$loggers,
 					function ( $a, $b ) {
-						return strcmp( strtolower( $a[ 'name' ] ), strtolower( $b[ 'name' ] ) );
+						return strcmp( strtolower( $a['name'] ), strtolower( $b['name'] ) );
 					}
 				);
 				if ( 'full' === $detail ) {
@@ -920,7 +939,7 @@ class Wpcli {
 				} elseif ( 'yaml' === $format ) {
 					$details = Spyc::YAMLDump( $loggers_list, true, true, true );
 					$this->line( $details, $details, $stdout );
-				}  elseif ( 'json' === $format ) {
+				} elseif ( 'json' === $format ) {
 					$details = wp_json_encode( $loggers_list );
 					$this->line( $details, $details, $stdout );
 				} else {
@@ -928,55 +947,55 @@ class Wpcli {
 				}
 				break;
 			case 'start':
-				if ( $loggers_list[$uuid]['running'] ) {
+				if ( $loggers_list[ $uuid ]['running'] ) {
 					$this->line( sprintf( 'The logger %s is already running.', $uuid ), $uuid, $stdout );
 				} else {
-					$loggers_list[$uuid]['running'] = true;
+					$loggers_list[ $uuid ]['running'] = true;
 					Option::network_set( 'loggers', $loggers_list );
 					$ilog->info( sprintf( 'Logger "%s" has started.', $loggers_list[ $uuid ]['name'] ) );
 					$this->success( sprintf( 'logger %s is now running.', $uuid ), $uuid, $stdout );
 				}
 				break;
 			case 'pause':
-				if ( ! $loggers_list[$uuid]['running'] ) {
+				if ( ! $loggers_list[ $uuid ]['running'] ) {
 					$this->line( sprintf( 'The logger %s is already paused.', $uuid ), $uuid, $stdout );
 				} else {
-					$loggers_list[$uuid]['running'] = false;
+					$loggers_list[ $uuid ]['running'] = false;
 					$ilog->info( sprintf( 'Logger "%s" has been paused.', $loggers_list[ $uuid ]['name'] ) );
 					Option::network_set( 'loggers', $loggers_list );
 					$this->success( sprintf( 'logger %s is now paused.', $uuid ), $uuid, $stdout );
 				}
 				break;
 			case 'purge':
-				$loggers_list[$uuid]['uuid'] = $uuid;
-				if ( 'WordpressHandler' !== $loggers_list[$uuid]['handler'] ) {
+				$loggers_list[ $uuid ]['uuid'] = $uuid;
+				if ( 'WordpressHandler' !== $loggers_list[ $uuid ]['handler'] ) {
 					$this->warning( sprintf( 'logger %s can\'t be purged.', $uuid ), $uuid, $stdout );
 				} else {
 					\WP_CLI::confirm( sprintf( 'Are you sure you want to purge logger %s?', $uuid ), $assoc_args );
 					$factory = new LoggerFactory();
-					$factory->purge( $loggers_list[$uuid] );
+					$factory->purge( $loggers_list[ $uuid ] );
 					$ilog->notice( sprintf( 'Logger "%s" has been purged.', $loggers_list[ $uuid ]['name'] ) );
 					$this->success( sprintf( 'logger %s successfully purged.', $uuid ), $uuid, $stdout );
 				}
 				break;
 			case 'clean':
-				$loggers_list[$uuid]['uuid'] = $uuid;
-				if ( 'WordpressHandler' !== $loggers_list[$uuid]['handler'] ) {
+				$loggers_list[ $uuid ]['uuid'] = $uuid;
+				if ( 'WordpressHandler' !== $loggers_list[ $uuid ]['handler'] ) {
 					$this->warning( sprintf( 'logger %s can\'t be cleaned.', $uuid ), $uuid, $stdout );
 				} else {
 					$factory = new LoggerFactory();
-					$count   = $factory->clean( $loggers_list[$uuid] );
+					$count   = $factory->clean( $loggers_list[ $uuid ] );
 					$this->log( sprintf( '%d record(s) deleted.', $count ), $stdout );
 					$this->success( sprintf( 'logger %s successfully cleaned.', $uuid ), $uuid, $stdout );
 				}
 				break;
 			case 'remove':
-				$loggers_list[$uuid]['uuid'] = $uuid;
+				$loggers_list[ $uuid ]['uuid'] = $uuid;
 				\WP_CLI::confirm( sprintf( 'Are you sure you want to remove logger %s?', $uuid ), $assoc_args );
 				$factory = new LoggerFactory();
-				$factory->destroy( $loggers_list[$uuid] );
+				$factory->destroy( $loggers_list[ $uuid ] );
 				$ilog->notice( sprintf( 'Logger "%s" has been removed.', $loggers_list[ $uuid ]['name'] ) );
-				unset( $loggers_list[$uuid] );
+				unset( $loggers_list[ $uuid ] );
 				Option::network_set( 'loggers', $loggers_list );
 				$this->success( sprintf( 'logger %s successfully removed.', $uuid ), $uuid, $stdout );
 				break;
@@ -1085,17 +1104,17 @@ class Wpcli {
 		$activated = Option::network_get( 'listeners' );
 		$listeners = [];
 		foreach ( ListenerFactory::$infos as $listener ) {
-			$listener['enabled']        = Option::network_get( 'autolisteners') ? 'auto' : ( in_array( $listener['id'], $activated, true ) ? 'yes' : 'no' );
-			$listener['available']      = $listener['available'] ? 'yes' : 'no';
-			$listeners[$listener['id']] = $listener;
+			$listener['enabled']          = Option::network_get( 'autolisteners' ) ? 'auto' : ( in_array( $listener['id'], $activated, true ) ? 'yes' : 'no' );
+			$listener['available']        = $listener['available'] ? 'yes' : 'no';
+			$listeners[ $listener['id'] ] = $listener;
 			if ( 'yaml' === $format || 'json' === $format ) {
-				unset( $listeners[$listener['id']]['id'] );
+				unset( $listeners[ $listener['id'] ]['id'] );
 			}
 		}
 		uasort(
 			$listeners,
 			function ( $a, $b ) {
-				return strcmp( strtolower( $a[ 'name' ] ), strtolower( $b[ 'name' ] ) );
+				return strcmp( strtolower( $a['name'] ), strtolower( $b['name'] ) );
 			}
 		);
 		$uuid   = '';
@@ -1122,7 +1141,7 @@ class Wpcli {
 				} elseif ( 'yaml' === $format ) {
 					$details = Spyc::YAMLDump( $listeners, true, true, true );
 					$this->line( $details, $details, $stdout );
-				}  elseif ( 'json' === $format ) {
+				} elseif ( 'json' === $format ) {
 					$details = wp_json_encode( $listeners );
 					$this->line( $details, $details, $stdout );
 				} else {
@@ -1283,7 +1302,7 @@ class Wpcli {
 		if ( 0 > $code ) {
 			$code = 0;
 		}
-		if ( ! in_array( $level, ['info', 'notice', 'warning', 'error', 'critical', 'alert' ], true ) ) {
+		if ( ! in_array( $level, [ 'info', 'notice', 'warning', 'error', 'critical', 'alert' ], true ) ) {
 			\WP_CLI::error( 'forbidden or unknown level.' );
 		}
 		$logger = Log::bootstrap( 'core', 'WP-CLI', defined( 'WP_CLI_VERSION' ) ? WP_CLI_VERSION : 'x' );
@@ -1332,7 +1351,10 @@ class Wpcli {
 		$action = isset( $args[0] ) ? $args[0] : 'list';
 		$codes  = [];
 		foreach ( $this->exit_codes as $key => $msg ) {
-			$codes[ $key ] = [ 'code' => $key, 'meaning' => ucfirst( $msg ) ];
+			$codes[ $key ] = [
+				'code'    => $key,
+				'meaning' => ucfirst( $msg ),
+			];
 		}
 		switch ( $action ) {
 			case 'list':
@@ -1389,8 +1411,14 @@ class Wpcli {
 	 * [--col=<columns>]
 	 * : The Number of columns (char in a row) to display. Default is 160. Min is 80 and max is 400.
 	 *
-	 * [--soft]
-	 * : Soften the colors to save your eyes.
+	 * [--theme=<theme>]
+	 * : Modifies the colors scheme.
+	 * ---
+	 * default: standard
+	 * options:
+	 *  - standard
+	 *  - soft
+	 * ---
 	 *
 	 * [--yes]
 	 * : Answer yes to the confirmation message, if any.
@@ -1409,15 +1437,14 @@ class Wpcli {
 	 * wp log tail 20
 	 * wp log tail 20 --level=warning
 	 * wp log tail --filter='{"source":"/Jetpack/", "remote_ip":"/(135.|164.)/"}'
-	 * wp log tail --filter='{"source":"/WordPress/"} --soft --format=wp'
+	 * wp log tail --filter='{"source":"/WordPress/"} --theme=soft --format=wp'
 	 *
 	 *
 	 *   === For other examples and recipes, visit https://github.com/Pierre-Lannoy/wp-decalog/blob/master/WP-CLI.md ===
 	 *
-	 * @synopsis [<ip|ip_low-ip_high|list|clear>]
 	 */
 	public function tail( $args, $assoc_args ) {
-		if ( ! function_exists( 'shmop_open' ) || ! function_exists( 'shmop_read' ) || ! function_exists( 'shmop_write' ) || ! function_exists( 'shmop_delete' ) || ! function_exists( 'shmop_close' )) {
+		if ( ! function_exists( 'shmop_open' ) || ! function_exists( 'shmop_read' ) || ! function_exists( 'shmop_write' ) || ! function_exists( 'shmop_delete' ) || ! function_exists( 'shmop_close' ) ) {
 			\WP_CLI::error( 'unable to launch tail command, no shared memory manager found.' );
 		}
 		if ( ! Autolog::is_enabled() ) {
@@ -1439,9 +1466,9 @@ class Wpcli {
 		}
 		$filter = \json_decode( isset( $assoc_args['filter'] ) ? (string) $assoc_args['filter'] : '{}', true );
 		if ( is_array( $filter ) ) {
-			foreach( [ 'channel', 'message', 'class', 'source', 'code', 'site_id', 'user_id', 'remote_ip', 'url', 'verb', 'server','referrer', 'file', 'line', 'classname', 'function' ] as $field ) {
+			foreach ( [ 'channel', 'message', 'class', 'source', 'code', 'site_id', 'user_id', 'remote_ip', 'url', 'verb', 'server', 'referrer', 'file', 'line', 'classname', 'function' ] as $field ) {
 				if ( array_key_exists( $field, $filter ) ) {
-					$value = (string) $filter[$field];
+					$value = (string) $filter[ $field ];
 					if ( '' === $value ) {
 						continue;
 					}
@@ -1450,13 +1477,13 @@ class Wpcli {
 							$filters['component'] = $value;
 							break;
 						default:
-							$filters[$field] = $value;
+							$filters[ $field ] = $value;
 					}
 				}
 			}
 		}
 		$level = isset( $assoc_args['level'] ) ? (string) $assoc_args['level'] : 'info';
-		if ( ! in_array( $level, ['info', 'notice', 'warning', 'error', 'critical', 'alert', 'emergency' ], true ) ) {
+		if ( ! in_array( $level, [ 'info', 'notice', 'warning', 'error', 'critical', 'alert', 'emergency' ], true ) ) {
 			\WP_CLI::error( 'unknown level supplied.' );
 		}
 		$filters['level'] = $level;
@@ -1466,11 +1493,11 @@ class Wpcli {
 			$logger = Log::bootstrap( 'plugin', DECALOG_PRODUCT_NAME, DECALOG_VERSION );
 			$logger->notice( 'Live console launched.' );
 			while ( true ) {
-				$this->records_display( self::records_filter( SharedMemoryHandler::read(), $filters ), $mode, isset( $assoc_args['soft'] ), $col );
+				$this->records_display( self::records_filter( SharedMemoryHandler::read(), $filters ), $mode, $assoc_args['theme'] ?? 'standard', $col );
 				$this->flush();
 			}
 		} else {
-			$this->records_display( array_slice( Wpcli::records_filter( $records, $filters ), -$count ), $mode, isset( $assoc_args['soft'] ), $col );
+			$this->records_display( array_slice( self::records_filter( $records, $filters ), -$count ), $mode, $assoc_args['theme'] ?? 'standard', $col );
 		}
 	}
 
@@ -1484,7 +1511,7 @@ class Wpcli {
 	 */
 	public static function sc_get_helpfile( $attributes ) {
 		$md = new Markdown();
-		return $md->get_shortcode(  'WP-CLI.md', $attributes  );
+		return $md->get_shortcode( 'WP-CLI.md', $attributes );
 	}
 
 }

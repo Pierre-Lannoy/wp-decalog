@@ -3,6 +3,14 @@ All notable changes to **DecaLog** are documented in this *changelog*.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+- [WP-CLI] Changing the color scheme for the `tail` command is now done via the `--theme=<theme>` parameter.
+
+### Fixed
+- [WP-CLI] There's an error in the `tail` command synopsis (thanks to [aspsa](https://wordpress.org/support/users/aspsa/)).
+
 ## [2.4.0] - 2021-02-25
 
 ### Added
