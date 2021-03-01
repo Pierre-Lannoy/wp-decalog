@@ -113,6 +113,9 @@ class LoggerMaintainer {
 	public function debug_info() {
 		$result = [];
 		foreach ( Option::network_get( 'loggers' ) as $key => $logger ) {
+			if ( ! array_key_exists( 'configuration', $logger ) ) {
+				$logger['configuration'] = [];
+			}
 			$name = $logger['name'];
 			unset( $logger['name'] );
 			$logger['uuid']    = '{' . $key . '}';
