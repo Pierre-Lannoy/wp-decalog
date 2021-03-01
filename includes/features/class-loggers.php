@@ -168,7 +168,7 @@ class Loggers extends \WP_List_Table {
 			)
 		);
 		$handler           = $this->handler_types->get( $item['handler'] );
-		$icon              = '<img style="width:34px;float:left;padding-right:6px;" src="' . $handler['icon'] . '" />';
+		$icon              = '<img style="width:38px;float:left;padding-right:6px;" src="' . $handler['icon'] . '" />';
 		if ( 'system' !== $handler['class'] ) {
 			$actions['edit']   = sprintf( '<a href="%s">' . esc_html__( 'Edit', 'decalog' ) . '</a>', $edit );
 			$actions['delete'] = sprintf( '<a href="%s">' . esc_html__( 'Remove', 'decalog' ) . '</a>', $delete );
@@ -195,8 +195,9 @@ class Loggers extends \WP_List_Table {
 	 * @since    1.0.0
 	 */
 	protected function column_status( $item ) {
-		$status = ( $item['running'] ? '▶&nbsp;' . esc_html__( 'Running', 'decalog' ) : '❙❙&nbsp;' . esc_html__( 'Paused', 'decalog' ) );
-		return $status;
+		$running = '<span style="vertical-align: middle;font-size:10px;padding:2px 6px;display: inline-block;text-transform:uppercase;font-weight: bold;background-color:#4AA03E;color:#F9F9F9;border-radius:2px;cursor: default;word-break: break-word;">▶&nbsp;' . esc_html__( 'Running', 'decalog' ) . '</span>';
+		$paused  = '<span style="vertical-align: middle;font-size:10px;padding:2px 6px;display: inline-block;text-transform:uppercase;font-weight: bold;background-color:#E0E0E0;color:#AAAAAA;border-radius:2px;cursor: default;word-break: break-word;">❙❙&nbsp;' . esc_html__( 'Paused', 'decalog' ) . '</span>';
+		return ( $item['running'] ? $running : $paused );
 	}
 
 	/**
@@ -207,11 +208,18 @@ class Loggers extends \WP_List_Table {
 	 * @since    1.0.0
 	 */
 	protected function column_details( $item ) {
-		$list = [ esc_html__( 'Standard', 'decalog' ) ];
+		$result = '';
+		$class  = ( $this->handler_types->get( $item['handler'] ) )['class'];
+		$list[] = '<span style="vertical-align: middle;font-size:9px;padding:2px 6px;text-transform:uppercase;font-weight: bold;background-color:#9999BB;color:#F9F9F9;border-radius:2px;cursor: default;word-break: break-word;">' . esc_html__( 'Standard', 'decalog' ) . '</span>';
 		foreach ( $item['processors'] as $processor ) {
-			$list[] = $this->processor_types->get( $processor )['name'];
+			$list[] = '<span style="vertical-align: middle;font-size:9px;padding:2px 6px;text-transform:uppercase;font-weight: bold;background-color:#9999BB;color:#F9F9F9;border-radius:2px;cursor: default;word-break: break-word;">' . str_replace( ' ', '&nbsp;', $this->processor_types->get( $processor )['name'] ) . '</span>';
 		}
-		return implode( ', ', $list );
+		if ( in_array( $class, [ 'alerting', 'logging', 'debugging', 'analytics' ], true ) ) {
+			$level   = strtolower( Log::level_name( $item['level'] ) );
+			$result .= '<span style="margin-bottom: 6px;vertical-align: middle;font-size:10px;display: inline-block;text-transform:uppercase;font-weight: 900;background-color:' . EventTypes::$levels_colors[ $level ][0] . ';color:' . EventTypes::$levels_colors[ $level ][1] . ';border-radius:2px;border: 1px solid ' . EventTypes::$levels_colors[ $level ][1] . ';cursor: default;word-break: break-word;">&nbsp;&nbsp;&nbsp;' . $level . '&nbsp;&nbsp;&nbsp;</span>';
+			$result .= '<br/>' . implode( ' ', $list );
+		}
+		return $result;
 	}
 
 	/**
@@ -221,9 +229,8 @@ class Loggers extends \WP_List_Table {
 	 * @return  string  The cell formatted, ready to print.
 	 * @since    1.0.0
 	 */
-	protected function column_level( $item ) {
-		$name = ucfirst( strtolower( Log::level_name( $item['level'] ) ) );
-		return $name;
+	protected function column_type( $item ) {
+		return $this->handler_types->get_class_name( ( $this->handler_types->get( $item['handler'] ) )['class'] );
 	}
 
 	/**
@@ -236,8 +243,8 @@ class Loggers extends \WP_List_Table {
 		$columns = [
 			'name'    => esc_html__( 'Logger', 'decalog' ),
 			'status'  => esc_html__( 'Status', 'decalog' ),
-			'level'   => esc_html__( 'Minimal level', 'decalog' ),
-			'details' => esc_html__( 'Reported details', 'decalog' ),
+			'type'    => esc_html__( 'Type', 'decalog' ),
+			'details' => esc_html__( 'Settings', 'decalog' ),
 		];
 		return $columns;
 	}

@@ -43,6 +43,24 @@ class EventTypes {
 	];
 
 	/**
+	 * List of the levels colors.
+	 *
+	 * @since    3.0.0
+	 * @var string[] $levels_colors Logging levels colors.
+	 */
+	public static $levels_colors = [
+		'unknown'   => [ '#F0F0F0', '#CCCCCC' ],
+		'debug'     => [ '#F0F0F0', '#CCCCCC' ],
+		'info'      => [ '#EEEEFF', '#9999FF' ],
+		'notice'    => [ '#DDDDFF', '#5555FF' ],
+		'warning'   => [ '#FFFFC4', '#FFAB10' ],
+		'error'     => [ '#FFD2A8', '#FB7B00' ],
+		'critical'  => [ '#FFB7B7', '#FF0000' ],
+		'alert'     => [ '#FFB7B7', '#DD0000' ],
+		'emergency' => [ '#FFB7B7', '#AA0000' ],
+	];
+
+	/**
 	 * List of the available WSAL levels.
 	 *
 	 * @since    1.0.0

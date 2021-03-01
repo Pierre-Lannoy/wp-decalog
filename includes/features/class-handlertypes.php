@@ -33,11 +33,27 @@ class HandlerTypes {
 	private $handlers = [];
 
 	/**
+	 * The array of available class names.
+	 *
+	 * @since  3.0.0
+	 * @var    array    $handlers_class    The available class names.
+	 */
+	private $handlers_class = [];
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
 	 */
 	public function __construct() {
+		$this->handlers_class = [
+			'alerting'  => esc_html__( 'Crash Analytics', 'decalog' ),
+			'analytics' => esc_html__( 'Alerting', 'decalog' ),
+			'debugging' => esc_html__( 'Debugging', 'decalog' ),
+			'logging'   => esc_html__( 'Logging', 'decalog' ),
+			'metrics'   => esc_html__( 'Monitoring', 'decalog' ),
+			'tracing'   => esc_html__( 'Tracing', 'decalog' ),
+		];
 		$this->handlers[] = [
 			'version'       => DECALOG_VERSION,
 			'id'            => 'NullHandler',
@@ -1584,7 +1600,6 @@ class HandlerTypes {
 
 			],
 		];
-
 	}
 
 	/**
@@ -1595,6 +1610,21 @@ class HandlerTypes {
 	 */
 	public function get_all() {
 		return $this->handlers;
+	}
+
+	/**
+	 * Get the tname for a specific class.
+	 *
+	 * @param   string $class  The class of loggers ( 'alerting', 'debugging', 'logging').
+	 * @return  string   The name of the class.
+	 * @since    3.0.0
+	 */
+	public function get_class_name( $class ) {
+		$result = '-';
+		if ( array_key_exists( $class, $this->handlers_class ) ) {
+			$result = $this->handlers_class[ $class ];
+		}
+		return $result;
 	}
 
 	/**
