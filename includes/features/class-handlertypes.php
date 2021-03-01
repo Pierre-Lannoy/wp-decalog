@@ -1038,7 +1038,7 @@ class HandlerTypes {
 				],
 			],
 		];
-		$this->handlers[] = [
+		/*$this->handlers[] = [
 			'version'       => DECALOG_VERSION,
 			'id'            => 'SentryHandler',
 			'ancestor'      => 'SentryHandler',
@@ -1091,7 +1091,7 @@ class HandlerTypes {
 				],
 				[ 'type' => 'level' ],
 			],
-		];
+		];*/
 		$this->handlers[] = [
 			'version'       => DECALOG_MONOLOG_VERSION,
 			'id'            => 'SlackWebhookHandler',
