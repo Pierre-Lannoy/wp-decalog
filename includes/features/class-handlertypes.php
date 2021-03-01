@@ -653,7 +653,6 @@ class HandlerTypes {
 				[ 'type' => 'level' ],
 			],
 		];
-
 		$this->handlers[] = [
 			'version'       => DECALOG_VERSION,
 			'id'            => 'LokiHandler',
@@ -721,7 +720,6 @@ class HandlerTypes {
 				[ 'type' => 'level' ],
 			],
 		];
-
 		$this->handlers[] = [
 			'version'       => DECALOG_VERSION,
 			'id'            => 'MailHandler',
