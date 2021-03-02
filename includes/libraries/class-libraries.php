@@ -67,6 +67,17 @@ class Libraries {
 			'license' => 'mit',
 			'langs'   => 'en',
 		];
+		self::$psr4_libraries['prometheus']   = [
+			'name'    => 'Prometheus PHP',
+			'prefix'  => 'Prometheus',
+			'base'    => DECALOG_VENDOR_DIR . 'prometheus/',
+			'version' => '2.2.1',
+			// phpcs:ignore
+			'author'  => sprintf( esc_html__( '%s, %s & contributors', 'decalog' ), 'Lukas Kämmerling', 'Rafael Dohms' ),
+			'url'     => 'https://github.com/PromPHP',
+			'license' => 'apl2',
+			'langs'   => 'en',
+		];
 		self::$psr4_libraries['lock']   = [
 			'name'    => 'Lock',
 			'prefix'  => 'malkusch\lock',
