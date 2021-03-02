@@ -1103,22 +1103,24 @@ class Decalog_Admin {
 			]
 		);
 		register_setting( 'decalog_logger_misc_section', 'decalog_logger_misc_name' );
-		add_settings_field(
-			'decalog_logger_misc_level',
-			__( 'Minimal level', 'decalog' ),
-			[ $form, 'echo_field_select' ],
-			'decalog_logger_misc_section',
-			'decalog_logger_misc_section',
-			[
-				'list'        => Log::get_levels( $this->current_handler['minimal'], true ),
-				'id'          => 'decalog_logger_misc_level',
-				'value'       => $this->current_logger['level'],
-				'description' => esc_html__( 'Minimal reported level. May be overridden by the "respect WP_DEBUG directive" option.', 'decalog' ),
-				'full_width'  => false,
-				'enabled'     => true,
-			]
-		);
-		register_setting( 'decalog_logger_misc_section', 'decalog_logger_misc_level' );
+		if ( in_array( $this->current_handler['class'], [ 'alerting', 'logging', 'debugging', 'analytics' ], true ) ) {
+			add_settings_field(
+				'decalog_logger_misc_level',
+				__( 'Minimal level', 'decalog' ),
+				[ $form, 'echo_field_select' ],
+				'decalog_logger_misc_section',
+				'decalog_logger_misc_section',
+				[
+					'list'        => Log::get_levels( $this->current_handler['minimal'], true ),
+					'id'          => 'decalog_logger_misc_level',
+					'value'       => $this->current_logger['level'],
+					'description' => esc_html__( 'Minimal reported level. May be overridden by the "respect WP_DEBUG directive" option.', 'decalog' ),
+					'full_width'  => false,
+					'enabled'     => true,
+				]
+			);
+			register_setting( 'decalog_logger_misc_section', 'decalog_logger_misc_level' );
+		}
 	}
 
 	/**
@@ -1148,22 +1150,24 @@ class Decalog_Admin {
 			]
 		);
 		register_setting( 'decalog_logger_delete_section', 'decalog_logger_delete_name' );
-		add_settings_field(
-			'decalog_logger_delete_level',
-			__( 'Minimal level', 'decalog' ),
-			[ $form, 'echo_field_select' ],
-			'decalog_logger_delete_section',
-			'decalog_logger_delete_section',
-			[
-				'list'        => Log::get_levels( $this->current_handler['minimal'] ),
-				'id'          => 'decalog_logger_delete_level',
-				'value'       => $this->current_logger['level'],
-				'description' => null,
-				'full_width'  => false,
-				'enabled'     => false,
-			]
-		);
-		register_setting( 'decalog_logger_delete_section', 'decalog_logger_delete_level' );
+		if ( in_array( $this->current_handler['class'], [ 'alerting', 'logging', 'debugging', 'analytics' ], true ) ) {
+			add_settings_field(
+				'decalog_logger_delete_level',
+				__( 'Minimal level', 'decalog' ),
+				[ $form, 'echo_field_select' ],
+				'decalog_logger_delete_section',
+				'decalog_logger_delete_section',
+				[
+					'list'        => Log::get_levels( $this->current_handler['minimal'] ),
+					'id'          => 'decalog_logger_delete_level',
+					'value'       => $this->current_logger['level'],
+					'description' => null,
+					'full_width'  => false,
+					'enabled'     => false,
+				]
+			);
+			register_setting( 'decalog_logger_delete_section', 'decalog_logger_delete_level' );
+		}
 	}
 
 	/**

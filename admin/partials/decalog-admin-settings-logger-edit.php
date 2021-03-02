@@ -30,8 +30,10 @@
 	" method="POST">
 		<?php do_settings_sections( 'decalog_logger_misc_section' ); ?>
 		<?php do_settings_sections( 'decalog_logger_specific_section' ); ?>
-		<?php do_settings_sections( 'decalog_logger_privacy_section' ); ?>
-		<?php do_settings_sections( 'decalog_logger_details_section' ); ?>
+        <?php if ( in_array( $current_handler['class'], [ 'alerting', 'logging', 'debugging', 'analytics' ], true ) ) { ?>
+            <?php do_settings_sections( 'decalog_logger_details_section' ); ?>
+	        <?php do_settings_sections( 'decalog_logger_privacy_section' ); ?>
+		<?php } ?>
 		<?php wp_nonce_field( 'decalog-logger-edit' ); ?>
 		<p><?php echo get_submit_button( esc_html__( 'Cancel', 'decalog' ), 'secondary', 'cancel', false ); ?>&nbsp;&nbsp;&nbsp;<?php echo get_submit_button( null, 'primary', 'submit', false ); ?></p>
 	</form>
