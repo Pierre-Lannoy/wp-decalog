@@ -1771,6 +1771,7 @@ class HandlerTypes {
 				return $handler;
 			}
 		}
+		error_log( 'ID => ' . $id );
 		return null;
 	}
 

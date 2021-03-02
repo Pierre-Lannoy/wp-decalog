@@ -181,7 +181,7 @@ class Loggers extends \WP_List_Table {
 				$actions['view'] = sprintf( '<a href="%s">' . esc_html__( 'View', 'decalog' ) . '</a>', $view );
 			}
 		}
-		if ( $item['running'] ) {
+		if ( $item['running'] && 'metrics' !== ( $this->handler_types->get( $item['handler'] ) )['class'] ) {
 			$actions['test'] = sprintf( '<a href="%s">' . esc_html__( 'Send Test', 'decalog' ) . '</a>', $test );
 		}
 		return $icon . '&nbsp;' . sprintf( '<a href="%1$s">%2$s</a><br /><span style="color:silver">&nbsp;%3$s</span>%4$s', $edit, $item['name'], $handler['name'], $this->row_actions( $actions ) );
@@ -213,6 +213,17 @@ class Loggers extends \WP_List_Table {
 		$list[] = '<span style="vertical-align: middle;font-size:9px;padding:2px 6px;text-transform:uppercase;font-weight: bold;background-color:#9999BB;color:#F9F9F9;border-radius:2px;cursor: default;word-break: break-word;">' . esc_html__( 'Standard', 'decalog' ) . '</span>';
 		foreach ( $item['processors'] as $processor ) {
 			$list[] = '<span style="vertical-align: middle;font-size:9px;padding:2px 6px;text-transform:uppercase;font-weight: bold;background-color:#9999BB;color:#F9F9F9;border-radius:2px;cursor: default;word-break: break-word;">' . str_replace( ' ', '&nbsp;', $this->processor_types->get( $processor )['name'] ) . '</span>';
+		}
+		if ( in_array( $class, [ 'metrics', 'tracing' ], true ) ) {
+			if ( isset( $item['configuration']['sampling'] ) ) {
+				$sampling = (float) ( ( (int) $item['configuration']['sampling'] ) / 10 );
+				if ( 1.0 <= $sampling ) {
+					$sampling = (string) ( ( (int) round( $sampling, 0 ) ) ) . '%';
+				} else {
+					$sampling = (string) ( ( (int) round( $sampling * 10, 0 ) ) ) . '‰';
+				}
+				$result .= '<span style="margin-bottom: 6px;vertical-align: middle;font-size:10px;display: inline-block;text-transform:uppercase;font-weight: 900;background-color:#FFFFFF;color:#5F656A;border-radius:2px;border: 1px solid #9999BB;border-radius:2px;cursor: default;word-break: break-word;">&nbsp;&nbsp;&nbsp;' . $sampling . '&nbsp;&nbsp;&nbsp;</span>';
+			}
 		}
 		if ( in_array( $class, [ 'alerting', 'logging', 'debugging', 'analytics' ], true ) ) {
 			$level   = strtolower( Log::level_name( $item['level'] ) );
