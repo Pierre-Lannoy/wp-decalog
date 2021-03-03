@@ -61,19 +61,6 @@ class Core {
 	}
 
 	/**
-	 * Define the locale for this plugin for internationalization.
-	 *
-	 * Uses the i18n class in order to set the domain and to register the hook
-	 * with WordPress.
-	 *
-	 * @since  1.0.0
-	 */
-	private function set_locale() {
-		$plugin_i18n = new I18n();
-		$this->loader->add_action( 'init', $plugin_i18n, 'load_plugin_textdomain' );
-	}
-
-	/**
 	 * Register all of the hooks related to the features of the plugin.
 	 *
 	 * @since  1.0.0
