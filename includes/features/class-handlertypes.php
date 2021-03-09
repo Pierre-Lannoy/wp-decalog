@@ -70,16 +70,17 @@ class HandlerTypes {
 			'params'        => [],
 			'processors'    => [],
 			'configuration' => [
-				'url'   => [
-					'type'    => 'string',
+				'profile'  => [
+					'type'    => 'integer',
 					'show'    => true,
-					'name'    => esc_html__( 'Service URL', 'decalog' ),
-					'help'    => sprintf( esc_html__( 'URL where to send metrics. Format: %s.', 'decalog' ), '<code>' . htmlentities( '<proto>://<host>:<port>' ) . '</code>' ),
-					'default' => 'http://localhost:9090/',
+					'name'    => esc_html__( 'Profile', 'decalog' ),
+					'help'    => sprintf( __( 'The number of metrics to collect (%s). Choosing "Automatic" sets the profile to the current WordPress environment type.', 'decalog' ), sprintf( '<a href="https://github.com/Pierre-Lannoy/wp-decalog/blob/master/MONITORING.md" target="_blank">%s</a>', esc_html__( 'details', 'decalog' ) ) ),
+					'default' => 500,
 					'control' => [
-						'type'    => 'field_input_text',
-						'cast'    => 'string',
+						'type'    => 'field_select',
+						'cast'    => 'integer',
 						'enabled' => true,
+						'list'    => [ [ 500, esc_html__( 'Automatic', 'decalog' ) ], [ 600, esc_html__( 'Production', 'decalog' ) ], [ 550, esc_html__( 'Development', 'decalog' ) ] ],
 					],
 				],
 				'sampling' => [
@@ -90,9 +91,21 @@ class HandlerTypes {
 					'default' => 100,
 					'control' => [
 						'type'    => 'field_select',
-						'cast'    => 'string',
+						'cast'    => 'integer',
 						'enabled' => true,
 						'list'    => [ [ 1000, '100%' ], [ 500, '50%' ], [ 250, '25%' ], [ 100, '10%' ], [ 50, '5%' ], [ 20, '2%' ], [ 10, '1%' ], [ 5, '5‰' ], [ 2, '2‰' ], [ 1, '1‰' ] ],
+					],
+				],
+				'url'   => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Service URL', 'decalog' ),
+					'help'    => sprintf( esc_html__( 'URL where to send metrics. Format: %s.', 'decalog' ), '<code>' . htmlentities( '<proto>://<host>:<port>' ) . '</code>' ),
+					'default' => 'http://localhost:9090/',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
 					],
 				],
 				'model' => [
@@ -124,11 +137,15 @@ class HandlerTypes {
 			'init'          => [
 				[
 					'type'  => 'configuration',
-					'value' => 'url',
+					'value' => 'profile',
 				],
 				[
 					'type'  => 'configuration',
 					'value' => 'sampling',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'url',
 				],
 				[
 					'type'  => 'configuration',

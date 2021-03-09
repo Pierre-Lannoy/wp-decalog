@@ -64,11 +64,12 @@ abstract class AbstractMonitoringHandler extends AbstractProcessingHandler {
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @param   integer $sampling   The sampling rate (0->1000).
+	 * @param   int     $profile    The profile of collected metrics (500, 550 or 600).
+	 * @param   int     $sampling   The sampling rate (0->1000).
 	 * @since    3.0.0
 	 */
-	public function __construct( $sampling ) {
-		parent::__construct( Logger::EMERGENCY, true );
+	public function __construct( $profile, $sampling ) {
+		parent::__construct( $profile, true );
 		$this->post_args = [
 			'headers'    => [
 				'User-Agent'     => Http::user_agent(),

@@ -11,6 +11,7 @@
 
 namespace Decalog\Plugin\Feature;
 
+use Decalog\System\Environment;
 use Decalog\System\Option;
 use Decalog\Plugin\Feature\Log;
 
@@ -223,6 +224,23 @@ class Loggers extends \WP_List_Table {
 					$sampling = (string) ( ( (int) round( $sampling * 10, 0 ) ) ) . '‰';
 				}
 				$result .= '<span style="margin-bottom: 6px;vertical-align: middle;font-size:10px;display: inline-block;text-transform:uppercase;font-weight: 900;background-color:#FFFFFF;color:#5F656A;border-radius:2px;border: 1px solid #9999BB;border-radius:2px;cursor: default;word-break: break-word;">&nbsp;&nbsp;&nbsp;' . $sampling . '&nbsp;&nbsp;&nbsp;</span>';
+			}
+			if ( isset( $item['configuration']['profile'] ) ) {
+				switch ( $item['configuration']['profile'] ) {
+					case 550:
+						$level = esc_html__( 'Forced', 'decalog' ) . ' / ' . esc_html__( 'Development', 'decalog' );
+						break;
+					case 600:
+						$level = esc_html__( 'Forced', 'decalog' ) . ' / ' . esc_html__( 'Production', 'decalog' );
+						break;
+					default:
+						if ( 'production' === Environment::stage() ) {
+							$level = esc_html__( 'Automatic', 'decalog' ) . ' / ' . esc_html__( 'Production', 'decalog' );
+						} else {
+							$level = esc_html__( 'Automatic', 'decalog' ) . ' / ' . esc_html__( 'Development', 'decalog' );
+						}
+				}
+				$result .= '<br/><span style="vertical-align: middle;font-size:9px;padding:2px 6px;text-transform:uppercase;font-weight: bold;background-color:#9999BB;color:#F9F9F9;border-radius:2px;cursor: default;word-break: break-word;">' . str_replace( ' ', '&nbsp;', $level ) . '</span>';
 			}
 		}
 		if ( in_array( $class, [ 'alerting', 'logging', 'debugging', 'analytics' ], true ) ) {

@@ -45,14 +45,16 @@ class PrometheusMonitoringHandler extends AbstractMonitoringHandler {
 	/**
 	 * Initialize the class and set its properties.
 	 *
+	 *
+	 * @param   int     $profile    The profile of collected metrics (500, 550 or 600).
+	 * @param   int     $sampling   The sampling rate (0->1000).
 	 * @param   string  $url        The base endpoint.
-	 * @param   int     $sampling   Has the record to be buffered?.
 	 * @param   int     $model      The model to use for labels.
 	 * @param   string  $id         Optional. The job id.
 	 * @since    3.0.0
 	 */
-	public function __construct( string $url, int $sampling, int $model, string $id = 'wp_decalog' ) {
-		parent::__construct( $sampling );
+	public function __construct( int $profile, int $sampling, string $url, int $model, string $id = 'wp_decalog' ) {
+		parent::__construct( $profile, $sampling );
 		$this->endpoint                             = $url . '/metrics/job' . $id;
 		$this->template                             = $model;
 		$this->post_args['headers']['Content-Type'] = RenderTextFormat::MIME_TYPE;
