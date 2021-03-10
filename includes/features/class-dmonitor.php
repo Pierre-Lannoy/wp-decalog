@@ -81,7 +81,7 @@ class DMonitor {
 	 * @since  3.0.0
 	 * @var    array    $label_names    The names list.
 	 */
-	private $label_names = [ 'channel', 'class', 'component', 'environment', 'traceID' ];
+	private $label_names = [ 'channel', 'environment', 'traceID' ];
 
 	/**
 	 * The metrics labels values.
@@ -125,18 +125,16 @@ class DMonitor {
 				$this->version = $version;
 			}
 			if ( ! isset( self::$production ) ) {
-				self::$production = new CollectorRegistry( new InMemory() );
+				self::$production = new CollectorRegistry( new InMemory(), false );
 			}
 			if ( ! isset( self::$development ) ) {
-				self::$development = new CollectorRegistry( new InMemory() );
+				self::$development = new CollectorRegistry( new InMemory(), true );
 			}
 			if ( ! isset( self::$logger ) ) {
 				self::$logger = new Logger( $class, $name, $version );
 			}
 			$this->label_values = [
 				$this->normalize_string( $this->current_channel_tag() ),
-				$this->normalize_string( $this->class ),
-				$this->normalize_string( $this->name ),
 				$this->normalize_string( Environment::stage() ),
 				(string) DECALOG_TRACEID,
 			];
@@ -185,7 +183,7 @@ class DMonitor {
 			$gauge    = $registry->getGauge( $this->current_namespace(), $name );
 			$gauge->set( $value, $this->label_values );
 		} catch ( \Throwable $e ) {
-			self::$logger->error( $e->getMessage(), $e->getCode() );
+			self::$logger->error( $e->getMessage(), [ 'code' => $e->getCode() ] );
 		}
 	}
 
@@ -206,7 +204,7 @@ class DMonitor {
 			$gauge    = $registry->getGauge( $this->current_namespace(), $name );
 			$gauge->incBy( $value, $this->label_values );
 		} catch ( \Throwable $e ) {
-			self::$logger->error( $e->getMessage(), $e->getCode() );
+			self::$logger->error( $e->getMessage(), [ 'code' => $e->getCode() ] );
 		}
 	}
 
@@ -285,9 +283,9 @@ class DMonitor {
 	 * @since 3.0.0
 	 */
 	private function current_namespace() {
-		$class = strtolower( str_replace( ' ', '_', $this->class ) );
-		$name  = strtolower( str_replace( ' ', '_', $this->name ) );
-		return $class . '.' . $name;
+		$class = strtolower( $this->class );
+		$name  = strtolower( str_replace( ' ', '', $this->name ) ); // TODO : replace all non /w char
+		return 'wordpress_' . $class . '_' . $name;
 	}
 
 	/**
@@ -311,7 +309,7 @@ class DMonitor {
 		if ( $id >= count( ChannelTypes::$channels ) ) {
 			$id = 0;
 		}
-		return ChannelTypes::$channels[ $id ];
+		return strtolower( ChannelTypes::$channels[ $id ] );
 	}
 
 	/**
@@ -327,4 +325,23 @@ class DMonitor {
 		return filter_var( $string, FILTER_SANITIZE_STRING );
 	}
 
+	/**
+	 * Get the collector registry for production profile.
+	 *
+	 * @return  \Prometheus\CollectorRegistry   The production registry.
+	 * @since 3.0.0
+	 */
+	public function prod_registry() {
+		return self::$production;
+	}
+
+	/**
+	 * Get the collector registry for development profile.
+	 *
+	 * @return  \Prometheus\CollectorRegistry   The development registry.
+	 * @since 3.0.0
+	 */
+	public function dev_registry() {
+		return self::$development;
+	}
 }

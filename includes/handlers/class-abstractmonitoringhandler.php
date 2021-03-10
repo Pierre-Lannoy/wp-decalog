@@ -11,6 +11,7 @@
 
 namespace Decalog\Handler;
 
+use Decalog\System\Environment;
 use Decalog\System\Http;
 use Monolog\Logger;
 use Monolog\Handler\AbstractProcessingHandler;
@@ -54,12 +55,12 @@ abstract class AbstractMonitoringHandler extends AbstractProcessingHandler {
 	protected $verb = 'POST';
 
 	/**
-	 * Is the handler elected?.
+	 * Is the class initialized?
 	 *
 	 * @since  3.0.0
-	 * @var    boolean    $elected    Is the handler elected?.
+	 * @var    boolean    $initialized    Is the class initialized?
 	 */
-	private $elected = false;
+	private static $initialized = false;
 
 	/**
 	 * Initialize the class and set its properties.
@@ -69,6 +70,13 @@ abstract class AbstractMonitoringHandler extends AbstractProcessingHandler {
 	 * @since    3.0.0
 	 */
 	public function __construct( $profile, $sampling ) {
+		if ( 500 === $profile ) {
+			if ( 'production' === Environment::stage() ) {
+				$profile = 600;
+			} else {
+				$profile = 550;
+			}
+		}
 		parent::__construct( $profile, true );
 		$this->post_args = [
 			'headers'    => [
@@ -77,8 +85,11 @@ abstract class AbstractMonitoringHandler extends AbstractProcessingHandler {
 			],
 			'user-agent' => Http::user_agent(),
 		];
-		// TODO: add_action( 'shutdown', [ $this, 'close' ], PHP_INT_MAX - 2, 0 );
-		// TODO: sampling computation ($this->elected)
+		// phpcs:ignore
+		if ( $sampling >= mt_rand( 1, 1000 ) && ! self::$initialized ) {
+			add_action( 'admin_print_footer_scripts', [ $this, 'close' ], PHP_INT_MAX - 2, 0 );
+			self::$initialized = true;
+		}
 	}
 
 	/**
@@ -88,11 +99,12 @@ abstract class AbstractMonitoringHandler extends AbstractProcessingHandler {
 	 */
 	protected function send(): void {
 		if ( 'POST' === $this->verb ) {
-			//wp_remote_post( esc_url_raw( $this->endpoint ), $record );
+			$result = wp_remote_post( esc_url_raw( $this->endpoint ), $this->post_args );
 		}
 		if ( 'GET' === $this->verb ) {
-			//wp_remote_get( esc_url_raw( $this->endpoint ), $record );
+			$result = wp_remote_get( esc_url_raw( $this->endpoint ), $this->post_args );
 		}
+		//TODO: handle error.
 	}
 
 	/**

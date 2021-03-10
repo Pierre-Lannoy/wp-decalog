@@ -11,9 +11,13 @@
 
 namespace Decalog\Handler;
 
+use Decalog\System\Blog;
+use Decalog\System\Environment;
 use Monolog\Logger;
 use Monolog\Formatter\FormatterInterface;
+use Decalog\Plugin\Feature\DMonitor;
 use Prometheus\RenderTextFormat;
+use Prometheus\CollectorRegistry;
 
 /**
  * Define the Monolog Prometheus monitoring handler.
@@ -55,8 +59,32 @@ class PrometheusMonitoringHandler extends AbstractMonitoringHandler {
 	 */
 	public function __construct( int $profile, int $sampling, string $url, int $model, string $id = 'wp_decalog' ) {
 		parent::__construct( $profile, $sampling );
-		$this->endpoint                             = $url . '/metrics/job' . $id;
-		$this->template                             = $model;
+		$this->job      = $id;
+		$this->template = $model;
+		$this->endpoint = $url . '/metrics';
+		$stream         = [];
+		switch ( $this->template ) {
+			case 1:
+				$stream['job']         = $this->job;
+				$stream['instance']    = gethostname();
+				$stream['environment'] = Environment::stage();
+				break;
+			case 2:
+				$stream['job']      = $this->job;
+				$stream['instance'] = gethostname();
+				$stream['version']  = Environment::wordpress_version_text( true );
+				break;
+			case 3:
+				$stream['job']  = $this->job;
+				$stream['site'] = Blog::get_current_blog_id( 0 );
+				break;
+			default:
+				$stream['job']      = $this->job;
+				$stream['instance'] = gethostname();
+		}
+		foreach ( $stream as $key => $value ) {
+			$this->endpoint .= '/' . $key . '/' . $value;
+		}
 		$this->post_args['headers']['Content-Type'] = RenderTextFormat::MIME_TYPE;
 	}
 
@@ -64,30 +92,12 @@ class PrometheusMonitoringHandler extends AbstractMonitoringHandler {
 	 * {@inheritdoc}
 	 */
 	public function close(): void {
-	}
-
-	/**
-	 * Post events to the service.
-	 *
-	 * @param   array $events    The record to post.
-	 * @since    3.0.0
-	 */
-	protected function write( array $events ): void {
-		/*$this->post_args['headers']['Bugsnag-Sent-At'] = gmdate( 'c' );
-		if ( 1 === count( $events ) ) {
-			$body                    = [
-				'apiKey'         => $this->post_args['headers']['Bugsnag-Api-Key'],
-				'payloadVersion' => $this->post_args['headers']['Bugsnag-Payload-Version'],
-				'notifier'       => (object) [
-					'name'    => DECALOG_PRODUCT_NAME,
-					'version' => DECALOG_VERSION,
-					'url'     => DECALOG_PRODUCT_URL,
-				],
-				'events'         => maybe_unserialize( $events[0] ),
-			];
-			$this->post_args['body'] = wp_json_encode( $body );
-			parent::write( $this->post_args );
-		}*/
+		$monitor                 = new DMonitor( 'plugin', DECALOG_PRODUCT_NAME, DECALOG_VERSION );
+		$renderer                = new RenderTextFormat();
+		$production              = $monitor->prod_registry()->getMetricFamilySamples();
+		$development             = ( Logger::ALERT === $this->level ? $monitor->dev_registry()->getMetricFamilySamples() : [] );
+		$this->post_args['body'] = $renderer->render( array_merge( $production, $development ) );
+		parent::send();
 	}
 
 }
