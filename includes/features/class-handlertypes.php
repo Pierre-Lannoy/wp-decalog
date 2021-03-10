@@ -63,8 +63,8 @@ class HandlerTypes {
 			'namespace'     => 'Decalog\\Handler',
 			'class'         => 'metrics',
 			'minimal'       => Logger::EMERGENCY,
-			'name'          => 'Prometheus',
-			'help'          => esc_html__( 'Metrics sent to a Prometheus instance.', 'decalog' ),
+			'name'          => 'Prometheus Pushgateway',
+			'help'          => esc_html__( 'Metrics sent to a Prometheus Pushgateway instance.', 'decalog' ),
 			'icon'          => $this->get_base64_prometheus_icon(),
 			'needs'         => [],
 			'params'        => [],
@@ -74,7 +74,7 @@ class HandlerTypes {
 					'type'    => 'integer',
 					'show'    => true,
 					'name'    => esc_html__( 'Profile', 'decalog' ),
-					'help'    => sprintf( __( 'The number of metrics to collect (%s). Choosing "Automatic" sets the profile to the current WordPress environment type.', 'decalog' ), sprintf( '<a href="https://github.com/Pierre-Lannoy/wp-decalog/blob/master/MONITORING.md" target="_blank">%s</a>', esc_html__( 'details', 'decalog' ) ) ),
+					'help'    => sprintf( __( 'The type of metrics to collect (%s). Choosing "Automatic" sets the profile to the current WordPress environment type.', 'decalog' ), sprintf( '<a href="https://github.com/Pierre-Lannoy/wp-decalog/blob/master/MONITORING.md" target="_blank">%s</a>', esc_html__( 'details', 'decalog' ) ) ),
 					'default' => 500,
 					'control' => [
 						'type'    => 'field_select',
@@ -101,7 +101,7 @@ class HandlerTypes {
 					'show'    => true,
 					'name'    => esc_html__( 'Service URL', 'decalog' ),
 					'help'    => sprintf( esc_html__( 'URL where to send metrics. Format: %s.', 'decalog' ), '<code>' . htmlentities( '<proto>://<host>:<port>' ) . '</code>' ),
-					'default' => 'http://localhost:9090/',
+					'default' => 'http://localhost:9091/',
 					'control' => [
 						'type'    => 'field_input_text',
 						'cast'    => 'string',
