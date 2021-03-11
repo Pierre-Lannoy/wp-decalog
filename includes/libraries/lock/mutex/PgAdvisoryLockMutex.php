@@ -32,11 +32,11 @@ class PgAdvisoryLockMutex extends LockMutex
 
         $hashed_name = hash('sha256', $name, true);
 
-        if (false === $hashed_name) {
+        if (false === $hashed_name) { // @phpstan-ignore-line
             throw new RuntimeException('Unable to hash the key, sha256 algorithm is not supported.');
         }
 
-        list($bytes1, $bytes2) = str_split($hashed_name, 4);
+        [$bytes1, $bytes2] = str_split($hashed_name, 4);
 
         $this->key1 = unpack('i', $bytes1)[1];
         $this->key2 = unpack('i', $bytes2)[1];

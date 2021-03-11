@@ -82,7 +82,7 @@ class Libraries {
 			'name'    => 'Lock',
 			'prefix'  => 'malkusch\lock',
 			'base'    => DECALOG_VENDOR_DIR . 'lock/',
-			'version' => '2.1',
+			'version' => '2.2',
 			// phpcs:ignore
 			'author'  => sprintf( esc_html__( '%s & contributors', 'decalog' ), 'Willem Stuursma-Ruwen' ),
 			'url'     => 'https://github.com/php-lock/lock',
