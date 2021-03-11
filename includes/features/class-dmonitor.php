@@ -145,6 +145,26 @@ class DMonitor {
 	}
 
 	/**
+	 * Creates the named counter, in the right profile.
+	 *
+	 * @param boolean   $prod      True if it's production profile, false if it's development profile.
+	 * @param string    $name      The unique name of the counter.
+	 * @param string    $help      The help string associated with this counter.
+	 * @since 3.0.0
+	 */
+	private function create_counter( $prod, $name, $help ) {
+		if ( ! $this->allowed ) {
+			return;
+		}
+		try {
+			$registry = ( $prod ? self::$production : self::$development );
+			$registry->registerCounter( $this->current_namespace(), $name, $help, $this->label_names );
+		} catch ( \Throwable $e ) {
+			self::$logger->error( $e->getMessage(), $e->getCode() );
+		}
+	}
+
+	/**
 	 * Creates and sets the named gauge, in the right profile.
 	 *
 	 * @param boolean   $prod      True if it's production profile, false if it's development profile.
@@ -161,6 +181,27 @@ class DMonitor {
 			$registry = ( $prod ? self::$production : self::$development );
 			$registry->registerGauge( $this->current_namespace(), $name, $help, $this->label_names );
 			$this->set_gauge( $prod, $name, $value );
+		} catch ( \Throwable $e ) {
+			self::$logger->error( $e->getMessage(), $e->getCode() );
+		}
+	}
+
+	/**
+	 * Creates the named histogram, in the right profile.
+	 *
+	 * @param boolean       $prod      True if it's production profile, false if it's development profile.
+	 * @param string        $name      The unique name of the histogram.
+	 * @param null|array    $buckets   The buckets.
+	 * @param string        $help      The help string associated with this histogram.
+	 * @since 3.0.0
+	 */
+	private function create_histogram( $prod, $name, $buckets, $help ) {
+		if ( ! $this->allowed ) {
+			return;
+		}
+		try {
+			$registry = ( $prod ? self::$production : self::$development );
+			$registry->registerHistogram( $this->current_namespace(), $name, $help, $this->label_names, $buckets );
 		} catch ( \Throwable $e ) {
 			self::$logger->error( $e->getMessage(), $e->getCode() );
 		}
@@ -188,6 +229,27 @@ class DMonitor {
 	}
 
 	/**
+	 * Increments the named counter, in the right profile.
+	 *
+	 * @param boolean   $prod      True if it's production profile, false if it's development profile.
+	 * @param string    $name      The unique name of the counter.
+	 * @param int|float $value     The value of how much to increment.
+	 * @since 3.0.0
+	 */
+	private function inc_counter( $prod, $name, $value ) {
+		if ( ! $this->allowed ) {
+			return;
+		}
+		try {
+			$registry = ( $prod ? self::$production : self::$development );
+			$counter  = $registry->getCounter( $this->current_namespace(), $name );
+			$counter->incBy( $value, $this->label_values );
+		} catch ( \Throwable $e ) {
+			self::$logger->error( $e->getMessage(), [ 'code' => $e->getCode() ] );
+		}
+	}
+
+	/**
 	 * Increments the named gauge, in the right profile.
 	 *
 	 * @param boolean   $prod      True if it's production profile, false if it's development profile.
@@ -206,6 +268,71 @@ class DMonitor {
 		} catch ( \Throwable $e ) {
 			self::$logger->error( $e->getMessage(), [ 'code' => $e->getCode() ] );
 		}
+	}
+
+	/**
+	 * Adds an observation to the named histogram, in the right profile.
+	 *
+	 * @param boolean   $prod      True if it's production profile, false if it's development profile.
+	 * @param string    $name      The unique name of the histogram.
+	 * @param int|float $value     The value to add.
+	 * @since 3.0.0
+	 */
+	private function observe_histogram( $prod, $name, $value ) {
+		if ( ! $this->allowed ) {
+			return;
+		}
+		try {
+			$registry  = ( $prod ? self::$production : self::$development );
+			$histogram = $registry->getHistogram( $this->current_namespace(), $name );
+			$histogram->observe( $value, $this->label_values );
+		} catch ( \Throwable $e ) {
+			self::$logger->error( $e->getMessage(), [ 'code' => $e->getCode() ] );
+		}
+	}
+
+	/**
+	 * Create the named counter, in production profile.
+	 *
+	 * @param string    $name      The unique name of the counter.
+	 * @param string    $help      Optional. The help string associated with this counter.
+	 * @since 3.0.0
+	 */
+	public function create_prod_counter( $name, $help = '' ) {
+		$this->create_counter( true, $name, $help );
+	}
+
+	/**
+	 * Increments the named counter, in production profile.
+	 *
+	 * @param string    $name      The unique name of the counter.
+	 * @param int|float $value     The value of how much to increment.
+	 * @since 3.0.0
+	 */
+	public function inc_prod_counter( $name, $value ) {
+		$this->inc_counter( true, $name, $value );
+	}
+
+	/**
+	 * Create the named counter, in development profile.
+	 *
+	 * @param string    $name      The unique name of the counter.
+	 * @param string    $help      Optional. The help string associated with this counter.
+	 * @since 3.0.0
+	 */
+	public function create_dev_counter( $name, $help = '' ) {
+		$this->create_counter( false, $name, $help );
+	}
+
+	/**
+	 * Increments the named counter, in development profile.
+	 *
+	 * @param string    $name      The unique name of the counter.
+	 * @param int|float $value     The value of how much to increment.
+	 * @since 3.0.0
+	 */
+	public function inc_dev_counter( $name, $value ) {
+		$this->inc_counter( false, $name, $value );
 	}
 
 	/**
@@ -274,6 +401,52 @@ class DMonitor {
 	 */
 	public function inc_dev_gauge( $name, $value ) {
 		$this->inc_gauge( false, $name, $value );
+	}
+
+	/**
+	 * Creates the named histogram, in production profile.
+	 *
+	 * @param string        $name      The unique name of the histogram.
+	 * @param null|array    $buckets   Optional. The buckets.
+	 * @param string        $help      Optional. The help string associated with this histogram.
+	 * @since 3.0.0
+	 */
+	public function create_prod_histogram( $name, $buckets = null, $help = '' ) {
+		$this->create_histogram( true, $name, $buckets, $help );
+	}
+
+	/**
+	 * Adds an observation to the named histogram, in production profile.
+	 *
+	 * @param string    $name      The unique name of the histogram.
+	 * @param int|float $value     The value to add.
+	 * @since 3.0.0
+	 */
+	public function observe_prod_histogram( $name, $value ) {
+		$this->observe_histogram( true, $name, $value );
+	}
+
+	/**
+	 * Creates the named histogram, in development profile.
+	 *
+	 * @param string        $name      The unique name of the histogram.
+	 * @param null|array    $buckets   Optional. The buckets.
+	 * @param string        $help      Optional. The help string associated with this histogram.
+	 * @since 3.0.0
+	 */
+	public function create_dev_histogram( $name, $buckets = null, $help = '' ) {
+		$this->create_histogram( false, $name, $buckets, $help );
+	}
+
+	/**
+	 * Adds an observation to the named histogram, in development profile.
+	 *
+	 * @param string    $name      The unique name of the histogram.
+	 * @param int|float $value     The value to add.
+	 * @since 3.0.0
+	 */
+	public function observe_dev_histogram( $name, $value ) {
+		$this->observe_histogram( false, $name, $value );
 	}
 
 	/**
