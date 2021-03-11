@@ -607,6 +607,7 @@ class Decalog_Admin {
 	private function save_options() {
 		if ( ! empty( $_POST ) ) {
 			if ( array_key_exists( '_wpnonce', $_POST ) && wp_verify_nonce( $_POST['_wpnonce'], 'decalog-plugin-options' ) ) {
+				Option::network_set( 'metrics_authent', array_key_exists( 'decalog_plugin_options_metrics_authent', $_POST ) );
 				Option::network_set( 'use_cdn', array_key_exists( 'decalog_plugin_options_usecdn', $_POST ) );
 				Option::network_set( 'display_nag', array_key_exists( 'decalog_plugin_options_nag', $_POST ) );
 				Option::network_set( 'download_favicons', array_key_exists( 'decalog_plugin_options_favicons', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_plugin_options_favicons' ) : false );
@@ -928,6 +929,22 @@ class Decalog_Admin {
 			);
 			register_setting( 'decalog_plugin_options_section', 'decalog_plugin_options_privileges' );
 		}
+		add_settings_field(
+			'decalog_plugin_options_metrics_authent',
+			esc_html__( 'Metrics accesses', 'decalog' ),
+			[ $form, 'echo_field_checkbox' ],
+			'decalog_plugin_options_section',
+			'decalog_plugin_options_section',
+			[
+				'text'        => esc_html__( 'Authenticated endpoint', 'decalog' ),
+				'id'          => 'decalog_plugin_options_metrics_authent',
+				'checked'     => Option::network_get( 'metrics_authent' ),
+				'description' => sprintf( esc_html__( 'If checked, DecaLog will require authentication to serve %s calls.', 'decalog' ), '<code>' . htmlentities( '/wp-json/decalog/v1/metrics' ) . '</code>' ) . '<br/>' . sprintf( esc_html__( 'Note: if you activate authentication, you must generate an application password for a user having %s capability.', 'decalog' ), '<code>read_private_pages</code>' ),
+				'full_width'  => false,
+				'enabled'     => true,
+			]
+		);
+		register_setting( 'decalog_plugin_options_section', 'decalog_plugin_options_metrics_authent' );
 		add_settings_field(
 			'decalog_plugin_options_favicons',
 			__( 'Favicons', 'decalog' ),
