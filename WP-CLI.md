@@ -49,7 +49,7 @@ In order to be similar to other log management systems and to maintain consisten
 
 ## Viewing events
 
-DecaLog lets you use command-line to view past and currents events. All is done via the `wp log tail [<count>] [--level=<level>] [--filter=<filter>] [--format=<format>] [--col=<columns>] [--soft] [--yes]` command.
+DecaLog lets you use command-line to view past and currents events. All is done via the `wp log tail [<count>] [--level=<level>] [--filter=<filter>] [--format=<format>] [--col=<columns>] [--theme=<theme>] [--yes]` command.
 
 If you don't specify `<count>`, DecaLog will launch an interactive logging session: it will display events as soon as they occur on your site. To quit this session, hit `CTRL+C`.
 
@@ -84,7 +84,7 @@ By default, DecaLog will output each event string on a 160 character basis. If y
 
 ### Colors scheme
 
-To change the default color scheme to something more *eyes-saving*, use `--soft`.
+To change the default color scheme to something more *eyes-saving*, use `--theme`.
 
 If you prefer, you can even suppress all colorization with the standard `--no-color` flag.
 
