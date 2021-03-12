@@ -18,6 +18,7 @@ use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Handler\HandlerInterface;
 use Monolog\Formatter\FormatterInterface;
 use Decalog\Formatter\WordpressFormatter;
+use Decalog\System\Cache;
 
 /**
  * Define the Monolog abstract metrics handler.
@@ -29,6 +30,14 @@ use Decalog\Formatter\WordpressFormatter;
  * @since   3.0.0
  */
 abstract class AbstractMonitoringHandler extends AbstractProcessingHandler {
+
+	/**
+	 * Logger UUID.
+	 *
+	 * @since  3.0.0
+	 * @var    string  $uuid       The UUID of the logger.
+	 */
+	protected $uuid = null;
 
 	/**
 	 * Post args.
@@ -55,21 +64,23 @@ abstract class AbstractMonitoringHandler extends AbstractProcessingHandler {
 	protected $verb = 'POST';
 
 	/**
-	 * Is the class initialized?
+	 * Running monitors.
 	 *
 	 * @since  3.0.0
-	 * @var    boolean    $initialized    Is the class initialized?
+	 * @var    array    $running    Running monitors.
 	 */
-	private static $initialized = false;
+	private static $running = [];
 
 	/**
 	 * Initialize the class and set its properties.
 	 *
+	 * @param   string  $uuid       The UUID of the logger.
 	 * @param   int     $profile    The profile of collected metrics (500, 550 or 600).
 	 * @param   int     $sampling   The sampling rate (0->1000).
 	 * @since    3.0.0
 	 */
-	public function __construct( $profile, $sampling ) {
+	public function __construct( $uuid, $profile, $sampling ) {
+		$this->uuid = $uuid;
 		if ( 500 === $profile ) {
 			if ( 'production' === Environment::stage() ) {
 				$profile = 600;
@@ -85,10 +96,13 @@ abstract class AbstractMonitoringHandler extends AbstractProcessingHandler {
 			],
 			'user-agent' => Http::user_agent(),
 		];
-		// phpcs:ignore
-		if ( $sampling >= mt_rand( 1, 1000 ) && ! self::$initialized ) {
-			add_action( 'admin_print_footer_scripts', [ $this, 'close' ], PHP_INT_MAX - 2, 0 );
-			self::$initialized = true;
+		if ( ! in_array( $this->uuid, self::$running, true ) ) {
+			// phpcs:ignore
+			if ( $sampling >= mt_rand( 1, 1000 ) ) {
+				add_action( 'shutdown', [ $this, 'close' ], PHP_INT_MAX - 2, 0 );
+
+			}
+			self::$running[] = $this->uuid;
 		}
 	}
 
@@ -105,6 +119,22 @@ abstract class AbstractMonitoringHandler extends AbstractProcessingHandler {
 			$result = wp_remote_get( esc_url_raw( $this->endpoint ), $this->post_args );
 		}
 		//TODO: handle error.
+	}
+
+	/**
+	 * Cache the record for future use.
+	 *
+	 * @since    3.0.0
+	 */
+	protected function cache(): void {
+		Cache::set_global(
+			'metrics/' . $this->uuid,
+			[
+				'timestamp' => time(),
+				'value'     => $this->post_args['body'],
+			],
+			'metrics'
+		);
 	}
 
 	/**
