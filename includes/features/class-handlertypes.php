@@ -58,6 +58,62 @@ class HandlerTypes {
 		// MONITORING
 		$this->handlers[] = [
 			'version'       => DECALOG_VERSION,
+			'id'            => 'PrometheusMetricsEPHandler',
+			'ancestor'      => 'PrometheusMetricsEPHandler',
+			'namespace'     => 'Decalog\\Handler',
+			'class'         => 'metrics',
+			'minimal'       => Logger::EMERGENCY,
+			'name'          => 'Prometheus Endpoint',
+			'help'          => esc_html__( 'Metrics published on this site as scrapping endpoint.', 'decalog' ),
+			'icon'          => $this->get_base64_prometheus_icon(),
+			'needs'         => [],
+			'params'        => [],
+			'processors'    => [],
+			'configuration' => [
+				'profile'  => [
+					'type'    => 'integer',
+					'show'    => true,
+					'name'    => esc_html__( 'Profile', 'decalog' ),
+					'help'    => sprintf( __( 'The type of metrics to collect (%s). Choosing "Automatic" sets the profile to the current WordPress environment type.', 'decalog' ), sprintf( '<a href="https://github.com/Pierre-Lannoy/wp-decalog/blob/master/MONITORING.md" target="_blank">%s</a>', esc_html__( 'details', 'decalog' ) ) ),
+					'default' => 500,
+					'control' => [
+						'type'    => 'field_select',
+						'cast'    => 'integer',
+						'enabled' => true,
+						'list'    => [ [ 500, esc_html__( 'Automatic', 'decalog' ) ], [ 600, esc_html__( 'Production', 'decalog' ) ], [ 550, esc_html__( 'Development', 'decalog' ) ] ],
+					],
+				],
+				'sampling' => [
+					'type'    => 'integer',
+					'show'    => true,
+					'name'    => esc_html__( 'Sampling', 'decalog' ),
+					'help'    => esc_html__( 'Sampling rate to be chosen according to the site traffic.', 'decalog' ),
+					'default' => 100,
+					'control' => [
+						'type'    => 'field_select',
+						'cast'    => 'integer',
+						'enabled' => true,
+						'list'    => [ [ 1000, '100%' ], [ 500, '50%' ], [ 250, '25%' ], [ 100, '10%' ], [ 50, '5%' ], [ 20, '2%' ], [ 10, '1%' ], [ 5, '5‰' ], [ 2, '2‰' ], [ 1, '1‰' ] ],
+					],
+				],
+			],
+			'init'          => [
+				[
+					'type' => 'uuid',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'profile',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'sampling',
+				],
+			],
+		];
+
+		$this->handlers[] = [
+			'version'       => DECALOG_VERSION,
 			'id'            => 'PrometheusMonitoringHandler',
 			'ancestor'      => 'PrometheusMonitoringHandler',
 			'namespace'     => 'Decalog\\Handler',
@@ -135,6 +191,9 @@ class HandlerTypes {
 				],
 			],
 			'init'          => [
+				[
+					'type' => 'uuid',
+				],
 				[
 					'type'  => 'configuration',
 					'value' => 'profile',
