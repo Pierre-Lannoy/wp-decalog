@@ -107,6 +107,7 @@ class Cache {
 			'infinite'          => 10 * YEAR_IN_SECONDS,
 			'diagnosis'         => HOUR_IN_SECONDS,
 			'plugin-statistics' => DAY_IN_SECONDS,
+			'metrics'           => HOUR_IN_SECONDS,
 		];
 		if ( wp_using_ext_object_cache() ) {
 			wp_cache_add_global_groups( self::$pool_name );
