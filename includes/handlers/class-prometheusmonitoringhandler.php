@@ -49,7 +49,7 @@ class PrometheusMonitoringHandler extends AbstractMonitoringHandler {
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 *
+	 * @param   string  $uuid       The UUID of the logger.
 	 * @param   int     $profile    The profile of collected metrics (500, 550 or 600).
 	 * @param   int     $sampling   The sampling rate (0->1000).
 	 * @param   string  $url        The base endpoint.
@@ -57,8 +57,8 @@ class PrometheusMonitoringHandler extends AbstractMonitoringHandler {
 	 * @param   string  $id         Optional. The job id.
 	 * @since    3.0.0
 	 */
-	public function __construct( int $profile, int $sampling, string $url, int $model, string $id = 'wp_decalog' ) {
-		parent::__construct( $profile, $sampling );
+	public function __construct( string $uuid, int $profile, int $sampling, string $url, int $model, string $id = 'wp_decalog' ) {
+		parent::__construct( $uuid, $profile, $sampling );
 		$this->job      = $id;
 		$this->template = $model;
 		$this->endpoint = $url . '/metrics';
