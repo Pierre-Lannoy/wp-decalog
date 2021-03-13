@@ -11,6 +11,7 @@
 
 namespace Decalog\Listener;
 
+use Decalog\Plugin\Feature\DMonitor;
 use Decalog\Plugin\Feature\Log;
 use Decalog\System\Option;
 use Decalog\System\User;
@@ -31,7 +32,7 @@ abstract class AbstractListener {
 	 * An instance of DLogger to log internal events.
 	 *
 	 * @since  1.0.0
-	 * @var    DLogger    $log    An instance of DLogger to log internal events.
+	 * @var    \Decalog\Plugin\Feature\DLogger    $log    An instance of DLogger to log internal events.
 	 */
 	protected $log = null;
 
@@ -39,9 +40,17 @@ abstract class AbstractListener {
 	 * An instance of DLogger to log listener events.
 	 *
 	 * @since  1.0.0
-	 * @var    DLogger    $logger    An instance of DLogger to log listener events.
+	 * @var    \Decalog\Plugin\Feature\DLogger   $logger    An instance of DLogger to log listener events.
 	 */
 	protected $logger = null;
+
+	/**
+	 * An instance of DMonitor to monitor listener events.
+	 *
+	 * @since  1.0.0
+	 * @var    \Decalog\Plugin\Feature\DMonitor   $monitor    An instance of DMonitor to monitor listener events.
+	 */
+	protected $monitor = null;
 
 	/**
 	 * The listener id.
@@ -86,7 +95,7 @@ abstract class AbstractListener {
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @param    DLogger $internal_logger    An instance of DLogger to log internal events.
+	 * @param    \Decalog\Plugin\Feature\DLogger $internal_logger    An instance of DLogger to log internal events.
 	 * @since    1.0.0
 	 */
 	public function __construct( $internal_logger ) {
@@ -100,7 +109,8 @@ abstract class AbstractListener {
 				}
 			}
 			if ( $launch && $this->launch() && ! ( 'Decalog\Listener\SelfListener' === get_class( $this ) ) ) {
-				$this->logger = Log::bootstrap( $this->class, $this->product, $this->version );
+				$this->logger  = Log::bootstrap( $this->class, $this->product, $this->version );
+				$this->monitor = new DMonitor( $this->class, $this->product, $this->version );
 				$this->logger->debug( 'Listener launched and operational.' );
 				if ( isset( $this->log ) ) {
 					$this->log->debug( sprintf( 'Listener for %s is launched.', $this->name ) );
