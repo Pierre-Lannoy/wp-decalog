@@ -15,9 +15,8 @@ use Decalog\Plugin\Feature\Log;
 use Decalog\System\Cache;
 use Decalog\System\Role;
 use Decalog\Plugin\Feature\DLogger;
-use Decalog\Plugin\Feature\Wpcli;
-use Decalog\Handler\SharedMemoryHandler;
 use Decalog\System\Option;
+use Prometheus\RenderTextFormat;
 
 /**
  * Define the item operations functionality.
@@ -116,8 +115,11 @@ class MonitorRoute extends \WP_REST_Controller {
 	 */
 	public function get_metrics( $request ) {
 		$record = Cache::get_global( 'metrics/' . $request['uuid'] );
-		if ( isset( $record ) && is_array( $record ) && array_key_exists( 'value', $record ) ) {
-			return new \WP_REST_Response( $record['value'], 200 );
+		if ( isset( $record ) && is_array( $record ) && array_key_exists( 'body', $record ) && array_key_exists( 'headers', $record ) ) {
+			header( 'Content-Type: ' . RenderTextFormat::MIME_TYPE );
+			//phpcs:ignore
+			print( $record['body'] );
+			exit();
 		} else {
 			return new \WP_Error( 'rest_resource_not_found', sprintf( 'Logger %s not found', $request['uuid'] ), [ 'status' => 404 ] );
 		}
