@@ -9,6 +9,7 @@
  * @since   1.0.0
  */
 
+use Decalog\Plugin\Feature\DMonitor;
 use Decalog\System\Environment;
 
 wp_enqueue_style( DECALOG_ASSETS_ID );
