@@ -40,6 +40,8 @@ class PrometheusMetricsEPHandler extends AbstractMonitoringHandler {
 	 */
 	public function __construct( string $uuid, int $profile, int $sampling ) {
 		parent::__construct( $uuid, $profile, $sampling );
+		$this->post_args                            = [];
+		$this->post_args['headers']['Content-Type'] = RenderTextFormat::MIME_TYPE;
 	}
 
 	/**

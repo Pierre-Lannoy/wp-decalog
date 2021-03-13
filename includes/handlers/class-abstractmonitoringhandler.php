@@ -131,7 +131,8 @@ abstract class AbstractMonitoringHandler extends AbstractProcessingHandler {
 			'metrics/' . $this->uuid,
 			[
 				'timestamp' => time(),
-				'value'     => $this->post_args['body'],
+				'body'      => $this->post_args['body'],
+				'headers'   => $this->post_args['headers'],
 			],
 			'metrics'
 		);
