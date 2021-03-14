@@ -87,6 +87,19 @@ $active_tab = ( isset( $_GET['tab'] ) ? $_GET['tab'] : 'loggers' );
             ?>
             " class="nav-tab <?php echo 'wpcli' === $active_tab ? 'nav-tab-active' : ''; ?>" style="float:right;">WP-CLI</a>
 		<?php } ?>
+        <a href="
+		<?php
+		echo esc_url(
+			add_query_arg(
+				array(
+					'page' => 'decalog-settings',
+					'tab'  => 'metrics',
+				),
+				admin_url( 'admin.php' )
+			)
+		);
+		?>
+		" class="nav-tab <?php echo 'metrics' === $active_tab ? 'nav-tab-active' : ''; ?>" style="float:right;"><?php esc_html_e( 'Metrics', 'decalog' ); ?></a>
 	</h2>
 
 	<?php if ( 'loggers' === $active_tab ) { ?>
@@ -104,5 +117,9 @@ $active_tab = ( isset( $_GET['tab'] ) ? $_GET['tab'] : 'loggers' );
 	<?php if ( 'wpcli' === $active_tab ) { ?>
 		<?php wp_enqueue_style( DECALOG_ASSETS_ID ); ?>
 		<?php echo do_shortcode( '[decalog-wpcli]' ); ?>
+	<?php } ?>
+	<?php if ( 'metrics' === $active_tab ) { ?>
+		<?php wp_enqueue_style( DECALOG_ASSETS_ID ); ?>
+		<?php echo do_shortcode( '[decalog-metrics]' ); ?>
 	<?php } ?>
 </div>
