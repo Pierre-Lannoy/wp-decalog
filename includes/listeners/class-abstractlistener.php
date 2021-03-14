@@ -47,10 +47,18 @@ abstract class AbstractListener {
 	/**
 	 * An instance of DMonitor to monitor listener events.
 	 *
-	 * @since  1.0.0
+	 * @since  3.0.0
 	 * @var    \Decalog\Plugin\Feature\DMonitor   $monitor    An instance of DMonitor to monitor listener events.
 	 */
 	protected $monitor = null;
+
+	/**
+	 * The priority at which evaluate metrics.
+	 *
+	 * @since  3.0.0
+	 * @var    integer   $monitor_priority    The priority at which evaluate metrics.
+	 */
+	protected static $monitor_priority = PHP_INT_MAX - 1000;
 
 	/**
 	 * The listener id.
