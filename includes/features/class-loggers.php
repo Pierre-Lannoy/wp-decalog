@@ -168,6 +168,14 @@ class Loggers extends \WP_List_Table {
 				admin_url( 'admin.php' )
 			)
 		);
+		$epview              = esc_url(
+			add_query_arg(
+				[
+					'uuid' => $item['uuid'],
+				],
+				site_url( '/wp-json/decalog/v1/metrics' )
+			)
+		);
 		$handler           = $this->handler_types->get( $item['handler'] );
 		$icon              = '<img style="width:38px;float:left;padding-right:6px;" src="' . $handler['icon'] . '" />';
 		if ( 'system' !== $handler['class'] ) {
@@ -180,6 +188,9 @@ class Loggers extends \WP_List_Table {
 			}
 			if ( 'WordpressHandler' === $handler['id'] ) {
 				$actions['view'] = sprintf( '<a href="%s">' . esc_html__( 'View', 'decalog' ) . '</a>', $view );
+			}
+			if ( 'PrometheusMetricsEPHandler' === $handler['id'] ) {
+				$actions['epview'] = sprintf( '<a href="%s" target="_blank">' . esc_html__( 'View', 'decalog' ) . '</a>', $epview );
 			}
 		}
 		if ( $item['running'] && 'metrics' !== ( $this->handler_types->get( $item['handler'] ) )['class'] ) {
