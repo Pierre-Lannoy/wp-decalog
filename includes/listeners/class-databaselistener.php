@@ -58,6 +58,7 @@ class DatabaseListener extends AbstractListener {
 	protected function launch() {
 		add_action( 'wp_loaded', [ $this, 'version_check' ] );
 		add_action( 'shutdown', [ $this, 'shutdown' ], 10, 0 );
+		//add_action( 'shutdown', [ $this, 'shutdown' ], self::$monitor_priority, 0 );
 		add_filter( 'wp_die_ajax_handler', [ $this, 'wp_die_handler' ], 10, 1 );
 		add_filter( 'wp_die_xmlrpc_handler', [ $this, 'wp_die_handler' ], 10, 1 );
 		add_filter( 'wp_die_handler', [ $this, 'wp_die_handler' ], 10, 1 );
@@ -74,6 +75,13 @@ class DatabaseListener extends AbstractListener {
 	 */
 	protected function launched() {
 		// No post-launch operations
+		$this->monitor->create_prod_gauge('test', 20, 'test gauge');
+		$this->monitor->create_prod_counter( 'essai', 'essai de compteur' );
+		$this->monitor->inc_prod_counter('essai',5);
+		$this->monitor->create_prod_histogram( 'histo');
+		$this->monitor->observe_prod_histogram( 'histo', 5);
+		$this->monitor->observe_prod_histogram( 'histo', 1);
+		$this->monitor->observe_prod_histogram( 'histo', 5);
 	}
 
 	/**

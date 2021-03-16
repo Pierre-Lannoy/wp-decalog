@@ -15,6 +15,7 @@ use Decalog\System\Option;
 use Decalog\System\Environment;
 use Decalog\Logger;
 use Decalog\Plugin\Feature\ClassTypes;
+use Decalog\System\Markdown;
 
 /**
  * Main DecaLog monitor class.
@@ -50,6 +51,14 @@ class DMonitor {
 	 * @var    string    $version    Maintains the version of the component.
 	 */
 	protected $version = '-';
+
+	/**
+	 * The metrics registry.
+	 *
+	 * @since  3.0.0
+	 * @var    array    $metrics_registry    Maintains the metrics definitions.
+	 */
+	private static $metrics_registry = [];
 
 	/**
 	 * The "production" CollectorRegistry instance.
@@ -128,7 +137,7 @@ class DMonitor {
 				self::$production = new CollectorRegistry( new InMemory(), false );
 			}
 			if ( ! isset( self::$development ) ) {
-				self::$development = new CollectorRegistry( new InMemory(), true );
+				self::$development = new CollectorRegistry( new InMemory(), false );
 			}
 			if ( ! isset( self::$logger ) ) {
 				self::$logger = new Logger( $class, $name, $version );
@@ -141,6 +150,46 @@ class DMonitor {
 			self::$logger->debug( 'A new instance of DecaLog monitor is initialized and operational.' );
 		} else {
 			self::$logger->debug( 'Skipped initialization of a DecaLog monitor.' );
+		}
+	}
+
+	/**
+	 * Get the metrics registry.
+	 *
+	 * @return  array   The registry;
+	 * @since 3.0.0
+	 */
+	public static function registry() {
+		return self::$metrics_registry;
+	}
+
+	/**
+	 * Register the metrics.
+	 *
+	 * @param boolean   $prod      True if it's production profile, false if it's development profile.
+	 * @param string    $type      The type of the metrics (counter, gauge or histogram).
+	 * @param string    $name      The unique name of the metrics.
+	 * @param string    $help      The help string associated with this metrics.
+	 * @since 3.0.0
+	 */
+	private function register( $prod, $type, $name, $help ) {
+		$prod = $prod ? 'production' : 'development';
+		if ( ! array_key_exists( $this->class, self::$metrics_registry ) ) {
+			self::$metrics_registry[ $this->class ] = [];
+		}
+		if ( ! array_key_exists( $prod, self::$metrics_registry[ $this->class ] ) ) {
+			self::$metrics_registry[ $this->class ][ $prod ] = [];
+		}
+		if ( ! array_key_exists( $type, self::$metrics_registry[ $this->class ][ $prod ] ) ) {
+			self::$metrics_registry[ $this->class ][ $prod ][ $type ] = [];
+		}
+		$idx = $this->current_namespace() . '_' . $name;
+		if ( ! array_key_exists( $idx, self::$metrics_registry[ $this->class ][ $prod ][ $type ] ) ) {
+			self::$metrics_registry[ $this->class ][ $prod ][ $type ][ $this->current_namespace() . '_' . $name ] = [
+				'name'    => $this->name,
+				'version' => $this->version,
+				'help'    => $help,
+			];
 		}
 	}
 
@@ -159,6 +208,7 @@ class DMonitor {
 		try {
 			$registry = ( $prod ? self::$production : self::$development );
 			$registry->registerCounter( $this->current_namespace(), $name, $help, $this->label_names );
+			$this->register( $prod, 'counter', $name, $help );
 		} catch ( \Throwable $e ) {
 			self::$logger->error( $e->getMessage(), $e->getCode() );
 		}
@@ -180,6 +230,7 @@ class DMonitor {
 		try {
 			$registry = ( $prod ? self::$production : self::$development );
 			$registry->registerGauge( $this->current_namespace(), $name, $help, $this->label_names );
+			$this->register( $prod, 'gauge', $name, $help );
 			$this->set_gauge( $prod, $name, $value );
 		} catch ( \Throwable $e ) {
 			self::$logger->error( $e->getMessage(), $e->getCode() );
@@ -202,6 +253,7 @@ class DMonitor {
 		try {
 			$registry = ( $prod ? self::$production : self::$development );
 			$registry->registerHistogram( $this->current_namespace(), $name, $help, $this->label_names, $buckets );
+			$this->register( $prod, 'histogram', $name, $help );
 		} catch ( \Throwable $e ) {
 			self::$logger->error( $e->getMessage(), $e->getCode() );
 		}
@@ -517,4 +569,62 @@ class DMonitor {
 	public function dev_registry() {
 		return self::$development;
 	}
+
+	/**
+	 * Get the metrics definitions.
+	 *
+	 * @return  array  The output of the shortcode, ready to print.
+	 * @since 3.0.0
+	 */
+	public static function get_metrics_definition() {
+		$content = [];
+		foreach ( self::$metrics_registry as $class => $class_detail ) {
+			foreach ( $class_detail as $env => $env_detail ) {
+				foreach ( $env_detail as $type => $type_detail ) {
+					foreach ( $type_detail as $metrics => $detail ) {
+						$content[ $metrics ] = [
+							'class'       => $class,
+							'profile'     => $env,
+							'type'        => $type,
+							'name'        => $metrics,
+							'source'      => $detail['name'],
+							'version'     => $detail['version'],
+							'description' => $detail['help'],
+						];
+					}
+				}
+			}
+		}
+		return $content;
+	}
+
+	/**
+	 * Get the metrics definitions.
+	 *
+	 * @param   array $attributes  'style' => 'markdown', 'html'.
+	 *                             'mode'  => 'raw', 'clean'.
+	 * @return  string  The output of the shortcode, ready to print.
+	 * @since 3.0.0
+	 */
+	public static function sc_get_metrics( $attributes ) {
+		$content = '<div class="markdown">';
+		foreach ( self::$metrics_registry as $class => $class_detail ) {
+			$content .= '<h2>' . strtoupper( $class ) . ' Class</h2>';
+			foreach ( $class_detail as $env => $env_detail ) {
+				$content .= '<h3>' . ucfirst( $env ) . ' Profile</h3>';
+				foreach ( $env_detail as $type => $type_detail ) {
+					$content .= '<ul>';
+					foreach ( $type_detail as $metrics => $detail ) {
+						$content .= '<li>' . ucfirst( $type ) . ' <code>' . $metrics . '</code> from ' . $detail['name'] . ' ' . $detail['version'] . ': ' . $detail['help'] . '.</li>';
+					}
+					$content .= '</ul>';
+				}
+			}
+		}
+		$content .= '</div>';
+		return $content;
+	}
+
 }
+
+add_shortcode( 'decalog-metrics', [ 'Decalog\Plugin\Feature\DMonitor', 'sc_get_metrics' ] );

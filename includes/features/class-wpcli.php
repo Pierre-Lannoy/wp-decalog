@@ -27,6 +27,7 @@ use Decalog\System\Timezone;
 use Decalog\System\UUID;
 use Decalog\Plugin\Feature\EventTypes;
 use Decalog\Plugin\Feature\Autolog;
+use Prometheus\RenderTextFormat;
 use Spyc;
 
 /**
@@ -85,6 +86,10 @@ class Wpcli {
 		6   => 'invalid listener id supplied.',
 		7   => 'unrecognized setting.',
 		8   => 'unrecognized action.',
+		9   => 'invalid metric id supplied.',
+		10  => 'forbidden or unknown level.',
+		11  => 'unable to launch tail command, no shared memory manager found.',
+		12  => 'histograms can\'t be displayed in command-line mode.',
 		255 => 'unknown error.',
 	];
 
@@ -575,7 +580,7 @@ class Wpcli {
 	 * ---
 	 *
 	 * [<logger_type>]
-	 * : The type of the logger to describe.
+	 * : The type of the logger to describe. Can be used to filter the list output too.
 	 *
 	 * [--format=<format>]
 	 * : Allows overriding the output of the command when listing types.
@@ -589,6 +594,9 @@ class Wpcli {
 	 *  - ids
 	 *  - count
 	 * ---
+	 *
+	 * [--stdout]
+	 * : Use clean STDOUT output to use results in scripts. Unnecessary when piping commands because piping is detected by DecaLog.
 	 *
 	 * ## EXAMPLES
 	 *
@@ -606,10 +614,12 @@ class Wpcli {
 	public function type( $args, $assoc_args ) {
 		$stdout        = \WP_CLI\Utils\get_flag_value( $assoc_args, 'stdout', false );
 		$format        = \WP_CLI\Utils\get_flag_value( $assoc_args, 'format', 'table' );
+		$action        = $args[0] ?? 'list';
+		$uuid          = $args[1] ?? '';
 		$handler_types = new HandlerTypes();
 		$handlers      = [];
 		foreach ( $handler_types->get_all() as $key => $handler ) {
-			if ( 'system' !== $handler['class'] ) {
+			if ( 'system' !== $handler['class'] && ( '' === $uuid || $handler['id'] === $uuid ) ) {
 				$handler['type']                          = $handler['id'];
 				$handlers[ strtolower( $handler['id'] ) ] = $handler;
 			}
@@ -620,11 +630,10 @@ class Wpcli {
 				return strcmp( strtolower( $a['name'] ), strtolower( $b['name'] ) );
 			}
 		);
-		$uuid   = '';
-		$action = isset( $args[0] ) ? $args[0] : 'list';
+		$uuid = '';
 		if ( isset( $args[1] ) ) {
 			$uuid = strtolower( $args[1] );
-			if ( ! array_key_exists( $uuid, $handlers ) ) {
+			if ( ! array_key_exists( $uuid, $handlers ) && 'list' !== $action ) {
 				$uuid = '';
 			}
 		}
@@ -791,7 +800,7 @@ class Wpcli {
 	 * ---
 	 *
 	 * [<uuid_or_type>]
-	 * : The uuid of the logger to perform an action on or the type of the logger to add.
+	 * : The uuid of the logger to perform an action on or the type of the logger to add. Can be used to filter the list output too.
 	 *
 	 * [--settings=<settings>]
 	 * : The settings needed by "add" and "modify" actions.
@@ -868,12 +877,13 @@ class Wpcli {
 		$format       = \WP_CLI\Utils\get_flag_value( $assoc_args, 'format', 'table' );
 		$detail       = \WP_CLI\Utils\get_flag_value( $assoc_args, 'detail', 'short' );
 		$uuid         = '';
+		$type         = '';
 		$ilog         = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
-		$action       = isset( $args[0] ) ? $args[0] : 'list';
+		$action       = $args[0] ?? 'list';
 		$loggers_list = Option::network_get( 'loggers' );
 		if ( isset( $args[1] ) ) {
 			$uuid = $args[1];
-			if ( 'add' === $action ) {
+			if ( 'add' === $action || 'list' === $action ) {
 				$handler_types = new HandlerTypes();
 				$t             = '';
 				foreach ( $handler_types->get_all() as $handler ) {
@@ -884,8 +894,9 @@ class Wpcli {
 						$t = 'system';
 					}
 				}
-				$uuid = $t;
-			} else {
+				$type = $t;
+			}
+			if ( 'add' !== $action ) {
 				if ( ! array_key_exists( $uuid, $loggers_list ) ) {
 					$uuid = '';
 				} else {
@@ -898,7 +909,7 @@ class Wpcli {
 				}
 			}
 		}
-		if ( 'add' === $action && '' === $uuid ) {
+		if ( 'add' === $action && '' === $type ) {
 			$this->error( 1, $stdout );
 		} elseif ( 'system' === $uuid ) {
 			$this->error( 3, $stdout );
@@ -921,7 +932,9 @@ class Wpcli {
 						$list[] = $processor_types->get( $processor )['name'];
 					}
 					$logger['processors'] = implode( ', ', $list );
-					$loggers[ $key ]      = $logger;
+					if ( ( '' === $uuid && '' === $type ) || $key === $uuid || strtolower( $logger['handler'] ) === strtolower( $type ) ) {
+						$loggers[ $key ] = $logger;
+					}
 				}
 				usort(
 					$loggers,
@@ -1000,7 +1013,7 @@ class Wpcli {
 				$this->success( sprintf( 'logger %s successfully removed.', $uuid ), $uuid, $stdout );
 				break;
 			case 'add':
-				$result = $this->logger_add( $uuid, $assoc_args );
+				$result = $this->logger_add( $type, $assoc_args );
 				if ( '' === $result ) {
 					$ilog->error( 'Unable to add a logger.', 1 );
 					$this->error( 4, $stdout );
@@ -1025,7 +1038,7 @@ class Wpcli {
 	}
 
 	/**
-	 * Manage Decalog listener.
+	 * Manage Decalog listeners.
 	 *
 	 * ## OPTIONS
 	 *
@@ -1042,7 +1055,7 @@ class Wpcli {
 	 * ---
 	 *
 	 * [<listener_id>]
-	 * : The id of the listener to perform an action on.
+	 * : The id of the listener to perform an action on. Can be used to filter the list output too.
 	 *
 	 * [--detail=<detail>]
 	 * : The details of the output when listing listeners. Note if json or yaml is chosen: full metadata is outputted too.
@@ -1103,12 +1116,23 @@ class Wpcli {
 		$detail    = \WP_CLI\Utils\get_flag_value( $assoc_args, 'detail', 'short' );
 		$activated = Option::network_get( 'listeners' );
 		$listeners = [];
+		$uuid      = '';
+		$ilog      = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
+		$action    = $args[0] ?? 'list';
+		if ( isset( $args[1] ) ) {
+			$uuid = strtolower( $args[1] );
+			if ( ! array_key_exists( $uuid, $listeners ) && 'list' !== $action ) {
+				$uuid = '';
+			}
+		}
 		foreach ( ListenerFactory::$infos as $listener ) {
-			$listener['enabled']          = Option::network_get( 'autolisteners' ) ? 'auto' : ( in_array( $listener['id'], $activated, true ) ? 'yes' : 'no' );
-			$listener['available']        = $listener['available'] ? 'yes' : 'no';
-			$listeners[ $listener['id'] ] = $listener;
-			if ( 'yaml' === $format || 'json' === $format ) {
-				unset( $listeners[ $listener['id'] ]['id'] );
+			if ( '' === $uuid || $listener['id'] === $uuid ) {
+				$listener['enabled']          = Option::network_get( 'autolisteners' ) ? 'auto' : ( in_array( $listener['id'], $activated, true ) ? 'yes' : 'no' );
+				$listener['available']        = $listener['available'] ? 'yes' : 'no';
+				$listeners[ $listener['id'] ] = $listener;
+				if ( 'yaml' === $format || 'json' === $format ) {
+					unset( $listeners[ $listener['id'] ]['id'] );
+				}
 			}
 		}
 		uasort(
@@ -1117,15 +1141,7 @@ class Wpcli {
 				return strcmp( strtolower( $a['name'] ), strtolower( $b['name'] ) );
 			}
 		);
-		$uuid   = '';
-		$ilog   = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
-		$action = isset( $args[0] ) ? $args[0] : 'list';
-		if ( isset( $args[1] ) ) {
-			$uuid = strtolower( $args[1] );
-			if ( ! array_key_exists( $uuid, $listeners ) ) {
-				$uuid = '';
-			}
-		}
+
 		if ( 'list' !== $action && 'auto-on' !== $action && 'auto-off' !== $action && '' === $uuid ) {
 			$this->error( 6, $stdout );
 		}
@@ -1286,6 +1302,9 @@ class Wpcli {
 	 * [--code=<code>]
 	 * : The code of the event. Must be a positive integer. Default is 0.
 	 *
+	 * [--stdout]
+	 * : Use clean STDOUT output to use results in scripts. Unnecessary when piping commands because piping is detected by DecaLog.
+	 *
 	 * ## EXAMPLES
 	 *
 	 * wp log send info 'This is an informational message'
@@ -1296,6 +1315,7 @@ class Wpcli {
 	 *
 	 */
 	public function send( $args, $assoc_args ) {
+		$stdout  = \WP_CLI\Utils\get_flag_value( $assoc_args, 'stdout', false );
 		$level   = isset( $args[0] ) ? strtolower( $args[0] ) : '';
 		$message = isset( $args[1] ) ? (string) $args[1] : '';
 		$code    = isset( $assoc_args['code'] ) ? (int) $assoc_args['code'] : 0;
@@ -1303,11 +1323,11 @@ class Wpcli {
 			$code = 0;
 		}
 		if ( ! in_array( $level, [ 'info', 'notice', 'warning', 'error', 'critical', 'alert' ], true ) ) {
-			\WP_CLI::error( 'forbidden or unknown level.' );
+			$this->error( 10, $stdout );
 		}
 		$logger = Log::bootstrap( 'core', 'WP-CLI', defined( 'WP_CLI_VERSION' ) ? WP_CLI_VERSION : 'x' );
 		$logger->log( $level, $message, $code );
-		\WP_CLI::success( 'message sent.' );
+		$this->success( 'message sent.', 'OK', $stdout );
 	}
 
 	/**
@@ -1335,6 +1355,9 @@ class Wpcli {
 	 *  - count
 	 * ---
 	 *
+	 * [--stdout]
+	 * : Use clean STDOUT output to use results in scripts. Unnecessary when piping commands because piping is detected by DecaLog.
+	 *
 	 * ## EXAMPLES
 	 *
 	 * Lists available exit codes:
@@ -1348,7 +1371,7 @@ class Wpcli {
 	public function exitcode( $args, $assoc_args ) {
 		$stdout = \WP_CLI\Utils\get_flag_value( $assoc_args, 'stdout', false );
 		$format = \WP_CLI\Utils\get_flag_value( $assoc_args, 'format', 'table' );
-		$action = isset( $args[0] ) ? $args[0] : 'list';
+		$action = $args[0] ?? 'list';
 		$codes  = [];
 		foreach ( $this->exit_codes as $key => $msg ) {
 			$codes[ $key ] = [
@@ -1363,6 +1386,186 @@ class Wpcli {
 				} else {
 					\WP_CLI\Utils\format_items( $format, $codes, [ 'code', 'meaning' ] );
 				}
+				break;
+		}
+	}
+
+	/**
+	 * Get information on collected metrics.
+	 *
+	 * ## OPTIONS
+	 *
+	 * <list|dump|get>
+	 * : The action to take.
+	 * ---
+	 * options:
+	 *  - list
+	 *  - dump
+	 *  - get
+	 * ---
+	 *
+	 * [<metrics_id>]
+	 * : The id of the metric to perform an action on. Can be used to filter the list or dump output too.
+	 *
+	 * [--format=<format>]
+	 * : Allows overriding the output of the command when listing or dumping metrics.
+	 * ---
+	 * default: table
+	 * options:
+	 *  - table
+	 *  - json
+	 *  - csv
+	 *  - yaml
+	 *  - ids
+	 *  - count
+	 * ---
+	 *
+	 * [--detail=<detail>]
+	 * : The details of the output when listing metrics. Note if json or yaml is chosen: full metadata is outputted too.
+	 * ---
+	 * default: short
+	 * options:
+	 *  - short
+	 *  - full
+	 * ---
+	 *
+	 * [--stdout]
+	 * : Use clean STDOUT output to use results in scripts. Unnecessary when piping commands because piping is detected by DecaLog.
+	 *
+	 * ## EXAMPLES
+	 *
+	 * Lists currently collected metrics:
+	 * + wp log metrics list
+	 * + wp log metrics list --format=json
+	 *
+	 * Dumps current metrics value:
+	 * + wp log metrics dump
+	 * + wp log metrics dump --format=yaml
+	 *
+	 *
+	 *   === For other examples and recipes, visit https://github.com/Pierre-Lannoy/wp-decalog/blob/master/WP-CLI.md ===
+	 *
+	 */
+	public function metrics( $args, $assoc_args ) {
+		$stdout = \WP_CLI\Utils\get_flag_value( $assoc_args, 'stdout', false );
+		$format = \WP_CLI\Utils\get_flag_value( $assoc_args, 'format', 'table' );
+		$detail = \WP_CLI\Utils\get_flag_value( $assoc_args, 'detail', 'short' );
+		$action = $args[0] ?? 'list';
+		$uuid   = $args[1] ?? '';
+		$list   = [];
+		foreach ( DMonitor::get_metrics_definition() as $key => $metrics ) {
+			if ( '' === $uuid || $key === $uuid ) {
+				unset( $metrics['name'] );
+				if ( 'yaml' !== $format && 'json' !== $format ) {
+					$metrics['id'] = $key;
+				}
+				$list[ $key ] = $metrics;
+			}
+		}
+		switch ( $action ) {
+			case 'list':
+				if ( 'full' === $detail ) {
+					$detail = [ 'id', 'class', 'profile', 'type', 'source', 'version', 'description' ];
+				} else {
+					$detail = [ 'id', 'description' ];
+				}
+				if ( 'ids' === $format ) {
+					$this->write_ids( $list );
+				} elseif ( 'yaml' === $format ) {
+					$details = Spyc::YAMLDump( $list, true, true, true );
+					$this->line( $details, $details, $stdout );
+				} elseif ( 'json' === $format ) {
+					$details = wp_json_encode( $list );
+					$this->line( $details, $details, $stdout );
+				} else {
+					\WP_CLI\Utils\format_items( $format, $list, $detail );
+				}
+				break;
+			case 'dump':
+				$monitor     = new DMonitor( 'plugin', DECALOG_PRODUCT_NAME, DECALOG_VERSION );
+				$production  = $monitor->prod_registry()->getMetricFamilySamples();
+				$development = $monitor->dev_registry()->getMetricFamilySamples();
+				$result      = [];
+				if ( 'full' === $detail ) {
+					$detail = [ 'id', 'type', 'key', 'value' ];
+				} else {
+					$detail = [ 'id', 'type', 'key', 'value' ];
+				}
+				foreach ( array_merge( $production, $development ) as $metrics ) {
+					if ( '' === $uuid || $metrics->getName() === $uuid ) {
+						switch ( $metrics->getType() ) {
+							case 'gauge':
+							case 'counter':
+								$s         = [];
+								$s['id']   = $metrics->getName();
+								$s['type'] = $metrics->getType();
+								$s['key']  = 'current';
+								$samples   = $metrics->getSamples();
+								if ( 1 === count( $samples ) ) {
+									$s['value']                    = (float) $samples[0]->getValue();
+									$result[ $metrics->getName() ] = $s;
+								}
+								break;
+							case 'histogram':
+								foreach ( $metrics->getSamples() as $sample ) {
+									$s         = [];
+									$s['id']   = $metrics->getName();
+									$s['type'] = $metrics->getType();
+									$name      = $sample->getName();
+									if ( strlen( $name ) - 4 === strpos( $name, '_sum' ) ) {
+										$s['key']   = 'sum';
+										$s['value'] = (float) $sample->getValue();
+									}
+									if ( strlen( $name ) - 6 === strpos( $name, '_count' ) ) {
+										$s['key']   = 'count';
+										$s['value'] = (float) $sample->getValue();
+									}
+									if ( strlen( $name ) - 7 === strpos( $name, '_bucket' ) ) {
+										$labels     = $sample->getLabelValues();
+										$s['key']   = 'bucket - ' . end( $labels );
+										$s['value'] = (float) $sample->getValue();
+										$name      .= '_' . end( $labels );
+									}
+									$result[ $name ] = $s;
+								}
+								break;
+						}
+					}
+				}
+				if ( 'ids' === $format ) {
+					$this->write_ids( $result );
+				} elseif ( 'yaml' === $format ) {
+					$details = Spyc::YAMLDump( $result, true, true, true );
+					$this->line( $details, $details, $stdout );
+				} elseif ( 'json' === $format ) {
+					$details = wp_json_encode( $result );
+					$this->line( $details, $details, $stdout );
+				} else {
+					\WP_CLI\Utils\format_items( $format, $result, $detail );
+				}
+				break;
+			case 'get':
+				$monitor     = new DMonitor( 'plugin', DECALOG_PRODUCT_NAME, DECALOG_VERSION );
+				$production  = $monitor->prod_registry()->getMetricFamilySamples();
+				$development = $monitor->dev_registry()->getMetricFamilySamples();
+				foreach ( array_merge( $production, $development ) as $metrics ) {
+					if ( $metrics->getName() === $uuid ) {
+						switch ( $metrics->getType() ) {
+							case 'gauge':
+							case 'counter':
+								$samples = $metrics->getSamples();
+								if ( 1 === count( $samples ) ) {
+									$this->success( $metrics->getName() . ' current value is ' . (float) $samples[0]->getValue(), (float) $samples[0]->getValue(), $stdout );
+									exit( 0 );
+								}
+								break;
+							case 'histogram':
+								$this->error( 12, $stdout );
+								break;
+						}
+					}
+				}
+				$this->error( 9, $stdout );
 				break;
 		}
 	}
@@ -1445,7 +1648,7 @@ class Wpcli {
 	 */
 	public function tail( $args, $assoc_args ) {
 		if ( ! function_exists( 'shmop_open' ) || ! function_exists( 'shmop_read' ) || ! function_exists( 'shmop_write' ) || ! function_exists( 'shmop_delete' ) || ! function_exists( 'shmop_close' ) ) {
-			\WP_CLI::error( 'unable to launch tail command, no shared memory manager found.' );
+			$this->error( 11 );
 		}
 		if ( ! Autolog::is_enabled() ) {
 			\WP_CLI::warning( 'auto-logging is currently disabled. The tail command needs auto-logging...' );
@@ -1484,7 +1687,7 @@ class Wpcli {
 		}
 		$level = isset( $assoc_args['level'] ) ? (string) $assoc_args['level'] : 'info';
 		if ( ! in_array( $level, [ 'info', 'notice', 'warning', 'error', 'critical', 'alert', 'emergency' ], true ) ) {
-			\WP_CLI::error( 'unknown level supplied.' );
+			$this->error( 10 );
 		}
 		$filters['level'] = $level;
 		$mode             = isset( $assoc_args['format'] ) ? (string) $assoc_args['format'] : 'classic';
