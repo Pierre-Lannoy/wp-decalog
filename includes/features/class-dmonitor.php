@@ -636,7 +636,7 @@ class DMonitor {
 				foreach ( $env_detail as $type => $type_detail ) {
 					$content .= '<ul>';
 					foreach ( $type_detail as $metrics => $detail ) {
-						$content .= '<li>' . ucfirst( $type ) . ' <code>' . $metrics . '</code> from ' . $detail['name'] . ' ' . $detail['version'] . ': ' . $detail['help'] . '.</li>';
+						$content .= '<li>' . ucfirst( $type ) . ' <code>' . $metrics . '</code> from ' . $detail['name'] . ' ' . $detail['version'] . ' - ' . $detail['help'] . '.</li>';
 					}
 					$content .= '</ul>';
 				}
