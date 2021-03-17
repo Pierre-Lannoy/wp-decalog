@@ -209,6 +209,7 @@ class DMonitor {
 			$registry = ( $prod ? self::$production : self::$development );
 			$registry->registerCounter( $this->current_namespace(), $name, $help, $this->label_names );
 			$this->register( $prod, 'counter', $name, $help );
+			$this->init_counter( $prod, $name );
 		} catch ( \Throwable $e ) {
 			self::$logger->error( $e->getMessage(), $e->getCode() );
 		}
@@ -256,6 +257,26 @@ class DMonitor {
 			$this->register( $prod, 'histogram', $name, $help );
 		} catch ( \Throwable $e ) {
 			self::$logger->error( $e->getMessage(), $e->getCode() );
+		}
+	}
+
+	/**
+	 * Inits the named counter, in the right profile.
+	 *
+	 * @param boolean   $prod      True if it's production profile, false if it's development profile.
+	 * @param string    $name      The unique name of the counter.
+	 * @since 3.0.0
+	 */
+	private function init_counter( $prod, $name ) {
+		if ( ! $this->allowed ) {
+			return;
+		}
+		try {
+			$registry = ( $prod ? self::$production : self::$development );
+			$counter  = $registry->getCounter( $this->current_namespace(), $name );
+			$counter->incBy( 0, $this->label_values );
+		} catch ( \Throwable $e ) {
+			self::$logger->error( $e->getMessage(), [ 'code' => $e->getCode() ] );
 		}
 	}
 
