@@ -112,4 +112,13 @@ class WsalListener extends AbstractListener {
 		}
 		$this->logger->log( EventTypes::$wsal_levels[ $severity ], $message, $code );
 	}
+
+	/**
+	 * Finalizes monitoring operations.
+	 *
+	 * @since    3.0.0
+	 */
+	public function monitoring_close() {
+		// No monitors to finalize.
+	}
 }

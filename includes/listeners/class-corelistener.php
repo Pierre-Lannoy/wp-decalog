@@ -1212,4 +1212,13 @@ class CoreListener extends AbstractListener {
 		$this->logger->debug( sprintf( 'Application password authentication success for %s.', $this->get_user( $user ) ) );
 	}
 
+	/**
+	 * Finalizes monitoring operations.
+	 *
+	 * @since    3.0.0
+	 */
+	public function monitoring_close() {
+		// No monitors to finalize.
+	}
+
 }

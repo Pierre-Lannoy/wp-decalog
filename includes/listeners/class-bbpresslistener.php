@@ -370,5 +370,14 @@ class bbPressListener extends AbstractListener {
 		return $retval;
 	}
 
+	/**
+	 * Finalizes monitoring operations.
+	 *
+	 * @since    3.0.0
+	 */
+	public function monitoring_close() {
+		// No monitors to finalize.
+	}
+
 
 }

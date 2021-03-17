@@ -1482,6 +1482,7 @@ class Wpcli {
 				}
 				break;
 			case 'dump':
+				ListenerFactory::force_monitoring_close();
 				$monitor     = new DMonitor( 'plugin', DECALOG_PRODUCT_NAME, DECALOG_VERSION );
 				$production  = $monitor->prod_registry()->getMetricFamilySamples();
 				$development = $monitor->dev_registry()->getMetricFamilySamples();
@@ -1545,6 +1546,7 @@ class Wpcli {
 				}
 				break;
 			case 'get':
+				ListenerFactory::force_monitoring_close();
 				$monitor     = new DMonitor( 'plugin', DECALOG_PRODUCT_NAME, DECALOG_VERSION );
 				$production  = $monitor->prod_registry()->getMetricFamilySamples();
 				$development = $monitor->dev_registry()->getMetricFamilySamples();

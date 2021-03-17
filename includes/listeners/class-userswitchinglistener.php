@@ -128,4 +128,13 @@ class UserSwitchingListener extends AbstractListener {
 		$this->logger->warning( sprintf ( 'Switch off %s.', $this->get_user( $old_user_id )) );
 	}
 
+	/**
+	 * Finalizes monitoring operations.
+	 *
+	 * @since    3.0.0
+	 */
+	public function monitoring_close() {
+		// No monitors to finalize.
+	}
+
 }

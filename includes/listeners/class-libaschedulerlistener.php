@@ -249,4 +249,13 @@ class LibASchedulerListener extends AbstractListener {
 	public function action_scheduler_failed_fetch_action( $action_id ) {
 		$this->logger->critical( sprintf( 'Unable to fetch action ID %s.', $action_id ) );
 	}
+
+	/**
+	 * Finalizes monitoring operations.
+	 *
+	 * @since    3.0.0
+	 */
+	public function monitoring_close() {
+		// No monitors to finalize.
+	}
 }

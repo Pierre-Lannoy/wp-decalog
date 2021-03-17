@@ -78,6 +78,14 @@ class WooListener extends AbstractListener {
 	public function woocommerce_register_log_handlers( $handlers ) {
 		array_push( $handlers, new \Decalog\Integration\WCLogger( $this->class, $this->name, $this->version ) );
 		return $handlers;
+	}
 
+	/**
+	 * Finalizes monitoring operations.
+	 *
+	 * @since    3.0.0
+	 */
+	public function monitoring_close() {
+		// No monitors to finalize.
 	}
 }

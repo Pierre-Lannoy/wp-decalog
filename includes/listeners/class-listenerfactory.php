@@ -65,10 +65,18 @@ class ListenerFactory {
 	/**
 	 * Infos on all loadable listeners.
 	 *
-	 * @since  1.0.0
-	 * @var    array    $excluded_files    The list of all loadable listeners.
+	 * @since  1.0.$infos
+	 * @var    array    $infos    The list of all loadable listeners.
 	 */
 	public static $infos = [];
+
+	/**
+	 * Instances of loaded listeners.
+	 *
+	 * @since  3.0.0
+	 * @var    array    $instances    The list of loaded listeners.
+	 */
+	private static $instances = [];
 
 	/**
 	 * Initialize the class and set its properties.
@@ -135,13 +143,26 @@ class ListenerFactory {
 		$class_name = 'Decalog\Listener\\' . $class_name;
 		if ( class_exists( $class_name ) ) {
 			try {
-				$reflection = new \ReflectionClass( $class_name );
-				return $reflection->newInstanceArgs( [ $this->log ] );
+				$reflection        = new \ReflectionClass( $class_name );
+				$instance          = $reflection->newInstanceArgs( [ $this->log ] );
+				self::$instances[] = $instance;
+				return $instance;
 			} catch ( \Exception $e ) {
 				return false;
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Finalizes monitoring operations.
+	 *
+	 * @since    3.0.0
+	 */
+	public static function force_monitoring_close() {
+		foreach ( self::$instances as $instance ) {
+			$instance->monitoring_close();
+		}
 	}
 
 }

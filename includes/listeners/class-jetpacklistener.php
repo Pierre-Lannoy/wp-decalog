@@ -188,4 +188,13 @@ class JetpackListener extends AbstractListener {
 	public function jetpack_sitemaps_purge_data() {
 		$this->logger->info( 'Sitemaps data purged.' );
 	}
+
+	/**
+	 * Finalizes monitoring operations.
+	 *
+	 * @since    3.0.0
+	 */
+	public function monitoring_close() {
+		// No monitors to finalize.
+	}
 }

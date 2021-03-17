@@ -90,4 +90,13 @@ class UpdraftplusListener extends AbstractListener {
 		$this->logger->log( EventTypes::get_standard_level( $severity ), '[' . strtolower( $destination ) . '] ' . $line );
 		return $line;
 	}
+
+	/**
+	 * Finalizes monitoring operations.
+	 *
+	 * @since    3.0.0
+	 */
+	public function monitoring_close() {
+		// No monitors to finalize.
+	}
 }

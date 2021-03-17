@@ -93,4 +93,13 @@ class RedirectionListener extends AbstractListener {
 		return $insert;
 	}
 
+	/**
+	 * Finalizes monitoring operations.
+	 *
+	 * @since    3.0.0
+	 */
+	public function monitoring_close() {
+		// No monitors to finalize.
+	}
+
 }

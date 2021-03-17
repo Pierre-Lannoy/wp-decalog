@@ -108,4 +108,13 @@ class WordfenceListener extends AbstractListener {
 				$this->logger->emergency( $event . ' / ' . print_r( $details, true ) );
 		}
 	}
+
+	/**
+	 * Finalizes monitoring operations.
+	 *
+	 * @since    3.0.0
+	 */
+	public function monitoring_close() {
+		// No monitors to finalize.
+	}
 }

@@ -123,6 +123,7 @@ abstract class AbstractListener {
 				if ( isset( $this->log ) ) {
 					$this->log->debug( sprintf( 'Listener for %s is launched.', $this->name ) );
 				}
+				add_action( 'shutdown', [ $this, 'monitoring_close' ], self::$monitor_priority, 0 );
 				$this->launched();
 			}
 		}
@@ -197,5 +198,12 @@ abstract class AbstractListener {
 	 * @since    2.4.0
 	 */
 	abstract protected function launched();
+
+	/**
+	 * Finalizes monitoring operations.
+	 *
+	 * @since    3.0.0
+	 */
+	abstract public function monitoring_close();
 
 }

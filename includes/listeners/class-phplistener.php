@@ -384,4 +384,13 @@ class PhpListener extends AbstractListener {
 		}
 		return 'Unknown PHP error';
 	}
+
+	/**
+	 * Finalizes monitoring operations.
+	 *
+	 * @since    3.0.0
+	 */
+	public function monitoring_close() {
+		// No monitors to finalize.
+	}
 }

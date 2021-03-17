@@ -69,4 +69,13 @@ class LibStripeListener extends AbstractListener {
 			\Stripe\Stripe::setLogger( new \Decalog\Integration\StripeLogger( $this->class, $this->name, $this->version ) );
 		}
 	}
+
+	/**
+	 * Finalizes monitoring operations.
+	 *
+	 * @since    3.0.0
+	 */
+	public function monitoring_close() {
+		// No monitors to finalize.
+	}
 }

@@ -432,4 +432,13 @@ class BuddyPressListener extends AbstractListener {
 	public function bp_rest_group_members_delete_item( $user, $member, $group, $response, $request ) {
 		$this->groups_remove_member( $group->id, $user->ID );
 	}
+
+	/**
+	 * Finalizes monitoring operations.
+	 *
+	 * @since    3.0.0
+	 */
+	public function monitoring_close() {
+		// No monitors to finalize.
+	}
 }

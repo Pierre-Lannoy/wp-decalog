@@ -318,4 +318,13 @@ class W3tcListener extends AbstractListener {
 	public function w3tc_flush_posts( $extra ) {
 		$this->logger->info( 'All files flushed.' );
 	}
+
+	/**
+	 * Finalizes monitoring operations.
+	 *
+	 * @since    3.0.0
+	 */
+	public function monitoring_close() {
+		// No monitors to finalize.
+	}
 }

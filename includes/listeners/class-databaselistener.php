@@ -26,12 +26,19 @@ use Decalog\System\Option;
 class DatabaseListener extends AbstractListener {
 
 	/**
+	 * Failed queries for the current request.
+	 *
+	 * @since 3.0.0
+	 * @var    integer    $fails    Maintains the number of fails.
+	 */
+	private $fails = 0;
+
+	/**
 	 * Sets the listener properties.
 	 *
 	 * @since    1.0.0
 	 */
 	protected function init() {
-		global $wpdb;
 		$this->id      = 'wpdb';
 		$this->name    = esc_html__( 'Database', 'decalog' );
 		$this->class   = 'db';
@@ -58,7 +65,6 @@ class DatabaseListener extends AbstractListener {
 	protected function launch() {
 		add_action( 'wp_loaded', [ $this, 'version_check' ] );
 		add_action( 'shutdown', [ $this, 'shutdown' ], 10, 0 );
-		//add_action( 'shutdown', [ $this, 'shutdown' ], self::$monitor_priority, 0 );
 		add_filter( 'wp_die_ajax_handler', [ $this, 'wp_die_handler' ], 10, 1 );
 		add_filter( 'wp_die_xmlrpc_handler', [ $this, 'wp_die_handler' ], 10, 1 );
 		add_filter( 'wp_die_handler', [ $this, 'wp_die_handler' ], 10, 1 );
@@ -74,14 +80,20 @@ class DatabaseListener extends AbstractListener {
 	 * @since    2.4.0
 	 */
 	protected function launched() {
+		$this->monitor->create_prod_counter( 'query_fail_per_request', 'Number of queries in error for the current request' );
+		$this->monitor->create_prod_counter( 'query_success_per_request', 'Number of successful queries for the current request' );
+		$this->monitor->create_prod_counter( 'query_total_per_request', 'Total number of queries for the current request' );
+
+
+
 		// No post-launch operations
-		$this->monitor->create_prod_gauge('test', 20, 'test gauge');
+		/*$this->monitor->create_prod_gauge('test', 20, 'test gauge');
 		$this->monitor->create_prod_counter( 'essai', 'essai de compteur' );
 		$this->monitor->inc_prod_counter('essai',5);
 		$this->monitor->create_prod_histogram( 'histo');
 		$this->monitor->observe_prod_histogram( 'histo', 5);
 		$this->monitor->observe_prod_histogram( 'histo', 1);
-		$this->monitor->observe_prod_histogram( 'histo', 5);
+		$this->monitor->observe_prod_histogram( 'histo', 5);*/
 	}
 
 	/**
@@ -116,6 +128,8 @@ class DatabaseListener extends AbstractListener {
 		global $EZSQL_ERROR;
 		if ( isset( $this->logger ) && is_array( $EZSQL_ERROR ) && 0 < count( $EZSQL_ERROR ) ) {
 			foreach ( $EZSQL_ERROR as $error ) {
+				$this->monitor->inc_prod_counter( 'query_fail_per_request', 1 );
+				$this->fails++;
 				$this->logger->critical( sprintf( 'A database error was detected during the page rendering: "%s" in the query "%s".', $error['error_str'], $error['query'] ) );
 			}
 		}
@@ -140,6 +154,8 @@ class DatabaseListener extends AbstractListener {
 		if ( ! $handler || ! is_callable( $handler ) || ! $dberror ) {
 			return $handler;
 		}
+		$this->monitor->inc_prod_counter( 'query_fail_per_request', 1 );
+		$this->fails++;
 		return function ( $message, $title = '', $args = [] ) use ( $handler ) {
 			$msg  = '';
 			$code = 0;
@@ -161,6 +177,24 @@ class DatabaseListener extends AbstractListener {
 			}
 			return $handler( $message, $title, $args );
 		};
+	}
+
+	/**
+	 * Monitor database.
+	 *
+	 * @since    3.0.0
+	 */
+	public function monitoring_close() {
+		global $wpdb;
+		if ( isset( $wpdb->queries ) && is_array( $wpdb->queries ) ) {
+			$qtotal = count( $wpdb->queries );
+		} elseif ( isset( $wpdb->num_queries ) && is_numeric( $wpdb->num_queries ) ) {
+			$qtotal = (int) $wpdb->num_queries;
+		} else {
+			$qtotal = $this->fails;
+		}
+		$this->monitor->inc_prod_counter( 'query_total_per_request', $qtotal );
+		$this->monitor->inc_prod_counter( 'query_success_per_request', $qtotal - $this->fails );
 	}
 
 }
