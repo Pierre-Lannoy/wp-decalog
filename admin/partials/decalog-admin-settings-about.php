@@ -30,6 +30,7 @@ $trademarks = esc_html__( 'All brands, icons and graphic illustrations are regis
 $brands     = array( 'Automattic', 'Bugsnag', 'Elastic Cloud', 'Fluentd Project', 'Functional Software', 'Grafana Labs', 'Google', 'Pushover', 'Rapid7', 'Raygun', 'Sematext', 'Slack', 'Solarwinds', 'Sumo Logic' );
 $official   = sprintf( esc_html__( 'This plugin is not an official software from %s and, as such, is not endorsed or supported by these companies.', 'decalog' ), implode( ', ', $brands ) );
 
+
 ?>
 <h2><?php echo esc_html( DECALOG_PRODUCT_NAME . ' ' . DECALOG_VERSION ); ?></h2>
 <?php echo $icon; ?>
