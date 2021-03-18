@@ -103,7 +103,7 @@ class DatabaseListener extends AbstractListener {
 	protected function launched() {
 		$query_latencies = [ 0.0001, 0.00025, 0.0005, 0.00075, 0.001, 0.0025, 0.005, 0.0075, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 0.75, 1.0 ];
 		$row_counts      = [ 1, 10, 100, 1000, 10000, 100000, 1000000 ];
-		$bytes           = [ 1024, 1024 * 1024, 1024 * 1024 * 1024 ];
+		$bytes           = [ 1024, 10 * 1024, 100 * 1024, 1024 * 1024, 10 * 1024 * 1024, 100 * 1024 * 1024 ];
 		$this->monitor->create_prod_counter( 'query_fail_count', 'Number of queries in error per request' );
 		$this->monitor->create_prod_counter( 'query_success_count', 'Number of successful queries per request' );
 		$this->monitor->create_prod_counter( 'query_duplicate_count', 'Number of duplicate queries per request' );
