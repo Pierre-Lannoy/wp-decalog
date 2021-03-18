@@ -29,6 +29,7 @@ use Decalog\Plugin\Feature\EventTypes;
 use Decalog\Plugin\Feature\Autolog;
 use Prometheus\RenderTextFormat;
 use Spyc;
+use Decalog\Plugin\Feature\DLogger;
 
 /**
  * Manages DecaLog, view events logs and send messages to loggers.
@@ -1464,6 +1465,9 @@ class Wpcli {
 		}
 		switch ( $action ) {
 			case 'list':
+				if ( 0 === count( $list ) ) {
+					$this->error( 9, $stdout );
+				}
 				if ( 'full' === $detail ) {
 					$detail = [ 'id', 'class', 'profile', 'type', 'source', 'version', 'description' ];
 				} else {
@@ -1483,7 +1487,8 @@ class Wpcli {
 				break;
 			case 'dump':
 				ListenerFactory::force_monitoring_close();
-				$monitor     = new DMonitor( 'plugin', DECALOG_PRODUCT_NAME, DECALOG_VERSION );
+				$monitor = new DMonitor( 'plugin', DECALOG_PRODUCT_NAME, DECALOG_VERSION );
+				$monitor->before_close();
 				$production  = $monitor->prod_registry()->getMetricFamilySamples();
 				$development = $monitor->dev_registry()->getMetricFamilySamples();
 				$result      = [];
@@ -1532,6 +1537,9 @@ class Wpcli {
 								break;
 						}
 					}
+				}
+				if ( 0 === count( $result ) ) {
+					$this->error( 9, $stdout );
 				}
 				if ( 'ids' === $format ) {
 					$this->write_ids( $result );
