@@ -16,6 +16,7 @@ use Decalog\System\Environment;
 use Decalog\Logger;
 use Decalog\Plugin\Feature\ClassTypes;
 use Decalog\System\Markdown;
+use Decalog\Listener\AbstractListener;
 
 /**
  * Main DecaLog monitor class.
@@ -109,6 +110,14 @@ class DMonitor {
 	private $allowed = true;
 
 	/**
+	 * Is the first initialization done?
+	 *
+	 * @since  3.0.0
+	 * @var    boolean    $self_initialized    Is the first initialization done?
+	 */
+	private static $self_initialized = false;
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @param   string  $class      The class identifier, must be in ClassTypes::$classes.
@@ -150,6 +159,43 @@ class DMonitor {
 		} else {
 			self::$logger->debug( 'Skipped initialization of a DecaLog monitor.' );
 		}
+		if ( ! self::$self_initialized ) {
+			self::$self_initialized = true;
+			$this->class            = 'plugin';
+			$this->name             = DECALOG_PRODUCT_NAME;
+			$this->version          = DECALOG_VERSION;
+			foreach ( EventTypes::$levels as $key => $level ) {
+				$this->create_dev_counter( 'event_' . $key . '_count', 'Number of handled ' . $key . ' events' );
+			}
+			$this->create_dev_counter( 'metric_prod_count', 'Number of handled `production` metrics' );
+			$this->create_dev_counter( 'metric_dev_count', 'Number of handled `development` metrics' );
+			add_action( 'shutdown', [ $this, 'before_close' ], AbstractListener::$monitor_priority - 1, 0 );
+			$this->class   = $class;
+			$this->name    = $name;
+			$this->version = $version;
+		}
+	}
+
+	/**
+	 * Self-metrics handling..
+	 *
+	 * @since   3.0.0
+	 */
+	public function before_close() {
+		$class         = $this->class;
+		$name          = $this->name;
+		$version       = $this->version;
+		$this->class   = 'plugin';
+		$this->name    = DECALOG_PRODUCT_NAME;
+		$this->version = DECALOG_VERSION;
+		foreach ( EventTypes::$levels as $key => $level ) {
+			$this->inc_dev_counter( 'event_' . $key . '_count', DLogger::count( $key ) );
+		}
+		$this->inc_dev_counter( 'metric_prod_count', count( self::$production->getMetricFamilySamples() ) );
+		$this->inc_dev_counter( 'metric_dev_count', count( self::$development->getMetricFamilySamples() ) );
+		$this->class   = $class;
+		$this->name    = $name;
+		$this->version = $version;
 	}
 
 	/**
@@ -210,7 +256,7 @@ class DMonitor {
 			$this->register( $prod, 'counter', $name, $help );
 			$this->init_counter( $prod, $name );
 		} catch ( \Throwable $e ) {
-			self::$logger->error( $e->getMessage(), $e->getCode() );
+			self::$logger->error( $e->getMessage(), [ 'code' => $e->getCode() ] );
 		}
 	}
 
@@ -233,7 +279,7 @@ class DMonitor {
 			$this->register( $prod, 'gauge', $name, $help );
 			$this->set_gauge( $prod, $name, $value );
 		} catch ( \Throwable $e ) {
-			self::$logger->error( $e->getMessage(), $e->getCode() );
+			self::$logger->error( $e->getMessage(), [ 'code' => $e->getCode() ] );
 		}
 	}
 
@@ -255,7 +301,7 @@ class DMonitor {
 			$registry->registerHistogram( $this->current_namespace(), $name, $help, $this->label_names, $buckets );
 			$this->register( $prod, 'histogram', $name, $help );
 		} catch ( \Throwable $e ) {
-			self::$logger->error( $e->getMessage(), $e->getCode() );
+			self::$logger->error( $e->getMessage(), [ 'code' => $e->getCode() ] );
 		}
 	}
 

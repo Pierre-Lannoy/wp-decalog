@@ -19,6 +19,7 @@ use Decalog\Plugin\Feature\ClassTypes;
 use Decalog\Plugin\Feature\ChannelTypes;
 use Decalog\Plugin\Feature\HandlerDiagnosis;
 use Decalog\System\UUID;
+use Decalog\Plugin\Feature\DMonitor;
 
 /**
  * Main DecaLog logger class.
@@ -86,6 +87,14 @@ class DLogger {
 	 * @var    boolean    $allowed    Maintains the allowed status of the logger.
 	 */
 	private $allowed = true;
+
+	/**
+	 * Messages counter.
+	 *
+	 * @since  1.3.0
+	 * @var    array    $counter    Maintains the messages counter.
+	 */
+	private static $counter = [];
 
 	/**
 	 * Initialize the class and set its properties.
@@ -261,6 +270,23 @@ class DLogger {
 	}
 
 	/**
+	 * Normalize an array.
+	 *
+	 * @param mixed    $level   The log level.
+	 * @return  integer The counter for this level.
+	 * @since 1.10.0+
+	 */
+	public static function count( $level ) {
+		if ( is_string( $level ) ) {
+			$level = EventTypes::$levels[ strtolower( $level ) ];
+		}
+		if ( ! array_key_exists( $level, self::$counter ) ) {
+			return 0;
+		}
+		return self::$counter[ $level ];
+	}
+
+	/**
 	 * Adds a log record at a specific level.
 	 *
 	 * @param mixed    $level   The log level.
@@ -272,6 +298,13 @@ class DLogger {
 	 * @since 1.0.0
 	 */
 	public function log( $level, $message, $code = 0, $phase = '', $signal = true ) {
+		if ( is_string( $level ) ) {
+			$level = EventTypes::$levels[ strtolower( $level ) ];
+		}
+		if ( ! array_key_exists( $level, self::$counter ) ) {
+			self::$counter[ $level ] = 0;
+		}
+		self::$counter[ $level ]++;
 		if ( ! $this->allowed ) {
 			return false;
 		}
