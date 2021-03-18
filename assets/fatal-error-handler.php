@@ -102,6 +102,9 @@ class Decalog_Error_Handler extends \WP_Fatal_Error_Handler {
 				define( 'POWS_START_TIMESTAMP', 0.0 );
 			}
 		}
+		if ( ! defined( 'SAVEQUERIES' ) ) {
+			define( 'SAVEQUERIES', true );
+		}
 	}
 
 	/**
