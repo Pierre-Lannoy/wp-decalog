@@ -90,7 +90,7 @@ class DMonitor {
 	 * @since  3.0.0
 	 * @var    array    $label_names    The names list.
 	 */
-	private $label_names = [ 'channel', 'environment', 'traceID' ];
+	private $label_names = [ 'channel', 'environment' ];
 
 	/**
 	 * The metrics labels values.
@@ -145,7 +145,6 @@ class DMonitor {
 			$this->label_values = [
 				$this->normalize_string( $this->current_channel_tag() ),
 				$this->normalize_string( Environment::stage() ),
-				(string) DECALOG_TRACEID,
 			];
 			self::$logger->debug( 'A new instance of DecaLog monitor is initialized and operational.' );
 		} else {
