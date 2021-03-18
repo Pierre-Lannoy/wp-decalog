@@ -3,12 +3,26 @@ All notable changes to **DecaLog** are documented in this *changelog*.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [Unreleased - Will be 3.0.0]
+
+### Added
+- DecaLog now supports metrics collecting, forwarding and publishing.
+- New "metrics" tab in settings to list all currently collected metrics.
+- DecaLog now collects metrics for: db
+- [WP-CLI] New command to list, dump or get metrics: see `wp help log metrics` for details.
 
 ### Changed
 - Redesigned loggers list.
-- Upgraded Lock library from version 2.1 to version 2.2.
+- Upgraded Lock library from version 2.1 to version 2.2
+- [WP-CLI] All commands now support the `--stdout` flag.
+- [WP-CLI] The `wp log logger list` command now accepts a logger id or logger type as filter parameter.
+- [WP-CLI] The `wp log listener list` command now accepts a listener id as filter parameter.
+- [WP-CLI] The `wp log type list` command now accepts a logger type as filter parameter.
 - [WP-CLI] Updated documentation.
+
+### Fixed
+- [WP-CLI] The `wp log send` doesn't set an exit code in case of failure.
+- [WP-CLI] Typos in inline help.
 
 ## [2.4.2] - 2021-03-01
 
