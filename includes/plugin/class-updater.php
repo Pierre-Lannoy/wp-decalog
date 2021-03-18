@@ -88,6 +88,7 @@ class Updater {
 		$maintainer = new LoggerMaintainer();
 		$maintainer->update( $from );
 		// Updates MU-Plugin (even if it's not a new version) to avoid update message.
+		// TODO : fixme
 		$target = WPMU_PLUGIN_DIR . '/_decalog_loader.php';
 		$source = DECALOG_PLUGIN_DIR . '/assets/_decalog_loader.php';
 		if ( ! file_exists( WPMU_PLUGIN_DIR ) ) {
@@ -100,6 +101,7 @@ class Updater {
 			// phpcs:ignore
 			@copy( $source, $target );
 		}
+		// TODO : update FE handler
 	}
 
 	/**
