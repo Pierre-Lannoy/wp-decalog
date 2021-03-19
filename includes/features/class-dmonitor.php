@@ -675,9 +675,10 @@ class DMonitor {
 	public static function sc_get_metrics( $attributes ) {
 		$content = '<div class="markdown">';
 		foreach ( self::$metrics_registry as $class => $class_detail ) {
-			$content .= '<h2>' . strtoupper( $class ) . ' Class</h2>';
+			$content .= '<p><br/></p>';
+			$content .= '<h2>' . strtoupper( $class ) . ' CLASS</h2>';
 			foreach ( $class_detail as $env => $env_detail ) {
-				$content .= '<h3>' . ucfirst( $env ) . ' Profile</h3>';
+				$content .= '<h3 style="margin:0;">' . ucfirst( $env ) . ' Profile</h3>';
 				foreach ( $env_detail as $type => $type_detail ) {
 					$content .= '<ul>';
 					foreach ( $type_detail as $metrics => $detail ) {
