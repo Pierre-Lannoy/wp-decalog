@@ -1218,6 +1218,8 @@ class CoreListener extends AbstractListener {
 	 * @since    3.0.0
 	 */
 	public function monitoring_close() {
+
+		//TODO : page genration time
 		// No monitors to finalize.
 	}
 

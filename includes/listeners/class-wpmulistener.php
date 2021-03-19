@@ -26,6 +26,14 @@ use Decalog\System\Blog;
 class WpmuListener extends AbstractListener {
 
 	/**
+	 * Monitored site types.
+	 *
+	 * @since 3.0.0
+	 * @var    array    $site_types    Monitored site types.
+	 */
+	private $site_types = [ 'public', 'mature', 'archived', 'spam', 'deleted' ];
+
+	/**
 	 * Sets the listener properties.
 	 *
 	 * @since    1.3.0
@@ -37,6 +45,7 @@ class WpmuListener extends AbstractListener {
 		$this->class   = 'core';
 		$this->product = 'WordPress MU';
 		$this->version = $wp_version;
+		sort( $this->site_types );
 	}
 
 	/**
@@ -94,7 +103,10 @@ class WpmuListener extends AbstractListener {
 	 * @since    2.4.0
 	 */
 	protected function launched() {
-		// No post-launch operations
+		$this->monitor->create_prod_counter( 'site_total_count', 'Total number of sites' );
+		foreach ( $this->site_types as $type ) {
+			$this->monitor->create_prod_counter( 'site_' . $type . '_count', 'Number of ' . $type . ' sites' );
+		}
 	}
 
 	/**
@@ -328,7 +340,19 @@ class WpmuListener extends AbstractListener {
 	 * @since    3.0.0
 	 */
 	public function monitoring_close() {
-		// No monitors to finalize.
+		if ( function_exists( 'get_sites' ) ) {
+			foreach ( get_sites() as $site ) {
+				$this->monitor->inc_prod_counter( 'site_total_count', 1 );
+				if ( $site instanceof \WP_Site ) {
+					$a = $site->to_array();
+					foreach ( $this->site_types as $type ) {
+						if ( array_key_exists( $type, $a ) ) {
+							$this->monitor->inc_prod_counter( 'site_' . $type . '_count', 1 );
+						}
+					}
+				}
+			}
+		}
 	}
 
 }

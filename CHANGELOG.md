@@ -8,7 +8,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 - DecaLog now supports metrics collecting, forwarding and publishing.
 - New "metrics" tab in settings to list all currently collected metrics.
-- DecaLog now collects metrics for: db
+- DecaLog now collects metrics for: database, multisite
+- New logger to send metrics to a Prometheus instance.
+- New logger to publish metrics as endpoint for Prometheus scrapping.
 - [WP-CLI] New command to list, dump or get metrics: see `wp help log metrics` for details.
 
 ### Changed
