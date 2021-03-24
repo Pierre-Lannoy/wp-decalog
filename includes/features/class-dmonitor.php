@@ -86,12 +86,15 @@ class DMonitor {
 	private static $logger = null;
 
 	/**
-	 * The metrics labels names.
+	 * The technical metrics labels names.
 	 *
 	 * @since  3.0.0
 	 * @var    array    $label_names    The names list.
 	 */
-	private $label_names = [ 'channel', 'environment' ];
+	private $label_names = [
+		'prod' => [ 'environment' ],
+		'dev'  => [ 'channel', 'environment' ],
+	];
 
 	/**
 	 * The metrics labels values.
@@ -152,8 +155,8 @@ class DMonitor {
 				self::$logger = new Logger( $class, $name, $version );
 			}
 			$this->label_values = [
-				$this->normalize_string( $this->current_channel_tag() ),
-				$this->normalize_string( Environment::stage() ),
+				'prod' => [ $this->normalize_string( Environment::stage() ) ],
+				'dev'  => [ $this->normalize_string( $this->current_channel_tag() ), $this->normalize_string( Environment::stage() ) ],
 			];
 			self::$logger->debug( 'A new instance of DecaLog monitor is initialized and operational.' );
 		} else {
@@ -252,7 +255,7 @@ class DMonitor {
 		}
 		try {
 			$registry = ( $prod ? self::$production : self::$development );
-			$registry->registerCounter( $this->current_namespace(), $name, $help, $this->label_names );
+			$registry->registerCounter( $this->current_namespace(), $name, $help, $this->label_names[ ( $prod ? 'prod' : 'dev' ) ] );
 			$this->register( $prod, 'counter', $name, $help );
 			$this->init_counter( $prod, $name );
 		} catch ( \Throwable $e ) {
@@ -275,7 +278,7 @@ class DMonitor {
 		}
 		try {
 			$registry = ( $prod ? self::$production : self::$development );
-			$registry->registerGauge( $this->current_namespace(), $name, $help, $this->label_names );
+			$registry->registerGauge( $this->current_namespace(), $name, $help, $this->label_names[ ( $prod ? 'prod' : 'dev' ) ] );
 			$this->register( $prod, 'gauge', $name, $help );
 			$this->set_gauge( $prod, $name, $value );
 		} catch ( \Throwable $e ) {
@@ -298,7 +301,7 @@ class DMonitor {
 		}
 		try {
 			$registry = ( $prod ? self::$production : self::$development );
-			$registry->registerHistogram( $this->current_namespace(), $name, $help, $this->label_names, $buckets );
+			$registry->registerHistogram( $this->current_namespace(), $name, $help, $this->label_names[ ( $prod ? 'prod' : 'dev' ) ], $buckets );
 			$this->register( $prod, 'histogram', $name, $help );
 		} catch ( \Throwable $e ) {
 			self::$logger->error( $e->getMessage(), [ 'code' => $e->getCode() ] );
@@ -319,7 +322,7 @@ class DMonitor {
 		try {
 			$registry = ( $prod ? self::$production : self::$development );
 			$counter  = $registry->getCounter( $this->current_namespace(), $name );
-			$counter->incBy( 0, $this->label_values );
+			$counter->incBy( 0, $this->label_values[ ( $prod ? 'prod' : 'dev' ) ] );
 		} catch ( \Throwable $e ) {
 			self::$logger->error( $e->getMessage(), [ 'code' => $e->getCode() ] );
 		}
@@ -340,7 +343,7 @@ class DMonitor {
 		try {
 			$registry = ( $prod ? self::$production : self::$development );
 			$gauge    = $registry->getGauge( $this->current_namespace(), $name );
-			$gauge->set( $value, $this->label_values );
+			$gauge->set( $value, $this->label_values[ ( $prod ? 'prod' : 'dev' ) ] );
 		} catch ( \Throwable $e ) {
 			self::$logger->error( $e->getMessage(), [ 'code' => $e->getCode() ] );
 		}
@@ -361,7 +364,7 @@ class DMonitor {
 		try {
 			$registry = ( $prod ? self::$production : self::$development );
 			$counter  = $registry->getCounter( $this->current_namespace(), $name );
-			$counter->incBy( $value, $this->label_values );
+			$counter->incBy( $value, $this->label_values[ ( $prod ? 'prod' : 'dev' ) ] );
 		} catch ( \Throwable $e ) {
 			self::$logger->error( $e->getMessage(), [ 'code' => $e->getCode() ] );
 		}
@@ -382,7 +385,7 @@ class DMonitor {
 		try {
 			$registry = ( $prod ? self::$production : self::$development );
 			$gauge    = $registry->getGauge( $this->current_namespace(), $name );
-			$gauge->incBy( $value, $this->label_values );
+			$gauge->incBy( $value, $this->label_values[ ( $prod ? 'prod' : 'dev' ) ] );
 		} catch ( \Throwable $e ) {
 			self::$logger->error( $e->getMessage(), [ 'code' => $e->getCode() ] );
 		}
@@ -403,7 +406,7 @@ class DMonitor {
 		try {
 			$registry  = ( $prod ? self::$production : self::$development );
 			$histogram = $registry->getHistogram( $this->current_namespace(), $name );
-			$histogram->observe( $value, $this->label_values );
+			$histogram->observe( $value, $this->label_values[ ( $prod ? 'prod' : 'dev' ) ] );
 		} catch ( \Throwable $e ) {
 			self::$logger->error( $e->getMessage(), [ 'code' => $e->getCode() ] );
 		}
