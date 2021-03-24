@@ -146,6 +146,12 @@ class PhpListener extends AbstractListener {
 	protected function launched() {
 		if ( Environment::is_sandboxed() ) {
 			$this->logger->warning( 'The current request is sandboxed. PHP errors and exceptions will not be reported until the end of this request.' );
+		} else {
+			$this->monitor->create_dev_counter( 'error_fatal_count', 'Number of fatal errors per request' );
+			$this->monitor->create_dev_counter( 'error_nonfatal_count', 'Number of non fatal errors per request' );
+			$this->monitor->create_dev_counter( 'exception_uncaught_count', 'Number of uncaught exceptions per request' );
+			$this->monitor->create_dev_gauge( 'extension_count', 0, 'Number of loaded extensions' );
+			$this->monitor->create_dev_gauge( 'execution_total_latency', 0, 'Total PHP execution time per request' );
 		}
 	}
 
@@ -211,6 +217,7 @@ class PhpListener extends AbstractListener {
 		}
 		$old_extensions = Option::network_get( $prefix . 'php_extensions', 'x' );
 		$new_extensions = get_loaded_extensions();
+		$this->monitor->set_dev_gauge( 'extension_count', count( $new_extensions ) );
 		if ( 'x' === $old_extensions ) {
 			Option::network_set( $prefix . 'php_extensions', $new_extensions );
 			return;
@@ -296,6 +303,7 @@ class PhpListener extends AbstractListener {
 				$file    = PHP::normalized_file_line( $last_error['file'], $last_error['line'] );
 				$message = sprintf( 'Fatal error (%s): "%s" at `%s`.', $this->code_to_string( $last_error['type'] ), $last_error['message'], $file );
 				$this->logger->alert( $message, (int) $last_error['type'] );
+				$this->monitor->inc_dev_counter( 'error_fatal_count', 1 );
 			}
 		}
 	}
@@ -317,6 +325,11 @@ class PhpListener extends AbstractListener {
 			$file    = PHP::normalized_file_line( $file, $line );
 			$message = sprintf( 'Error (%s): "%s" at `%s`.', $this->code_to_string( $code ), $message, $file );
 			$this->logger->log( $level, $message, (int) $code );
+			if ( in_array( $code, $this->fatal_errors, true ) ) {
+				$this->monitor->inc_dev_counter( 'error_fatal_count', 1 );
+			} else {
+				$this->monitor->inc_dev_counter( 'error_nonfatal_count', 1 );
+			}
 		}
 		if ( $this->previous_error_handler && is_callable( $this->previous_error_handler ) ) {
 			return call_user_func( $this->previous_error_handler, $code, $message, $file, $line, $context );
@@ -335,6 +348,7 @@ class PhpListener extends AbstractListener {
 		$file    = PHP::normalized_file_line( $exception->getFile(), $exception->getLine() );
 		$message = sprintf( 'Uncaught exception (%s): "%s" at `%s`.', Utils::getClass( $exception ), $exception->getMessage(), $file );
 		$this->logger->error( $message, (int) $exception->getCode() );
+		$this->monitor->inc_dev_counter( 'exception_uncaught_count', 1 );
 		if ( $this->previous_exception_handler && is_callable( $this->previous_exception_handler ) ) {
 			call_user_func( $this->previous_exception_handler, $exception );
 		} else {
@@ -391,6 +405,8 @@ class PhpListener extends AbstractListener {
 	 * @since    3.0.0
 	 */
 	public function monitoring_close() {
-		// No monitors to finalize.
+		if ( defined( 'POWP_START_TIMESTAMP' ) ) {
+			$this->monitor->set_dev_gauge( 'execution_total_latency', microtime( true ) - POWP_START_TIMESTAMP );
+		}
 	}
 }
