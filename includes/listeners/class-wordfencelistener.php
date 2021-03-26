@@ -69,20 +69,20 @@ class WordfenceListener extends AbstractListener {
 	 */
 	protected function launched() {
 		if ( class_exists( '\wfBlock' ) ) {
-			$this->monitor->create_prod_counter( 'block_duration_permanent', 'Number of permanent blocks' );
-			$this->monitor->create_prod_counter( 'block_duration_temporary', 'Number of current temporary blocks.' );
-			$this->monitor->create_prod_counter( 'block_duration_obsolete', 'Number of obsolete temporary blocks.' );
-			$this->monitor->create_prod_counter( 'block_type_ip', 'Number of "IP block" blocks.' );
-			$this->monitor->create_prod_counter( 'block_type_throttle', 'Number of "IP throttling" blocks.' );
-			$this->monitor->create_prod_counter( 'block_type_lockout', 'Number of "lockout" blocks.' );
-			$this->monitor->create_prod_counter( 'block_type_country', 'Number of "country" blocks.' );
-			$this->monitor->create_prod_counter( 'block_type_advanced', 'Number of "advanced" blocks.' );
+			$this->monitor->create_prod_counter( 'block_duration_permanent', 'Number of permanent blocks - [count]' );
+			$this->monitor->create_prod_counter( 'block_duration_temporary', 'Number of current temporary blocks - [count]' );
+			$this->monitor->create_prod_counter( 'block_duration_obsolete', 'Number of obsolete temporary blocks - [count]' );
+			$this->monitor->create_prod_counter( 'block_type_ip', 'Number of "IP block" blocks - [count]' );
+			$this->monitor->create_prod_counter( 'block_type_throttle', 'Number of "IP throttling" blocks - [count]' );
+			$this->monitor->create_prod_counter( 'block_type_lockout', 'Number of "lockout" blocks - [count]' );
+			$this->monitor->create_prod_counter( 'block_type_country', 'Number of "country" blocks - [count]' );
+			$this->monitor->create_prod_counter( 'block_type_advanced', 'Number of "advanced" blocks - [count]' );
 		}
 		if ( class_exists( '\wfDB' ) ) {
-			$this->monitor->create_prod_histogram( 'issue_all_severity', [ 25, 50, 75 ], 'Issues severities' );
-			$this->monitor->create_prod_counter( 'issue_new_count', 'Number of new issues.' );
-			$this->monitor->create_prod_counter( 'issue_ignored_count', 'Number of ignored issues.' );
-			$this->monitor->create_prod_counter( 'issue_other_count', 'Number of other issues.' );
+			$this->monitor->create_prod_histogram( 'issue_severity', [ 25, 50, 75 ], 'All issues severities - [percent]' );
+			$this->monitor->create_prod_counter( 'issue_new', 'Number of new issues - [count]' );
+			$this->monitor->create_prod_counter( 'issue_ignored', 'Number of ignored issues - [count]' );
+			$this->monitor->create_prod_counter( 'issue_other', 'Number of other issues - [count]' );
 		}
 	}
 
@@ -188,13 +188,13 @@ class WordfenceListener extends AbstractListener {
 			$lines = $wpdb->get_results( $sql, ARRAY_A );
 			foreach ( $lines as $line ) {
 				if ( array_key_exists( 'status', $line ) && array_key_exists( 'severity', $line ) ) {
-					$this->monitor->observe_prod_histogram( 'issue_all_severity', (int) $line['severity'] );
+					$this->monitor->observe_prod_histogram( 'issue_severity', (int) $line['severity'] );
 					if ( 'new' === (string) $line['status'] ) {
-						$this->monitor->inc_prod_counter( 'issue_new_count', 1 );
+						$this->monitor->inc_prod_counter( 'issue_new', 1 );
 					} elseif ( 0 === strpos( (string) $line['status'], 'ignore' ) ) {
-						$this->monitor->inc_prod_counter( 'issue_ignored_count', 1 );
+						$this->monitor->inc_prod_counter( 'issue_ignored', 1 );
 					} else {
-						$this->monitor->inc_prod_counter( 'issue_other_count', 1 );
+						$this->monitor->inc_prod_counter( 'issue_other', 1 );
 					}
 				}
 			}

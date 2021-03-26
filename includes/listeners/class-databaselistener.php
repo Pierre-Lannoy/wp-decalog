@@ -104,31 +104,31 @@ class DatabaseListener extends AbstractListener {
 		$query_latencies = [ 0.0001, 0.00025, 0.0005, 0.00075, 0.001, 0.0025, 0.005, 0.0075, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 0.75, 1.0 ];
 		$row_counts      = [ 1, 10, 100, 1000, 10000, 100000, 1000000 ];
 		$bytes           = [ 1024, 10 * 1024, 100 * 1024, 1024 * 1024, 10 * 1024 * 1024, 100 * 1024 * 1024 ];
-		$this->monitor->create_dev_counter( 'query_fail_count', 'Number of queries in error per request' );
-		$this->monitor->create_dev_counter( 'query_success_count', 'Number of successful queries per request' );
-		$this->monitor->create_dev_counter( 'query_duplicate_count', 'Number of duplicate queries per request' );
-		$this->monitor->create_dev_counter( 'query_slow_count', 'Number of slow queries per request' );
-		$this->monitor->create_dev_counter( 'query_total_count', 'Total number of queries per request' );
-		$this->monitor->create_dev_gauge( 'query_total_latency_avg', 0, 'Average execution time (in seconds) per query' );
-		$this->monitor->create_dev_gauge( 'query_total_latency_sum', 0, 'Execution time (in seconds) for all queries' );
+		$this->monitor->create_dev_counter( 'query_fail', 'Number of queries in error per request - [count]' );
+		$this->monitor->create_dev_counter( 'query_success', 'Number of successful queries per request - [count]' );
+		$this->monitor->create_dev_counter( 'query_duplicate', 'Number of duplicate queries per request - [count]' );
+		$this->monitor->create_dev_counter( 'query_slow', 'Number of slow queries per request - [count]' );
+		$this->monitor->create_dev_counter( 'query_total', 'Total number of queries per request - [count]' );
+		$this->monitor->create_dev_gauge( 'query_total_latency_avg', 0, 'Average execution time per query - [second]' );
+		$this->monitor->create_dev_gauge( 'query_total_latency_sum', 0, 'Execution time for all queries - [second]' );
 		foreach ( $this->statements as $statement ) {
 			$idx = 'statement_' . str_replace( ' ', '', $statement );
-			$this->monitor->create_dev_counter( $idx . '_count', 'Number of `' . $statement . '` statements per request' );
-			$this->monitor->create_dev_gauge( $idx . '_latency_avg', 0, 'Average execution time (in seconds) of `' . $statement . '` statements' );
+			$this->monitor->create_dev_counter( $idx, 'Number of `' . $statement . '` statements per request - [count]' );
+			$this->monitor->create_dev_gauge( $idx . '_latency_avg', 0, 'Average execution time of `' . $statement . '` statements - [second]' );
 		}
 		foreach ( $this->clauses as $clause ) {
 			$idx = 'clause_' . str_replace( ' ', '', $clause );
-			$this->monitor->create_dev_counter( $idx . '_count', 'Number of `' . $clause . '` clause per request' );
+			$this->monitor->create_dev_counter( $idx, 'Number of `' . $clause . '` clause per request - [count]' );
 		}
-		$this->monitor->create_dev_histogram( 'query_detail_latency', $query_latencies, 'Detailed query latencies request' );
-		$this->monitor->create_dev_counter( 'table_site_count', 'Number of tables belonging to this WordPress site' );
-		$this->monitor->create_dev_counter( 'table_other_count', 'Number of tables not belonging to this WordPress site' );
-		$this->monitor->create_dev_histogram( 'table_site_row', $row_counts, 'Number of rows per table belonging to this WordPress site' );
-		$this->monitor->create_dev_histogram( 'table_other_row', $row_counts, 'Number of rows per table not belonging to this WordPress site' );
-		$this->monitor->create_dev_histogram( 'table_site_data', $bytes, 'Data size (in bytes) of tables belonging to this WordPress site' );
-		$this->monitor->create_dev_histogram( 'table_site_index', $bytes, 'Index size (in bytes) of tables belonging to this WordPress site' );
-		$this->monitor->create_dev_histogram( 'table_other_data', $bytes, 'Data size (in bytes) of tables not belonging to this WordPress site' );
-		$this->monitor->create_dev_histogram( 'table_other_index', $bytes, 'Index size (in bytes) of tables not belonging to this WordPress site' );
+		$this->monitor->create_dev_histogram( 'query_detail_latency', $query_latencies, 'Detailed query latencies request - [second]' );
+		$this->monitor->create_dev_counter( 'table_site', 'Number of tables belonging to this WordPress site - [count]' );
+		$this->monitor->create_dev_counter( 'table_other', 'Number of tables not belonging to this WordPress site - [count]' );
+		$this->monitor->create_dev_histogram( 'table_site_row', $row_counts, 'Number of rows per table belonging to this WordPress site - [count]' );
+		$this->monitor->create_dev_histogram( 'table_other_row', $row_counts, 'Number of rows per table not belonging to this WordPress site - [count]' );
+		$this->monitor->create_dev_histogram( 'table_site_data', $bytes, 'Data size of tables belonging to this WordPress site - [byte]' );
+		$this->monitor->create_dev_histogram( 'table_site_index', $bytes, 'Index size of tables belonging to this WordPress site - [byte]' );
+		$this->monitor->create_dev_histogram( 'table_other_data', $bytes, 'Data size of tables not belonging to this WordPress site - [byte]' );
+		$this->monitor->create_dev_histogram( 'table_other_index', $bytes, 'Index size of tables not belonging to this WordPress site - [byte]' );
 	}
 
 	/**
@@ -163,7 +163,7 @@ class DatabaseListener extends AbstractListener {
 		global $EZSQL_ERROR;
 		if ( isset( $this->logger ) && is_array( $EZSQL_ERROR ) && 0 < count( $EZSQL_ERROR ) ) {
 			foreach ( $EZSQL_ERROR as $error ) {
-				$this->monitor->inc_dev_counter( 'query_fail_count', 1 );
+				$this->monitor->inc_dev_counter( 'query_fail', 1 );
 				$this->fails++;
 				$this->logger->critical( sprintf( 'A database error was detected during the page rendering: "%s" in the query "%s".', $error['error_str'], $error['query'] ) );
 			}
@@ -189,7 +189,7 @@ class DatabaseListener extends AbstractListener {
 		if ( ! $handler || ! is_callable( $handler ) || ! $dberror ) {
 			return $handler;
 		}
-		$this->monitor->inc_dev_counter( 'query_fail_count', 1 );
+		$this->monitor->inc_dev_counter( 'query_fail', 1 );
 		$this->fails++;
 		return function ( $message, $title = '', $args = [] ) use ( $handler ) {
 			$msg  = '';
@@ -228,8 +228,8 @@ class DatabaseListener extends AbstractListener {
 		} else {
 			$qtotal = $this->fails;
 		}
-		$this->monitor->inc_dev_counter( 'query_total_count', $qtotal );
-		$this->monitor->inc_dev_counter( 'query_success_count', $qtotal - $this->fails );
+		$this->monitor->inc_dev_counter( 'query_total', $qtotal );
+		$this->monitor->inc_dev_counter( 'query_success', $qtotal - $this->fails );
 		if ( isset( $wpdb->queries ) && is_array( $wpdb->queries ) ) {
 			$latencies  = [];
 			$duplicates = [];
@@ -247,7 +247,7 @@ class DatabaseListener extends AbstractListener {
 					foreach ( $this->statements as $statement ) {
 						$count = substr_count( $sql, ' ' . strtoupper( $statement ) . ' ' );
 						if ( 0 < $count ) {
-							$this->monitor->inc_dev_counter( 'statement_' . str_replace( ' ', '', $statement ) . '_count', $count );
+							$this->monitor->inc_dev_counter( 'statement_' . str_replace( ' ', '', $statement ), $count );
 						}
 						if ( 0 === strpos( $sql, ' ' . strtoupper( $statement ) ) ) {
 							$latencies[ $statement ][] = $query[1];
@@ -256,16 +256,16 @@ class DatabaseListener extends AbstractListener {
 					foreach ( $this->clauses as $clause ) {
 						$count = substr_count( $sql, ' ' . strtoupper( $clause ) . ' ' );
 						if ( 0 < $count ) {
-							$this->monitor->inc_dev_counter( 'clause_' . str_replace( ' ', '', $clause ) . '_count', $count );
+							$this->monitor->inc_dev_counter( 'clause_' . str_replace( ' ', '', $clause ), $count );
 						}
 					}
 					if ( in_array( $sql, $duplicates, true ) ) {
-						$this->monitor->inc_dev_counter( 'query_duplicate_count', 1 );
+						$this->monitor->inc_dev_counter( 'query_duplicate', 1 );
 					} else {
 						$duplicates[] = $sql;
 					}
 					if ( DECALOG_SLOW_QUERY <= $query[1] ) {
-						$this->monitor->inc_dev_counter( 'query_slow_count', 1 );
+						$this->monitor->inc_dev_counter( 'query_slow', 1 );
 					}
 					$this->monitor->observe_dev_histogram( 'query_detail_latency', $query[1] );
 				}
@@ -300,7 +300,7 @@ class DatabaseListener extends AbstractListener {
 		foreach ( $lines as $line ) {
 			if ( array_key_exists( 'TABLE_NAME', $line ) ) {
 				if ( 0 === strpos( $line['TABLE_NAME'], $wpdb->prefix ) ) {
-					$this->monitor->inc_dev_counter( 'table_site_count', 1 );
+					$this->monitor->inc_dev_counter( 'table_site', 1 );
 					if ( array_key_exists( 'TABLE_ROWS', $line ) ) {
 						$this->monitor->observe_dev_histogram( 'table_site_row', (int) $line['TABLE_ROWS'] );
 					}
@@ -311,7 +311,7 @@ class DatabaseListener extends AbstractListener {
 						$this->monitor->observe_dev_histogram( 'table_site_index', (int) $line['INDEX_LENGTH'] );
 					}
 				} else {
-					$this->monitor->inc_dev_counter( 'table_other_count', 1 );
+					$this->monitor->inc_dev_counter( 'table_other', 1 );
 					if ( array_key_exists( 'TABLE_ROWS', $line ) ) {
 						$this->monitor->observe_dev_histogram( 'table_other_row', (int) $line['TABLE_ROWS'] );
 					}

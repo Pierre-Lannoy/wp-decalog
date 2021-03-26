@@ -168,10 +168,10 @@ class DMonitor {
 			$this->name             = DECALOG_PRODUCT_NAME;
 			$this->version          = DECALOG_VERSION;
 			foreach ( EventTypes::$levels as $key => $level ) {
-				$this->create_dev_counter( 'event_' . $key . '_count', 'Number of handled ' . $key . ' events' );
+				$this->create_dev_counter( 'event_' . $key, 'Number of handled ' . $key . ' events - [count]' );
 			}
-			$this->create_dev_counter( 'metric_prod_count', 'Number of handled `production` metrics' );
-			$this->create_dev_counter( 'metric_dev_count', 'Number of handled `development` metrics' );
+			$this->create_dev_counter( 'metric_prod', 'Number of handled `production` metrics - [count]' );
+			$this->create_dev_counter( 'metric_dev', 'Number of handled `development` metrics - [count]' );
 			add_action( 'shutdown', [ $this, 'before_close' ], AbstractListener::$monitor_priority - 1, 0 );
 			$this->class   = $class;
 			$this->name    = $name;
@@ -192,10 +192,10 @@ class DMonitor {
 		$this->name    = DECALOG_PRODUCT_NAME;
 		$this->version = DECALOG_VERSION;
 		foreach ( EventTypes::$levels as $key => $level ) {
-			$this->inc_dev_counter( 'event_' . $key . '_count', DLogger::count( $key ) );
+			$this->inc_dev_counter( 'event_' . $key, DLogger::count( $key ) );
 		}
-		$this->inc_dev_counter( 'metric_prod_count', count( self::$production->getMetricFamilySamples() ) );
-		$this->inc_dev_counter( 'metric_dev_count', count( self::$development->getMetricFamilySamples() ) );
+		$this->inc_dev_counter( 'metric_prod', count( self::$production->getMetricFamilySamples() ) );
+		$this->inc_dev_counter( 'metric_dev', count( self::$development->getMetricFamilySamples() ) );
 		$this->class   = $class;
 		$this->name    = $name;
 		$this->version = $version;
