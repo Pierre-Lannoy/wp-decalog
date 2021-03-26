@@ -79,7 +79,7 @@ class WordfenceListener extends AbstractListener {
 			$this->monitor->create_prod_counter( 'block_type_advanced', 'Number of "advanced" blocks - [count]' );
 		}
 		if ( class_exists( '\wfDB' ) ) {
-			$this->monitor->create_prod_histogram( 'issue_severity', [ 25, 50, 75 ], 'All issues severities - [percent]' );
+			$this->monitor->create_prod_histogram( 'issue_severity', [ 0.25, 0.5, 0.75 ], 'All issues severities - [percent]' );
 			$this->monitor->create_prod_counter( 'issue_new', 'Number of new issues - [count]' );
 			$this->monitor->create_prod_counter( 'issue_ignored', 'Number of ignored issues - [count]' );
 			$this->monitor->create_prod_counter( 'issue_other', 'Number of other issues - [count]' );
@@ -188,7 +188,7 @@ class WordfenceListener extends AbstractListener {
 			$lines = $wpdb->get_results( $sql, ARRAY_A );
 			foreach ( $lines as $line ) {
 				if ( array_key_exists( 'status', $line ) && array_key_exists( 'severity', $line ) ) {
-					$this->monitor->observe_prod_histogram( 'issue_severity', (int) $line['severity'] );
+					$this->monitor->observe_prod_histogram( 'issue_severity', (float) $line['severity'] / 100 );
 					if ( 'new' === (string) $line['status'] ) {
 						$this->monitor->inc_prod_counter( 'issue_new', 1 );
 					} elseif ( 0 === strpos( (string) $line['status'], 'ignore' ) ) {
