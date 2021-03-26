@@ -8,7 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 - DecaLog now supports metrics collecting, forwarding and publishing.
 - New "metrics" tab in settings to list all currently collected metrics.
-- DecaLog now collects metrics for: database, multisite
+- DecaLog now collects extended metrics for: database, multisite
+- DecaLog now collects minimalist metrics for: Wordfence
 - New logger to send metrics to a Prometheus instance.
 - New logger to publish metrics as endpoint for Prometheus scrapping.
 - [WP-CLI] New command to list, dump or get metrics: see `wp help log metrics` for details.
@@ -21,6 +22,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - [WP-CLI] The `wp log listener list` command now accepts a listener id as filter parameter.
 - [WP-CLI] The `wp log type list` command now accepts a logger type as filter parameter.
 - [WP-CLI] Updated documentation.
+- Wordfence listener is much more precise while logging events.
 
 ### Fixed
 - [WP-CLI] The `wp log send` doesn't set an exit code in case of failure.
