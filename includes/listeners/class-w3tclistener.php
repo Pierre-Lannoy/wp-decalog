@@ -82,6 +82,7 @@ class W3tcListener extends AbstractListener {
 		add_action( 'w3tc_register_fragment_groups', [ $this, 'w3tc_register_fragment_groups' ], 10, 0 );
 		add_action( 'w3tc_flush_post', [ $this, 'w3tc_flush_post' ], 10, 2 );
 		add_action( 'w3tc_flush_posts', [ $this, 'w3tc_flush_posts' ], 10, 1 );
+		//add_filter( 'w3tc_usage_statistics_metric_values', [ $this, 'w3tc_usage_statistics_metric_values' ], PHP_INT_MAX - 2000, 1 );
 		return true;
 	}
 
@@ -317,6 +318,15 @@ class W3tcListener extends AbstractListener {
 	 */
 	public function w3tc_flush_posts( $extra ) {
 		$this->logger->info( 'All files flushed.' );
+	}
+
+	/**
+	 * "w3tc_usage_statistics_metric_values" filter.
+	 *
+	 * @since    3.0.0
+	 */
+	public function w3tc_usage_statistics_metric_values( $metrics ) {
+		return $metrics;
 	}
 
 	/**
