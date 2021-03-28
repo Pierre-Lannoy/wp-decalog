@@ -170,7 +170,7 @@ class DMonitor {
 			foreach ( EventTypes::$levels as $key => $level ) {
 				$this->create_dev_counter( 'event_' . $key, 'Number of handled ' . $key . ' events - [count]' );
 			}
-			$this->create_dev_counter( 'metric_prod', 'Number of handled `production` metrics - [count]' );
+			$this->create_prod_counter( 'metric_prod', 'Number of handled `production` metrics - [count]' );
 			$this->create_dev_counter( 'metric_dev', 'Number of handled `development` metrics - [count]' );
 			add_action( 'shutdown', [ $this, 'before_close' ], AbstractListener::$monitor_priority - 1, 0 );
 			$this->class   = $class;
@@ -194,7 +194,7 @@ class DMonitor {
 		foreach ( EventTypes::$levels as $key => $level ) {
 			$this->inc_dev_counter( 'event_' . $key, DLogger::count( $key ) );
 		}
-		$this->inc_dev_counter( 'metric_prod', count( self::$production->getMetricFamilySamples() ) );
+		$this->inc_prod_counter( 'metric_prod', count( self::$production->getMetricFamilySamples() ) );
 		$this->inc_dev_counter( 'metric_dev', count( self::$development->getMetricFamilySamples() ) );
 		$this->class   = $class;
 		$this->name    = $name;
