@@ -16,7 +16,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 - Redesigned loggers list.
-- Upgraded Lock library from version 2.1 to version 2.2
+- Upgraded Lock library from version 2.1 to version 2.2.
+- Improved internal IP detection: support for cloud load balancers.
 - [WP-CLI] All commands now support the `--stdout` flag.
 - [WP-CLI] The `wp log logger list` command now accepts a logger id or logger type as filter parameter.
 - [WP-CLI] The `wp log listener list` command now accepts a listener id as filter parameter.
