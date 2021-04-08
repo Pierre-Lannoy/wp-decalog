@@ -103,9 +103,9 @@ class WpmuListener extends AbstractListener {
 	 * @since    2.4.0
 	 */
 	protected function launched() {
-		$this->monitor->create_prod_counter( 'site_total_count', 'Total number of sites' );
+		$this->monitor->create_prod_counter( 'site_total', 'Total number of sites' );
 		foreach ( $this->site_types as $type ) {
-			$this->monitor->create_prod_counter( 'site_' . $type . '_count', 'Number of ' . $type . ' sites' );
+			$this->monitor->create_prod_counter( 'site_' . $type, 'Number of ' . $type . ' sites - [count]' );
 		}
 	}
 
@@ -342,12 +342,12 @@ class WpmuListener extends AbstractListener {
 	public function monitoring_close() {
 		if ( function_exists( 'get_sites' ) ) {
 			foreach ( get_sites() as $site ) {
-				$this->monitor->inc_prod_counter( 'site_total_count', 1 );
+				$this->monitor->inc_prod_counter( 'site_total', 1 );
 				if ( $site instanceof \WP_Site ) {
 					$a = $site->to_array();
 					foreach ( $this->site_types as $type ) {
 						if ( array_key_exists( $type, $a ) ) {
-							$this->monitor->inc_prod_counter( 'site_' . $type . '_count', 1 );
+							$this->monitor->inc_prod_counter( 'site_' . $type, 1 );
 						}
 					}
 				}
