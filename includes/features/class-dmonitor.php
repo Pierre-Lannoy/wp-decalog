@@ -242,6 +242,17 @@ class DMonitor {
 	}
 
 	/**
+	 * Normalizes the metrics name.
+	 *
+	 * @param string    $name      The unique name of the metrics.
+	 * @@return string  The normalized name.
+	 * @since 3.0.0
+	 */
+	private function normalize( $name ) {
+		return ( preg_replace( '/[^a-zA-Z0-9_]/', '', $name ) ?? 'unknown_' . md5( (string) $name ) );
+	}
+
+	/**
 	 * Creates the named counter, in the right profile.
 	 *
 	 * @param boolean   $prod      True if it's production profile, false if it's development profile.
@@ -253,6 +264,10 @@ class DMonitor {
 		if ( ! $this->allowed ) {
 			return;
 		}
+		if ( '' === $name ) {
+			self::$logger->error( 'A metric must be named.' );
+		}
+		$name = $this->normalize( $name );
 		try {
 			$registry = ( $prod ? self::$production : self::$development );
 			$registry->registerCounter( $this->current_namespace(), $name, $help, $this->label_names[ ( $prod ? 'prod' : 'dev' ) ] );
@@ -276,6 +291,10 @@ class DMonitor {
 		if ( ! $this->allowed ) {
 			return;
 		}
+		if ( '' === $name ) {
+			self::$logger->error( 'A metric must be named.' );
+		}
+		$name = $this->normalize( $name );
 		try {
 			$registry = ( $prod ? self::$production : self::$development );
 			$registry->registerGauge( $this->current_namespace(), $name, $help, $this->label_names[ ( $prod ? 'prod' : 'dev' ) ] );
@@ -299,6 +318,10 @@ class DMonitor {
 		if ( ! $this->allowed ) {
 			return;
 		}
+		if ( '' === $name ) {
+			self::$logger->error( 'A metric must be named.' );
+		}
+		$name = $this->normalize( $name );
 		try {
 			$registry = ( $prod ? self::$production : self::$development );
 			$registry->registerHistogram( $this->current_namespace(), $name, $help, $this->label_names[ ( $prod ? 'prod' : 'dev' ) ], $buckets );
@@ -319,6 +342,10 @@ class DMonitor {
 		if ( ! $this->allowed ) {
 			return;
 		}
+		if ( '' === $name ) {
+			self::$logger->error( 'A metric must be named.' );
+		}
+		$name = $this->normalize( $name );
 		try {
 			$registry = ( $prod ? self::$production : self::$development );
 			$counter  = $registry->getCounter( $this->current_namespace(), $name );
@@ -340,6 +367,10 @@ class DMonitor {
 		if ( ! $this->allowed ) {
 			return;
 		}
+		if ( '' === $name ) {
+			self::$logger->error( 'A metric must be named.' );
+		}
+		$name = $this->normalize( $name );
 		try {
 			$registry = ( $prod ? self::$production : self::$development );
 			$gauge    = $registry->getGauge( $this->current_namespace(), $name );
@@ -361,6 +392,10 @@ class DMonitor {
 		if ( ! $this->allowed ) {
 			return;
 		}
+		if ( '' === $name ) {
+			self::$logger->error( 'A metric must be named.' );
+		}
+		$name = $this->normalize( $name );
 		try {
 			$registry = ( $prod ? self::$production : self::$development );
 			$counter  = $registry->getCounter( $this->current_namespace(), $name );
@@ -382,6 +417,10 @@ class DMonitor {
 		if ( ! $this->allowed ) {
 			return;
 		}
+		if ( '' === $name ) {
+			self::$logger->error( 'A metric must be named.' );
+		}
+		$name = $this->normalize( $name );
 		try {
 			$registry = ( $prod ? self::$production : self::$development );
 			$gauge    = $registry->getGauge( $this->current_namespace(), $name );
@@ -403,6 +442,10 @@ class DMonitor {
 		if ( ! $this->allowed ) {
 			return;
 		}
+		if ( '' === $name ) {
+			self::$logger->error( 'A metric must be named.' );
+		}
+		$name = $this->normalize( $name );
 		try {
 			$registry  = ( $prod ? self::$production : self::$development );
 			$histogram = $registry->getHistogram( $this->current_namespace(), $name );
