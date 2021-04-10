@@ -105,6 +105,18 @@ class Decalog_Error_Handler extends \WP_Fatal_Error_Handler {
 		if ( ! defined( 'SAVEQUERIES' ) ) {
 			define( 'SAVEQUERIES', true );
 		}
+		add_action( 'shutdown', [ $this, 'shutdown' ], 1 - PHP_INT_MAX, 0 );
+	}
+
+	/**
+	 * Sets shutdown values.
+	 *
+	 * @since    3.0.0
+	 */
+	public function shutdown() {
+		if ( ! defined( 'POWP_END_TIMESTAMP' ) ) {
+			define( 'POWP_END_TIMESTAMP', microtime( true ) );
+		}
 	}
 
 	/**
