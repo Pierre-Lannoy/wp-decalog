@@ -70,7 +70,7 @@ class Post {
 	 * @since   3.0.0
 	 */
 	public static function get_post_types() {
-		$cache_id = 'data/comment_types';
+		$cache_id = 'data/post_types';
 		$types    = Cache::get( $cache_id, true );
 		if ( ! $types ) {
 			$types = get_post_types();
