@@ -63,4 +63,29 @@ class Post {
 		return sprintf( '"%s" (post ID %s)', $title, $id );
 	}
 
+	/**
+	 * Get post types.
+	 *
+	 * @return  array  An array of post type names.
+	 * @since   3.0.0
+	 */
+	public static function get_post_types() {
+		$cache_id = 'data/comment_types';
+		$types    = Cache::get( $cache_id, true );
+		if ( ! $types ) {
+			$types = get_post_types();
+			global $wpdb;
+			$sql = 'SELECT DISTINCT `post_type` FROM `' . $wpdb->posts . '`;';
+			// phpcs:ignore
+			$comt = $wpdb->get_results( $sql, ARRAY_A );
+			foreach ( $comt as $t ) {
+				if ( ! array_key_exists( $t['post_type'], $types ) ) {
+					$types[ strtolower( $t['post_type'] ) ] = strtolower( str_replace( '_', ' ', $t['post_type'] ) );
+				}
+			}
+			Cache::set( $cache_id, $types, 'longquery', true );
+		}
+		return $types;
+	}
+
 }
