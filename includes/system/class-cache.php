@@ -108,6 +108,8 @@ class Cache {
 			'diagnosis'         => HOUR_IN_SECONDS,
 			'plugin-statistics' => DAY_IN_SECONDS,
 			'metrics'           => HOUR_IN_SECONDS,
+			'm-query'           => 5 * MINUTE_IN_SECONDS,
+			'longquery'         => 6 * HOUR_IN_SECONDS,
 		];
 		if ( wp_using_ext_object_cache() ) {
 			wp_cache_add_global_groups( self::$pool_name );
@@ -133,6 +135,9 @@ class Cache {
 	 * @since 1.0.0
 	 */
 	public static function id( $args, $path = 'data/' ) {
+		if ( is_array( $args ) ) {
+			$args = serialize( $args );
+		}
 		if ( '/' === $path[0] ) {
 			$path = substr( $path, 1 );
 		}
