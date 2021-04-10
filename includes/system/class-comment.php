@@ -52,4 +52,34 @@ class Comment {
 		}
 	}
 
+	/**
+	 * Get comment types (like get_post_types() do for posts).
+	 *
+	 * @return  array  An array of comment type names.
+	 * @since   3.0.0
+	 */
+	public static function get_comment_types() {
+		$cache_id = 'data/comment_types';
+		$types    = Cache::get( $cache_id, true );
+		if ( ! $types ) {
+			$types = [
+				'comment'   => 'comment',
+				'trackback' => 'trackback',
+				'pingback'  => 'pingback',
+				'pings'     => 'pings',
+			];
+			global $wpdb;
+			$sql = 'SELECT DISTINCT `comment_type` FROM `' . $wpdb->comments . '`;';
+			// phpcs:ignore
+			$comt = $wpdb->get_results( $sql, ARRAY_A );
+			foreach ( $comt as $t ) {
+				if ( ! array_key_exists( $t['comment_type'], $types ) ) {
+					$types[ strtolower( $t['comment_type'] ) ] = strtolower( str_replace( '_', ' ', $t['comment_type'] ) );
+				}
+			}
+			Cache::set( $cache_id, $types, 'longquery', true );
+		}
+		return $types;
+	}
+
 }
