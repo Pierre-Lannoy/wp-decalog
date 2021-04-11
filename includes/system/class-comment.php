@@ -58,7 +58,7 @@ class Comment {
 	 * @return  array  An array of comment type names.
 	 * @since   3.0.0
 	 */
-	public static function get_comment_types() {
+	public static function get_types() {
 		$cache_id = 'data/comment_types';
 		$types    = Cache::get( $cache_id, true );
 		if ( ! $types ) {
@@ -80,6 +80,36 @@ class Comment {
 			Cache::set( $cache_id, $types, 'longquery', true );
 		}
 		return $types;
+	}
+
+	/**
+	 * Get comment status (like get_post_status() do for posts).
+	 *
+	 * @return  array  An array of comment status names.
+	 * @since   3.0.0
+	 */
+	public static function get_status() {
+		$cache_id = 'data/comment_status';
+		$status   = Cache::get( $cache_id, true );
+		if ( ! $status ) {
+			$status = [
+				'hold'    => 'Unapproved',
+				'approve' => 'Approved',
+				'spam'    => 'Spam',
+				'trash'   => 'Trash',
+			];
+			global $wpdb;
+			$sql = 'SELECT DISTINCT `comment_approved` FROM `' . $wpdb->comments . '`;';
+			// phpcs:ignore
+			$comt = $wpdb->get_results( $sql, ARRAY_A );
+			foreach ( $comt as $t ) {
+				if ( ! array_key_exists( $t['comment_approved'], $status ) && ! is_numeric( $t['comment_approved'] ) ) {
+					$status[ strtolower( $t['comment_approved'] ) ] = strtolower( str_replace( '_', ' ', $t['comment_approved'] ) );
+				}
+			}
+			Cache::set( $cache_id, $status, 'longquery', true );
+		}
+		return $status;
 	}
 
 }
