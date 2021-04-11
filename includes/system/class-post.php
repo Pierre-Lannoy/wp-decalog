@@ -11,7 +11,6 @@
 
 namespace Decalog\System;
 
-
 /**
  * Define the post functionality.
  *
@@ -69,7 +68,7 @@ class Post {
 	 * @return  array  An array of post type names.
 	 * @since   3.0.0
 	 */
-	public static function get_post_types() {
+	public static function get_types() {
 		$cache_id = 'data/post_types';
 		$types    = Cache::get( $cache_id, true );
 		if ( ! $types ) {
@@ -86,6 +85,37 @@ class Post {
 			Cache::set( $cache_id, $types, 'longquery', true );
 		}
 		return $types;
+	}
+
+	/**
+	 * Get post status.
+	 *
+	 * @return  array  An array of post status names.
+	 * @since   3.0.0
+	 */
+	public static function get_status() {
+		$cache_id = 'data/post_status';
+		$status   = Cache::get( $cache_id, true );
+		if ( ! $status ) {
+			$status = [
+				'draft'   => 'Draft',
+				'pending' => 'Pending Review',
+				'private' => 'Private',
+				'publish' => 'Published',
+				'inherit' => 'Inherited',
+			];
+			global $wpdb;
+			$sql = 'SELECT DISTINCT `post_status` FROM `' . $wpdb->posts . '`;';
+			// phpcs:ignore
+			$comt = $wpdb->get_results( $sql, ARRAY_A );
+			foreach ( $comt as $t ) {
+				if ( ! array_key_exists( $t['post_status'], $status ) ) {
+					$status[ strtolower( $t['post_status'] ) ] = strtolower( str_replace( '_', ' ', $t['post_status'] ) );
+				}
+			}
+			Cache::set( $cache_id, $status, 'longquery', true );
+		}
+		return $status;
 	}
 
 }
