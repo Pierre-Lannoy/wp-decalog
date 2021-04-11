@@ -212,9 +212,48 @@ class Database {
 	 * @since 1.0.0
 	 */
 	public function count_lines( $table_name ) {
-		$result = -1;
+		return $this->count_filtered_lines( $table_name );
+	}
+
+	/**
+	 * Count the number of records in a filtered table.
+	 *
+	 * @param   string      $table_name    The table to count.
+	 * @param   array       $filters       The filters to apply.
+	 * @return integer Count of records.
+	 * @since 3.0.0
+	 */
+	public function count_filtered_lines( $table_name, $filters = [] ) {
 		global $wpdb;
-		$sql = 'SELECT COUNT(*) as CNT FROM `' . $wpdb->base_prefix . $table_name . '`;';
+		$result = -1;
+		if ( 0 !== strpos( $table_name, $wpdb->base_prefix ) ) {
+			$table_name = $wpdb->base_prefix . $table_name;
+		}
+		$where_clause = '';
+		if ( count( $filters ) > 0 ) {
+			$wheres = [];
+			foreach ( $filters as $key => $filter ) {
+				if ( is_array( $filter ) ) {
+					$w = [];
+					foreach ( $filter as $f ) {
+						if ( is_numeric( $f ) ) {
+							$w[] = $f;
+						} elseif ( is_string( $f ) ) {
+							$w[] = "'" . $f . "'";
+						}
+					}
+					$wheres[] = '`' . $key . '` IN (' . implode( ',', $w ) . ')';
+				} elseif ( is_numeric( $filter ) ) {
+					$wheres[] = '`' . $key . '` = ' . $filter;
+				} elseif ( is_string( $filter ) ) {
+					$wheres[] = '`' . $key . '` = \'' . $filter . '\'';
+				}
+			}
+			if ( count( $wheres ) > 0 ) {
+				$where_clause = ' WHERE ' . implode( ' AND ', $wheres );
+			}
+		}
+		$sql = 'SELECT COUNT(*) as CNT FROM `' . $table_name . '`' . $where_clause . ';';
 		// phpcs:ignore
 		$cnt = $wpdb->get_results( $sql, ARRAY_A );
 		if ( count( $cnt ) > 0 ) {
