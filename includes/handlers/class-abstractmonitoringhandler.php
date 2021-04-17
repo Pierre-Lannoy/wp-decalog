@@ -100,7 +100,6 @@ abstract class AbstractMonitoringHandler extends AbstractProcessingHandler {
 			// phpcs:ignore
 			if ( $sampling >= mt_rand( 1, 1000 ) ) {
 				add_action( 'shutdown', [ $this, 'close' ], PHP_INT_MAX - 2, 0 );
-
 			}
 			self::$running[] = $this->uuid;
 		}
@@ -126,16 +125,27 @@ abstract class AbstractMonitoringHandler extends AbstractProcessingHandler {
 	 *
 	 * @since    3.0.0
 	 */
-	protected function cache(): void {
-		Cache::set_global(
+	protected function set_cache(): void {
+		Cache::set(
 			'metrics/' . $this->uuid,
 			[
 				'timestamp' => time(),
 				'body'      => $this->post_args['body'],
 				'headers'   => $this->post_args['headers'],
 			],
-			'metrics'
+			'metrics',
+			true
 		);
+	}
+
+	/**
+	 * Get the value of the cached record.
+	 *
+	 * @return mixed Value of record.
+	 * @since    3.0.0
+	 */
+	protected function get_cache(): void {
+		Cache::get( 'metrics/' . $this->uuid, true );
 	}
 
 	/**

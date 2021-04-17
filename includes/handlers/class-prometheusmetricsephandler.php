@@ -53,7 +53,7 @@ class PrometheusMetricsEPHandler extends AbstractMonitoringHandler {
 		$production              = $monitor->prod_registry()->getMetricFamilySamples();
 		$development             = ( Logger::ALERT === $this->level ? $monitor->dev_registry()->getMetricFamilySamples() : [] );
 		$this->post_args['body'] = $renderer->render( array_merge( $production, $development ) );
-		parent::cache();
+		parent::set_cache();
 	}
 
 }
