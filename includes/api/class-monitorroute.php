@@ -114,14 +114,15 @@ class MonitorRoute extends \WP_REST_Controller {
 	 * @return \WP_REST_Response|\WP_Error
 	 */
 	public function get_metrics( $request ) {
-		$record = Cache::get_global( 'metrics/' . $request['uuid'] );
-		if ( isset( $record ) && is_array( $record ) && array_key_exists( 'body', $record ) && array_key_exists( 'headers', $record ) ) {
+		$record = Cache::get( 'metrics/' . $request['uuid'], true );
+		if ( isset( $record ) && is_array( $record ) && array_key_exists( 'body', $record ) && array_key_exists( 'headers', $record ) && array_key_exists( 'timestamp', $record ) ) {
 			header( 'Content-Type: ' . RenderTextFormat::MIME_TYPE );
+			header( 'Age: ' . ( time() - $record['timestamp'] ) );
 			//phpcs:ignore
 			print( $record['body'] );
 			exit();
 		} else {
-			return new \WP_Error( 'rest_resource_not_found', sprintf( 'Logger %s not found', $request['uuid'] ), [ 'status' => 404 ] );
+			return new \WP_Error( 'rest_resource_not_found', sprintf( 'Logger %s not found.', $request['uuid'] ), [ 'status' => 404 ] );
 		}
 
 	}
