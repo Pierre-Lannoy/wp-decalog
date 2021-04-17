@@ -107,7 +107,7 @@ class Cache {
 			'infinite'          => 10 * YEAR_IN_SECONDS,
 			'diagnosis'         => HOUR_IN_SECONDS,
 			'plugin-statistics' => DAY_IN_SECONDS,
-			'metrics'           => 10 * MINUTE_IN_SECONDS,
+			'metrics'           => HOUR_IN_SECONDS,
 			'm-query'           => 10 * MINUTE_IN_SECONDS,
 			'longquery'         => 6 * HOUR_IN_SECONDS,
 		];
