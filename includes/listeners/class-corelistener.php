@@ -12,10 +12,14 @@
 
 namespace Decalog\Listener;
 
+use Decalog\System\Cache;
 use Decalog\System\Environment;
+use Decalog\System\Hash;
 use Decalog\System\Option;
 use Decalog\System\Http;
 use Decalog\System\Comment;
+use Decalog\System\Post;
+use Decalog\System\Database;
 
 /**
  * WP core listener for DecaLog.
@@ -27,6 +31,38 @@ use Decalog\System\Comment;
  * @since   1.0.0
  */
 class CoreListener extends AbstractListener {
+
+	/**
+	 * Post types.
+	 *
+	 * @since  3.0.0
+	 * @var    array    $post_types    Post types.
+	 */
+	private $post_types = [];
+
+	/**
+	 * Comment types.
+	 *
+	 * @since  3.0.0
+	 * @var    array    $comment_types    Comment types.
+	 */
+	private $comment_types = [];
+
+	/**
+	 * Post status.
+	 *
+	 * @since  3.0.0
+	 * @var    array    $post_status    Post status.
+	 */
+	private $post_status = [];
+
+	/**
+	 * Comment status.
+	 *
+	 * @since  3.0.0
+	 * @var    array    $comment_status    Comment status.
+	 */
+	private $comment_status = [];
 
 	/**
 	 * Sets the listener properties.
@@ -136,6 +172,8 @@ class CoreListener extends AbstractListener {
 		add_action( 'wp_delete_application_password', [ $this, 'wp_delete_application_password' ], 10, 2 );
 		add_action( 'application_password_failed_authentication', [ $this, 'application_password_failed_authentication' ], 10, 1 );
 		add_action( 'application_password_did_authenticate', [ $this, 'application_password_did_authenticate' ], 10, 2 );
+		// WP (for monitors)
+		add_action( 'wp_loaded', [ $this, 'ready' ] );
 		return true;
 	}
 
@@ -145,7 +183,44 @@ class CoreListener extends AbstractListener {
 	 * @since    2.4.0
 	 */
 	protected function launched() {
-		// No post-launch operations
+		$this->monitor->create_dev_gauge( 'page_latency', 0, 'Execution time for full page rendering - [second]' );
+		$this->monitor->create_dev_gauge( 'wp_latency', 0, 'Execution time for WordPress page rendering - [second]' );
+		$this->monitor->create_dev_gauge( 'init_latency', 0, 'Execution time for initialization sequence - [second]' );
+		$this->monitor->create_dev_gauge( 'shutdown_latency', 0, 'Execution time for shutdown sequence - [second]' );
+		$this->monitor->create_prod_counter( 'plugin_active', 'Number of active plugins - [count]' );
+		$this->monitor->create_prod_counter( 'plugin_inactive', 'Number of inactive plugins - [count]' );
+		$this->monitor->create_prod_counter( 'plugin_updatable', 'Number of plugins needing update - [count]' );
+		$this->monitor->create_prod_counter( 'muplugin_active', 'Number of active must-use plugins - [count]' );
+		$this->monitor->create_prod_counter( 'dropin_active', 'Number of active drop-ins - [count]' );
+		$this->monitor->create_prod_counter( 'user_active', 'Number of active users - [count]' );
+		$this->monitor->create_prod_counter( 'user_inactive', 'Number of inactive users - [count]' );
+		$this->monitor->create_prod_counter( 'user_ham', 'Number of ham users - [count]' );
+		$this->monitor->create_prod_counter( 'user_spam', 'Number of spam users - [count]' );
+		$this->monitor->create_prod_counter( 'user_trash', 'Number of trashed users - [count]' );
+	}
+
+	/**
+	 * Performs operations after wp is ready if needed.
+	 *
+	 * @since    3.0.0
+	 */
+	public function ready() {
+		$this->post_types     = Post::get_types();
+		$this->comment_types  = Comment::get_types();
+		$this->post_status    = Post::get_status();
+		$this->comment_status = Comment::get_status();
+		foreach ( $this->post_status as $status => $label ) {
+			$this->monitor->create_prod_counter( 'content_status_' . $status, 'Number of ' . strtolower( $label ) . ' contents - [count]' );
+		}
+		foreach ( $this->post_types as $type => $label ) {
+			$this->monitor->create_prod_counter( 'content_type_' . $type, 'Number of ' . strtolower( str_replace( '_', ' ', $label ) ) . ' - [count]' );
+		}
+		foreach ( $this->comment_status as $status => $label ) {
+			$this->monitor->create_prod_counter( 'comment_status_' . $status, 'Number of ' . strtolower( $label ) . ' comments - [count]' );
+		}
+		foreach ( $this->comment_types as $type => $label ) {
+			$this->monitor->create_prod_counter( 'comment_type_' . $type, 'Number of ' . strtolower( str_replace( '_', ' ', $label ) ) . ' - [count]' );
+		}
 	}
 
 	/**
@@ -1213,14 +1288,232 @@ class CoreListener extends AbstractListener {
 	}
 
 	/**
+	 * Monitors execution times.
+	 *
+	 * @since    3.0.0
+	 */
+	public function time_close() {
+		if ( ! defined( 'POWP_END_TIMESTAMP' ) ) {
+			define( 'POWP_END_TIMESTAMP', microtime( true ) );
+		}
+		if ( defined( 'POWS_START_TIMESTAMP' ) ) {
+			$this->monitor->set_dev_gauge( 'page_latency', round( POWP_END_TIMESTAMP - POWS_START_TIMESTAMP, 6 ) );
+		}
+		if ( defined( 'POWP_START_TIMESTAMP' ) ) {
+			$this->monitor->set_dev_gauge( 'wp_latency', round( POWP_END_TIMESTAMP - POWP_START_TIMESTAMP, 6 ) );
+		}
+		if ( defined( 'POWS_START_TIMESTAMP' ) && defined( 'POWP_START_TIMESTAMP' ) ) {
+			$this->monitor->set_dev_gauge( 'init_latency', round( POWP_START_TIMESTAMP - POWS_START_TIMESTAMP, 6 ) );
+		}
+		$this->monitor->set_dev_gauge( 'shutdown_latency', round( microtime( true ) - POWP_END_TIMESTAMP, 6 ) );
+	}
+
+	/**
+	 * Monitors plugins.
+	 *
+	 * @since    3.0.0
+	 */
+	public function plugin_close() {
+		$actives = get_option( 'active_plugins' );
+		$updates = get_site_transient( 'update_plugins' );
+		if ( ! is_object( $updates ) && function_exists( 'wp_update_plugins' ) ) {
+			wp_update_plugins();
+			$updates = get_site_transient( 'update_plugins' );
+		}
+		if ( is_object( $updates ) ) {
+			if ( is_array( $updates->response ) ) {
+				$this->monitor->inc_prod_counter( 'plugin_updatable', count( $updates->response ) );
+			}
+		}
+		$apl = 0;
+		if ( function_exists( 'get_plugins' ) ) {
+			$plugins = get_plugins();
+			foreach ( $actives as $a ) {
+				if ( isset( $plugins[ $a ] ) ) {
+					$apl++;
+				}
+			}
+			$this->monitor->inc_prod_counter( 'plugin_active', $apl );
+			$this->monitor->inc_prod_counter( 'plugin_inactive', count( $plugins ) - $apl );
+		}
+		if ( function_exists( 'get_mu_plugins' ) ) {
+			$this->monitor->inc_prod_counter( 'muplugin_active', count( get_mu_plugins() ) );
+		}
+		if ( function_exists( 'get_dropins' ) ) {
+			$this->monitor->inc_prod_counter( 'dropin_active', count( get_dropins() ) );
+		}
+	}
+
+	/**
+	 * Monitors users.
+	 *
+	 * @since    3.0.0
+	 */
+	public function user_close() {
+		global $wpdb;
+		$db = new Database();
+		// Active users
+		$args     = [
+			'user_status' => 0,
+		];
+		$cache_id = Cache::id( $args, 'm-query/' );
+		$users    = Cache::get( $cache_id );
+		if ( ! isset( $users ) ) {
+			$users = $db->count_filtered_lines( $wpdb->users, $args );
+			Cache::set( $cache_id, $users, 'm-query' );
+		}
+		$active = $users;
+		// Inactive users
+		$args     = [
+			'user_status' => 2,
+		];
+		$cache_id = Cache::id( $args, 'm-query/' );
+		$users    = Cache::get( $cache_id );
+		if ( ! isset( $users ) ) {
+			$users = $db->count_filtered_lines( $wpdb->users, $args );
+			Cache::set( $cache_id, $users, 'm-query' );
+		}
+		$inactive = $users;
+		// Spam users
+		$args     = [
+			'user_status' => 1,
+		];
+		$cache_id = Cache::id( $args, 'm-query/' );
+		$users    = Cache::get( $cache_id );
+		if ( ! isset( $users ) ) {
+			$users = $db->count_filtered_lines( $wpdb->users, $args );
+			Cache::set( $cache_id, $users, 'm-query' );
+		}
+		$spam = $users;
+		if ( Environment::is_wordpress_multisite() ) {
+			// Deleted users
+			$args     = [
+				'deleted' => 1,
+			];
+			$cache_id = Cache::id( $args, 'm-query/' );
+			$users    = Cache::get( $cache_id );
+			if ( ! isset( $users ) ) {
+				$users = $db->count_filtered_lines( $wpdb->users, $args );
+				Cache::set( $cache_id, $users, 'm-query' );
+			}
+			$trash = $users;
+			// Spam users
+			$args     = [
+				'spam' => 1,
+			];
+			$cache_id = Cache::id( $args, 'm-query/' );
+			$users    = Cache::get( $cache_id );
+			if ( ! isset( $users ) ) {
+				$users = $db->count_filtered_lines( $wpdb->users, $args );
+				Cache::set( $cache_id, $users, 'm-query' );
+			}
+			$spam += $users;
+		} else {
+			$trash = 0;
+		}
+		$this->monitor->inc_prod_counter( 'user_active', $active );
+		$this->monitor->inc_prod_counter( 'user_inactive', $inactive );
+		$this->monitor->inc_prod_counter( 'user_ham', $active + $inactive - $spam );
+		$this->monitor->inc_prod_counter( 'user_spam', $spam );
+		$this->monitor->inc_prod_counter( 'user_trash', $trash );
+	}
+
+	/**
+	 * Monitors posts.
+	 *
+	 * @since    3.0.0
+	 */
+	public function post_close() {
+		global $wpdb;
+		$db = new Database();
+		foreach ( $this->post_status as $status => $label ) {
+			$args     = [
+				'post_status' => $status,
+			];
+			$cache_id = Cache::id( $args, 'm-query/' );
+			$posts    = Cache::get( $cache_id, true );
+			if ( ! isset( $posts ) ) {
+				$posts = $db->count_filtered_lines( $wpdb->posts, $args );
+				Cache::set( $cache_id, $posts, 'm-query', true );
+			}
+			$this->monitor->inc_prod_counter( 'content_status_' . $status, $posts );
+		}
+		foreach ( $this->post_types as $type => $label ) {
+			if ( 'post' === $type ) {
+				$ptype = [ 'post', '' ];
+			} else {
+				$ptype = $type;
+			}
+			$args     = [
+				'post_type' => $ptype,
+			];
+			$cache_id = Cache::id( $args, 'm-query/' );
+			$posts    = Cache::get( $cache_id, true );
+			if ( ! isset( $posts ) ) {
+				$posts = $db->count_filtered_lines( $wpdb->posts, $args );
+				Cache::set( $cache_id, $posts, 'm-query', true );
+			}
+			$this->monitor->inc_prod_counter( 'content_type_' . $type, $posts );
+		}
+	}
+
+	/**
+	 * Comments posts.
+	 *
+	 * @since    3.0.0
+	 */
+	public function comment_close() {
+		global $wpdb;
+		$db = new Database();
+		foreach ( $this->comment_status as $status => $label ) {
+			if ( 'hold' === $status ) {
+				$value = 0;
+			} elseif ( 'approve' === $status ) {
+				$value = 1;
+			} else {
+				$value = $status;
+			}
+			$args     = [
+				'comment_approved' => $value,
+			];
+			$cache_id = Cache::id( $args, 'm-query/' );
+			$comments = Cache::get( $cache_id, true );
+			if ( ! isset( $comments ) ) {
+				$comments = $db->count_filtered_lines( $wpdb->comments, $args );
+				Cache::set( $cache_id, $comments, 'm-query', true );
+			}
+			$this->monitor->inc_prod_counter( 'comment_status_' . $status, $comments );
+		}
+		foreach ( $this->comment_types as $type => $label ) {
+			if ( 'comment' === $type ) {
+				$ctype = [ 'comment', '' ];
+			} else {
+				$ctype = $type;
+			}
+			$args     = [
+				'comment_type' => $ctype,
+			];
+			$cache_id = Cache::id( $args, 'm-query/' );
+			$comments = Cache::get( $cache_id, true );
+			if ( ! isset( $comments ) ) {
+				$comments = $db->count_filtered_lines( $wpdb->comments, $args );
+				Cache::set( $cache_id, $comments, 'm-query', true );
+			}
+			$this->monitor->inc_prod_counter( 'comment_type_' . $type, $comments );
+		}
+	}
+
+	/**
 	 * Finalizes monitoring operations.
 	 *
 	 * @since    3.0.0
 	 */
 	public function monitoring_close() {
-
-		//TODO : page genration time
-		// No monitors to finalize.
+		$this->time_close();
+		$this->user_close();
+		$this->post_close();
+		$this->comment_close();
+		$this->plugin_close();
 	}
 
 }
