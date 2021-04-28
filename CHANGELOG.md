@@ -8,8 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 - DecaLog now supports metrics collecting, forwarding and publishing.
 - New "metrics" tab in settings to list all currently collected metrics.
-- DecaLog now collects extended metrics for: database, multisite
-- DecaLog now collects minimalist metrics for: Wordfence
+- DecaLog now collects extended metrics for: PHP, WordPress core, database and WordPress multisite.
+- DecaLog now collects minimalist metrics for Wordfence.
 - New logger to send metrics to a Prometheus instance.
 - New logger to publish metrics as endpoint for Prometheus scrapping.
 - [WP-CLI] New command to list, dump or get metrics: see `wp help log metrics` for details.
