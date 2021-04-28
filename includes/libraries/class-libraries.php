@@ -78,6 +78,17 @@ class Libraries {
 			'license' => 'apl2',
 			'langs'   => 'en',
 		];
+		self::$psr4_libraries['influxdb']   = [
+			'name'    => 'InfluxDB 2 client',
+			'prefix'  => 'InfluxDB2',
+			'base'    => DECALOG_VENDOR_DIR . 'influxdb/',
+			'version' => '1.12.0',
+			// phpcs:ignore
+			'author'  => sprintf( esc_html__( '%s & contributors', 'decalog' ), 'InfluxData' ),
+			'url'     => 'https://github.com/influxdata/influxdb-client-php',
+			'license' => 'mit',
+			'langs'   => 'en',
+		];
 		self::$psr4_libraries['lock']   = [
 			'name'    => 'Lock',
 			'prefix'  => 'malkusch\lock',
