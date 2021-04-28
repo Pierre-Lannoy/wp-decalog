@@ -112,7 +112,7 @@ class Libraries {
 			'langs'   => 'en',
 		];
 		self::$psr4_libraries['guzzlehttp']   = [
-			'name'    => 'GuzzleHttp Ring & Stream',
+			'name'    => 'GuzzleHttp',
 			'prefix'  => 'GuzzleHttp',
 			'base'    => DECALOG_VENDOR_DIR . 'guzzlehttp/',
 			'version' => '',
