@@ -155,10 +155,30 @@ class Libraries {
 			'license' => 'mit',
 			'langs'   => 'en',
 		];
-		self::$psr4_libraries['psr-3']     = [
+		self::$psr4_libraries['psr-03']     = [
 			'name'    => 'PSR-3',
 			'prefix'  => 'Psr\\Log',
 			'base'    => DECALOG_VENDOR_DIR . 'psr/log/',
+			'version' => '',
+			'author'  => 'PHP Framework Interop Group',
+			'url'     => 'https://www.php-fig.org/',
+			'license' => 'mit',
+			'langs'   => 'en',
+		];
+		self::$psr4_libraries['psr-07']     = [
+			'name'    => 'PSR-7',
+			'prefix'  => 'Psr\\Http\\Message',
+			'base'    => DECALOG_VENDOR_DIR . 'psr/http-message/',
+			'version' => '',
+			'author'  => 'PHP Framework Interop Group',
+			'url'     => 'https://www.php-fig.org/',
+			'license' => 'mit',
+			'langs'   => 'en',
+		];
+		self::$psr4_libraries['psr-18']     = [
+			'name'    => 'PSR-18',
+			'prefix'  => 'Psr\\Http\\Client',
+			'base'    => DECALOG_VENDOR_DIR . 'psr/http-client/',
 			'version' => '',
 			'author'  => 'PHP Framework Interop Group',
 			'url'     => 'https://www.php-fig.org/',
