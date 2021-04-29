@@ -79,7 +79,7 @@ class RenderLineFormat implements RendererInterface {
 	 * @return string
 	 */
 	private function escapeLabelValue( string $v ): string {
-		return str_replace( [ '\\', "\n", '"', ' ', '=', ',' ], [ '\\\\', "\\n", '\\"', '\\', '', '' ], $v );
+		return str_replace( [ '\\', "\n", '"', ' ', '=', ',' ], [ '\\\\', "\\n", '\\"', '\\ ', '', '' ], $v );
 	}
 
 	/**
