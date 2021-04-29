@@ -58,6 +58,158 @@ class HandlerTypes {
 		// MONITORING
 		$this->handlers[] = [
 			'version'       => DECALOG_VERSION,
+			'id'            => 'InfluxMonitoringHandler',
+			'ancestor'      => 'InfluxMonitoringHandler',
+			'namespace'     => 'Decalog\\Handler',
+			'class'         => 'metrics',
+			'minimal'       => Logger::EMERGENCY,
+			'name'          => 'InfluxDB 2',
+			'help'          => esc_html__( 'Metrics sent to an InfluxDB 2 instance or cluster.', 'decalog' ),
+			'icon'          => $this->get_base64_infuxdb_icon(),
+			'needs'         => [],
+			'params'        => [],
+			'processors'    => [],
+			'configuration' => [
+				'profile'  => [
+					'type'    => 'integer',
+					'show'    => true,
+					'name'    => esc_html__( 'Profile', 'decalog' ),
+					'help'    => sprintf( __( 'The type of metrics to collect (%s). Choosing "Automatic" sets the profile to the current WordPress environment type.', 'decalog' ), sprintf( '<a href="https://github.com/Pierre-Lannoy/wp-decalog/blob/master/MONITORING.md" target="_blank">%s</a>', esc_html__( 'details', 'decalog' ) ) ),
+					'default' => 500,
+					'control' => [
+						'type'    => 'field_select',
+						'cast'    => 'integer',
+						'enabled' => true,
+						'list'    => [ [ 500, esc_html__( 'Automatic', 'decalog' ) ], [ 600, esc_html__( 'Production', 'decalog' ) ], [ 550, esc_html__( 'Development', 'decalog' ) ] ],
+					],
+				],
+				'sampling' => [
+					'type'    => 'integer',
+					'show'    => true,
+					'name'    => esc_html__( 'Sampling', 'decalog' ),
+					'help'    => esc_html__( 'Sampling rate to be chosen according to the site traffic.', 'decalog' ),
+					'default' => 100,
+					'control' => [
+						'type'    => 'field_select',
+						'cast'    => 'integer',
+						'enabled' => true,
+						'list'    => [ [ 1000, '100%' ], [ 500, '50%' ], [ 250, '25%' ], [ 100, '10%' ], [ 50, '5%' ], [ 20, '2%' ], [ 10, '1%' ], [ 5, '5‰' ], [ 2, '2‰' ], [ 1, '1‰' ] ],
+					],
+				],
+				'url'   => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Service URL', 'decalog' ),
+					'help'    => sprintf( esc_html__( 'URL where to send metrics. Format: %s.', 'decalog' ), '<code>' . htmlentities( '<proto>://<host>:<port>' ) . '</code>' ),
+					'default' => 'http://localhost:8086/',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
+				'org'   => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Organization', 'decalog' ),
+					'help'    => esc_html__( 'Organization name to use (must exist).', 'decalog' ),
+					'default' => 'my-org',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
+				'bucket'   => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Bucket', 'decalog' ),
+					'help'    => esc_html__( 'Bucket name to use (must exist).', 'decalog' ),
+					'default' => 'my-bucket',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
+				'token'   => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Token', 'decalog' ),
+					'help'    => esc_html__( 'Token value to write in bucket.', 'decalog' ),
+					'default' => 'my-bucket',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
+				'model' => [
+					'type'    => 'integer',
+					'show'    => true,
+					'name'    => esc_html__( 'Labels', 'decalog' ),
+					'help'    => esc_html__( 'Template for labels. If you are unsure of the implications on cardinality, choose the first one.', 'decalog' ),
+					'default' => 0,
+					'control' => [
+						'type'    => 'field_select',
+						'cast'    => 'string',
+						'enabled' => true,
+						'list'    => [ [ 0, '{job="x", instance="y"} - ' . esc_html__( 'Recommended in most cases', 'decalog' ) ], [ 1, '{job="x", instance="y", env="z"} - ' . esc_html__( 'Classical environment segmentation', 'decalog' ) ], [ 2, '{job="x", instance="y", version="z"} - ' . esc_html__( 'Classical version segmentation', 'decalog' ) ], [ 3, '{job="x", site="y"} - ' . esc_html__( 'WordPress Multisite segmentation', 'decalog' ) ] ],
+					],
+				],
+				'id'    => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Job', 'decalog' ),
+					'help'    => esc_html__( 'The fixed job name for some templates.', 'decalog' ),
+					'default' => 'wp_decalog',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
+			],
+			'init'          => [
+				[
+					'type' => 'uuid',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'profile',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'sampling',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'url',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'org',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'bucket',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'token',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'model',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'id',
+				],
+			],
+		];
+		$this->handlers[] = [
+			'version'       => DECALOG_VERSION,
 			'id'            => 'PrometheusMetricsEPHandler',
 			'ancestor'      => 'PrometheusMetricsEPHandler',
 			'namespace'     => 'Decalog\\Handler',
@@ -2407,6 +2559,24 @@ class HandlerTypes {
 		$source .= '<style type="text/css">.st5{fill:url(#SVGID_5_);}</style>';
 		$source .= '<g transform="translate(23,23) scale(0.81,0.81)">';
 		$source .= '<path d="M128.001.667C57.311.667 0 57.971 0 128.664c0 70.69 57.311 127.998 128.001 127.998S256 199.354 256 128.664C256 57.97 198.689.667 128.001.667zm0 239.56c-20.112 0-36.419-13.435-36.419-30.004h72.838c0 16.566-16.306 30.004-36.419 30.004zm60.153-39.94H67.842V178.47h120.314v21.816h-.002zm-.432-33.045H68.185c-.398-.458-.804-.91-1.188-1.375-12.315-14.954-15.216-22.76-18.032-30.716-.048-.262 14.933 3.06 25.556 5.45 0 0 5.466 1.265 13.458 2.722-7.673-8.994-12.23-20.428-12.23-32.116 0-25.658 19.68-48.079 12.58-66.201 6.91.562 14.3 14.583 14.8 36.505 7.346-10.152 10.42-28.69 10.42-40.056 0-11.769 7.755-25.44 15.512-25.907-6.915 11.396 1.79 21.165 9.53 45.4 2.902 9.103 2.532 24.423 4.772 34.138.744-20.178 4.213-49.62 17.014-59.784-5.647 12.8.836 28.818 5.27 36.518 7.154 12.424 11.49 21.836 11.49 39.638 0 11.936-4.407 23.173-11.84 31.958 8.452-1.586 14.289-3.016 14.289-3.016l27.45-5.355c.002-.002-3.987 16.401-19.314 32.197z" fill="' . $color1 . '"/>';
+		$source .= '</g>';
+		$source .= '</svg>';
+		// phpcs:ignore
+		return 'data:image/svg+xml;base64,' . base64_encode( $source );
+	}
+
+	/**
+	 * Returns a base64 svg resource for the influxDB icon.
+	 *
+	 * @param string $color1 Optional. Color of the icon.
+	 * @return string The svg resource as a base64.
+	 * @since 3.0.0
+	 */
+	private function get_base64_infuxdb_icon( $color1 = '#22ADF6' ) {
+		$source  = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="256px" height="256px" viewBox="0 0 900 900">';
+		$source .= '<style type="text/css">.st0{fill:none;}.st1{fill:' . $color1 . ';}</style>';
+		$source .= '<g transform="translate(220,200) scale(0.84,0.84)">';
+		$source .= '<path class="st1" d="M694.1,394.9l-81-352.7C608.5,22.9,591,3.6,571.7-2L201.5-116.2c-4.6-1.8-10.1-1.8-15.7-1.8 c-15.7,0-32.2,6.4-43.3,15.7l-265.2,246.8c-14.7,12.9-22.1,38.7-17.5,57.1l86.6,377.6c4.6,19.3,22.1,38.7,41.4,44.2l346.2,106.8 c4.6,1.8,10.1,1.8,15.7,1.8c15.7,0,32.2-6.4,43.3-15.7L676.6,453C691.4,439.2,698.7,414.3,694.1,394.9z M240.2-32.4l254.1,78.3 c10.1,2.8,10.1,7.4,0,10.1L360.8,86.4c-10.1,2.8-23.9-1.8-31.3-9.2l-93-100.4C228.2-31.4,230-35.1,240.2-32.4z M398.5,423.5 c2.8,10.1-3.7,15.7-13.8,12.9l-274.4-84.7c-10.1-2.8-12-11.1-4.6-18.4L315.7,138c7.4-7.4,15.7-4.6,18.4,5.5L398.5,423.5z M-53.6,174.8L169.3-32.4c7.4-7.4,19.3-6.4,26.7,0.9L307.4,89.2c7.4,7.4,6.4,19.3-0.9,26.7L83.6,323.1c-7.4,7.4-19.3,6.4-26.7-0.9 L-54.5,201.6C-61.9,193.3-60.9,181.3-53.6,174.8z M0.8,503.6l-58.9-258.8c-2.8-10.1,1.8-12,8.3-4.6l93,100.4 c7.4,7.4,10.1,22.1,7.4,32.2L10,503.6C7.2,513.7,2.6,513.7,0.8,503.6z M326.7,654.6l-291-89.3c-10.1-2.8-15.7-13.8-12.9-23.9 l48.8-156.6c2.8-10.1,13.8-15.7,23.9-12.9l291,89.3c10.1,2.8,15.7,13.8,12.9,23.9l-48.8,156.6C347,651.9,336.9,657.4,326.7,654.6z M584.5,442.8L390.3,623.3c-7.4,7.4-11,4.6-8.3-5.5L422.5,487c2.8-10.1,13.8-20.3,23.9-22.1l133.5-30.4 C590.1,431.8,591.9,436.4,584.5,442.8z M605.7,404.2L445.5,441c-10.1,2.8-20.3-3.7-23-13.8l-68.1-296.5c-2.8-10.1,3.7-20.3,13.8-23 l160.2-36.8c10.1-2.8,20.3,3.7,23,13.8l68.1,296.5C622.3,392.2,615.9,402.3,605.7,404.2z"/>';
 		$source .= '</g>';
 		$source .= '</svg>';
 		// phpcs:ignore
