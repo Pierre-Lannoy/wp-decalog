@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - DecaLog now collects minimalist metrics for Wordfence.
 - New logger to send metrics to a Prometheus instance.
 - New logger to publish metrics as endpoint for Prometheus scrapping.
+- New logger to send metrics to InfluxDB Cloud or to an on-premise InfluxDB 2 instance or cluster
 - [WP-CLI] New command to list, dump or get metrics: see `wp help log metrics` for details.
 
 ### Changed

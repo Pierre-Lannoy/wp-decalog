@@ -16,7 +16,7 @@ use Decalog\System\Environment;
 use Monolog\Logger;
 use Monolog\Formatter\FormatterInterface;
 use Decalog\Plugin\Feature\DMonitor;
-use Prometheus\RenderTextFormat;
+use Prometheus\RenderLineFormat;
 use Prometheus\CollectorRegistry;
 use InfluxDB2\Client as InfluxClient;
 use InfluxDB2\Model\WritePrecision as InfluxWritePrecision;
@@ -33,28 +33,12 @@ use InfluxDB2\Model\WritePrecision as InfluxWritePrecision;
 class InfluxMonitoringHandler extends AbstractMonitoringHandler {
 
 	/**
-	 * InfluxDB connexion parameters
+	 * InfluxDB connection parameters
 	 *
 	 * @since  3.0.0
-	 * @var    array    $connexion    The InfluxDB connexion parameters.
+	 * @var    array    $connection    The InfluxDB connection parameters.
 	 */
-	protected $connexion;
-
-	/**
-	 * Labels template.
-	 *
-	 * @since  3.0.0
-	 * @var    integer    $template    The label templates ID.
-	 */
-	protected $template;
-
-	/**
-	 * Fixed job name.
-	 *
-	 * @since  3.0.0
-	 * @var    string    $job    The fixed job name.
-	 */
-	protected $job;
+	protected $connection;
 
 	/**
 	 * Initialize the class and set its properties.
@@ -70,8 +54,6 @@ class InfluxMonitoringHandler extends AbstractMonitoringHandler {
 	 */
 	public function __construct( string $uuid, int $profile, int $sampling, string $url, string $org, string $bucket, string $token ) {
 		parent::__construct( $uuid, $profile, $sampling );
-		$this->job        = 'aaa';
-		$this->template   = 1;
 		$this->connection = [
 			'url'       => $url,
 			'org'       => $org,
@@ -80,49 +62,21 @@ class InfluxMonitoringHandler extends AbstractMonitoringHandler {
 			'precision' => InfluxWritePrecision::MS,
 			'logFile'   => '/dev/null',
 		];
+	}
 
-
-
-		$this->endpoint = $url . '/metrics';
-		$stream         = [];
-		switch ( $this->template ) {
-			case 1:
-				$stream['job']         = $this->job;
-				$stream['instance']    = gethostname();
-				$stream['environment'] = Environment::stage();
-				break;
-			case 2:
-				$stream['job']      = $this->job;
-				$stream['instance'] = gethostname();
-				$stream['version']  = Environment::wordpress_version_text( true );
-				break;
-			case 3:
-				$stream['job']  = $this->job;
-				$stream['site'] = Blog::get_current_blog_id( 0 );
-				break;
-			default:
-				$stream['job']      = $this->job;
-				$stream['instance'] = gethostname();
+	/**
+	 * Post the record to the service.
+	 *
+	 * @since    3.0.0
+	 */
+	protected function send(): void {
+		try {
+			$client = new InfluxClient( $this->connection );
+			$influx = $client->createWriteApi();
+			$influx->write( $this->post_args['body'] );
+		} catch ( \Throwable $e ) {
+			//TODO: handle error, for now it's silent.
 		}
-		foreach ( $stream as $key => $value ) {
-			$this->endpoint .= '/' . $key . '/' . $value;
-		}
-		$this->post_args['headers']['Content-Type'] = RenderTextFormat::MIME_TYPE;
-
-
-
-		/*$client = new InfluxClient( $connection );
-
-		$health       = $client->health();
-		if ( 'pass' === $health->getStatus() ) {
-			$this->influx = $client->createWriteApi();
-			$ok           = true;
-			//error_log( sprintf( 'Connected to InfluxDB v%s.', $health->getVersion() ) );
-		} else {
-			$message = preg_replace('/\[.*: /miU', '', $health->getMessage() );
-			$message = str_replace( '(see https://curl.haxx.se/libcurl/c/libcurl-errors.html) ', '', $message );
-			error_log( sprintf( 'Unable to connect to InfluxDB: %s.', $message ) );
-		}*/
 	}
 
 	/**
@@ -130,11 +84,11 @@ class InfluxMonitoringHandler extends AbstractMonitoringHandler {
 	 */
 	public function close(): void {
 		$monitor                 = new DMonitor( 'plugin', DECALOG_PRODUCT_NAME, DECALOG_VERSION );
-		$renderer                = new RenderTextFormat();
+		$renderer                = new RenderLineFormat();
 		$production              = $monitor->prod_registry()->getMetricFamilySamples();
 		$development             = ( Logger::ALERT === $this->level ? $monitor->dev_registry()->getMetricFamilySamples() : [] );
 		$this->post_args['body'] = $renderer->render( array_merge( $production, $development ) );
-		//parent::send();
+		$this->send();
 	}
 
 }
