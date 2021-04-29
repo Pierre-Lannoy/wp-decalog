@@ -144,31 +144,6 @@ class HandlerTypes {
 						'enabled' => true,
 					],
 				],
-				'model' => [
-					'type'    => 'integer',
-					'show'    => true,
-					'name'    => esc_html__( 'Labels', 'decalog' ),
-					'help'    => esc_html__( 'Template for labels. If you are unsure of the implications on cardinality, choose the first one.', 'decalog' ),
-					'default' => 0,
-					'control' => [
-						'type'    => 'field_select',
-						'cast'    => 'string',
-						'enabled' => true,
-						'list'    => [ [ 0, '{job="x", instance="y"} - ' . esc_html__( 'Recommended in most cases', 'decalog' ) ], [ 1, '{job="x", instance="y", env="z"} - ' . esc_html__( 'Classical environment segmentation', 'decalog' ) ], [ 2, '{job="x", instance="y", version="z"} - ' . esc_html__( 'Classical version segmentation', 'decalog' ) ], [ 3, '{job="x", site="y"} - ' . esc_html__( 'WordPress Multisite segmentation', 'decalog' ) ] ],
-					],
-				],
-				'id'    => [
-					'type'    => 'string',
-					'show'    => true,
-					'name'    => esc_html__( 'Job', 'decalog' ),
-					'help'    => esc_html__( 'The fixed job name for some templates.', 'decalog' ),
-					'default' => 'wp_decalog',
-					'control' => [
-						'type'    => 'field_input_text',
-						'cast'    => 'string',
-						'enabled' => true,
-					],
-				],
 			],
 			'init'          => [
 				[
@@ -197,14 +172,6 @@ class HandlerTypes {
 				[
 					'type'  => 'configuration',
 					'value' => 'token',
-				],
-				[
-					'type'  => 'configuration',
-					'value' => 'model',
-				],
-				[
-					'type'  => 'configuration',
-					'value' => 'id',
 				],
 			],
 		];

@@ -33,6 +33,14 @@ use InfluxDB2\Model\WritePrecision as InfluxWritePrecision;
 class InfluxMonitoringHandler extends AbstractMonitoringHandler {
 
 	/**
+	 * InfluxDB connexion parameters
+	 *
+	 * @since  3.0.0
+	 * @var    array    $connexion    The InfluxDB connexion parameters.
+	 */
+	protected $connexion;
+
+	/**
 	 * Labels template.
 	 *
 	 * @since  3.0.0
@@ -58,14 +66,23 @@ class InfluxMonitoringHandler extends AbstractMonitoringHandler {
 	 * @param   string  $org        The organization name.
 	 * @param   string  $bucket     The bucket name.
 	 * @param   string  $token      The token.
-	 * @param   int     $model      The model to use for labels.
-	 * @param   string  $id         Optional. The job id.
 	 * @since    3.0.0
 	 */
-	public function __construct( string $uuid, int $profile, int $sampling, string $url, string $org, string $bucket, string $token, int $model, string $id = 'wp_decalog' ) {
+	public function __construct( string $uuid, int $profile, int $sampling, string $url, string $org, string $bucket, string $token ) {
 		parent::__construct( $uuid, $profile, $sampling );
-		$this->job      = $id;
-		$this->template = $model;
+		$this->job        = 'aaa';
+		$this->template   = 1;
+		$this->connection = [
+			'url'       => $url,
+			'org'       => $org,
+			'token'     => $token,
+			'bucket'    => $bucket,
+			'precision' => InfluxWritePrecision::MS,
+			'logFile'   => '/dev/null',
+		];
+
+
+
 		$this->endpoint = $url . '/metrics';
 		$stream         = [];
 		switch ( $this->template ) {
@@ -92,16 +109,9 @@ class InfluxMonitoringHandler extends AbstractMonitoringHandler {
 		}
 		$this->post_args['headers']['Content-Type'] = RenderTextFormat::MIME_TYPE;
 
-		$connection = [
-			'url'       => $url,
-			'org'       => $org,
-			'token'     => $token,
-			'bucket'    => $bucket,
-			'precision' => InfluxWritePrecision::MS,
-			'logFile'   => '/dev/null',
-		];
 
-		$client = new InfluxClient( $connection );
+
+		/*$client = new InfluxClient( $connection );
 
 		$health       = $client->health();
 		if ( 'pass' === $health->getStatus() ) {
@@ -112,7 +122,7 @@ class InfluxMonitoringHandler extends AbstractMonitoringHandler {
 			$message = preg_replace('/\[.*: /miU', '', $health->getMessage() );
 			$message = str_replace( '(see https://curl.haxx.se/libcurl/c/libcurl-errors.html) ', '', $message );
 			error_log( sprintf( 'Unable to connect to InfluxDB: %s.', $message ) );
-		}
+		}*/
 	}
 
 	/**
