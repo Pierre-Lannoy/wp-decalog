@@ -64,7 +64,7 @@ class HandlerTypes {
 			'class'         => 'metrics',
 			'minimal'       => Logger::EMERGENCY,
 			'name'          => 'InfluxDB 2',
-			'help'          => esc_html__( 'Metrics sent to an InfluxDB 2 instance or cluster.', 'decalog' ),
+			'help'          => esc_html__( 'Metrics sent to InfluxDB Cloud or to an on-premise InfluxDB 2 instance or cluster.', 'decalog' ),
 			'icon'          => $this->get_base64_infuxdb_icon(),
 			'needs'         => [],
 			'params'        => [],
@@ -100,7 +100,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Service URL', 'decalog' ),
-					'help'    => sprintf( esc_html__( 'URL where to send metrics. Format: %s.', 'decalog' ), '<code>' . htmlentities( '<proto>://<host>:<port>' ) . '</code>' ),
+					'help'    => sprintf( esc_html__( 'URL where to send metrics. Format: %s.', 'decalog' ), '<code>' . htmlentities( '<proto>://<host>[:<port>]' ) . '</code>' ),
 					'default' => 'http://localhost:8086/',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -275,7 +275,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Service URL', 'decalog' ),
-					'help'    => sprintf( esc_html__( 'URL where to send metrics. Format: %s.', 'decalog' ), '<code>' . htmlentities( '<proto>://<host>:<port>' ) . '</code>' ),
+					'help'    => sprintf( esc_html__( 'URL where to send metrics. Format: %s.', 'decalog' ), '<code>' . htmlentities( '<proto>://<host>[:<port>]' ) . '</code>' ),
 					'default' => 'http://localhost:9091/',
 					'control' => [
 						'type'    => 'field_input_text',
