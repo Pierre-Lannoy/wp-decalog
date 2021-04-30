@@ -37,7 +37,6 @@ An ___event___ is composed of:
 
 Depending on each ___loggers___ settings, an ___event___ may contains many other fields which are automatically detected and filled by DecaLog.
 
-
 ## Coding with DecaLog
 In fact, as a developer, you will have to deal only with ___level___, ___message___ and ___code___. All other fields of the ___event___ being handled internaly by DecaLog.
 
