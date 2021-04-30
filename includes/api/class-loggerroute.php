@@ -180,7 +180,7 @@ class LoggerRoute extends \WP_REST_Controller {
 			$records = [];
 			$this->logger->notice( 'Live console launched.' );
 		} else {
-			$records = Wpcli::records_format( Wpcli::records_filter( SharedMemoryHandler::read(), [ 'level' => $request['level'] ], $request['index'] ), $request['mode'], false, 320 );
+			$records = Wpcli::records_format( Wpcli::records_filter( SharedMemoryHandler::read(), [ 'level' => $request['level'] ], $request['index'] ), $request['mode'], 320 );
 			$index   = array_key_last( $records );
 			if ( ! isset( $index ) ) {
 				$index = $request['index'];

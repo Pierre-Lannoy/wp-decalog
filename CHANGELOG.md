@@ -29,6 +29,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 - [WP-CLI] The `wp log send` doesn't set an exit code in case of failure.
 - [WP-CLI] Typos in inline help.
+- Messages may be wrongly truncated in live console.
 
 ## [2.4.2] - 2021-03-01
 
