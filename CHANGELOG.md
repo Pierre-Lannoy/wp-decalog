@@ -10,7 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - New "metrics" tab in settings to list all currently collected metrics.
 - DecaLog now collects extended metrics for: PHP, WordPress core, database and WordPress multisite.
 - DecaLog now collects minimalist metrics for Wordfence.
-- New logger to send metrics to a Prometheus instance.
+- New logger to send metrics to a Prometheus instance (via Pushgateway).
 - New logger to publish metrics as endpoint for Prometheus scrapping.
 - New logger to send metrics to InfluxDB Cloud or to an on-premise InfluxDB 2 instance or cluster
 - [WP-CLI] New command to list, dump or get metrics: see `wp help log metrics` for details.
