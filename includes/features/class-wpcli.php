@@ -1734,3 +1734,5 @@ add_shortcode( 'decalog-wpcli', [ 'Decalog\Plugin\Feature\Wpcli', 'sc_get_helpfi
 if ( defined( 'WP_CLI' ) && WP_CLI ) {
 	\WP_CLI::add_command( 'log', 'Decalog\Plugin\Feature\Wpcli' );
 }
+
+//TODO: verify processors types
