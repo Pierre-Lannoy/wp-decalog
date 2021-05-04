@@ -126,14 +126,14 @@ class DMonitor {
 	 * @param   string  $class      The class identifier, must be in ClassTypes::$classes.
 	 * @param   string  $name       Optional. The name of the component.
 	 * @param   string  $version    Optional. The version of the component.
-	 * @param   boolean $prom       Optional. True if this logger is a prometheus compliant logger.
 	 * @since   3.0.0
 	 */
-	public function __construct( $class, $name = null, $version = null, $prom = false ) {
-		if ( $prom ) {
-			if ( ! Option::network_get( 'autolisteners' ) ) {
-				$this->allowed = in_array( 'prom', Option::network_get( 'listeners' ), true );
-			}
+	public function __construct( $class, $name = null, $version = null ) {
+		if ( ! isset( self::$logger ) ) {
+			self::$logger = new Logger( $class, $name, $version );
+		}
+		if ( ! Option::network_get( 'autolisteners' ) ) {
+			$this->allowed = in_array( 'prom', Option::network_get( 'listeners' ), true );
 		}
 		if ( $this->allowed ) {
 			if ( in_array( $class, ClassTypes::$classes, true ) ) {
@@ -150,9 +150,6 @@ class DMonitor {
 			}
 			if ( ! isset( self::$development ) ) {
 				self::$development = new CollectorRegistry( new InMemory(), false );
-			}
-			if ( ! isset( self::$logger ) ) {
-				self::$logger = new Logger( $class, $name, $version );
 			}
 			$this->label_values = [
 				'prod' => [ $this->normalize_string( Environment::stage() ) ],
@@ -208,7 +205,14 @@ class DMonitor {
 	 * @since 3.0.0
 	 */
 	public static function registry() {
-		return self::$metrics_registry;
+		$allowed = true;
+		if ( ! Option::network_get( 'autolisteners' ) ) {
+			$allowed = in_array( 'prom', Option::network_get( 'listeners' ), true );
+		}
+		if ( $allowed ) {
+			return self::$metrics_registry;
+		}
+		return [];
 	}
 
 	/**
