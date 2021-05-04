@@ -126,7 +126,7 @@ class DMonitor {
 	 * @param   string  $class      The class identifier, must be in ClassTypes::$classes.
 	 * @param   string  $name       Optional. The name of the component.
 	 * @param   string  $version    Optional. The version of the component.
-	 * @param   boolean $prom       Optional. True if this logger is a PSR-3 logger.
+	 * @param   boolean $prom       Optional. True if this logger is a prometheus compliant logger.
 	 * @since   3.0.0
 	 */
 	public function __construct( $class, $name = null, $version = null, $prom = false ) {
