@@ -39,7 +39,7 @@ class Monitor {
 	 * @since 3.0.0
 	 */
 	public function __construct( $class, $name = null, $version = null ) {
-		$this->monitor = new DMonitor( $class, $name, $version, true );
+		$this->monitor = new DMonitor( $class, $name, $version );
 	}
 
 	/**
