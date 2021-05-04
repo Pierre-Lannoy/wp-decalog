@@ -1261,7 +1261,7 @@ class Decalog_Admin {
 				'text'        => esc_html__( 'Obfuscation', 'decalog' ),
 				'id'          => 'decalog_logger_privacy_ip',
 				'checked'     => $this->current_logger['privacy']['obfuscation'],
-				'description' => esc_html__( 'If checked, log fields will contain hashes instead of real IPs.', 'decalog' ) . '<br/>' . esc_html__( 'Note: it concerns all fields except events messages.', 'decalog' ),
+				'description' => esc_html__( 'If checked, logged details will contain hashes instead of real IPs.', 'decalog' ) . '<br/>' . esc_html__( 'Note: it concerns everything except events messages.', 'decalog' ),
 				'full_width'  => false,
 				'enabled'     => true,
 			]
@@ -1277,7 +1277,7 @@ class Decalog_Admin {
 				'text'        => esc_html__( 'Pseudonymisation', 'decalog' ),
 				'id'          => 'decalog_logger_privacy_name',
 				'checked'     => $this->current_logger['privacy']['pseudonymization'],
-				'description' => esc_html__( 'If checked, log fields will contain hashes instead of user IDs & names.', 'decalog' ) . '<br/>' . esc_html__( 'Note: it concerns all fields except events messages.', 'decalog' ),
+				'description' => esc_html__( 'If checked, logged details will contain hashes instead of user IDs & names.', 'decalog' ) . '<br/>' . esc_html__( 'Note: it concerns everything except events messages.', 'decalog' ),
 				'full_width'  => false,
 				'enabled'     => true,
 			]
@@ -1309,7 +1309,7 @@ class Decalog_Admin {
 			]
 		);
 		register_setting( 'decalog_logger_details_section', $id );
-		$proc = new ProcessorTypes();
+		$proc = new ProcessorTypes( 'tracing' === $this->current_handler['class'] );
 		foreach ( array_reverse( $proc->get_all() ) as $processor ) {
 			$id = 'decalog_logger_details_' . strtolower( $processor['id'] );
 			add_settings_field(

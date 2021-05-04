@@ -30,7 +30,7 @@
 	" method="POST">
 		<?php do_settings_sections( 'decalog_logger_misc_section' ); ?>
 		<?php do_settings_sections( 'decalog_logger_specific_section' ); ?>
-        <?php if ( in_array( $current_handler['class'], [ 'alerting', 'logging', 'debugging', 'analytics' ], true ) ) { ?>
+        <?php if ( in_array( $current_handler['class'], [ 'alerting', 'logging', 'debugging', 'analytics', 'tracing' ], true ) ) { ?>
             <?php do_settings_sections( 'decalog_logger_details_section' ); ?>
 	        <?php do_settings_sections( 'decalog_logger_privacy_section' ); ?>
 		<?php } ?>
