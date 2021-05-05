@@ -55,6 +55,79 @@ class HandlerTypes {
 			'tracing'   => esc_html__( 'Tracing', 'decalog' ),
 		];
 
+		// TRACING
+		$this->handlers[] = [
+			'version'       => DECALOG_VERSION,
+			'id'            => 'TempoHandler',
+			'ancestor'      => 'TempoHandler',
+			'namespace'     => 'Decalog\\Handler',
+			'class'         => 'tracing',
+			'minimal'       => Logger::EMERGENCY,
+			'name'          => 'Tempo',
+			'help'          => esc_html__( 'Traces sent to a Tempo instance.', 'decalog' ),
+			'icon'          => $this->get_base64_tempo_icon(),
+			'needs'         => [],
+			'params'        => [ 'processors', 'privacy' ],
+			'processors'    => [],
+			'configuration' => [
+				'format'   => [
+					'type'    => 'integer',
+					'show'    => true,
+					'name'    => esc_html__( 'Format', 'decalog' ),
+					'help'    => esc_html__( 'The format in which to push data.', 'decalog' ),
+					'default' => 100,
+					'control' => [
+						'type'    => 'field_select',
+						'cast'    => 'integer',
+						'enabled' => true,
+						'list'    => [ [ 100, 'Zipkin' ] ],
+					],
+				],
+				'sampling' => [
+					'type'    => 'integer',
+					'show'    => true,
+					'name'    => esc_html__( 'Sampling', 'decalog' ),
+					'help'    => esc_html__( 'Sampling rate to be chosen according to the site traffic.', 'decalog' ),
+					'default' => 100,
+					'control' => [
+						'type'    => 'field_select',
+						'cast'    => 'integer',
+						'enabled' => true,
+						'list'    => [ [ 1000, '100%' ], [ 500, '50%' ], [ 250, '25%' ], [ 100, '10%' ], [ 50, '5%' ], [ 20, '2%' ], [ 10, '1%' ], [ 5, '5‰' ], [ 2, '2‰' ], [ 1, '1‰' ] ],
+					],
+				],
+				'url'      => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Service URL', 'decalog' ),
+					'help'    => sprintf( esc_html__( 'URL where to send spans. Format: %s.', 'decalog' ), '<code>' . htmlentities( '<proto>://<host>[:<port>]' ) . '</code>' ),
+					'default' => 'http://localhost:9411',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
+			],
+			'init'          => [
+				[
+					'type' => 'uuid',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'format',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'sampling',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'url',
+				],
+			],
+		];
+
 		// MONITORING
 		$this->handlers[] = [
 			'version'       => DECALOG_VERSION,
@@ -101,7 +174,7 @@ class HandlerTypes {
 					'show'    => true,
 					'name'    => esc_html__( 'Service URL', 'decalog' ),
 					'help'    => sprintf( esc_html__( 'URL where to send metrics. Format: %s.', 'decalog' ), '<code>' . htmlentities( '<proto>://<host>[:<port>]' ) . '</code>' ),
-					'default' => 'http://localhost:8086/',
+					'default' => 'http://localhost:8086',
 					'control' => [
 						'type'    => 'field_input_text',
 						'cast'    => 'string',
@@ -276,7 +349,7 @@ class HandlerTypes {
 					'show'    => true,
 					'name'    => esc_html__( 'Service URL', 'decalog' ),
 					'help'    => sprintf( esc_html__( 'URL where to send metrics. Format: %s.', 'decalog' ), '<code>' . htmlentities( '<proto>://<host>[:<port>]' ) . '</code>' ),
-					'default' => 'http://localhost:9091/',
+					'default' => 'http://localhost:9091',
 					'control' => [
 						'type'    => 'field_input_text',
 						'cast'    => 'string',
@@ -2544,6 +2617,28 @@ class HandlerTypes {
 		$source .= '<style type="text/css">.st0{fill:none;}.st1{fill:' . $color1 . ';}</style>';
 		$source .= '<g transform="translate(220,200) scale(0.84,0.84)">';
 		$source .= '<path class="st1" d="M694.1,394.9l-81-352.7C608.5,22.9,591,3.6,571.7-2L201.5-116.2c-4.6-1.8-10.1-1.8-15.7-1.8 c-15.7,0-32.2,6.4-43.3,15.7l-265.2,246.8c-14.7,12.9-22.1,38.7-17.5,57.1l86.6,377.6c4.6,19.3,22.1,38.7,41.4,44.2l346.2,106.8 c4.6,1.8,10.1,1.8,15.7,1.8c15.7,0,32.2-6.4,43.3-15.7L676.6,453C691.4,439.2,698.7,414.3,694.1,394.9z M240.2-32.4l254.1,78.3 c10.1,2.8,10.1,7.4,0,10.1L360.8,86.4c-10.1,2.8-23.9-1.8-31.3-9.2l-93-100.4C228.2-31.4,230-35.1,240.2-32.4z M398.5,423.5 c2.8,10.1-3.7,15.7-13.8,12.9l-274.4-84.7c-10.1-2.8-12-11.1-4.6-18.4L315.7,138c7.4-7.4,15.7-4.6,18.4,5.5L398.5,423.5z M-53.6,174.8L169.3-32.4c7.4-7.4,19.3-6.4,26.7,0.9L307.4,89.2c7.4,7.4,6.4,19.3-0.9,26.7L83.6,323.1c-7.4,7.4-19.3,6.4-26.7-0.9 L-54.5,201.6C-61.9,193.3-60.9,181.3-53.6,174.8z M0.8,503.6l-58.9-258.8c-2.8-10.1,1.8-12,8.3-4.6l93,100.4 c7.4,7.4,10.1,22.1,7.4,32.2L10,503.6C7.2,513.7,2.6,513.7,0.8,503.6z M326.7,654.6l-291-89.3c-10.1-2.8-15.7-13.8-12.9-23.9 l48.8-156.6c2.8-10.1,13.8-15.7,23.9-12.9l291,89.3c10.1,2.8,15.7,13.8,12.9,23.9l-48.8,156.6C347,651.9,336.9,657.4,326.7,654.6z M584.5,442.8L390.3,623.3c-7.4,7.4-11,4.6-8.3-5.5L422.5,487c2.8-10.1,13.8-20.3,23.9-22.1l133.5-30.4 C590.1,431.8,591.9,436.4,584.5,442.8z M605.7,404.2L445.5,441c-10.1,2.8-20.3-3.7-23-13.8l-68.1-296.5c-2.8-10.1,3.7-20.3,13.8-23 l160.2-36.8c10.1-2.8,20.3,3.7,23,13.8l68.1,296.5C622.3,392.2,615.9,402.3,605.7,404.2z"/>';
+		$source .= '</g>';
+		$source .= '</svg>';
+		// phpcs:ignore
+		return 'data:image/svg+xml;base64,' . base64_encode( $source );
+	}
+
+	/**
+	 * Returns a base64 svg resource for the influxDB icon.
+	 *
+	 * @param string $color1 Optional. Color 1 of the icon.
+	 * @param string $color2 Optional. Color 2 of the icon.
+	 * @return string The svg resource as a base64.
+	 * @since 3.0.0
+	 */
+	private function get_base64_tempo_icon( $color1 = '#fff100', $color2 = '#f05a28' ) {
+		$source  = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="256px" height="256px" viewBox="0 0 256 256">';
+		$source .= '<defs>';
+		$source .= '<style>.cls-1{fill:url(#linear-gradient);}</style>';
+		$source .= '<linearGradient id="linear-gradient" x1="168.55" y1="13.4" x2="27.2" y2="57" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="' . $color1 . '"/><stop offset="1" stop-color="' . $color2 . '"/></linearGradient>';
+		$source .= '</defs>';
+		$source .= '<g transform="translate(20,50) scale(1.6,1.6)">';
+		$source .= '<path class="cls-1" d="M4.66,25H2.37a2.37,2.37,0,0,0,0,4.74H4.66a2.37,2.37,0,1,0,0-4.74ZM48.48,59.57H46.19a2.37,2.37,0,1,0,0,4.74h2.29a2.37,2.37,0,1,0,0-4.74ZM46.56,37a2.37,2.37,0,0,0-2.37-2.37H36.27a2.37,2.37,0,0,0,0,4.74h7.92A2.37,2.37,0,0,0,46.56,37ZM121.73,22.1,119.32,8.56A9.88,9.88,0,0,0,109.07,0H16.24A6.28,6.28,0,0,0,9.9,7.7l2.54,14.4a3.38,3.38,0,0,0,.08.34v0c.3,1.76-.59,2.47-1.39,2.73h0a2.37,2.37,0,0,0,.79,4.6H115.39A6.28,6.28,0,0,0,121.73,22.1ZM90.15,76.42c-1-5.25-4-7.2-7.39-7.2H58.24a2.39,2.39,0,0,0-2.37,2.4A2.37,2.37,0,0,0,58,74h0c.78.14,1.62,1.16,2.15,3.68l2.52,14a9.59,9.59,0,0,0,9.19,7.54l14.63-.07a6.28,6.28,0,0,0,6.44-7.61ZM57.73,64.48H84.34a2.27,2.27,0,0,0,.59-.09c2.46-.52,2.58-2.52,2.26-4.51L83.8,41.27c-.93-4.84-3.74-6.75-7.43-6.75H52a2.37,2.37,0,0,0-.28,4.72h0c.81.15,1.7,1.24,2.22,4l2.57,14.24v0A1.92,1.92,0,0,1,55,59.87h0a2.36,2.36,0,0,0,.79,4.59h1.9Z"/>';
 		$source .= '</g>';
 		$source .= '</svg>';
 		// phpcs:ignore
