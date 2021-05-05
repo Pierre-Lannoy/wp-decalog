@@ -66,7 +66,7 @@ abstract class AbstractListener {
 	 * @since  3.0.0
 	 * @var    integer   $tracer_priority    The priority at which evaluate metrics.
 	 */
-	public static $tracer_priority = PHP_INT_MAX - 2;
+	public static $tracer_priority = PHP_INT_MAX - 500;
 
 	/**
 	 * The listener id.
