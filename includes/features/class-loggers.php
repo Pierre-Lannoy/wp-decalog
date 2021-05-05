@@ -257,6 +257,8 @@ class Loggers extends \WP_List_Table {
 		if ( in_array( $class, [ 'alerting', 'logging', 'debugging', 'analytics' ], true ) ) {
 			$level   = strtolower( Log::level_name( $item['level'] ) );
 			$result .= '<span style="margin-bottom: 6px;vertical-align: middle;font-size:10px;display: inline-block;text-transform:uppercase;font-weight: 900;background-color:' . EventTypes::$levels_colors[ $level ][0] . ';color:' . EventTypes::$levels_colors[ $level ][1] . ';border-radius:2px;border: 1px solid ' . EventTypes::$levels_colors[ $level ][1] . ';cursor: default;word-break: break-word;">&nbsp;&nbsp;&nbsp;' . $level . '&nbsp;&nbsp;&nbsp;</span>';
+		}
+		if ( in_array( $class, [ 'alerting', 'logging', 'debugging', 'analytics', 'tracing' ], true ) ) {
 			$result .= '<br/>' . implode( ' ', $list );
 		}
 		return $result;
