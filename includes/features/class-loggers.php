@@ -193,7 +193,7 @@ class Loggers extends \WP_List_Table {
 				$actions['epview'] = sprintf( '<a href="%s" target="_blank">' . esc_html__( 'View', 'decalog' ) . '</a>', $epview );
 			}
 		}
-		if ( $item['running'] && 'metrics' !== ( $this->handler_types->get( $item['handler'] ) )['class'] ) {
+		if ( $item['running'] && 'metrics' !== ( $this->handler_types->get( $item['handler'] ) )['class'] && 'tracing' !== ( $this->handler_types->get( $item['handler'] ) )['class'] ) {
 			$actions['test'] = sprintf( '<a href="%s">' . esc_html__( 'Send Test', 'decalog' ) . '</a>', $test );
 		}
 		return $icon . '&nbsp;' . sprintf( '<a href="%1$s">%2$s</a><br /><span style="color:silver">&nbsp;%3$s</span>%4$s', $edit, $item['name'], $handler['name'], $this->row_actions( $actions ) );
