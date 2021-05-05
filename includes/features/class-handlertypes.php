@@ -58,8 +58,8 @@ class HandlerTypes {
 		// TRACING
 		$this->handlers[] = [
 			'version'       => DECALOG_VERSION,
-			'id'            => 'TempoHandler',
-			'ancestor'      => 'TempoHandler',
+			'id'            => 'TempoTracingHandler',
+			'ancestor'      => 'TempoTracingHandler',
 			'namespace'     => 'Decalog\\Handler',
 			'class'         => 'tracing',
 			'minimal'       => Logger::EMERGENCY,
