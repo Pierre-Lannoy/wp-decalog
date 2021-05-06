@@ -361,12 +361,14 @@ class Environment {
 	 */
 	public static function mysql_version() {
 		global $wpdb;
-		$info   = $wpdb->db_server_info();
 		$result = '-';
-		if ( preg_match( '/([0-9\.\-]+\d)\D/x', str_replace( '5.5.5-', '', $info ), $matches ) ) {
-			$result = $matches[1];
-		} elseif ( preg_match( '/([0-9\.\-]+\d)\D/x', $info, $matches ) ) {
-			$result = $matches[1];
+		if ( method_exists( $wpdb, 'db_server_info' ) ) {
+			$info = $wpdb->db_server_info();
+			if ( preg_match( '/([0-9\.\-]+\d)\D/x', str_replace( '5.5.5-', '', $info ), $matches ) ) {
+				$result = $matches[1];
+			} elseif ( preg_match( '/([0-9\.\-]+\d)\D/x', $info, $matches ) ) {
+				$result = $matches[1];
+			}
 		}
 		return $result;
 	}
@@ -379,10 +381,12 @@ class Environment {
 	 */
 	public static function mysql_model() {
 		global $wpdb;
-		$info   = $wpdb->db_server_info();
 		$result = 'MySQL compatible';
-		if ( preg_match( '/(mariadb|percona|mysql|postgresql)/iU', $info, $matches ) ) {
-			$result = $matches[1];
+		if ( method_exists( $wpdb, 'db_server_info' ) ) {
+			$info = $wpdb->db_server_info();
+			if ( preg_match( '/(mariadb|percona|mysql|postgresql)/iU', $info, $matches ) ) {
+				$result = $matches[1];
+			}
 		}
 		return $result;
 	}
