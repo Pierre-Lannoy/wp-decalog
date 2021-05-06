@@ -99,7 +99,7 @@ class Decalog_Error_Handler extends \WP_Fatal_Error_Handler {
 			if ( array_key_exists( 'REQUEST_TIME_FLOAT', $_SERVER ) ) {
 				define( 'POWS_START_TIMESTAMP', (float) filter_var( $_SERVER['REQUEST_TIME_FLOAT'], FILTER_VALIDATE_FLOAT ) );
 			} else {
-				define( 'POWS_START_TIMESTAMP', 0.0 );
+				define( 'POWS_START_TIMESTAMP', POWP_START_TIMESTAMP );
 			}
 		}
 		if ( ! defined( 'SAVEQUERIES' ) ) {
