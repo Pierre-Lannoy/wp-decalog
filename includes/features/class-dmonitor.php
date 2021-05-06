@@ -124,7 +124,7 @@ class DMonitor {
 	 * Initialize the class and set its properties.
 	 *
 	 * @param   string  $class      The class identifier, must be in ClassTypes::$classes.
-	 * @param   string  $name       Optional. The name of the component.
+	 * @param   string  $name       Optional.  The name of the component.
 	 * @param   string  $version    Optional. The version of the component.
 	 * @since   3.0.0
 	 */
