@@ -12,6 +12,7 @@
 namespace Decalog\Listener;
 
 use Decalog\Plugin\Feature\DMonitor;
+use Decalog\Plugin\Feature\DTracer;
 use Decalog\Plugin\Feature\Log;
 use Decalog\System\Option;
 use Decalog\System\User;
@@ -45,12 +46,20 @@ abstract class AbstractListener {
 	protected $logger = null;
 
 	/**
-	 * An instance of DMonitor to monitor listener events.
+	 * An instance of DMonitor to monitor listener metrics.
 	 *
 	 * @since  3.0.0
-	 * @var    \Decalog\Plugin\Feature\DMonitor   $monitor    An instance of DMonitor to monitor listener events.
+	 * @var    \Decalog\Plugin\Feature\DMonitor   $monitor    An instance of DMonitor to monitor listener metrics.
 	 */
 	protected $monitor = null;
+
+	/**
+	 * An instance of DTracer to trace listener traces.
+	 *
+	 * @since  3.0.0
+	 * @var    \Decalog\Plugin\Feature\DTracer   $monitor    An instance of DTracer to trace listener tarces.
+	 */
+	protected $tracer = null;
 
 	/**
 	 * The priority at which evaluate metrics.
@@ -127,6 +136,7 @@ abstract class AbstractListener {
 			if ( $launch && $this->launch() && ! ( 'Decalog\Listener\SelfListener' === get_class( $this ) ) ) {
 				$this->logger  = Log::bootstrap( $this->class, $this->product, $this->version );
 				$this->monitor = new DMonitor( $this->class, $this->product, $this->version );
+				$this->tracer  = new DTracer( $this->class, $this->product, $this->version );
 				$this->logger->debug( 'Listener launched and operational.' );
 				if ( isset( $this->log ) ) {
 					$this->log->debug( sprintf( 'Listener for %s is launched.', $this->name ) );
