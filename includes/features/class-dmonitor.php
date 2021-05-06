@@ -130,7 +130,7 @@ class DMonitor {
 	 */
 	public function __construct( $class, $name = null, $version = null ) {
 		if ( ! isset( self::$logger ) ) {
-			self::$logger = new Logger( $class, $name, $version );
+			self::$logger = new Logger( 'plugin', DECALOG_PRODUCT_NAME, DECALOG_VERSION );
 		}
 		if ( ! Option::network_get( 'autolisteners' ) ) {
 			$this->allowed = in_array( 'prom', Option::network_get( 'listeners' ), true );
