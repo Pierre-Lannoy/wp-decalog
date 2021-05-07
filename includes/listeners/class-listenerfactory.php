@@ -11,6 +11,7 @@
 
 namespace Decalog\Listener;
 
+use Decalog\Plugin\Feature\DTracer;
 use Decalog\Plugin\Feature\Log;
 use Decalog\System\Option;
 
@@ -108,6 +109,7 @@ class ListenerFactory {
 				}
 			}
 		}
+		DTracer::plugins_loaded();
 	}
 
 	/**
