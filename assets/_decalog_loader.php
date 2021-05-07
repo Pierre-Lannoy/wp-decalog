@@ -18,3 +18,25 @@ if ( (bool) get_site_option( 'decalog_earlyloading', true ) ) {
 	}
 }
 
+add_action(
+	'muplugins_loaded',
+	function() {
+		if ( ! defined( 'POMU_END_TIMESTAMP' ) ) {
+			define( 'POMU_END_TIMESTAMP', microtime( true ) );
+		}},
+	PHP_INT_MIN,
+	0
+);
+
+add_action(
+	'muplugins_loaded',
+	function() {
+		if ( ! defined( 'POPL_START_TIMESTAMP' ) ) {
+			define( 'POPL_START_TIMESTAMP', microtime( true ) );
+		}},
+	PHP_INT_MAX,
+	0
+);
+
+
+
