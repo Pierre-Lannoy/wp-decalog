@@ -226,7 +226,7 @@ class DTracer {
 		$span                                 = $this->init_span();
 		$span['parentId']                     = $parent_id;
 		$span['name']                         = $span['name'] . $name;
-		$span['tags']                         = $this->introspection_data();
+		$span['tags']                         = array_merge( $span['tags'], $this->introspection_data() );
 		self::$traces_registry[ $span['id'] ] = $span;
 		return $span['id'];
 	}
@@ -324,7 +324,6 @@ class DTracer {
 		$wpfl['parentId']                     = $wp['id'];
 		$wpfl['name']                         = 'WordPress / Load';
 		$wpfl['localEndpoint']['serviceName'] = 'Core';
-		$wpfl['tags']                         = [];
 		$wpfl['timestamp']                    = (int) ( 1000000 * POWP_START_TIMESTAMP );
 		self::$traces_registry['WPFL']        = $wpfl;
 		// WordPress load
@@ -332,7 +331,6 @@ class DTracer {
 		$wpl['parentId']                     = $wpfl['id'];
 		$wpl['name']                         = 'WordPress / Core & MU-Plugins Load';
 		$wpl['localEndpoint']['serviceName'] = 'Core';
-		$wpl['tags']                         = [];
 		$wpl['timestamp']                    = (int) ( 1000000 * POWP_START_TIMESTAMP );
 		$wpl['duration']                     = (int) ( 1000000 * ( POMU_END_TIMESTAMP - POWP_START_TIMESTAMP ) );
 		self::$traces_registry['WPL']        = $wpl;
@@ -341,7 +339,6 @@ class DTracer {
 		$wpl['parentId']                     = $wpfl['id'];
 		$wpl['name']                         = 'WordPress / Plugins Load';
 		$wpl['localEndpoint']['serviceName'] = 'Core';
-		$wpl['tags']                         = [];
 		$wpl['timestamp']                    = (int) ( 1000000 * POPL_START_TIMESTAMP );
 		self::$traces_registry['PLL']        = $wpl;
 
