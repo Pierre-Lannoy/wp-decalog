@@ -154,7 +154,7 @@ abstract class AbstractTracingHandler extends AbstractProcessingHandler {
 		foreach ( $this->processors as $processor ) {
 			switch ( $processor ) {
 				case 'IntrospectionProcessor':
-					$remove = array_diff( $remove, [ 'file.' ] );
+					$remove = array_diff( $remove, [ 'php.' ] );
 					break;
 				case 'WWWProcessor':
 					$remove = array_diff( $remove, [ 'http.' ] );
