@@ -150,7 +150,7 @@ abstract class AbstractTracingHandler extends AbstractProcessingHandler {
 	 * @since    3.0.0
 	 */
 	private function filter_process(): void {
-		$remove = [ 'file.', 'http.', 'wp.' ];
+		$remove = [ 'php.', 'http.', 'wp.' ];
 		foreach ( $this->processors as $processor ) {
 			switch ( $processor ) {
 				case 'IntrospectionProcessor':
