@@ -65,6 +65,14 @@ class CoreListener extends AbstractListener {
 	private $comment_status = [];
 
 	/**
+	 * Hooks trace ID.
+	 *
+	 * @since  3.0.0
+	 * @var    array    $hooks    Hooks trace ID.
+	 */
+	private $hooks = [];
+
+	/**
 	 * Sets the listener properties.
 	 *
 	 * @since    1.0.0
@@ -144,7 +152,7 @@ class CoreListener extends AbstractListener {
 		add_action( 'wp_login_failed', [ $this, 'wp_login_failed' ], 10, 1 );
 		add_action( 'wp_login', [ $this, 'wp_login' ], 10, 2 );
 		// Advanced.
-		add_action( 'plugins_loaded', [ $this, 'plugins_loaded' ], PHP_INT_MAX );
+		add_action( 'plugins_loaded', [ $this, 'plugins_loaded' ], PHP_INT_MIN );
 		add_action( 'load_textdomain', [ $this, 'load_textdomain' ], 10, 2 );
 		add_action( 'wp_loaded', [ $this, 'wp_loaded' ] );
 		add_action( 'auth_cookie_malformed', [ $this, 'auth_cookie_malformed' ], 10, 2 );
@@ -174,6 +182,14 @@ class CoreListener extends AbstractListener {
 		add_action( 'application_password_did_authenticate', [ $this, 'application_password_did_authenticate' ], 10, 2 );
 		// WP (for monitors)
 		add_action( 'wp_loaded', [ $this, 'ready' ] );
+		// Tracing
+		add_action( 'wp_loaded', [ $this, 'trace_loaded_end' ], PHP_INT_MIN, 0 );
+		add_action( 'wp', [ $this, 'trace_wp_object_ready' ], PHP_INT_MIN, 0 );
+		add_action( 'shutdown', [ $this, 'trace_shutdown_start' ], PHP_INT_MIN, 0 );
+		add_action( 'setup_theme', [ $this, 'trace_setup_theme_start' ], PHP_INT_MIN, 0 );
+		add_action( 'after_setup_theme', [ $this, 'trace_setup_theme_end' ], PHP_INT_MAX, 0 );
+		add_action( 'init', [ $this, 'trace_init_start' ], PHP_INT_MIN, 0 );
+		add_action( 'init', [ $this, 'trace_init_end' ], PHP_INT_MAX, 0 );
 		return true;
 	}
 
@@ -1515,5 +1531,90 @@ class CoreListener extends AbstractListener {
 		$this->comment_close();
 		$this->plugin_close();
 	}
+
+	/**
+	 * Trace loaded hooks.
+	 *
+	 * @since    3.0.0
+	 */
+	public function trace_loaded_end() {
+		$this->tracer->end_span( 'WPFL' );
+		$this->hooks['run'] = $this->tracer->start_span( 'Run' );
+		if ( 8 === Environment::exec_mode() ) {
+			$this->hooks['wp_object'] = $this->tracer->start_span( 'WP Object Setup', $this->hooks['run'] );
+		}
+	}
+
+	/**
+	 * Trace wp hook.
+	 *
+	 * @since    3.0.0
+	 */
+	public function trace_wp_object_ready() {
+		if ( array_key_exists( 'wp_object', $this->hooks ) ) {
+			$this->tracer->end_span( $this->hooks['wp_object'] );
+		}
+		$this->hooks['render'] = $this->tracer->start_span( 'Rendering & Sending', $this->hooks['run'] );
+	}
+
+	/**
+	 * Trace shutdown hook.
+	 *
+	 * @since    3.0.0
+	 */
+	public function trace_shutdown_start() {
+		if ( array_key_exists( 'run', $this->hooks ) ) {
+			$this->tracer->end_span( $this->hooks['run'] );
+		}
+		if ( array_key_exists( 'render', $this->hooks ) ) {
+			$this->tracer->end_span( $this->hooks['render'] );
+		}
+		$this->tracer->start_span( 'Shutdown' );
+	}
+
+	/**
+	 * Trace setup_theme hooks.
+	 *
+	 * @since    3.0.0
+	 */
+	public function trace_setup_theme_start() {
+		$this->hooks['setup_theme'] = $this->tracer->start_span( 'Theme Setup', 'WPFL' );
+	}
+
+	/**
+	 * Trace setup_theme hooks.
+	 *
+	 * @since    3.0.0
+	 */
+	public function trace_setup_theme_end() {
+		$this->hooks['authent'] = $this->tracer->start_span( 'User Authentication', 'WPFL' );
+		if ( array_key_exists( 'setup_theme', $this->hooks ) ) {
+			$this->tracer->end_span( $this->hooks['setup_theme'] );
+		}
+	}
+
+	/**
+	 * Trace init hooks.
+	 *
+	 * @since    3.0.0
+	 */
+	public function trace_init_start() {
+		if ( array_key_exists( 'authent', $this->hooks ) ) {
+			$this->tracer->end_span( $this->hooks['authent'] );
+		}
+		$this->hooks['init'] = $this->tracer->start_span( 'Plugins Initialization', 'WPFL' );
+	}
+
+	/**
+	 * Trace init hooks.
+	 *
+	 * @since    3.0.0
+	 */
+	public function trace_init_end() {
+		if ( array_key_exists( 'init', $this->hooks ) ) {
+			$this->tracer->end_span( $this->hooks['init'] );
+		}
+	}
+
 
 }
