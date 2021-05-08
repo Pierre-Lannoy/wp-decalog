@@ -129,7 +129,7 @@ abstract class AbstractTracingHandler extends AbstractProcessingHandler {
 		if ( ! in_array( $this->uuid, self::$running, true ) ) {
 			// phpcs:ignore
 			if ( $sampling >= mt_rand( 1, 1000 ) ) {
-				add_action( 'shutdown', [ $this, 'close' ], PHP_INT_MAX - 2, 0 );
+				add_action( 'shutdown', [ $this, 'close' ], PHP_INT_MAX, 0 );
 				$loggers = Option::network_get( 'loggers' );
 				if ( array_key_exists( $this->uuid, $loggers ) ) {
 					if ( array_key_exists( 'privacy', $loggers[ $this->uuid ] ) ) {
@@ -150,31 +150,35 @@ abstract class AbstractTracingHandler extends AbstractProcessingHandler {
 	 * @since    3.0.0
 	 */
 	private function filter_process(): void {
-		$remove = [];
+		$remove = [ 'file.', 'http.', 'wp.' ];
 		foreach ( $this->processors as $processor ) {
 			switch ( $processor ) {
 				case 'IntrospectionProcessor':
-					$remove[] = 'file.';
+					$remove = array_diff( $remove, [ 'file.' ] );
 					break;
 				case 'WWWProcessor':
-					$remove[] = 'http.';
+					$remove = array_diff( $remove, [ 'http.' ] );
 					break;
 				case 'WordpressProcessor':
-					$remove[] = 'wp.';
+					$remove = array_diff( $remove, [ 'wp.' ] );
 					break;
 			}
 		}
 		foreach ( $this->traces as $index => $span ) {
 			if ( array_key_exists( 'tags', $span ) ) {
-				if ( 0 === count( $remove ) || ! array_key_exists( 'parentID', $span ) ) {
+				if ( 0 === count( $remove ) || ! isset( $span['parentId'] ) || 'Server' === $span['localEndpoint']['serviceName'] ) {
 					$new_tags = $span['tags'];
 				} else {
 					$new_tags = [];
-					foreach ( $remove as $r ) {
-						foreach ( $span['tags'] as $key => $value ) {
-							if ( false === strpos( $key, $r ) ) {
-								$new_tags[ $key ] = $value;
+					foreach ( $span['tags'] as $key => $value ) {
+						$add = true;
+						foreach ( $remove as $r ) {
+							if ( false !== strpos( $key, $r ) ) {
+								$add = false;
 							}
+						}
+						if ( $add ) {
+							$new_tags[ $key ] = $value;
 						}
 					}
 				}
@@ -183,8 +187,19 @@ abstract class AbstractTracingHandler extends AbstractProcessingHandler {
 						 ( $this->privacy['pseudonymization'] && false !== strpos( $key, 'userid' ) ) ) {
 						$new_tags[ $key ] = Hash::simple_hash( $value );
 					}
+					if ( is_null( $value ) || ( is_array( $value ) && 0 === count( $value ) ) || ( is_string( $value ) && '' === $value ) ) {
+						unset( $new_tags[ $key ] );
+					}
+					if ( is_numeric( $value ) ) {
+						$new_tags[ $key ] = (string) $new_tags[ $key ];
+					}
 				}
-				$this->traces[ $index ]['tags'] = $new_tags;
+				if ( 0 === count( $new_tags ) ) {
+					unset( $this->traces[ $index ]['tags'] );
+				} else {
+					$this->traces[ $index ]['tags'] = $new_tags;
+				}
+
 			}
 		}
 	}
@@ -229,7 +244,11 @@ abstract class AbstractTracingHandler extends AbstractProcessingHandler {
 			$result = wp_remote_get( esc_url_raw( $this->endpoint ), $this->post_args );
 		}
 		//TODO: handle error.
-		error_log( DECALOG_TRACEID . ' => HTTP ' . wp_remote_retrieve_response_code( $result ) . ' / ' . wp_remote_retrieve_response_message( $result ) );
+		if ( 202 !== wp_remote_retrieve_response_code( $result ) ) {
+			error_log('--------------------------------------------------------------------------------------------------------------');
+			error_log( DECALOG_TRACEID . ' => HTTP ' . wp_remote_retrieve_response_code( $result ) . ' / ' . wp_remote_retrieve_response_message( $result ) );
+			error_log( $this->post_args['body'] );
+		}
 	}
 
 	/**
