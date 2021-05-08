@@ -20,7 +20,7 @@ wp_localize_script(
 	DECALOG_LIVELOG_ID,
 	'livelog',
 	[
-		'restUrl'   => esc_url_raw( rest_url() . 'decalog/v1/livelog' ),
+		'restUrl'   => esc_url_raw( rest_url() . DECALOG_REST_NAMESPACE . '/livelog' ),
 		'restNonce' => wp_create_nonce( 'wp_rest' ),
 		'buffer'    => 200,
 		'frequency' => 750,

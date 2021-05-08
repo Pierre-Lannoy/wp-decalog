@@ -173,7 +173,7 @@ class Loggers extends \WP_List_Table {
 				[
 					'uuid' => $item['uuid'],
 				],
-				site_url( '/wp-json/decalog/v1/metrics' )
+				site_url( '/wp-json/' . DECALOG_REST_NAMESPACE . '/metrics' )
 			)
 		);
 		$handler           = $this->handler_types->get( $item['handler'] );

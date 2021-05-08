@@ -939,7 +939,7 @@ class Decalog_Admin {
 				'text'        => esc_html__( 'Authenticated endpoint', 'decalog' ),
 				'id'          => 'decalog_plugin_options_metrics_authent',
 				'checked'     => Option::network_get( 'metrics_authent' ),
-				'description' => sprintf( esc_html__( 'If checked, DecaLog will require authentication to serve %s calls.', 'decalog' ), '<code>' . htmlentities( '/wp-json/decalog/v1/metrics' ) . '</code>' ) . '<br/>' . sprintf( esc_html__( 'Note: if you activate authentication, you must generate an application password for a user having %s capability.', 'decalog' ), '<code>read_private_pages</code>' ),
+				'description' => sprintf( esc_html__( 'If checked, DecaLog will require authentication to serve %s calls.', 'decalog' ), '<code>' . htmlentities( '/wp-json/' . DECALOG_REST_NAMESPACE . '/metrics' ) . '</code>' ) . '<br/>' . sprintf( esc_html__( 'Note: if you activate authentication, you must generate an application password for a user having %s capability.', 'decalog' ), '<code>read_private_pages</code>' ),
 				'full_width'  => false,
 				'enabled'     => true,
 			]

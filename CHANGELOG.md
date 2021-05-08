@@ -7,13 +7,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 - DecaLog now supports metrics collecting, forwarding and publishing.
+- DecaLog now supports traces collecting and publishing.
 - New "metrics" tab in settings to list all currently collected metrics.
-- DecaLog now collects extended metrics for: PHP, WordPress core, database and WordPress multisite.
+- DecaLog now collects extended metrics for: PHP, WordPress core, database, WordPress multisite and plugins / themes using [WordPress DecaLog SDK](https://github.com/Pierre-Lannoy/wp-decalog-sdk).
 - DecaLog now collects minimalist metrics for Wordfence.
+- DecaLog now collects extended traces for WordPress core and plugins / themes using [WordPress DecaLog SDK](https://github.com/Pierre-Lannoy/wp-decalog-sdk).
 - New logger to send metrics to a Prometheus instance (via Pushgateway).
 - New logger to publish metrics as endpoint for Prometheus scrapping.
-- New logger to send metrics to InfluxDB Cloud or to an on-premise InfluxDB 2 instance or cluster
+- New logger to send metrics to InfluxDB Cloud or to an on-premise InfluxDB 2 instance or cluster.
+- New logger to send traces to a Zipkin instance.
 - [WP-CLI] New command to list, dump or get metrics: see `wp help log metrics` for details.
+- [BC] The version of DecaLog API is now `v3`.
 
 ### Changed
 - Redesigned loggers list.
