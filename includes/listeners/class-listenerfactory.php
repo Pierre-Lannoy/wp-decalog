@@ -109,7 +109,6 @@ class ListenerFactory {
 				}
 			}
 		}
-		DTracer::plugins_loaded();
 	}
 
 	/**
@@ -132,6 +131,7 @@ class ListenerFactory {
 				}
 			}
 		}
+		DTracer::plugins_loaded();
 	}
 
 	/**
