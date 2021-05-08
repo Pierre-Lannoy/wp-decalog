@@ -244,11 +244,6 @@ abstract class AbstractTracingHandler extends AbstractProcessingHandler {
 			$result = wp_remote_get( esc_url_raw( $this->endpoint ), $this->post_args );
 		}
 		//TODO: handle error.
-		if ( 202 !== wp_remote_retrieve_response_code( $result ) ) {
-			error_log('--------------------------------------------------------------------------------------------------------------');
-			error_log( DECALOG_TRACEID . ' => HTTP ' . wp_remote_retrieve_response_code( $result ) . ' / ' . wp_remote_retrieve_response_message( $result ) );
-			error_log( $this->post_args['body'] );
-		}
 	}
 
 	/**
