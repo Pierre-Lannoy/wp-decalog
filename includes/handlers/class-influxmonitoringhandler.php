@@ -83,12 +83,14 @@ class InfluxMonitoringHandler extends AbstractMonitoringHandler {
 	 * {@inheritdoc}
 	 */
 	public function close(): void {
-		$monitor                 = new DMonitor( 'plugin', DECALOG_PRODUCT_NAME, DECALOG_VERSION );
-		$renderer                = new RenderLineFormat();
-		$production              = $monitor->prod_registry()->getMetricFamilySamples();
-		$development             = ( Logger::ALERT === $this->level ? $monitor->dev_registry()->getMetricFamilySamples() : [] );
-		$this->post_args['body'] = $renderer->render( array_merge( $production, $development ) );
-		$this->send();
+		$monitor  = new DMonitor( 'plugin', DECALOG_PRODUCT_NAME, DECALOG_VERSION );
+		$renderer = new RenderLineFormat();
+		if ( $monitor->prod_registry() && $monitor->dev_registry() ) {
+			$production              = $monitor->prod_registry()->getMetricFamilySamples();
+			$development             = ( Logger::ALERT === $this->level ? $monitor->dev_registry()->getMetricFamilySamples() : [] );
+			$this->post_args['body'] = $renderer->render( array_merge( $production, $development ) );
+			parent::send();
+		}
 	}
 
 }
