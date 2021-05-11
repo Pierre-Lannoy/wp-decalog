@@ -130,6 +130,109 @@ class HandlerTypes {
 
 		$this->handlers[] = [
 			'version'       => DECALOG_VERSION,
+			'id'            => 'GrafanaTracingHandler',
+			'ancestor'      => 'GrafanaTracingHandler',
+			'namespace'     => 'Decalog\\Handler',
+			'class'         => 'tracing',
+			'minimal'       => Logger::EMERGENCY,
+			'name'          => 'Grafana Cloud - Traces',
+			'help'          => esc_html__( 'Traces sent to Grafana Cloud.', 'decalog' ),
+			'icon'          => $this->get_base64_grafana_icon(),
+			'needs'         => [],
+			'params'        => [ 'processors', 'privacy' ],
+			'configuration' => [
+				'host'   => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Tempo host', 'decalog' ),
+					'help'    => sprintf( esc_html__( 'The host name portion of the Tempo instance url. Something like %s.', 'decalog' ), '<code>tempo-us-central1</code>' ),
+					'default' => '',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
+				'user'     => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Username', 'decalog' ),
+					'help'    => sprintf( esc_html__( 'The user name for Basic Auth authentication. Something like %s.', 'decalog' ), '<code>21087</code>' ),
+					'default' => '',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
+				'key'     => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'API key', 'decalog' ),
+					'help'    => esc_html__( 'The Grafana.com API Key.', 'decalog' ),
+					'default' => '',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
+				'format'   => [
+					'type'    => 'integer',
+					'show'    => true,
+					'name'    => esc_html__( 'Format', 'decalog' ),
+					'help'    => esc_html__( 'The format in which to push data.', 'decalog' ),
+					'default' => 100,
+					'control' => [
+						'type'    => 'field_select',
+						'cast'    => 'integer',
+						'enabled' => true,
+						'list'    => [ [ 100, 'Zipkin' ] ],
+					],
+				],
+				'sampling' => [
+					'type'    => 'integer',
+					'show'    => true,
+					'name'    => esc_html__( 'Sampling', 'decalog' ),
+					'help'    => esc_html__( 'Sampling rate to be chosen according to the site traffic.', 'decalog' ),
+					'default' => 100,
+					'control' => [
+						'type'    => 'field_select',
+						'cast'    => 'integer',
+						'enabled' => true,
+						'list'    => [ [ 1000, '100%' ], [ 500, '50%' ], [ 250, '25%' ], [ 100, '10%' ], [ 50, '5%' ], [ 20, '2%' ], [ 10, '1%' ], [ 5, '5‰' ], [ 2, '2‰' ], [ 1, '1‰' ] ],
+					],
+				],
+			],
+			'init'          => [
+				[
+					'type' => 'uuid',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'host',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'user',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'key',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'format',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'sampling',
+				],
+			],
+		];
+
+		$this->handlers[] = [
+			'version'       => DECALOG_VERSION,
 			'id'            => 'ZipkinTracingHandler',
 			'ancestor'      => 'ZipkinTracingHandler',
 			'namespace'     => 'Decalog\\Handler',
@@ -358,7 +461,6 @@ class HandlerTypes {
 				],
 			],
 		];
-
 		$this->handlers[] = [
 			'version'       => DECALOG_VERSION,
 			'id'            => 'PrometheusMonitoringHandler',
@@ -452,6 +554,142 @@ class HandlerTypes {
 				[
 					'type'  => 'configuration',
 					'value' => 'url',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'model',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'id',
+				],
+			],
+		];
+		$this->handlers[] = [
+			'version'       => DECALOG_VERSION,
+			'id'            => 'GrafanaMonitoringHandler',
+			'ancestor'      => 'GrafanaMonitoringHandler',
+			'namespace'     => 'Decalog\\Handler',
+			'class'         => 'metrics',
+			'minimal'       => Logger::EMERGENCY,
+			'name'          => 'Grafana Cloud - Metrics',
+			'help'          => esc_html__( 'Metrics sent to Grafana Cloud.', 'decalog' ),
+			'icon'          => $this->get_base64_grafana_icon(),
+			'needs'         => [],
+			'params'        => [],
+			'processors'    => [],
+			'configuration' => [
+				'host'   => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Prometheus host', 'decalog' ),
+					'help'    => sprintf( esc_html__( 'The host name portion of the Prometheus instance url. Something like %s.', 'decalog' ), '<code>prometheus-us-central1</code>' ),
+					'default' => '',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
+				'user'     => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Username', 'decalog' ),
+					'help'    => sprintf( esc_html__( 'The user name for Basic Auth authentication. Something like %s.', 'decalog' ), '<code>21087</code>' ),
+					'default' => '',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
+				'key'     => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'API key', 'decalog' ),
+					'help'    => esc_html__( 'The Grafana.com API Key.', 'decalog' ),
+					'default' => '',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
+				'profile'  => [
+					'type'    => 'integer',
+					'show'    => true,
+					'name'    => esc_html__( 'Profile', 'decalog' ),
+					'help'    => sprintf( __( 'The type of metrics to collect (%s). Choosing "Automatic" sets the profile to the current WordPress environment type.', 'decalog' ), sprintf( '<a href="https://github.com/Pierre-Lannoy/wp-decalog/blob/master/MONITORING.md" target="_blank">%s</a>', esc_html__( 'details', 'decalog' ) ) ),
+					'default' => 500,
+					'control' => [
+						'type'    => 'field_select',
+						'cast'    => 'integer',
+						'enabled' => true,
+						'list'    => [ [ 500, esc_html__( 'Automatic', 'decalog' ) ], [ 600, esc_html__( 'Production', 'decalog' ) ], [ 550, esc_html__( 'Development', 'decalog' ) ] ],
+					],
+				],
+				'sampling' => [
+					'type'    => 'integer',
+					'show'    => true,
+					'name'    => esc_html__( 'Sampling', 'decalog' ),
+					'help'    => esc_html__( 'Sampling rate to be chosen according to the site traffic.', 'decalog' ),
+					'default' => 100,
+					'control' => [
+						'type'    => 'field_select',
+						'cast'    => 'integer',
+						'enabled' => true,
+						'list'    => [ [ 1000, '100%' ], [ 500, '50%' ], [ 250, '25%' ], [ 100, '10%' ], [ 50, '5%' ], [ 20, '2%' ], [ 10, '1%' ], [ 5, '5‰' ], [ 2, '2‰' ], [ 1, '1‰' ] ],
+					],
+				],
+				'model' => [
+					'type'    => 'integer',
+					'show'    => true,
+					'name'    => esc_html__( 'Labels', 'decalog' ),
+					'help'    => esc_html__( 'Template for labels. If you are unsure of the implications on cardinality, choose the first one.', 'decalog' ),
+					'default' => 0,
+					'control' => [
+						'type'    => 'field_select',
+						'cast'    => 'string',
+						'enabled' => true,
+						'list'    => [ [ 0, '{job="x", instance="y"} - ' . esc_html__( 'Recommended in most cases', 'decalog' ) ], [ 1, '{job="x", instance="y", env="z"} - ' . esc_html__( 'Classical environment segmentation', 'decalog' ) ], [ 2, '{job="x", instance="y", version="z"} - ' . esc_html__( 'Classical version segmentation', 'decalog' ) ], [ 3, '{job="x", site="y"} - ' . esc_html__( 'WordPress Multisite segmentation', 'decalog' ) ] ],
+					],
+				],
+				'id'    => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Job', 'decalog' ),
+					'help'    => esc_html__( 'The fixed job name for some templates.', 'decalog' ),
+					'default' => 'wp_decalog',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
+			],
+			'init'          => [
+				[
+					'type' => 'uuid',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'host',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'user',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'key',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'profile',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'sampling',
 				],
 				[
 					'type'  => 'configuration',
@@ -2094,7 +2332,6 @@ class HandlerTypes {
 				return $handler;
 			}
 		}
-		error_log( 'ID => ' . $id );
 		return null;
 	}
 
