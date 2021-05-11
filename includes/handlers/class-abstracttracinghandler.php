@@ -26,6 +26,8 @@ use Decalog\System\Cache;
 use Jaeger\Thrift\Span as JSpan;
 use Jaeger\Thrift\Process as JProcess;
 use Jaeger\Thrift\Batch as JBatch;
+use Jaeger\Thrift\TagType as JTagType;
+use Jaeger\Thrift\Tag as JTag;
 use Thrift\Protocol\TBinaryProtocol as TProtocol;
 use Thrift\Transport\TMemoryBuffer as TTransport;
 
@@ -234,18 +236,31 @@ abstract class AbstractTracingHandler extends AbstractProcessingHandler {
 		);
 		foreach ( $this->traces as $span ) {
 			$s = [
-				'traceIdLow'    => (int) $span['traceId'],
-				'traceIdHigh'   => 0,
-				'spanId'        => (int) $span['id'],
-				'operationName' => $span['localEndpoint']['serviceName'] . ' [' . $span['name'] . ']',
-				'startTime'     => (int) $span['timestamp'],
-				'duration'      => (int) $span['duration'],
-				'flags'         => 1,
+				'traceIdLow'  => (int) $span['traceId'],
+				'traceIdHigh' => 0,
+				'spanId'      => (int) $span['id'],
+				'startTime'   => (int) $span['timestamp'],
+				'duration'    => (int) $span['duration'],
+				'flags'       => 1,
 			];
 			if ( isset( $span['parentId'] ) ) {
-				$s['parentSpanId'] = (int) $span['parentId'];
+				$s['parentSpanId']  = (int) $span['parentId'];
+				$s['operationName'] = $span['localEndpoint']['serviceName'] . ' [' . $span['name'] . ']';
+
 			} else {
-				$s['parentSpanId'] = 0;
+				$s['parentSpanId']  = 0;
+				$s['operationName'] = $span['localEndpoint']['serviceName'] . ' [' . str_replace( 'CALL:', '', $span['name'] . ']' );
+			}
+			if ( isset( $span['tags'] ) && is_array( $span['tags'] ) && 0 < count( $span['tags'] ) ) {
+				foreach ( $span['tags'] as $key => $tag ) {
+					$s['tags'][] = new JTag(
+						[
+							'key'   => $key,
+							'vType' => JTagType::STRING,
+							'vStr'  => (string) $tag,
+						]
+					);
+				}
 			}
 			$spans[] = new JSpan( $s );
 		}
