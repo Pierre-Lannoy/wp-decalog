@@ -151,7 +151,7 @@ class DLogger {
 			$logger['uuid'] = $key;
 			if ( $diagnosis->check( $handler_def['id'] ) ) {
 				$handler = $factory->create_logger( $logger );
-				if ( $handler ) {
+				if ( $handler instanceof \Monolog\Handler\HandlerInterface ) {
 					$this->logger->pushHandler( $handler );
 				} elseif ( $logger['running'] ) {
 					$skipped[] = sprintf( 'Skipping loading of a %s logger.', $handler_def['name'] );
