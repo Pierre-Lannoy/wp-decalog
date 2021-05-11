@@ -118,6 +118,9 @@ abstract class AbstractMonitoringHandler extends AbstractProcessingHandler {
 			$result = wp_remote_get( esc_url_raw( $this->endpoint ), $this->post_args );
 		}
 		//TODO: handle error.
+		//error_log('');
+		//error_log('----- MONITORING ' . $this->endpoint . ' ---------------------------------------------------------------------------------------------------------');
+		//error_log( DECALOG_TRACEID . ' => HTTP ' . wp_remote_retrieve_response_code( $result ) . ' / ' . wp_remote_retrieve_response_message( $result ) );
 	}
 
 	/**
@@ -158,6 +161,7 @@ abstract class AbstractMonitoringHandler extends AbstractProcessingHandler {
 	 * {@inheritdoc}
 	 */
 	public function handle( array $record ): bool {
+		return false;
 	}
 
 	/**

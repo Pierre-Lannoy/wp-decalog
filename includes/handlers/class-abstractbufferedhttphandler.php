@@ -105,10 +105,10 @@ abstract class AbstractBufferedHTTPHandler extends AbstractProcessingHandler {
 	 */
 	protected function write( array $record ): void {
 		if ( 'POST' === $this->verb ) {
-			wp_remote_post( esc_url_raw( $this->endpoint ), $record );
+			$result = wp_remote_post( esc_url_raw( $this->endpoint ), $this->post_args );
 		}
 		if ( 'GET' === $this->verb ) {
-			wp_remote_get( esc_url_raw( $this->endpoint ), $record );
+			$result = wp_remote_get( esc_url_raw( $this->endpoint ), $this->post_args );
 		}
 	}
 
