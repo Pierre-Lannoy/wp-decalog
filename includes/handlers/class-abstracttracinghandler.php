@@ -16,12 +16,18 @@ use Decalog\System\Environment;
 use Decalog\System\Hash;
 use Decalog\System\Http;
 use Decalog\System\Option;
+use Decalog\System\UUID;
 use Monolog\Logger;
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Handler\HandlerInterface;
 use Monolog\Formatter\FormatterInterface;
 use Decalog\Formatter\WordpressFormatter;
 use Decalog\System\Cache;
+use Jaeger\Thrift\Span as JSpan;
+use Jaeger\Thrift\Process as JProcess;
+use Jaeger\Thrift\Batch as JBatch;
+use Thrift\Protocol\TBinaryProtocol as TProtocol;
+use Thrift\Transport\TMemoryBuffer as TTransport;
 
 /**
  * Define the Monolog abstract tracing handler.
@@ -214,6 +220,47 @@ abstract class AbstractTracingHandler extends AbstractProcessingHandler {
 	}
 
 	/**
+	 * Computes jaeger.thrift format.
+	 *
+	 * @return  string  The formatted body, ready to send.
+	 * @since    3.0.0
+	 */
+	private function jaeger_format(): string {
+		$spans   = [];
+		$process = new JProcess(
+			[
+				'serviceName' => 'WP',
+			]
+		);
+		foreach ( $this->traces as $span ) {
+			$s = [
+				'traceIdLow'    => (int) $span['traceId'],
+				'traceIdHigh'   => 0,
+				'spanId'        => (int) $span['id'],
+				'operationName' => $span['localEndpoint']['serviceName'] . ' [' . $span['name'] . ']',
+				'startTime'     => (int) $span['timestamp'],
+				'duration'      => (int) $span['duration'],
+				'flags'         => 1,
+			];
+			if ( isset( $span['parentId'] ) ) {
+				$s['parentSpanId'] = (int) $span['parentId'];
+			} else {
+				$s['parentSpanId'] = 0;
+			}
+			$spans[] = new JSpan( $s );
+		}
+		$batch    = new JBatch(
+			[
+				'spans'   => $spans,
+				'process' => $process,
+			]
+		);
+		$protocol = new TProtocol( new TTransport() );
+		$batch->write( $protocol );
+		return $protocol->getTransport()->getBuffer();
+	}
+
+	/**
 	 * {@inheritdoc}
 	 */
 	public function close(): void {
@@ -223,6 +270,9 @@ abstract class AbstractTracingHandler extends AbstractProcessingHandler {
 		switch ( $this->format ) {
 			case 100:
 				$this->post_args['body'] = $this->zipkin_format();
+				break;
+			case 200:
+				$this->post_args['body'] = $this->jaeger_format();
 				break;
 		}
 		if ( '' !== $this->post_args['body'] ) {
@@ -243,9 +293,9 @@ abstract class AbstractTracingHandler extends AbstractProcessingHandler {
 			$result = wp_remote_get( esc_url_raw( $this->endpoint ), $this->post_args );
 		}
 		// No error handling, it's a "fire and forget" method.
-		//error_log('');
-		//error_log('----- TRACING ' . $this->endpoint . ' ---------------------------------------------------------------------------------------------------------');
-		//error_log( DECALOG_TRACEID . ' => HTTP ' . wp_remote_retrieve_response_code( $result ) . ' / ' . wp_remote_retrieve_response_message( $result ) );
+		error_log( '' );
+		error_log( '----- TRACING ' . $this->endpoint . ' ---------------------------------------------------------------------------------------------------------' );
+		error_log( DECALOG_TRACEID . ' => HTTP ' . wp_remote_retrieve_response_code( $result ) . ' / ' . wp_remote_retrieve_response_message( $result ) );
 	}
 
 	/**

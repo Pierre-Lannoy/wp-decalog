@@ -78,6 +78,28 @@ class Libraries {
 			'license' => 'apl2',
 			'langs'   => 'en',
 		];
+		self::$psr4_libraries['thrift']   = [
+			'name'    => 'Apache Thrift',
+			'prefix'  => 'Thrift',
+			'base'    => DECALOG_VENDOR_DIR . 'thrift/',
+			'version' => '0.13.01',
+			// phpcs:ignore
+			'author'  => sprintf( esc_html__( '%s & contributors', 'decalog' ), 'The Apache Software Foundation' ),
+			'url'     => 'https://github.com/apache/thrift',
+			'license' => 'apl2',
+			'langs'   => 'en',
+		];
+		self::$psr4_libraries['jaeger']   = [
+			'name'    => 'Jaeger Bindings for PHP OpenTracing API',
+			'prefix'  => 'Jaeger',
+			'base'    => DECALOG_VENDOR_DIR . 'jaeger/',
+			'version' => '1.2.2',
+			// phpcs:ignore
+			'author'  => sprintf( esc_html__( '%s & contributors', 'decalog' ), 'Jonah George' ),
+			'url'     => 'https://github.com/jonahgeorge/jaeger-client-php',
+			'license' => 'mit',
+			'langs'   => 'en',
+		];
 		self::$psr4_libraries['influxdb']   = [
 			'name'    => 'InfluxDB 2 client',
 			'prefix'  => 'InfluxDB2',
