@@ -182,20 +182,22 @@ class DMonitor {
 	 * @since   3.0.0
 	 */
 	public function before_close() {
-		$class         = $this->class;
-		$name          = $this->name;
-		$version       = $this->version;
-		$this->class   = 'plugin';
-		$this->name    = DECALOG_PRODUCT_NAME;
-		$this->version = DECALOG_VERSION;
-		foreach ( EventTypes::$levels as $key => $level ) {
-			$this->inc_dev_counter( 'event_' . $key, DLogger::count( $key ) );
+		if ( $this->allowed ) {
+			$class         = $this->class;
+			$name          = $this->name;
+			$version       = $this->version;
+			$this->class   = 'plugin';
+			$this->name    = DECALOG_PRODUCT_NAME;
+			$this->version = DECALOG_VERSION;
+			foreach ( EventTypes::$levels as $key => $level ) {
+				$this->inc_dev_counter( 'event_' . $key, DLogger::count( $key ) );
+			}
+			$this->inc_prod_counter( 'metric_prod', count( self::$production->getMetricFamilySamples() ) );
+			$this->inc_dev_counter( 'metric_dev', count( self::$development->getMetricFamilySamples() ) );
+			$this->class   = $class;
+			$this->name    = $name;
+			$this->version = $version;
 		}
-		$this->inc_prod_counter( 'metric_prod', count( self::$production->getMetricFamilySamples() ) );
-		$this->inc_dev_counter( 'metric_dev', count( self::$development->getMetricFamilySamples() ) );
-		$this->class   = $class;
-		$this->name    = $name;
-		$this->version = $version;
 	}
 
 	/**
