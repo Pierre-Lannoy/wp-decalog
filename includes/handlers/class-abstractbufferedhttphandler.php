@@ -110,6 +110,7 @@ abstract class AbstractBufferedHTTPHandler extends AbstractProcessingHandler {
 		if ( 'GET' === $this->verb ) {
 			$result = wp_remote_get( esc_url_raw( $this->endpoint ), $this->post_args );
 		}
+		// No error handling, it's a "fire and forget" method.
 	}
 
 	/**

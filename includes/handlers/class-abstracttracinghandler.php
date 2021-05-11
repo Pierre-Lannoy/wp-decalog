@@ -242,7 +242,7 @@ abstract class AbstractTracingHandler extends AbstractProcessingHandler {
 		if ( 'GET' === $this->verb ) {
 			$result = wp_remote_get( esc_url_raw( $this->endpoint ), $this->post_args );
 		}
-		//TODO: handle error.
+		// No error handling, it's a "fire and forget" method.
 		//error_log('');
 		//error_log('----- TRACING ' . $this->endpoint . ' ---------------------------------------------------------------------------------------------------------');
 		//error_log( DECALOG_TRACEID . ' => HTTP ' . wp_remote_retrieve_response_code( $result ) . ' / ' . wp_remote_retrieve_response_message( $result ) );
