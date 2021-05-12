@@ -59,7 +59,6 @@ class HandlerTypes {
 		$this->handlers[] = [
 			'version'       => DECALOG_VERSION,
 			'id'            => 'JaegerTracingHandler',
-			'ancestor'      => 'JaegerTracingHandler',
 			'namespace'     => 'Decalog\\Handler',
 			'class'         => 'tracing',
 			'minimal'       => Logger::EMERGENCY,
@@ -130,7 +129,6 @@ class HandlerTypes {
 		$this->handlers[] = [
 			'version'       => DECALOG_VERSION,
 			'id'            => 'TempoTracingHandler',
-			'ancestor'      => 'TempoTracingHandler',
 			'namespace'     => 'Decalog\\Handler',
 			'class'         => 'tracing',
 			'minimal'       => Logger::EMERGENCY,
@@ -201,7 +199,6 @@ class HandlerTypes {
 		$this->handlers[] = [
 			'version'       => DECALOG_VERSION,
 			'id'            => 'GrafanaTracingHandler',
-			'ancestor'      => 'GrafanaTracingHandler',
 			'namespace'     => 'Decalog\\Handler',
 			'class'         => 'tracing',
 			'minimal'       => Logger::EMERGENCY,
@@ -303,7 +300,6 @@ class HandlerTypes {
 		$this->handlers[] = [
 			'version'       => DECALOG_VERSION,
 			'id'            => 'ZipkinTracingHandler',
-			'ancestor'      => 'ZipkinTracingHandler',
 			'namespace'     => 'Decalog\\Handler',
 			'class'         => 'tracing',
 			'minimal'       => Logger::EMERGENCY,
@@ -372,7 +368,6 @@ class HandlerTypes {
 		$this->handlers[] = [
 			'version'       => DECALOG_VERSION,
 			'id'            => 'InfluxMonitoringHandler',
-			'ancestor'      => 'InfluxMonitoringHandler',
 			'namespace'     => 'Decalog\\Handler',
 			'class'         => 'metrics',
 			'minimal'       => Logger::EMERGENCY,
@@ -491,7 +486,6 @@ class HandlerTypes {
 		$this->handlers[] = [
 			'version'       => DECALOG_VERSION,
 			'id'            => 'PrometheusMetricsEPHandler',
-			'ancestor'      => 'PrometheusMetricsEPHandler',
 			'namespace'     => 'Decalog\\Handler',
 			'class'         => 'metrics',
 			'minimal'       => Logger::EMERGENCY,
@@ -546,7 +540,6 @@ class HandlerTypes {
 		$this->handlers[] = [
 			'version'       => DECALOG_VERSION,
 			'id'            => 'PrometheusMonitoringHandler',
-			'ancestor'      => 'PrometheusMonitoringHandler',
 			'namespace'     => 'Decalog\\Handler',
 			'class'         => 'metrics',
 			'minimal'       => Logger::EMERGENCY,
@@ -650,7 +643,6 @@ class HandlerTypes {
 		$this->handlers[] = [
 			'version'       => DECALOG_VERSION,
 			'id'            => 'GrafanaMonitoringHandler',
-			'ancestor'      => 'GrafanaMonitoringHandler',
 			'namespace'     => 'Decalog\\Handler',
 			'class'         => 'metrics',
 			'minimal'       => Logger::EMERGENCY,
@@ -788,12 +780,11 @@ class HandlerTypes {
 		$this->handlers[] = [
 			'version'       => DECALOG_VERSION,
 			'id'            => 'DatadogHandler',
-			'ancestor'      => 'DatadogHandler',
 			'namespace'     => 'Decalog\\Handler',
 			'class'         => 'logging',
 			'minimal'       => Logger::INFO,
 			'name'          => 'Datadog',
-			'help'          => esc_html__( 'An events log sent to Datadog.', 'decalog' ),
+			'help'          => esc_html__( 'Events sent to Datadog.', 'decalog' ),
 			'icon'          => $this->get_base64_datadog_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -855,12 +846,11 @@ class HandlerTypes {
 		$this->handlers[] = [
 			'version'       => DECALOG_VERSION,
 			'id'            => 'NullHandler',
-			'ancestor'      => 'NullHandler',
 			'namespace'     => 'Monolog\Handler',
 			'class'         => 'system',
 			'minimal'       => Logger::DEBUG,
 			'name'          => esc_html__( 'Blackhole', 'decalog' ),
-			'help'          => esc_html__( 'Any record it can handle will be thrown away.', 'decalog' ),
+			'help'          => esc_html__( 'Any event it can handle will be thrown away.', 'decalog' ),
 			'icon'          => $this->get_base64_php_icon(),
 			'needs'         => [],
 			'params'        => [],
@@ -870,12 +860,11 @@ class HandlerTypes {
 		$this->handlers[] = [
 			'version'       => DECALOG_VERSION,
 			'id'            => 'SharedMemoryHandler',
-			'ancestor'      => 'SharedMemoryHandler',
 			'namespace'     => 'Decalog\\Handler',
 			'class'         => 'system',
 			'minimal'       => Logger::INFO,
 			'name'          => esc_html__( 'Shared memory', 'decalog' ),
-			'help'          => esc_html__( 'An automatic events log, stored in server shared memory.', 'decalog' ),
+			'help'          => esc_html__( 'Automatic events log, stored in server shared memory.', 'decalog' ),
 			'icon'          => $this->get_base64_ram_icon(),
 			'needs'         => [
 				'option'          => [ 'livelog' ],
@@ -888,7 +877,6 @@ class HandlerTypes {
 		$this->handlers[] = [
 			'version'       => DECALOG_VERSION,
 			'id'            => 'BugsnagHandler',
-			'ancestor'      => 'BugsnagHandler',
 			'namespace'     => 'Decalog\\Handler',
 			'class'         => 'analytics',
 			'minimal'       => Logger::WARNING,
@@ -942,12 +930,11 @@ class HandlerTypes {
 		$this->handlers[] = [
 			'version'       => DECALOG_MONOLOG_VERSION,
 			'id'            => 'BrowserConsoleHandler',
-			'ancestor'      => 'BrowserConsoleHandler',
 			'namespace'     => 'Monolog\\Handler',
 			'class'         => 'debugging',
 			'minimal'       => Logger::DEBUG,
 			'name'          => esc_html__( 'Browser console', 'decalog' ),
-			'help'          => esc_html__( 'An events log sent to browser\'s javascript console with no browser extension required.', 'decalog' ),
+			'help'          => esc_html__( 'Events sent to browser\'s javascript console with no browser extension required.', 'decalog' ),
 			'icon'          => $this->get_base64_browserconsole_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -963,12 +950,11 @@ class HandlerTypes {
 		$this->handlers[] = [
 			'version'       => DECALOG_MONOLOG_VERSION,
 			'id'            => 'ChromePHPHandler',
-			'ancestor'      => 'ChromePHPHandler',
 			'namespace'     => 'Monolog\\Handler',
 			'class'         => 'debugging',
 			'minimal'       => Logger::DEBUG,
 			'name'          => 'ChromePHP',
-			'help'          => esc_html__( 'An events log sent to the ChromePHP extension (http://www.chromephp.com/).', 'decalog' ),
+			'help'          => esc_html__( 'Events sent to the ChromePHP extension (http://www.chromephp.com/).', 'decalog' ),
 			'icon'          => $this->get_base64_chrome_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -984,12 +970,11 @@ class HandlerTypes {
 		$this->handlers[] = [
 			'version'       => DECALOG_VERSION,
 			'id'            => 'ElasticCloudHandler',
-			'ancestor'      => 'ElasticsearchHandler',
 			'namespace'     => 'Decalog\\Handler',
 			'class'         => 'logging',
 			'minimal'       => Logger::DEBUG,
 			'name'          => 'Elastic Cloud - Events',
-			'help'          => esc_html__( 'An events log sent to Elastic Cloud.', 'decalog' ),
+			'help'          => esc_html__( 'Events sent to Elastic Cloud.', 'decalog' ),
 			'icon'          => $this->get_base64_elasticcloud_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -1070,12 +1055,11 @@ class HandlerTypes {
 		$this->handlers[] = [
 			'version'       => DECALOG_VERSION,
 			'id'            => 'ElasticHandler',
-			'ancestor'      => 'ElasticsearchHandler',
 			'namespace'     => 'Decalog\\Handler',
 			'class'         => 'logging',
 			'minimal'       => Logger::DEBUG,
 			'name'          => 'Elasticsearch - Events',
-			'help'          => esc_html__( 'An events log sent to Elasticsearch.', 'decalog' ),
+			'help'          => esc_html__( 'Events sent to Elasticsearch.', 'decalog' ),
 			'icon'          => $this->get_base64_elasticsearch_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -1156,12 +1140,11 @@ class HandlerTypes {
 		$this->handlers[] = [
 			'version'       => DECALOG_VERSION,
 			'id'            => 'FluentHandler',
-			'ancestor'      => 'SocketHandler',
 			'namespace'     => 'Decalog\\Handler',
 			'class'         => 'logging',
 			'minimal'       => Logger::DEBUG,
 			'name'          => 'Fluentd',
-			'help'          => esc_html__( 'An events log sent to a Fluentd collector.', 'decalog' ),
+			'help'          => esc_html__( 'Events sent to a Fluentd collector.', 'decalog' ),
 			'icon'          => $this->get_base64_fluentd_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -1213,12 +1196,11 @@ class HandlerTypes {
 		$this->handlers[] = [
 			'version'       => DECALOG_VERSION,
 			'id'            => 'GrafanaHandler',
-			'ancestor'      => 'GrafanaHandler',
 			'namespace'     => 'Decalog\\Handler',
 			'class'         => 'logging',
 			'minimal'       => Logger::INFO,
 			'name'          => 'Grafana Cloud - Events',
-			'help'          => esc_html__( 'An events log sent to Grafana Cloud.', 'decalog' ),
+			'help'          => esc_html__( 'Events log sent to Grafana Cloud.', 'decalog' ),
 			'icon'          => $this->get_base64_grafana_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -1312,7 +1294,6 @@ class HandlerTypes {
 		$this->handlers[] = [
 			'version'       => DECALOG_VERSION,
 			'id'            => 'GAnalyticsHandler',
-			'ancestor'      => 'GAnalyticsHandler',
 			'namespace'     => 'Decalog\\Handler',
 			'class'         => 'analytics',
 			'minimal'       => Logger::WARNING,
@@ -1366,12 +1347,11 @@ class HandlerTypes {
 		$this->handlers[] = [
 			'version'       => DECALOG_VERSION,
 			'id'            => 'LogentriesHandler',
-			'ancestor'      => 'SocketHandler',
 			'namespace'     => 'Decalog\\Handler',
 			'class'         => 'logging',
 			'minimal'       => Logger::DEBUG,
 			'name'          => 'Logentries & insightOps',
-			'help'          => esc_html__( 'An events log sent to Logentries & insightOps service.', 'decalog' ),
+			'help'          => esc_html__( 'Events sent to Logentries & insightOps service.', 'decalog' ),
 			'icon'          => $this->get_base64_logentries_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -1436,12 +1416,11 @@ class HandlerTypes {
 		$this->handlers[] = [
 			'version'       => DECALOG_MONOLOG_VERSION,
 			'id'            => 'LogglyHandler',
-			'ancestor'      => 'LogglyHandler',
 			'namespace'     => 'Monolog\\Handler',
 			'class'         => 'logging',
 			'minimal'       => Logger::WARNING,
 			'name'          => 'Loggly',
-			'help'          => esc_html__( 'An events log sent to Solawinds Loggly service.', 'decalog' ),
+			'help'          => esc_html__( 'Events sent to Solawinds Loggly service.', 'decalog' ),
 			'icon'          => $this->get_base64_loggly_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -1470,12 +1449,11 @@ class HandlerTypes {
 		$this->handlers[] = [
 			'version'       => DECALOG_VERSION,
 			'id'            => 'LokiHandler',
-			'ancestor'      => 'LokiHandler',
 			'namespace'     => 'Decalog\\Handler',
 			'class'         => 'logging',
 			'minimal'       => Logger::INFO,
 			'name'          => 'Loki',
-			'help'          => esc_html__( 'An events log sent to Loki.', 'decalog' ),
+			'help'          => esc_html__( 'Events sent to Loki.', 'decalog' ),
 			'icon'          => $this->get_base64_loki_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -1537,12 +1515,11 @@ class HandlerTypes {
 		$this->handlers[] = [
 			'version'       => DECALOG_VERSION,
 			'id'            => 'MailHandler',
-			'ancestor'      => 'MailHandler',
 			'namespace'     => 'Decalog\\Handler',
 			'class'         => 'alerting',
 			'minimal'       => Logger::WARNING,
 			'name'          => esc_html__( 'Mail', 'decalog' ),
-			'help'          => esc_html__( 'Events alerts sent by WordPress via mail.', 'decalog' ),
+			'help'          => esc_html__( 'Event alerts sent by WordPress via mail.', 'decalog' ),
 			'icon'          => $this->get_base64_mail_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -1575,12 +1552,11 @@ class HandlerTypes {
 		$this->handlers[] = [
 			'version'       => DECALOG_MONOLOG_VERSION,
 			'id'            => 'ErrorLogHandler',
-			'ancestor'      => 'ErrorLogHandler',
 			'namespace'     => 'Monolog\\Handler',
 			'class'         => 'logging',
 			'minimal'       => Logger::DEBUG,
 			'name'          => esc_html__( 'PHP error log', 'decalog' ),
-			'help'          => esc_html__( 'An events log stored in the standard PHP error log, as with the error_log() function.', 'decalog' ),
+			'help'          => esc_html__( 'Events stored in the standard PHP error log, as with the error_log() function, but more detailed.', 'decalog' ),
 			'icon'          => $this->get_base64_php_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -1600,12 +1576,11 @@ class HandlerTypes {
 		$this->handlers[] = [
 			'version'       => DECALOG_VERSION,
 			'id'            => 'PshHandler',
-			'ancestor'      => 'SocketHandler',
 			'namespace'     => 'Decalog\\Handler',
 			'class'         => 'alerting',
 			'minimal'       => Logger::WARNING,
 			'name'          => 'Pushover',
-			'help'          => esc_html__( 'Events alerts sent via Pushover service.', 'decalog' ),
+			'help'          => esc_html__( 'Event alerts sent via Pushover service.', 'decalog' ),
 			'icon'          => $this->get_base64_pushover_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -1685,7 +1660,6 @@ class HandlerTypes {
 		$this->handlers[] = [
 			'version'       => DECALOG_VERSION,
 			'id'            => 'RaygunHandler',
-			'ancestor'      => 'RaygungHandler',
 			'namespace'     => 'Decalog\\Handler',
 			'class'         => 'analytics',
 			'minimal'       => Logger::WARNING,
@@ -1739,12 +1713,11 @@ class HandlerTypes {
 		$this->handlers[] = [
 			'version'       => DECALOG_MONOLOG_VERSION,
 			'id'            => 'RotatingFileHandler',
-			'ancestor'      => 'StreamHandler',
 			'namespace'     => 'Monolog\Handler',
 			'class'         => 'logging',
 			'minimal'       => Logger::DEBUG,
 			'name'          => esc_html__( 'Rotating files', 'decalog' ),
-			'help'          => esc_html__( 'An events log sent to files that are rotated every day and a limited number of files are kept.', 'decalog' ),
+			'help'          => esc_html__( 'Events sent to files that are rotated every day and a limited number of files are kept.', 'decalog' ),
 			'icon'          => $this->get_base64_rotatingfiles_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -1800,12 +1773,11 @@ class HandlerTypes {
 		$this->handlers[] = [
 			'version'       => DECALOG_VERSION,
 			'id'            => 'SematextHandler',
-			'ancestor'      => 'ElasticsearchHandler',
 			'namespace'     => 'Decalog\\Handler',
 			'class'         => 'logging',
 			'minimal'       => Logger::DEBUG,
 			'name'          => 'Sematext',
-			'help'          => esc_html__( 'An events log sent to Sematext using Elasticsearch APIs.', 'decalog' ),
+			'help'          => esc_html__( 'Events sent to Sematext using Elasticsearch APIs.', 'decalog' ),
 			'icon'          => $this->get_base64_sematext_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -1855,7 +1827,6 @@ class HandlerTypes {
 		/*$this->handlers[] = [
 			'version'       => DECALOG_VERSION,
 			'id'            => 'SentryHandler',
-			'ancestor'      => 'SentryHandler',
 			'namespace'     => 'Decalog\\Handler',
 			'class'         => 'analytics',
 			'minimal'       => Logger::WARNING,
@@ -1909,12 +1880,11 @@ class HandlerTypes {
 		$this->handlers[] = [
 			'version'       => DECALOG_MONOLOG_VERSION,
 			'id'            => 'SlackWebhookHandler',
-			'ancestor'      => 'SlackWebhookHandler',
 			'namespace'     => 'Monolog\Handler',
 			'class'         => 'alerting',
 			'minimal'       => Logger::WARNING,
 			'name'          => 'Slack',
-			'help'          => esc_html__( 'Events alerts sent through Slack Webhooks.', 'decalog' ),
+			'help'          => esc_html__( 'Event alerts sent through Slack Webhooks.', 'decalog' ),
 			'icon'          => $this->get_base64_slack_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -1998,12 +1968,11 @@ class HandlerTypes {
 		$this->handlers[] = [
 			'version'       => DECALOG_VERSION,
 			'id'            => 'StackdriverHandler',
-			'ancestor'      => 'SocketHandler',
 			'namespace'     => 'Decalog\\Handler',
 			'class'         => 'logging',
 			'minimal'       => Logger::DEBUG,
 			'name'          => 'Stackdriver',
-			'help'          => esc_html__( 'An events log sent to Google Stackdriver Logging via a Google-Fluentd collector.', 'decalog' ),
+			'help'          => esc_html__( 'Events sent to Google Stackdriver Logging via a Google-Fluentd collector.', 'decalog' ),
 			'icon'          => $this->get_base64_stackdriver_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -2055,12 +2024,11 @@ class HandlerTypes {
 		$this->handlers[] = [
 			'version'       => DECALOG_VERSION,
 			'id'            => 'SumoSysHandler',
-			'ancestor'      => 'SocketHandler',
 			'namespace'     => 'Decalog\\Handler',
 			'class'         => 'logging',
 			'minimal'       => Logger::DEBUG,
 			'name'          => 'Sumo Logic cloud-syslog',
-			'help'          => esc_html__( 'An events log sent to a Sumo Logic cloud-syslog source.', 'decalog' ),
+			'help'          => esc_html__( 'Events sent to a Sumo Logic cloud-syslog source.', 'decalog' ),
 			'icon'          => $this->get_base64_sumosys_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -2210,12 +2178,11 @@ class HandlerTypes {
 		$this->handlers[] = [
 			'version'       => DECALOG_MONOLOG_VERSION,
 			'id'            => 'SyslogUdpHandler',
-			'ancestor'      => 'UdpSocket',
 			'namespace'     => 'Monolog\Handler',
 			'class'         => 'logging',
 			'minimal'       => Logger::DEBUG,
 			'name'          => 'Syslog',
-			'help'          => esc_html__( 'An events log sent to a remote syslogd server.', 'decalog' ),
+			'help'          => esc_html__( 'Events sent to a remote syslogd server.', 'decalog' ),
 			'icon'          => $this->get_base64_syslog_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -2329,12 +2296,11 @@ class HandlerTypes {
 		$this->handlers[] = [
 			'version'       => DECALOG_VERSION,
 			'id'            => 'WordpressHandler',
-			'ancestor'      => 'WordpressHandler',
 			'namespace'     => 'Decalog\Handler',
 			'class'         => 'logging',
 			'minimal'       => Logger::DEBUG,
 			'name'          => esc_html__( 'WordPress events log', 'decalog' ),
-			'help'          => esc_html__( 'An events log stored in your WordPress database and available right in your admin dashboard.', 'decalog' ),
+			'help'          => esc_html__( 'Events stored in your WordPress database and available right in your admin dashboard.', 'decalog' ),
 			'icon'          => $this->get_base64_wordpress_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -2479,22 +2445,6 @@ class HandlerTypes {
 	public function get( $id ) {
 		foreach ( $this->handlers as $handler ) {
 			if ( $handler['id'] === $id ) {
-				return $handler;
-			}
-		}
-		return null;
-	}
-
-	/**
-	 * Get a specific handler.
-	 *
-	 * @param   string $id The ancestor id.
-	 * @return  null|array   The detail of the handler, null if not found.
-	 * @since    1.0.0
-	 */
-	public function get_ancestor( $id ) {
-		foreach ( $this->handlers as $handler ) {
-			if ( $handler['ancestor'] === $id ) {
 				return $handler;
 			}
 		}
