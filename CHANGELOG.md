@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - New logger to send metrics to a Prometheus instance (via Pushgateway).
 - New logger to publish metrics as endpoint for Prometheus scrapping.
 - New logger to send metrics to InfluxDB Cloud or to an on-premise InfluxDB 2 instance or cluster.
+- New logger to send metrics to Datadog.
 - New logger to send traces to a Jaeger collector.
 - New logger to send traces to a Zipkin instance.
 - [WP-CLI] New command to list, dump or get metrics: see `wp help log metrics` for details.
