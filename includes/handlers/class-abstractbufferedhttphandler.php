@@ -104,11 +104,13 @@ abstract class AbstractBufferedHTTPHandler extends AbstractProcessingHandler {
 	 * @since    2.4.0
 	 */
 	protected function write( array $record ): void {
-		if ( 'POST' === $this->verb ) {
-			$result = wp_remote_post( esc_url_raw( $this->endpoint ), $this->post_args );
-		}
-		if ( 'GET' === $this->verb ) {
-			$result = wp_remote_get( esc_url_raw( $this->endpoint ), $this->post_args );
+		if ( '' !== $this->post_args['body'] ) {
+			if ( 'POST' === $this->verb ) {
+				$result = wp_remote_post( esc_url_raw( $this->endpoint ), $this->post_args );
+			}
+			if ( 'GET' === $this->verb ) {
+				$result = wp_remote_get( esc_url_raw( $this->endpoint ), $this->post_args );
+			}
 		}
 		// No error handling, it's a "fire and forget" method.
 	}
