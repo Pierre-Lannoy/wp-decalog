@@ -58,6 +58,76 @@ class HandlerTypes {
 		// TRACING
 		$this->handlers[] = [
 			'version'       => DECALOG_VERSION,
+			'id'            => 'DatadogTracingHandler',
+			'namespace'     => 'Decalog\\Handler',
+			'class'         => 'tracing',
+			'minimal'       => Logger::EMERGENCY,
+			'name'          => 'Datadog Traces',
+			'help'          => esc_html__( 'Traces sent to Datadog via Datadog local agent.', 'decalog' ),
+			'icon'          => $this->get_base64_datadog_icon(),
+			'needs'         => [],
+			'params'        => [ 'processors', 'privacy' ],
+			'processors'    => [],
+			'configuration' => [
+				'sampling' => [
+					'type'    => 'integer',
+					'show'    => true,
+					'name'    => esc_html__( 'Sampling', 'decalog' ),
+					'help'    => esc_html__( 'Sampling rate to be chosen according to the site traffic.', 'decalog' ),
+					'default' => 100,
+					'control' => [
+						'type'    => 'field_select',
+						'cast'    => 'integer',
+						'enabled' => true,
+						'list'    => [ [ 1000, '100%' ], [ 500, '50%' ], [ 250, '25%' ], [ 100, '10%' ], [ 50, '5%' ], [ 20, '2%' ], [ 10, '1%' ], [ 5, '5‰' ], [ 2, '2‰' ], [ 1, '1‰' ] ],
+					],
+				],
+				'format'   => [
+					'type'    => 'integer',
+					'show'    => true,
+					'name'    => esc_html__( 'Format', 'decalog' ),
+					'help'    => esc_html__( 'The format in which to push data.', 'decalog' ),
+					'default' => 300,
+					'control' => [
+						'type'    => 'field_select',
+						'cast'    => 'integer',
+						'enabled' => false,
+						'list'    => [ [ 300, 'DD/0.3' ] ],
+					],
+				],
+				'url'      => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Service URL', 'decalog' ),
+					'help'    => sprintf( esc_html__( 'URL where to send spans. Format: %s.', 'decalog' ), '<code>' . htmlentities( '<proto>://<host>[:<port>]' ) . '</code>' ),
+					'default' => 'http://localhost:8126',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
+			],
+			'init'          => [
+				[
+					'type' => 'uuid',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'format',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'sampling',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'url',
+				],
+			],
+		];
+		$this->handlers[] = [
+			'version'       => DECALOG_VERSION,
 			'id'            => 'JaegerTracingHandler',
 			'namespace'     => 'Decalog\\Handler',
 			'class'         => 'tracing',
