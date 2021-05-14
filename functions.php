@@ -48,6 +48,29 @@ function decalog_mb_str_pad( $input, $length, $padding = ' ', $padType = STR_PAD
 	return $result;
 }
 
+/**
+ * Performs an HTTP request using the PUT method and returns its response.
+ * Mimics wp_remote_get or wp_remote_post, but for PUT method.
+ *
+ * @since 3.0.0
+ *
+ * @see wp_remote_request() For more information on the response array format.
+ * @see WP_Http::request() For default arguments information.
+ *
+ * @param string $url  URL to retrieve.
+ * @param array  $args Optional. Request arguments. Default empty array.
+ * @return array|WP_Error The response or WP_Error on failure.
+ */
+function decalog_remote_put( $url, $args = [] ) {
+	$http = _wp_http_get_object();
+	if ( isset( $http ) ) {
+		$defaults    = [ 'method' => 'PUT' ];
+		$parsed_args = wp_parse_args( $args, $defaults );
+		return $http->request( $url, $parsed_args );
+	}
+	return new WP_Error( 500 );
+}
+
 
 /**
  * Provide PHP 7.3 compatibility for array_key_last() function.
