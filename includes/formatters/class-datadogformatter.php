@@ -62,9 +62,9 @@ class DatadogFormatter extends JsonFormatter {
 		$event['dd.trace_id'] = base_convert( substr( DECALOG_TRACEID, 16, 16 ), 16, 10 );
 		$event['host']        = gethostname();
 		if ( array_key_exists( 'channel', $record ) ) {
-			$event['service'] = ChannelTypes::$channel_names_en[ strtoupper( $record['channel'] ) ];
+			$event['service'] = strtolower( str_replace( ' ', '_', ChannelTypes::$channel_names_en[ strtoupper( $record['channel'] ) ] ) );
 		} else {
-			$event['service'] = ChannelTypes::$channel_names_en['UNKNOWN'];
+			$event['service'] = str_replace( ' ', '_', ChannelTypes::$channel_names_en['UNKNOWN'] );
 		}
 		if ( array_key_exists( 'message', $record ) ) {
 			$event['message'] = $record['message'];
