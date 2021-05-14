@@ -11,6 +11,7 @@
 
 namespace Decalog\Handler;
 
+use Decalog\Plugin\Feature\ChannelTypes;
 use Decalog\Plugin\Feature\DTracer;
 use Decalog\System\Environment;
 use Decalog\System\Hash;
@@ -236,15 +237,15 @@ abstract class AbstractTracingHandler extends AbstractProcessingHandler {
 		);
 		foreach ( $this->traces as $span ) {
 			$s = [
-				'traceIdLow'  => (int) $span['traceId'],
-				'traceIdHigh' => 0,
-				'spanId'      => (int) $span['id'],
+				'traceIdLow'  => (int) base_convert( substr( $span['traceId'], 16, 16 ), 16, 10 ),
+				'traceIdHigh' => (int) base_convert( substr( $span['traceId'], 0, 16 ), 16, 10 ),
+				'spanId'      => (int) base_convert( $span['id'], 16, 10 ),
 				'startTime'   => (int) $span['timestamp'],
 				'duration'    => (int) $span['duration'],
 				'flags'       => 1,
 			];
 			if ( isset( $span['parentId'] ) ) {
-				$s['parentSpanId']  = (int) $span['parentId'];
+				$s['parentSpanId']  = (int) base_convert( $span['parentId'], 16, 10 );
 				$s['operationName'] = $span['localEndpoint']['serviceName'] . ' [' . $span['name'] . ']';
 
 			} else {
@@ -276,6 +277,49 @@ abstract class AbstractTracingHandler extends AbstractProcessingHandler {
 	}
 
 	/**
+	 * Get the channel tag.
+	 *
+	 * @param   integer $id Optional. The channel id (execution mode).
+	 * @return  string The channel tag.
+	 * @since 3.0.0
+	 */
+	private function channel_tag( $id = 0 ) {
+		if ( $id >= count( ChannelTypes::$channels ) ) {
+			$id = 0;
+		}
+		return ChannelTypes::$channels[ $id ];
+	}
+
+	/**
+	 * Computes DD/0.3 format.
+	 *
+	 * @return  string  The formatted body, ready to send.
+	 * @since    3.0.0
+	 */
+	private function datadog_format(): string {
+		$spans = [];
+		foreach ( $this->traces as $span ) {
+			$s = [
+				'type'      => 'web',
+				//'env'       => strtolower( Environment::stage() ),
+				'start'     => (int) ( $span['timestamp'] * 1000 ),
+				'duration'  => (int) ( $span['duration'] * 1000 ),
+				'parent_id' => (int) base_convert( $span['parentId'] ?? 0, 16, 10 ),
+				'span_id'   => (int) base_convert( $span['id'], 16, 10 ),
+				'trace_id'  => '¶' . base_convert( substr( $span['traceId'], 16, 16 ), 16, 10 ) . '¶',
+				'service'   => substr( strtolower( str_replace( ' ', '_', ChannelTypes::$channel_names_en[ strtoupper( $this->channel_tag( Environment::exec_mode() ) ) ] ) ), 0, 100 ),
+				'resource'  => substr( ucwords( $span['localEndpoint']['serviceName'] ), 0, 100 ),
+				'name'      => substr( $span['name'], 0, 100 ),
+			];
+			if ( isset( $span['tags'] ) && is_array( $span['tags'] ) && 0 < count( $span['tags'] ) ) {
+				$s['meta'] = $span['tags'];
+			}
+			$spans[] = '[' . str_replace( [ '"\u00b6', '\u00b6"' ], [ '', '' ], wp_json_encode( $s ) ) . ']';
+		}
+		return '[' . implode( ',', $spans ) . ']';
+	}
+
+	/**
 	 * {@inheritdoc}
 	 */
 	public function close(): void {
@@ -288,6 +332,9 @@ abstract class AbstractTracingHandler extends AbstractProcessingHandler {
 				break;
 			case 200:
 				$this->post_args['body'] = $this->jaeger_format();
+				break;
+			case 300:
+				$this->post_args['body'] = $this->datadog_format();
 				break;
 		}
 		if ( '' !== $this->post_args['body'] ) {
@@ -307,10 +354,14 @@ abstract class AbstractTracingHandler extends AbstractProcessingHandler {
 		if ( 'GET' === $this->verb ) {
 			$result = wp_remote_get( esc_url_raw( $this->endpoint ), $this->post_args );
 		}
+		if ( 'PUT' === $this->verb ) {
+			$result = decalog_remote_put( esc_url_raw( $this->endpoint ), $this->post_args );
+		}
 		// No error handling, it's a "fire and forget" method.
 		error_log( '' );
 		error_log( '----- TRACING ' . $this->endpoint . ' ---------------------------------------------------------------------------------------------------------' );
 		error_log( DECALOG_TRACEID . ' => HTTP ' . wp_remote_retrieve_response_code( $result ) . ' / ' . wp_remote_retrieve_response_message( $result ) );
+		error_log( print_r( $this->post_args, true ) );
 	}
 
 	/**
