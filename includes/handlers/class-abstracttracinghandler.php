@@ -314,6 +314,9 @@ abstract class AbstractTracingHandler extends AbstractProcessingHandler {
 			if ( isset( $span['tags'] ) && is_array( $span['tags'] ) && 0 < count( $span['tags'] ) ) {
 				$s['meta'] = $span['tags'];
 			}
+			if ( 0 === $s['parent_id'] ) {
+				unset( $s['parent_id'] );
+			}
 			$spans[] = '[' . str_replace( [ '"\u00b6', '\u00b6"' ], [ '', '' ], wp_json_encode( $s ) ) . ']';
 		}
 		return '[' . implode( ',', $spans ) . ']';
