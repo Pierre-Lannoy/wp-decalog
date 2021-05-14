@@ -19,7 +19,6 @@ use Decalog\System\Http;
 use Decalog\System\UserAgent;
 use Monolog\Formatter\JsonFormatter;
 use Monolog\Logger;
-use PODeviceDetector\API\Device;
 
 /**
  * Define the Monolog Datadog formatter.
@@ -57,12 +56,10 @@ class DatadogFormatter extends JsonFormatter {
 	 * @since   3.0.0
 	 */
 	public function format( array $record ): string {
-		$event           = [];
-		$event['dd']     = [
-			'trace_id' => DECALOG_TRACEID,
-		];
-		$event['source'] = DECALOG_PRODUCT_NAME;
-		$event['host']   = gethostname();
+		$event                = [];
+		$event['ddsource']    = DECALOG_PRODUCT_NAME;
+		$event['dd.trace_id'] = base_convert( substr( DECALOG_TRACEID, 16, 16 ), 16, 10 );
+		$event['host']        = gethostname();
 		if ( array_key_exists( 'channel', $record ) ) {
 			$event['service'] = ChannelTypes::$channel_names_en[ strtoupper( $record['channel'] ) ];
 		} else {
@@ -88,6 +85,9 @@ class DatadogFormatter extends JsonFormatter {
 			if ( array_key_exists( 'phase', $event['context'] ) ) {
 				unset( $event['context']['phase'] );
 			}
+			if ( array_key_exists( 'traceID', $event['context'] ) ) {
+				unset( $event['context']['traceID'] );
+			}
 			if ( array_key_exists( 'code', $record['context'] ) ) {
 				$event['message'] = str_replace( '¶', '[' . $record['context']['code'] . ']', $event['message'] );
 			}
@@ -95,8 +95,6 @@ class DatadogFormatter extends JsonFormatter {
 		if ( array_key_exists( 'extra', $record ) && 0 < count( $record['extra'] ) ) {
 			$event['extra'] = $record['extra'];
 		}
-
-		// phpcs:ignore
 		return parent::format( $event );
 	}
 }
