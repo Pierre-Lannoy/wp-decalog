@@ -37,8 +37,16 @@ class GrafanaTracingHandler extends AbstractTracingHandler {
 	 */
 	public function __construct( string $uuid, string $url, int $format, int $sampling ) {
 		parent::__construct( $uuid, $format, $sampling );
-		$this->endpoint                             = $url;
-		$this->post_args['headers']['Content-Type'] = 'application/json';
+		switch ( $this->format ) {
+			case 100:
+				$this->endpoint                             = $url;
+				$this->post_args['headers']['Content-Type'] = 'application/json';
+				break;
+			case 200:
+				$this->endpoint                             = $url . '/api/traces';
+				$this->post_args['headers']['Content-Type'] = 'application/x-thrift';
+				break;
+		}
 	}
 
 }
