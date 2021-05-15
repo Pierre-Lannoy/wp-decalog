@@ -251,14 +251,14 @@ class DTracer {
 	 */
 	private function init_span() {
 		return [
-			'id'             => UUID::generate_unique_id( 16 ),
+			'id'             => UUID::generate_unique_id( 8 ),
 			'traceId'        => DECALOG_TRACEID,
 			'parentId'       => '',
 			'name'           => $this->name . ' / ',
 			'timestamp'      => (int) ( 1000000 * microtime( true ) ),
 			'duration'       => 0,
 			'localEndpoint'  => [
-				'serviceName' => $this->class,
+				'serviceName' => ucwords( $this->class ),
 			],
 			'remoteEndpoint' => [],
 			'tags'           => [
@@ -341,10 +341,6 @@ class DTracer {
 		$wpl['localEndpoint']['serviceName'] = 'Core';
 		$wpl['timestamp']                    = (int) ( 1000000 * POPL_START_TIMESTAMP );
 		self::$traces_registry['PLL']        = $wpl;
-
-
-
-		self::$logger->info( DECALOG_TRACEID );
 	}
 
 	/**
