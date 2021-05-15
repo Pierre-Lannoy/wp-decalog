@@ -361,10 +361,6 @@ abstract class AbstractTracingHandler extends AbstractProcessingHandler {
 			$result = decalog_remote_put( esc_url_raw( $this->endpoint ), $this->post_args );
 		}
 		// No error handling, it's a "fire and forget" method.
-		error_log( '' );
-		error_log( '----- TRACING ' . $this->endpoint . ' ---------------------------------------------------------------------------------------------------------' );
-		error_log( DECALOG_TRACEID . ' => HTTP ' . wp_remote_retrieve_response_code( $result ) . ' / ' . wp_remote_retrieve_response_message( $result ) );
-		//error_log( print_r( $this->post_args, true ) );
 	}
 
 	/**
