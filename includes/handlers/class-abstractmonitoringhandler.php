@@ -11,6 +11,7 @@
 
 namespace Decalog\Handler;
 
+use Decalog\Plugin\Feature\Log;
 use Decalog\System\Environment;
 use Decalog\System\Http;
 use Monolog\Logger;
@@ -62,6 +63,14 @@ abstract class AbstractMonitoringHandler extends AbstractProcessingHandler {
 	 * @var    string    $verb    The verb to use.
 	 */
 	protected $verb = 'POST';
+
+	/**
+	 * Error control.
+	 *
+	 * @since  3.0.0
+	 * @var    boolean    $error_control    Error control.
+	 */
+	protected $error_control = true;
 
 	/**
 	 * Running monitors.
@@ -117,10 +126,24 @@ abstract class AbstractMonitoringHandler extends AbstractProcessingHandler {
 		if ( 'GET' === $this->verb ) {
 			$result = wp_remote_get( esc_url_raw( $this->endpoint ), $this->post_args );
 		}
-		// No error handling, it's a "fire and forget" method.
-		//error_log('');
-		//error_log('----- MONITORING ' . $this->endpoint . ' ---------------------------------------------------------------------------------------------------------');
-		//error_log( DECALOG_TRACEID . ' => HTTP ' . wp_remote_retrieve_response_code( $result ) . ' / ' . wp_remote_retrieve_response_message( $result ) );
+		$code    = wp_remote_retrieve_response_code( $result );
+		$message = wp_remote_retrieve_response_message( $result );
+		if ( '' === $message ) {
+			$message = 'Unknow error';
+		}
+		if ( $this->error_control ) {
+			$message = 'Pushing metrics to ' . $this->endpoint . ' => ' . $message;
+			$logger  = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
+			if ( in_array( (int) $code, Http::$http_effective_pass_codes, true ) ) {
+				$logger->debug( $message, $code );
+			} elseif ( in_array( (int) $code, Http::$http_success_codes, true ) ) {
+				$logger->info( $message, $code );
+			} elseif ( '' === $code ) {
+				$logger->error( $message, 999 );
+			} else {
+				$logger->warning( $message, $code );
+			}
+		}
 	}
 
 	/**

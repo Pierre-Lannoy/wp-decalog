@@ -62,6 +62,7 @@ class InfluxMonitoringHandler extends AbstractMonitoringHandler {
 			'precision' => InfluxWritePrecision::MS,
 			'logFile'   => '/dev/null',
 		];
+		$this->error_control = false;
 	}
 
 	/**
