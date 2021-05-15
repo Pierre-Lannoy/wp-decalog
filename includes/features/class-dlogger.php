@@ -149,7 +149,7 @@ class DLogger {
 			}
 			$handler_def    = $handlers->get( $logger['handler'] );
 			$logger['uuid'] = $key;
-			if ( $diagnosis->check( $handler_def['id'] ) ) {
+			if ( $handler_def && $diagnosis->check( $handler_def['id'] ) ) {
 				$handler = $factory->create_logger( $logger );
 				if ( $handler instanceof \Monolog\Handler\HandlerInterface ) {
 					$this->logger->pushHandler( $handler );
@@ -157,7 +157,11 @@ class DLogger {
 					$skipped[] = sprintf( 'Skipping loading of a %s logger.', $handler_def['name'] );
 				}
 			} else {
-				$unloadable[] = sprintf( 'Unable to load a %s logger. %s', $handler_def['name'], $diagnosis->error_string( $handler_def['id'] ) );
+				if ( $handler_def ) {
+					$unloadable[] = sprintf( 'Unable to load a %s logger. %s', $handler_def['name'], $diagnosis->error_string( $handler_def['id'] ) );
+				} else {
+					$unloadable[] = 'Unable to load a logger.';
+				}
 			}
 		}
 		if ( count( $unloadable ) > 0 ) {
