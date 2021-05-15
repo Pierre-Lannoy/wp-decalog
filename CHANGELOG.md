@@ -15,10 +15,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - New logger to send events to Datadog.
 - New logger to send metrics to a Prometheus instance (via Pushgateway).
 - New logger to publish metrics as endpoint for Prometheus scrapping.
-- New logger to send metrics to InfluxDB Cloud or to an on-premise InfluxDB 2 instance or cluster.
-- New logger to send metrics to Datadog.
+- New logger to send metrics to InfluxDB Cloud or on-premise InfluxDB 2 instance or cluster.
+- New logger to send metrics to Datadog via Datadog agent.
 - New logger to send traces to a Jaeger collector.
 - New logger to send traces to a Zipkin instance.
+- New logger to send traces to Grafana Cloud via Grafana agent.
+- New logger to send traces to Datadog via Datadog agent.
 - [WP-CLI] New command to list, dump or get metrics: see `wp help log metrics` for details.
 - [BC] The version of DecaLog API is now `v3`.
 
@@ -32,6 +34,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - [WP-CLI] The `wp log type list` command now accepts a logger type as filter parameter.
 - [WP-CLI] Updated documentation.
 - Wordfence listener is much more precise while logging events.
+- The Stackdriver logger is now named "Google Cloud Logging" to follow Stackdriver rebranding.
 
 ### Fixed
 - [WP-CLI] The `wp log send` doesn't set an exit code in case of failure.
