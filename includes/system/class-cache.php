@@ -52,7 +52,7 @@ class Cache {
 	 * @since  1.0.0
 	 * @var    boolean    $apcu_available    Is APCu available.
 	 */
-	private static $apcu_available = false;
+	public static $apcu_available = false;
 
 	/**
 	 * Hits values.
