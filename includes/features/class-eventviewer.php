@@ -11,7 +11,11 @@
 
 namespace Decalog\Plugin\Feature;
 
+use Decalog\Storage\AbstractStorage;
+use Decalog\Storage\APCuStorage;
+use Decalog\Storage\DBStorage;
 use Decalog\System\Date;
+use Decalog\System\Option;
 use Decalog\System\PHP;
 use Decalog\System\Timezone;
 use Feather;
@@ -95,13 +99,25 @@ class EventViewer {
 		$this->eventid = $eventid;
 		$this->event   = null;
 		$this->device  = UserAgent::get( '-' );
-		$database      = new Database();
-		$lines         = $database->load_lines( 'decalog_' . str_replace( '-', '', $this->logid ), 'id', [ $this->eventid ] );
-		if ( 1 === count( $lines ) ) {
-			foreach ( Events::get() as $log ) {
-				if ( $log['id'] === $this->logid ) {
-					if ( ! array_key_exists( 'limit', $log ) || in_array( $lines[0]['site_id'], $log ['limit'] ) ) {
-						$this->event  = $lines[0];
+		$log           = null;
+		$loggers       = Option::network_get( 'loggers' );
+		if ( array_key_exists( $this->logid, $loggers ) ) {
+			$bucket_name = 'decalog_' . str_replace( '-', '', $this->logid );
+			switch ( $loggers[ $this->logid ]['configuration']['constant-storage'] ) {
+				case 'apcu':
+					$storage = new APCuStorage( $bucket_name );
+					break;
+				default:
+					global $wpdb;
+					$storage = new DBStorage( $wpdb->prefix . $bucket_name );
+			}
+			$log = $storage->get_by_id( $this->eventid );
+		}
+		if ( isset( $log ) ) {
+			foreach ( Events::get() as $logged ) {
+				if ( $logged['id'] === $this->logid ) {
+					if ( ! array_key_exists( 'limit', $logged ) || in_array( $log['site_id'], $logged ['limit'] ) ) {
+						$this->event  = $log;
 						$this->device = UserAgent::get( $this->event['user_agent'] );
 						break;
 					}
@@ -271,7 +287,7 @@ class EventViewer {
 		} elseif ( class_exists( 'PODeviceDetector\API\Device' ) ) {
 			add_meta_box( 'decalog-other', esc_html__( 'Client details', 'decalog' ), [ $this, 'call_widget' ], self::$screen_id, 'advanced' );
 		}
-		if ( 'unknown' !== $this->event['verb'] ) {
+		if ( 'unknown' !== ( $this->event['verb'] ?? 'unknown' ) ) {
 			add_meta_box( 'decalog-http', esc_html__( 'HTTP request', 'decalog' ), [ $this, 'http_widget' ], self::$screen_id, 'advanced' );
 		}
 		add_meta_box( 'decalog-php', esc_html__( 'PHP introspection', 'decalog' ), [ $this, 'php_widget' ], self::$screen_id, 'advanced' );
@@ -558,15 +574,14 @@ class EventViewer {
 	public function php_widget() {
 		// File detail.
 		$element = PHP::normalized_file( $this->event['file'] );
-		$element = '<span style="width:100%;cursor: default;word-break: break-all;">' . $this->get_icon( 'file-text' ) . $element . ':' . $this->event['line'] . '</span>';
+		$element = '<span style="width:100%;cursor: default;word-break: break-all;">' . $this->get_icon( 'file-text' ) . $element . ':' . ( $this->event['line'] ?? '' ) . '</span>';
 		$file    = $this->get_section( $element );
 		// Function detail.
-		$element  = '<span style="width:100%;cursor: default;word-break: break-all;">' . $this->get_icon( 'code', 'none' ) . $this->event['function'] . '</span>';
+		$element  = '<span style="width:100%;cursor: default;word-break: break-all;">' . $this->get_icon( 'code', 'none' ) . ( $this->event['function'] ?? '' ) . '</span>';
 		$function = $this->get_section( $element );
 		// Function detail.
-		$element = '<span style="width:100%;cursor: default;word-break: break-all;">' . $this->get_icon( 'layers' ) . $this->event['classname'] . '</span>';
+		$element = '<span style="width:100%;cursor: default;word-break: break-all;">' . $this->get_icon( 'layers' ) . ( $this->event['classname'] ?? '' ) . '</span>';
 		$class   = $this->get_section( $element );
-
 		$this->output_activity_block( $class . $function . $file );
 	}
 
@@ -577,7 +592,7 @@ class EventViewer {
 	 */
 	public function phpbacktrace_widget() {
 		// phpcs:ignore
-		$trace   = unserialize( $this->event['trace'] );
+		$trace   = unserialize( $this->event['trace'] ?? '' );
 		$content = '';
 		if ( is_array( $trace ) ) {
 			if ( array_key_exists( 'error', $trace ) ) {
@@ -613,7 +628,7 @@ class EventViewer {
 	 */
 	public function wpbacktrace_widget() {
 		// phpcs:ignore
-		$trace   = unserialize( $this->event['trace'] );
+		$trace   = unserialize( $this->event['trace'] ?? '' );
 		$content = '';
 		if ( is_array( $trace ) ) {
 			if ( array_key_exists( 'error', $trace ) ) {
