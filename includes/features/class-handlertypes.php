@@ -12,6 +12,7 @@
 namespace Decalog\Plugin\Feature;
 
 use Monolog\Logger;
+use Decalog\System\Cache;
 
 /**
  * Define the logger types functionality.
@@ -232,7 +233,7 @@ class HandlerTypes {
 						'type'    => 'field_select',
 						'cast'    => 'integer',
 						'enabled' => true,
-						'list'    => [ [ 100, 'Zipkin V2' ] ],
+						'list'    => [ [ 100, 'Zipkin V2' ], [ 200, 'Jaeger thrift over HTTP' ] ],
 					],
 				],
 				'url'      => [
@@ -273,7 +274,7 @@ class HandlerTypes {
 			'class'         => 'tracing',
 			'minimal'       => Logger::EMERGENCY,
 			'name'          => 'Grafana Cloud Traces',
-			'help'          => esc_html__( 'Traces sent to Grafana Cloud.', 'decalog' ),
+			'help'          => esc_html__( 'Traces sent to Grafana Cloud via Grafana agent.', 'decalog' ),
 			'icon'          => $this->get_base64_grafana_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -301,39 +302,15 @@ class HandlerTypes {
 						'type'    => 'field_select',
 						'cast'    => 'integer',
 						'enabled' => true,
-						'list'    => [ [ 100, 'Zipkin V2' ] ],
+						'list'    => [ [ 100, 'Zipkin V2' ], [ 200, 'Jaeger thrift over HTTP' ] ],
 					],
 				],
-				'host'   => [
+				'url'      => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Tempo host', 'decalog' ),
-					'help'    => sprintf( esc_html__( 'The host name portion of the Tempo instance url. Something like %s.', 'decalog' ), '<code>tempo-us-central1</code>' ),
-					'default' => '',
-					'control' => [
-						'type'    => 'field_input_text',
-						'cast'    => 'string',
-						'enabled' => true,
-					],
-				],
-				'user'     => [
-					'type'    => 'string',
-					'show'    => true,
-					'name'    => esc_html__( 'Username', 'decalog' ),
-					'help'    => sprintf( esc_html__( 'The user name for Basic Auth authentication. Something like %s.', 'decalog' ), '<code>21087</code>' ),
-					'default' => '',
-					'control' => [
-						'type'    => 'field_input_text',
-						'cast'    => 'string',
-						'enabled' => true,
-					],
-				],
-				'key'     => [
-					'type'    => 'string',
-					'show'    => true,
-					'name'    => esc_html__( 'API key', 'decalog' ),
-					'help'    => esc_html__( 'The Grafana.com API Key.', 'decalog' ),
-					'default' => '',
+					'name'    => esc_html__( 'Service URL', 'decalog' ),
+					'help'    => sprintf( esc_html__( 'URL where to send spans. Format: %s.', 'decalog' ), '<code>' . htmlentities( '<proto>://<host>[:<port>]' ) . '</code>' ),
+					'default' => 'http://localhost:9411',
 					'control' => [
 						'type'    => 'field_input_text',
 						'cast'    => 'string',
@@ -347,15 +324,7 @@ class HandlerTypes {
 				],
 				[
 					'type'  => 'configuration',
-					'value' => 'host',
-				],
-				[
-					'type'  => 'configuration',
-					'value' => 'user',
-				],
-				[
-					'type'  => 'configuration',
-					'value' => 'key',
+					'value' => 'url',
 				],
 				[
 					'type'  => 'configuration',
@@ -474,7 +443,7 @@ class HandlerTypes {
 						'list'    => [ [ 1000, '100%' ], [ 500, '50%' ], [ 250, '25%' ], [ 100, '10%' ], [ 50, '5%' ], [ 20, '2%' ], [ 10, '1%' ], [ 5, '5‰' ], [ 2, '2‰' ], [ 1, '1‰' ] ],
 					],
 				],
-				'host'       => [
+				'host'     => [
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Location', 'decalog' ),
@@ -487,7 +456,7 @@ class HandlerTypes {
 						'list'    => [ [ 'https://api.datadoghq.eu/api/v1/series', esc_html__( 'Europe', 'decalog' ) ], [ 'https://api.datadoghq.com/api/v1/series', esc_html__( 'United States', 'decalog' ) ] ],
 					],
 				],
-				'token'  => [
+				'token'    => [
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'API key', 'decalog' ),
@@ -561,7 +530,7 @@ class HandlerTypes {
 						'list'    => [ [ 1000, '100%' ], [ 500, '50%' ], [ 250, '25%' ], [ 100, '10%' ], [ 50, '5%' ], [ 20, '2%' ], [ 10, '1%' ], [ 5, '5‰' ], [ 2, '2‰' ], [ 1, '1‰' ] ],
 					],
 				],
-				'url'   => [
+				'url'      => [
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Service URL', 'decalog' ),
@@ -573,7 +542,7 @@ class HandlerTypes {
 						'enabled' => true,
 					],
 				],
-				'org'   => [
+				'org'      => [
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Organization', 'decalog' ),
@@ -597,7 +566,7 @@ class HandlerTypes {
 						'enabled' => true,
 					],
 				],
-				'token'   => [
+				'token'    => [
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Token', 'decalog' ),
@@ -733,7 +702,7 @@ class HandlerTypes {
 						'list'    => [ [ 1000, '100%' ], [ 500, '50%' ], [ 250, '25%' ], [ 100, '10%' ], [ 50, '5%' ], [ 20, '2%' ], [ 10, '1%' ], [ 5, '5‰' ], [ 2, '2‰' ], [ 1, '1‰' ] ],
 					],
 				],
-				'url'   => [
+				'url'      => [
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Service URL', 'decalog' ),
@@ -745,7 +714,7 @@ class HandlerTypes {
 						'enabled' => true,
 					],
 				],
-				'model' => [
+				'model'    => [
 					'type'    => 'integer',
 					'show'    => true,
 					'name'    => esc_html__( 'Labels', 'decalog' ),
@@ -758,7 +727,7 @@ class HandlerTypes {
 						'list'    => [ [ 0, '{job="x", instance="y"} - ' . esc_html__( 'Recommended in most cases', 'decalog' ) ], [ 1, '{job="x", instance="y", env="z"} - ' . esc_html__( 'Classical environment segmentation', 'decalog' ) ], [ 2, '{job="x", instance="y", version="z"} - ' . esc_html__( 'Classical version segmentation', 'decalog' ) ], [ 3, '{job="x", site="y"} - ' . esc_html__( 'WordPress Multisite segmentation', 'decalog' ) ] ],
 					],
 				],
-				'id'    => [
+				'id'       => [
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Job', 'decalog' ),
@@ -797,14 +766,14 @@ class HandlerTypes {
 				],
 			],
 		];
-		$this->handlers[] = [
+		/*$this->handlers[] = [
 			'version'       => DECALOG_VERSION,
 			'id'            => 'GrafanaMonitoringHandler',
 			'namespace'     => 'Decalog\\Handler',
 			'class'         => 'metrics',
 			'minimal'       => Logger::EMERGENCY,
 			'name'          => 'Grafana Cloud Metrics',
-			'help'          => esc_html__( 'Metrics sent to Grafana Cloud.', 'decalog' ),
+			'help'          => esc_html__( 'Metrics sent to Grafana Cloud via Grafana agent.', 'decalog' ),
 			'icon'          => $this->get_base64_grafana_icon(),
 			'needs'         => [],
 			'params'        => [],
@@ -931,7 +900,7 @@ class HandlerTypes {
 					'value' => 'id',
 				],
 			],
-		];
+		];*/
 
 		// LOGGING
 		$this->handlers[] = [
@@ -946,7 +915,7 @@ class HandlerTypes {
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
 			'configuration' => [
-				'host'       => [
+				'host'   => [
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Location', 'decalog' ),
@@ -1136,7 +1105,7 @@ class HandlerTypes {
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
 			'configuration' => [
-				'cloudid'     => [
+				'cloudid' => [
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Cloud ID', 'decalog' ),
@@ -1148,7 +1117,7 @@ class HandlerTypes {
 						'enabled' => true,
 					],
 				],
-				'user'     => [
+				'user'    => [
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Username', 'decalog' ),
@@ -1160,7 +1129,7 @@ class HandlerTypes {
 						'enabled' => true,
 					],
 				],
-				'pass'     => [
+				'pass'    => [
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Password', 'decalog' ),
@@ -1172,7 +1141,7 @@ class HandlerTypes {
 						'enabled' => true,
 					],
 				],
-				'index'     => [
+				'index'   => [
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Index', 'decalog' ),
@@ -1221,7 +1190,7 @@ class HandlerTypes {
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
 			'configuration' => [
-				'url'     => [
+				'url'   => [
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Service URL', 'decalog' ),
@@ -1233,7 +1202,7 @@ class HandlerTypes {
 						'enabled' => true,
 					],
 				],
-				'user'     => [
+				'user'  => [
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Username', 'decalog' ),
@@ -1245,7 +1214,7 @@ class HandlerTypes {
 						'enabled' => true,
 					],
 				],
-				'pass'     => [
+				'pass'  => [
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Password', 'decalog' ),
@@ -1257,7 +1226,7 @@ class HandlerTypes {
 						'enabled' => true,
 					],
 				],
-				'index'     => [
+				'index' => [
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Index', 'decalog' ),
@@ -1362,7 +1331,7 @@ class HandlerTypes {
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
 			'configuration' => [
-				'host'   => [
+				'host'  => [
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Loki host', 'decalog' ),
@@ -1374,7 +1343,7 @@ class HandlerTypes {
 						'enabled' => true,
 					],
 				],
-				'user'     => [
+				'user'  => [
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Username', 'decalog' ),
@@ -1386,7 +1355,7 @@ class HandlerTypes {
 						'enabled' => true,
 					],
 				],
-				'key'     => [
+				'key'   => [
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'API key', 'decalog' ),
@@ -1461,7 +1430,7 @@ class HandlerTypes {
 			'params'        => [ 'processors', 'privacy' ],
 			'processors'    => [
 				'included' => [ 'WordpressProcessor', 'WWWProcessor' ],
-				'excluded' => [ 'BacktraceProcessor','IntrospectionProcessor' ],
+				'excluded' => [ 'BacktraceProcessor', 'IntrospectionProcessor' ],
 			],
 			'configuration' => [
 				'token'  => [
@@ -1513,7 +1482,7 @@ class HandlerTypes {
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
 			'configuration' => [
-				'host'     => [
+				'host'    => [
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Log endpoint region', 'decalog' ),
@@ -1523,10 +1492,10 @@ class HandlerTypes {
 						'type'    => 'field_select',
 						'cast'    => 'string',
 						'enabled' => true,
-						'list'    => [ [ 'eu', esc_html__( 'Europe', 'decalog') ], [ 'us', esc_html__( 'USA', 'decalog') ] ],
+						'list'    => [ [ 'eu', esc_html__( 'Europe', 'decalog' ) ], [ 'us', esc_html__( 'USA', 'decalog' ) ] ],
 					],
 				],
-				'token' => [
+				'token'   => [
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Log token', 'decalog' ),
@@ -1742,7 +1711,7 @@ class HandlerTypes {
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
 			'configuration' => [
-				'token' => [
+				'token'   => [
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Application token', 'decalog' ),
@@ -1754,7 +1723,7 @@ class HandlerTypes {
 						'enabled' => true,
 					],
 				],
-				'users' => [
+				'users'   => [
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Recipient', 'decalog' ),
@@ -1766,7 +1735,7 @@ class HandlerTypes {
 						'enabled' => true,
 					],
 				],
-				'title' => [
+				'title'   => [
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Message title', 'decalog' ),
@@ -1939,7 +1908,7 @@ class HandlerTypes {
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
 			'configuration' => [
-				'host'       => [
+				'host'  => [
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Location', 'decalog' ),
@@ -1952,7 +1921,7 @@ class HandlerTypes {
 						'list'    => [ [ 'logsene-receiver.sematext.com', esc_html__( 'North America', 'decalog' ) ], [ 'logsene-receiver.eu.sematext.com', esc_html__( 'Europe', 'decalog' ) ] ],
 					],
 				],
-				'token'     => [
+				'token' => [
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Application Token', 'decalog' ),
@@ -2128,8 +2097,8 @@ class HandlerTypes {
 			'namespace'     => 'Decalog\\Handler',
 			'class'         => 'logging',
 			'minimal'       => Logger::DEBUG,
-			'name'          => 'Stackdriver',
-			'help'          => esc_html__( 'Events sent to Google Stackdriver Logging via a Google-Fluentd collector.', 'decalog' ),
+			'name'          => 'Google Cloud Logging',
+			'help'          => esc_html__( 'Events sent to Google Cloud Logging via a Google-Fluentd collector.', 'decalog' ),
 			'icon'          => $this->get_base64_stackdriver_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -2457,7 +2426,7 @@ class HandlerTypes {
 			'class'         => 'logging',
 			'minimal'       => Logger::DEBUG,
 			'name'          => esc_html__( 'WordPress events log', 'decalog' ),
-			'help'          => esc_html__( 'Events stored in your WordPress database and available right in your admin dashboard.', 'decalog' ),
+			'help'          => esc_html__( 'Events stored in WordPress and available right in your admin dashboard.', 'decalog' ),
 			'icon'          => $this->get_base64_wordpress_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -2465,7 +2434,20 @@ class HandlerTypes {
 				'included' => [ 'WordpressProcessor', 'WWWProcessor', 'IntrospectionProcessor' ],
 			],
 			'configuration' => [
-				'rotate' => [
+				'constant-storage' => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Storage', 'decalog' ),
+					'help'    => esc_html__( 'Place where to store events.', 'decalog' ) . '<br/>' . esc_html__( 'Note: it\'s not possible to change storage type after logger creation.', 'decalog' ),
+					'default' => 'db',
+					'control' => [
+						'type'    => 'field_select',
+						'cast'    => 'string',
+						'enabled' => Cache::$apcu_available,
+						'list'    => [ [ 'db', esc_html__( 'Database: persistent after a server reboot', 'decalog' ) ], [ 'apcu', esc_html__( 'APCu: high performance but reset after each server reboot', 'decalog' ), Cache::$apcu_available ] ],
+					],
+				],
+				'rotate'           => [
 					'type'    => 'integer',
 					'show'    => true,
 					'name'    => esc_html__( 'Events', 'decalog' ),
@@ -2480,7 +2462,7 @@ class HandlerTypes {
 						'enabled' => true,
 					],
 				],
-				'purge'  => [
+				'purge'            => [
 					'type'    => 'integer',
 					'show'    => true,
 					'name'    => esc_html__( 'Days', 'decalog' ),
@@ -2495,7 +2477,7 @@ class HandlerTypes {
 						'enabled' => true,
 					],
 				],
-				'local'  => [
+				'local'            => [
 					'type'    => 'boolean',
 					'show'    => is_multisite(),
 					'name'    => esc_html__( 'Multisite partitioning', 'decalog' ),
@@ -2512,6 +2494,10 @@ class HandlerTypes {
 				[
 					'type'  => 'compute',
 					'value' => 'tablename',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'constant-storage',
 				],
 				[ 'type' => 'level' ],
 				[
@@ -2872,7 +2858,7 @@ class HandlerTypes {
 	private function get_base64_stackdriver_icon( $color1 = '#FFFFFF', $color2 = '#4386FA' ) {
 		$source  = '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" fill-rule="evenodd"  fill="none" width="100%" height="100%"  viewBox="0 0 190 190">';
 		$source .= '<g transform="translate(20,26) scale(1.2,1.2)">';
-		$source .= '<path d="M2.52031008,63.4098189 C0.482133333,59.8145684 0.482133333,55.3850274 2.52031008,51.7897768 L28.5674171,5.84397474 C30.6055938,2.24872421 34.3723659,0.0339536842 38.4487194,0.0339536842 L90.5429333,0.0339536842 C94.6192868,0.0339536842 98.3860589,2.24872421 100.424236,5.84397474 L126.471343,51.7897768 C128.509519,55.3850274 128.509519,59.8145684 126.471343,63.4098189 L100.424236,109.355621 C98.3860589,112.950872 94.6192868,115.165642 90.5429333,115.165642 L38.4487194,115.165642 C34.3723659,115.165743 30.605693,112.950973 28.5674171,109.355722 L2.52031008,63.4098189 Z" id="Shape" fill="' . $color2. '"></path>';
+		$source .= '<path d="M2.52031008,63.4098189 C0.482133333,59.8145684 0.482133333,55.3850274 2.52031008,51.7897768 L28.5674171,5.84397474 C30.6055938,2.24872421 34.3723659,0.0339536842 38.4487194,0.0339536842 L90.5429333,0.0339536842 C94.6192868,0.0339536842 98.3860589,2.24872421 100.424236,5.84397474 L126.471343,51.7897768 C128.509519,55.3850274 128.509519,59.8145684 126.471343,63.4098189 L100.424236,109.355621 C98.3860589,112.950872 94.6192868,115.165642 90.5429333,115.165642 L38.4487194,115.165642 C34.3723659,115.165743 30.605693,112.950973 28.5674171,109.355722 L2.52031008,63.4098189 Z" id="Shape" fill="' . $color2 . '"></path>';
 		$source .= '<path d="M94.2635659,31.3263158 L76.8,39.4105263 L60.5271318,39.4105263 L49.6124031,28.2947368 L42.8956775,39.4105263 L42.6666667,39.4105263 L34.7286822,43.4526316 L42.3193798,51.1831579 L40.6821705,82.8631579 L72.4004713,115.165743 L90.5429333,115.165743 C94.6192868,115.165743 98.3860589,112.950973 100.424236,109.355722 L126.213457,63.8648589 L94.2635659,31.3263158 L94.2635659,31.3263158 L94.2635659,31.3263158 Z" id="Shape" fill="#000000" opacity="0.0800000057"></path>';
 		$source .= '<rect id="Rectangle-path" fill="' . $color1 . '" x="57.5503876" y="31.3263158" width="36.7131783" height="11.1157895"></rect>';
 		$source .= '<rect id="Rectangle-path" fill="' . $color1 . '" x="42.6666667" y="57.6" width="15.875969" height="3.03157895"></rect>';
