@@ -2444,7 +2444,7 @@ class HandlerTypes {
 						'type'    => 'field_select',
 						'cast'    => 'string',
 						'enabled' => Cache::$apcu_available,
-						'list'    => [ [ 'db', esc_html__( 'Database: persistent after a server reboot', 'decalog' ) ], [ 'apcu', esc_html__( 'APCu: high performance but reset after each server reboot', 'decalog' ), Cache::$apcu_available ] ],
+						'list'    => [ [ 'db', esc_html__( 'Database: persistent after a server restart', 'decalog' ) ], [ 'apcu', esc_html__( 'APCu: high performance but reset after each server reboot', 'decalog' ), Cache::$apcu_available ] ],
 					],
 				],
 				'rotate'           => [
