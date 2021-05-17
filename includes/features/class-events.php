@@ -12,6 +12,7 @@
 namespace Decalog\Plugin\Feature;
 
 use Decalog\Logger;
+use Decalog\Storage\AbstractStorage;
 use Decalog\System\Date;
 use Decalog\System\Option;
 use Decalog\System\Role;
@@ -19,6 +20,8 @@ use Decalog\System\Timezone;
 use Feather\Icons;
 use Decalog\System\GeoIP;
 use Decalog\System\Hash;
+use Decalog\Storage\DBStorage;
+use Decalog\Storage\APCuStorage;
 
 
 if ( ! class_exists( 'WP_List_Table' ) ) {
@@ -43,6 +46,14 @@ class Events extends \WP_List_Table {
 	 * @var      array    $logs    The loggers list.
 	 */
 	private static $logs = [];
+
+	/**
+	 * The storage engine.
+	 *
+	 * @since  3.0.0
+	 * @var    \Decalog\Storage\AbstractStorage    $storage    The storage engine.
+	 */
+	private $storage = null;
 
 	/**
 	 * The columns always shown.
@@ -302,6 +313,29 @@ class Events extends \WP_List_Table {
 	}
 
 	/**
+	 * Initialize storage.
+	 *
+	 * @since 1.0.0
+	 */
+	protected function init_storage() {
+		$this->storage = null;
+		if ( $this->logger ) {
+			$loggers = Option::network_get( 'loggers' );
+			if ( array_key_exists( $this->logger, $loggers ) ) {
+				$bucket_name = 'decalog_' . str_replace( '-', '', $this->logger );
+				switch ( $loggers[ $this->logger ]['configuration']['constant-storage'] ) {
+					case 'apcu':
+						$this->storage = new APCuStorage( $bucket_name );
+						break;
+					default:
+						global $wpdb;
+						$this->storage = new DBStorage( $wpdb->prefix . $bucket_name );
+				}
+			}
+		}
+	}
+
+	/**
 	 * Initialize values and filter.
 	 *
 	 * @since 1.0.0
@@ -318,6 +352,7 @@ class Events extends \WP_List_Table {
 		} else {
 			$this->set_first_available();
 		}
+		$this->init_storage();
 		$this->filters = [];
 		$level         = filter_input( INPUT_GET, 'level', FILTER_SANITIZE_STRING );
 		if ( $level && array_key_exists( strtolower( $level ), EventTypes::$levels ) && 'debug' !== strtolower( $level ) ) {
@@ -582,20 +617,7 @@ class Events extends \WP_List_Table {
 	 * @since 3.0.0
 	 */
 	protected function get_list( $offset = null, $rowcount = null ) {
-		$result = [];
-		$limit  = '';
-		if ( ! is_null( $offset ) && ! is_null( $rowcount ) ) {
-			$limit = 'LIMIT ' . $offset . ',' . $rowcount;
-		}
-		global $wpdb;
-		$table_name = $wpdb->base_prefix . 'decalog_' . str_replace( '-', '', $this->logger );
-		$sql        = 'SELECT * FROM ' . $table_name . ' ' . $this->get_where_clause() . ' ORDER BY id DESC ' . $limit;
-		// phpcs:ignore
-		$query = $wpdb->get_results( $sql, ARRAY_A );
-		foreach ( $query as $val ) {
-			$result[] = (array) $val;
-		}
-		return $result;
+		return ( $this->storage ? $this->storage->get_list( $this->filters, $offset, $rowcount ) : [] );
 	}
 
 	/**
@@ -605,50 +627,7 @@ class Events extends \WP_List_Table {
 	 * @since 3.0.0
 	 */
 	protected function get_count() {
-		$result = 0;
-		if ( $this->logger ) {
-			global $wpdb;
-			$table_name = $wpdb->base_prefix . 'decalog_' . str_replace( '-', '', $this->logger );
-			$sql        = 'SELECT COUNT(*) as CNT FROM ' . $table_name . ' ' . $this->get_where_clause();
-			// phpcs:ignore
-			$cnt = $wpdb->get_results( $sql, ARRAY_A );
-			if ( count( $cnt ) > 0 ) {
-				if ( array_key_exists( 'CNT', $cnt[0] ) ) {
-					$result = $cnt[0]['CNT'];
-				}
-			}
-		}
-		return $result;
-	}
-
-	/**
-	 * Get "where" clause for log table.
-	 *
-	 * @return string The "where" clause.
-	 * @since 1.0.0
-	 */
-	private function get_where_clause() {
-		$result = '';
-		$w      = [];
-		foreach ( $this->filters as $key => $filter ) {
-			if ( $filter ) {
-				if ( 'level' === $key ) {
-					$l = [];
-					foreach ( EventTypes::$levels as $str => $val ) {
-						if ( EventTypes::$levels[ $filter ] <= $val ) {
-							$l[] = "'" . $str . "'";
-						}
-					}
-					$w[] = $key . ' IN (' . implode( ',', $l ) . ')';
-				} else {
-					$w[] = $key . '="' . $filter . '"';
-				}
-			}
-		}
-		if ( count( $w ) > 0 ) {
-			$result = 'WHERE (' . implode( ' AND ', $w ) . ')';
-		}
-		return $result;
+		return ( $this->storage ? $this->storage->get_count( $this->filters ) : 0 );
 	}
 
 	/**
