@@ -155,7 +155,7 @@ class Decalog_Admin {
 		$this->current_view = null;
 		add_action( 'load-' . $hook_suffix, [ new InlineHelp(), 'set_contextual_viewer' ] );
 		$logid   = filter_input( INPUT_GET, 'logid', FILTER_SANITIZE_STRING );
-		$eventid = filter_input( INPUT_GET, 'eventid', FILTER_SANITIZE_NUMBER_INT );
+		$eventid = filter_input( INPUT_GET, 'eventid', FILTER_SANITIZE_STRING );
 		if ( 'decalog-viewer' === filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING ) ) {
 			if ( isset( $logid ) && isset( $eventid ) && 0 !== $eventid ) {
 				$this->current_view = new EventViewer( $logid, $eventid, $this->logger );
