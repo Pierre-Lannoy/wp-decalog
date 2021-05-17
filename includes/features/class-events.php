@@ -255,7 +255,7 @@ class Events extends \WP_List_Table {
 			$se = '<br /><span style="color:silver">' . sprintf( esc_html__( 'Session #%s…%s', 'decalog' ), substr( $item[ 'user_session' ], 0, 2 ), substr( $item[ 'user_session' ], -2 ) ) . '</span>';
 		}
 		$result = $user . $id . $this->get_filter( 'user_id', $item['user_id'] ) . $se . ( '' !== $se ? $this->get_pose_shortcut( (int) $item['user_id'] ) : '' ) . ( '' !== $se ? $this->get_filter( 'user_session', $item['user_session'] ) : '' );
-		return '<span' . ( $item['user_session'] === $this->selftoken ? ' class="decalog-selftoken"' : '' ) . '>' . $result . '</span>';
+		return '<span' . ( ( $item['user_session'] ?? '') === $this->selftoken ? ' class="decalog-selftoken"' : '' ) . '>' . $result . '</span>';
 	}
 
 	/**
@@ -358,11 +358,15 @@ class Events extends \WP_List_Table {
 		if ( $level && array_key_exists( strtolower( $level ), EventTypes::$levels ) && 'debug' !== strtolower( $level ) ) {
 			$this->filters['level'] = strtolower( $level );
 		}
-		foreach ( [ 'component', 'class', 'channel', 'site_id', 'user_id', 'remote_ip', 'user_session' ] as $f ) {
+		foreach ( [ 'class', 'channel', 'site_id', 'user_id', 'remote_ip', 'user_session' ] as $f ) {
 			$v = filter_input( INPUT_GET, $f, FILTER_SANITIZE_STRING );
 			if ( $v ) {
 				$this->filters[ $f ] = strtolower( $v );
 			}
+		}
+		$v = filter_input( INPUT_GET, 'component', FILTER_SANITIZE_STRING );
+		if ( $v ) {
+			$this->filters[ 'component' ] = $v;
 		}
 		if ( $this->force_siteid ) {
 			$this->filters['site_id'] = $this->force_siteid;
