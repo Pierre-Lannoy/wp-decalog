@@ -90,21 +90,21 @@ abstract class AbstractStorage {
 	/**
 	 * Count logged errors.
 	 *
-	 * @var     array $filter   Optional. The filter to apply.
+	 * @var     array $filters   Optional. The filters to apply.
 	 * @return integer The count of the filtered logged errors.
 	 * @since 3.0.0
 	 */
-	abstract public function get_count( $filter = [] );
+	abstract public function get_count( $filters = [] );
 
 	/**
 	 * Get list of logged errors.
 	 *
-	 * @param array   $filter   Optional. The filter to apply.
+	 * @param array   $filters   Optional. The filters to apply.
 	 * @param integer $offset The offset to record.
 	 * @param integer $rowcount Optional. The number of rows to return.
 	 * @return array An array containing the filtered logged errors.
 	 * @since 3.0.0
 	 */
-	abstract public function get_list( $filter, $offset = null, $rowcount = null );
+	abstract public function get_list( $filters, $offset = null, $rowcount = null );
 
 }

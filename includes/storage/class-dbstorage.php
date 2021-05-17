@@ -274,20 +274,20 @@ class DBStorage extends AbstractStorage {
 	/**
 	 * Get list of logged errors.
 	 *
-	 * @param array   $filter   Optional. The filter to apply.
+	 * @param array   $filters   Optional. The filters to apply.
 	 * @param integer $offset The offset to record.
 	 * @param integer $rowcount Optional. The number of rows to return.
 	 * @return array An array containing the filtered logged errors.
 	 * @since 3.0.0
 	 */
-	public function get_list( $filter, $offset = null, $rowcount = null ) {
+	public function get_list( $filters, $offset = null, $rowcount = null ) {
 		$result = [];
 		$limit  = '';
 		if ( ! is_null( $offset ) && ! is_null( $rowcount ) ) {
 			$limit = 'LIMIT ' . $offset . ',' . $rowcount;
 		}
 		global $wpdb;
-		$sql = 'SELECT * FROM ' . $this->bucket_name . ' ' . $this->get_where_clause( $filter ) . ' ORDER BY id DESC ' . $limit;
+		$sql = 'SELECT * FROM ' . $this->bucket_name . ' ' . $this->get_where_clause( $filters ) . ' ORDER BY id DESC ' . $limit;
 		// phpcs:ignore
 		$query = $wpdb->get_results( $sql, ARRAY_A );
 		foreach ( $query as $val ) {
@@ -299,7 +299,7 @@ class DBStorage extends AbstractStorage {
 	/**
 	 * Get "where" clause for log table.
 	 *
-	 * @var     array $filters   Optional. The filter to apply.
+	 * @var     array $filters   Optional. The filters to apply.
 	 * @return string The "where" clause.
 	 * @since 1.0.0
 	 */
