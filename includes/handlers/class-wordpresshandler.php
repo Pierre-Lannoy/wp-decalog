@@ -15,6 +15,8 @@ use Monolog\Logger;
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Formatter\FormatterInterface;
 use Decalog\Formatter\WordpressFormatter;
+use Decalog\Storage\DBStorage;
+use Decalog\Storage\APCuStorage;
 
 /**
  * Define the Monolog WordPress handler.
@@ -36,16 +38,32 @@ class WordpressHandler extends AbstractProcessingHandler {
 	private $table = '';
 
 	/**
+	 * The storage engine.
+	 *
+	 * @since  3.0.0
+	 * @var    \Decalog\Storage\AbstractStorage    $storage    The storage engine.
+	 */
+	private $storage = null;
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @param   string  $table    The table name.
+	 * @param   string  $storage  The storage type.
 	 * @param   integer $level    Optional. The min level to log.
 	 * @param   boolean $bubble   Optional. Has the record to bubble?.
 	 * @since    1.0.0
 	 */
-	public function __construct( string $table, $level = Logger::DEBUG, bool $bubble = true ) {
+	public function __construct( string $table, string $storage, $level = Logger::DEBUG, bool $bubble = true ) {
 		parent::__construct( $level, $bubble );
 		$this->table = $table;
+		switch ( $storage ) {
+			case 'apcu':
+				$this->storage = new APCuStorage( $this->table );
+				break;
+			default:
+				$this->storage = new DBStorage( $this->table );
+		}
 	}
 
 	/**
@@ -53,22 +71,6 @@ class WordpressHandler extends AbstractProcessingHandler {
 	 */
 	protected function getDefaultFormatter(): FormatterInterface {
 		return new WordpressFormatter();
-	}
-
-	/**
-	 * Update table with current message.
-	 *
-	 * @param   array $value  The values to update or insert in the table.
-	 * @return integer The inserted id if anny.
-	 * @since    1.0.0
-	 */
-	private function insert_value( $value ) {
-		global $wpdb;
-		// phpcs:ignore
-		if ( $wpdb->insert( $this->table, $value, '%s' ) ) {
-			return $wpdb->insert_id;
-		}
-		return 0;
 	}
 
 	/**
@@ -83,7 +85,7 @@ class WordpressHandler extends AbstractProcessingHandler {
 		if ( is_array( $messages ) ) {
 			foreach ( $messages as $message ) {
 				if ( is_array( $message ) ) {
-					$this->insert_value( $message );
+					$this->storage->insert_value( $message );
 				}
 			}
 		}
