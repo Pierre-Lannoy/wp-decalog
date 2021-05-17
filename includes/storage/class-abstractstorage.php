@@ -107,4 +107,13 @@ abstract class AbstractStorage {
 	 */
 	abstract public function get_list( $filters, $offset = null, $rowcount = null );
 
+	/**
+	 * Get a single logged error.
+	 *
+	 * @param   string  $id     The id to record.
+	 * @return array|null   An array containing the logged error.
+	 * @since 3.0.0
+	 */
+	abstract public function get_by_id( $id );
+
 }

@@ -327,4 +327,22 @@ class DBStorage extends AbstractStorage {
 		return $result;
 	}
 
+	/**
+	 * Get a single logged error.
+	 *
+	 * @param   string  $id     The id to record.
+	 * @return array|null   An array containing the logged error.
+	 * @since 3.0.0
+	 */
+	public function get_by_id( $id ) {
+		global $wpdb;
+		$sql = 'SELECT * FROM ' . $this->bucket_name . ' WHERE  id=' . $id . ';';
+		// phpcs:ignore
+		$logs = $wpdb->get_results( $sql, ARRAY_A );
+		if ( 1 === count( $logs ) ) {
+			return $logs[0];
+		}
+		return null;
+	}
+
 }
