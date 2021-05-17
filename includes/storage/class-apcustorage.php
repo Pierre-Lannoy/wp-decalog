@@ -207,8 +207,11 @@ class APCuStorage extends AbstractStorage {
 					}
 					$l[ $id ] = $log;
 				}
-				return array_reverse($l);
-				$logs = $l;
+				$logs = array_reverse( $l );
+				if ( ! is_null( $offset ) && ! is_null( $rowcount ) ) {
+					$logs = array_slice( $logs, $offset, $rowcount );
+				}
+				$result = $logs;
 			}
 		}
 		return $result;
