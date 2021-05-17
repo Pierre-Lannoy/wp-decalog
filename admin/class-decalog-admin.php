@@ -81,6 +81,14 @@ class Decalog_Admin {
 	protected $current_view = null;
 
 	/**
+	 * The logger will be created.
+	 *
+	 * @since  3.0.0
+	 * @var    boolean    $creation_mode    The form mode (creation / editing).
+	 */
+	protected $creation_mode = false;
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since 1.0.0
@@ -391,6 +399,7 @@ class Decalog_Admin {
 			$this->current_handler = $handlers->get( $this->current_logger['handler'] );
 		}
 		if ( $this->current_handler && ! $this->current_logger ) {
+			$this->creation_mode  = true;
 			$this->current_logger = [
 				'uuid'    => $uuid = UUID::generate_v4(),
 				'name'    => esc_html__( 'New logger', 'decalog' ),
@@ -1015,6 +1024,23 @@ class Decalog_Admin {
 				'text' => $help
 			]
 		);
+		if ( SharedMemory::$available ) {
+			$help  = '<img style="width:16px;vertical-align:text-bottom;" src="' . \Feather\Icons::get_base64( 'thumbs-up', 'none', '#00C800' ) . '" />&nbsp;';
+			$help .= esc_html__('APCu is available on your server: you can use high peformance storage mechanism.', 'decalog' );
+		} else {
+			$help  = '<img style="width:16px;vertical-align:text-bottom;" src="' . \Feather\Icons::get_base64( 'alert-triangle', 'none', '#FF8C00' ) . '" />&nbsp;';
+			$help .= sprintf( esc_html__('APCu is not available on your server. To use high peformance storage mechanism you must activate %s PHP module.', 'decalog' ), '<code>apcu</code>' );
+		}
+		add_settings_field(
+			'decalog_plugin_options_apcu',
+			__( 'APCu storage', 'decalog' ),
+			[ $form, 'echo_field_simple_text' ],
+			'decalog_plugin_options_section',
+			'decalog_plugin_options_section',
+			[
+				'text' => $help
+			]
+		);
 		register_setting( 'decalog_plugin_options_section', 'decalog_plugin_options_shmop' );
 		add_settings_field(
 			'decalog_plugin_options_usecdn',
@@ -1229,6 +1255,9 @@ class Decalog_Admin {
 			];
 			foreach ( $configuration['control'] as $index => $control ) {
 				if ( 'type' !== $index && 'cast' !== $index ) {
+					if ( 0 === strpos( $key, 'constant-' ) && ! $this->creation_mode && 'enabled' === $index ) {
+						$control = false;
+					}
 					$args[ $index ] = $control;
 				}
 			}
