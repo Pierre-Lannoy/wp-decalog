@@ -26,6 +26,8 @@ spl_autoload_register(
 				$filepath = DECALOG_INCLUDES_DIR . 'processors/';
 			} elseif ( strpos( $class, 'Decalog\Handler\\' ) === 0 ) {
 				$filepath = DECALOG_INCLUDES_DIR . 'handlers/';
+			} elseif ( strpos( $class, 'Decalog\Storage\\' ) === 0 ) {
+				$filepath = DECALOG_INCLUDES_DIR . 'storage/';
 			} elseif ( strpos( $class, 'Decalog\Formatter\\' ) === 0 ) {
 				$filepath = DECALOG_INCLUDES_DIR . 'formatters/';
 			} elseif ( strpos( $class, 'Decalog\Listener\\' ) === 0 ) {
