@@ -37,7 +37,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - The Stackdriver logger is now named "Google Cloud Logging" to follow Stackdriver rebranding.
 
 ### Fixed
-- [WP-CLI] The `wp log send` doesn't set an exit code in case of failure.
+- [WP-CLI] The `wp log send` command doesn't set an exit code in case of failure.
 - [WP-CLI] Typos in inline help.
 - Messages may be wrongly truncated in live console.
 - Detecting database version on WordPress prior to 5.5 generates an error (thanks to [Sébastien Gastard](https://profiles.wordpress.org/sgastard/)).
