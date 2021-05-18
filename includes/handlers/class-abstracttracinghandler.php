@@ -15,10 +15,12 @@ use Decalog\Plugin\Feature\ChannelTypes;
 use Decalog\Plugin\Feature\DTracer;
 use Decalog\Plugin\Feature\Log;
 use Decalog\Storage\AbstractStorage;
+use Decalog\System\Blog;
 use Decalog\System\Environment;
 use Decalog\System\Hash;
 use Decalog\System\Http;
 use Decalog\System\Option;
+use Decalog\System\User;
 use Decalog\System\UUID;
 use Monolog\Logger;
 use Monolog\Handler\AbstractProcessingHandler;
@@ -347,7 +349,37 @@ abstract class AbstractTracingHandler extends AbstractProcessingHandler {
 	 * @since    3.0.0
 	 */
 	private function decalog_format(): array {
-		return [];
+		$trace              = [];
+		$trace['trace_id']  = DECALOG_TRACEID;
+		$trace['timestamp'] = date( 'Y-m-d H:i:s' );
+		$trace['channel']   = strtolower( $this->channel_tag( Environment::exec_mode() ) );
+		$trace['duration']  = 0;
+		foreach ( $this->traces as $span ) {
+			if ( $trace['duration'] < (int) $span['duration'] ) {
+				$trace['duration'] = (int) $span['duration'];
+			}
+		}
+		$trace['duration']  = (int) ( $trace['duration'] / 1000 );
+		$trace['scount']    = count( $this->traces );
+		$trace['site_id']   = Blog::get_current_blog_id( 0 );
+		$trace['site_name'] = Blog::get_current_blog_name();
+		$trace['user_id']   = User::get_current_user_id( 0 );
+		$trace['user_name'] = User::get_current_user_name();
+		if ( $this->privacy['pseudonymization'] ) {
+			if ( $trace['user_id'] > 0 ) {
+				$trace['user_id'] = Hash::simple_hash( (string) $trace['user_id'] );
+				if ( array_key_exists( 'user_name', $trace ) ) {
+					$trace['user_name'] = Hash::simple_hash( $trace['user_name'] );
+				}
+			}
+		}
+
+
+
+
+		$trace['spans'] = [];
+
+		return $trace;
 	}
 
 	/**
