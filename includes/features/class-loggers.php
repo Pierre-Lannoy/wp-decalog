@@ -168,6 +168,15 @@ class Loggers extends \WP_List_Table {
 				admin_url( 'admin.php' )
 			)
 		);
+		$tview              = esc_url(
+			add_query_arg(
+				[
+					'page'      => 'decalog-tviewer',
+					'logger_id' => $item['uuid'],
+				],
+				admin_url( 'admin.php' )
+			)
+		);
 		$epview              = esc_url(
 			add_query_arg(
 				[
@@ -188,6 +197,9 @@ class Loggers extends \WP_List_Table {
 			}
 			if ( 'WordpressHandler' === $handler['id'] ) {
 				$actions['view'] = sprintf( '<a href="%s">' . esc_html__( 'View', 'decalog' ) . '</a>', $view );
+			}
+			if ( 'WordpressTracingHandler' === $handler['id'] ) {
+				$actions['view'] = sprintf( '<a href="%s">' . esc_html__( 'View', 'decalog' ) . '</a>', $tview );
 			}
 			if ( 'PrometheusMetricsEPHandler' === $handler['id'] ) {
 				$actions['epview'] = sprintf( '<a href="%s" target="_blank">' . esc_html__( 'View', 'decalog' ) . '</a>', $epview );
