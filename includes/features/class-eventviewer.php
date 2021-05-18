@@ -109,7 +109,7 @@ class EventViewer {
 					break;
 				default:
 					global $wpdb;
-					$storage = new DBStorage( $wpdb->prefix . $bucket_name );
+					$storage = new DBStorage( $bucket_name );
 			}
 			$log = $storage->get_by_id( $this->eventid );
 		}
