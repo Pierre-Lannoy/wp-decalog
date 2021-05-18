@@ -48,6 +48,7 @@ class DBTraceStorage extends AbstractDBStorage {
 			$sql            .= " `site_name` varchar(250) NOT NULL DEFAULT 'Unknown',";
 			$sql            .= " `user_id` varchar(66) NOT NULL DEFAULT '0',";  // Needed by SHA-256 pseudonymization.
 			$sql            .= " `user_name` varchar(250) NOT NULL DEFAULT 'Unknown',";
+			$sql            .= " `user_session` varchar(64),";
 			$sql            .= ' `spans` text,';
 			$sql            .= ' PRIMARY KEY (`id`)';
 			$sql            .= ") $charset_collate;";
