@@ -14,6 +14,7 @@ namespace Decalog\Handler;
 use Decalog\Plugin\Feature\ChannelTypes;
 use Decalog\Plugin\Feature\DTracer;
 use Decalog\Plugin\Feature\Log;
+use Decalog\Storage\AbstractStorage;
 use Decalog\System\Environment;
 use Decalog\System\Hash;
 use Decalog\System\Http;
@@ -59,6 +60,14 @@ abstract class AbstractTracingHandler extends AbstractProcessingHandler {
 	 * @var    integer  $format       The format of the logger.
 	 */
 	protected $format = null;
+
+	/**
+	 * The storage if needed.
+	 *
+	 * @since  3.0.0
+	 * @var    AbstractStorage  $storage       The format of the logger.
+	 */
+	protected $storage = null;
 
 	/**
 	 * Post args.
@@ -332,6 +341,16 @@ abstract class AbstractTracingHandler extends AbstractProcessingHandler {
 	}
 
 	/**
+	 * Computes DecaLog specific format.
+	 *
+	 * @return  array  The formatted body array, ready to store.
+	 * @since    3.0.0
+	 */
+	private function decalog_format(): array {
+		return [];
+	}
+
+	/**
 	 * {@inheritdoc}
 	 */
 	public function close(): void {
@@ -347,6 +366,9 @@ abstract class AbstractTracingHandler extends AbstractProcessingHandler {
 				break;
 			case 300:
 				$this->post_args['body'] = $this->datadog_format();
+				break;
+			case 400:
+				$this->post_args['body'] = $this->decalog_format();
 				break;
 		}
 		if ( '' !== $this->post_args['body'] ) {
@@ -369,22 +391,28 @@ abstract class AbstractTracingHandler extends AbstractProcessingHandler {
 		if ( 'PUT' === $this->verb ) {
 			$result = decalog_remote_put( esc_url_raw( $this->endpoint ), $this->post_args );
 		}
-		$code    = wp_remote_retrieve_response_code( $result );
-		$message = wp_remote_retrieve_response_message( $result );
-		if ( '' === $message ) {
-			$message = 'Unknow error';
-		}
-		if ( $this->error_control ) {
-			$message = 'Pushing traces to ' . $this->endpoint . ' => ' . $message;
-			$logger  = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
-			if ( in_array( (int) $code, Http::$http_effective_pass_codes, true ) ) {
-				$logger->debug( $message, $code );
-			} elseif ( in_array( (int) $code, Http::$http_success_codes, true ) ) {
-				$logger->info( $message, $code );
-			} elseif ( '' === $code ) {
-				$logger->error( $message, 999 );
-			} else {
-				$logger->warning( $message, $code );
+		if ( 'STORAGE' === $this->verb ) {
+			if ( isset( $this->storage ) ) {
+				$this->storage->insert_value( $this->post_args['body'] );
+			}
+		} else {
+			$code    = wp_remote_retrieve_response_code( $result );
+			$message = wp_remote_retrieve_response_message( $result );
+			if ( '' === $message ) {
+				$message = 'Unknow error';
+			}
+			if ( $this->error_control ) {
+				$message = 'Pushing traces to ' . $this->endpoint . ' => ' . $message;
+				$logger  = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
+				if ( in_array( (int) $code, Http::$http_effective_pass_codes, true ) ) {
+					$logger->debug( $message, $code );
+				} elseif ( in_array( (int) $code, Http::$http_success_codes, true ) ) {
+					$logger->info( $message, $code );
+				} elseif ( '' === $code ) {
+					$logger->error( $message, 999 );
+				} else {
+					$logger->warning( $message, $code );
+				}
 			}
 		}
 	}
