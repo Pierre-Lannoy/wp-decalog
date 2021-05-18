@@ -365,6 +365,11 @@ abstract class AbstractTracingHandler extends AbstractProcessingHandler {
 		$trace['site_name'] = Blog::get_current_blog_name();
 		$trace['user_id']   = User::get_current_user_id( 0 );
 		$trace['user_name'] = User::get_current_user_name();
+		if ( 0 !== (int) $trace['user_id'] ) {
+			$trace['user_session'] = Hash::simple_hash( wp_get_session_token(), false );
+		} else {
+			$trace['user_session'] = '';
+		}
 		if ( $this->privacy['pseudonymization'] ) {
 			if ( $trace['user_id'] > 0 ) {
 				$trace['user_id'] = Hash::simple_hash( (string) $trace['user_id'] );
