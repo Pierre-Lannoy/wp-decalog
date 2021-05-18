@@ -461,9 +461,10 @@ class EventViewer {
 		$content = '<span style="width:100%;cursor: default;word-break: break-all;">' . $this->get_icon( 'server' ) . $this->event['url'] . '&nbsp;' . $verb . '</span>';
 		$request = $this->get_section( $content );
 		// referrer detail.
-		$content  = '<span style="width:100%;cursor: default;word-break: break-all;">' . $this->get_icon( 'arrow-left-circle' ) . $this->event['referrer'] . '</span>';
-		$referrer = $this->get_section( $content );
-
+		if ( isset( $this->event['referrer'] ) ) {
+			$content  = '<span style="width:100%;cursor: default;word-break: break-all;">' . $this->get_icon( 'arrow-left-circle' ) . $this->event['referrer'] . '</span>';
+			$referrer = $this->get_section( $content );
+		}
 		$this->output_activity_block( $server . $request . $referrer );
 	}
 
