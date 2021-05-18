@@ -672,10 +672,12 @@ class Wpcli {
 				\WP_CLI::line( \WP_CLI::colorize( '%8' . $handler['name'] . ' - ' . $handler['id'] . '%n' ) );
 				\WP_CLI::line( $handler['help'] );
 				\WP_CLI::line( '' );
-				\WP_CLI::line( \WP_CLI::colorize( '%UMinimal Level%n' ) );
-				\WP_CLI::line( '' );
-				\WP_CLI::line( '  ' . strtolower( Log::level_name( $handler['minimal'] ) ) );
-				\WP_CLI::line( '' );
+				if ( 'metrics' !== $handler['class'] && 'tracing' !== $handler['class'] ) {
+					\WP_CLI::line( \WP_CLI::colorize( '%UMinimal Level%n' ) );
+					\WP_CLI::line( '' );
+					\WP_CLI::line( '  ' . strtolower( Log::level_name( $handler['minimal'] ) ) );
+					\WP_CLI::line( '' );
+				}
 				\WP_CLI::line( \WP_CLI::colorize( '%UParameters%n' ) );
 				\WP_CLI::line( '' );
 				$param = '  * ';
@@ -686,15 +688,17 @@ class Wpcli {
 				\WP_CLI::line( $elem . 'field type: string' );
 				\WP_CLI::line( $elem . 'default value: "New Logger"' );
 				\WP_CLI::line( '' );
-				\WP_CLI::line( $param . 'Minimal level - Minimal reported level.' );
-				\WP_CLI::line( $elem . 'field name: level' );
-				\WP_CLI::line( $elem . 'field type: string' );
-				\WP_CLI::line( $elem . 'default value: "' . strtolower( Log::level_name( $handler['minimal'] ) ) . '"' );
-				\WP_CLI::line( $elem . 'available values:' );
-				foreach ( Log::get_levels( EventTypes::$levels[ strtolower( Log::level_name( $handler['minimal'] ) ) ] ) as $level ) {
-					\WP_CLI::line( $list . '"' . strtolower( $level[1] ) . '": ' . $level[2] );
+				if ( 'metrics' !== $handler['class'] && 'tracing' !== $handler['class'] ) {
+					\WP_CLI::line( $param . 'Minimal level - Minimal reported level.' );
+					\WP_CLI::line( $elem . 'field name: level' );
+					\WP_CLI::line( $elem . 'field type: string' );
+					\WP_CLI::line( $elem . 'default value: "' . strtolower( Log::level_name( $handler['minimal'] ) ) . '"' );
+					\WP_CLI::line( $elem . 'available values:' );
+					foreach ( Log::get_levels( EventTypes::$levels[ strtolower( Log::level_name( $handler['minimal'] ) ) ] ) as $level ) {
+						\WP_CLI::line( $list . '"' . strtolower( $level[1] ) . '": ' . $level[2] );
+					}
+					\WP_CLI::line( '' );
 				}
-				\WP_CLI::line( '' );
 				foreach ( $handler['configuration'] as $key => $conf ) {
 					if ( ! $conf['show'] || ! $conf['control']['enabled'] ) {
 						continue;
@@ -742,36 +746,40 @@ class Wpcli {
 					}
 					\WP_CLI::line( '' );
 				}
-				\WP_CLI::line( $param . 'IP obfuscation - Log fields will contain hashes instead of real IPs.' );
-				\WP_CLI::line( $elem . 'field name: obfuscation' );
-				\WP_CLI::line( $elem . 'field type: boolean' );
-				\WP_CLI::line( $elem . 'default value: false' );
-				\WP_CLI::line( '' );
-				\WP_CLI::line( $param . 'User pseudonymization - Log fields will contain hashes instead of user IDs & names.' );
-				\WP_CLI::line( $elem . 'field name: pseudonymization' );
-				\WP_CLI::line( $elem . 'field type: boolean' );
-				\WP_CLI::line( $elem . 'default value: false' );
-				\WP_CLI::line( '' );
-				\WP_CLI::line( $param . 'Reported details: WordPress - Allows to log site, user and remote IP of the current request.' );
-				\WP_CLI::line( $elem . 'field name: proc_wp' );
-				\WP_CLI::line( $elem . 'field type: boolean' );
-				\WP_CLI::line( $elem . 'default value: true' );
-				\WP_CLI::line( '' );
-				\WP_CLI::line( $param . 'Reported details: HTTP request - Allows to log url, method, referrer and remote IP of the current web request.' );
-				\WP_CLI::line( $elem . 'field name: proc_http' );
-				\WP_CLI::line( $elem . 'field type: boolean' );
-				\WP_CLI::line( $elem . 'default value: true' );
-				\WP_CLI::line( '' );
-				\WP_CLI::line( $param . 'Reported details: PHP introspection - Allows to log line, file, class and function generating the event.' );
-				\WP_CLI::line( $elem . 'field name: proc_php' );
-				\WP_CLI::line( $elem . 'field type: boolean' );
-				\WP_CLI::line( $elem . 'default value: true' );
-				\WP_CLI::line( '' );
-				\WP_CLI::line( $param . 'Reported details: Backtrace - Allows to log the full PHP and WordPress call stack.' );
-				\WP_CLI::line( $elem . 'field name: proc_trace' );
-				\WP_CLI::line( $elem . 'field type: boolean' );
-				\WP_CLI::line( $elem . 'default value: false' );
-				\WP_CLI::line( '' );
+				if ( 'metrics' !== $handler['class'] ) {
+					\WP_CLI::line( $param . 'IP obfuscation - Log fields will contain hashes instead of real IPs.' );
+					\WP_CLI::line( $elem . 'field name: obfuscation' );
+					\WP_CLI::line( $elem . 'field type: boolean' );
+					\WP_CLI::line( $elem . 'default value: false' );
+					\WP_CLI::line( '' );
+					\WP_CLI::line( $param . 'User pseudonymization - Log fields will contain hashes instead of user IDs & names.' );
+					\WP_CLI::line( $elem . 'field name: pseudonymization' );
+					\WP_CLI::line( $elem . 'field type: boolean' );
+					\WP_CLI::line( $elem . 'default value: false' );
+					\WP_CLI::line( '' );
+					\WP_CLI::line( $param . 'Reported details: WordPress - Allows to log site, user and remote IP of the current request.' );
+					\WP_CLI::line( $elem . 'field name: proc_wp' );
+					\WP_CLI::line( $elem . 'field type: boolean' );
+					\WP_CLI::line( $elem . 'default value: true' );
+					\WP_CLI::line( '' );
+					\WP_CLI::line( $param . 'Reported details: HTTP request - Allows to log url, method, referrer and remote IP of the current web request.' );
+					\WP_CLI::line( $elem . 'field name: proc_http' );
+					\WP_CLI::line( $elem . 'field type: boolean' );
+					\WP_CLI::line( $elem . 'default value: true' );
+					\WP_CLI::line( '' );
+					\WP_CLI::line( $param . 'Reported details: PHP introspection - Allows to log line, file, class and function generating the event.' );
+					\WP_CLI::line( $elem . 'field name: proc_php' );
+					\WP_CLI::line( $elem . 'field type: boolean' );
+					\WP_CLI::line( $elem . 'default value: true' );
+					\WP_CLI::line( '' );
+					if ( 'tracing' !== $handler['class'] ) {
+						\WP_CLI::line( $param . 'Reported details: Backtrace - Allows to log the full PHP and WordPress call stack.' );
+						\WP_CLI::line( $elem . 'field name: proc_trace' );
+						\WP_CLI::line( $elem . 'field type: boolean' );
+						\WP_CLI::line( $elem . 'default value: false' );
+						\WP_CLI::line( '' );
+					}
+				}
 				\WP_CLI::line( \WP_CLI::colorize( '%UExample%n' ) );
 				\WP_CLI::line( '' );
 				\WP_CLI::line( '  {' . implode( ', ', $example ) . '}' );
