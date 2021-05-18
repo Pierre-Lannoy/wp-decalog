@@ -22,6 +22,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - New logger to send traces to Grafana Cloud via Grafana agent.
 - New logger to send traces to Datadog via Datadog agent.
 - [WP-CLI] New command to list, dump or get metrics: see `wp help log metrics` for details.
+- [WP-CLI] New command to activate/deactivate endpoint authentication: see `wp help settings` for details.
 - [BC] The version of DecaLog API is now `v3`.
 
 ### Changed

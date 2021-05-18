@@ -1222,7 +1222,7 @@ class Wpcli {
 	 * <enable|disable>
 	 * : The action to take.
 	 *
-	 * <early-loading|auto-logging|auto-start>
+	 * <early-loading|auto-logging|auto-start|auth-endpoint>
 	 * : The setting to change.
 	 *
 	 * [--yes]
@@ -1259,6 +1259,10 @@ class Wpcli {
 						Autolog::activate();
 						$this->success( 'auto-logging is now activated.', '', $stdout );
 						break;
+					case 'auth-endpoint':
+						Option::network_set( 'metrics_authent', true );
+						$this->success( 'endpoints authentication is now activated.', '', $stdout );
+						break;
 					default:
 						$this->error( 7, $stdout );
 				}
@@ -1279,6 +1283,11 @@ class Wpcli {
 						\WP_CLI::confirm( 'Are you sure you want to deactivate auto-logging?', $assoc_args );
 						Autolog::deactivate();
 						$this->success( 'auto-logging is now deactivated.', '', $stdout );
+						break;
+					case 'auth-endpoint':
+						\WP_CLI::confirm( 'Are you sure you want to deactivate endpoint authentication?', $assoc_args );
+						Option::network_set( 'metrics_authent', false );
+						$this->success( 'endpoints authentication is now deactivated.', '', $stdout );
 						break;
 					default:
 						$this->error( 7, $stdout );
