@@ -328,8 +328,7 @@ class Events extends \WP_List_Table {
 						$this->storage = new APCuStorage( $bucket_name );
 						break;
 					default:
-						global $wpdb;
-						$this->storage = new DBStorage( $wpdb->prefix . $bucket_name );
+						$this->storage = new DBStorage( $bucket_name );
 				}
 			}
 		}

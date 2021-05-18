@@ -78,8 +78,7 @@ class WordpressHandler {
 				$this->storage = new APCuStorage( $this->bucket_name );
 				break;
 			default:
-				global $wpdb;
-				$this->storage = new DBStorage( $wpdb->prefix . $this->bucket_name );
+				$this->storage = new DBStorage( $this->bucket_name );
 		}
 	}
 
