@@ -402,6 +402,108 @@ class HandlerTypes {
 				],
 			],
 		];
+		$this->handlers[] = [
+			'version'       => DECALOG_VERSION,
+			'id'            => 'WordpressTracingHandler',
+			'namespace'     => 'Decalog\Handler',
+			'class'         => 'tracing',
+			'minimal'       => Logger::EMERGENCY,
+			'name'          => esc_html__( 'WordPress traces', 'decalog' ),
+			'help'          => esc_html__( 'Traces stored in WordPress and available right in your admin dashboard.', 'decalog' ),
+			'icon'          => $this->get_base64_wordpress_icon(),
+			'needs'         => [],
+			'params'        => [ 'processors', 'privacy' ],
+			'processors'    => [
+				'included' => [ 'WordpressProcessor', 'WWWProcessor', 'IntrospectionProcessor' ],
+			],
+			'configuration' => [
+				'sampling' => [
+					'type'    => 'integer',
+					'show'    => true,
+					'name'    => esc_html__( 'Sampling', 'decalog' ),
+					'help'    => esc_html__( 'Sampling rate to be chosen according to the site traffic.', 'decalog' ),
+					'default' => 100,
+					'control' => [
+						'type'    => 'field_select',
+						'cast'    => 'integer',
+						'enabled' => true,
+						'list'    => [ [ 1000, '100%' ], [ 500, '50%' ], [ 250, '25%' ], [ 100, '10%' ], [ 50, '5%' ], [ 20, '2%' ], [ 10, '1%' ], [ 5, '5‰' ], [ 2, '2‰' ], [ 1, '1‰' ] ],
+					],
+				],
+				'constant-storage' => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Storage', 'decalog' ),
+					'help'    => esc_html__( 'Place where to store traces.', 'decalog' ) . '<br/>' . esc_html__( 'Note: it\'s not possible to change storage type after logger creation.', 'decalog' ),
+					'default' => 'db',
+					'control' => [
+						'type'    => 'field_select',
+						'cast'    => 'string',
+						'enabled' => Cache::$apcu_available,
+						'list'    => [ [ 'db', esc_html__( 'Database: persistent after a server restart', 'decalog' ) ], [ 'apcu', esc_html__( 'APCu: high performance but reset after each server reboot', 'decalog' ), Cache::$apcu_available ] ],
+					],
+				],
+				'rotate'           => [
+					'type'    => 'integer',
+					'show'    => true,
+					'name'    => esc_html__( 'Traces', 'decalog' ),
+					'help'    => esc_html__( 'Maximum number of traces stored in this traces log (0 for no limit).', 'decalog' ),
+					'default' => 10000,
+					'control' => [
+						'type'    => 'field_input_integer',
+						'cast'    => 'integer',
+						'min'     => 0,
+						'max'     => 10000000,
+						'step'    => 1000,
+						'enabled' => true,
+					],
+				],
+				'purge'            => [
+					'type'    => 'integer',
+					'show'    => true,
+					'name'    => esc_html__( 'Days', 'decalog' ),
+					'help'    => esc_html__( 'Maximum age of traces stored in this traces log (0 for no limit).', 'decalog' ),
+					'default' => 5,
+					'control' => [
+						'type'    => 'field_input_integer',
+						'cast'    => 'integer',
+						'min'     => 0,
+						'max'     => 730,
+						'step'    => 1,
+						'enabled' => true,
+					],
+				],
+				'local'            => [
+					'type'    => 'boolean',
+					'show'    => is_multisite(),
+					'name'    => esc_html__( 'Multisite partitioning', 'decalog' ),
+					'help'    => esc_html__( 'Local administrators can view traces that relate to their site.', 'decalog' ),
+					'default' => false,
+					'control' => [
+						'type'    => 'field_checkbox',
+						'cast'    => 'boolean',
+						'enabled' => true,
+					],
+				],
+			],
+			'init'          => [
+				[
+					'type' => 'uuid',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'sampling',
+				],
+				[
+					'type'  => 'compute',
+					'value' => 'tablename',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'constant-storage',
+				],
+			],
+		];
 
 		// MONITORING
 		$this->handlers[] = [
