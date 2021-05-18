@@ -18,6 +18,7 @@ use Decalog\Plugin\Feature\HandlerTypes;
 use Decalog\Plugin\Feature\ProcessorTypes;
 use Decalog\Plugin\Feature\LoggerFactory;
 use Decalog\Plugin\Feature\Events;
+use Decalog\Plugin\Feature\Traces;
 use Decalog\Plugin\Feature\InlineHelp;
 use Decalog\Listener\ListenerFactory;
 use Decalog\System\Assets;
@@ -156,9 +157,18 @@ class Decalog_Admin {
 		add_action( 'load-' . $hook_suffix, [ new InlineHelp(), 'set_contextual_viewer' ] );
 		$logid   = filter_input( INPUT_GET, 'logid', FILTER_SANITIZE_STRING );
 		$eventid = filter_input( INPUT_GET, 'eventid', FILTER_SANITIZE_STRING );
+		$traceid = filter_input( INPUT_GET, 'traceid', FILTER_SANITIZE_STRING );
 		if ( 'decalog-viewer' === filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING ) ) {
 			if ( isset( $logid ) && isset( $eventid ) && 0 !== $eventid ) {
 				$this->current_view = new EventViewer( $logid, $eventid, $this->logger );
+				add_action( 'load-' . $hook_suffix, [ $this->current_view, 'add_metaboxes_options' ] );
+				add_action( 'admin_footer-' . $hook_suffix, [ $this->current_view, 'add_footer' ] );
+				add_filter( 'screen_settings', [ $this->current_view, 'display_screen_settings' ], 10, 2 );
+			}
+		}
+		if ( 'decalog-tviewer' === filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING ) ) {
+			if ( isset( $logid ) && isset( $eventid ) && 0 !== $eventid ) {
+				$this->current_view = new TraceViewer( $logid, $traceid, $this->logger );
 				add_action( 'load-' . $hook_suffix, [ $this->current_view, 'add_metaboxes_options' ] );
 				add_action( 'admin_footer-' . $hook_suffix, [ $this->current_view, 'add_footer' ] );
 				add_filter( 'screen_settings', [ $this->current_view, 'display_screen_settings' ], 10, 2 );
@@ -203,15 +213,36 @@ class Decalog_Admin {
 					'icon_callback' => [ \Decalog\Plugin\Core::class, 'get_base64_logo' ],
 					'slug'          => 'decalog-viewer',
 					/* translators: as in the sentence "DecaLog Viewer" */
-					'page_title'    => sprintf( esc_html__( '%s Viewer', 'decalog' ), DECALOG_PRODUCT_NAME ),
+					'page_title'    => sprintf( esc_html__( '%s Events Viewer', 'decalog' ), DECALOG_PRODUCT_NAME ),
 					'menu_title'    => esc_html__( 'Events Log', 'decalog' ),
 					'capability'    => 'read_private_pages',
-					'callback'      => [ $this, 'get_tools_page' ],
+					'callback'      => [ $this, 'get_events_page' ],
 					'position'      => 50,
 					'plugin'        => DECALOG_SLUG,
 					'activated'     => true,
 					'remedy'        => '',
 					'post_callback' => [ $this, 'set_viewer_help' ],
+				];
+			}
+		}
+		if ( Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type() || Role::LOCAL_ADMIN === Role::admin_type() || Role::override_privileges()) {
+			if ( Traces::loggers_count() > 0 ) {
+				$perfops['records'][] = [
+					'name'          => esc_html__( 'Traces', 'decalog' ),
+					/* translators: as in the sentence "Check the events that occurred on your network." or "Check the events that occurred on your website." */
+					'description'   => sprintf( esc_html__( 'Check the traces that are recorded on your %s.', 'decalog' ), Environment::is_wordpress_multisite() ? esc_html__( 'network', 'decalog' ) : esc_html__( 'website', 'decalog' ) ),
+					'icon_callback' => [ \Decalog\Plugin\Core::class, 'get_base64_logo' ],
+					'slug'          => 'decalog-tviewer',
+					/* translators: as in the sentence "DecaLog Viewer" */
+					'page_title'    => sprintf( esc_html__( '%s Traces Viewer', 'decalog' ), DECALOG_PRODUCT_NAME ),
+					'menu_title'    => esc_html__( 'Traces', 'decalog' ),
+					'capability'    => 'read_private_pages',
+					'callback'      => [ $this, 'get_traces_page' ],
+					'position'      => 50,
+					'plugin'        => DECALOG_SLUG,
+					'activated'     => true,
+					'remedy'        => '',
+					//'post_callback' => [ $this, 'set_tviewer_help' ],
 				];
 			}
 		}
@@ -338,15 +369,28 @@ class Decalog_Admin {
 	}
 
 	/**
-	 * Get the content of the tools page.
+	 * Get the content of the events page.
 	 *
 	 * @since 1.0.0
 	 */
-	public function get_tools_page() {
+	public function get_events_page() {
 		if ( isset( $this->current_view ) ) {
 			$this->current_view->get();
 		} else {
 			include DECALOG_ADMIN_DIR . 'partials/decalog-admin-view-events.php';
+		}
+	}
+
+	/**
+	 * Get the content of the traces page.
+	 *
+	 * @since 1.0.0
+	 */
+	public function get_traces_page() {
+		if ( isset( $this->current_view ) ) {
+			$this->current_view->get();
+		} else {
+			include DECALOG_ADMIN_DIR . 'partials/decalog-admin-view-traces.php';
 		}
 	}
 
