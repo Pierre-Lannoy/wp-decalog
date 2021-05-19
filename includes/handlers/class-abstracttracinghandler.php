@@ -342,6 +342,25 @@ abstract class AbstractTracingHandler extends AbstractProcessingHandler {
 		return '[' . implode( ',', $spans ) . ']';
 	}
 
+	private function get_hierarchy( $spans ) {
+		$hierarchy = [];
+		foreach ( $spans as $span ) {
+			$span['subspans']              = [];
+			$hierarchy[ $span['span_id'] ] = $span;
+		}
+		foreach ( $spans as &$span ) {
+			$hierarchy[ $span['parent_id'] ]['subspans'][] = &$hierarchy[ $span['span_id'] ];
+			unset( $hierarchy[ $span['span_id'] ]['span_id'] );
+			unset( $hierarchy[ $span['span_id'] ]['parent_id'] );
+		}
+		foreach ( $hierarchy as $parent => $data ) {
+			if ( 0 !== $parent ) {
+				unset( $hierarchy[ $parent ] );
+			}
+		}
+		return isset( $hierarchy[0], $hierarchy[0]['subspans'] ) ? $hierarchy[0]['subspans'] : [];
+	}
+
 	/**
 	 * Computes DecaLog specific format.
 	 *
@@ -378,12 +397,19 @@ abstract class AbstractTracingHandler extends AbstractProcessingHandler {
 				}
 			}
 		}
-
-
-
-
-		$trace['spans'] = [];
-
+		$spans = [];
+		foreach ( $this->traces as $span ) {
+			$s       = [
+				'start'     => (int) $span['timestamp'],
+				'duration'  => (int) $span['duration'],
+				'parent_id' => $span['parentId'] ?? 0,
+				'span_id'   => $span['id'],
+				'resource'  => ucwords( $span['localEndpoint']['serviceName'] ),
+				'name'      => $span['name'],
+			];
+			$spans[] = $s;
+		}
+		$trace['spans'] = wp_json_encode( $this->get_hierarchy( $spans ) );
 		return $trace;
 	}
 
