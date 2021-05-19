@@ -43,7 +43,7 @@ class DBTraceStorage extends AbstractDBStorage {
 			$sql            .= " `timestamp` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',";
 			$sql            .= " `channel` enum('cli','cron','ajax','xmlrpc','api','feed','wback','wfront','unknown') NOT NULL DEFAULT 'unknown',";
 			$sql            .= " `duration` mediumint UNSIGNED NOT NULL DEFAULT '0',";  // In ms.
-			$sql            .= " `scount` smallint UNSIGNED NOT NULL DEFAULT '0',";  // In ms.
+			$sql            .= " `scount` smallint UNSIGNED NOT NULL DEFAULT '0',";
 			$sql            .= " `site_id` int(11) UNSIGNED NOT NULL DEFAULT '0',";
 			$sql            .= " `site_name` varchar(250) NOT NULL DEFAULT 'Unknown',";
 			$sql            .= " `user_id` varchar(66) NOT NULL DEFAULT '0',";  // Needed by SHA-256 pseudonymization.
