@@ -136,12 +136,11 @@ class EventViewer {
 	 * @since 1.0.0
 	 */
 	public function display_screen_settings( $current, $screen ) {
-		if ( ! is_object( $screen ) || false === strpos( $screen->id, 'page_decalog-viewer' ) ) {
-			return $current;
+		if ( is_object( $screen ) && false !== strpos( $screen->id, 'page_decalog-viewer' ) && false === strpos( $current, 'id="option-decalog-viewer"' ) ) {
+			$current .= '<div id="option-decalog-viewer" class="metabox-prefs custom-options-panel requires-autosave"><input type="hidden" name="_wpnonce-decalog_viewer" value="' . wp_create_nonce( 'save_settings_decalog_viewer' ) . '" />';
+			$current .= $this->get_options();
+			$current .= '</div>';
 		}
-		$current .= '<div class="metabox-prefs custom-options-panel requires-autosave"><input type="hidden" name="_wpnonce-decalog_viewer" value="' . wp_create_nonce( 'save_settings_decalog_viewer' ) . '" />';
-		$current .= $this->get_options();
-		$current .= '</div>';
 		return $current;
 	}
 
