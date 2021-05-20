@@ -549,6 +549,11 @@ class Wpcli {
 		} else {
 			\WP_CLI::line( 'Auto-Logging: disabled.' );
 		}
+		if ( Option::network_get( 'metrics_authent' ) ) {
+			\WP_CLI::line( 'Endpoint authentication: enabled.' );
+		} else {
+			\WP_CLI::line( 'Endpoint authentication: disabled.' );
+		}
 		$geo = new GeoIP();
 		if ( $geo->is_installed() ) {
 			\WP_CLI::line( 'IP information support: yes (' . $geo->get_full_name() . ').' );
