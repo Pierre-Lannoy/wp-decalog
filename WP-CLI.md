@@ -6,10 +6,11 @@ DecaLog is fully usable from command-line, thanks to [WP-CLI](https://wp-cli.org
 4. [Managing loggers](#managing-loggers) - `wp log logger`
 5. [Using logger types](#managing-loggers) - `wp log type`
 6. [Managing listeners](#managing-loggers) - `wp log listener`
-7. [Getting DecaLog status](#getting-decalog-status) - `wp log status`
-8. [Managing main settings](#managing-main-settings) - `wp log settings`
-9. [Misc flags](#misc-flags)
-10. [Piping and storing](#piping-and-storing)
+7. [Accessing metrics](#accessing-metrics) - `wp log metrics`
+8. [Getting DecaLog status](#getting-decalog-status) - `wp log status`
+9. [Managing main settings](#managing-main-settings) - `wp log settings`
+10. [Misc flags](#misc-flags)
+11. [Piping and storing](#piping-and-storing)
 
 ## Introduction
 DecaLog is WordPress plugin which that to:
@@ -374,6 +375,14 @@ To deactivate auto-listening without confirmation prompt, type the following com
 pierre@dev:~$ wp log listener auto-off --yes
 Success: auto-listening is now deactivated.
 ```
+
+## Accessing Metrics
+
+
+
+
+
+
 
 ## Getting DecaLog status
 
