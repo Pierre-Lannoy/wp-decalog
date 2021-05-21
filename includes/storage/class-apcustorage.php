@@ -69,8 +69,8 @@ class APCuStorage extends AbstractStorage {
 	 * @since    3.0.0
 	 */
 	public function initialize() {
-		if ( Cache::$apcu_available ) {
-			Cache::set_global( $this->bucket_name, [], 'infinite' );
+		if ( Cache::$apcu_available && ! Cache::get_global( $this->bucket_name ) ) {
+			$this->force_purge();
 		}
 	}
 
@@ -104,7 +104,9 @@ class APCuStorage extends AbstractStorage {
 	 * @since    3.0.0
 	 */
 	public function force_purge() {
-		$this->initialize();
+		if ( Cache::$apcu_available ) {
+			Cache::set_global( $this->bucket_name, [], 'infinite' );
+		}
 	}
 
 	/**
