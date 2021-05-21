@@ -104,14 +104,14 @@ abstract class AbstractDBStorage extends AbstractStorage {
 			$count    = 0;
 			$database = new Database();
 			if ( 0 < (int) $logger['configuration']['purge'] ) {
-				if ( $hour_done = $database->purge( $wpdb->base_prefix . $this->bucket_name, 'timestamp', 24 * (int) $logger['configuration']['purge'] ) ) {
+				if ( $hour_done = $database->purge( $this->bucket_name, 'timestamp', 24 * (int) $logger['configuration']['purge'] ) ) {
 					$count += $hour_done;
 				}
 			}
 			if ( 0 < (int) $logger['configuration']['rotate'] ) {
-				$limit = $database->count_lines( $wpdb->base_prefix . $this->bucket_name ) - (int) $logger['configuration']['rotate'];
+				$limit = $database->count_lines( $this->bucket_name ) - (int) $logger['configuration']['rotate'];
 				if ( $limit > 0 ) {
-					if ( $max_done = $database->rotate( $wpdb->base_prefix . $this->bucket_name, 'id', $limit ) ) {
+					if ( $max_done = $database->rotate( $this->bucket_name, 'id', $limit ) ) {
 						$count += $max_done;
 					}
 				}
