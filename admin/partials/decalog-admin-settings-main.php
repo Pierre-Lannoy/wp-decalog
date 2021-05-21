@@ -120,6 +120,7 @@ $active_tab = ( isset( $_GET['tab'] ) ? $_GET['tab'] : 'loggers' );
 	<?php } ?>
 	<?php if ( 'metrics' === $active_tab ) { ?>
 		<?php wp_enqueue_style( DECALOG_ASSETS_ID ); ?>
+		<p><?php esc_html_e( 'Here are, for each class and profile, the exposed metrics of you WordPress instance:', 'decalog' ); ?></p>
 		<?php echo do_shortcode( '[decalog-metrics]' ); ?>
 	<?php } ?>
 </div>
