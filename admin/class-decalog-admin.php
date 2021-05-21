@@ -31,6 +31,7 @@ use Decalog\System\Environment;
 use Monolog\Logger;
 use PerfOpsOne\AdminMenus;
 use Decalog\Plugin\Feature\DLogger;
+use Decalog\Plugin\Feature\TraceViewer;
 
 /**
  * The admin-specific functionality of the plugin.
@@ -167,7 +168,7 @@ class Decalog_Admin {
 			}
 		}
 		if ( 'decalog-tviewer' === filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING ) ) {
-			if ( isset( $logid ) && isset( $eventid ) && 0 !== $eventid ) {
+			if ( isset( $logid ) && isset( $traceid ) && 0 !== $traceid ) {
 				$this->current_view = new TraceViewer( $logid, $traceid, $this->logger );
 				add_action( 'load-' . $hook_suffix, [ $this->current_view, 'add_metaboxes_options' ] );
 				add_action( 'admin_footer-' . $hook_suffix, [ $this->current_view, 'add_footer' ] );
@@ -212,7 +213,7 @@ class Decalog_Admin {
 					'description'   => sprintf( esc_html__( 'Check the events that occurred on your %s.', 'decalog' ), Environment::is_wordpress_multisite() ? esc_html__( 'network', 'decalog' ) : esc_html__( 'website', 'decalog' ) ),
 					'icon_callback' => [ \Decalog\Plugin\Core::class, 'get_base64_logo' ],
 					'slug'          => 'decalog-viewer',
-					/* translators: as in the sentence "DecaLog Viewer" */
+					/* translators: as in the sentence "DecaLog Events Viewer" */
 					'page_title'    => sprintf( esc_html__( '%s Events Viewer', 'decalog' ), DECALOG_PRODUCT_NAME ),
 					'menu_title'    => esc_html__( 'Events Log', 'decalog' ),
 					'capability'    => 'read_private_pages',
@@ -224,16 +225,14 @@ class Decalog_Admin {
 					'post_callback' => [ $this, 'set_viewer_help' ],
 				];
 			}
-		}
-		if ( Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type() || Role::LOCAL_ADMIN === Role::admin_type() || Role::override_privileges()) {
 			if ( Traces::loggers_count() > 0 ) {
 				$perfops['records'][] = [
 					'name'          => esc_html__( 'Traces', 'decalog' ),
-					/* translators: as in the sentence "Check the events that occurred on your network." or "Check the events that occurred on your website." */
+					/* translators: as in the sentence "Check the traces that are recorded on your network." or "Check the traces that are recorded on your website." */
 					'description'   => sprintf( esc_html__( 'Check the traces that are recorded on your %s.', 'decalog' ), Environment::is_wordpress_multisite() ? esc_html__( 'network', 'decalog' ) : esc_html__( 'website', 'decalog' ) ),
 					'icon_callback' => [ \Decalog\Plugin\Core::class, 'get_base64_logo' ],
 					'slug'          => 'decalog-tviewer',
-					/* translators: as in the sentence "DecaLog Viewer" */
+					/* translators: as in the sentence "DecaLog Traces Viewer" */
 					'page_title'    => sprintf( esc_html__( '%s Traces Viewer', 'decalog' ), DECALOG_PRODUCT_NAME ),
 					'menu_title'    => esc_html__( 'Traces', 'decalog' ),
 					'capability'    => 'read_private_pages',
@@ -242,7 +241,7 @@ class Decalog_Admin {
 					'plugin'        => DECALOG_SLUG,
 					'activated'     => true,
 					'remedy'        => '',
-					//'post_callback' => [ $this, 'set_tviewer_help' ],
+					'post_callback' => [ $this, 'set_viewer_help' ],
 				];
 			}
 		}
@@ -388,6 +387,7 @@ class Decalog_Admin {
 	 */
 	public function get_traces_page() {
 		if ( isset( $this->current_view ) ) {
+			wp_enqueue_style( DECALOG_ASSETS_ID );
 			$this->current_view->get();
 		} else {
 			include DECALOG_ADMIN_DIR . 'partials/decalog-admin-view-traces.php';
