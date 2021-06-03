@@ -100,6 +100,19 @@ $active_tab = ( isset( $_GET['tab'] ) ? $_GET['tab'] : 'loggers' );
 		);
 		?>
 		" class="nav-tab <?php echo 'metrics' === $active_tab ? 'nav-tab-active' : ''; ?>" style="float:right;"><?php esc_html_e( 'Metrics', 'decalog' ); ?></a>
+        <a href="
+		<?php
+		echo esc_url(
+			add_query_arg(
+				array(
+					'page' => 'decalog-settings',
+					'tab'  => 'selfreg',
+				),
+				admin_url( 'admin.php' )
+			)
+		);
+		?>
+		" class="nav-tab <?php echo 'selfreg' === $active_tab ? 'nav-tab-active' : ''; ?>" style="float:right;"><?php esc_html_e( 'Self-Registration', 'decalog' ); ?></a>
 	</h2>
 
 	<?php if ( 'loggers' === $active_tab ) { ?>
@@ -122,5 +135,10 @@ $active_tab = ( isset( $_GET['tab'] ) ? $_GET['tab'] : 'loggers' );
 		<?php wp_enqueue_style( DECALOG_ASSETS_ID ); ?>
 		<p><?php esc_html_e( 'Here are, for each class and profile, the exposed metrics of you WordPress instance:', 'decalog' ); ?></p>
 		<?php echo do_shortcode( '[decalog-metrics]' ); ?>
+	<?php } ?>
+	<?php if ( 'selfreg' === $active_tab ) { ?>
+		<?php wp_enqueue_style( DECALOG_ASSETS_ID ); ?>
+        <p><?php esc_html_e( 'Here are the third-party components that have self-registered with DecaLog:', 'decalog' ); ?></p>
+		<?php echo do_shortcode( '[decalog-selfreg]' ); ?>
 	<?php } ?>
 </div>
