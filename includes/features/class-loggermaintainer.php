@@ -59,6 +59,8 @@ class LoggerMaintainer {
 	 * @since    1.0.0
 	 */
 	public function cron_clean() {
+		$tracer = new DTracer( 'plugin', DECALOG_PRODUCT_NAME, DECALOG_VERSION );
+		$span   = $tracer->start_span( 'Events logs rotation' );
 		foreach ( Option::network_get( 'loggers' ) as $key => $logger ) {
 			$classname = 'Decalog\Plugin\Feature\\' . $logger['handler'];
 			if ( class_exists( $classname ) ) {
@@ -68,6 +70,7 @@ class LoggerMaintainer {
 				$instance->cron_clean();
 			}
 		}
+		$tracer->end_span( $span );
 	}
 
 	/**

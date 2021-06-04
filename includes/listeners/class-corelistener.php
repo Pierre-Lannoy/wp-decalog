@@ -12,6 +12,7 @@
 
 namespace Decalog\Listener;
 
+use Decalog\Plugin\Feature\DMonitor;
 use Decalog\System\Cache;
 use Decalog\System\Environment;
 use Decalog\System\Hash;
@@ -199,6 +200,7 @@ class CoreListener extends AbstractListener {
 	 * @since    2.4.0
 	 */
 	protected function launched() {
+		$span = $this->tracer->start_span( 'Metrics collation' );
 		$this->monitor->create_dev_gauge( 'page_latency', 0, 'Execution time for full page rendering - [second]' );
 		$this->monitor->create_dev_gauge( 'wp_latency', 0, 'Execution time for WordPress page rendering - [second]' );
 		$this->monitor->create_dev_gauge( 'init_latency', 0, 'Execution time for initialization sequence - [second]' );
@@ -213,6 +215,7 @@ class CoreListener extends AbstractListener {
 		$this->monitor->create_prod_counter( 'user_ham', 'Number of ham users - [count]' );
 		$this->monitor->create_prod_counter( 'user_spam', 'Number of spam users - [count]' );
 		$this->monitor->create_prod_counter( 'user_trash', 'Number of trashed users - [count]' );
+		$this->tracer->end_span( $span );
 	}
 
 	/**
@@ -221,6 +224,7 @@ class CoreListener extends AbstractListener {
 	 * @since    3.0.0
 	 */
 	public function ready() {
+		$span                 = $this->tracer->start_span( 'Metrics collation' );
 		$this->post_types     = Post::get_types();
 		$this->comment_types  = Comment::get_types();
 		$this->post_status    = Post::get_status();
@@ -237,6 +241,7 @@ class CoreListener extends AbstractListener {
 		foreach ( $this->comment_types as $type => $label ) {
 			$this->monitor->create_prod_counter( 'comment_type_' . $type, 'Number of ' . strtolower( str_replace( '_', ' ', $label ) ) . ' - [count]' );
 		}
+		$this->tracer->end_span( $span );
 	}
 
 	/**
