@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - DecaLog now supports traces collecting and publishing.
 - New WordPress traces viewer allowing to view traces right in the admin dashboard. 
 - New "metrics" tab in settings to list all currently collected metrics.
+- New "self-registration" tab in settings to list all currently self-registered components.
 - DecaLog now collects extended metrics for: PHP, WordPress core, database, WordPress multisite and plugins / themes using [WordPress DecaLog SDK](https://github.com/Pierre-Lannoy/wp-decalog-sdk).
 - DecaLog now collects minimalist metrics for Wordfence.
 - DecaLog now collects extended traces for WordPress core and plugins / themes using [WordPress DecaLog SDK](https://github.com/Pierre-Lannoy/wp-decalog-sdk).

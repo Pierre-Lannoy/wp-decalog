@@ -9,9 +9,7 @@
 
 namespace Decalog\Plugin\Feature;
 
-use Decalog\Plugin\Feature\DLogger;
-use Decalog\System\Option;
-use Decalog\Plugin\Feature\Log;
+use Decalog\Plugin\Core;
 
 /**
  * SDK utilities for DecaLog.
@@ -37,8 +35,8 @@ class SDK {
 	/**
 	 * Get the self-registered components list.
 	 *
-	 * @return  array
-	 * @since    3.0.0  The self-registered components list.
+	 * @return  array   The self-registered components list.
+	 * @since    3.0.0
 	 */
 	public static function get_selfreg() {
 		if ( self::is_present() ) {
@@ -49,5 +47,22 @@ class SDK {
 			return $result;
 		}
 		return [];
+	}
+
+	/**
+	 * Get the self-registered components list for display.
+	 *
+	 * @return  string  The output of the shortcode, ready to print.
+	 * @since    3.0.0
+	 */
+	public static function sc_get_selfreg() {
+		$result = '';
+		foreach ( self::get_selfreg() as $logger ) {
+			$result .= '<div style="margin:20px;min-width:200px;">';
+			$result .= '<img style="width:48px;float:left;padding-right:6px;" src="' . ( '' !== $logger['icon'] ? $logger['icon'] : Core::get_base64_logo() ) . '" />';
+			$result .= '<div style="padding-top: 4px"> <span>' . $logger['name'] . '</span><br /><span style="color:silver">' . $logger['version'] . '</span></div>';
+			$result .= '</div>';
+		}
+		return '<div style="display:flex;flex-direction:row;flex-wrap:wrap;">' . $result . '</div>';
 	}
 }
