@@ -534,7 +534,11 @@ class Wpcli {
 		} else {
 			$run = sprintf( '%d loggers', $run );
 		}
-		\WP_CLI::line( sprintf( '%s running %s %s.', Environment::plugin_version_text(), $run, $list ) );
+		$pvt = Environment::plugin_version_text();
+		if ( class_exists( '\DecaLog\Engine' ) ) {
+			$pvt = \DecaLog\Engine::getVersionString();
+		}
+		\WP_CLI::line( sprintf( '%s running %s %s.', $pvt, $run, $list ) );
 		if ( Option::network_get( 'earlyloading' ) ) {
 			\WP_CLI::line( 'Early-Loading: enabled.' );
 		} else {

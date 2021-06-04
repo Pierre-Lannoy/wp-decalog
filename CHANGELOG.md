@@ -11,9 +11,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - New WordPress traces viewer allowing to view traces right in the admin dashboard. 
 - New "metrics" tab in settings to list all currently collected metrics.
 - New "self-registration" tab in settings to list all currently self-registered components.
-- DecaLog now collects extended metrics for: PHP, WordPress core, database, WordPress multisite and plugins / themes using [WordPress DecaLog SDK](https://github.com/Pierre-Lannoy/wp-decalog-sdk).
+- DecaLog now collects extended metrics for: PHP, WordPress core, database, WordPress multisite and plugins / themes using [WordPress DecaLog SDK](https://decalog.io).
 - DecaLog now collects minimalist metrics for Wordfence.
-- DecaLog now collects extended traces for WordPress core and plugins / themes using [WordPress DecaLog SDK](https://github.com/Pierre-Lannoy/wp-decalog-sdk).
+- DecaLog now collects extended traces for WordPress core and plugins / themes using [WordPress DecaLog SDK](https://decalog.io).
 - New logger to send events to Datadog.
 - New logger to send metrics to a Prometheus instance (via Pushgateway).
 - New logger to publish metrics as endpoint for Prometheus scrapping.
@@ -38,6 +38,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - [WP-CLI] The `wp log logger list` command now accepts a logger id or logger type as filter parameter.
 - [WP-CLI] The `wp log listener list` command now accepts a listener id as filter parameter.
 - [WP-CLI] The `wp log type list` command now accepts a logger type as filter parameter.
+- [WP-CLI] The `wp log status` command now returns SDK version too (if SDK in is in use).
 - [WP-CLI] Updated documentation.
 - Wordfence listener is much more precise while logging events.
 - The Stackdriver logger is now named "Google Cloud Logging" to follow Stackdriver rebranding.
