@@ -24,6 +24,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - New logger to send traces to Datadog via Datadog agent.
 - New logger to store traces in WordPress database or with APCu.
 - [WP-CLI] New command to list, dump or get metrics: see `wp help log metrics` for details.
+- [WP-CLI] New command to list self registered components: see `wp help log selfreg` for details.
 - [WP-CLI] New command to activate/deactivate endpoint authentication: see `wp help settings` for details.
 - [BC] The version of DecaLog API is now `v3`.
 

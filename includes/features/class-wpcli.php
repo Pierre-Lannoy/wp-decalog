@@ -30,6 +30,7 @@ use Decalog\Plugin\Feature\Autolog;
 use Prometheus\RenderTextFormat;
 use Spyc;
 use Decalog\Plugin\Feature\DLogger;
+use Decalog\Plugin\Feature\SDK;
 
 /**
  * Manages DecaLog, view events logs and send messages to loggers.
@@ -1598,6 +1599,67 @@ class Wpcli {
 					}
 				}
 				$this->error( 9, $stdout );
+				break;
+		}
+	}
+
+	/**
+	 * Get information about self-registered components.
+	 *
+	 * ## OPTIONS
+	 *
+	 * <list>
+	 * : The action to take.
+	 * ---
+	 * options:
+	 *  - list
+	 * ---
+	 *
+	 * [--format=<format>]
+	 * : Allows overriding the output of the command when listing.
+	 * ---
+	 * default: table
+	 * options:
+	 *  - table
+	 *  - json
+	 *  - csv
+	 *  - yaml
+	 *  - ids
+	 *  - count
+	 * ---
+	 *
+	 * [--stdout]
+	 * : Use clean STDOUT output to use results in scripts. Unnecessary when piping commands because piping is detected by DecaLog.
+	 *
+	 * ## EXAMPLES
+	 *
+	 * Lists currently self-registered components:
+	 * + wp log selfreg list
+	 * + wp log selfreg list --format=json
+	 *
+	 *
+	 *   === For other examples and recipes, visit https://github.com/Pierre-Lannoy/wp-decalog/blob/master/WP-CLI.md ===
+	 *
+	 */
+	public function selfreg( $args, $assoc_args ) {
+		$stdout = \WP_CLI\Utils\get_flag_value( $assoc_args, 'stdout', false );
+		$format = \WP_CLI\Utils\get_flag_value( $assoc_args, 'format', 'table' );
+		$action = $args[0] ?? 'list';
+		$list   = SDK::get_selfreg();
+		switch ( $action ) {
+			case 'list':
+				$detail = [ 'slug', 'name', 'version' ];
+				if ( 'ids' === $format ) {
+					$this->write_ids( $list );
+				} elseif ( 'yaml' === $format ) {
+					$details = Spyc::YAMLDump( $list, true, true, true );
+					$this->line( $details, $details, $stdout );
+				} elseif ( 'json' === $format ) {
+					$details = wp_json_encode( $list );
+					$this->line( $details, $details, $stdout );
+				} else {
+					\WP_CLI\Utils\format_items( $format, $list, $detail );
+				}
 				break;
 		}
 	}
