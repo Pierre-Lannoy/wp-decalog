@@ -11,6 +11,7 @@
 
 namespace Decalog\Handler;
 
+use Decalog\Plugin\Feature\Log;
 use Decalog\System\Blog;
 use Decalog\System\Environment;
 use Monolog\Logger;
@@ -61,8 +62,8 @@ class InfluxMonitoringHandler extends AbstractMonitoringHandler {
 			'bucket'    => $bucket,
 			'precision' => InfluxWritePrecision::MS,
 			'logFile'   => '/dev/null',
+			//'timeout'   => 1,
 		];
-		$this->error_control = false;
 	}
 
 	/**
@@ -73,10 +74,19 @@ class InfluxMonitoringHandler extends AbstractMonitoringHandler {
 	protected function send(): void {
 		try {
 			$client = new InfluxClient( $this->connection );
-			$influx = $client->createWriteApi();
+			$influx = $client->createWriteApi(
+				[
+					'retryInterval' => 500,
+					'maxRetries'    => 1,
+				]
+			);
 			$influx->write( $this->post_args['body'] );
 		} catch ( \Throwable $e ) {
-			//TODO: handle error, for now it's silent.
+			if ( $this->error_control ) {
+				$message = 'Pushing metrics to ' . $this->connection['url'] . ' => ' . $e->getMessage();
+				$logger  = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
+				$logger->error( $message, $e->getCode() );
+			}
 		}
 	}
 
@@ -90,7 +100,7 @@ class InfluxMonitoringHandler extends AbstractMonitoringHandler {
 			$production              = $monitor->prod_registry()->getMetricFamilySamples();
 			$development             = ( Logger::ALERT === $this->level ? $monitor->dev_registry()->getMetricFamilySamples() : [] );
 			$this->post_args['body'] = $renderer->render( array_merge( $production, $development ) );
-			parent::send();
+			$this->send();
 		}
 	}
 
