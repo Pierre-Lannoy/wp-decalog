@@ -101,7 +101,9 @@ class DatabaseListener extends AbstractListener {
 	 * @since    2.4.0
 	 */
 	protected function launched() {
-		$span            = $this->tracer->start_span( 'Metrics collation' );
+		if ( Environment::exec_mode_for_metrics() ) {
+			$span = $this->tracer->start_span( 'Metrics collation' );
+		}
 		$query_latencies = [ 0.0001, 0.00025, 0.0005, 0.00075, 0.001, 0.0025, 0.005, 0.0075, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 0.75, 1.0 ];
 		$row_counts      = [ 1, 10, 100, 1000, 10000, 100000, 1000000 ];
 		$bytes           = [ 1024, 10 * 1024, 100 * 1024, 1024 * 1024, 10 * 1024 * 1024, 100 * 1024 * 1024 ];
@@ -130,7 +132,9 @@ class DatabaseListener extends AbstractListener {
 		$this->monitor->create_dev_histogram( 'table_site_index', $bytes, 'Index size of tables belonging to this WordPress site - [byte]' );
 		$this->monitor->create_dev_histogram( 'table_other_data', $bytes, 'Data size of tables not belonging to this WordPress site - [byte]' );
 		$this->monitor->create_dev_histogram( 'table_other_index', $bytes, 'Index size of tables not belonging to this WordPress site - [byte]' );
-		$this->tracer->end_span( $span );
+		if ( Environment::exec_mode_for_metrics() ) {
+			$this->tracer->end_span( $span );
+		}
 	}
 
 	/**

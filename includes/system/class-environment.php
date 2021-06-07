@@ -89,6 +89,16 @@ class Environment {
 	}
 
 	/**
+	 * Get the current execution mode.
+	 *
+	 * @return  boolean True if metrics are available.
+	 * @since 1.0.0
+	 */
+	public static function exec_mode_for_metrics() {
+		return in_array( self::exec_mode(), [ 1, 5, 7 ], true );
+	}
+
+	/**
 	 * Verify scrapping mode..
 	 *
 	 * @return  boolean True if we're in scrapping call for theme/plugin editor.

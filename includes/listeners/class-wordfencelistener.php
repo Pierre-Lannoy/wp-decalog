@@ -12,6 +12,7 @@
 namespace Decalog\Listener;
 
 use Decalog\Logger;
+use Decalog\System\Environment;
 
 /**
  * Wordfence listener for DecaLog.
@@ -68,7 +69,9 @@ class WordfenceListener extends AbstractListener {
 	 * @since    2.4.0
 	 */
 	protected function launched() {
-		$span = $this->tracer->start_span( 'Metrics collation' );
+		if ( Environment::exec_mode_for_metrics() ) {
+			$span = $this->tracer->start_span( 'Metrics collation' );
+		}
 		if ( class_exists( '\wfBlock' ) ) {
 			$this->monitor->create_prod_counter( 'block_duration_permanent', 'Number of permanent blocks - [count]' );
 			$this->monitor->create_prod_counter( 'block_duration_temporary', 'Number of current temporary blocks - [count]' );
@@ -85,7 +88,9 @@ class WordfenceListener extends AbstractListener {
 			$this->monitor->create_prod_counter( 'issue_ignored', 'Number of ignored issues - [count]' );
 			$this->monitor->create_prod_counter( 'issue_other', 'Number of other issues - [count]' );
 		}
-		$this->tracer->end_span( $span );
+		if ( Environment::exec_mode_for_metrics() ) {
+			$this->tracer->end_span( $span );
+		}
 	}
 
 	/**
