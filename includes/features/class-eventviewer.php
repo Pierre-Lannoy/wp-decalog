@@ -573,8 +573,12 @@ class EventViewer {
 	 */
 	public function php_widget() {
 		// File detail.
-		$element = PHP::normalized_file( $this->event['file'] );
-		$element = '<span style="width:100%;cursor: default;word-break: break-all;">' . $this->get_icon( 'file-text' ) . $element . ':' . ( $this->event['line'] ?? '' ) . '</span>';
+		if ( array_key_exists( 'file', $this->event ) ) {
+			$element = PHP::normalized_file( $this->event['file'] ) . ':' . ( $this->event['line'] ?? '' );
+		} else {
+			$element = esc_html__( 'Unknown', 'decalog' );
+		}
+		$element = '<span style="width:100%;cursor: default;word-break: break-all;">' . $this->get_icon( 'file-text' ) . $element . '</span>';
 		$file    = $this->get_section( $element );
 		// Function detail.
 		$element  = '<span style="width:100%;cursor: default;word-break: break-all;">' . $this->get_icon( 'code', 'none' ) . ( $this->event['function'] ?? '' ) . '</span>';
