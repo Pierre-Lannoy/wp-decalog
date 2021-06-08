@@ -203,10 +203,10 @@ class CoreListener extends AbstractListener {
 		if ( Environment::exec_mode_for_metrics() ) {
 			$span = $this->tracer->start_span( 'Metrics collation' );
 		}
-		$this->monitor->create_dev_gauge( 'page_latency', 0, 'Execution time for full page rendering - [second]' );
-		$this->monitor->create_dev_gauge( 'wp_latency', 0, 'Execution time for WordPress page rendering - [second]' );
-		$this->monitor->create_dev_gauge( 'init_latency', 0, 'Execution time for initialization sequence - [second]' );
-		$this->monitor->create_dev_gauge( 'shutdown_latency', 0, 'Execution time for shutdown sequence - [second]' );
+		$this->monitor->create_prod_gauge( 'page_latency', 0, 'Execution time for full page rendering - [second]' );
+		$this->monitor->create_prod_gauge( 'wp_latency', 0, 'Execution time for WordPress page rendering - [second]' );
+		$this->monitor->create_prod_gauge( 'init_latency', 0, 'Execution time for initialization sequence - [second]' );
+		$this->monitor->create_prod_gauge( 'shutdown_latency', 0, 'Execution time for shutdown sequence - [second]' );
 		$this->monitor->create_prod_counter( 'plugin_active', 'Number of active plugins - [count]' );
 		$this->monitor->create_prod_counter( 'plugin_inactive', 'Number of inactive plugins - [count]' );
 		$this->monitor->create_prod_counter( 'plugin_updatable', 'Number of plugins needing update - [count]' );
@@ -1326,15 +1326,15 @@ class CoreListener extends AbstractListener {
 			define( 'POWP_END_TIMESTAMP', microtime( true ) );
 		}
 		if ( defined( 'POWS_START_TIMESTAMP' ) ) {
-			$this->monitor->set_dev_gauge( 'page_latency', round( POWP_END_TIMESTAMP - POWS_START_TIMESTAMP, 6 ) );
+			$this->monitor->set_prod_gauge( 'page_latency', round( POWP_END_TIMESTAMP - POWS_START_TIMESTAMP, 6 ) );
 		}
 		if ( defined( 'POWP_START_TIMESTAMP' ) ) {
-			$this->monitor->set_dev_gauge( 'wp_latency', round( POWP_END_TIMESTAMP - POWP_START_TIMESTAMP, 6 ) );
+			$this->monitor->set_prod_gauge( 'wp_latency', round( POWP_END_TIMESTAMP - POWP_START_TIMESTAMP, 6 ) );
 		}
 		if ( defined( 'POWS_START_TIMESTAMP' ) && defined( 'POWP_START_TIMESTAMP' ) ) {
-			$this->monitor->set_dev_gauge( 'init_latency', round( POWP_START_TIMESTAMP - POWS_START_TIMESTAMP, 6 ) );
+			$this->monitor->set_prod_gauge( 'init_latency', round( POWP_START_TIMESTAMP - POWS_START_TIMESTAMP, 6 ) );
 		}
-		$this->monitor->set_dev_gauge( 'shutdown_latency', round( microtime( true ) - POWP_END_TIMESTAMP, 6 ) );
+		$this->monitor->set_prod_gauge( 'shutdown_latency', round( microtime( true ) - POWP_END_TIMESTAMP, 6 ) );
 	}
 
 	/**
