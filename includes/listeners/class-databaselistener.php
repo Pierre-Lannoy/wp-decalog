@@ -112,8 +112,8 @@ class DatabaseListener extends AbstractListener {
 		$this->monitor->create_dev_counter( 'query_duplicate', 'Number of duplicate queries per request - [count]' );
 		$this->monitor->create_dev_counter( 'query_slow', 'Number of slow queries per request - [count]' );
 		$this->monitor->create_dev_counter( 'query_total', 'Total number of queries per request - [count]' );
-		$this->monitor->create_dev_gauge( 'query_total_latency_avg', 0, 'Average execution time per query - [second]' );
-		$this->monitor->create_dev_gauge( 'query_total_latency_sum', 0, 'Execution time for all queries - [second]' );
+		$this->monitor->create_prod_gauge( 'query_total_latency_avg', 0, 'Average execution time per query - [second]' );
+		$this->monitor->create_prod_gauge( 'query_total_latency_sum', 0, 'Execution time for all queries - [second]' );
 		foreach ( $this->statements as $statement ) {
 			$idx = 'statement_' . str_replace( ' ', '', $statement );
 			$this->monitor->create_dev_counter( $idx, 'Number of `' . $statement . '` statements per request - [count]' );
@@ -287,8 +287,8 @@ class DatabaseListener extends AbstractListener {
 			}
 			if ( 0 < count( $total_latencies ) ) {
 				$sum = array_sum( $total_latencies );
-				$this->monitor->set_dev_gauge( 'query_total_latency_avg', $sum / count( $total_latencies ) );
-				$this->monitor->set_dev_gauge( 'query_total_latency_sum', $sum );
+				$this->monitor->set_prod_gauge( 'query_total_latency_avg', $sum / count( $total_latencies ) );
+				$this->monitor->set_prod_gauge( 'query_total_latency_sum', $sum );
 			}
 		}
 	}
