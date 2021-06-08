@@ -111,7 +111,7 @@ class DatabaseListener extends AbstractListener {
 		$this->monitor->create_dev_counter( 'query_success', 'Number of successful queries per request - [count]' );
 		$this->monitor->create_dev_counter( 'query_duplicate', 'Number of duplicate queries per request - [count]' );
 		$this->monitor->create_dev_counter( 'query_slow', 'Number of slow queries per request - [count]' );
-		$this->monitor->create_dev_counter( 'query_total', 'Total number of queries per request - [count]' );
+		$this->monitor->create_prod_counter( 'query_total', 'Total number of queries per request - [count]' );
 		$this->monitor->create_prod_gauge( 'query_total_latency_avg', 0, 'Average execution time per query - [second]' );
 		$this->monitor->create_prod_gauge( 'query_total_latency_sum', 0, 'Execution time for all queries - [second]' );
 		foreach ( $this->statements as $statement ) {
@@ -234,7 +234,7 @@ class DatabaseListener extends AbstractListener {
 		} else {
 			$qtotal = $this->fails;
 		}
-		$this->monitor->inc_dev_counter( 'query_total', $qtotal );
+		$this->monitor->inc_prod_counter( 'query_total', $qtotal );
 		$this->monitor->inc_dev_counter( 'query_success', $qtotal - $this->fails );
 		if ( isset( $wpdb->queries ) && is_array( $wpdb->queries ) ) {
 			$latencies  = [];
