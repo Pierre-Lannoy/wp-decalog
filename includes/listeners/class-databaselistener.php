@@ -117,7 +117,7 @@ class DatabaseListener extends AbstractListener {
 		foreach ( $this->statements as $statement ) {
 			$idx = 'statement_' . str_replace( ' ', '', $statement );
 			$this->monitor->create_dev_counter( $idx, 'Number of `' . $statement . '` statements per request - [count]' );
-			$this->monitor->create_dev_gauge( $idx . '_latency_avg', 0, 'Average execution time of `' . $statement . '` statements - [second]' );
+			$this->monitor->create_dev_gauge( $idx . '_latency_avg', 0, 'Average execution time of `' . $statement . '` statements per request - [second]' );
 		}
 		foreach ( $this->clauses as $clause ) {
 			$idx = 'clause_' . str_replace( ' ', '', $clause );
