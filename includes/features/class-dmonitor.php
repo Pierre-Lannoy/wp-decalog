@@ -165,7 +165,7 @@ class DMonitor {
 			$this->name             = DECALOG_PRODUCT_NAME;
 			$this->version          = DECALOG_VERSION;
 			foreach ( EventTypes::$levels as $key => $level ) {
-				$this->create_dev_counter( 'event_' . $key, 'Number of handled ' . $key . ' events - [count]' );
+				$this->create_dev_counter( 'event_' . $key, 'Number of handled ' . $key . ' events per request - [count]' );
 			}
 			$this->create_prod_counter( 'metric_prod', 'Number of handled `production` metrics - [count]' );
 			$this->create_dev_counter( 'metric_dev', 'Number of handled `development` metrics - [count]' );
