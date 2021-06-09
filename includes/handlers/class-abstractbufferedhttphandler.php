@@ -125,7 +125,7 @@ abstract class AbstractBufferedHTTPHandler extends AbstractProcessingHandler {
 		$this->buffer[] = $this->processRecord( $record );
 		if ( $this->buffered ) {
 			if ( ! $this->initialized ) {
-				add_action( 'shutdown', [ $this, 'close' ], DECALOG_MAX_SHUTDOWN_PRIORITY + 1, 0 );
+				add_action( 'shutdown', [ $this, 'close' ], DECALOG_MAX_SHUTDOWN_PRIORITY + 2, 0 );
 				$this->initialized = true;
 			}
 		} else {
