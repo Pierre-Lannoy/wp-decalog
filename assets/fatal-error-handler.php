@@ -105,6 +105,9 @@ class Decalog_Error_Handler extends \WP_Fatal_Error_Handler {
 		if ( ! defined( 'SAVEQUERIES' ) ) {
 			define( 'SAVEQUERIES', true );
 		}
+		if ( ! defined( 'DECALOG_MAX_SHUTDOWN_PRIORITY' ) ) {
+			define( 'DECALOG_MAX_SHUTDOWN_PRIORITY', PHP_INT_MAX - 1000 );
+		}
 	}
 
 	/**
