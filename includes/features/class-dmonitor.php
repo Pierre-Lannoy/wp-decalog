@@ -92,7 +92,7 @@ class DMonitor {
 	 * @var    array    $label_names    The names list.
 	 */
 	private $label_names = [
-		'prod' => [ 'environment' ],
+		'prod' => [ 'channel', 'environment' ],
 		'dev'  => [ 'channel', 'environment' ],
 	];
 
@@ -152,7 +152,7 @@ class DMonitor {
 				self::$development = new CollectorRegistry( new InMemory(), false );
 			}
 			$this->label_values = [
-				'prod' => [ $this->normalize_string( Environment::stage() ) ],
+				'prod' => [ $this->normalize_string( $this->current_channel_tag() ), $this->normalize_string( Environment::stage() ) ],
 				'dev'  => [ $this->normalize_string( $this->current_channel_tag() ), $this->normalize_string( Environment::stage() ) ],
 			];
 			self::$logger->debug( 'A new instance of DecaLog monitor is initialized and operational.' );
@@ -169,7 +169,7 @@ class DMonitor {
 			}
 			$this->create_prod_counter( 'metric_prod', 'Number of handled `production` metrics - [count]' );
 			$this->create_dev_counter( 'metric_dev', 'Number of handled `development` metrics - [count]' );
-			add_action( 'shutdown', [ $this, 'before_close' ], AbstractListener::$monitor_priority - 1, 0 );
+			add_action( 'shutdown', [ $this, 'before_close' ], AbstractListener::$monitor_priority + 1, 0 );
 			$this->class   = $class;
 			$this->name    = $name;
 			$this->version = $version;

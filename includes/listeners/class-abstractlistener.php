@@ -67,7 +67,7 @@ abstract class AbstractListener {
 	 * @since  3.0.0
 	 * @var    integer   $monitor_priority    The priority at which evaluate metrics.
 	 */
-	public static $monitor_priority = PHP_INT_MAX - 1000;
+	public static $monitor_priority = DECALOG_MAX_SHUTDOWN_PRIORITY + 750;
 
 	/**
 	 * The priority at which evaluate traces.
@@ -75,7 +75,7 @@ abstract class AbstractListener {
 	 * @since  3.0.0
 	 * @var    integer   $tracer_priority    The priority at which evaluate metrics.
 	 */
-	public static $tracer_priority = PHP_INT_MAX - 500;
+	public static $tracer_priority = DECALOG_MAX_SHUTDOWN_PRIORITY + 500;
 
 	/**
 	 * The listener id.

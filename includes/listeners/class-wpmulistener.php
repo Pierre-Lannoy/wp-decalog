@@ -103,15 +103,9 @@ class WpmuListener extends AbstractListener {
 	 * @since    2.4.0
 	 */
 	protected function launched() {
-		if ( Environment::exec_mode_for_metrics() ) {
-			$span = $this->tracer->start_span( 'Metrics collation' );
-		}
 		$this->monitor->create_prod_counter( 'site_total', 'Total number of sites' );
 		foreach ( $this->site_types as $type ) {
 			$this->monitor->create_prod_counter( 'site_' . $type, 'Number of ' . $type . ' sites - [count]' );
-		}
-		if ( Environment::exec_mode_for_metrics() ) {
-			$this->tracer->end_span( $span );
 		}
 	}
 
@@ -346,6 +340,7 @@ class WpmuListener extends AbstractListener {
 	 * @since    3.0.0
 	 */
 	public function monitoring_close() {
+		$span = $this->tracer->start_span( 'Metrics collation' );
 		if ( function_exists( 'get_sites' ) ) {
 			foreach ( get_sites() as $site ) {
 				$this->monitor->inc_prod_counter( 'site_total', 1 );
@@ -359,6 +354,7 @@ class WpmuListener extends AbstractListener {
 				}
 			}
 		}
+		$this->tracer->end_span( $span );
 	}
 
 }

@@ -11,6 +11,7 @@
 
 namespace Decalog\Handler;
 
+use Decalog\Listener\AbstractListener;
 use Decalog\Plugin\Feature\Log;
 use Decalog\System\Environment;
 use Decalog\System\Http;
@@ -108,7 +109,7 @@ abstract class AbstractMonitoringHandler extends AbstractProcessingHandler {
 		if ( ! in_array( $this->uuid, self::$running, true ) ) {
 			// phpcs:ignore
 			if ( $sampling >= mt_rand( 1, 1000 ) ) {
-				add_action( 'shutdown', [ $this, 'close' ], PHP_INT_MAX - 2, 0 );
+				add_action( 'shutdown', [ $this, 'close' ], AbstractListener::$monitor_priority + 2, 0 );
 			}
 			self::$running[] = $this->uuid;
 		}

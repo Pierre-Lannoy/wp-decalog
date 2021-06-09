@@ -143,6 +143,9 @@ function decalog_run() {
 	$plugin = new Decalog\Plugin\Core();
 	$plugin->run();
 }
+if ( ! defined( 'DECALOG_MAX_SHUTDOWN_PRIORITY' ) ) {
+	define( 'DECALOG_MAX_SHUTDOWN_PRIORITY', PHP_INT_MAX - 1000 );
+}
 register_activation_hook( __FILE__, 'decalog_activate' );
 register_deactivation_hook( __FILE__, 'decalog_deactivate' );
 register_uninstall_hook( __FILE__, 'decalog_uninstall' );

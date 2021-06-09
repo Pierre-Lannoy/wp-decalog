@@ -69,9 +69,6 @@ class WordfenceListener extends AbstractListener {
 	 * @since    2.4.0
 	 */
 	protected function launched() {
-		if ( Environment::exec_mode_for_metrics() ) {
-			$span = $this->tracer->start_span( 'Metrics collation' );
-		}
 		if ( class_exists( '\wfBlock' ) ) {
 			$this->monitor->create_prod_counter( 'block_duration_permanent', 'Number of permanent blocks - [count]' );
 			$this->monitor->create_prod_counter( 'block_duration_temporary', 'Number of current temporary blocks - [count]' );
@@ -87,9 +84,6 @@ class WordfenceListener extends AbstractListener {
 			$this->monitor->create_prod_counter( 'issue_new', 'Number of new issues - [count]' );
 			$this->monitor->create_prod_counter( 'issue_ignored', 'Number of ignored issues - [count]' );
 			$this->monitor->create_prod_counter( 'issue_other', 'Number of other issues - [count]' );
-		}
-		if ( Environment::exec_mode_for_metrics() ) {
-			$this->tracer->end_span( $span );
 		}
 	}
 
@@ -153,7 +147,8 @@ class WordfenceListener extends AbstractListener {
 	public function monitoring_close() {
 		global $wpdb;
 		if ( class_exists( '\wfBlock' ) ) {
-			$sql = 'SELECT `type`, `expiration` FROM `' . \wfBlock::blocksTable() . '`;';
+			$span = $this->tracer->start_span( 'Metrics collation' );
+			$sql  = 'SELECT `type`, `expiration` FROM `' . \wfBlock::blocksTable() . '`;';
 			//phpcs:ignore
 			$lines = $wpdb->get_results( $sql, ARRAY_A );
 			foreach ( $lines as $line ) {
@@ -188,9 +183,11 @@ class WordfenceListener extends AbstractListener {
 					}
 				}
 			}
+			$this->tracer->end_span( $span );
 		}
 		if ( class_exists( '\wfDB' ) ) {
-			$sql = 'SELECT `status`, `severity` FROM `' . \wfDB::networkTable('wfIssues') . '`;';
+			$span = $this->tracer->start_span( 'Metrics collation' );
+			$sql  = 'SELECT `status`, `severity` FROM `' . \wfDB::networkTable('wfIssues') . '`;';
 			//phpcs:ignore
 			$lines = $wpdb->get_results( $sql, ARRAY_A );
 			foreach ( $lines as $line ) {
@@ -205,6 +202,7 @@ class WordfenceListener extends AbstractListener {
 					}
 				}
 			}
+			$this->tracer->end_span( $span );
 		}
 	}
 }
