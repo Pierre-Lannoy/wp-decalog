@@ -11,6 +11,7 @@
 
 namespace Decalog\Handler;
 
+use Decalog\Listener\AbstractListener;
 use Decalog\Plugin\Feature\ChannelTypes;
 use Decalog\Plugin\Feature\DTracer;
 use Decalog\Plugin\Feature\Log;
@@ -158,7 +159,7 @@ abstract class AbstractTracingHandler extends AbstractProcessingHandler {
 		if ( ! in_array( $this->uuid, self::$running, true ) ) {
 			// phpcs:ignore
 			if ( $sampling >= mt_rand( 1, 1000 ) ) {
-				add_action( 'shutdown', [ $this, 'close' ], PHP_INT_MAX, 0 );
+				add_action( 'shutdown', [ $this, 'close' ], AbstractListener::$tracer_priority, 0 );
 				$loggers = Option::network_get( 'loggers' );
 				if ( array_key_exists( $this->uuid, $loggers ) ) {
 					if ( array_key_exists( 'privacy', $loggers[ $this->uuid ] ) ) {
@@ -321,7 +322,6 @@ abstract class AbstractTracingHandler extends AbstractProcessingHandler {
 		foreach ( $this->traces as $span ) {
 			$s = [
 				'type'      => 'web',
-				//'env'       => strtolower( Environment::stage() ),
 				'start'     => (int) ( $span['timestamp'] * 1000 ),
 				'duration'  => (int) ( $span['duration'] * 1000 ),
 				'parent_id' => (int) base_convert( $span['parentId'] ?? 0, 16, 10 ),
@@ -342,6 +342,13 @@ abstract class AbstractTracingHandler extends AbstractProcessingHandler {
 		return '[' . implode( ',', $spans ) . ']';
 	}
 
+	/**
+	 * Transform a flat span array to a hierarchical one..
+	 *
+	 * @param   array   $spans  The spans in a flat-array format.
+	 * @return  array  The hierarchic array of spans.
+	 * @since    3.0.0
+	 */
 	private function get_hierarchy( $spans ) {
 		$hierarchy = [];
 		foreach ( $spans as $span ) {
