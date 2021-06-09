@@ -62,7 +62,6 @@ class InfluxMonitoringHandler extends AbstractMonitoringHandler {
 			'bucket'    => $bucket,
 			'precision' => InfluxWritePrecision::MS,
 			'logFile'   => '/dev/null',
-			//'timeout'   => 1,
 		];
 	}
 
