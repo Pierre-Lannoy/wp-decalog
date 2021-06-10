@@ -34,6 +34,7 @@ class APCuStorage extends AbstractStorage {
 	 * @since    3.0.0
 	 */
 	public function __construct( $name ) {
+		Cache::init();
 		parent::__construct( $name );
 		$this->bucket_name = str_replace( 'decalog_', 'storage_', $this->bucket_name );
 	}

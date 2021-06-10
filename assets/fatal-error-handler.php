@@ -13,6 +13,7 @@ if ( ! defined( 'DECALOG_BOOTSTRAPPED' ) ) {
 
 $dclg_btsrp = [];
 
+
 /**
  * Bootstrap handler for DecaLog.
  *

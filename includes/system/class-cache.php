@@ -678,3 +678,5 @@ class Cache {
 	}
 
 }
+
+\Decalog\System\Cache::init();
