@@ -81,6 +81,9 @@ class Core {
 		add_shortcode( 'decalog-changelog', [ $updater, 'sc_get_changelog' ] );
 		add_shortcode( 'decalog-libraries', [ $libraries, 'sc_get_list' ] );
 		add_shortcode( 'decalog-statistics', [ 'Decalog\System\Statistics', 'sc_get_raw' ] );
+		add_shortcode( 'decalog-help-logging', [ 'Decalog\Plugin\Feature\InlineHelp', 'sc_get_logging' ] );
+		add_shortcode( 'decalog-help-monitoring', [ 'Decalog\Plugin\Feature\InlineHelp', 'sc_get_monitoring' ] );
+		add_shortcode( 'decalog-help-tracing', [ 'Decalog\Plugin\Feature\InlineHelp', 'sc_get_tracing' ] );
 		if ( ! wp_next_scheduled( DECALOG_CRON_NAME ) ) {
 			wp_schedule_event( time(), 'hourly', DECALOG_CRON_NAME );
 		}

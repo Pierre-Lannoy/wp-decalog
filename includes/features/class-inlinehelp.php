@@ -13,6 +13,7 @@ namespace Decalog\Plugin\Feature;
 
 use Decalog\System\Environment;
 use Decalog\System\L10n;
+use Decalog\System\Markdown;
 use Decalog\System\Role;
 
 /**
@@ -148,7 +149,7 @@ class InlineHelp {
 	 * @since    1.2.0
 	 */
 	private function get_admin_rights_content() {
-		$content = '';
+		$content  = '';
 		$content  = '<p>' . esc_html__( 'Because your site takes part in a sites network, admin ability to view and configure logs differ as follows:', 'decalog' ) . '</p>';
 		$content .= '<p><strong>' . esc_html_x( 'Network Admin', 'WordPress multisite', 'decalog' ) . '</strong> &mdash; ' . esc_html__( 'Can set loggers, can view all items in all WordPress logs.', 'decalog' ) . ( Role::SUPER_ADMIN === Role::admin_type() ? ' <strong><em>' . esc_html__( 'That\'s your current role.', 'decalog' ) . '</em></strong>' : '' ) . '</p>';
 		$content .= '<p><strong>' . esc_html_x( 'Sites Admin', 'WordPress multisite', 'decalog' ) . '</strong> &mdash; ' . esc_html__( 'Can\'t set loggers, can only view items regarding their own sites in all authorized WordPress logs.', 'decalog' ) . ( Role::LOCAL_ADMIN === Role::admin_type() ? ' <strong><em>' . esc_html__( 'That\'s your current role.', 'decalog' ) . '</em></strong>' : '' ) . '</p>';
@@ -470,6 +471,45 @@ class InlineHelp {
 			return;
 		}
 		$this->set_contextual_viewer_main();
+	}
+
+	/**
+	 * Get the logging description.
+	 *
+	 * @param   array $attributes  'style' => 'markdown', 'html'.
+	 *                             'mode'  => 'raw', 'clean'.
+	 * @return  string  The output of the shortcode, ready to print.
+	 * @since 1.0.0
+	 */
+	public function sc_get_logging( $attributes ) {
+		$md = new Markdown();
+		return $md->get_shortcode( 'LOGGING.md', $attributes );
+	}
+
+	/**
+	 * Get the monitoring description.
+	 *
+	 * @param   array $attributes  'style' => 'markdown', 'html'.
+	 *                             'mode'  => 'raw', 'clean'.
+	 * @return  string  The output of the shortcode, ready to print.
+	 * @since 1.0.0
+	 */
+	public function sc_get_monitoring( $attributes ) {
+		$md = new Markdown();
+		return $md->get_shortcode( 'MONITORING.md', $attributes );
+	}
+
+	/**
+	 * Get the tracing description.
+	 *
+	 * @param   array $attributes  'style' => 'markdown', 'html'.
+	 *                             'mode'  => 'raw', 'clean'.
+	 * @return  string  The output of the shortcode, ready to print.
+	 * @since 1.0.0
+	 */
+	public function sc_get_tracing( $attributes ) {
+		$md = new Markdown();
+		return $md->get_shortcode( 'TRACING.md', $attributes );
 	}
 
 }
