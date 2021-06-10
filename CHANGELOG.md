@@ -28,6 +28,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - [WP-CLI] New command to list self registered components: see `wp help log selfreg` for details.
 - [WP-CLI] New command to activate/deactivate endpoint authentication: see `wp help settings` for details.
 - [BC] The version of DecaLog API is now `v3`.
+- Deactivating or deleting DecaLog now removes MU-plugin and dropin function.
 
 ### Changed
 - Redesigned loggers list.

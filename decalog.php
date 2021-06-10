@@ -39,33 +39,6 @@ require_once __DIR__ . '/includes/libraries/guzzlehttp/Psr7/functions_include.ph
 require_once __DIR__ . '/includes/libraries/guzzlehttp/functions_include.php';
 
 /**
- * The code that runs during plugin activation.
- *
- * @since 1.0.0
- */
-function decalog_activate() {
-	Decalog\Plugin\Activator::activate();
-}
-
-/**
- * The code that runs during plugin deactivation.
- *
- * @since 1.0.0
- */
-function decalog_deactivate() {
-	Decalog\Plugin\Deactivator::deactivate();
-}
-
-/**
- * The code that runs during plugin uninstallation.
- *
- * @since 1.0.0
- */
-function decalog_uninstall() {
-	Decalog\Plugin\Uninstaller::uninstall();
-}
-
-/**
  * Copy the file responsible to early initialization in mu-plugins and drop-ins dir.
  *
  * @since 2.4.0
@@ -130,6 +103,56 @@ function decalog_check_earlyloading() {
 			}
 		}
 	}
+}
+
+/**
+ * Removes the file responsible to early initialization in mu-plugins and drop-ins dir.
+ *
+ * @since 3.0.0
+ */
+function decalog_reset_earlyloading() {
+	$target = WPMU_PLUGIN_DIR . '/_decalog_loader.php';
+	if ( file_exists( $target ) ) {
+		// phpcs:ignore
+		@unlink( $target );
+	}
+	if ( defined( 'DECALOG_BOOTSTRAPPED' ) ) {
+		$target = WP_CONTENT_DIR . '/fatal-error-handler.php';
+		if ( file_exists( $target ) ) {
+			// phpcs:ignore
+			@unlink( $target );
+		}
+	}
+}
+
+/**
+ * The code that runs during plugin activation.
+ *
+ * @since 1.0.0
+ */
+function decalog_activate() {
+	decalog_reset_earlyloading();
+	Decalog\Plugin\Activator::activate();
+}
+
+/**
+ * The code that runs during plugin deactivation.
+ *
+ * @since 1.0.0
+ */
+function decalog_deactivate() {
+	decalog_reset_earlyloading();
+	Decalog\Plugin\Deactivator::deactivate();
+}
+
+/**
+ * The code that runs during plugin uninstallation.
+ *
+ * @since 1.0.0
+ */
+function decalog_uninstall() {
+	decalog_reset_earlyloading();
+	Decalog\Plugin\Uninstaller::uninstall();
 }
 
 /**
