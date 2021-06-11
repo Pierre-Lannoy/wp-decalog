@@ -289,8 +289,13 @@ class Decalog_Admin {
 	 * @since 1.2.0
 	 */
 	public function blog_action( $actions, $user_blog ) {
-		if ( Role::override_privileges() || Role::SUPER_ADMIN === Role::admin_type() || Role::LOCAL_ADMIN === Role::admin_type() && Events::loggers_count() > 0 ) {
-			$actions .= " | <a href='" . esc_url( admin_url( 'admin.php?page=decalog-viewer&site_id=' . $user_blog->userblog_id ) ) . "'>" . __( 'Events log', 'decalog' ) . '</a>';
+		if ( Role::override_privileges() || Role::SUPER_ADMIN === Role::admin_type() || Role::LOCAL_ADMIN === Role::admin_type() ) {
+			if ( Events::loggers_count() > 0 ) {
+				$actions .= " | <a href='" . esc_url( admin_url( 'admin.php?page=decalog-viewer&site_id=' . $user_blog->userblog_id ) ) . "'>" . __( 'Events', 'decalog' ) . '</a>';
+			}
+			if ( Traces::loggers_count() > 0 ) {
+				$actions .= " | <a href='" . esc_url( admin_url( 'admin.php?page=decalog-tviewer&site_id=' . $user_blog->userblog_id ) ) . "'>" . __( 'Traces', 'decalog' ) . '</a>';
+			}
 		}
 		return $actions;
 	}
@@ -306,8 +311,13 @@ class Decalog_Admin {
 	 * @since 1.2.0
 	 */
 	public function site_action( $actions, $blog_id, $blogname ) {
-		if ( Role::override_privileges() || Role::SUPER_ADMIN === Role::admin_type() || Role::LOCAL_ADMIN === Role::admin_type() && Events::loggers_count() > 0 ) {
-			$actions['events_log'] = "<a href='" . esc_url( admin_url( 'admin.php?page=decalog-viewer&site_id=' . $blog_id ) ) . "' rel='bookmark'>" . __( 'Events log', 'decalog' ) . '</a>';
+		if ( Role::override_privileges() || Role::SUPER_ADMIN === Role::admin_type() || Role::LOCAL_ADMIN === Role::admin_type() ) {
+			if ( Events::loggers_count() > 0 ) {
+				$actions['events_log'] = "<a href='" . esc_url( admin_url( 'admin.php?page=decalog-viewer&site_id=' . $blog_id ) ) . "' rel='bookmark'>" . __( 'Events', 'decalog' ) . '</a>';
+			}
+			if ( Traces::loggers_count() > 0 ) {
+				$actions['traces_log'] = "<a href='" . esc_url( admin_url( 'admin.php?page=decalog-tviewer&site_id=' . $blog_id ) ) . "' rel='bookmark'>" . __( 'traces', 'decalog' ) . '</a>';
+			}
 		}
 		return $actions;
 	}
@@ -345,7 +355,10 @@ class Decalog_Admin {
 	public function add_actions_links( $actions, $plugin_file, $plugin_data, $context ) {
 		$actions[] = sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=decalog-settings' ), esc_html__( 'Settings', 'decalog' ) );
 		if ( Events::loggers_count() > 0 ) {
-			$actions[] = sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=decalog-viewer' ), esc_html__( 'Events Logs', 'decalog' ) );
+			$actions[] = sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=decalog-viewer' ), esc_html__( 'Events', 'decalog' ) );
+		}
+		if ( Traces::loggers_count() > 0 ) {
+			$actions[] = sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=decalog-tviewer' ), esc_html__( 'Traces', 'decalog' ) );
 		}
 		return $actions;
 	}
