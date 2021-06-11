@@ -1,0 +1,1 @@
+[DecaLog](https://perfops.one/decalog) have the ability to log WordPress traces.
