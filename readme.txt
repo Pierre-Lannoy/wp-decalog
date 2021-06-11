@@ -100,6 +100,12 @@ Please, see [full changelog](https://perfops.one/decalog-changelog).
 
 == Screenshots ==
 
-1. Set Loggers
-2. Internal Viewer
-3. Event Details in Internal Viewer
+1. Running Loggers List
+2. Available Loggers Types
+3. WordPress Events Log
+4. Event Details in Internal Viewer
+5. WordPress Traces List
+6. Trace Details in Internal Viewer
+7. Live Events In-browser Console
+8. Events & Traces Seen in Grafana
+ç. Metrics Seen in InfluxDB
