@@ -49,6 +49,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - [WP-CLI] Typos in inline help.
 - Messages may be wrongly truncated in live console.
 - Detecting database version on WordPress prior to 5.5 generates an error (thanks to [Sébastien Gastard](https://profiles.wordpress.org/sgastard/)).
+- Saving a page from the Divi builder may trigger an error when W3 Total Cache is activated.
 
 ## [2.4.2] - 2021-03-01
 

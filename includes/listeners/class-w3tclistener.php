@@ -73,15 +73,15 @@ class W3tcListener extends AbstractListener {
 		add_action( 'w3tc_cdn_purge_all_after', [ $this, 'w3tc_cdn_purge_all_after' ], 10, 0 );
 		add_action( 'w3tc_cdn_purge_files', [ $this, 'w3tc_cdn_purge_files' ], 10, 1 );
 		add_action( 'w3tc_cdn_purge_files_after', [ $this, 'w3tc_cdn_purge_files_after' ], 10, 1 );
-		add_action( 'w3tc_flush_all', [ $this, 'w3tc_flush_all' ], 10, 1 );
-		add_action( 'w3tc_flush_url', [ $this, 'w3tc_flush_url' ], 10, 2 );
-		add_action( 'w3tc_flush_group', [ $this, 'w3tc_flush_group' ], 10, 2 );
-		add_action( 'w3tc_config_save', [ $this, 'w3tc_config_save' ], 10, 1 );
-		add_action( 'w3tc_saved_options', [ $this, 'w3tc_config_save' ], 10, 1 );
+		add_action( 'w3tc_flush_all', [ $this, 'w3tc_flush_all' ], 10, 0 );
+		add_action( 'w3tc_flush_url', [ $this, 'w3tc_flush_url' ], 10, 1 );
+		add_action( 'w3tc_flush_group', [ $this, 'w3tc_flush_group' ], 10, 1 );
+		add_action( 'w3tc_config_save', [ $this, 'w3tc_config_save' ], 10, 0 );
+		add_action( 'w3tc_saved_options', [ $this, 'w3tc_config_save' ], 10, 0 );
 		add_action( 'w3tc_redirect', [ $this, 'w3tc_redirect' ], 10, 0 );
 		add_action( 'w3tc_register_fragment_groups', [ $this, 'w3tc_register_fragment_groups' ], 10, 0 );
-		add_action( 'w3tc_flush_post', [ $this, 'w3tc_flush_post' ], 10, 2 );
-		add_action( 'w3tc_flush_posts', [ $this, 'w3tc_flush_posts' ], 10, 1 );
+		add_action( 'w3tc_flush_post', [ $this, 'w3tc_flush_post' ], 10, 1 );
+		add_action( 'w3tc_flush_posts', [ $this, 'w3tc_flush_posts' ], 10, 0 );
 		//add_filter( 'w3tc_usage_statistics_metric_values', [ $this, 'w3tc_usage_statistics_metric_values' ], PHP_INT_MAX - 2000, 1 );
 		return true;
 	}
@@ -240,7 +240,7 @@ class W3tcListener extends AbstractListener {
 	 *
 	 * @since    1.6.0
 	 */
-	public function w3tc_flush_group( $group, $extra ) {
+	public function w3tc_flush_group( $group ) {
 		if ( ! is_string( $group ) ) {
 			$group = 'unknown';
 		}
@@ -252,7 +252,7 @@ class W3tcListener extends AbstractListener {
 	 *
 	 * @since    1.6.0
 	 */
-	public function w3tc_flush_url( $url, $extra ) {
+	public function w3tc_flush_url( $url ) {
 		if ( ! is_string( $url ) ) {
 			$group = 'unknown';
 		}
@@ -264,7 +264,7 @@ class W3tcListener extends AbstractListener {
 	 *
 	 * @since    1.6.0
 	 */
-	public function w3tc_flush_all( $extra ) {
+	public function w3tc_flush_all() {
 		$this->logger->notice( 'Full cache flush.' );
 	}
 
@@ -273,7 +273,7 @@ class W3tcListener extends AbstractListener {
 	 *
 	 * @since    1.6.0
 	 */
-	public function w3tc_config_save( $extra ) {
+	public function w3tc_config_save() {
 		$this->logger->info( 'Settings saved.' );
 	}
 
@@ -300,7 +300,7 @@ class W3tcListener extends AbstractListener {
 	 *
 	 * @since    1.6.0
 	 */
-	public function w3tc_flush_post( $postid, $extra ) {
+	public function w3tc_flush_post( $postid ) {
 		if ( is_array( $postid ) ) {
 			foreach ( $postid as $id ) {
 				$this->logger->info( sprintf( 'File flushed: %s.', Post::get_post_string( $id ) ) );
@@ -316,7 +316,7 @@ class W3tcListener extends AbstractListener {
 	 *
 	 * @since    1.6.0
 	 */
-	public function w3tc_flush_posts( $extra ) {
+	public function w3tc_flush_posts() {
 		$this->logger->info( 'All files flushed.' );
 	}
 
