@@ -32,7 +32,7 @@ $official   = sprintf( esc_html__( 'This plugin is not an official software from
 
 
 ?>
-<h2><?php echo esc_html( DECALOG_PRODUCT_NAME . ' ' . DECALOG_VERSION ); ?></h2>
+<h2><?php echo esc_html( DECALOG_PRODUCT_NAME . ' ' . DECALOG_VERSION ); ?> / <a href="https://perfops.one">PerfOps One</a></h2>
 <?php echo $icon; ?>
 <?php echo $warning; ?>
 <p><?php echo $intro; ?></p>

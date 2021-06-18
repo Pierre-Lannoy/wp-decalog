@@ -374,8 +374,7 @@ class Decalog_Admin {
 	public function add_row_meta( $links, $file ) {
 		if ( 0 === strpos( $file, DECALOG_SLUG . '/' ) ) {
 			$links[] = '<a href="https://wordpress.org/support/plugin/' . DECALOG_SLUG . '/">' . __( 'Support', 'decalog' ) . '</a>';
-			$links[] = '<a href="https://decalog.io">' . __( 'Site', 'decalog' ) . '</a>';
-			$links[] = '<a href="https://github.com/Pierre-Lannoy/wp-decalog">' . __( 'GitHub repository', 'decalog' ) . '</a>';
+			$links[] = '<a href="https://perfops.one">PefOps One</a>';
 		}
 		return $links;
 	}

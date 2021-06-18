@@ -105,7 +105,7 @@ class InlineHelp {
 		$content  = '<p><strong>' . esc_html__( 'For more help:', 'decalog' ) . '</strong></p>';
 		$content .= '<p><a href="https://wordpress.org/support/plugin/decalog/">' . esc_html__( 'User support', 'decalog' ) . '</a>' . L10n::get_language_markup( [ 'en' ] ) . '</p>';
 		$content .= '<br/><p><strong>' . __( 'See also:', 'decalog' ) . '</strong></p>';
-		// $content .= '<p><a href="https://decalog.io/">' . esc_html__( 'Official website', 'decalog' ) . '</a>' . L10n::get_language_markup( [ 'en' ] ) . '</p>';
+		$content .= '<p><a href="https://perfops.one/">' . esc_html__( 'Official website', 'decalog' ) . '</a>' . L10n::get_language_markup( [ 'en' ] ) . '</p>';
 		$content .= '<p><a href="https://github.com/Pierre-Lannoy/wp-decalog">' . esc_html__( 'GitHub repository', 'decalog' ) . '</a>' . L10n::get_language_markup( [ 'en' ] ) . '</p>';
 		$this->screen->set_help_sidebar( $content );
 	}
