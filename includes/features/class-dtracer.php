@@ -232,6 +232,30 @@ class DTracer {
 	}
 
 	/**
+	 * Starts a span.
+	 *
+	 * @param   string  $name       The name of the span.
+	 * @param   string  $id         The id of the span.
+	 * @param   string  $parent_id  Optional. The id of the parent. If none, it will be linked to WP root id.
+	 * @return  string   Id of started span.
+	 * @since   3.0.0
+	 */
+	public function start_span_with_id( $name, $id, $parent_id = 'xxx' ) {
+		if ( ! array_key_exists( $parent_id, self::$traces_registry ) ) {
+			$parent_id = self::$wp_root_id;
+		} else {
+			$parent_id = self::$traces_registry[ $parent_id ]['id'];
+		}
+		$span                                 = $this->init_span();
+		$span['id']                           = $id;
+		$span['parentId']                     = $parent_id;
+		$span['name']                         = $span['name'] . $name;
+		$span['tags']                         = array_merge( $span['tags'], $this->introspection_data() );
+		self::$traces_registry[ $span['id'] ] = $span;
+		return $span['id'];
+	}
+
+	/**
 	 * Ends a span.
 	 *
 	 * @param   string  $id  The id of the span.
@@ -291,6 +315,27 @@ class DTracer {
 		if ( ! defined( 'POPL_START_TIMESTAMP' ) ) {
 			define( 'POPL_START_TIMESTAMP', microtime( true ) );
 		}
+		if ( ! defined( 'DECALOG_SPAN_MUPLUGINS_LOAD' ) ) {
+			define( 'DECALOG_SPAN_MUPLUGINS_LOAD', UUID::generate_unique_id( 8 ) );
+		}
+		if ( ! defined( 'DECALOG_SPAN_PLUGINS_LOAD' ) ) {
+			define( 'DECALOG_SPAN_PLUGINS_LOAD', UUID::generate_unique_id( 8 ) );
+		}
+		if ( ! defined( 'DECALOG_SPAN_THEME_SETUP' ) ) {
+			define( 'DECALOG_SPAN_THEME_SETUP', UUID::generate_unique_id( 8 ) );
+		}
+		if ( ! defined( 'DECALOG_SPAN_USER_AUTHENTICATION' ) ) {
+			define( 'DECALOG_SPAN_USER_AUTHENTICATION', UUID::generate_unique_id( 8 ) );
+		}
+		if ( ! defined( 'DECALOG_SPAN_PLUGINS_INITIALIZATION' ) ) {
+			define( 'DECALOG_SPAN_PLUGINS_INITIALIZATION', UUID::generate_unique_id( 8 ) );
+		}
+		if ( ! defined( 'DECALOG_SPAN_MAIN_RUN' ) ) {
+			define( 'DECALOG_SPAN_MAIN_RUN', UUID::generate_unique_id( 8 ) );
+		}
+		if ( ! defined( 'DECALOG_SPAN_SHUTDOWN' ) ) {
+			define( 'DECALOG_SPAN_SHUTDOWN', UUID::generate_unique_id( 8 ) );
+		}
 		// Root
 		$root                                 = $this->init_span();
 		$root['name']                         = 'CALL:' . $this->channel_tag( Environment::exec_mode() );
@@ -328,19 +373,21 @@ class DTracer {
 		self::$traces_registry['WPFL']        = $wpfl;
 		// WordPress load
 		$wpl                                 = $this->init_span();
+		$wpl['id']                           = DECALOG_SPAN_MUPLUGINS_LOAD;
 		$wpl['parentId']                     = $wpfl['id'];
 		$wpl['name']                         = 'WordPress / Core & MU-Plugins Load';
 		$wpl['localEndpoint']['serviceName'] = 'Core';
 		$wpl['timestamp']                    = (int) ( 1000000 * POWP_START_TIMESTAMP );
 		$wpl['duration']                     = (int) ( 1000000 * ( POMU_END_TIMESTAMP - POWP_START_TIMESTAMP ) );
-		self::$traces_registry['WPL']        = $wpl;
+		self::$traces_registry[ $wpl['id'] ] = $wpl;
 		// Plugins load
 		$wpl                                 = $this->init_span();
+		$wpl['id']                           = DECALOG_SPAN_PLUGINS_LOAD;
 		$wpl['parentId']                     = $wpfl['id'];
 		$wpl['name']                         = 'WordPress / Plugins Load';
 		$wpl['localEndpoint']['serviceName'] = 'Core';
 		$wpl['timestamp']                    = (int) ( 1000000 * POPL_START_TIMESTAMP );
-		self::$traces_registry['PLL']        = $wpl;
+		self::$traces_registry[ $wpl['id'] ] = $wpl;
 	}
 
 	/**
@@ -349,7 +396,7 @@ class DTracer {
 	 * @since   3.0.0
 	 */
 	public static function plugins_loaded() {
-		self::$traces_registry['PLL']['duration'] = (int) ( ( 1000000 * microtime( true ) ) - self::$traces_registry['PLL']['timestamp'] );
+		self::$traces_registry[ DECALOG_SPAN_PLUGINS_LOAD ]['duration'] = (int) ( ( 1000000 * microtime( true ) ) - self::$traces_registry[ DECALOG_SPAN_PLUGINS_LOAD ]['timestamp'] );
 	}
 
 	/**

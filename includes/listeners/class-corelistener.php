@@ -200,7 +200,7 @@ class CoreListener extends AbstractListener {
 	 * @since    2.4.0
 	 */
 	protected function launched() {
-		$span = $this->tracer->start_span( 'Metrics collation' );
+		$span = $this->tracer->start_span( 'Metrics collation', DECALOG_SPAN_PLUGINS_LOAD );
 		if ( 1 !== Environment::exec_mode() ) {
 			$this->monitor->create_prod_gauge( 'page_latency', 0, 'Execution time for full page rendering - [second]' );
 			$this->monitor->create_prod_gauge( 'wp_latency', 0, 'Execution time for WordPress page rendering - [second]' );
@@ -1533,7 +1533,7 @@ class CoreListener extends AbstractListener {
 		if ( ! $this->is_available() ) {
 			return;
 		}
-		$span = $this->tracer->start_span( 'Metrics collation' );
+		$span = $this->tracer->start_span( 'Metrics collation', DECALOG_SPAN_SHUTDOWN );
 		if ( 1 !== Environment::exec_mode() ) {
 			$this->time_close();
 		}
@@ -1551,7 +1551,7 @@ class CoreListener extends AbstractListener {
 	 */
 	public function trace_loaded_end() {
 		$this->tracer->end_span( 'WPFL' );
-		$this->hooks['run'] = $this->tracer->start_span( 'Run' );
+		$this->hooks['run'] = $this->tracer->start_span_with_id( 'Run', DECALOG_SPAN_MAIN_RUN );
 		if ( 8 === Environment::exec_mode() ) {
 			$this->hooks['wp_object'] = $this->tracer->start_span( 'WP Object Setup', $this->hooks['run'] );
 		}
@@ -1581,7 +1581,7 @@ class CoreListener extends AbstractListener {
 		if ( array_key_exists( 'render', $this->hooks ) ) {
 			$this->tracer->end_span( $this->hooks['render'] );
 		}
-		$this->tracer->start_span( 'Shutdown' );
+		$this->tracer->start_span_with_id( 'Shutdown', DECALOG_SPAN_SHUTDOWN );
 	}
 
 	/**
@@ -1590,7 +1590,7 @@ class CoreListener extends AbstractListener {
 	 * @since    3.0.0
 	 */
 	public function trace_setup_theme_start() {
-		$this->hooks['setup_theme'] = $this->tracer->start_span( 'Theme Setup', 'WPFL' );
+		$this->hooks['setup_theme'] = $this->tracer->start_span_with_id( 'Theme Setup', DECALOG_SPAN_THEME_SETUP, 'WPFL' );
 	}
 
 	/**
@@ -1599,7 +1599,7 @@ class CoreListener extends AbstractListener {
 	 * @since    3.0.0
 	 */
 	public function trace_setup_theme_end() {
-		$this->hooks['authent'] = $this->tracer->start_span( 'User Authentication', 'WPFL' );
+		$this->hooks['authent'] = $this->tracer->start_span_with_id( 'User Authentication', DECALOG_SPAN_USER_AUTHENTICATION, 'WPFL' );
 		if ( array_key_exists( 'setup_theme', $this->hooks ) ) {
 			$this->tracer->end_span( $this->hooks['setup_theme'] );
 		}
@@ -1614,7 +1614,7 @@ class CoreListener extends AbstractListener {
 		if ( array_key_exists( 'authent', $this->hooks ) ) {
 			$this->tracer->end_span( $this->hooks['authent'] );
 		}
-		$this->hooks['init'] = $this->tracer->start_span( 'Plugins Initialization', 'WPFL' );
+		$this->hooks['init'] = $this->tracer->start_span_with_id( 'Plugins Initialization', DECALOG_SPAN_PLUGINS_INITIALIZATION, 'WPFL' );
 	}
 
 	/**

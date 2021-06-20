@@ -150,7 +150,7 @@ class WordfenceListener extends AbstractListener {
 		}
 		global $wpdb;
 		if ( class_exists( '\wfBlock' ) ) {
-			$span = $this->tracer->start_span( 'Metrics collation' );
+			$span = $this->tracer->start_span( 'Metrics collation', DECALOG_SPAN_SHUTDOWN );
 			$sql  = 'SELECT `type`, `expiration` FROM `' . \wfBlock::blocksTable() . '`;';
 			//phpcs:ignore
 			$lines = $wpdb->get_results( $sql, ARRAY_A );
@@ -189,7 +189,7 @@ class WordfenceListener extends AbstractListener {
 			$this->tracer->end_span( $span );
 		}
 		if ( class_exists( '\wfDB' ) ) {
-			$span = $this->tracer->start_span( 'Metrics collation' );
+			$span = $this->tracer->start_span( 'Metrics collation', DECALOG_SPAN_SHUTDOWN );
 			$sql  = 'SELECT `status`, `severity` FROM `' . \wfDB::networkTable('wfIssues') . '`;';
 			//phpcs:ignore
 			$lines = $wpdb->get_results( $sql, ARRAY_A );

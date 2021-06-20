@@ -343,7 +343,7 @@ class WpmuListener extends AbstractListener {
 		if ( ! $this->is_available() ) {
 			return;
 		}
-		$span = $this->tracer->start_span( 'Metrics collation' );
+		$span = $this->tracer->start_span( 'Metrics collation', DECALOG_SPAN_SHUTDOWN );
 		if ( function_exists( 'get_sites' ) ) {
 			foreach ( get_sites() as $site ) {
 				$this->monitor->inc_prod_counter( 'site_total', 1 );
