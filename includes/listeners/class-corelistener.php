@@ -201,10 +201,12 @@ class CoreListener extends AbstractListener {
 	 */
 	protected function launched() {
 		$span = $this->tracer->start_span( 'Metrics collation' );
-		$this->monitor->create_prod_gauge( 'page_latency', 0, 'Execution time for full page rendering - [second]' );
-		$this->monitor->create_prod_gauge( 'wp_latency', 0, 'Execution time for WordPress page rendering - [second]' );
-		$this->monitor->create_prod_gauge( 'init_latency', 0, 'Execution time for initialization sequence - [second]' );
-		$this->monitor->create_prod_gauge( 'shutdown_latency', 0, 'Execution time for shutdown sequence - [second]' );
+		if ( 1 !== Environment::exec_mode() ) {
+			$this->monitor->create_prod_gauge( 'page_latency', 0, 'Execution time for full page rendering - [second]' );
+			$this->monitor->create_prod_gauge( 'wp_latency', 0, 'Execution time for WordPress page rendering - [second]' );
+			$this->monitor->create_prod_gauge( 'init_latency', 0, 'Execution time for initialization sequence - [second]' );
+			$this->monitor->create_prod_gauge( 'shutdown_latency', 0, 'Execution time for shutdown sequence - [second]' );
+		}
 		$this->monitor->create_prod_counter( 'plugin_active', 'Number of active plugins - [count]' );
 		$this->monitor->create_prod_counter( 'plugin_inactive', 'Number of inactive plugins - [count]' );
 		$this->monitor->create_prod_counter( 'plugin_updatable', 'Number of plugins needing update - [count]' );
@@ -1532,7 +1534,9 @@ class CoreListener extends AbstractListener {
 			return;
 		}
 		$span = $this->tracer->start_span( 'Metrics collation' );
-		$this->time_close();
+		if ( 1 !== Environment::exec_mode() ) {
+			$this->time_close();
+		}
 		$this->user_close();
 		$this->post_close();
 		$this->comment_close();
