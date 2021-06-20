@@ -1513,9 +1513,9 @@ class Wpcli {
 				}
 				break;
 			case 'dump':
-				ListenerFactory::force_monitoring_close();
 				$monitor = new DMonitor( 'plugin', DECALOG_PRODUCT_NAME, DECALOG_VERSION );
 				$monitor->before_close();
+				ListenerFactory::force_monitoring_close();
 				$production  = $monitor->prod_registry()->getMetricFamilySamples();
 				$development = $monitor->dev_registry()->getMetricFamilySamples();
 				$result      = [];
@@ -1581,8 +1581,9 @@ class Wpcli {
 				}
 				break;
 			case 'get':
+				$monitor = new DMonitor( 'plugin', DECALOG_PRODUCT_NAME, DECALOG_VERSION );
+				$monitor->before_close();
 				ListenerFactory::force_monitoring_close();
-				$monitor     = new DMonitor( 'plugin', DECALOG_PRODUCT_NAME, DECALOG_VERSION );
 				$production  = $monitor->prod_registry()->getMetricFamilySamples();
 				$development = $monitor->dev_registry()->getMetricFamilySamples();
 				foreach ( array_merge( $production, $development ) as $metrics ) {
