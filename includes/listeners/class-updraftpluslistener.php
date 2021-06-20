@@ -97,6 +97,9 @@ class UpdraftplusListener extends AbstractListener {
 	 * @since    3.0.0
 	 */
 	public function monitoring_close() {
+		if ( ! $this->is_available() ) {
+			return;
+		}
 		// No monitors to finalize.
 	}
 }

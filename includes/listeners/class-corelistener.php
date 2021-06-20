@@ -1528,6 +1528,9 @@ class CoreListener extends AbstractListener {
 	 * @since    3.0.0
 	 */
 	public function monitoring_close() {
+		if ( ! $this->is_available() ) {
+			return;
+		}
 		$span = $this->tracer->start_span( 'Metrics collation' );
 		$this->time_close();
 		$this->user_close();

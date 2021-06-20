@@ -340,6 +340,9 @@ class WpmuListener extends AbstractListener {
 	 * @since    3.0.0
 	 */
 	public function monitoring_close() {
+		if ( ! $this->is_available() ) {
+			return;
+		}
 		$span = $this->tracer->start_span( 'Metrics collation' );
 		if ( function_exists( 'get_sites' ) ) {
 			foreach ( get_sites() as $site ) {

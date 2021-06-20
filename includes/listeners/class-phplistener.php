@@ -405,6 +405,9 @@ class PhpListener extends AbstractListener {
 	 * @since    3.0.0
 	 */
 	public function monitoring_close() {
+		if ( ! $this->is_available() ) {
+			return;
+		}
 		if ( defined( 'POWP_START_TIMESTAMP' ) ) {
 			$this->monitor->set_dev_gauge( 'execution_latency', microtime( true ) - POWP_START_TIMESTAMP );
 		}

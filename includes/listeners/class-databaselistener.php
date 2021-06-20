@@ -332,6 +332,9 @@ class DatabaseListener extends AbstractListener {
 	 * @since    3.0.0
 	 */
 	public function monitoring_close() {
+		if ( ! $this->is_available() ) {
+			return;
+		}
 		$this->query_monitoring_close();
 		$this->db_monitoring_close();
 	}
