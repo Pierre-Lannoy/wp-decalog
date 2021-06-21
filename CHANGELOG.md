@@ -16,7 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - DecaLog now collects extended traces for WordPress core and plugins / themes using [WordPress DecaLog SDK](https://decalog.io).
 - New logger to send events to Datadog.
 - New logger to send metrics to a Prometheus instance (via Pushgateway).
-- New logger to publish metrics as endpoint for Prometheus scrapping.
+- New logger to publish metrics as endpoint for Prometheus polling.
 - New logger to send metrics to InfluxDB Cloud or on-premise InfluxDB 2 instance or cluster.
 - New logger to send metrics to Datadog via Datadog agent.
 - New logger to send traces to a Jaeger collector.
