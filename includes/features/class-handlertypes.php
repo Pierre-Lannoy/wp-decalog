@@ -718,7 +718,7 @@ class HandlerTypes {
 			'class'         => 'metrics',
 			'minimal'       => Logger::EMERGENCY,
 			'name'          => 'Prometheus Endpoint',
-			'help'          => esc_html__( 'Metrics published on this site as scrapping endpoint.', 'decalog' ),
+			'help'          => esc_html__( 'Metrics published on this site as polling endpoint.', 'decalog' ),
 			'icon'          => $this->get_base64_prometheus_icon(),
 			'needs'         => [],
 			'params'        => [],
