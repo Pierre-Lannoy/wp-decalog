@@ -12,6 +12,7 @@ A ___metric___ is composed of:
 - A __numerical value__ (an `int` or a `float`), which is the actual value of the ___metric___ at the time it is collected.
 - Some __labels__, that are automatically filled by DecaLog and represent the context in which metric is collated.
 
+## Metrics' profiles
 A ___metric___ belongs to a profile. DecaLog uses two profiles: "production" and "development". As their names may suggest, the "production" profile may be used for permanent observability whereas the "development" profile is only really useful during the debugging phases. However, it is possible - and common practice - to use a "development" profile on a production platform.
 
 ## Conventions
