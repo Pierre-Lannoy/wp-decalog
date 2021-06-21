@@ -1419,7 +1419,7 @@ class Wpcli {
 	}
 
 	/**
-	 * Get information on collected metrics.
+	 * Get information on collated metrics.
 	 *
 	 * ## OPTIONS
 	 *
@@ -1462,13 +1462,16 @@ class Wpcli {
 	 *
 	 * ## EXAMPLES
 	 *
-	 * Lists currently collected metrics:
+	 * Lists currently collated metrics:
 	 * + wp log metrics list
 	 * + wp log metrics list --format=json
 	 *
 	 * Dumps current metrics value:
 	 * + wp log metrics dump
 	 * + wp log metrics dump --format=yaml
+	 *
+	 * Get the value of a specific metrics to use in a script
+	 * + wp log metrics get wordpress_php_php_execution_latency --stdout
 	 *
 	 *
 	 *   === For other examples and recipes, visit https://github.com/Pierre-Lannoy/wp-decalog/blob/master/WP-CLI.md ===
