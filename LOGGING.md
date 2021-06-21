@@ -39,4 +39,5 @@ The code `0` means: "unknown", "not significant" or "not an error".
 The first 30-40 characters of the message allow the user to understand, at a glance, what the message is.
 
 ![Typical events sent by DecaLog and visualized in Datadog](https://perfops.one/assets/images/events-example.jpg "Typical events sent by DecaLog and visualized in Datadog")
+
 _Typical events sent by DecaLog and visualized in Datadog_

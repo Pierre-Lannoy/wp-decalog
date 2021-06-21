@@ -14,4 +14,5 @@ Each __trace__ contains a list of __spans__ which are mainly composed of:
 All fields, times and tags/labels are handled and automatically set by DecaLog.
 
 ![Typical trace sent by DecaLog and visualized in Grafana](https://perfops.one/assets/images/traces-example.jpg "Typical trace sent by DecaLog and visualized in Grafana")
+
 _Typical trace sent by DecaLog and visualized in Grafana_

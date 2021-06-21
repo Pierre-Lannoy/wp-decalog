@@ -40,4 +40,5 @@ A definition may contain any character as long as it is properly escaped. A defi
 The units must be, to the extent possible, the base unit. It is a best practise too to avoid prefixes (K, M, G, etc.). It is therefore quite common to use units such as `[byte]`, `[second]`, `[percent]` or `[count]` for example.
 
 ![Typical metrics sent by DecaLog and visualized in InfluxDB 2](https://perfops.one/assets/images/metrics-example.jpg "Typical metrics sent by DecaLog and visualized in InfluxDB 2")
+
 _Typical metrics sent by DecaLog and visualized in InfluxDB 2_
