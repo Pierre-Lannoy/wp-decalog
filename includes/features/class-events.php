@@ -323,7 +323,7 @@ class Events extends \WP_List_Table {
 			$loggers = Option::network_get( 'loggers' );
 			if ( array_key_exists( $this->logger, $loggers ) ) {
 				$bucket_name = 'decalog_' . str_replace( '-', '', $this->logger );
-				switch ( $loggers[ $this->logger ]['configuration']['constant-storage'] ) {
+				switch ( $loggers[ $this->logger ]['configuration']['constant-storage'] ?? 'none' ) {
 					case 'apcu':
 						$this->storage = new APCuStorage( $bucket_name );
 						break;
