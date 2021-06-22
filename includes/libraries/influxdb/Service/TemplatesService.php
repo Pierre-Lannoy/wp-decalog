@@ -28,12 +28,12 @@
 
 namespace InfluxDB2\Service;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Psr7\MultipartStream;
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\RequestOptions;
+use DLGuzzleHttp\Client;
+use DLGuzzleHttp\ClientInterface;
+use DLGuzzleHttp\Exception\RequestException;
+use DLGuzzleHttp\Psr7\MultipartStream;
+use DLGuzzleHttp\Psr7\Request;
+use DLGuzzleHttp\RequestOptions;
 use InfluxDB2\ApiException;
 use InfluxDB2\Configuration;
 use InfluxDB2\HeaderSelector;
@@ -174,7 +174,7 @@ class TemplatesService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function deleteDocumentsTemplatesIDAsync($template_id, $zap_trace_span = null)
     {
@@ -195,7 +195,7 @@ class TemplatesService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function deleteDocumentsTemplatesIDAsyncWithHttpInfo($template_id, $zap_trace_span = null)
     {
@@ -232,7 +232,7 @@ class TemplatesService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function deleteDocumentsTemplatesIDRequest($template_id, $zap_trace_span = null)
     {
@@ -282,7 +282,7 @@ class TemplatesService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -299,11 +299,11 @@ class TemplatesService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -319,7 +319,7 @@ class TemplatesService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'DELETE',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -426,7 +426,7 @@ class TemplatesService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function deleteDocumentsTemplatesIDLabelsIDAsync($template_id, $label_id, $zap_trace_span = null)
     {
@@ -448,7 +448,7 @@ class TemplatesService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function deleteDocumentsTemplatesIDLabelsIDAsyncWithHttpInfo($template_id, $label_id, $zap_trace_span = null)
     {
@@ -486,7 +486,7 @@ class TemplatesService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function deleteDocumentsTemplatesIDLabelsIDRequest($template_id, $label_id, $zap_trace_span = null)
     {
@@ -550,7 +550,7 @@ class TemplatesService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -567,11 +567,11 @@ class TemplatesService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -587,7 +587,7 @@ class TemplatesService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'DELETE',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -731,7 +731,7 @@ class TemplatesService
      * @param  string $org_id Specifies the organization ID of the template. (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getDocumentsTemplatesAsync($zap_trace_span = null, $org = null, $org_id = null)
     {
@@ -753,7 +753,7 @@ class TemplatesService
      * @param  string $org_id Specifies the organization ID of the template. (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getDocumentsTemplatesAsyncWithHttpInfo($zap_trace_span = null, $org = null, $org_id = null)
     {
@@ -802,7 +802,7 @@ class TemplatesService
      * @param  string $org_id Specifies the organization ID of the template. (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function getDocumentsTemplatesRequest($zap_trace_span = null, $org = null, $org_id = null)
     {
@@ -846,7 +846,7 @@ class TemplatesService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -863,11 +863,11 @@ class TemplatesService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -883,7 +883,7 @@ class TemplatesService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -1024,7 +1024,7 @@ class TemplatesService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getDocumentsTemplatesIDAsync($template_id, $zap_trace_span = null)
     {
@@ -1045,7 +1045,7 @@ class TemplatesService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getDocumentsTemplatesIDAsyncWithHttpInfo($template_id, $zap_trace_span = null)
     {
@@ -1093,7 +1093,7 @@ class TemplatesService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function getDocumentsTemplatesIDRequest($template_id, $zap_trace_span = null)
     {
@@ -1143,7 +1143,7 @@ class TemplatesService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -1160,11 +1160,11 @@ class TemplatesService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -1180,7 +1180,7 @@ class TemplatesService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -1325,7 +1325,7 @@ class TemplatesService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getDocumentsTemplatesIDLabelsAsync($template_id, $zap_trace_span = null)
     {
@@ -1346,7 +1346,7 @@ class TemplatesService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getDocumentsTemplatesIDLabelsAsyncWithHttpInfo($template_id, $zap_trace_span = null)
     {
@@ -1394,7 +1394,7 @@ class TemplatesService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function getDocumentsTemplatesIDLabelsRequest($template_id, $zap_trace_span = null)
     {
@@ -1444,7 +1444,7 @@ class TemplatesService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -1461,11 +1461,11 @@ class TemplatesService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -1481,7 +1481,7 @@ class TemplatesService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -1626,7 +1626,7 @@ class TemplatesService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function postDocumentsTemplatesAsync($document_create, $zap_trace_span = null)
     {
@@ -1647,7 +1647,7 @@ class TemplatesService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function postDocumentsTemplatesAsyncWithHttpInfo($document_create, $zap_trace_span = null)
     {
@@ -1695,7 +1695,7 @@ class TemplatesService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function postDocumentsTemplatesRequest($document_create, $zap_trace_span = null)
     {
@@ -1740,7 +1740,7 @@ class TemplatesService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -1757,11 +1757,11 @@ class TemplatesService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -1777,7 +1777,7 @@ class TemplatesService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -1925,7 +1925,7 @@ class TemplatesService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function postDocumentsTemplatesIDLabelsAsync($template_id, $label_mapping, $zap_trace_span = null)
     {
@@ -1947,7 +1947,7 @@ class TemplatesService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function postDocumentsTemplatesIDLabelsAsyncWithHttpInfo($template_id, $label_mapping, $zap_trace_span = null)
     {
@@ -1996,7 +1996,7 @@ class TemplatesService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function postDocumentsTemplatesIDLabelsRequest($template_id, $label_mapping, $zap_trace_span = null)
     {
@@ -2055,7 +2055,7 @@ class TemplatesService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -2072,11 +2072,11 @@ class TemplatesService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -2092,7 +2092,7 @@ class TemplatesService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -2236,7 +2236,7 @@ class TemplatesService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function putDocumentsTemplatesIDAsync($template_id, $document_update, $zap_trace_span = null)
     {
@@ -2258,7 +2258,7 @@ class TemplatesService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function putDocumentsTemplatesIDAsyncWithHttpInfo($template_id, $document_update, $zap_trace_span = null)
     {
@@ -2307,7 +2307,7 @@ class TemplatesService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function putDocumentsTemplatesIDRequest($template_id, $document_update, $zap_trace_span = null)
     {
@@ -2366,7 +2366,7 @@ class TemplatesService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -2383,11 +2383,11 @@ class TemplatesService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -2403,7 +2403,7 @@ class TemplatesService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'PUT',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),

@@ -28,12 +28,12 @@
 
 namespace InfluxDB2\Service;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Psr7\MultipartStream;
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\RequestOptions;
+use DLGuzzleHttp\Client;
+use DLGuzzleHttp\ClientInterface;
+use DLGuzzleHttp\Exception\RequestException;
+use DLGuzzleHttp\Psr7\MultipartStream;
+use DLGuzzleHttp\Psr7\Request;
+use DLGuzzleHttp\RequestOptions;
 use InfluxDB2\ApiException;
 use InfluxDB2\Configuration;
 use InfluxDB2\HeaderSelector;
@@ -174,7 +174,7 @@ class ScraperTargetsService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function deleteScrapersIDAsync($scraper_target_id, $zap_trace_span = null)
     {
@@ -195,7 +195,7 @@ class ScraperTargetsService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function deleteScrapersIDAsyncWithHttpInfo($scraper_target_id, $zap_trace_span = null)
     {
@@ -232,7 +232,7 @@ class ScraperTargetsService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function deleteScrapersIDRequest($scraper_target_id, $zap_trace_span = null)
     {
@@ -282,7 +282,7 @@ class ScraperTargetsService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -299,11 +299,11 @@ class ScraperTargetsService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -319,7 +319,7 @@ class ScraperTargetsService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'DELETE',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -426,7 +426,7 @@ class ScraperTargetsService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function deleteScrapersIDLabelsIDAsync($scraper_target_id, $label_id, $zap_trace_span = null)
     {
@@ -448,7 +448,7 @@ class ScraperTargetsService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function deleteScrapersIDLabelsIDAsyncWithHttpInfo($scraper_target_id, $label_id, $zap_trace_span = null)
     {
@@ -486,7 +486,7 @@ class ScraperTargetsService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function deleteScrapersIDLabelsIDRequest($scraper_target_id, $label_id, $zap_trace_span = null)
     {
@@ -550,7 +550,7 @@ class ScraperTargetsService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -567,11 +567,11 @@ class ScraperTargetsService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -587,7 +587,7 @@ class ScraperTargetsService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'DELETE',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -686,7 +686,7 @@ class ScraperTargetsService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function deleteScrapersIDMembersIDAsync($user_id, $scraper_target_id, $zap_trace_span = null)
     {
@@ -708,7 +708,7 @@ class ScraperTargetsService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function deleteScrapersIDMembersIDAsyncWithHttpInfo($user_id, $scraper_target_id, $zap_trace_span = null)
     {
@@ -746,7 +746,7 @@ class ScraperTargetsService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function deleteScrapersIDMembersIDRequest($user_id, $scraper_target_id, $zap_trace_span = null)
     {
@@ -810,7 +810,7 @@ class ScraperTargetsService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -827,11 +827,11 @@ class ScraperTargetsService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -847,7 +847,7 @@ class ScraperTargetsService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'DELETE',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -946,7 +946,7 @@ class ScraperTargetsService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function deleteScrapersIDOwnersIDAsync($user_id, $scraper_target_id, $zap_trace_span = null)
     {
@@ -968,7 +968,7 @@ class ScraperTargetsService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function deleteScrapersIDOwnersIDAsyncWithHttpInfo($user_id, $scraper_target_id, $zap_trace_span = null)
     {
@@ -1006,7 +1006,7 @@ class ScraperTargetsService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function deleteScrapersIDOwnersIDRequest($user_id, $scraper_target_id, $zap_trace_span = null)
     {
@@ -1070,7 +1070,7 @@ class ScraperTargetsService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -1087,11 +1087,11 @@ class ScraperTargetsService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -1107,7 +1107,7 @@ class ScraperTargetsService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'DELETE',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -1241,7 +1241,7 @@ class ScraperTargetsService
      * @param  string $org Specifies the organization name of the scraper target. (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getScrapersAsync($zap_trace_span = null, $name = null, $id = null, $org_id = null, $org = null)
     {
@@ -1265,7 +1265,7 @@ class ScraperTargetsService
      * @param  string $org Specifies the organization name of the scraper target. (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getScrapersAsyncWithHttpInfo($zap_trace_span = null, $name = null, $id = null, $org_id = null, $org = null)
     {
@@ -1316,7 +1316,7 @@ class ScraperTargetsService
      * @param  string $org Specifies the organization name of the scraper target. (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function getScrapersRequest($zap_trace_span = null, $name = null, $id = null, $org_id = null, $org = null)
     {
@@ -1371,7 +1371,7 @@ class ScraperTargetsService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -1388,11 +1388,11 @@ class ScraperTargetsService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -1408,7 +1408,7 @@ class ScraperTargetsService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -1553,7 +1553,7 @@ class ScraperTargetsService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getScrapersIDAsync($scraper_target_id, $zap_trace_span = null)
     {
@@ -1574,7 +1574,7 @@ class ScraperTargetsService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getScrapersIDAsyncWithHttpInfo($scraper_target_id, $zap_trace_span = null)
     {
@@ -1622,7 +1622,7 @@ class ScraperTargetsService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function getScrapersIDRequest($scraper_target_id, $zap_trace_span = null)
     {
@@ -1672,7 +1672,7 @@ class ScraperTargetsService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -1689,11 +1689,11 @@ class ScraperTargetsService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -1709,7 +1709,7 @@ class ScraperTargetsService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -1854,7 +1854,7 @@ class ScraperTargetsService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getScrapersIDLabelsAsync($scraper_target_id, $zap_trace_span = null)
     {
@@ -1875,7 +1875,7 @@ class ScraperTargetsService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getScrapersIDLabelsAsyncWithHttpInfo($scraper_target_id, $zap_trace_span = null)
     {
@@ -1923,7 +1923,7 @@ class ScraperTargetsService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function getScrapersIDLabelsRequest($scraper_target_id, $zap_trace_span = null)
     {
@@ -1973,7 +1973,7 @@ class ScraperTargetsService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -1990,11 +1990,11 @@ class ScraperTargetsService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -2010,7 +2010,7 @@ class ScraperTargetsService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -2155,7 +2155,7 @@ class ScraperTargetsService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getScrapersIDMembersAsync($scraper_target_id, $zap_trace_span = null)
     {
@@ -2176,7 +2176,7 @@ class ScraperTargetsService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getScrapersIDMembersAsyncWithHttpInfo($scraper_target_id, $zap_trace_span = null)
     {
@@ -2224,7 +2224,7 @@ class ScraperTargetsService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function getScrapersIDMembersRequest($scraper_target_id, $zap_trace_span = null)
     {
@@ -2274,7 +2274,7 @@ class ScraperTargetsService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -2291,11 +2291,11 @@ class ScraperTargetsService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -2311,7 +2311,7 @@ class ScraperTargetsService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -2456,7 +2456,7 @@ class ScraperTargetsService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getScrapersIDOwnersAsync($scraper_target_id, $zap_trace_span = null)
     {
@@ -2477,7 +2477,7 @@ class ScraperTargetsService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getScrapersIDOwnersAsyncWithHttpInfo($scraper_target_id, $zap_trace_span = null)
     {
@@ -2525,7 +2525,7 @@ class ScraperTargetsService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function getScrapersIDOwnersRequest($scraper_target_id, $zap_trace_span = null)
     {
@@ -2575,7 +2575,7 @@ class ScraperTargetsService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -2592,11 +2592,11 @@ class ScraperTargetsService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -2612,7 +2612,7 @@ class ScraperTargetsService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -2760,7 +2760,7 @@ class ScraperTargetsService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function patchScrapersIDAsync($scraper_target_id, $scraper_target_request, $zap_trace_span = null)
     {
@@ -2782,7 +2782,7 @@ class ScraperTargetsService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function patchScrapersIDAsyncWithHttpInfo($scraper_target_id, $scraper_target_request, $zap_trace_span = null)
     {
@@ -2831,7 +2831,7 @@ class ScraperTargetsService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function patchScrapersIDRequest($scraper_target_id, $scraper_target_request, $zap_trace_span = null)
     {
@@ -2890,7 +2890,7 @@ class ScraperTargetsService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -2907,11 +2907,11 @@ class ScraperTargetsService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -2927,7 +2927,7 @@ class ScraperTargetsService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'PATCH',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -3072,7 +3072,7 @@ class ScraperTargetsService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function postScrapersAsync($scraper_target_request, $zap_trace_span = null)
     {
@@ -3093,7 +3093,7 @@ class ScraperTargetsService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function postScrapersAsyncWithHttpInfo($scraper_target_request, $zap_trace_span = null)
     {
@@ -3141,7 +3141,7 @@ class ScraperTargetsService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function postScrapersRequest($scraper_target_request, $zap_trace_span = null)
     {
@@ -3186,7 +3186,7 @@ class ScraperTargetsService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -3203,11 +3203,11 @@ class ScraperTargetsService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -3223,7 +3223,7 @@ class ScraperTargetsService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -3371,7 +3371,7 @@ class ScraperTargetsService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function postScrapersIDLabelsAsync($scraper_target_id, $label_mapping, $zap_trace_span = null)
     {
@@ -3393,7 +3393,7 @@ class ScraperTargetsService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function postScrapersIDLabelsAsyncWithHttpInfo($scraper_target_id, $label_mapping, $zap_trace_span = null)
     {
@@ -3442,7 +3442,7 @@ class ScraperTargetsService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function postScrapersIDLabelsRequest($scraper_target_id, $label_mapping, $zap_trace_span = null)
     {
@@ -3501,7 +3501,7 @@ class ScraperTargetsService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -3518,11 +3518,11 @@ class ScraperTargetsService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -3538,7 +3538,7 @@ class ScraperTargetsService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -3686,7 +3686,7 @@ class ScraperTargetsService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function postScrapersIDMembersAsync($scraper_target_id, $add_resource_member_request_body, $zap_trace_span = null)
     {
@@ -3708,7 +3708,7 @@ class ScraperTargetsService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function postScrapersIDMembersAsyncWithHttpInfo($scraper_target_id, $add_resource_member_request_body, $zap_trace_span = null)
     {
@@ -3757,7 +3757,7 @@ class ScraperTargetsService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function postScrapersIDMembersRequest($scraper_target_id, $add_resource_member_request_body, $zap_trace_span = null)
     {
@@ -3816,7 +3816,7 @@ class ScraperTargetsService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -3833,11 +3833,11 @@ class ScraperTargetsService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -3853,7 +3853,7 @@ class ScraperTargetsService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -4001,7 +4001,7 @@ class ScraperTargetsService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function postScrapersIDOwnersAsync($scraper_target_id, $add_resource_member_request_body, $zap_trace_span = null)
     {
@@ -4023,7 +4023,7 @@ class ScraperTargetsService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function postScrapersIDOwnersAsyncWithHttpInfo($scraper_target_id, $add_resource_member_request_body, $zap_trace_span = null)
     {
@@ -4072,7 +4072,7 @@ class ScraperTargetsService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function postScrapersIDOwnersRequest($scraper_target_id, $add_resource_member_request_body, $zap_trace_span = null)
     {
@@ -4131,7 +4131,7 @@ class ScraperTargetsService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -4148,11 +4148,11 @@ class ScraperTargetsService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -4168,7 +4168,7 @@ class ScraperTargetsService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),

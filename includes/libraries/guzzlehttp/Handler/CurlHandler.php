@@ -1,8 +1,8 @@
 <?php
 
-namespace GuzzleHttp\Handler;
+namespace DLGuzzleHttp\Handler;
 
-use GuzzleHttp\Promise\PromiseInterface;
+use DLGuzzleHttp\Promise\PromiseInterface;
 use Psr\Http\Message\RequestInterface;
 
 /**

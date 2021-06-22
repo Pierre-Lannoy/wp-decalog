@@ -1,6 +1,6 @@
 <?php
 
-namespace GuzzleHttp\Cookie;
+namespace DLGuzzleHttp\Cookie;
 
 /**
  * Set-Cookie object

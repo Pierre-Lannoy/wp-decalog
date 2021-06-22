@@ -2,7 +2,7 @@
 
 namespace InfluxDB2;
 
-use GuzzleHttp\Psr7\Stream;
+use DLGuzzleHttp\Psr7\Stream;
 use Psr\Http\Message\StreamInterface;
 use RuntimeException;
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Sentry\Transport;
 
-use GuzzleHttp\Promise\PromiseInterface;
+use DLGuzzleHttp\Promise\PromiseInterface;
 use Sentry\Event;
 
 /**

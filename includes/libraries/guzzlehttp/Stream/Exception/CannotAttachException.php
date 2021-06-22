@@ -1,4 +1,4 @@
 <?php
-namespace GuzzleHttp\Stream\Exception;
+namespace DLGuzzleHttp\Stream\Exception;
 
 class CannotAttachException extends \RuntimeException {}

@@ -1,5 +1,5 @@
 <?php
-namespace GuzzleHttp\Stream;
+namespace DLGuzzleHttp\Stream;
 
 /**
  * Describes a stream instance.
@@ -27,7 +27,7 @@ interface StreamInterface
      * After the underlying resource has been detached, the stream object is in
      * an unusable state. If you wish to use a Stream object as a PHP stream
      * but keep the Stream object in a consistent state, use
-     * {@see GuzzleHttp\Stream\GuzzleStreamWrapper::getResource}.
+     * {@see DLGuzzleHttp\Stream\GuzzleStreamWrapper::getResource}.
      *
      * @return resource|null Returns the underlying PHP stream resource or null
      *                       if the Stream object did not utilize an underlying

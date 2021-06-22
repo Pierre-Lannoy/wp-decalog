@@ -1,7 +1,7 @@
 <?php
-namespace GuzzleHttp\Stream;
+namespace DLGuzzleHttp\Stream;
 
-use GuzzleHttp\Stream\Exception\SeekException;
+use DLGuzzleHttp\Stream\Exception\SeekException;
 
 /**
  * Static utility class because PHP's autoloaders don't support the concept
@@ -178,16 +178,16 @@ class Utils
     }
 
     /**
-     * Alias of GuzzleHttp\Stream\Stream::factory.
+     * Alias of DLGuzzleHttp\Stream\Stream::factory.
      *
      * @param mixed $resource Resource to create
      * @param array $options  Associative array of stream options defined in
-     *                        {@see \GuzzleHttp\Stream\Stream::__construct}
+     *                        {@see \DLGuzzleHttp\Stream\Stream::__construct}
      *
      * @return StreamInterface
      *
-     * @see GuzzleHttp\Stream\Stream::factory
-     * @see GuzzleHttp\Stream\Stream::__construct
+     * @see DLGuzzleHttp\Stream\Stream::factory
+     * @see DLGuzzleHttp\Stream\Stream::__construct
      */
     public static function create($resource, array $options = [])
     {

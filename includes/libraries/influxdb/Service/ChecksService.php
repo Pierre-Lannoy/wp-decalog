@@ -28,12 +28,12 @@
 
 namespace InfluxDB2\Service;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Psr7\MultipartStream;
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\RequestOptions;
+use DLGuzzleHttp\Client;
+use DLGuzzleHttp\ClientInterface;
+use DLGuzzleHttp\Exception\RequestException;
+use DLGuzzleHttp\Psr7\MultipartStream;
+use DLGuzzleHttp\Psr7\Request;
+use DLGuzzleHttp\RequestOptions;
 use InfluxDB2\ApiException;
 use InfluxDB2\Configuration;
 use InfluxDB2\HeaderSelector;
@@ -220,7 +220,7 @@ class ChecksService
      * @param  \InfluxDB2\Model\PostCheck $post_check Check to create (required)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function createCheckAsync($post_check)
     {
@@ -240,7 +240,7 @@ class ChecksService
      * @param  \InfluxDB2\Model\PostCheck $post_check Check to create (required)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function createCheckAsyncWithHttpInfo($post_check)
     {
@@ -287,7 +287,7 @@ class ChecksService
      * @param  \InfluxDB2\Model\PostCheck $post_check Check to create (required)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function createCheckRequest($post_check)
     {
@@ -328,7 +328,7 @@ class ChecksService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -345,11 +345,11 @@ class ChecksService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -365,7 +365,7 @@ class ChecksService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -469,7 +469,7 @@ class ChecksService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function deleteChecksIDAsync($check_id, $zap_trace_span = null)
     {
@@ -490,7 +490,7 @@ class ChecksService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function deleteChecksIDAsyncWithHttpInfo($check_id, $zap_trace_span = null)
     {
@@ -527,7 +527,7 @@ class ChecksService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function deleteChecksIDRequest($check_id, $zap_trace_span = null)
     {
@@ -577,7 +577,7 @@ class ChecksService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -594,11 +594,11 @@ class ChecksService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -614,7 +614,7 @@ class ChecksService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'DELETE',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -721,7 +721,7 @@ class ChecksService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function deleteChecksIDLabelsIDAsync($check_id, $label_id, $zap_trace_span = null)
     {
@@ -743,7 +743,7 @@ class ChecksService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function deleteChecksIDLabelsIDAsyncWithHttpInfo($check_id, $label_id, $zap_trace_span = null)
     {
@@ -781,7 +781,7 @@ class ChecksService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function deleteChecksIDLabelsIDRequest($check_id, $label_id, $zap_trace_span = null)
     {
@@ -845,7 +845,7 @@ class ChecksService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -862,11 +862,11 @@ class ChecksService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -882,7 +882,7 @@ class ChecksService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'DELETE',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -1033,7 +1033,7 @@ class ChecksService
      * @param  int $limit (optional, default to 20)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getChecksAsync($org_id, $zap_trace_span = null, $offset = null, $limit = 20)
     {
@@ -1056,7 +1056,7 @@ class ChecksService
      * @param  int $limit (optional, default to 20)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getChecksAsyncWithHttpInfo($org_id, $zap_trace_span = null, $offset = null, $limit = 20)
     {
@@ -1106,7 +1106,7 @@ class ChecksService
      * @param  int $limit (optional, default to 20)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function getChecksRequest($org_id, $zap_trace_span = null, $offset = null, $limit = 20)
     {
@@ -1171,7 +1171,7 @@ class ChecksService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -1188,11 +1188,11 @@ class ChecksService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -1208,7 +1208,7 @@ class ChecksService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -1353,7 +1353,7 @@ class ChecksService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getChecksIDAsync($check_id, $zap_trace_span = null)
     {
@@ -1374,7 +1374,7 @@ class ChecksService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getChecksIDAsyncWithHttpInfo($check_id, $zap_trace_span = null)
     {
@@ -1422,7 +1422,7 @@ class ChecksService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function getChecksIDRequest($check_id, $zap_trace_span = null)
     {
@@ -1472,7 +1472,7 @@ class ChecksService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -1489,11 +1489,11 @@ class ChecksService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -1509,7 +1509,7 @@ class ChecksService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -1654,7 +1654,7 @@ class ChecksService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getChecksIDLabelsAsync($check_id, $zap_trace_span = null)
     {
@@ -1675,7 +1675,7 @@ class ChecksService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getChecksIDLabelsAsyncWithHttpInfo($check_id, $zap_trace_span = null)
     {
@@ -1723,7 +1723,7 @@ class ChecksService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function getChecksIDLabelsRequest($check_id, $zap_trace_span = null)
     {
@@ -1773,7 +1773,7 @@ class ChecksService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -1790,11 +1790,11 @@ class ChecksService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -1810,7 +1810,7 @@ class ChecksService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -1995,7 +1995,7 @@ class ChecksService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getChecksIDQueryAsync($check_id, $zap_trace_span = null)
     {
@@ -2016,7 +2016,7 @@ class ChecksService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getChecksIDQueryAsyncWithHttpInfo($check_id, $zap_trace_span = null)
     {
@@ -2064,7 +2064,7 @@ class ChecksService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function getChecksIDQueryRequest($check_id, $zap_trace_span = null)
     {
@@ -2114,7 +2114,7 @@ class ChecksService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -2131,11 +2131,11 @@ class ChecksService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -2151,7 +2151,7 @@ class ChecksService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -2319,7 +2319,7 @@ class ChecksService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function patchChecksIDAsync($check_id, $check_patch, $zap_trace_span = null)
     {
@@ -2341,7 +2341,7 @@ class ChecksService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function patchChecksIDAsyncWithHttpInfo($check_id, $check_patch, $zap_trace_span = null)
     {
@@ -2390,7 +2390,7 @@ class ChecksService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function patchChecksIDRequest($check_id, $check_patch, $zap_trace_span = null)
     {
@@ -2449,7 +2449,7 @@ class ChecksService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -2466,11 +2466,11 @@ class ChecksService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -2486,7 +2486,7 @@ class ChecksService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'PATCH',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -2634,7 +2634,7 @@ class ChecksService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function postChecksIDLabelsAsync($check_id, $label_mapping, $zap_trace_span = null)
     {
@@ -2656,7 +2656,7 @@ class ChecksService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function postChecksIDLabelsAsyncWithHttpInfo($check_id, $label_mapping, $zap_trace_span = null)
     {
@@ -2705,7 +2705,7 @@ class ChecksService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function postChecksIDLabelsRequest($check_id, $label_mapping, $zap_trace_span = null)
     {
@@ -2764,7 +2764,7 @@ class ChecksService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -2781,11 +2781,11 @@ class ChecksService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -2801,7 +2801,7 @@ class ChecksService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -2969,7 +2969,7 @@ class ChecksService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function putChecksIDAsync($check_id, $check, $zap_trace_span = null)
     {
@@ -2991,7 +2991,7 @@ class ChecksService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function putChecksIDAsyncWithHttpInfo($check_id, $check, $zap_trace_span = null)
     {
@@ -3040,7 +3040,7 @@ class ChecksService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function putChecksIDRequest($check_id, $check, $zap_trace_span = null)
     {
@@ -3099,7 +3099,7 @@ class ChecksService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -3116,11 +3116,11 @@ class ChecksService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -3136,7 +3136,7 @@ class ChecksService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'PUT',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),

@@ -28,12 +28,12 @@
 
 namespace InfluxDB2\Service;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Psr7\MultipartStream;
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\RequestOptions;
+use DLGuzzleHttp\Client;
+use DLGuzzleHttp\ClientInterface;
+use DLGuzzleHttp\Exception\RequestException;
+use DLGuzzleHttp\Psr7\MultipartStream;
+use DLGuzzleHttp\Psr7\Request;
+use DLGuzzleHttp\RequestOptions;
 use InfluxDB2\ApiException;
 use InfluxDB2\Configuration;
 use InfluxDB2\HeaderSelector;
@@ -177,7 +177,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function deleteBucketsIDMembersIDAsync($user_id, $bucket_id, $zap_trace_span = null)
     {
@@ -199,7 +199,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function deleteBucketsIDMembersIDAsyncWithHttpInfo($user_id, $bucket_id, $zap_trace_span = null)
     {
@@ -237,7 +237,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function deleteBucketsIDMembersIDRequest($user_id, $bucket_id, $zap_trace_span = null)
     {
@@ -301,7 +301,7 @@ class UsersService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -318,11 +318,11 @@ class UsersService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -338,7 +338,7 @@ class UsersService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'DELETE',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -437,7 +437,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function deleteBucketsIDOwnersIDAsync($user_id, $bucket_id, $zap_trace_span = null)
     {
@@ -459,7 +459,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function deleteBucketsIDOwnersIDAsyncWithHttpInfo($user_id, $bucket_id, $zap_trace_span = null)
     {
@@ -497,7 +497,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function deleteBucketsIDOwnersIDRequest($user_id, $bucket_id, $zap_trace_span = null)
     {
@@ -561,7 +561,7 @@ class UsersService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -578,11 +578,11 @@ class UsersService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -598,7 +598,7 @@ class UsersService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'DELETE',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -697,7 +697,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function deleteDashboardsIDMembersIDAsync($user_id, $dashboard_id, $zap_trace_span = null)
     {
@@ -719,7 +719,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function deleteDashboardsIDMembersIDAsyncWithHttpInfo($user_id, $dashboard_id, $zap_trace_span = null)
     {
@@ -757,7 +757,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function deleteDashboardsIDMembersIDRequest($user_id, $dashboard_id, $zap_trace_span = null)
     {
@@ -821,7 +821,7 @@ class UsersService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -838,11 +838,11 @@ class UsersService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -858,7 +858,7 @@ class UsersService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'DELETE',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -957,7 +957,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function deleteDashboardsIDOwnersIDAsync($user_id, $dashboard_id, $zap_trace_span = null)
     {
@@ -979,7 +979,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function deleteDashboardsIDOwnersIDAsyncWithHttpInfo($user_id, $dashboard_id, $zap_trace_span = null)
     {
@@ -1017,7 +1017,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function deleteDashboardsIDOwnersIDRequest($user_id, $dashboard_id, $zap_trace_span = null)
     {
@@ -1081,7 +1081,7 @@ class UsersService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -1098,11 +1098,11 @@ class UsersService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -1118,7 +1118,7 @@ class UsersService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'DELETE',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -1217,7 +1217,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function deleteOrgsIDMembersIDAsync($user_id, $org_id, $zap_trace_span = null)
     {
@@ -1239,7 +1239,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function deleteOrgsIDMembersIDAsyncWithHttpInfo($user_id, $org_id, $zap_trace_span = null)
     {
@@ -1277,7 +1277,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function deleteOrgsIDMembersIDRequest($user_id, $org_id, $zap_trace_span = null)
     {
@@ -1341,7 +1341,7 @@ class UsersService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -1358,11 +1358,11 @@ class UsersService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -1378,7 +1378,7 @@ class UsersService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'DELETE',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -1477,7 +1477,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function deleteOrgsIDOwnersIDAsync($user_id, $org_id, $zap_trace_span = null)
     {
@@ -1499,7 +1499,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function deleteOrgsIDOwnersIDAsyncWithHttpInfo($user_id, $org_id, $zap_trace_span = null)
     {
@@ -1537,7 +1537,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function deleteOrgsIDOwnersIDRequest($user_id, $org_id, $zap_trace_span = null)
     {
@@ -1601,7 +1601,7 @@ class UsersService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -1618,11 +1618,11 @@ class UsersService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -1638,7 +1638,7 @@ class UsersService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'DELETE',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -1737,7 +1737,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function deleteScrapersIDMembersIDAsync($user_id, $scraper_target_id, $zap_trace_span = null)
     {
@@ -1759,7 +1759,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function deleteScrapersIDMembersIDAsyncWithHttpInfo($user_id, $scraper_target_id, $zap_trace_span = null)
     {
@@ -1797,7 +1797,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function deleteScrapersIDMembersIDRequest($user_id, $scraper_target_id, $zap_trace_span = null)
     {
@@ -1861,7 +1861,7 @@ class UsersService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -1878,11 +1878,11 @@ class UsersService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -1898,7 +1898,7 @@ class UsersService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'DELETE',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -1997,7 +1997,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function deleteScrapersIDOwnersIDAsync($user_id, $scraper_target_id, $zap_trace_span = null)
     {
@@ -2019,7 +2019,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function deleteScrapersIDOwnersIDAsyncWithHttpInfo($user_id, $scraper_target_id, $zap_trace_span = null)
     {
@@ -2057,7 +2057,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function deleteScrapersIDOwnersIDRequest($user_id, $scraper_target_id, $zap_trace_span = null)
     {
@@ -2121,7 +2121,7 @@ class UsersService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -2138,11 +2138,11 @@ class UsersService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -2158,7 +2158,7 @@ class UsersService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'DELETE',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -2257,7 +2257,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function deleteTasksIDMembersIDAsync($user_id, $task_id, $zap_trace_span = null)
     {
@@ -2279,7 +2279,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function deleteTasksIDMembersIDAsyncWithHttpInfo($user_id, $task_id, $zap_trace_span = null)
     {
@@ -2317,7 +2317,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function deleteTasksIDMembersIDRequest($user_id, $task_id, $zap_trace_span = null)
     {
@@ -2381,7 +2381,7 @@ class UsersService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -2398,11 +2398,11 @@ class UsersService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -2418,7 +2418,7 @@ class UsersService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'DELETE',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -2517,7 +2517,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function deleteTasksIDOwnersIDAsync($user_id, $task_id, $zap_trace_span = null)
     {
@@ -2539,7 +2539,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function deleteTasksIDOwnersIDAsyncWithHttpInfo($user_id, $task_id, $zap_trace_span = null)
     {
@@ -2577,7 +2577,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function deleteTasksIDOwnersIDRequest($user_id, $task_id, $zap_trace_span = null)
     {
@@ -2641,7 +2641,7 @@ class UsersService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -2658,11 +2658,11 @@ class UsersService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -2678,7 +2678,7 @@ class UsersService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'DELETE',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -2777,7 +2777,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function deleteTelegrafsIDMembersIDAsync($user_id, $telegraf_id, $zap_trace_span = null)
     {
@@ -2799,7 +2799,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function deleteTelegrafsIDMembersIDAsyncWithHttpInfo($user_id, $telegraf_id, $zap_trace_span = null)
     {
@@ -2837,7 +2837,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function deleteTelegrafsIDMembersIDRequest($user_id, $telegraf_id, $zap_trace_span = null)
     {
@@ -2901,7 +2901,7 @@ class UsersService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -2918,11 +2918,11 @@ class UsersService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -2938,7 +2938,7 @@ class UsersService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'DELETE',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -3037,7 +3037,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function deleteTelegrafsIDOwnersIDAsync($user_id, $telegraf_id, $zap_trace_span = null)
     {
@@ -3059,7 +3059,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function deleteTelegrafsIDOwnersIDAsyncWithHttpInfo($user_id, $telegraf_id, $zap_trace_span = null)
     {
@@ -3097,7 +3097,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function deleteTelegrafsIDOwnersIDRequest($user_id, $telegraf_id, $zap_trace_span = null)
     {
@@ -3161,7 +3161,7 @@ class UsersService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -3178,11 +3178,11 @@ class UsersService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -3198,7 +3198,7 @@ class UsersService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'DELETE',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -3294,7 +3294,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function deleteUsersIDAsync($user_id, $zap_trace_span = null)
     {
@@ -3315,7 +3315,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function deleteUsersIDAsyncWithHttpInfo($user_id, $zap_trace_span = null)
     {
@@ -3352,7 +3352,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function deleteUsersIDRequest($user_id, $zap_trace_span = null)
     {
@@ -3402,7 +3402,7 @@ class UsersService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -3419,11 +3419,11 @@ class UsersService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -3439,7 +3439,7 @@ class UsersService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'DELETE',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -3584,7 +3584,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getBucketsIDMembersAsync($bucket_id, $zap_trace_span = null)
     {
@@ -3605,7 +3605,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getBucketsIDMembersAsyncWithHttpInfo($bucket_id, $zap_trace_span = null)
     {
@@ -3653,7 +3653,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function getBucketsIDMembersRequest($bucket_id, $zap_trace_span = null)
     {
@@ -3703,7 +3703,7 @@ class UsersService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -3720,11 +3720,11 @@ class UsersService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -3740,7 +3740,7 @@ class UsersService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -3885,7 +3885,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getBucketsIDOwnersAsync($bucket_id, $zap_trace_span = null)
     {
@@ -3906,7 +3906,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getBucketsIDOwnersAsyncWithHttpInfo($bucket_id, $zap_trace_span = null)
     {
@@ -3954,7 +3954,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function getBucketsIDOwnersRequest($bucket_id, $zap_trace_span = null)
     {
@@ -4004,7 +4004,7 @@ class UsersService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -4021,11 +4021,11 @@ class UsersService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -4041,7 +4041,7 @@ class UsersService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -4186,7 +4186,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getDashboardsIDMembersAsync($dashboard_id, $zap_trace_span = null)
     {
@@ -4207,7 +4207,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getDashboardsIDMembersAsyncWithHttpInfo($dashboard_id, $zap_trace_span = null)
     {
@@ -4255,7 +4255,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function getDashboardsIDMembersRequest($dashboard_id, $zap_trace_span = null)
     {
@@ -4305,7 +4305,7 @@ class UsersService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -4322,11 +4322,11 @@ class UsersService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -4342,7 +4342,7 @@ class UsersService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -4487,7 +4487,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getDashboardsIDOwnersAsync($dashboard_id, $zap_trace_span = null)
     {
@@ -4508,7 +4508,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getDashboardsIDOwnersAsyncWithHttpInfo($dashboard_id, $zap_trace_span = null)
     {
@@ -4556,7 +4556,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function getDashboardsIDOwnersRequest($dashboard_id, $zap_trace_span = null)
     {
@@ -4606,7 +4606,7 @@ class UsersService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -4623,11 +4623,11 @@ class UsersService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -4643,7 +4643,7 @@ class UsersService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -4785,7 +4785,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getMeAsync($zap_trace_span = null)
     {
@@ -4805,7 +4805,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getMeAsyncWithHttpInfo($zap_trace_span = null)
     {
@@ -4852,7 +4852,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function getMeRequest($zap_trace_span = null)
     {
@@ -4888,7 +4888,7 @@ class UsersService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -4905,11 +4905,11 @@ class UsersService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -4925,7 +4925,7 @@ class UsersService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -5090,7 +5090,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getOrgsIDMembersAsync($org_id, $zap_trace_span = null)
     {
@@ -5111,7 +5111,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getOrgsIDMembersAsyncWithHttpInfo($org_id, $zap_trace_span = null)
     {
@@ -5159,7 +5159,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function getOrgsIDMembersRequest($org_id, $zap_trace_span = null)
     {
@@ -5209,7 +5209,7 @@ class UsersService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -5226,11 +5226,11 @@ class UsersService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -5246,7 +5246,7 @@ class UsersService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -5411,7 +5411,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getOrgsIDOwnersAsync($org_id, $zap_trace_span = null)
     {
@@ -5432,7 +5432,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getOrgsIDOwnersAsyncWithHttpInfo($org_id, $zap_trace_span = null)
     {
@@ -5480,7 +5480,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function getOrgsIDOwnersRequest($org_id, $zap_trace_span = null)
     {
@@ -5530,7 +5530,7 @@ class UsersService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -5547,11 +5547,11 @@ class UsersService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -5567,7 +5567,7 @@ class UsersService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -5712,7 +5712,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getScrapersIDMembersAsync($scraper_target_id, $zap_trace_span = null)
     {
@@ -5733,7 +5733,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getScrapersIDMembersAsyncWithHttpInfo($scraper_target_id, $zap_trace_span = null)
     {
@@ -5781,7 +5781,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function getScrapersIDMembersRequest($scraper_target_id, $zap_trace_span = null)
     {
@@ -5831,7 +5831,7 @@ class UsersService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -5848,11 +5848,11 @@ class UsersService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -5868,7 +5868,7 @@ class UsersService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -6013,7 +6013,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getScrapersIDOwnersAsync($scraper_target_id, $zap_trace_span = null)
     {
@@ -6034,7 +6034,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getScrapersIDOwnersAsyncWithHttpInfo($scraper_target_id, $zap_trace_span = null)
     {
@@ -6082,7 +6082,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function getScrapersIDOwnersRequest($scraper_target_id, $zap_trace_span = null)
     {
@@ -6132,7 +6132,7 @@ class UsersService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -6149,11 +6149,11 @@ class UsersService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -6169,7 +6169,7 @@ class UsersService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -6314,7 +6314,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getTasksIDMembersAsync($task_id, $zap_trace_span = null)
     {
@@ -6335,7 +6335,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getTasksIDMembersAsyncWithHttpInfo($task_id, $zap_trace_span = null)
     {
@@ -6383,7 +6383,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function getTasksIDMembersRequest($task_id, $zap_trace_span = null)
     {
@@ -6433,7 +6433,7 @@ class UsersService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -6450,11 +6450,11 @@ class UsersService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -6470,7 +6470,7 @@ class UsersService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -6615,7 +6615,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getTasksIDOwnersAsync($task_id, $zap_trace_span = null)
     {
@@ -6636,7 +6636,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getTasksIDOwnersAsyncWithHttpInfo($task_id, $zap_trace_span = null)
     {
@@ -6684,7 +6684,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function getTasksIDOwnersRequest($task_id, $zap_trace_span = null)
     {
@@ -6734,7 +6734,7 @@ class UsersService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -6751,11 +6751,11 @@ class UsersService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -6771,7 +6771,7 @@ class UsersService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -6916,7 +6916,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getTelegrafsIDMembersAsync($telegraf_id, $zap_trace_span = null)
     {
@@ -6937,7 +6937,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getTelegrafsIDMembersAsyncWithHttpInfo($telegraf_id, $zap_trace_span = null)
     {
@@ -6985,7 +6985,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function getTelegrafsIDMembersRequest($telegraf_id, $zap_trace_span = null)
     {
@@ -7035,7 +7035,7 @@ class UsersService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -7052,11 +7052,11 @@ class UsersService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -7072,7 +7072,7 @@ class UsersService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -7217,7 +7217,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getTelegrafsIDOwnersAsync($telegraf_id, $zap_trace_span = null)
     {
@@ -7238,7 +7238,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getTelegrafsIDOwnersAsyncWithHttpInfo($telegraf_id, $zap_trace_span = null)
     {
@@ -7286,7 +7286,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function getTelegrafsIDOwnersRequest($telegraf_id, $zap_trace_span = null)
     {
@@ -7336,7 +7336,7 @@ class UsersService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -7353,11 +7353,11 @@ class UsersService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -7373,7 +7373,7 @@ class UsersService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -7515,7 +7515,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getUsersAsync($zap_trace_span = null)
     {
@@ -7535,7 +7535,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getUsersAsyncWithHttpInfo($zap_trace_span = null)
     {
@@ -7582,7 +7582,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function getUsersRequest($zap_trace_span = null)
     {
@@ -7618,7 +7618,7 @@ class UsersService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -7635,11 +7635,11 @@ class UsersService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -7655,7 +7655,7 @@ class UsersService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -7800,7 +7800,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getUsersIDAsync($user_id, $zap_trace_span = null)
     {
@@ -7821,7 +7821,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getUsersIDAsyncWithHttpInfo($user_id, $zap_trace_span = null)
     {
@@ -7869,7 +7869,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function getUsersIDRequest($user_id, $zap_trace_span = null)
     {
@@ -7919,7 +7919,7 @@ class UsersService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -7936,11 +7936,11 @@ class UsersService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -7956,7 +7956,7 @@ class UsersService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -8104,7 +8104,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function patchUsersIDAsync($user_id, $user, $zap_trace_span = null)
     {
@@ -8126,7 +8126,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function patchUsersIDAsyncWithHttpInfo($user_id, $user, $zap_trace_span = null)
     {
@@ -8175,7 +8175,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function patchUsersIDRequest($user_id, $user, $zap_trace_span = null)
     {
@@ -8234,7 +8234,7 @@ class UsersService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -8251,11 +8251,11 @@ class UsersService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -8271,7 +8271,7 @@ class UsersService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'PATCH',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -8419,7 +8419,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function postBucketsIDMembersAsync($bucket_id, $add_resource_member_request_body, $zap_trace_span = null)
     {
@@ -8441,7 +8441,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function postBucketsIDMembersAsyncWithHttpInfo($bucket_id, $add_resource_member_request_body, $zap_trace_span = null)
     {
@@ -8490,7 +8490,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function postBucketsIDMembersRequest($bucket_id, $add_resource_member_request_body, $zap_trace_span = null)
     {
@@ -8549,7 +8549,7 @@ class UsersService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -8566,11 +8566,11 @@ class UsersService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -8586,7 +8586,7 @@ class UsersService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -8734,7 +8734,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function postBucketsIDOwnersAsync($bucket_id, $add_resource_member_request_body, $zap_trace_span = null)
     {
@@ -8756,7 +8756,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function postBucketsIDOwnersAsyncWithHttpInfo($bucket_id, $add_resource_member_request_body, $zap_trace_span = null)
     {
@@ -8805,7 +8805,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function postBucketsIDOwnersRequest($bucket_id, $add_resource_member_request_body, $zap_trace_span = null)
     {
@@ -8864,7 +8864,7 @@ class UsersService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -8881,11 +8881,11 @@ class UsersService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -8901,7 +8901,7 @@ class UsersService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -9049,7 +9049,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function postDashboardsIDMembersAsync($dashboard_id, $add_resource_member_request_body, $zap_trace_span = null)
     {
@@ -9071,7 +9071,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function postDashboardsIDMembersAsyncWithHttpInfo($dashboard_id, $add_resource_member_request_body, $zap_trace_span = null)
     {
@@ -9120,7 +9120,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function postDashboardsIDMembersRequest($dashboard_id, $add_resource_member_request_body, $zap_trace_span = null)
     {
@@ -9179,7 +9179,7 @@ class UsersService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -9196,11 +9196,11 @@ class UsersService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -9216,7 +9216,7 @@ class UsersService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -9364,7 +9364,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function postDashboardsIDOwnersAsync($dashboard_id, $add_resource_member_request_body, $zap_trace_span = null)
     {
@@ -9386,7 +9386,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function postDashboardsIDOwnersAsyncWithHttpInfo($dashboard_id, $add_resource_member_request_body, $zap_trace_span = null)
     {
@@ -9435,7 +9435,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function postDashboardsIDOwnersRequest($dashboard_id, $add_resource_member_request_body, $zap_trace_span = null)
     {
@@ -9494,7 +9494,7 @@ class UsersService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -9511,11 +9511,11 @@ class UsersService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -9531,7 +9531,7 @@ class UsersService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -9679,7 +9679,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function postOrgsIDMembersAsync($org_id, $add_resource_member_request_body, $zap_trace_span = null)
     {
@@ -9701,7 +9701,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function postOrgsIDMembersAsyncWithHttpInfo($org_id, $add_resource_member_request_body, $zap_trace_span = null)
     {
@@ -9750,7 +9750,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function postOrgsIDMembersRequest($org_id, $add_resource_member_request_body, $zap_trace_span = null)
     {
@@ -9809,7 +9809,7 @@ class UsersService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -9826,11 +9826,11 @@ class UsersService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -9846,7 +9846,7 @@ class UsersService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -9994,7 +9994,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function postOrgsIDOwnersAsync($org_id, $add_resource_member_request_body, $zap_trace_span = null)
     {
@@ -10016,7 +10016,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function postOrgsIDOwnersAsyncWithHttpInfo($org_id, $add_resource_member_request_body, $zap_trace_span = null)
     {
@@ -10065,7 +10065,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function postOrgsIDOwnersRequest($org_id, $add_resource_member_request_body, $zap_trace_span = null)
     {
@@ -10124,7 +10124,7 @@ class UsersService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -10141,11 +10141,11 @@ class UsersService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -10161,7 +10161,7 @@ class UsersService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -10309,7 +10309,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function postScrapersIDMembersAsync($scraper_target_id, $add_resource_member_request_body, $zap_trace_span = null)
     {
@@ -10331,7 +10331,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function postScrapersIDMembersAsyncWithHttpInfo($scraper_target_id, $add_resource_member_request_body, $zap_trace_span = null)
     {
@@ -10380,7 +10380,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function postScrapersIDMembersRequest($scraper_target_id, $add_resource_member_request_body, $zap_trace_span = null)
     {
@@ -10439,7 +10439,7 @@ class UsersService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -10456,11 +10456,11 @@ class UsersService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -10476,7 +10476,7 @@ class UsersService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -10624,7 +10624,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function postScrapersIDOwnersAsync($scraper_target_id, $add_resource_member_request_body, $zap_trace_span = null)
     {
@@ -10646,7 +10646,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function postScrapersIDOwnersAsyncWithHttpInfo($scraper_target_id, $add_resource_member_request_body, $zap_trace_span = null)
     {
@@ -10695,7 +10695,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function postScrapersIDOwnersRequest($scraper_target_id, $add_resource_member_request_body, $zap_trace_span = null)
     {
@@ -10754,7 +10754,7 @@ class UsersService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -10771,11 +10771,11 @@ class UsersService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -10791,7 +10791,7 @@ class UsersService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -10939,7 +10939,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function postTasksIDMembersAsync($task_id, $add_resource_member_request_body, $zap_trace_span = null)
     {
@@ -10961,7 +10961,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function postTasksIDMembersAsyncWithHttpInfo($task_id, $add_resource_member_request_body, $zap_trace_span = null)
     {
@@ -11010,7 +11010,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function postTasksIDMembersRequest($task_id, $add_resource_member_request_body, $zap_trace_span = null)
     {
@@ -11069,7 +11069,7 @@ class UsersService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -11086,11 +11086,11 @@ class UsersService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -11106,7 +11106,7 @@ class UsersService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -11254,7 +11254,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function postTasksIDOwnersAsync($task_id, $add_resource_member_request_body, $zap_trace_span = null)
     {
@@ -11276,7 +11276,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function postTasksIDOwnersAsyncWithHttpInfo($task_id, $add_resource_member_request_body, $zap_trace_span = null)
     {
@@ -11325,7 +11325,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function postTasksIDOwnersRequest($task_id, $add_resource_member_request_body, $zap_trace_span = null)
     {
@@ -11384,7 +11384,7 @@ class UsersService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -11401,11 +11401,11 @@ class UsersService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -11421,7 +11421,7 @@ class UsersService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -11569,7 +11569,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function postTelegrafsIDMembersAsync($telegraf_id, $add_resource_member_request_body, $zap_trace_span = null)
     {
@@ -11591,7 +11591,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function postTelegrafsIDMembersAsyncWithHttpInfo($telegraf_id, $add_resource_member_request_body, $zap_trace_span = null)
     {
@@ -11640,7 +11640,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function postTelegrafsIDMembersRequest($telegraf_id, $add_resource_member_request_body, $zap_trace_span = null)
     {
@@ -11699,7 +11699,7 @@ class UsersService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -11716,11 +11716,11 @@ class UsersService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -11736,7 +11736,7 @@ class UsersService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -11884,7 +11884,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function postTelegrafsIDOwnersAsync($telegraf_id, $add_resource_member_request_body, $zap_trace_span = null)
     {
@@ -11906,7 +11906,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function postTelegrafsIDOwnersAsyncWithHttpInfo($telegraf_id, $add_resource_member_request_body, $zap_trace_span = null)
     {
@@ -11955,7 +11955,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function postTelegrafsIDOwnersRequest($telegraf_id, $add_resource_member_request_body, $zap_trace_span = null)
     {
@@ -12014,7 +12014,7 @@ class UsersService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -12031,11 +12031,11 @@ class UsersService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -12051,7 +12051,7 @@ class UsersService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -12196,7 +12196,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function postUsersAsync($user, $zap_trace_span = null)
     {
@@ -12217,7 +12217,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function postUsersAsyncWithHttpInfo($user, $zap_trace_span = null)
     {
@@ -12265,7 +12265,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function postUsersRequest($user, $zap_trace_span = null)
     {
@@ -12310,7 +12310,7 @@ class UsersService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -12327,11 +12327,11 @@ class UsersService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -12347,7 +12347,7 @@ class UsersService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -12446,7 +12446,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function postUsersIDPasswordAsync($user_id, $password_reset_body, $zap_trace_span = null)
     {
@@ -12468,7 +12468,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function postUsersIDPasswordAsyncWithHttpInfo($user_id, $password_reset_body, $zap_trace_span = null)
     {
@@ -12506,7 +12506,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function postUsersIDPasswordRequest($user_id, $password_reset_body, $zap_trace_span = null)
     {
@@ -12565,7 +12565,7 @@ class UsersService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -12582,11 +12582,11 @@ class UsersService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -12606,7 +12606,7 @@ class UsersService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -12702,7 +12702,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function putMePasswordAsync($password_reset_body, $zap_trace_span = null)
     {
@@ -12723,7 +12723,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function putMePasswordAsyncWithHttpInfo($password_reset_body, $zap_trace_span = null)
     {
@@ -12760,7 +12760,7 @@ class UsersService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function putMePasswordRequest($password_reset_body, $zap_trace_span = null)
     {
@@ -12805,7 +12805,7 @@ class UsersService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -12822,11 +12822,11 @@ class UsersService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -12846,7 +12846,7 @@ class UsersService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'PUT',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),

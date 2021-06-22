@@ -1,11 +1,11 @@
 <?php
-namespace GuzzleHttp\Ring\Client;
+namespace DLGuzzleHttp\Ring\Client;
 
-use GuzzleHttp\Ring\Core;
-use GuzzleHttp\Ring\Exception\ConnectException;
-use GuzzleHttp\Ring\Exception\RingException;
-use GuzzleHttp\Stream\LazyOpenStream;
-use GuzzleHttp\Stream\StreamInterface;
+use DLGuzzleHttp\Ring\Core;
+use DLGuzzleHttp\Ring\Exception\ConnectException;
+use DLGuzzleHttp\Ring\Exception\RingException;
+use DLGuzzleHttp\Stream\LazyOpenStream;
+use DLGuzzleHttp\Stream\StreamInterface;
 
 /**
  * Creates curl resources from a request

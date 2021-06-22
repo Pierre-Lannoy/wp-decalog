@@ -1,7 +1,7 @@
 <?php
-namespace GuzzleHttp\Stream;
+namespace DLGuzzleHttp\Stream;
 
-use GuzzleHttp\Stream\Exception\CannotAttachException;
+use DLGuzzleHttp\Stream\Exception\CannotAttachException;
 
 /**
  * Provides a read only stream that pumps data from a PHP callable.

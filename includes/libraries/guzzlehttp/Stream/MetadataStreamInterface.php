@@ -1,5 +1,5 @@
 <?php
-namespace GuzzleHttp\Stream;
+namespace DLGuzzleHttp\Stream;
 
 /**
  * This interface is deprecated and should no longer be used. Just use

@@ -28,12 +28,12 @@
 
 namespace InfluxDB2\Service;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Psr7\MultipartStream;
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\RequestOptions;
+use DLGuzzleHttp\Client;
+use DLGuzzleHttp\ClientInterface;
+use DLGuzzleHttp\Exception\RequestException;
+use DLGuzzleHttp\Psr7\MultipartStream;
+use DLGuzzleHttp\Psr7\Request;
+use DLGuzzleHttp\RequestOptions;
 use InfluxDB2\ApiException;
 use InfluxDB2\Configuration;
 use InfluxDB2\HeaderSelector;
@@ -200,7 +200,7 @@ class SetupService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getSetupAsync($zap_trace_span = null)
     {
@@ -220,7 +220,7 @@ class SetupService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function getSetupAsyncWithHttpInfo($zap_trace_span = null)
     {
@@ -267,7 +267,7 @@ class SetupService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function getSetupRequest($zap_trace_span = null)
     {
@@ -303,7 +303,7 @@ class SetupService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -320,11 +320,11 @@ class SetupService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -340,7 +340,7 @@ class SetupService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -485,7 +485,7 @@ class SetupService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function postSetupAsync($onboarding_request, $zap_trace_span = null)
     {
@@ -506,7 +506,7 @@ class SetupService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function postSetupAsyncWithHttpInfo($onboarding_request, $zap_trace_span = null)
     {
@@ -554,7 +554,7 @@ class SetupService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function postSetupRequest($onboarding_request, $zap_trace_span = null)
     {
@@ -599,7 +599,7 @@ class SetupService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -616,11 +616,11 @@ class SetupService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -636,7 +636,7 @@ class SetupService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
@@ -781,7 +781,7 @@ class SetupService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function postSetupUserAsync($onboarding_request, $zap_trace_span = null)
     {
@@ -802,7 +802,7 @@ class SetupService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function postSetupUserAsyncWithHttpInfo($onboarding_request, $zap_trace_span = null)
     {
@@ -850,7 +850,7 @@ class SetupService
      * @param  string $zap_trace_span OpenTracing span context (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function postSetupUserRequest($onboarding_request, $zap_trace_span = null)
     {
@@ -895,7 +895,7 @@ class SetupService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -912,11 +912,11 @@ class SetupService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -932,7 +932,7 @@ class SetupService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),

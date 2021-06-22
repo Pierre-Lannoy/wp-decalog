@@ -1,5 +1,5 @@
 <?php
-namespace GuzzleHttp\Ring\Future;
+namespace DLGuzzleHttp\Ring\Future;
 
 /**
  * Represents a future array value that when dereferenced returns an array.

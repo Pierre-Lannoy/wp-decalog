@@ -1,5 +1,5 @@
 <?php
-namespace GuzzleHttp\Stream;
+namespace DLGuzzleHttp\Stream;
 
 /**
  * PHP stream implementation

@@ -1,6 +1,6 @@
 <?php
 
-namespace GuzzleHttp\Promise;
+namespace DLGuzzleHttp\Promise;
 
 final class Utils
 {
@@ -13,7 +13,7 @@ final class Utils
      *
      * <code>
      * while ($eventLoop->isRunning()) {
-     *     GuzzleHttp\Promise\Utils::queue()->run();
+     *     DLGuzzleHttp\Promise\Utils::queue()->run();
      * }
      * </code>
      *

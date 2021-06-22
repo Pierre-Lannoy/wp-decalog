@@ -1,5 +1,5 @@
 <?php
-namespace GuzzleHttp\Ring\Future;
+namespace DLGuzzleHttp\Ring\Future;
 
 /**
  * Represents a future array that has been completed successfully.

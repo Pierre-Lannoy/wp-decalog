@@ -1,6 +1,6 @@
 <?php
 
-namespace GuzzleHttp\Promise;
+namespace DLGuzzleHttp\Promise;
 
 /**
  * A task queue that executes tasks in a FIFO order.
@@ -9,7 +9,7 @@ namespace GuzzleHttp\Promise;
  * maintains a constant stack size. You can use the task queue asynchronously
  * by calling the `run()` function of the global task queue in an event loop.
  *
- *     GuzzleHttp\Promise\Utils::queue()->run();
+ *     DLGuzzleHttp\Promise\Utils::queue()->run();
  */
 class TaskQueue implements TaskQueueInterface
 {

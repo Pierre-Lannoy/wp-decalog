@@ -1,8 +1,8 @@
 <?php
-namespace GuzzleHttp\Ring\Future;
+namespace DLGuzzleHttp\Ring\Future;
 
-use GuzzleHttp\Ring\Exception\CancelledFutureAccessException;
-use GuzzleHttp\Ring\Exception\RingException;
+use DLGuzzleHttp\Ring\Exception\CancelledFutureAccessException;
+use DLGuzzleHttp\Ring\Exception\RingException;
 use React\Promise\PromiseInterface;
 
 /**

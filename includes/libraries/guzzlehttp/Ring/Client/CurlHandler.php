@@ -1,8 +1,8 @@
 <?php
-namespace GuzzleHttp\Ring\Client;
+namespace DLGuzzleHttp\Ring\Client;
 
-use GuzzleHttp\Ring\Future\CompletedFutureArray;
-use GuzzleHttp\Ring\Core;
+use DLGuzzleHttp\Ring\Future\CompletedFutureArray;
+use DLGuzzleHttp\Ring\Core;
 
 /**
  * HTTP handler that uses cURL easy handles as a transport layer.

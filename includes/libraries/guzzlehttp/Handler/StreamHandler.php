@@ -1,15 +1,15 @@
 <?php
 
-namespace GuzzleHttp\Handler;
+namespace DLGuzzleHttp\Handler;
 
-use GuzzleHttp\Exception\ConnectException;
-use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Promise as P;
-use GuzzleHttp\Promise\FulfilledPromise;
-use GuzzleHttp\Promise\PromiseInterface;
-use GuzzleHttp\Psr7;
-use GuzzleHttp\TransferStats;
-use GuzzleHttp\Utils;
+use DLGuzzleHttp\Exception\ConnectException;
+use DLGuzzleHttp\Exception\RequestException;
+use DLGuzzleHttp\Promise as P;
+use DLGuzzleHttp\Promise\FulfilledPromise;
+use DLGuzzleHttp\Promise\PromiseInterface;
+use DLGuzzleHttp\Psr7;
+use DLGuzzleHttp\TransferStats;
+use DLGuzzleHttp\Utils;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;

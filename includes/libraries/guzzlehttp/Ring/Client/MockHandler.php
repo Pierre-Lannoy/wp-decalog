@@ -1,9 +1,9 @@
 <?php
-namespace GuzzleHttp\Ring\Client;
+namespace DLGuzzleHttp\Ring\Client;
 
-use GuzzleHttp\Ring\Core;
-use GuzzleHttp\Ring\Future\CompletedFutureArray;
-use GuzzleHttp\Ring\Future\FutureArrayInterface;
+use DLGuzzleHttp\Ring\Core;
+use DLGuzzleHttp\Ring\Future\CompletedFutureArray;
+use DLGuzzleHttp\Ring\Future\FutureArrayInterface;
 
 /**
  * Ring handler that returns a canned response or evaluated function result.

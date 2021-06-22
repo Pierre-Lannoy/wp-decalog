@@ -1,5 +1,5 @@
 <?php
-namespace GuzzleHttp\Ring\Future;
+namespace DLGuzzleHttp\Ring\Future;
 
 /**
  * Future that provides array-like access.

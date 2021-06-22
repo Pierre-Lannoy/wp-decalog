@@ -1,6 +1,6 @@
 <?php
 
-namespace GuzzleHttp\Handler;
+namespace DLGuzzleHttp\Handler;
 
 use Psr\Http\Message\RequestInterface;
 

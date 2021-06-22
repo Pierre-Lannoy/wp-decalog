@@ -1,5 +1,5 @@
 <?php
-namespace GuzzleHttp\Stream;
+namespace DLGuzzleHttp\Stream;
 
 /**
  * Stream decorator that begins dropping data once the size of the underlying

@@ -1,9 +1,9 @@
 <?php
-namespace GuzzleHttp\Ring;
+namespace DLGuzzleHttp\Ring;
 
-use GuzzleHttp\Stream\StreamInterface;
-use GuzzleHttp\Ring\Future\FutureArrayInterface;
-use GuzzleHttp\Ring\Future\FutureArray;
+use DLGuzzleHttp\Stream\StreamInterface;
+use DLGuzzleHttp\Ring\Future\FutureArrayInterface;
+use DLGuzzleHttp\Ring\Future\FutureArray;
 
 /**
  * Provides core functionality of Ring handlers and middleware.

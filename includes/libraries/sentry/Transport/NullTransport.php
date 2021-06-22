@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Sentry\Transport;
 
-use GuzzleHttp\Promise\FulfilledPromise;
-use GuzzleHttp\Promise\PromiseInterface;
+use DLGuzzleHttp\Promise\FulfilledPromise;
+use DLGuzzleHttp\Promise\PromiseInterface;
 use Sentry\Event;
 use Sentry\Response;
 use Sentry\ResponseStatus;

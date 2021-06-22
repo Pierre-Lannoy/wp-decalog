@@ -1,5 +1,5 @@
 <?php
-namespace GuzzleHttp\Ring\Client;
+namespace DLGuzzleHttp\Ring\Client;
 
 /**
  * Client specific utility functions.

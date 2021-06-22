@@ -1,7 +1,7 @@
 <?php
-namespace GuzzleHttp\Stream\Exception;
+namespace DLGuzzleHttp\Stream\Exception;
 
-use GuzzleHttp\Stream\StreamInterface;
+use DLGuzzleHttp\Stream\StreamInterface;
 
 /**
  * Exception thrown when a seek fails on a stream.

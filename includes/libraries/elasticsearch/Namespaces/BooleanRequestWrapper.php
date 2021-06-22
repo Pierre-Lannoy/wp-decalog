@@ -8,7 +8,7 @@ use Elasticsearch\Common\Exceptions\Missing404Exception;
 use Elasticsearch\Common\Exceptions\RoutingMissingException;
 use Elasticsearch\Endpoints\AbstractEndpoint;
 use Elasticsearch\Transport;
-use GuzzleHttp\Ring\Future\FutureArrayInterface;
+use DLGuzzleHttp\Ring\Future\FutureArrayInterface;
 
 /**
  * Trait AbstractNamespace

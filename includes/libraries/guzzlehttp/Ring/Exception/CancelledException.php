@@ -1,5 +1,5 @@
 <?php
-namespace GuzzleHttp\Ring\Exception;
+namespace DLGuzzleHttp\Ring\Exception;
 
 /**
  * Marker interface for cancelled exceptions.

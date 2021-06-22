@@ -28,12 +28,12 @@
 
 namespace InfluxDB2\Service;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Psr7\MultipartStream;
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\RequestOptions;
+use DLGuzzleHttp\Client;
+use DLGuzzleHttp\ClientInterface;
+use DLGuzzleHttp\Exception\RequestException;
+use DLGuzzleHttp\Psr7\MultipartStream;
+use DLGuzzleHttp\Psr7\Request;
+use DLGuzzleHttp\RequestOptions;
 use InfluxDB2\ApiException;
 use InfluxDB2\Configuration;
 use InfluxDB2\HeaderSelector;
@@ -230,7 +230,7 @@ class WriteService
      * @param  \InfluxDB2\Model\WritePrecision $precision The precision for the unix timestamps within the body line-protocol. (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function postWriteAsync($org, $bucket, $body, $zap_trace_span = null, $content_encoding = 'identity', $content_type = 'text/plain; charset=utf-8', $content_length = null, $accept = 'application/json', $org_id = null, $precision = null)
     {
@@ -259,7 +259,7 @@ class WriteService
      * @param  \InfluxDB2\Model\WritePrecision $precision The precision for the unix timestamps within the body line-protocol. (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Promise\PromiseInterface
+     * @return \DLGuzzleHttp\Promise\PromiseInterface
      */
     public function postWriteAsyncWithHttpInfo($org, $bucket, $body, $zap_trace_span = null, $content_encoding = 'identity', $content_type = 'text/plain; charset=utf-8', $content_length = null, $accept = 'application/json', $org_id = null, $precision = null)
     {
@@ -304,7 +304,7 @@ class WriteService
      * @param  \InfluxDB2\Model\WritePrecision $precision The precision for the unix timestamps within the body line-protocol. (optional)
      *
      * @throws \InvalidArgumentException
-     * @return \GuzzleHttp\Psr7\Request
+     * @return \DLGuzzleHttp\Psr7\Request
      */
     protected function postWriteRequest($org, $bucket, $body, $zap_trace_span = null, $content_encoding = 'identity', $content_type = 'text/plain; charset=utf-8', $content_length = null, $accept = 'application/json', $org_id = null, $precision = null)
     {
@@ -393,7 +393,7 @@ class WriteService
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \DLGuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
             } else {
                 $httpBody = $_tempBody;
             }
@@ -410,11 +410,11 @@ class WriteService
                 $httpBody = new MultipartStream($multipartContents);
 
             } elseif ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($formParams);
+                $httpBody = \DLGuzzleHttp\json_encode($formParams);
 
             } else {
                 // for HTTP post (form)
-                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+                $httpBody = \DLGuzzleHttp\Psr7\build_query($formParams);
             }
         }
 
@@ -430,7 +430,7 @@ class WriteService
             $headers
         );
 
-        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        $query = \DLGuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'POST',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),

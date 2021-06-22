@@ -1,5 +1,5 @@
 <?php
-namespace GuzzleHttp\Stream;
+namespace DLGuzzleHttp\Stream;
 
 /**
  * Stream decorator that prevents a stream from being seeked

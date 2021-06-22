@@ -2,7 +2,7 @@
 
 namespace InfluxDB2;
 
-use GuzzleHttp\Exception\ConnectException;
+use DLGuzzleHttp\Exception\ConnectException;
 use InfluxDB2\Model\WritePrecision;
 
 /**

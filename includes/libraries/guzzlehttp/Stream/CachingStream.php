@@ -1,7 +1,7 @@
 <?php
-namespace GuzzleHttp\Stream;
+namespace DLGuzzleHttp\Stream;
 
-use GuzzleHttp\Stream\Exception\SeekException;
+use DLGuzzleHttp\Stream\Exception\SeekException;
 
 /**
  * Stream decorator that can cache previously read bytes from a sequentially

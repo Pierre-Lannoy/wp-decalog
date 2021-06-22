@@ -1,9 +1,9 @@
 <?php
 
-namespace GuzzleHttp;
+namespace DLGuzzleHttp;
 
-use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Promise\PromiseInterface;
+use DLGuzzleHttp\Exception\GuzzleException;
+use DLGuzzleHttp\Promise\PromiseInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\UriInterface;

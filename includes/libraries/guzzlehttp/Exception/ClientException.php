@@ -1,6 +1,6 @@
 <?php
 
-namespace GuzzleHttp\Exception;
+namespace DLGuzzleHttp\Exception;
 
 /**
  * Exception when a client error is encountered (4xx codes)

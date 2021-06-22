@@ -23,9 +23,9 @@ use Elasticsearch\Common\Exceptions\ServerErrorResponseException;
 use Elasticsearch\Common\Exceptions\TransportException;
 use Elasticsearch\Serializers\SerializerInterface;
 use Elasticsearch\Transport;
-use GuzzleHttp\Ring\Core;
-use GuzzleHttp\Ring\Exception\ConnectException;
-use GuzzleHttp\Ring\Exception\RingException;
+use DLGuzzleHttp\Ring\Core;
+use DLGuzzleHttp\Ring\Exception\ConnectException;
+use DLGuzzleHttp\Ring\Exception\RingException;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -476,7 +476,7 @@ class Connection implements ConnectionInterface
     }
 
     /**
-     * @return array|\GuzzleHttp\Ring\Future\FutureArray
+     * @return array|\DLGuzzleHttp\Ring\Future\FutureArray
      */
     public function sniff()
     {

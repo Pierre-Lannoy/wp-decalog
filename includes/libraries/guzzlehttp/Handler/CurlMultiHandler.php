@@ -1,11 +1,11 @@
 <?php
 
-namespace GuzzleHttp\Handler;
+namespace DLGuzzleHttp\Handler;
 
-use GuzzleHttp\Promise as P;
-use GuzzleHttp\Promise\Promise;
-use GuzzleHttp\Promise\PromiseInterface;
-use GuzzleHttp\Utils;
+use DLGuzzleHttp\Promise as P;
+use DLGuzzleHttp\Promise\Promise;
+use DLGuzzleHttp\Promise\PromiseInterface;
+use DLGuzzleHttp\Utils;
 use Psr\Http\Message\RequestInterface;
 
 /**

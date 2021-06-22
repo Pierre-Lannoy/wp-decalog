@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Sentry\Transport;
 
-use GuzzleHttp\Promise\FulfilledPromise;
-use GuzzleHttp\Promise\PromiseInterface;
-use GuzzleHttp\Promise\RejectedPromise;
+use DLGuzzleHttp\Promise\FulfilledPromise;
+use DLGuzzleHttp\Promise\PromiseInterface;
+use DLGuzzleHttp\Promise\RejectedPromise;
 use Http\Client\HttpAsyncClient as HttpAsyncClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\ResponseInterface;

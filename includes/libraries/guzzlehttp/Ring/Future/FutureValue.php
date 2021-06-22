@@ -1,5 +1,5 @@
 <?php
-namespace GuzzleHttp\Ring\Future;
+namespace DLGuzzleHttp\Ring\Future;
 
 /**
  * Represents a future value that responds to wait() to retrieve the promised

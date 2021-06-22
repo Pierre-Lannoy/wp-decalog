@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Sentry;
 
-use GuzzleHttp\Promise\PromiseInterface;
+use DLGuzzleHttp\Promise\PromiseInterface;
 use Sentry\Integration\IntegrationInterface;
 use Sentry\State\Scope;
 

@@ -1,5 +1,5 @@
 <?php
-namespace GuzzleHttp\Ring\Exception;
+namespace DLGuzzleHttp\Ring\Exception;
 
 /**
  * Occurs when the connection failed.

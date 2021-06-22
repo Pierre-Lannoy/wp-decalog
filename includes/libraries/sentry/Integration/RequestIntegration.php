@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Sentry\Integration;
 
-use GuzzleHttp\Psr7\Utils;
+use DLGuzzleHttp\Psr7\Utils;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UploadedFileInterface;
 use Sentry\Event;

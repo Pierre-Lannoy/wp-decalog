@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Sentry\HttpClient;
 
-use GuzzleHttp\RequestOptions as GuzzleHttpClientOptions;
-use Http\Adapter\Guzzle6\Client as GuzzleHttpClient;
+use DLGuzzleHttp\RequestOptions as DLGuzzleHttpClientOptions;
+use Http\Adapter\Guzzle6\Client as DLGuzzleHttpClient;
 use Http\Client\Common\Plugin\AuthenticationPlugin;
 use Http\Client\Common\Plugin\DecoderPlugin;
 use Http\Client\Common\Plugin\ErrorPlugin;
@@ -129,8 +129,8 @@ final class HttpClientFactory implements HttpClientFactoryInterface
             } elseif (class_exists(GuzzleHttpClient::class)) {
                 /** @psalm-suppress UndefinedClass */
                 $guzzleConfig = [
-                    GuzzleHttpClientOptions::TIMEOUT => self::DEFAULT_HTTP_TIMEOUT,
-                    GuzzleHttpClientOptions::CONNECT_TIMEOUT => self::DEFAULT_HTTP_CONNECT_TIMEOUT,
+                    DLGuzzleHttpClientOptions::TIMEOUT => self::DEFAULT_HTTP_TIMEOUT,
+                    DLGuzzleHttpClientOptions::CONNECT_TIMEOUT => self::DEFAULT_HTTP_CONNECT_TIMEOUT,
                 ];
 
                 if (null !== $options->getHttpProxy()) {
@@ -139,7 +139,7 @@ final class HttpClientFactory implements HttpClientFactoryInterface
                 }
 
                 /** @psalm-suppress InvalidPropertyAssignmentValue */
-                $httpClient = GuzzleHttpClient::createWithConfig($guzzleConfig);
+                $httpClient = DLGuzzleHttpClient::createWithConfig($guzzleConfig);
             } elseif (class_exists(CurlHttpClient::class)) {
                 $curlConfig = [
                     \CURLOPT_TIMEOUT => self::DEFAULT_HTTP_TIMEOUT,

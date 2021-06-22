@@ -1,14 +1,14 @@
 <?php
-namespace GuzzleHttp\Ring\Client;
+namespace DLGuzzleHttp\Ring\Client;
 
-use GuzzleHttp\Ring\Core;
-use GuzzleHttp\Ring\Exception\ConnectException;
-use GuzzleHttp\Ring\Exception\RingException;
-use GuzzleHttp\Ring\Future\CompletedFutureArray;
-use GuzzleHttp\Stream\InflateStream;
-use GuzzleHttp\Stream\StreamInterface;
-use GuzzleHttp\Stream\Stream;
-use GuzzleHttp\Stream\Utils;
+use DLGuzzleHttp\Ring\Core;
+use DLGuzzleHttp\Ring\Exception\ConnectException;
+use DLGuzzleHttp\Ring\Exception\RingException;
+use DLGuzzleHttp\Ring\Future\CompletedFutureArray;
+use DLGuzzleHttp\Stream\InflateStream;
+use DLGuzzleHttp\Stream\StreamInterface;
+use DLGuzzleHttp\Stream\Stream;
+use DLGuzzleHttp\Stream\Utils;
 
 /**
  * RingPHP client handler that uses PHP's HTTP stream wrapper.

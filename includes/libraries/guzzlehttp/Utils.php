@@ -1,12 +1,12 @@
 <?php
 
-namespace GuzzleHttp;
+namespace DLGuzzleHttp;
 
-use GuzzleHttp\Exception\InvalidArgumentException;
-use GuzzleHttp\Handler\CurlHandler;
-use GuzzleHttp\Handler\CurlMultiHandler;
-use GuzzleHttp\Handler\Proxy;
-use GuzzleHttp\Handler\StreamHandler;
+use DLGuzzleHttp\Exception\InvalidArgumentException;
+use DLGuzzleHttp\Handler\CurlHandler;
+use DLGuzzleHttp\Handler\CurlMultiHandler;
+use DLGuzzleHttp\Handler\Proxy;
+use DLGuzzleHttp\Handler\StreamHandler;
 use Psr\Http\Message\UriInterface;
 
 final class Utils
@@ -86,7 +86,7 @@ final class Utils
      *
      * @throws \RuntimeException if no viable Handler is available.
      *
-     * @return callable(\Psr\Http\Message\RequestInterface, array): \GuzzleHttp\Promise\PromiseInterface Returns the best handler for the given system.
+     * @return callable(\Psr\Http\Message\RequestInterface, array): \DLGuzzleHttp\Promise\PromiseInterface Returns the best handler for the given system.
      */
     public static function chooseHandler(): callable
     {

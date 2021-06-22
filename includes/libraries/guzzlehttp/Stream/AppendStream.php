@@ -1,7 +1,7 @@
 <?php
-namespace GuzzleHttp\Stream;
+namespace DLGuzzleHttp\Stream;
 
-use GuzzleHttp\Stream\Exception\CannotAttachException;
+use DLGuzzleHttp\Stream\Exception\CannotAttachException;
 
 /**
  * Reads from multiple streams, one after the other.

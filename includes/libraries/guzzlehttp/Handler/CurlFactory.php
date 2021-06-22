@@ -1,15 +1,15 @@
 <?php
 
-namespace GuzzleHttp\Handler;
+namespace DLGuzzleHttp\Handler;
 
-use GuzzleHttp\Exception\ConnectException;
-use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Promise as P;
-use GuzzleHttp\Promise\FulfilledPromise;
-use GuzzleHttp\Promise\PromiseInterface;
-use GuzzleHttp\Psr7\LazyOpenStream;
-use GuzzleHttp\TransferStats;
-use GuzzleHttp\Utils;
+use DLGuzzleHttp\Exception\ConnectException;
+use DLGuzzleHttp\Exception\RequestException;
+use DLGuzzleHttp\Promise as P;
+use DLGuzzleHttp\Promise\FulfilledPromise;
+use DLGuzzleHttp\Promise\PromiseInterface;
+use DLGuzzleHttp\Psr7\LazyOpenStream;
+use DLGuzzleHttp\TransferStats;
+use DLGuzzleHttp\Utils;
 use Psr\Http\Message\RequestInterface;
 
 /**
@@ -397,7 +397,7 @@ class CurlFactory implements CurlFactoryInterface
         }
         $sink = $options['sink'];
         if (!\is_string($sink)) {
-            $sink = \GuzzleHttp\Psr7\stream_for($sink);
+            $sink = \DLGuzzleHttp\Psr7\stream_for($sink);
         } elseif (!\is_dir(\dirname($sink))) {
             // Ensure that the directory exists before failing in curl.
             throw new \RuntimeException(\sprintf('Directory %s does not exist for sink value of %s', \dirname($sink), $sink));

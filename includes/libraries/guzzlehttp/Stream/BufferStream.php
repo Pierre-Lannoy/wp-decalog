@@ -1,7 +1,7 @@
 <?php
-namespace GuzzleHttp\Stream;
+namespace DLGuzzleHttp\Stream;
 
-use GuzzleHttp\Stream\Exception\CannotAttachException;
+use DLGuzzleHttp\Stream\Exception\CannotAttachException;
 
 /**
  * Provides a buffer stream that can be written to to fill a buffer, and read
@@ -11,7 +11,7 @@ use GuzzleHttp\Stream\Exception\CannotAttachException;
  * what the configured high water mark of the stream is, or the maximum
  * preferred size of the buffer.
  *
- * @package GuzzleHttp\Stream
+ * @package DLGuzzleHttp\Stream
  */
 class BufferStream implements StreamInterface
 {

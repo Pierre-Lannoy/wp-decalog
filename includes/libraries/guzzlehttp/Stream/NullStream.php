@@ -1,6 +1,6 @@
 <?php
-namespace GuzzleHttp\Stream;
-use GuzzleHttp\Stream\Exception\CannotAttachException;
+namespace DLGuzzleHttp\Stream;
+use DLGuzzleHttp\Stream\Exception\CannotAttachException;
 
 /**
  * Does not store any data written to it.

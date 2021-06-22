@@ -1,5 +1,5 @@
 <?php
-namespace GuzzleHttp\Ring\Future;
+namespace DLGuzzleHttp\Ring\Future;
 
 /**
  * Implements common future functionality that is triggered when the result
@@ -19,7 +19,7 @@ trait MagicFutureTrait
      *
      * @return mixed Returns the dereferenced data.
      * @throws \RuntimeException
-     * @throws \GuzzleHttp\Ring\Exception\CancelledException
+     * @throws \DLGuzzleHttp\Ring\Exception\CancelledException
      */
     public function __get($name)
     {

@@ -28,7 +28,7 @@
 
 namespace InfluxDB2;
 
-use GuzzleHttp\Exception\ConnectException;
+use DLGuzzleHttp\Exception\ConnectException;
 use RuntimeException;
 
 /**

@@ -135,7 +135,7 @@ class Libraries {
 		];
 		self::$psr4_libraries['guzzlehttp']   = [
 			'name'    => 'GuzzleHttp',
-			'prefix'  => 'GuzzleHttp',
+			'prefix'  => 'DLGuzzleHttp',
 			'base'    => DECALOG_VENDOR_DIR . 'guzzlehttp/',
 			'version' => '',
 			// phpcs:ignore

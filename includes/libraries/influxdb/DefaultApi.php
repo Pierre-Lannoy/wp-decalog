@@ -2,9 +2,9 @@
 
 namespace InfluxDB2;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Exception\TransferException;
+use DLGuzzleHttp\Client;
+use DLGuzzleHttp\Exception\RequestException;
+use DLGuzzleHttp\Exception\TransferException;
 use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
 
@@ -15,7 +15,7 @@ class DefaultApi
     /** @var Client */
     public $http;
     /**
-     * Holds GuzzleHttp timeout.
+     * Holds DLGuzzleHttp timeout.
      *
      * @var int
      */

@@ -19,9 +19,9 @@ use Elasticsearch\Namespaces\NamespaceBuilderInterface;
 use Elasticsearch\Serializers\SerializerInterface;
 use Elasticsearch\ConnectionPool\Selectors;
 use Elasticsearch\Serializers\SmartSerializer;
-use GuzzleHttp\Ring\Client\CurlHandler;
-use GuzzleHttp\Ring\Client\CurlMultiHandler;
-use GuzzleHttp\Ring\Client\Middleware;
+use DLGuzzleHttp\Ring\Client\CurlHandler;
+use DLGuzzleHttp\Ring\Client\CurlMultiHandler;
+use DLGuzzleHttp\Ring\Client\Middleware;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 

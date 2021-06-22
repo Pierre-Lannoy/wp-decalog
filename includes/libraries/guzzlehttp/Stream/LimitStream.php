@@ -1,7 +1,7 @@
 <?php
-namespace GuzzleHttp\Stream;
+namespace DLGuzzleHttp\Stream;
 
-use GuzzleHttp\Stream\Exception\SeekException;
+use DLGuzzleHttp\Stream\Exception\SeekException;
 
 /**
  * Decorator used to return only a subset of a stream

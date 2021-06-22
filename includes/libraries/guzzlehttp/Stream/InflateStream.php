@@ -1,5 +1,5 @@
 <?php
-namespace GuzzleHttp\Stream;
+namespace DLGuzzleHttp\Stream;
 
 /**
  * Uses PHP's zlib.inflate filter to inflate deflate or gzipped content.
