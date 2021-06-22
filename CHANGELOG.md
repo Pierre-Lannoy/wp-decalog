@@ -3,6 +3,11 @@ All notable changes to **DecaLog** are documented in this *changelog*.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.1] - 2021-06-22
+
+### Fixed
+- wp.org distribute a Release Candidate, not the 3.0.0 version.
+
 ## [3.0.0] - 2021-06-22
 
 ### Added
