@@ -108,4 +108,4 @@ Please, see [full changelog](https://perfops.one/decalog-changelog).
 6. Trace Details in Internal Viewer
 7. Live Events with In-browser Console
 8. Events & Traces Seen in Grafana (example of external service)
-ç. Metrics Seen in InfluxDB (example of external service)
+9. Metrics Seen in InfluxDB (example of external service)
