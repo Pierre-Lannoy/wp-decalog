@@ -2,12 +2,12 @@
 # This file is distributed under the same license as the Plugins - DecaLog - Stable Readme (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2021-02-25 15:14+0100\n"
+"PO-Revision-Date: 2021-06-23 18:26+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Poedit 2.4.1\n"
+"X-Generator: Poedit 3.0\n"
 "Language: fr_BE\n"
 "Project-Id-Version: Plugins - DecaLog - Stable Readme (latest release)\n"
 "POT-Creation-Date: \n"
@@ -15,180 +15,80 @@ msgstr ""
 "Language-Team: \n"
 
 #. Short description.
-msgid "Capture and log events on your site. View them in your dashboard and send them to logging services."
-msgstr "Capturez et enregistrez les évènements qui surviennent sur votre site. Affichez-les dans votre Tableau de bord et envoyez-les à des services d’enregistrement."
+msgid "Capture and log events, metrics and traces on your site. Make WordPress observable - finally!"
+msgstr "Capturez et enregistrez les évènements, les métriques et les traces sur votre site. Rendez WordPress observable - enfin !"
 
 #. Plugin name.
 msgid "DecaLog"
 msgstr "DecaLog"
 
-#. Found in description paragraph.
-msgid "and from the following libraries:"
-msgstr "et des bibliothèques suivantes :"
-
-#. Found in description list item.
-msgid "Stripe gateways (standard, Amelia and Forminator)."
-msgstr "passerelles Stripe (standard, Amelia et Forminator)."
-
-#. Found in description list item.
-msgid "Action Scheduler;"
-msgstr "Action Scheduler ;"
-
-#. Found in description list item.
-msgid "<a href=\"https://wordpress.org/plugins/buddypress/\">BuddyPress</a>"
-msgstr "<a href=\"https://wordpress.org/plugins/buddypress/\">BuddyPress</a>"
-
-#. Found in description list item.
-msgid "<a href=\"https://wordpress.org/plugins/bbpress/\">bbPress</a>"
-msgstr "<a href=\"https://wordpress.org/plugins/bbpress/\">bbPress</a>"
-
-#. Found in description list item.
-msgid "to external crash analytics services like Bugsnag, Google Analytics or Raygun;"
-msgstr "à des services externes d’analyse de plantage comme Bugsnag, Google Analytics ou Raygun ;"
-
-#. Found in description list item.
-msgid "to Loki on-premise or Grafana Cloud;"
-msgstr "à une instance Loki ou Grafana Cloud ;"
-
-#. Found in description list item.
-msgid "to ELK stacks like Sematext, Elasticsearch on-premise or Elastic Cloud;"
-msgstr "à une pile ELK comme Sematext, Elasticsearch ou Elastic Cloud ;"
-
-#. Found in description list item.
-msgid "to external logging services, like Google Stackdriver, Logentries / insightOps or Loggly;"
-msgstr "à des services externes d’enregistrement, comme Google Stackdriver, Logentries / insightOps ou Loggly ;"
+#. Found in faq paragraph.
+msgid "Developer's documentation can be found in the <a href=\"https://decalog.io/\">DecaLog SDK Documentation</a>."
+msgstr "La documentation du développeur se trouve dans la documentation du <a href=\"https://decalog.io/\">SDK DecaLog</a>."
 
 #. Found in description paragraph.
-msgid "For a full help on WP-CLI commands in DecaLog, please <a href=\"https://github.com/Pierre-Lannoy/wp-decalog/blob/master/WP-CLI.md\">read this guide</a>."
-msgstr "Pour obtenir une aide complète sur les commandes WP-CLI dans DecaLog, veuillez <a href=\"https://github.com/Pierre-Lannoy/wp-decalog/blob/master/WP-CLI.md\">lire ce guide</a>."
+msgid "If you're a plugins / themes developer and want to take advantage of the logging features of DecaLog, there's a <a href=\"https://decalog.io/\">DecaLog SDK</a> for you."
+msgstr "Si vous êtes un développeur d’extension ou thèmes et que vous souhaitez profiter des fonctionnalités d’enregistrement de DecaLog, il existe un <a href=\"https://decalog.io/\">SDK DecaLog</a> pour vous."
 
 #. Found in description paragraph.
-msgid "<strong>DecaLog</strong> supports an extensive set of WP-CLI commands to:"
-msgstr "<strong>DecaLog</strong> prend en charge un vaste ensemble de commandes WP-CLI pour :"
+msgid "<strong>DecaLog</strong> is part of <a href=\"https://perfops.one/\">PerfOps One</a>, a suite of free and open source WordPress plugins dedicated to observability and operations performance."
+msgstr "<strong>DecaLog</strong> fait partie de <a href=\"https://perfops.one/\">PerfOps One</a>, une suite d’extensions WordPress gratuites et open source dédiées à l’observabilité et aux performances des opérations."
 
 #. Found in description paragraph.
-msgid "It can be used in dev/debug phases or on production sites: it has nearly no resource impact on the server."
-msgstr "Il peut être utilisé dans les phases de développement et débogage ou en production : il n’a presque aucun impact sur les ressources du serveur."
-
-#. Found in description list item.
-msgid "manage listeners (list, enable, disable and auto-listening toggle) - see <code>wp help log listener</code> for details."
-msgstr "gérer les observateurs (lister, activer, désactiver et basculer l’écoute automatique) - voir <code>wp help log listener</code> pour plus de détails."
-
-#. Found in description list item.
-msgid "view available logger types (list and describe) - see <code>wp help log type</code> for details;"
-msgstr "afficher les types d’enregistreurs disponibles (lister et décrire) - voir <code>wp help log type</code> pour plus de détails ;"
-
-#. Found in description list item.
-msgid "manage loggers (list, start, pause, clean, purge, remove, add and set) - see <code>wp help log logger</code> for details;"
-msgstr "gérer les enregistreurs (lister, démarrer, mettre en pause, nettoyer, purger, supprimer, ajouter et régler) - voir <code>wp help log logger</code> pour plus de détails ;"
-
-#. Found in description list item.
-msgid "toggle on/off main settings - see <code>wp help log settings</code> for details;"
-msgstr "activer ou désactiver le réglages principaux - voir <code>wp help log settings</code> pour plus de détails ;"
-
-#. Found in description list item.
-msgid "send messages to running loggers - see <code>wp help log send</code> for details;"
-msgstr "envoyer des messages aux enregistreurs en cours d’exécution - voir <code>wp help log send</code> pour plus de détails ;"
-
-#. Found in description list item.
-msgid "display (past or current) events in console - see <code>wp help log tail</code> for details;"
-msgstr "afficher les évènements (passés ou actuels) dans la console - voir <code>wp help log tail</code> pour plus de détails ;"
-
-#. Found in description list item.
-msgid "to WP-CLI console."
-msgstr "à la console WP-CLI."
+msgid "<strong>DecaLog</strong> can be used in dev/debug phases or on production sites: it has nearly no resource impact on the server. It provides an extensive set of WP-CLI commands to help operations too."
+msgstr "<strong>DecaLog</strong> peut être utilisé dans les phases de développement ou débogage ou sur les sites en production : il n’a presque aucun impact sur les ressources du serveur. Il fournit aussi un ensemble complet de commandes WP-CLI pour faciliter les opérations."
 
 #. Found in description paragraph.
-msgid "Your favorite plugin is not in this list? You want to send your logs to another service? Just <a href=\"https://github.com/Pierre-Lannoy/wp-decalog/issues/new/choose\">tell me</a>, and I will see how to add it."
-msgstr "Votre extension préférée n’est pas dans cette liste ? Vous souhaitez envoyer vos registres d’évènements à un autre service ? Il suffit <a href=\"https://github.com/Pierre-Lannoy/wp-decalog/issues/new/choose\">de me le dire</a>, et je verrai ce que je peux faire."
+msgid "For a full list of supported - internal or third-party - services please, jump to the official <a href=\"https://perfops.one/decalog#services\">supported services list</a>."
+msgstr "Pour une liste complète des services utilisables - internes ou tiers - merci de consulter la liste officielle des <a href=\"https://perfops.one/decalog#services\">services pris en charge</a>."
 
 #. Found in description paragraph.
-msgid "In addition to the events generated by your site (PHP, database, WordPress core), <strong>DecaLog</strong> logs all events from:"
-msgstr "En plus des évènements générés par votre site (PHP, base de données, cœur de WordPress), <strong>DecaLog</strong> enregistre tous les évènements en provenance de :"
+msgid "If you don't want to use external services, <strong>DecaLog</strong> provides the tools to leverage all the benefits of observability right in the WordPress admin dashboard. It supports multisite logs delegation and contains many features to help to protect personal information (user pseudonymization, IP obfuscation, etc.)."
+msgstr "Si vous ne souhaitez pas utiliser de services externes, <strong>DecaLog</strong> fournit tous les outils pour tirer pleinement partie de l’observabilité, directement dans le tableau de bord d’administration WordPress. Il prend en charge la délégation de registre multisite et contient de nombreuses fonctionnalités pour aider à protéger les informations personnelles (pseudonymisation des utilisateurs, obscurcissement IP, etc.)."
 
-#. Found in description list item.
-msgid "<a href=\"https://wordpress.org/plugins/wordpress-seo/\">Yoast SEO</a>"
-msgstr "<a href=\"https://wordpress.org/plugins/wordpress-seo/\">Yoast SEO</a>"
+#. Found in description paragraph.
+msgid "<strong>DecaLog</strong> captures events generated by WordPress core, PHP, database, plugins and themes, collates metrics and KPIs and follows traces of the full WordPress execution. It has the ability to enrich these events, metrics and traces with many details regarding their triggering, before storing them in WordPress database or passing them to external services."
+msgstr "<strong>DecaLog</strong> capture les évènements générés par le cœur de WordPress, PHP, la base de données, les extensions et thèmes, calcule les métriques et les KPI et suit les traces de l’exécution complète de WordPress. Il a la capacité d’enrichir ces événements, métriques et traces avec de nombreux détails concernant leur déclenchement, avant de les stocker dans la base de données WordPress ou de les transmettre à des services externes."
 
-#. Found in description list item.
-msgid "<a href=\"https://wordpress.org/plugins/wp-super-cache/\">WP Super Cache</a>"
-msgstr "<a href=\"https://wordpress.org/plugins/wp-super-cache/\">WP Super Cache</a>"
+#. Found in description paragraph.
+msgid "De-facto standard stack for WordPress observability, <strong>DecaLog</strong> provides reliable and powerful logging, monitoring and tracing features for WordPress core, PHP, database, plugins and themes."
+msgstr "Standard de fait pour l’observabilité de WordPress, <strong>DecaLog</strong> fournit des fonctionnalités d’enregistrement, de surveillance et de traçage fiables et puissantes pour le cœur de WordPress, PHP, la base de données, les extensions et les thèmes."
 
-#. Found in description list item.
-msgid "<a href=\"https://wordpress.org/plugins/wp-security-audit-log/\">WP Activity Log</a>"
-msgstr "<a href=\"https://wordpress.org/plugins/wp-security-audit-log/\">WP Activity Log</a>"
+#. Found in description paragraph.
+msgid "<strong>Capture and log events, metrics and traces on your site. Make WordPress observable - finally!</strong>"
+msgstr "<strong>Capturez et enregistrez les événements, les métriques et les traces sur votre site. Rendez WordPress observable - enfin !</strong>"
 
-#. Found in description list item.
-msgid "<a href=\"https://wordpress.org/plugins/wp-optimize/\">WP-Optimize</a>"
-msgstr "<a href=\"https://wordpress.org/plugins/wp-optimize/\">WP-Optimize</a>"
+#. Screenshot description.
+msgid ""
+"Events &amp; Traces Seen in Grafana (example of external service)\n"
+"ç. Metrics Seen in InfluxDB (example of external service)"
+msgstr ""
+"Évènements &amp; traces observés dans Grafana (exemple de service externe)\n"
+"9. Métriques visualisées dans InfluxDB (exemple de service externe)"
 
-#. Found in description list item.
-msgid "<a href=\"https://wordpress.org/plugins/w3-total-cache/\">W3 Total Cache</a>"
-msgstr "<a href=\"https://wordpress.org/plugins/w3-total-cache/\">W3 Total Cache</a>"
+#. Screenshot description.
+msgid "Live Events with In-browser Console"
+msgstr "Console en direct dans le navigateur"
 
-#. Found in description list item.
-msgid "<a href=\"https://wordpress.org/plugins/wordfence/\">Wordfence Security</a>"
-msgstr "<a href=\"https://wordpress.org/plugins/wordfence/\">Wordfence Security</a>"
+#. Screenshot description.
+msgid "Trace Details in Internal Viewer"
+msgstr "Détail de la trace avec la visionneuse interne"
 
-#. Found in description list item.
-msgid "<a href=\"https://wordpress.org/plugins/woocommerce/\">WooCommerce</a> - and its extensions"
-msgstr "<a href=\"https://wordpress.org/plugins/woocommerce/\">WooCommerce</a> - and its extensions"
+#. Screenshot description.
+msgid "WordPress Traces List"
+msgstr "Registre des traces WordPress"
 
-#. Found in description list item.
-msgid "<a href=\"https://wordpress.org/plugins/user-switching/\">User Switching</a>"
-msgstr "<a href=\"https://wordpress.org/plugins/user-switching/\">User Switching</a>"
+#. Screenshot description.
+msgid "WordPress Events Log"
+msgstr "Registre des évènements WordPress"
 
-#. Found in description list item.
-msgid "<a href=\"https://wordpress.org/plugins/updraftplus/\">UpdraftPlus Backup/Restore</a>"
-msgstr "<a href=\"https://wordpress.org/plugins/updraftplus/\">UpdraftPlus Backup/Restore</a>"
+#. Screenshot description.
+msgid "Available Loggers Types"
+msgstr "Types d’ernregistreus disponibles"
 
-#. Found in description list item.
-msgid "<a href=\"https://wordpress.org/plugins/traffic/\">Traffic</a>"
-msgstr "<a href=\"https://wordpress.org/plugins/traffic/\">Traffic</a>"
-
-#. Found in description list item.
-msgid "<a href=\"https://wordpress.org/plugins/sessions/\">Sessions</a>"
-msgstr "<a href=\"https://wordpress.org/plugins/sessions/\">Sessions</a>"
-
-#. Found in description list item.
-msgid "<a href=\"https://wordpress.org/plugins/redirection/\">Redirection</a>"
-msgstr "<a href=\"https://wordpress.org/plugins/redirection/\">Redirection</a>"
-
-#. Found in description list item.
-msgid "<a href=\"https://wordpress.org/plugins/opcache-manager/\">OPcache Manager</a>"
-msgstr "<a href=\"https://wordpress.org/plugins/opcache-manager/\">OPcache Manager</a>"
-
-#. Found in description list item.
-msgid "<a href=\"https://wordpress.org/plugins/oembed-manager/\">oEmbed Manager</a>"
-msgstr "<a href=\"https://wordpress.org/plugins/oembed-manager/\">oEmbed Manager</a>"
-
-#. Found in description list item.
-msgid "<a href=\"https://wordpress.org/plugins/mailarchiver/\">MailArchiver</a>"
-msgstr "<a href=\"https://wordpress.org/plugins/mailarchiver/\">MailArchiver</a>"
-
-#. Found in description list item.
-msgid "<a href=\"https://wordpress.org/plugins/jetpack/\">Jetpack</a>"
-msgstr "<a href=\"https://wordpress.org/plugins/jetpack/\">Jetpack</a>"
-
-#. Found in description list item.
-msgid "<a href=\"https://wordpress.org/plugins/better-wp-security/\">iThemes Security</a>"
-msgstr "<a href=\"https://wordpress.org/plugins/better-wp-security/\">iThemes Security</a>"
-
-#. Found in description list item.
-msgid "<a href=\"https://wordpress.org/plugins/ip-locator/\">IP Locator</a>"
-msgstr "<a href=\"https://wordpress.org/plugins/ip-locator/\">IP Locator</a>"
-
-#. Found in description list item.
-msgid "<a href=\"https://wordpress.org/plugins/device-detector/\">Device Detector</a>"
-msgstr "<a href=\"https://wordpress.org/plugins/device-detector/\">Device Detector</a>"
-
-#. Found in description list item.
-msgid "<a href=\"https://wordpress.org/plugins/apcu-manager/\">APCu Manager</a>"
-msgstr "<a href=\"https://wordpress.org/plugins/apcu-manager/\">APCu Manager</a>"
-
-#. Found in description list item.
-msgid "<a href=\"https://wordpress.org/plugins/htaccess-server-info-server-status/\">Apache Status &amp; Info</a>"
-msgstr "<a href=\"https://wordpress.org/plugins/htaccess-server-info-server-status/\">Apache Status &amp; Info</a>"
+#. Screenshot description.
+msgid "Running Loggers List"
+msgstr "Liste des enregistreurs"
 
 #. Found in description paragraph.
 msgid "This plugin may handle personally identifiable information (PII). If the GDPR or CCPA or similar regulation applies to your case, you must use the anonymization options embedded in the plugin and/or adapt your processes (consent management, security measure, treatment register, etc.)."
@@ -210,73 +110,9 @@ msgstr "Confidentialité"
 msgid "Event Details in Internal Viewer"
 msgstr "Détail de l’évènement avec la visionneuse interne"
 
-#. Screenshot description.
-msgid "Internal Viewer"
-msgstr "Visionneuse interne"
-
-#. Screenshot description.
-msgid "Set Loggers"
-msgstr "Réglage des enregistreurs"
-
-#. Found in description paragraph.
-msgid "At this time, <strong>DecaLog</strong> can send events:"
-msgstr "Actuellement, <strong>DecaLog</strong> peut envoyer des évènements :"
-
-#. Found in description paragraph.
-msgid "<strong>DecaLog</strong> is a tool that aims to:"
-msgstr "<strong>DecaLog</strong> est un outil qui vise à :"
-
-#. Found in description paragraph.
-msgid "<strong>Capture and log events on your site. View them in your dashboard and send them to logging services.</strong>"
-msgstr "<strong>Capturez et enregistrez les évènements qui surviennent sur votre site. Affichez-les dans votre Tableau de bord et envoyez-les à des services d’enregistrement.</strong>"
-
-#. Found in description list item.
-msgid "to local or network storage (with file rotation);"
-msgstr "à un système local ou réseau de stockage (avec rotation de fichier) ;"
-
-#. Found in description list item.
-msgid "to external alerting services, like Pushover or Slack;"
-msgstr "à services d’alerte externes, comme Pushover ou Slack ;"
-
-#. Found in description list item.
-msgid "to external logger, like Syslog or Fluentd;"
-msgstr "à des enregistreurs externes, comme Syslog ou Fluentd ;"
-
-#. Found in description list item.
-msgid "to its internal logging storage and viewer;"
-msgstr "à son propre système d’enregistrement et de visualisation ;"
-
-#. Found in description list item.
-msgid "in the browser console (for debugging purpose);"
-msgstr "dans la console de votre navigateur (pour du débogage) ;"
-
-#. Found in description list item.
-msgid "by mail (alerting);"
-msgstr "par courrier e-mail (alertes) ;"
-
-#. Found in description list item.
-msgid "view (and filter) events recorded in the WordPress database."
-msgstr "afficher (et filtrer) les évènements enregistrés dans la base de données de WordPress."
-
-#. Found in description list item.
-msgid "record these events in the WordPress database and/or send them to external services for logging, monitoring and alerting;"
-msgstr "enregistrer ces évènements dans la base de données WordPress ou les envoyer à des services externes d’enregistrement, de surveillance ou d’alerte ;"
-
-#. Found in description list item.
-msgid "enrich these events with many details regarding their triggering;"
-msgstr "enrichir ces évènements avec de nombreux détails concernant leur déclenchement ;"
-
-#. Found in description list item.
-msgid "capture events generated by the core of WordPress and themes / plugins;"
-msgstr "capturer les évènements générés par le cœur de WordPress et les thèmes et extensions ;"
-
 #. Found in faq paragraph.
 msgid "You can report bugs and suggest ideas via the <a href=\"https://github.com/Pierre-Lannoy/wp-decalog/issues\">GitHub issue tracker</a> of the plugin."
 msgstr "Vous pouvez signaler des bogues et suggérer des améliorations via le <a href=\"https://github.com/Pierre-Lannoy/wp-decalog/issues\">suivi d’incidents GitHub</a> de l’extension."
-
-#. Found in faq paragraph.
-msgid "Developer's documentation can be found in the <a href=\"https://github.com/Pierre-Lannoy/wp-decalog\">GitHub repository</a> of the plugin."
-msgstr "Vous trouverez la documentation du développeur sur le <a href=\"https://github.com/Pierre-Lannoy/wp-decalog\">dépôt GitHub</a> de l’extension."
 
 #. Found in faq paragraph.
 msgid "Documentation for users is provided as the form of inline help in the plugin."
@@ -287,8 +123,8 @@ msgid "Support is provided via the official <a href=\"https://wordpress.org/supp
 msgstr "L’assistance est proposée via la page officielle <a href=\"https://wordpress.org/support/plugin/decalog/\">d’assistance</a>."
 
 #. Found in faq paragraph.
-msgid "Yes. It is designed to work on multisite too. Network Admins can configure the plugin and have access to all events logs. Sites Admins have access to the events logs of their sites."
-msgstr "Oui. Cette extension est conçue pour fonctionner sur un multisite aussi. Les administratrices et administrateurs du réseau peuvent configurer l’extension et avoir accès à tous les registres d’évènements. Les administratrices et administrateurs de sites ont juste accès aux registres d’évènements de leurs sites."
+msgid "Yes. It is designed to work on multisite too. Network Admins can configure the plugin and have access to all logs. Sites Admins have access to the logs of their own sites only."
+msgstr "Oui. Cette extension est conçue pour fonctionner sur un multisite aussi. Les administrateurs du réseau peuvent configurer l’extension et avoir accès à tous les registres. Les administrateurs de sites ont juste accès aux registres de leurs sites."
 
 #. Found in faq paragraph.
 msgid "You need at least <strong>WordPress 5.2</strong> and <strong>PHP 7.2</strong>."
@@ -374,18 +210,6 @@ msgstr "Dans tous les cas, je serai heureux de vous apporter mon assistance si v
 msgid "This plugin is free and provided without warranty of any kind. Use it at your own risk, I'm not responsible for any improper use of this plugin, nor for any damage it might cause to your site. Always backup all your data before installing a new plugin."
 msgstr "Cette extension est gratuite et distribuée sans aucune garantie d’aucune sorte. Son utilisation se fait à vos risques et périls, je ne saurais être tenu responsable d’aucun dommage que son utilisation pourrait causer à votre site. Pensez à toujours sauvegarder vos données avant d’installer une nouvelle extension."
 
-#. Found in description paragraph.
-msgid "If you're a plugins / themes developer and want to take advantage of the logging features of DecaLog, visit the <a href=\"https://github.com/Pierre-Lannoy/wp-decalog\">GitHub repository</a> of the plugin to learn how to develop a listener for your plugins / themes. Ah, and yes, it's PSR-3 compliant ;)"
-msgstr "Si vous êtes un développeur d’extensions ou thèmes et que vous souhaitez profiter des fonctionnalités d’enregistrement de DecaLog, visitez le <a href=\"https://github.com/Pierre-Lannoy/wp-decalog\">dépôt GitHub</a> de l’extension pour découvrir comment développer un observateur pour vos extensions et thèmes. Ah oui, au fait, DecaLog est conforme PSR-3 ;)"
-
-#. Found in description paragraph.
-msgid "<strong>DecaLog</strong> is a free and open source plugin for WordPress. It integrates many other free and open source works (as-is or modified). Please, see 'about' tab in the plugin settings to see the details."
-msgstr "<strong>DecaLog</strong> est une extension libre et open source pour WordPress. Elle intègre de nombreuses autres œuvres libres et open source (telles quelles ou modifiées). Consultez l’onglet « à propos » dans l’extension pour obtenir des détails."
-
-#. Found in description paragraph.
-msgid "It supports multisite logs delegation (see FAQ) and contains many features to help to protect personal information (user pseudonymization, IP obfuscation, etc.)."
-msgstr "DecaLog prend en charge la délégation des registres multisites (voir FAQ) et contient de nombreuses fonctionnalités pour aider à protéger les informations personnelles (pseudonymisation de compte, obscurcissement d’adresses IP, etc.)."
-
 #. Found in description header.
 msgid "Donation"
 msgstr "Don"
@@ -399,5 +223,5 @@ msgid "Developers"
 msgstr "Développeurs"
 
 #. Found in changelog paragraph.
-msgid "Please, see <a href=\"https://github.com/Pierre-Lannoy/wp-decalog/blob/master/CHANGELOG.md\">full changelog</a> on GitHub."
-msgstr "Merci de consulter le <a href=\"https://github.com/Pierre-Lannoy/wp-decalog/blob/master/CHANGELOG.md\">journal des modifications</a> sur GitHub."
+msgid "Please, see <a href=\"https://perfops.one/decalog-changelog\">full changelog</a>."
+msgstr "Merci de consulter le <a href=\"https://perfops.one/decalog-changelog\">journal des modifications</a>."
