@@ -74,6 +74,14 @@ class CoreListener extends AbstractListener {
 	private $hooks = [];
 
 	/**
+	 * Don't log activity for these posts.
+	 *
+	 * @since  3.1.0
+	 * @var    array    $posts_nolog    List of posts ID or titles that must not be logged.
+	 */
+	private $posts_nolog = [];
+
+	/**
 	 * Sets the listener properties.
 	 *
 	 * @since    1.0.0
@@ -334,6 +342,26 @@ class CoreListener extends AbstractListener {
 	}
 
 	/**
+	 * Collects no log posts.
+	 *
+	 * @since    3.1.0
+	 */
+	public function get_posts_nolog() {
+		if ( 0 < count( $this->posts_nolog ) ) {
+			return $this->posts_nolog;
+		}
+		/**
+		 * Filters the posts ids or titles which must not be logged.
+		 *
+		 * @since 3.1.0
+		 *
+		 * @param (array) $this->posts_nolog The posts ids or titles.
+		 */
+		$this->posts_nolog = apply_filters( 'decalog_no_log_post_activity', [] );
+		return $this->posts_nolog;
+	}
+
+	/**
 	 * "delete_post" event.
 	 *
 	 * @since    1.0.0
@@ -342,7 +370,9 @@ class CoreListener extends AbstractListener {
 		if ( isset( $this->logger ) ) {
 			$post = get_post( $post_ID );
 			if ( $post instanceof \WP_Post ) {
-				$this->logger->info( sprintf( 'Post deleted: "%s" (post ID %s) by %s.', $post->post_title, $post_ID, $this->get_user( $post->post_author ) ) );
+				if ( ! in_array( $post->post_title, $this->get_posts_nolog(), true ) && ! in_array( $post_ID, $this->get_posts_nolog(), true ) ) {
+					$this->logger->info( sprintf( 'Post deleted: "%s" (post ID %s) by %s.', $post->post_title, $post_ID, $this->get_user( $post->post_author ) ) );
+				}
 			} else {
 				$this->logger->warning( 'Trying to delete an unknown post.' );
 			}
@@ -358,7 +388,9 @@ class CoreListener extends AbstractListener {
 		if ( isset( $this->logger ) ) {
 			$post = get_post( $post_ID );
 			if ( $post instanceof \WP_Post ) {
-				$this->logger->info( sprintf( 'Post stuck: "%s" (post ID %s) by %s.', $post->post_title, $post_ID, $this->get_user( $post->post_author ) ) );
+				if ( ! in_array( $post->post_title, $this->get_posts_nolog(), true ) && ! in_array( $post_ID, $this->get_posts_nolog(), true ) ) {
+					$this->logger->info( sprintf( 'Post stuck: "%s" (post ID %s) by %s.', $post->post_title, $post_ID, $this->get_user( $post->post_author ) ) );
+				}
 			} else {
 				$this->logger->warning( 'Trying to make sticky an unknown post.' );
 			}
@@ -374,7 +406,9 @@ class CoreListener extends AbstractListener {
 		if ( isset( $this->logger ) ) {
 			$post = get_post( $post_ID );
 			if ( $post instanceof \WP_Post ) {
-				$this->logger->info( sprintf( 'Post unstuck: "%s" (post ID %s) by %s.', $post->post_title, $post_ID, $this->get_user( $post->post_author ) ) );
+				if ( ! in_array( $post->post_title, $this->get_posts_nolog(), true ) && ! in_array( $post_ID, $this->get_posts_nolog(), true ) ) {
+					$this->logger->info( sprintf( 'Post unstuck: "%s" (post ID %s) by %s.', $post->post_title, $post_ID, $this->get_user( $post->post_author ) ) );
+				}
 			} else {
 				$this->logger->warning( 'Trying to make unsticky an unknown post.' );
 			}
@@ -388,6 +422,8 @@ class CoreListener extends AbstractListener {
 	 */
 	public function transition_post_status( $new, $old, $post ) {
 		if ( ! $post instanceof \WP_Post ) {
+			return;
+		} elseif ( in_array( $post->post_title, $this->get_posts_nolog(), true ) || in_array( $post->ID, $this->get_posts_nolog(), true ) ) {
 			return;
 		} elseif ( in_array( $post->post_type, [ 'nav_menu_item', 'attachment', 'revision' ], true ) ) {
 			return;
