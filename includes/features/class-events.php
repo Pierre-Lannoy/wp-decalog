@@ -22,6 +22,7 @@ use Decalog\System\GeoIP;
 use Decalog\System\Hash;
 use Decalog\Storage\DBStorage;
 use Decalog\Storage\APCuStorage;
+use Decalog\Plugin\Feature\SDK;
 
 
 if ( ! class_exists( 'WP_List_Table' ) ) {
@@ -201,8 +202,9 @@ class Events extends \WP_List_Table {
 	 * @since   1.0.0
 	 */
 	protected function column_component( $item ) {
+		$icon   = '<img style="width:28px;float:left;padding-top:6px;padding-right:6px;" src="' . SDK::get_icon( $item['component'] ) . '" />';
 		$name   = $item['component'] . $this->get_filter( 'component', $item['component'] ) . ' <span style="color:silver">' . $item['version'] . '</span>';
-		$result = $name . '<br /><span style="color:silver">' . ClassTypes::$classe_names[ $item['class'] ] . $this->get_filter( 'class', $item['class'], true ) . '</span>';
+		$result = $icon . $name . '<br /><span style="color:silver">' . ClassTypes::$classe_names[ $item['class'] ] . $this->get_filter( 'class', $item['class'], true ) . '</span>';
 		return $result;
 	}
 

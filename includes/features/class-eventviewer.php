@@ -24,6 +24,7 @@ use Decalog\System\User;
 use Decalog\System\UserAgent;
 use Decalog\System\L10n;
 use Decalog\System\GeoIP;
+use Decalog\Plugin\Feature\SDK;
 
 /**
  * Define the event viewer functionality.
@@ -334,6 +335,21 @@ class EventViewer {
 	}
 
 	/**
+	 * Get a component icon.
+	 *
+	 * @param   string $component   The name of the component.
+	 * @return  string  The icon, as image, ready to print.
+	 * @since 3.1.0
+	 */
+	private function get_component_icon( $component ) {
+		$icon = SDK::get_icon( $component );
+		if ( '' === $icon ) {
+			return $this->get_icon( 'box' );
+		}
+		return '<img style="width:18px;float:left;padding-right:6px;" src="' . $icon . '" />';
+	}
+
+	/**
 	 * Get an external link markup.
 	 *
 	 * @param   string $url The url.
@@ -384,7 +400,7 @@ class EventViewer {
 		$class     = ClassTypes::$classe_names[ strtolower( $this->event['class'] ) ];
 		$component = $this->event['component'] . ' ' . $this->event['version'];
 		$content   = '<span style="width:40%;cursor: default;float:left">' . $this->get_icon( 'folder' ) . $class . '</span>';
-		$content  .= '<span style="width:60%;cursor: default;">' . $this->get_icon( 'box' ) . $component . '</span>';
+		$content  .= '<span style="width:60%;cursor: default;">' . $this->get_component_icon( $this->event['component'] ) . $component . '</span>';
 		$source    = $this->get_section( $content );
 
 		$this->output_activity_block( $event . $hour . $source );
