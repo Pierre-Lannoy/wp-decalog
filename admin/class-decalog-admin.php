@@ -1288,6 +1288,7 @@ class Decalog_Admin {
 					'value'       => ini_get( 'error_log' ),
 					'description' => esc_html__( 'Value set in php.ini file.', 'decalog' ),
 					'full_width'  => false,
+					'placeholder' => '',
 					'enabled'     => false,
 				]
 			);

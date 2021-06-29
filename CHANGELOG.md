@@ -15,6 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 - Displaying events in WordPress viewer may produce a PHP notice.
 - There're some typos in the settings UI.
+- There's a PHP warning while creating a "PHP Error Log" logger (thanks to [Axel Ducoron](https://github.com/aksld)).
 
 ## [3.0.2] - 2021-06-22
 
