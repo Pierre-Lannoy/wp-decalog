@@ -1158,7 +1158,7 @@ class HandlerTypes {
 		$this->handlers[] = [
 			'version'       => DECALOG_MONOLOG_VERSION,
 			'id'            => 'BrowserConsoleHandler',
-			'namespace'     => 'Monolog\\Handler',
+			'namespace'     => 'Decalog\\Handler',
 			'class'         => 'debugging',
 			'minimal'       => Logger::DEBUG,
 			'name'          => esc_html__( 'Browser console', 'decalog' ),
