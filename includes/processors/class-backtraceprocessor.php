@@ -43,6 +43,7 @@ class BacktraceProcessor implements ProcessorInterface {
 	private $skip_classes = [
 		'Monolog\\',
 		'Decalog\\',
+		'DecaLog\\',
 		'System\\Logger',
 		'Feature\\DecaLog',
 		'Feature\\Capture',

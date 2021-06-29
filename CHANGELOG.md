@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 - There's now a `decalog_no_log_post_activity` filter to modify ability to log posts activities.
+- DecaLog SDK calls are removed from backtraces.
 
 ### Fixed
 - Displaying events in WordPress viewer may produce a PHP notice.
