@@ -92,7 +92,7 @@ class BrowserConsoleHandler extends AbstractProcessingHandler
      */
     public static function resetStatic(): void
     {
-        static::$records = [];
+        //static::$records = [];
     }
 
     /**
