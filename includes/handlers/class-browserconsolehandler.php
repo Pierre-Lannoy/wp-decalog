@@ -16,6 +16,7 @@ use Monolog\Formatter\LineFormatter;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Utils;
 use Monolog\Handler\AbstractProcessingHandler;
+use Decalog\Plugin\Feature\EventTypes;
 
 /**
  * Define the Monolog BrowserConsole handler.
@@ -42,17 +43,14 @@ class BrowserConsoleHandler extends AbstractProcessingHandler {
 	 *     You can do [[blue text]]{color: blue} or [[green background]]{background-color: green; color: white}
 	 */
 	protected function getDefaultFormatter(): FormatterInterface {
-		return new LineFormatter( '[[%channel%]]{macro: autolabel} [[%level_name%]]{font-weight: bold} %message%' );
+		return new LineFormatter( '[[%level_name%]]{font-weight: bold} %message%' );
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	protected function write( array $record ): void {
-		// Accumulate records
 		static::$records[] = $record;
-
-		// Register shutdown handler if not already done
 		if ( ! static::$initialized ) {
 			static::$initialized = true;
 			$this->registerShutdownFunction();
@@ -103,11 +101,8 @@ class BrowserConsoleHandler extends AbstractProcessingHandler {
 	 * @return string One of 'js', 'html' or 'unknown'
 	 */
 	protected static function getResponseFormat(): string {
-		// Check content type
 		foreach ( headers_list() as $header ) {
 			if ( stripos( $header, 'content-type:' ) === 0 ) {
-				// This handler only works with HTML and javascript outputs
-				// text/javascript is obsolete in favour of application/javascript, but still used
 				if ( stripos( $header, 'application/javascript' ) !== false || stripos( $header, 'text/javascript' ) !== false ) {
 					return 'js';
 				}
@@ -144,36 +139,26 @@ class BrowserConsoleHandler extends AbstractProcessingHandler {
 		$args   = [];
 		$format = '%c' . $formatted;
 		preg_match_all( '/\[\[(.*?)\]\]\{([^}]*)\}/s', $format, $matches, PREG_OFFSET_CAPTURE | PREG_SET_ORDER );
-
 		foreach ( array_reverse( $matches ) as $match ) {
 			$args[] = '"font-weight: normal"';
-			$args[] = static::quote( static::handleCustomStyles( $match[2][0], $match[1][0] ) );
-
+			$args[] = static::quote( static::handleCustomStyles( $formatted ) );
 			$pos    = $match[0][1];
 			$format = Utils::substr( $format, 0, $pos ) . '%c' . $match[1][0] . '%c' . Utils::substr( $format, $pos + strlen( $match[0][0] ) );
 		}
-
 		$args[] = static::quote( 'font-weight: normal' );
 		$args[] = static::quote( $format );
-
 		return array_reverse( $args );
 	}
 
-	private static function handleCustomStyles( string $style, string $string ): string {
-		static $colors = [ '#999999', '#4444AA', '#9999FF', '#FFAB10', '#FB7B00', '#FF0000', '#DD0000' ];
-		static $labels = [];
+	private static function handleCustomStyles( string $style ): string {
 		return preg_replace_callback(
-			'/macro\s*:(.*?)(?:;|$)/',
-			function ( array $m ) use ( $string, &$colors, &$labels ) {
-				if ( trim( $m[1] ) === 'autolabel' ) {
-					// Format the string as a label with consistent auto assigned background color
-					if ( ! isset( $labels[ $string ] ) ) {
-						$labels[ $string ] = $colors[ count( $labels ) % count( $colors ) ];
-					}
-					$color = $labels[ $string ];
-					return "background-color: $color; color: white; border-radius: 3px; padding: 0 2px 0 2px";
+			'/^\[\[(.*)\]\]/',
+			function ( array $m ) {
+				$level = strtolower( $m[1] );
+				if ( ! array_key_exists( $level, EventTypes::$levels_colors ) ) {
+					$level = 'unknown';
 				}
-				return $m[1];
+				return 'background-color:' . EventTypes::$levels_colors[ $level ][1] . ';color:' . EventTypes::$levels_colors[ $level ][0] . ';border-radius: 3px;padding:1px 6px;';
 			},
 			$style
 		);

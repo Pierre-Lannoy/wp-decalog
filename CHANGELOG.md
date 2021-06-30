@@ -11,12 +11,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 - There's now a `decalog_no_log_post_activity` filter to modify ability to log posts activities.
 - DecaLog SDK calls are removed from backtraces.
-- Improved "Browser Console" logger for concurrent accesses.
+- The "Browser Console" logger has been improved (colors and concurrent accesses).
 
 ### Fixed
 - Displaying events in WordPress viewer may produce a PHP notice.
 - There're some typos in the settings UI.
 - There's a PHP warning while creating a "PHP Error Log" logger (thanks to [Axel Ducoron](https://github.com/aksld)).
+- The "Browser Console" logger may not log all events in some rare cases.
 
 ## [3.0.2] - 2021-06-22
 
