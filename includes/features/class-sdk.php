@@ -147,6 +147,9 @@ class SDK {
 			case 'Jetpack':
 				$result = self::get_base64_jetpack_icon();
 				break;
+			case 'DecaLog':
+				$result = Core::get_base64_logo();
+				break;
 		}
 		if ( '' === $result ) {
 			foreach ( self::get_selfreg() as $logger ) {
