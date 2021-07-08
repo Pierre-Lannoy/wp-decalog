@@ -125,6 +125,7 @@ class EventViewer {
 				}
 			}
 		}
+		wp_enqueue_script( 'postbox' );
 	}
 
 	/**

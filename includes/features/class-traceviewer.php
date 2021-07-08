@@ -127,6 +127,7 @@ class TraceViewer {
 				}
 			}
 		}
+		wp_enqueue_script( 'postbox' );
 	}
 
 	/**

@@ -18,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - There're some typos in the settings UI.
 - There's a PHP warning while creating a "PHP Error Log" logger (thanks to [Axel Ducoron](https://github.com/aksld)).
 - The "Browser Console" logger may not log all events in some rare cases.
+- With WordPress 5.8 it is impossible to move and close boxes (events and traces).
 
 ## [3.0.2] - 2021-06-22
 
