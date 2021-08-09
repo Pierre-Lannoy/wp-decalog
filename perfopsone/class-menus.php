@@ -114,7 +114,7 @@ if ( ! class_exists( 'PerfOpsOne\Menus' ) ) {
 		public static function finalize() {
 			if ( ! self::$initialized ) {
 				add_menu_page( PERFOO_PRODUCT_NAME, PERFOO_PRODUCT_NAME, 'manage_options', 'perfopsone-dashboard', [ self::class, 'get_dashboard_page' ], Resources::get_menu_base64_logo(), 79 );
-				add_submenu_page( 'perfopsone-dashboard', esc_html__( 'Control Center', 'decalog' ), __( 'Control Center', 'decalog' ), 'manage_options', 'perfopsone-dashboard', [ self::class, 'get_settings_page' ] );
+				add_submenu_page( 'perfopsone-dashboard', esc_html__( 'Control Center', 'decalog' ), __( 'Control Center', 'decalog' ), 'manage_options', 'perfopsone-dashboard', [ self::class, 'get_dashboard_page' ] );
 			}
 			if ( isset( self::$current_item ) && 'settings' === self::$current_menu ) {
 				if ( self::$current_item['activated'] ) {
@@ -299,94 +299,6 @@ if ( ! class_exists( 'PerfOpsOne\Menus' ) ) {
 					}
 				}
 				self::display_as_bubbles( $items );
-			}
-		}
-
-		/**
-		 * Get the settings main page.
-		 *
-		 * @since 2.0.0
-		 */
-		public static function get_settings_page() {
-			if ( array_key_exists( 'settings', self::$menus ) ) {
-				$items = [];
-				foreach ( self::$menus['settings'] as $item ) {
-					$i                = [];
-					$d                = new Plugin( $item['plugin'] );
-					$i['title']       = $d->get( 'Name' );
-					$i['version']     = $item['version'];
-					$i['text']        = $d->get( 'Description' );
-					$i['wp_version']  = $d->get( 'RequiresWP' );
-					$i['php_version'] = $d->get( 'RequiresPHP' );
-					if ( $d->waiting_update() ) {
-						$i['need_update'] = sprintf( esc_html__( 'Need to be updated to %s.', 'decalog' ), $d->waiting_update() );
-					} else {
-						$i['need_update'] = '';
-					}
-					if ( $d->is_required_wp_ok() ) {
-						$i['need_wp_update'] = '';
-						$i['ok_wp_update']   = esc_html__( 'OK', 'decalog' );
-					} else {
-						$i['need_wp_update'] = esc_html__( 'need update', 'decalog' );
-						$i['ok_wp_update']   = '';
-					}
-					if ( $d->is_required_php_ok() ) {
-						$i['need_php_update'] = '';
-						$i['ok_php_update']   = esc_html__( 'OK', 'decalog' );
-					} else {
-						$i['need_php_update'] = esc_html__( 'need update', 'decalog' );
-						$i['ok_php_update']   = '';
-					}
-					$i['icon'] = call_user_func( $item['icon_callback'] );
-					$i['slug'] = $item['plugin'];
-					$i['id']   = 'settings-' . $item['slug'];
-					foreach ( [ 'installs', 'downloads', 'rating', 'reviews' ] as $key ) {
-						$i[ $key ] = call_user_func( $item['statistics'], [ 'item' => $key ] );
-					}
-					if ( 0 < (int) $i['installs'] ) {
-						$i['installs'] = sprintf( esc_html__( '%s+ installs.', 'decalog' ), Conversion::number_shorten( (int) $i['installs'], 0 ) );
-					} else {
-						$i['installs'] = '';
-					}
-					if ( 0 < (int) $i['downloads'] ) {
-						$i['downloads'] = sprintf( esc_html__( '%s downloads.', 'decalog' ), Conversion::number_shorten( (int) $i['downloads'], 2 ) );
-					} else {
-						$i['downloads'] = '';
-					}
-					if ( 0 < (int) $i['reviews'] ) {
-						$i['reviews'] = sprintf( esc_html__( '%s reviews.', 'decalog' ), Conversion::number_shorten( (int) $i['reviews'], 0 ) );
-						$i['rating']  = $i['rating'] / 20;
-					} else {
-						$i['reviews'] = esc_html__( 'No review yet.', 'decalog' );
-						$i['rating']  = 0.0;
-					}
-					$i['stars'] = '';
-					if ( 0 < (int) $i['rating'] ) {
-						for ( $k = 0; $k < (int) $i['rating']; $k++ ) {
-							$i['stars'] .= '<span class="dashicons dashicons-star-filled" style="color:#FFA828;"></span>';
-						}
-					}
-					if ( 0 < $i['rating'] - (int) $i['rating'] ) {
-						$i['stars'] .= '<span class="dashicons dashicons-star-half" style="color:#FFA828;"></span>';
-					} elseif ( 5 > $i['rating'] ) {
-						$i['stars'] .= '<span class="dashicons dashicons-star-empty" style="color:#FFA828;"></span>';
-					}
-					if ( 5 > (int) $i['rating'] ) {
-						for ( $k = 0; $k < 4 - (int) $i['rating']; $k++ ) {
-							$i['stars'] .= '<span class="dashicons dashicons-star-empty" style="color:#FFA828;"></span>';
-						}
-					}
-					if ( 0 < $i['rating'] ) {
-						$i['rating'] = (string) round( $i['rating'], 1 ) . '/5';
-					} else {
-						$i['rating'] = '';
-					}
-					if ( $item['activated'] && $d->is_detected() ) {
-						$i['url'] = esc_url( admin_url( 'admin.php?page=' . $item['slug'] ) );
-						$items[]  = $i;
-					}
-				}
-				//self::display_as_lines( $items );
 			}
 		}
 
