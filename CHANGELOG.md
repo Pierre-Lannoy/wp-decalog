@@ -15,6 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - The "Browser Console" logger has been improved (colors and concurrent accesses).
 
 ### Fixed
+- In some conditions, the plugin may be in the default site language rather than the user's language.
 - Displaying events in WordPress viewer may produce a PHP notice.
 - There're some typos in the settings UI.
 - There's a PHP warning while creating a "PHP Error Log" logger (thanks to [Axel Ducoron](https://github.com/aksld)).
