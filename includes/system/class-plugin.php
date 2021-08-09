@@ -32,17 +32,37 @@ class Plugin {
 	/**
 	 * Initializes the class and set its properties.
 	 *
-	 * @param string    $slug   The slug of the plugin.
+	 * @param string    $slug           The slug of the plugin.
+	 * @param boolean   $skip_detection Optional. Skip header parsing.
 	 * @since 1.0.0
 	 */
-	public function __construct( $slug ) {
-		if ( ! function_exists( 'get_plugin_data' ) ) {
-			require_once ABSPATH . 'wp-admin/includes/plugin.php';
-		}
+	public function __construct( $slug, $skip_detection = true ) {
 		$this->slug = $slug . '/' . $slug . '.php';
 		$plugin     = WP_PLUGIN_DIR . '/' . $this->slug;
-		if ( file_exists( $plugin ) ) {
-			$this->details = \get_plugin_data( $plugin, false );
+		if ( $skip_detection ) {
+			$this->details = [ 'detection' => 'skipped'];
+		} else {
+			if ( ! function_exists( 'get_plugin_data' ) ) {
+				require_once ABSPATH . 'wp-admin/includes/plugin.php';
+			}
+			if ( file_exists( $plugin ) ) {
+				$this->details = \get_plugin_data( $plugin, false );
+			}
+		}
+	}
+
+	/**
+	 * Get a value.
+	 *
+	 * @param string    $key   The value to retrieve.
+	 * @return string   The value.
+	 * @since 1.0.0
+	 */
+	public function get( $key ) {
+		if ( is_array( $this->details ) && array_key_exists( $key, $this->details ) ) {
+			return $this->details[ $key ];
+		} else {
+			return '';
 		}
 	}
 
@@ -75,18 +95,49 @@ class Plugin {
 	}
 
 	/**
-	 * Get a value.
+	 * Verify the auto-update status.
 	 *
-	 * @param string    $key   The value to retrieve.
-	 * @return string   The value.
-	 * @since 1.0.0
+	 * @return  boolean True if plugin is auto-updatable, false otherwise.
+	 * @since 2.0.0
 	 */
-	public function get( $key ) {
-		if ( is_array( $this->details ) && array_key_exists( $key, $this->details ) ) {
-			return $this->details[ $key ];
-		} else {
-			return '';
+	public function auto_update() {
+		if ( ! $this->is_detected() ) {
+			return false;
 		}
+		return in_array( $this->slug, (array) get_site_option( 'auto_update_plugins', [] ), true );
+	}
+
+	/**
+	 * Set the auto-update status.
+	 *
+	 * @param   boolean $status Optional. The status to set.
+	 * @return  boolean True if it is successful, false otherwise.
+	 * @since 2.0.0
+	 */
+	public function set_auto_update( $status = true ) {
+		if ( ! $this->is_detected() ) {
+			return false;
+		}
+		$auto_updates = (array) get_site_option( 'auto_update_plugins', [] );
+		if ( $status ) {
+			$auto_updates[] = $this->slug;
+			$auto_updates   = array_unique( $auto_updates );
+		} else {
+			$auto_updates = array_diff( $auto_updates, [ $this->slug ] );
+		}
+		$all_items    = apply_filters( 'all_plugins', get_plugins() );
+		$auto_updates = array_intersect( $auto_updates, array_keys( $all_items ) );
+		return update_site_option( 'auto_update_plugins', $auto_updates );
+	}
+
+	/**
+	 * Switch the auto-update status.
+	 *
+	 * @return  boolean True if it is successful, false otherwise.
+	 * @since 2.0.0
+	 */
+	public function switch_auto_update() {
+		return $this->set_auto_update( ! $this->auto_update() );
 	}
 
 	/**

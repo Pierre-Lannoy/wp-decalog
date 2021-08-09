@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - WordPress events list and viewer display component's logo if it is known.
 
 ### Changed
+- New redesigned UI for Perfops One plugins management and menus.
 - There's now a `decalog_no_log_post_activity` filter to modify ability to log posts activities.
 - DecaLog SDK calls are removed from backtraces.
 - The "Browser Console" logger has been improved (colors and concurrent accesses).

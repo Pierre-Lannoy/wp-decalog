@@ -29,7 +29,7 @@ use Decalog\System\Role;
 use Decalog\System\GeoIP;
 use Decalog\System\Environment;
 use Monolog\Logger;
-use PerfOpsOne\AdminMenus;
+use PerfOpsOne\Menus;
 use Decalog\Plugin\Feature\DLogger;
 use Decalog\Plugin\Feature\TraceViewer;
 
@@ -184,7 +184,7 @@ class Decalog_Admin {
 	 * @return array    The completed menus array.
 	 * @since 1.0.0
 	 */
-	public function init_perfops_admin_menus( $perfops ) {
+	public function init_perfopsone_admin_menus( $perfops ) {
 		if ( Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type() ) {
 			$perfops['settings'][] = [
 				'name'          => DECALOG_PRODUCT_NAME,
@@ -196,7 +196,6 @@ class Decalog_Admin {
 				'menu_title'    => DECALOG_PRODUCT_NAME,
 				'capability'    => 'manage_options',
 				'callback'      => [ $this, 'get_settings_page' ],
-				'position'      => 50,
 				'plugin'        => DECALOG_SLUG,
 				'version'       => DECALOG_VERSION,
 				'activated'     => true,
@@ -218,7 +217,6 @@ class Decalog_Admin {
 					'menu_title'    => esc_html__( 'Events Log', 'decalog' ),
 					'capability'    => 'read_private_pages',
 					'callback'      => [ $this, 'get_events_page' ],
-					'position'      => 50,
 					'plugin'        => DECALOG_SLUG,
 					'activated'     => true,
 					'remedy'        => '',
@@ -237,7 +235,6 @@ class Decalog_Admin {
 					'menu_title'    => esc_html__( 'Traces', 'decalog' ),
 					'capability'    => 'read_private_pages',
 					'callback'      => [ $this, 'get_traces_page' ],
-					'position'      => 50,
 					'plugin'        => DECALOG_SLUG,
 					'activated'     => true,
 					'remedy'        => '',
@@ -257,13 +254,21 @@ class Decalog_Admin {
 				'menu_title'    => esc_html__( 'Live Events', 'decalog' ),
 				'capability'    => 'read_private_pages',
 				'callback'      => [ $this, 'get_console_page' ],
-				'position'      => 50,
 				'plugin'        => DECALOG_SLUG,
 				'activated'     => SharedMemory::$available,
 				'remedy'        => esc_url( admin_url( 'admin.php?page=decalog&tab=misc' ) ),
 			];
 		}
 		return $perfops;
+	}
+
+	/**
+	 * Dispatch the items in the settings menu.
+	 *
+	 * @since 2.0.0
+	 */
+	public function finalize_admin_menus() {
+		Menus::finalize();
 	}
 
 	/**
@@ -276,8 +281,8 @@ class Decalog_Admin {
 			remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 			remove_action( 'admin_print_styles', 'print_emoji_styles' );
 		}
-		add_filter( 'init_perfops_admin_menus', [ $this, 'init_perfops_admin_menus' ] );
-		AdminMenus::initialize();
+		add_filter( 'init_perfopsone_admin_menus', [ $this, 'init_perfopsone_admin_menus' ] );
+		Menus::initialize();
 	}
 
 	/**
