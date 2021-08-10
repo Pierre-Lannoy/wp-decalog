@@ -138,7 +138,7 @@ if ( ! class_exists( 'PerfOpsOne\Menus' ) ) {
 							add_submenu_page( 'perfopsone-dashboard', esc_html__( 'Reports', 'decalog' ), __( 'Reports', 'decalog' ), 'manage_options', 'perfopsone-' . $menu, [ self::class, 'get_insights_page' ] );
 							break;
 						case 'records':
-							add_submenu_page( 'perfopsone-dashboard', esc_html__( 'Catalogues', 'decalog' ), __( 'Catalogues', 'decalog' ), 'manage_options', 'perfopsone-' . $menu, [ self::class, 'get_records_page' ] );
+							add_submenu_page( 'perfopsone-dashboard', esc_html__( 'Catalogs', 'decalog' ), __( 'Catalogs', 'decalog' ), 'manage_options', 'perfopsone-' . $menu, [ self::class, 'get_records_page' ] );
 							break;
 						case 'consoles':
 							add_submenu_page( 'perfopsone-dashboard', esc_html__( 'Consoles', 'decalog' ), __( 'Consoles', 'decalog' ), 'manage_options', 'perfopsone-' . $menu, [ self::class, 'get_consoles_page' ] );
@@ -331,17 +331,18 @@ if ( ! class_exists( 'PerfOpsOne\Menus' ) ) {
 			$disp       .= '   .perfopsone-admin-inside .poo-icon {display:block;width:120px;float:left;padding-top:10px;}';
 			$disp       .= '   .perfopsone-admin-inside .poo-title {height: 0;font-size:1.8em;font-weight: 600;margin-bottom: 10px;}';
 			$disp       .= '   .perfopsone-admin-inside .poo-main {width:70%;display: grid;text-align:left;padding-top:18px;}';
-			$disp       .= '   .perfopsone-admin-inside .poo-actions {font-size:larger;text-align: center;}';
+			$disp       .= '   .perfopsone-admin-inside .poo-actions {font-size:larger;text-align: center; margin-top: 8px;}';
 			$disp       .= '   .perfopsone-admin-inside .poo-action {border:1px solid #e7e7e7;border-radius:4px;padding: 4px 8px 7px 4px;margin: 0 4px;}';
 			$disp       .= '   .perfopsone-admin-inside .poo-action img {vertical-align: middle;}';
 			$disp       .= '   .perfopsone-admin-inside .poo-action:hover img {filter: invert(0%) sepia(86%) saturate(0%) hue-rotate(231deg) brightness(146%) contrast(127%);}';
 			$disp       .= '   .perfopsone-admin-inside .poo-action:hover {color:#FFF;background:#73879C;}';
+			$disp       .= '   .perfopsone-admin-inside .poo-links {margin-top: -6px; text-align:end;}';
 			$disp       .= '   .perfopsone-admin-inside .poo-links-support:hover {filter: invert(59%) sepia(9%) saturate(1614%) hue-rotate(167deg) brightness(81%) contrast(94%);}';
 			$disp       .= '   .perfopsone-admin-inside .poo-links-star:hover {filter: invert(6%) sepia(96%) saturate(320%) hue-rotate(0deg) brightness(115%) contrast(91%);}';
 			$disp       .= '   .perfopsone-admin-inside .poo-links-contrib:hover {filter: invert(100%) sepia(36%) saturate(7379%) hue-rotate(121deg) brightness(0%) contrast(100%);}';
 			$disp       .= '   .perfopsone-admin-inside .poo-util {display: grid;margin: 14px;min-width: fit-content;}';
 			$disp       .= '   .perfopsone-admin-inside .poo-update {min-width: fit-content;}';
-			$disp       .= '   .perfopsone-admin-inside .poo-autoupdate {min-width: fit-content;}';
+			$disp       .= '   .perfopsone-admin-inside .poo-autoupdate {min-width: fit-content; text-align: end;}';
 			$disp       .= '   .perfopsone-admin-inside .poo-need-update {display: inline-block;;border-radius:2px;background:rgb(255,147,8);color:rgb(255,255,255);text-transform: uppercase;font-weight: bolder;width: 106px;height: fit-content;font-size: x-small;}';
 			$disp       .= '   .perfopsone-admin-inside .poo-noneed-update {display: inline-block;;border-radius:2px;background:rgb(68,93,159);color:rgb(255,255,255);text-transform: uppercase;font-weight: bolder;width: 106px;height: fit-content;font-size: x-small;}';
 			$disp       .= '   .perfopsone-admin-inside a:focus {box-shadow:none;outline:none;}';
@@ -350,6 +351,7 @@ if ( ! class_exists( 'PerfOpsOne\Menus' ) ) {
 			$disp       .= '   .perfopsone-admin-inside .poo-switch-on img {transform: rotate(180deg);}';
 			$disp       .= '   .perfopsone-admin-inside .poo-blink img {animation: blinker 800ms infinite;}';
 			$disp       .= '    @keyframes blinker {from {opacity:1} 50% {opacity: 0.2} to {opacity: 1}}';
+			$disp       .= '    @media only screen and (max-width: 501px) {.perfopsone-admin-inside .poo-util {display:none;} .perfopsone-admin-inside .poo-actionable {width:100%} .perfopsone-admin-inside {grid-template-columns:max-content;}';
 			$disp       .= '  </style>';
 			$disp       .= '  <script type="text/javascript">';
 			$disp       .= '   jQuery(document).ready( function($) {';
@@ -472,6 +474,8 @@ if ( ! class_exists( 'PerfOpsOne\Menus' ) ) {
 			$disp .= '   .perfopsone-admin-inside .poo-text {display:grid;text-align:left;padding-top:16px;padding-right:16px;width: 100%;}';
 			$disp .= '   .perfopsone-admin-inside .poo-description {font-size:1em;padding-top:10px;}';
 			$disp .= '   .perfopsone-admin-inside a:focus {box-shadow:none;outline:none;}';
+			$disp .= '    @media only screen and (max-width: 501px) {.perfopsone-admin-inside .poo-actionable {width:100%} .perfopsone-admin-inside {grid-template-columns:unset;}';
+
 			$disp .= '  </style>';
 			foreach ( $items as $item ) {
 				$disp .= '<div class="poo-container">';
