@@ -111,6 +111,20 @@ if ( ! class_exists( 'PerfOpsOne\Menus' ) ) {
 		 *
 		 * @since 2.0.0
 		 */
+		public static function normalize() {
+			$current = apply_filters( 'init_perfopsone_admin_menus', [] );
+			foreach ( self::$menus_positions as $menu ) {
+				if ( ! array_key_exists( $menu, $current ) ) {
+					remove_submenu_page( 'perfopsone-dashboard', 'perfopsone-' . $menu );
+				}
+			}
+		}
+
+		/**
+		 * Dispatch the admin menus.
+		 *
+		 * @since 2.0.0
+		 */
 		public static function finalize() {
 			if ( ! self::$initialized ) {
 				add_menu_page( PERFOO_PRODUCT_NAME, PERFOO_PRODUCT_NAME, 'manage_options', 'perfopsone-dashboard', [ self::class, 'get_dashboard_page' ], Resources::get_menu_base64_logo(), 79 );
