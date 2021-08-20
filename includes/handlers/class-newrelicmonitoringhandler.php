@@ -34,7 +34,7 @@ class NewRelicMonitoringHandler extends AbstractMonitoringHandler {
 	 * Initialize the class and set its properties.
 	 *
 	 * @param   string  $uuid       The UUID of the logger.
-	 * @param   string  $host       The Tempo hostname.
+	 * @param   string  $host       The New Relic ingestion host (for location selection).
 	 * @param   string  $key        The API key.
 	 * @param   int     $profile    The profile of collected metrics (500, 550 or 600).
 	 * @param   int     $sampling   The sampling rate (0->1000).
