@@ -10,6 +10,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - New logger to send metrics to New Relic.
 - New logger to send traces to New Relic.
 
+### Changed
+- Designed has been improved pour the logger selector.
+
 ## [3.1.0] - 2021-08-11
 
 ### Added
