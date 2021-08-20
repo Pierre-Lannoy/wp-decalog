@@ -504,6 +504,89 @@ class HandlerTypes {
 				],
 			],
 		];
+		$this->handlers[] = [
+			'version'       => DECALOG_VERSION,
+			'id'            => 'NewrelicTracingHandler',
+			'namespace'     => 'Decalog\\Handler',
+			'class'         => 'tracing',
+			'minimal'       => Logger::EMERGENCY,
+			'name'          => 'New Relic Traces',
+			'help'          => esc_html__( 'Traces sent to New Relic (NR-Traces).', 'decalog' ),
+			'icon'          => $this->get_base64_newrelic_icon(),
+			'needs'         => [],
+			'params'        => [ 'processors', 'privacy' ],
+			'processors'    => [],
+			'configuration' => [
+				'sampling' => [
+					'type'    => 'integer',
+					'show'    => true,
+					'name'    => esc_html__( 'Sampling', 'decalog' ),
+					'help'    => esc_html__( 'Sampling rate to be chosen according to the site traffic.', 'decalog' ),
+					'default' => 100,
+					'control' => [
+						'type'    => 'field_select',
+						'cast'    => 'integer',
+						'enabled' => true,
+						'list'    => [ [ 1000, '100%' ], [ 500, '50%' ], [ 250, '25%' ], [ 100, '10%' ], [ 50, '5%' ], [ 20, '2%' ], [ 10, '1%' ], [ 5, '5‰' ], [ 2, '2‰' ], [ 1, '1‰' ] ],
+					],
+				],
+				'format'   => [
+					'type'    => 'integer',
+					'show'    => true,
+					'name'    => esc_html__( 'Format', 'decalog' ),
+					'help'    => esc_html__( 'The format in which to push data.', 'decalog' ),
+					'default' => 100,
+					'control' => [
+						'type'    => 'field_select',
+						'cast'    => 'integer',
+						'enabled' => false,
+						'list'    => [ [ 100, 'Zipkin V2' ] ],
+					],
+				],
+				'host'     => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Location', 'decalog' ),
+					'help'    => esc_html__( 'The New Relic endpoint location.', 'decalog' ),
+					'default' => 'https://trace-api.newrelic.com/trace/v1',
+					'control' => [
+						'type'    => 'field_select',
+						'cast'    => 'string',
+						'enabled' => true,
+						'list'    => [ [ 'https://trace-api.eu.newrelic.com/trace/v1', esc_html__( 'Europe', 'decalog' ) ], [ 'https://trace-api.newrelic.com/trace/v1', esc_html__( 'United States', 'decalog' ) ] ],
+					],
+				],
+				'token'    => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'II key', 'decalog' ),
+					'help'    => esc_html__( 'An account\'s "Insights insert key".', 'decalog' ),
+					'default' => '',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
+			],
+			'init'          => [
+				[
+					'type' => 'uuid',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'sampling',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'host',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'token',
+				],
+			],
+		];
 
 		// MONITORING
 		$this->handlers[] = [
