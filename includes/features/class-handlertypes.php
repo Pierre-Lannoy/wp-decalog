@@ -508,6 +508,93 @@ class HandlerTypes {
 		// MONITORING
 		$this->handlers[] = [
 			'version'       => DECALOG_VERSION,
+			'id'            => 'NewRelicMonitoringHandler',
+			'namespace'     => 'Decalog\\Handler',
+			'class'         => 'metrics',
+			'minimal'       => Logger::EMERGENCY,
+			'name'          => 'New Relic Metrics',
+			'help'          => esc_html__( 'Metrics sent to New Relic (NR-Metrics).', 'decalog' ),
+			'icon'          => $this->get_base64_newrelic_icon(),
+			'needs'         => [],
+			'params'        => [],
+			'processors'    => [],
+			'configuration' => [
+				'profile'  => [
+					'type'    => 'integer',
+					'show'    => true,
+					'name'    => esc_html__( 'Profile', 'decalog' ),
+					'help'    => sprintf( __( 'The type of metrics to collect (%s). Choosing "Automatic" sets the profile to the current WordPress environment type.', 'decalog' ), sprintf( '<a href="https://github.com/Pierre-Lannoy/wp-decalog/blob/master/MONITORING.md" target="_blank">%s</a>', esc_html__( 'details', 'decalog' ) ) ),
+					'default' => 500,
+					'control' => [
+						'type'    => 'field_select',
+						'cast'    => 'integer',
+						'enabled' => true,
+						'list'    => [ [ 500, esc_html__( 'Automatic', 'decalog' ) ], [ 600, esc_html__( 'Production', 'decalog' ) ], [ 550, esc_html__( 'Development', 'decalog' ) ] ],
+					],
+				],
+				'sampling' => [
+					'type'    => 'integer',
+					'show'    => true,
+					'name'    => esc_html__( 'Sampling', 'decalog' ),
+					'help'    => esc_html__( 'Sampling rate to be chosen according to the site traffic.', 'decalog' ),
+					'default' => 100,
+					'control' => [
+						'type'    => 'field_select',
+						'cast'    => 'integer',
+						'enabled' => true,
+						'list'    => [ [ 1000, '100%' ], [ 500, '50%' ], [ 250, '25%' ], [ 100, '10%' ], [ 50, '5%' ], [ 20, '2%' ], [ 10, '1%' ], [ 5, '5‰' ], [ 2, '2‰' ], [ 1, '1‰' ] ],
+					],
+				],
+				'host'     => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Location', 'decalog' ),
+					'help'    => esc_html__( 'The New Relic endpoint location.', 'decalog' ),
+					'default' => 'https://metric-api.newrelic.com/metric/v1',
+					'control' => [
+						'type'    => 'field_select',
+						'cast'    => 'string',
+						'enabled' => true,
+						'list'    => [ [ 'https://metric-api.eu.newrelic.com/metric/v1', esc_html__( 'Europe', 'decalog' ) ], [ 'https://metric-api.newrelic.com/metric/v1', esc_html__( 'United States', 'decalog' ) ] ],
+					],
+				],
+				'token'    => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'II key', 'decalog' ),
+					'help'    => esc_html__( 'An account\'s "Insights insert key".', 'decalog' ),
+					'default' => '',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
+			],
+			'init'          => [
+				[
+					'type' => 'uuid',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'host',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'token',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'profile',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'sampling',
+				],
+			],
+		];
+		$this->handlers[] = [
+			'version'       => DECALOG_VERSION,
 			'id'            => 'DatadogMonitoringHandler',
 			'namespace'     => 'Decalog\\Handler',
 			'class'         => 'metrics',
@@ -1012,7 +1099,7 @@ class HandlerTypes {
 			'class'         => 'logging',
 			'minimal'       => Logger::INFO,
 			'name'          => 'New Relic Logs',
-			'help'          => esc_html__( 'Events sent to New Relic Logs.', 'decalog' ),
+			'help'          => esc_html__( 'Events sent to New Relic (NR-Logs).', 'decalog' ),
 			'icon'          => $this->get_base64_newrelic_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],

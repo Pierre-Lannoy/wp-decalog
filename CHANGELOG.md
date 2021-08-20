@@ -6,7 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [3.2.0] - Unreleased
 
 ### Added
-- New logger to send events to New Relic.
+- New logger to send events to New Relic as NR-Logs.
+- New logger to send metrics to New Relic.
 
 ## [3.1.0] - 2021-08-11
 
