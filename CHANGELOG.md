@@ -9,9 +9,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - New logger to send events to New Relic as NR-Logs.
 - New logger to send metrics to New Relic.
 - New logger to send traces to New Relic.
+- All cron-related events are now logged (schedule, unschedule and clear).
+- Logos for Action Scheduler and WooCommerce in events list and viewer.
+- Logos for BuddyPress in events list and viewer.
+- Logos for standard, Amelia and Forminator Stripe gateways in events list and viewer.
 
 ### Changed
-- Designed has been improved pour the logger selector.
+- Designed has been improved for the logger selector.
 
 ## [3.1.0] - 2021-08-11
 

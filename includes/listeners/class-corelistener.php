@@ -183,6 +183,10 @@ class CoreListener extends AbstractListener {
 		add_filter( 'wp', [ $this, 'wp' ], 10, 1 );
 		// Rest API
 		add_filter( 'http_api_debug', [ $this, 'http_api_debug' ], 10, 5 );
+		// Cron
+		add_filter( 'schedule_event', [ $this, 'schedule_event' ], PHP_INT_MAX, 1 );
+		add_filter( 'pre_clear_scheduled_hook', [ $this, 'pre_clear_scheduled_hook' ], PHP_INT_MAX, 5 );
+		add_filter( 'pre_unschedule_hook', [ $this, 'pre_unschedule_hook' ], PHP_INT_MAX, 4 );
 		// Aplications Passwords
 		add_action( 'wp_create_application_password', [ $this, 'wp_create_application_password' ], 10, 4 );
 		add_action( 'wp_update_application_password', [ $this, 'wp_update_application_password' ], 10, 3 );
@@ -1297,6 +1301,52 @@ class CoreListener extends AbstractListener {
 		} else {
 			$this->logger->debug( $message, $code );
 		}
+	}
+
+	/**
+	 * "schedule_event" event.
+	 *
+	 * @since    3.2.0
+	 */
+	public function schedule_event( $event = null ) {
+		if ( $event && is_object( $event ) && property_exists( $event, 'hook' ) && property_exists( $event, 'schedule' ) && property_exists( $event, 'timestamp' ) ) {
+			if ( $event->schedule ) {
+				$this->logger->debug( sprintf( 'The recurring event "%s" has been scheduled to "%s".', $event->hook, $event->schedule ) );
+			} else {
+				$this->logger->debug( sprintf( 'The single event "%s" has been (re)scheduled and will be executed %s.', $event->hook, ( 0 === $event->timestamp - time() ? 'immediately' : sprintf( 'in %d seconds', $event->timestamp - time() ) ) ) );
+			}
+		} else {
+			$this->logger->notice( 'A plugin prevented an event to be scheduled or rescheduled.' );
+		}
+		return $event;
+	}
+
+	/**
+	 * "pre_clear_scheduled_hook" event.
+	 *
+	 * @since    3.2.0
+	 */
+	public function pre_clear_scheduled_hook( $pre, $hook, $args = null, $wp_error = null ) {
+		if ( is_null( $pre ) ) {
+			$this->logger->info( sprintf( 'The "%s" event will be cleared.', $hook ) );
+		} else {
+			$this->logger->notice( sprintf( 'A plugin prevented the "%s" event to be cleared.', $hook ) );
+		}
+		return $pre;
+	}
+
+	/**
+	 * "pre_unschedule_hook" event.
+	 *
+	 * @since    3.2.0
+	 */
+	public function pre_unschedule_hook( $pre, $hook, $wp_error = null ) {
+		if ( is_null( $pre ) ) {
+			$this->logger->info( sprintf( 'The "%s" event will be unscheduled.', $hook ) );
+		} else {
+			$this->logger->notice( sprintf( 'A plugin prevented the "%s" event to be unscheduled.', $hook ) );
+		}
+		return $pre;
 	}
 
 	/**
