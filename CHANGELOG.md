@@ -15,7 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Logos for standard, Amelia and Forminator Stripe gateways in events list and viewer.
 
 ### Changed
-- Designed has been improved for the logger selector.
+- Design has been improved for the logger selector.
 
 ## [3.1.0] - 2021-08-11
 
