@@ -11,7 +11,7 @@ global $wp_version;
 
 use Decalog\System\Plugin;
 
-if ( version_compare( $wp_version, '5.5', '<' ) ) {
+if ( version_compare( $wp_version, '5.5', '<' ) && ! function_exists( 'wp_is_auto_update_enabled_for_type' ) ) {
 	/**
 	 * Provide WP 5.5 compatibility for wp_is_auto_update_enabled_for_type() function.
 	 */

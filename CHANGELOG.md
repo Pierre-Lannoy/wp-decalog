@@ -17,6 +17,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 - Design has been improved for the logger selector.
 
+### Fixed
+- There may be name collisions for some functions if version of WordPress is lower than 5.6.
+
 ## [3.1.0] - 2021-08-11
 
 ### Added
