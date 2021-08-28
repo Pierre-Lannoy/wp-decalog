@@ -96,10 +96,11 @@ class WordpressProcessor implements ProcessorInterface {
 	 * @@return array   The modified records.
 	 */
 	public function __invoke( array $record ): array {
-		$record['extra']['siteid']   = Blog::get_current_blog_id( 0 );
-		$record['extra']['sitename'] = Blog::get_current_blog_name();
-		$record['extra']['userid']   = User::get_current_user_id( 0 );
-		$record['extra']['username'] = User::get_current_user_name();
+		$record['extra']['siteid']     = Blog::get_current_blog_id( 0 );
+		$record['extra']['sitename']   = Blog::get_current_blog_name();
+		$record['extra']['sitedomain'] = Blog::get_current_blog_url();
+		$record['extra']['userid']     = User::get_current_user_id( 0 );
+		$record['extra']['username']   = User::get_current_user_name();
 		if ( 0 !== (int) $record['extra']['userid'] ) {
 			$record['extra']['usersession'] = Hash::simple_hash( wp_get_session_token(), false );
 		}
