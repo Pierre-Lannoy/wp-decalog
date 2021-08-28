@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Logos for BuddyPress in events list and viewer.
 - Logos for W3 Total Cache in events list and viewer.
 - Logos for standard, Amelia and Forminator Stripe gateways in events list and viewer.
+- DecaLog now propagates site domain in events and traces (thanks to [Jan Thiel](https://github.com/JanThiel)).
 
 ### Changed
 - Design has been improved for the logger selector.

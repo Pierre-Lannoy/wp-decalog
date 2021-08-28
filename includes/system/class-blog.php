@@ -141,7 +141,7 @@ class Blog {
 	 * @return  string  The current blog name if detected, "anonymous" otherwise.
 	 * @since   1.0.0
 	 */
-	public static function get_current_blog_name($default = 'unknown' ) {
+	public static function get_current_blog_name( $default = 'unknown' ) {
 		return self::get_blog_name( self::get_current_blog_id(), $default );
 	}
 	
@@ -150,9 +150,9 @@ class Blog {
 	 *
 	 * @param   string  $default    Optional. Default value to return if blog is not detected.
 	 * @return  string  The current blog url if detected, "wordpress.org" otherwise.
-	 * @since   1.3.1
+	 * @since   3.2.0
 	 */
-	public static function get_current_blog_url($default = 'wordpress.org' ) {
+	public static function get_current_blog_url( $default = 'wordpress.org' ) {
 		return self::get_blog_url( self::get_current_blog_id(), $default );
 	}
 
