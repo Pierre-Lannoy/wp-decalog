@@ -144,5 +144,16 @@ class Blog {
 	public static function get_current_blog_name($default = 'unknown' ) {
 		return self::get_blog_name( self::get_current_blog_id(), $default );
 	}
+	
+	/**
+	 * Get the current blog url.
+	 *
+	 * @param   string  $default    Optional. Default value to return if blog is not detected.
+	 * @return  string  The current blog url if detected, "wordpress.org" otherwise.
+	 * @since   1.3.1
+	 */
+	public static function get_current_blog_url($default = 'wordpress.org' ) {
+		return self::get_blog_url( self::get_current_blog_id(), $default );
+	}
 
 }
