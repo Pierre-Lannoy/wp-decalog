@@ -125,10 +125,10 @@ class Blog {
 	 * @return  mixed|integer The blog id if detected, null otherwise.
 	 * @since   1.0.0
 	 */
-	public static function get_current_blog_id($default = null) {
+	public static function get_current_blog_id( $default = null ) {
 		$blog_id = $default;
-		$id = get_current_blog_id();
-		if ( $id && is_numeric($id) && $id >0) {
+		$id      = get_current_blog_id();
+		if ( $id && is_numeric( $id ) && $id > 0 ) {
 			$blog_id = $id;
 		}
 		return $blog_id;
