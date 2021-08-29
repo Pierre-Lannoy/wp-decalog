@@ -82,7 +82,8 @@ class Option {
 		self::$defaults['pseudonymization']  = false; // In plugin settings.
 		self::$defaults['earlyloading']      = true;  // In plugin settings.
 		self::$defaults['metrics_authent']   = false;  // In plugin settings.
-		self::$network                       = [ 'version', 'earlyloading', 'use_cdn', 'download_favicons', 'script_in_footer', 'display_nag', 'respect_wp_debug', 'livelog', 'logger_autostart', 'autolisteners', 'pseudonymization', 'privileges', 'metrics_authent' ];
+		self::$defaults['adminbar']          = true;
+		self::$network                       = [ 'version', 'earlyloading', 'use_cdn', 'download_favicons', 'script_in_footer', 'display_nag', 'respect_wp_debug', 'livelog', 'logger_autostart', 'autolisteners', 'pseudonymization', 'privileges', 'metrics_authent', 'adminbar' ];
 	}
 
 	/**

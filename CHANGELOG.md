@@ -9,10 +9,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - New logger to send events to New Relic as NR-Logs.
 - New logger to send metrics to New Relic.
 - New logger to send traces to New Relic.
+- New PerfOps One menu in the admin bar for quick actions.
 - All cron-related events are now logged (schedule, unschedule and clear).
 - Logos for Action Scheduler and WooCommerce in events list and viewer.
-- Logos for BuddyPress in events list and viewer.
-- Logos for W3 Total Cache in events list and viewer.
+- Logo for BuddyPress in events list and viewer.
+- Logo for W3 Total Cache in events list and viewer.
 - Logos for standard, Amelia and Forminator Stripe gateways in events list and viewer.
 - DecaLog now propagates site domain in events and traces (thanks to [Jan Thiel](https://github.com/JanThiel)).
 

@@ -33,6 +33,14 @@ if ( ! class_exists( 'PerfOpsOne\Resources' ) ) {
 		private static $menus = [];
 
 		/**
+		 * The PerfOps One internal version.
+		 *
+		 * @since  2.1.0
+		 * @var    string $version Maintains the PerfOps One internal version.
+		 */
+		public static $version = '2.1.0';
+
+		/**
 		 * Returns a base64 svg resource for the PerfOps One logo.
 		 *
 		 * @return string The svg resource as a base64.

@@ -11,6 +11,7 @@ namespace Decalog\Plugin;
 
 use Decalog\Plugin\Feature\Autolog;
 use Decalog\Plugin\Feature\BootstrapManager;
+use Decalog\System\Blog;
 use Decalog\System\SharedMemory;
 use Decalog\Plugin\Feature\Log;
 use Decalog\Plugin\Feature\EventViewer;
@@ -30,6 +31,7 @@ use Decalog\System\GeoIP;
 use Decalog\System\Environment;
 use Monolog\Logger;
 use PerfOpsOne\Menus;
+use PerfOpsOne\AdminBar;
 use Decalog\Plugin\Feature\DLogger;
 use Decalog\Plugin\Feature\TraceViewer;
 
@@ -204,7 +206,7 @@ class Decalog_Admin {
 				'post_callback' => [ $this, 'set_settings_help' ],
 			];
 		}
-		if ( Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type() || Role::LOCAL_ADMIN === Role::admin_type() || Role::override_privileges()) {
+		if ( Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type() || Role::LOCAL_ADMIN === Role::admin_type() || Role::override_privileges() ) {
 			if ( Events::loggers_count() > 0 ) {
 				$perfops['records'][] = [
 					'name'          => esc_html__( 'Events Log', 'decalog' ),
@@ -242,7 +244,7 @@ class Decalog_Admin {
 				];
 			}
 		}
-		if ( Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type() || Role::override_privileges()) {
+		if ( Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type() || Role::override_privileges() ) {
 			$perfops['consoles'][] = [
 				'name'          => esc_html__( 'Live Events', 'decalog' ),
 				/* translators: as in the sentence "Check the events that occurred on your network." or "Check the events that occurred on your website." */
@@ -258,6 +260,47 @@ class Decalog_Admin {
 				'activated'     => SharedMemory::$available,
 				'remedy'        => esc_url( admin_url( 'admin.php?page=decalog&tab=misc' ) ),
 			];
+		}
+		return $perfops;
+	}
+
+	/**
+	 * Init PerfOps admin bar.
+	 *
+	 * @param array $perfops    The already declared items.
+	 * @return array    The completed items array.
+	 * @since 3.2.0
+	 */
+	public function init_perfopsone_admin_bar( $perfops ) {
+		if ( ! ( $action = filter_input( INPUT_GET, 'action' ) ) ) {
+			$action = filter_input( INPUT_POST, 'action' );
+		}
+		if ( ! ( $tab = filter_input( INPUT_GET, 'tab' ) ) ) {
+			$tab = filter_input( INPUT_POST, 'tab' );
+		}
+		$early_signal  = ( 'misc' === $tab && 'do-save' === $action ) && ( Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type() );
+		$early_signal &= ( ! empty( $_POST ) && array_key_exists( 'submit', $_POST ) );
+		$early_signal &= ( array_key_exists( '_wpnonce', $_POST ) && wp_verify_nonce( $_POST['_wpnonce'], 'decalog-plugin-options' ) );
+		if ( $early_signal ) {
+			Option::network_set( 'adminbar', array_key_exists( 'decalog_plugin_options_adminbar', $_POST ) );
+		}
+		if ( Option::network_get( 'adminbar' ) && ( Role::SUPER_ADMIN === Role::admin_type() || Role::SINGLE_ADMIN === Role::admin_type() || Role::LOCAL_ADMIN === Role::admin_type() || Role::override_privileges() ) ) {
+			if ( Events::loggers_count() > 0 ) {
+				$perfops[] = [
+					'id'    => 'decalog-events-viewer',
+					'title' => __( 'View Events', 'decalog' ),
+					'href'  => esc_url( admin_url( 'admin.php?page=decalog-viewer' . ( Environment::is_wordpress_multisite() ? '&site_id=' . Blog::get_current_blog_id() : '' ) ) ),
+					'meta'  => false,
+				];
+			}
+			if ( Traces::loggers_count() > 0 ) {
+				$perfops[] = [
+					'id'    => 'decalog-traces-viewer',
+					'title' => __( 'View Traces', 'decalog' ),
+					'href'  => esc_url( admin_url( 'admin.php?page=decalog-tviewer' . ( Environment::is_wordpress_multisite() ? '&site_id=' . Blog::get_current_blog_id() : '' ) ) ),
+					'meta'  => false,
+				];
+			}
 		}
 		return $perfops;
 	}
@@ -291,7 +334,9 @@ class Decalog_Admin {
 			remove_action( 'admin_print_styles', 'print_emoji_styles' );
 		}
 		add_filter( 'init_perfopsone_admin_menus', [ $this, 'init_perfopsone_admin_menus' ] );
+		add_filter( 'init_perfopsone_admin_bar', [ $this, 'init_perfopsone_admin_bar' ] );
 		Menus::initialize();
+		AdminBar::initialize();
 	}
 
 	/**
@@ -689,6 +734,7 @@ class Decalog_Admin {
 				Option::network_set( 'metrics_authent', array_key_exists( 'decalog_plugin_options_metrics_authent', $_POST ) );
 				Option::network_set( 'use_cdn', array_key_exists( 'decalog_plugin_options_usecdn', $_POST ) );
 				Option::network_set( 'display_nag', array_key_exists( 'decalog_plugin_options_nag', $_POST ) );
+				Option::network_set( 'adminbar', array_key_exists( 'decalog_plugin_options_adminbar', $_POST ) );
 				Option::network_set( 'download_favicons', array_key_exists( 'decalog_plugin_options_favicons', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_plugin_options_favicons' ) : false );
 				Option::network_set( 'earlyloading', array_key_exists( 'decalog_plugin_features_earlyloading', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_plugin_features_earlyloading' ) : false );
 				Option::network_set( 'logger_autostart', array_key_exists( 'decalog_loggers_options_autostart', $_POST ) ? true : false );
@@ -1024,6 +1070,22 @@ class Decalog_Admin {
 			]
 		);
 		register_setting( 'decalog_plugin_options_section', 'decalog_plugin_options_metrics_authent' );
+		add_settings_field(
+			'decalog_plugin_options_adminbar',
+			__( 'Quick actions', 'decalog' ),
+			[ $form, 'echo_field_checkbox' ],
+			'decalog_plugin_options_section',
+			'decalog_plugin_options_section',
+			[
+				'text'        => esc_html__( 'Display in admin bar', 'decalog' ),
+				'id'          => 'decalog_plugin_options_adminbar',
+				'checked'     => Option::network_get( 'adminbar' ),
+				'description' => esc_html__( 'If checked, DecaLog will display in admin bar the most important actions, if any.', 'decalog' ),
+				'full_width'  => false,
+				'enabled'     => true,
+			]
+		);
+		register_setting( 'decalog_plugin_options_section', 'decalog_plugin_options_adminbar' );
 		add_settings_field(
 			'decalog_plugin_options_favicons',
 			__( 'Favicons', 'decalog' ),

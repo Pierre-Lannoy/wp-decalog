@@ -15,4 +15,6 @@ if ( ! defined( 'PERFOO_INITIALIZED' ) ) {
 	define( 'PERFOO_PRODUCT_URL', 'https://perfops.one' );
 	define( 'PERFOO_PRODUCT_SHORTNAME', 'PerfOps One' );
 	define( 'PERFOO_INITIALIZED', true );
+	define( 'PERFOO_ASSETS_ID', 'poo-assets' );
+	define( 'PERFOO_ASSETS_CSS', plugins_url( 'perfopsone/assets/perfopsone.min.css', plugin_basename( dirname( __FILE__ ) ) ) );
 }
