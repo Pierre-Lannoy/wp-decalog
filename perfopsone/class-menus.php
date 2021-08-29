@@ -126,6 +126,9 @@ if ( ! class_exists( 'PerfOpsOne\Menus' ) ) {
 		 * @since 2.0.0
 		 */
 		public static function finalize() {
+			if ( 0 === count( self::$menus ) ) {
+				return;
+			}
 			if ( ! self::$initialized ) {
 				add_menu_page( PERFOO_PRODUCT_NAME, PERFOO_PRODUCT_NAME, 'manage_options', 'perfopsone-dashboard', [ self::class, 'get_dashboard_page' ], Resources::get_menu_base64_logo(), 79 );
 				add_submenu_page( 'perfopsone-dashboard', esc_html__( 'Control Center', 'decalog' ), __( 'Control Center', 'decalog' ), 'manage_options', 'perfopsone-dashboard', [ self::class, 'get_dashboard_page' ] );
