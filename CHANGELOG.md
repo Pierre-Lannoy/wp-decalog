@@ -19,6 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 - Design has been improved for the logger selector.
+- Better layout for the "bot details" box when bot name or manufacturer is not detected.
 
 ### Fixed
 - There may be name collisions for some functions if version of WordPress is lower than 5.6.

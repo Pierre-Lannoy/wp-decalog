@@ -556,17 +556,15 @@ class EventViewer {
 	 * @since 1.0.0
 	 */
 	public function bot_widget() {
-		$ibot    = '<img style="width:16px;float:left;padding-right:7px;padding-left:1px;" src="' . $this->device->bot_icon_base64() . '" />';
-		$bot     = ( '-' !== $this->device->bot_name ? $this->device->bot_name : esc_html__( 'Unknown', 'decalog' ) );
-		if ( '' !== $this->device->bot_url )
-		$content = '<span style="width:100%;cursor: default;">' . $ibot . $bot . $this->get_external_link( $this->device->bot_url ) . '</span>';
-		$model   = $this->get_section( $content );
-
+		$ibot     = '<img style="width:16px;float:left;padding-right:7px;padding-left:1px;" src="' . $this->device->bot_icon_base64() . '" />';
+		$bot      = ( 1 < strlen( $this->device->bot_name ) ? $this->device->bot_name : esc_html__( 'Unknown', 'decalog' ) );
+		$content  = '<span style="width:100%;cursor: default;">' . $ibot . $bot . $this->get_external_link( $this->device->bot_url ) . '</span>';
+		$model    = $this->get_section( $content );
 		$imanuf   = $this->get_icon( 'home' );
-		$manuf    = ( '-' !== $this->device->bot_producer_name ? $this->device->bot_producer_name : esc_html__( 'Unknown', 'decalog' ) );
+		$manuf    = ( 1 < strlen( $this->device->bot_producer_name ) ? $this->device->bot_producer_name : esc_html__( 'Unknown', 'decalog' ) );
 		$itype    = $this->get_icon( 'info' );
 		$type     = $this->device->bot_full_category;
-		$content  = '<span style="width:40%;cursor: default;float:left">' . $itype . $type .'</span>';
+		$content  = '<span style="width:40%;cursor: default;float:left">' . $itype . $type . '</span>';
 		$content .= '<span style="width:60%;cursor: default;">' . $imanuf . $manuf . $this->get_external_link( $this->device->bot_producer_url ) . '</span>';
 		$prod     = $this->get_section( $content );
 
