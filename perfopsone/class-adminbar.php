@@ -63,6 +63,9 @@ if ( ! class_exists( 'PerfOpsOne\AdminBar' ) ) {
 		 * @since 2.1.0
 		 */
 		public static function finalize( $admin_bar ) {
+			if ( apply_filters( 'poo_hide_adminbar', false ) ) {
+				return;
+			}
 			if ( 0 < count( self::$items ) ) {
 				usort(
 					self::$items,
