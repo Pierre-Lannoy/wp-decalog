@@ -114,9 +114,12 @@ if ( ! class_exists( 'PerfOpsOne\Menus' ) ) {
 		public static function normalize() {
 			$current = apply_filters( 'init_perfopsone_admin_menus', [] );
 			foreach ( self::$menus_positions as $menu ) {
-				if ( ! array_key_exists( $menu, $current ) ) {
+				if ( ! array_key_exists( $menu, $current ) || apply_filters( 'poo_hide_' . $menu . '_menu', false ) ) {
 					remove_submenu_page( 'perfopsone-dashboard', 'perfopsone-' . $menu );
 				}
+			}
+			if ( apply_filters( 'poo_hide_settings_menu', false ) ) {
+				remove_submenu_page( 'perfopsone-dashboard', 'perfopsone-dashboard' );
 			}
 		}
 
@@ -126,10 +129,13 @@ if ( ! class_exists( 'PerfOpsOne\Menus' ) ) {
 		 * @since 2.0.0
 		 */
 		public static function finalize() {
-			if ( 0 === count( self::$menus ) ) {
+			if ( 0 === count( self::$menus ) || apply_filters( 'poo_hide_main_menu', false ) ) {
 				return;
 			}
 			if ( ! self::$initialized ) {
+				if ( apply_filters( 'poo_hide_settings_menu', false ) ) {
+					self::$menus['settings'] = [];
+				}
 				add_menu_page( PERFOO_PRODUCT_NAME, PERFOO_PRODUCT_NAME, 'manage_options', 'perfopsone-dashboard', [ self::class, 'get_dashboard_page' ], Resources::get_menu_base64_logo(), 79 );
 				add_submenu_page( 'perfopsone-dashboard', esc_html__( 'Control Center', 'decalog' ), __( 'Control Center', 'decalog' ), 'manage_options', 'perfopsone-dashboard', [ self::class, 'get_dashboard_page' ] );
 			}
