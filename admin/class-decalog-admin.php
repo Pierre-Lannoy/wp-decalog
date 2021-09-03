@@ -288,7 +288,7 @@ class Decalog_Admin {
 			if ( Events::loggers_count() > 0 ) {
 				$perfops[] = [
 					'id'    => 'decalog-events-viewer',
-					'title' => __( 'View Events', 'decalog' ),
+					'title' => '<strong>' . __( 'Logs', 'decalog' ) . '</strong>&nbsp;&nbsp;➜&nbsp;&nbsp;' . __( 'View Events', 'decalog' ),
 					'href'  => esc_url( admin_url( 'admin.php?page=decalog-viewer' . ( Environment::is_wordpress_multisite() ? '&site_id=' . Blog::get_current_blog_id() : '' ) ) ),
 					'meta'  => false,
 				];
@@ -296,7 +296,7 @@ class Decalog_Admin {
 			if ( Traces::loggers_count() > 0 ) {
 				$perfops[] = [
 					'id'    => 'decalog-traces-viewer',
-					'title' => __( 'View Traces', 'decalog' ),
+					'title' => '<strong>' . __( 'Logs', 'decalog' ) . '</strong>&nbsp;&nbsp;➜&nbsp;&nbsp;' . __( 'View Traces', 'decalog' ),
 					'href'  => esc_url( admin_url( 'admin.php?page=decalog-tviewer' . ( Environment::is_wordpress_multisite() ? '&site_id=' . Blog::get_current_blog_id() : '' ) ) ),
 					'meta'  => false,
 				];
@@ -731,15 +731,15 @@ class Decalog_Admin {
 	private function save_options() {
 		if ( ! empty( $_POST ) ) {
 			if ( array_key_exists( '_wpnonce', $_POST ) && wp_verify_nonce( $_POST['_wpnonce'], 'decalog-plugin-options' ) ) {
-				Option::network_set( 'metrics_authent', array_key_exists( 'decalog_plugin_options_metrics_authent', $_POST ) );
-				Option::network_set( 'use_cdn', array_key_exists( 'decalog_plugin_options_usecdn', $_POST ) );
-				Option::network_set( 'display_nag', array_key_exists( 'decalog_plugin_options_nag', $_POST ) );
-				Option::network_set( 'adminbar', array_key_exists( 'decalog_plugin_options_adminbar', $_POST ) );
+				Option::network_set( 'metrics_authent', array_key_exists( 'decalog_plugin_options_metrics_authent', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_plugin_options_metrics_authent' ) : false );
+				Option::network_set( 'use_cdn', array_key_exists( 'decalog_plugin_options_usecdn', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_plugin_options_usecdn' ) : false );
+				Option::network_set( 'display_nag', array_key_exists( 'decalog_plugin_options_nag', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_plugin_options_nag' ) : false );
+				Option::network_set( 'adminbar', array_key_exists( 'decalog_plugin_options_adminbar', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_plugin_options_adminbar' ) : false );
 				Option::network_set( 'download_favicons', array_key_exists( 'decalog_plugin_options_favicons', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_plugin_options_favicons' ) : false );
 				Option::network_set( 'earlyloading', array_key_exists( 'decalog_plugin_features_earlyloading', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_plugin_features_earlyloading' ) : false );
-				Option::network_set( 'logger_autostart', array_key_exists( 'decalog_loggers_options_autostart', $_POST ) ? true : false );
-				Option::network_set( 'pseudonymization', array_key_exists( 'decalog_loggers_options_pseudonymization', $_POST ) );
-				Option::network_set( 'respect_wp_debug', array_key_exists( 'decalog_loggers_options_wpdebug', $_POST ) );
+				Option::network_set( 'logger_autostart', array_key_exists( 'decalog_loggers_options_autostart', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_loggers_options_autostart' ) : false );
+				Option::network_set( 'pseudonymization', array_key_exists( 'decalog_loggers_options_pseudonymization', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_loggers_options_pseudonymization' ) : false );
+				Option::network_set( 'respect_wp_debug', array_key_exists( 'decalog_loggers_options_wpdebug', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_loggers_options_wpdebug' ) : false );
 				Option::network_set( 'privileges', array_key_exists( 'decalog_plugin_options_privileges', $_POST ) ? (string) filter_input( INPUT_POST, 'decalog_plugin_options_privileges', FILTER_SANITIZE_NUMBER_INT ) : Option::network_get( 'privileges' ) );
 				$autolog = array_key_exists( 'decalog_plugin_features_livelog', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_plugin_features_livelog' ) : false;
 				if ( $autolog ) {
