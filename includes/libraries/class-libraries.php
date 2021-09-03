@@ -74,7 +74,7 @@ class Libraries {
 			'version' => '2.8.7',
 			// phpcs:ignore
 			'author'  => sprintf( esc_html__( '%s & contributors', 'decalog' ), 'David Grudl' ),
-			'url'     => 'https://github.com/dg',
+			'url'     => 'https://github.com/nette/tracy',
 			'license' => 'gpl3',
 			'langs'   => 'en',
 		];
