@@ -67,6 +67,17 @@ class Libraries {
 			'license' => 'mit',
 			'langs'   => 'en',
 		];
+		self::$psr4_libraries['tracy']   = [
+			'name'    => 'Tracy',
+			'prefix'  => 'Tracy',
+			'base'    => DECALOG_VENDOR_DIR . 'tracy/',
+			'version' => '2.8.7',
+			// phpcs:ignore
+			'author'  => sprintf( esc_html__( '%s & contributors', 'decalog' ), 'David Grudl' ),
+			'url'     => 'https://github.com/dg',
+			'license' => 'gpl3',
+			'langs'   => 'en',
+		];
 		self::$psr4_libraries['prometheus']   = [
 			'name'    => 'Prometheus PHP',
 			'prefix'  => 'Prometheus',
