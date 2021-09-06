@@ -26,6 +26,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 - There may be name collisions for some functions if version of WordPress is lower than 5.6.
 - The main PerfOps One menu is not hidden when it doesn't contain any items (thanks to [Jan Thiel](https://github.com/JanThiel)).
+- In some very special conditions, the plugin may be in the default site language rather than the user's language.
 
 ## [3.1.0] - 2021-08-11
 

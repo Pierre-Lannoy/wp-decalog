@@ -38,10 +38,10 @@ class Initializer {
 		\Decalog\System\Cache::init();
 		\Decalog\System\Sitehealth::init();
 		\Decalog\System\APCu::init();
-		if ( 'en_US' !== determine_locale() ) {
+		//if ( 'en_US' !== determine_locale() ) {
 			unload_textdomain( DECALOG_SLUG );
 			load_plugin_textdomain( DECALOG_SLUG );
-		}
+		//}
 	}
 
 	/**
