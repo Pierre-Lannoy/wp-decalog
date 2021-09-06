@@ -109,8 +109,8 @@ class Core {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'register_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'register_scripts' );
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'init_admin_menus' );
-		$this->loader->add_action( 'admin_menu', $plugin_admin, 'finalize_admin_menus', PHP_INT_MAX - 1 );
-		$this->loader->add_action( 'admin_menu', $plugin_admin, 'normalize_admin_menus', PHP_INT_MAX );
+		$this->loader->add_action( 'admin_menu', $plugin_admin, 'finalize_admin_menus', 10 );
+		$this->loader->add_action( 'admin_menu', $plugin_admin, 'normalize_admin_menus', 11 );
 		$this->loader->add_action( 'admin_init', $plugin_admin, 'init_settings_sections' );
 		$this->loader->add_filter( 'plugin_action_links_' . plugin_basename( DECALOG_PLUGIN_DIR . DECALOG_SLUG . '.php' ), $plugin_admin, 'add_actions_links', 10, 4 );
 		$this->loader->add_filter( 'plugin_row_meta', $plugin_admin, 'add_row_meta', 10, 2 );
