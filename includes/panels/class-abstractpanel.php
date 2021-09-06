@@ -1,13 +1,26 @@
 <?php
+/**
+ * Abstract panel for Tracy.
+ *
+ * Handles all base features for Tracy panels.
+ *
+ * @package Panels
+ * @author  Pierre Lannoy <https://pierre.lannoy.fr/>.
+ * @since   3.2.0
+ */
 
 namespace Decalog\Panel;
 
 use Tracy\Dumper;
 
 /**
- * Common basic model for other WP panels
+ * Define the abstract panel for Tracy
  *
- * @author Martin Hlaváč
+ * Handles all base features for Tracy panels.
+ *
+ * @package Panels
+ * @author  Pierre Lannoy <https://pierre.lannoy.fr/>.
+ * @since   3.2.0
  */
 abstract class AbstractPanel implements \Tracy\IBarPanel {
 
@@ -87,7 +100,7 @@ abstract class AbstractPanel implements \Tracy\IBarPanel {
 		self::$panels[] = $this->id;
 		$output         = '<span' . ( ! empty( $this->get_name() ) ? ' title="' . $this->get_name() . '"' : '' ) . '>';
 		if ( ! empty( $this->get_icon() ) ) {
-			$output .= '<img src="' . $this->get_icon() . '" width="16" height="16" />';
+			$output .= '<img src="' . $this->get_icon() . '" width="16" height="16" />&nbsp;';
 		}
 		if ( ! empty( $this->get_title() ) ) {
 			$output .= $this->get_title();
@@ -105,7 +118,7 @@ abstract class AbstractPanel implements \Tracy\IBarPanel {
 	public function get_objects_panel( $objects ) {
 		$output = null;
 		if ( ! empty( $this->get_title() ) ) {
-			$output .= '<h1>' . $this->get_title() . '</h1>';
+			$output .= '<h1>' . $this->get_name() . '</h1>';
 		}
 		$output .= '<div class="nette-inner">';
 		foreach ( $objects as $object ) {
@@ -116,46 +129,44 @@ abstract class AbstractPanel implements \Tracy\IBarPanel {
 	}
 
 	/**
-	 * Get the content of panel for a single object.
+	 * Get the content of panel for an array of arrays.
 	 *
-	 * @param mixed $object
+	 * @param array     $array      The array of arrays.
+	 * @param boolean   $headers    Optional. Prints the keys as header.
 	 * @return  null|string  The panel content, ready to print.
 	 */
-	public function get_single_object_panel( $object ) {
+	public function get_arrays_panel( $array, $headers = false ) {
 		$output = null;
 		if ( ! empty( $this->get_title() ) ) {
-			$output .= '<h1>' . $this->get_title() . '</h1>';
+			$output .= '<h1>' . $this->get_name() . '</h1>';
 		}
 		$output .= '<div class="nette-inner">';
-		$output .= Dumper::toHtml( $object, [ Dumper::COLLAPSE => false ] );
-		$output .= '</div>';
-		return $output;
-	}
-
-	/**
-	 * (HTML) table content of panel based on parameters array
-	 *
-	 * @param array $params
-	 * @param string $title
-	 * @return string
-	 */
-	public function getTablePanel( array $params, $title = null ) {
-		$output = null;
-		if ( ! empty( $title ) ) {
-			$output .= "<h1>$title</h1>";
+		if ( 0 === count( $array ) ) {
+			$output .= '<p>No Items In This List</p>';
+			$output .= '</div>';
+			return $output;
 		}
-		$output .= '<div class="nette-inner">';
 		$output .= '<table>';
-		$output .= '<thead>';
-		$output .= '<tr>';
-		$output .= '<th>' . __( 'Parameter' ) . '</th>';
-		$output .= '<th>' . __( 'Value' ) . '</th>';
-		$output .= '</tr>';
-		$output .= '</thead>';
-		foreach ( $params as $key => $value ) {
+		if ( $headers ) {
+			$output .= '<thead>';
 			$output .= '<tr>';
-			$output .= "<td>$key:</td>";
-			$output .= "<td>$value</td>";
+			foreach ( $array[0] as $key => $field ) {
+				$output .= '<td>' . $key . '</td>';
+			}
+			$output .= '</tr>';
+			$output .= '</thead>';
+		}
+		foreach ( $array as $line ) {
+			$output .= '<tr>';
+			foreach ( $line as $field ) {
+				$output .= '<td>';
+				if ( is_array( $field ) || is_object( $field ) ) {
+					$output .= Dumper::toHtml( $field, [ Dumper::COLLAPSE => true ] );
+				} else {
+					$output .= $field;
+				}
+				$output .= '</td>';
+			}
 			$output .= '</tr>';
 		}
 		$output .= '</table>';

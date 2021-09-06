@@ -1186,10 +1186,7 @@ class HandlerTypes {
 			'icon'          => $this->get_base64_tracy_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
-			'processors'    => [
-				'included' => [ 'WordpressProcessor', 'WWWProcessor' ],
-				'excluded' => [ 'BacktraceProcessor', 'IntrospectionProcessor' ],
-			],
+			'processors'    => [],
 			'configuration' => [],
 			'init'          => [
 				[ 'type' => 'level' ],

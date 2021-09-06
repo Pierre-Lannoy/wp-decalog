@@ -1,6 +1,6 @@
 <?php
 /**
- * Log panel for Tracy.
+ * DB panel for Tracy.
  *
  * Handles all base features for Tracy panels.
  *
@@ -11,11 +11,11 @@
 
 namespace Decalog\Panel;
 
-use Decalog\Handler\TracyHandler;
+use Decalog\System\Environment;
 use Feather\Icons;
 
 /**
- * Log panel for Tracy.
+ * DB panel for Tracy.
  *
  * Handles all base features for Tracy panels.
  *
@@ -23,37 +23,34 @@ use Feather\Icons;
  * @author  Pierre Lannoy <https://pierre.lannoy.fr/>.
  * @since   3.2.0
  */
-class LogPanel extends AbstractPanel {
+class DatabasePanel extends AbstractPanel {
 
 	/**
 	 * {@inheritDoc}
 	 */
 	protected function get_icon() {
-		return Icons::get_base64( 'alert-triangle', 'none', '#579FF4' );
+		return Icons::get_base64( 'database', 'none', '#F1953E' );
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	protected function get_name() {
-		return sprintf( '%d Events captured by DecaLog', TracyHandler::count() );
+		return Environment::mysql_model() . '&nbsp;' . Environment::mysql_version();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	protected function get_title() {
-		return sprintf( '%d Events', TracyHandler::count() );
+		return Environment::mysql_model() . '&nbsp;' . Environment::mysql_version();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public function getTab() {
-		if ( 0 !== TracyHandler::count() ) {
-			return $this->get_standard_tab();
-		}
-		return null;
+		return $this->get_standard_tab();
 	}
 
 	/**
@@ -61,6 +58,7 @@ class LogPanel extends AbstractPanel {
 	 * @return string
 	 */
 	public function getPanel() {
-		return $this->get_arrays_panel( TracyHandler::get(), true );
+		global $wpdb;
+		return $this->get_objects_panel( [ $wpdb ] );
 	}
 }

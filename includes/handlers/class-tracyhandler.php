@@ -15,6 +15,7 @@ use Monolog\Logger;
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Formatter\FormatterInterface;
 use Decalog\Formatter\WordpressFormatter;
+use Decalog\Plugin\Feature\EventTypes;
 
 /**
  * Define the Monolog Tracy handler.
@@ -33,7 +34,7 @@ class TracyHandler extends AbstractProcessingHandler {
 	 * @since  3.2.0
 	 * @var    array    $buffer    The buffer.
 	 */
-	private $buffer = [];
+	private static $buffer = [];
 
 	/**
 	 * The panels to load.
@@ -41,7 +42,7 @@ class TracyHandler extends AbstractProcessingHandler {
 	 * @since  3.2.0
 	 * @var    array    $panels    The panels.
 	 */
-	private static $panels = [ 'wordpress', 'screen' ];
+	private static $panels = [ 'wordpress', 'database', 'current' ];
 
 	/**
 	 * Initialize the class and set its properties.
@@ -52,43 +53,53 @@ class TracyHandler extends AbstractProcessingHandler {
 	 */
 	public function __construct( $level = Logger::DEBUG, bool $bubble = true ) {
 		parent::__construct( $level, $bubble );
-		add_action( 'init', [ static::class, 'inita' ], PHP_INT_MAX, 0 );
-/*
-		add_action(
-			'init',
-			function() {
-				require_once DECALOG_VENDOR_DIR . 'tracy/tracy.php';
-				if ( ! \Tracy\Debugger::isEnabled() ) {
-					\Tracy\Debugger::enable( \Tracy\Debugger::DEVELOPMENT );
-					\Tracy\Debugger::$logSeverity = 0;
-					\Tracy\Debugger::errorHandler();
-					//\Tracy\Debugger::log( 'BOUH !');//, \Tracy\ILogger::ERROR );
-				}
-
-				},
-			PHP_INT_MAX
-		);*/
-
-
-		/*require_once DECALOG_VENDOR_DIR . 'tracy/tracy.php';
-		\Tracy\Debugger::enable( \Tracy\Debugger::DEVELOPMENT );
-		\Tracy\Debugger::$logSeverity = E_ALL;
-		\Tracy\Debugger::log( 'BOUH !', \Tracy\ILogger::ERROR );
-		trigger_error('aaaa');*/
+		add_action( 'init', [ static::class, 'init' ], PHP_INT_MAX, 0 );
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public static function inita(): void {
+	public static function init(): void {
 		require_once DECALOG_VENDOR_DIR . 'tracy/tracy.php';
 		if ( ! \Tracy\Debugger::isEnabled() ) {
 			\Tracy\Debugger::enable( \Tracy\Debugger::DEVELOPMENT );
 			foreach ( self::$panels as $panel ) {
 				$panelclass = '\Decalog\Panel\\' . ucfirst( $panel ) . 'Panel';
-				\Tracy\Debugger::getBar()->addPanel(new $panelclass);
+				\Tracy\Debugger::getBar()->addPanel( new $panelclass() );
 			}
 		}
+		$panelclass = '\Decalog\Panel\LogPanel';
+		\Tracy\Debugger::getBar()->addPanel( new $panelclass() );
+	}
+
+	/**
+	 * Get the events formatted for Tracy.
+	 *
+	 * @return   array      The formatted events.
+	 * @since    3.2.0
+	 */
+	public static function get(): array {
+		$result = [];
+		foreach ( static::$buffer as $record ) {
+			$event               = [];
+			$event['Level']      = EventTypes::$level_emojis[ $record['level'] ] . '&nbsp;' . ucfirst( strtolower( EventTypes::$level_names[ $record['level'] ] ) ) . '&nbsp;' . $record['context']['code'];
+			$event['Source']     = str_replace( ' ', '&nbsp;', $record['context']['component'] . ' ' . $record['context']['version'] );
+			$event['Time']       = $record['datetime']->format( 'H:i:s.u' );
+			$event['Message']    = ( 70 < strlen( $record['message'] ) ? substr( $record['message'], 0, 70 ) . '…' : $record['message'] );
+			$event['Full Event'] = $record;
+			$result[]            = $event;
+		}
+		return $result;
+	}
+
+	/**
+	 * Count the events.
+	 *
+	 * @return   integer      The count of events.
+	 * @since    3.2.0
+	 */
+	public static function count(): int {
+		return count( static::$buffer );
 	}
 
 	/**
@@ -105,7 +116,7 @@ class TracyHandler extends AbstractProcessingHandler {
 		if ( $record['level'] < $this->level ) {
 			return false;
 		}
-		$this->buffer[] = $this->processRecord( $record );
+		static::$buffer[] = $this->processRecord( $record );
 		return false === $this->bubble;
 	}
 
@@ -116,15 +127,6 @@ class TracyHandler extends AbstractProcessingHandler {
 	 * @since    3.2.0
 	 */
 	protected function write( array $record ): void {
-		// phpcs:ignore
-		$messages = unserialize( $record['formatted'] );
-		if ( is_array( $messages ) ) {
-			foreach ( $messages as $message ) {
-				if ( is_array( $message ) ) {
-					//\Tracy\Debugger::log( $message );
-				}
-			}
-		}
-		error_log(print_r($this->buffer,true));
+		// No write needed because buffer is outputted via Tracy panel.
 	}
 }
