@@ -32,6 +32,8 @@ spl_autoload_register(
 				$filepath = DECALOG_INCLUDES_DIR . 'formatters/';
 			} elseif ( strpos( $class, 'Decalog\Listener\\' ) === 0 ) {
 				$filepath = DECALOG_INCLUDES_DIR . 'listeners/';
+			} elseif ( strpos( $class, 'Decalog\Panel\\' ) === 0 ) {
+				$filepath = DECALOG_INCLUDES_DIR . 'panels/';
 			} elseif ( strpos( $class, 'Decalog\Library\\' ) === 0 ) {
 				$filepath = DECALOG_VENDOR_DIR;
 			} elseif ( strpos( $class, 'Decalog\Integration\\' ) === 0 ) {
