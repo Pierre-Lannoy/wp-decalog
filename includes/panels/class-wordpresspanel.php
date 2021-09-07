@@ -83,10 +83,25 @@ class WordpressPanel extends AbstractPanel {
 			'Variable'      => '$allowedtags',
 			'Current Value' => $allowedtags,
 		];
+		global $wp_embed;
+		$objects[] = [
+			'Variable'      => '$wp_embed',
+			'Current Value' => $wp_embed,
+		];
 		global $wp_locale;
 		$objects[] = [
 			'Variable'      => '$wp_locale',
 			'Current Value' => $wp_locale,
+		];
+		global $wp_post_statuses;
+		$objects[] = [
+			'Variable'      => '$wp_post_statuses',
+			'Current Value' => $wp_post_statuses,
+		];
+		global $wp_post_types;
+		$objects[] = [
+			'Variable'      => '$wp_post_types',
+			'Current Value' => $wp_post_types,
 		];
 		global $wp_registered_sidebars;
 		$objects[] = [
@@ -117,6 +132,26 @@ class WordpressPanel extends AbstractPanel {
 		$objects[] = [
 			'Variable'      => '$wp_roles',
 			'Current Value' => $wp_roles,
+		];
+		global $wp_sitemaps;
+		$objects[] = [
+			'Variable'      => '$wp_sitemaps',
+			'Current Value' => $wp_sitemaps,
+		];
+		global $wp_taxonomies;
+		$objects[] = [
+			'Variable'      => '$wp_taxonomies',
+			'Current Value' => $wp_taxonomies,
+		];
+		global $wp_theme_directories;
+		$objects[] = [
+			'Variable'      => '$wp_theme_directories',
+			'Current Value' => $wp_theme_directories,
+		];
+		global $wp_widget_factory;
+		$objects[] = [
+			'Variable'      => '$wp_widget_factory',
+			'Current Value' => $wp_widget_factory,
 		];
 		if ( Environment::is_wordpress_multisite() ) {
 			global $super_admins;

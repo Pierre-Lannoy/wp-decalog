@@ -36,8 +36,8 @@ class CurrentPanel extends AbstractPanel {
 	 * {@inheritDoc}
 	 */
 	protected function get_name() {
-		global $post_type;
-		return $post_type;
+		global $pagenow;
+		return $pagenow;
 	}
 
 	/**
@@ -70,6 +70,16 @@ class CurrentPanel extends AbstractPanel {
 			'Variable'      => '$current_screen',
 			'Current Value' => $current_screen,
 		];
+		global $wp_filesystem;
+		$objects[] = [
+			'Variable'      => '$wp_filesystem',
+			'Current Value' => $wp_filesystem,
+		];
+		global $wp_list_table;
+		$objects[] = [
+			'Variable'      => '$wp_list_table',
+			'Current Value' => $wp_list_table,
+		];
 		global $menu;
 		$objects[] = [
 			'Variable'      => '$menu',
@@ -79,6 +89,11 @@ class CurrentPanel extends AbstractPanel {
 		$objects[] = [
 			'Variable'      => '$wp_meta_boxes',
 			'Current Value' => $wp_meta_boxes,
+		];
+		global $wp_object_cache;
+		$objects[] = [
+			'Variable'      => '$wp_object_cache',
+			'Current Value' => $wp_object_cache,
 		];
 		global $pages;
 		$objects[] = [
@@ -99,6 +114,31 @@ class CurrentPanel extends AbstractPanel {
 		$objects[] = [
 			'Variable'      => '$wp_query',
 			'Current Value' => $wp_query,
+		];
+		global $wp_settings_errors;
+		$objects[] = [
+			'Variable'      => '$wp_settings_errors',
+			'Current Value' => $wp_settings_errors,
+		];
+		global $wp_settings_fields;
+		$objects[] = [
+			'Variable'      => '$wp_settings_fields',
+			'Current Value' => $wp_settings_fields,
+		];
+		global $wp_settings_sections;
+		$objects[] = [
+			'Variable'      => '$wp_settings_sections',
+			'Current Value' => $wp_settings_sections,
+		];
+		global $wp_scripts;
+		$objects[] = [
+			'Variable'      => '$wp_scripts',
+			'Current Value' => $wp_scripts,
+		];
+		global $wp_styles;
+		$objects[] = [
+			'Variable'      => '$wp_styles',
+			'Current Value' => $wp_styles,
 		];
 		return $this->get_arrays_panel( $objects );
 	}
