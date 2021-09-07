@@ -26,6 +26,14 @@ use Monolog\Logger;
 class LoggerFactory {
 
 	/**
+	 * Debugging flag.
+	 *
+	 * @since  3.2.0
+	 * @var    $debugging    $debugging    True if debugging mode, false otherwise.
+	 */
+	public static $debugging = false;
+
+	/**
 	 * The HandlerTypes instance.
 	 *
 	 * @since  1.0.0
@@ -81,9 +89,11 @@ class LoggerFactory {
 	public function create_logger( $logger ) {
 		$logger  = $this->check( $logger );
 		$handler = null;
+		$debug   = false;
 		if ( $logger['running'] ) {
 			$handler_def = $this->handler_types->get( $logger['handler'] );
 			if ( isset( $handler_def ) ) {
+				$debug     = ( 'debugging' === $handler_def['class'] );
 				$classname = $handler_def['namespace'] . '\\' . $handler_def['id'];
 				if ( class_exists( $classname ) ) {
 					$args = [];
@@ -133,6 +143,7 @@ class LoggerFactory {
 				}
 			}
 			if ( $handler ) {
+				static::$debugging = $debug;
 				foreach ( array_reverse( $logger['processors'] ) as $processor ) {
 					$p_instance    = null;
 					$processor_def = $this->processor_types->get( $processor );
