@@ -1363,7 +1363,7 @@ class HandlerTypes {
 					'show'    => true,
 					'name'    => esc_html__( 'Index', 'decalog' ),
 					'help'    => esc_html__( 'The index name.', 'decalog' ),
-					'default' => '_index',
+					'default' => 'decalog',
 					'control' => [
 						'type'    => 'field_input_text',
 						'cast'    => 'string',
@@ -1448,7 +1448,7 @@ class HandlerTypes {
 					'show'    => true,
 					'name'    => esc_html__( 'Index', 'decalog' ),
 					'help'    => esc_html__( 'The index name.', 'decalog' ),
-					'default' => '_index',
+					'default' => 'decalog',
 					'control' => [
 						'type'    => 'field_input_text',
 						'cast'    => 'string',

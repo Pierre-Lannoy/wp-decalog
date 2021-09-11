@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 - The loggers list displays wrong types for "crash analytics" and "alerting".
+- The default index names for Elasticsearch and Elastic Cloud are inconsistent.
 
 ## [3.2.0] - 2021-09-07
 
