@@ -1177,27 +1177,6 @@ class HandlerTypes {
 		// LOGGING
 		$this->handlers[] = [
 			'version'       => DECALOG_VERSION,
-			'id'            => 'TracyHandler',
-			'namespace'     => 'Decalog\\Handler',
-			'class'         => 'debugging',
-			'minimal'       => Logger::DEBUG,
-			'name'          => 'Tracy',
-			'help'          => esc_html__( 'Events sent to the Tracy bar, right in the browser.', 'decalog' ),
-			'icon'          => $this->get_base64_tracy_icon(),
-			'needs'         => [],
-			'params'        => [ 'processors', 'privacy' ],
-			'processors'    => [],
-			'configuration' => [],
-			'init'          => [
-				[ 'type' => 'level' ],
-				[
-					'type'  => 'literal',
-					'value' => true,
-				],
-			],
-		];
-		$this->handlers[] = [
-			'version'       => DECALOG_VERSION,
 			'id'            => 'NewRelicHandler',
 			'namespace'     => 'Decalog\\Handler',
 			'class'         => 'logging',
@@ -1329,130 +1308,6 @@ class HandlerTypes {
 					'value' => true,
 				],
 				[ 'type' => 'level' ],
-			],
-		];
-		$this->handlers[] = [
-			'version'       => DECALOG_VERSION,
-			'id'            => 'NullHandler',
-			'namespace'     => 'Monolog\Handler',
-			'class'         => 'system',
-			'minimal'       => Logger::DEBUG,
-			'name'          => esc_html__( 'Blackhole', 'decalog' ),
-			'help'          => esc_html__( 'Any event it can handle will be thrown away.', 'decalog' ),
-			'icon'          => $this->get_base64_php_icon(),
-			'needs'         => [],
-			'params'        => [],
-			'configuration' => [],
-			'init'          => [],
-		];
-		$this->handlers[] = [
-			'version'       => DECALOG_VERSION,
-			'id'            => 'SharedMemoryHandler',
-			'namespace'     => 'Decalog\\Handler',
-			'class'         => 'system',
-			'minimal'       => Logger::INFO,
-			'name'          => esc_html__( 'Shared memory', 'decalog' ),
-			'help'          => esc_html__( 'Automatic events log, stored in server shared memory.', 'decalog' ),
-			'icon'          => $this->get_base64_ram_icon(),
-			'needs'         => [
-				'option'          => [ 'livelog' ],
-				'function_exists' => [ 'shmop_open', 'shmop_read', 'shmop_write', 'shmop_delete', 'shmop_close' ],
-			],
-			'params'        => [],
-			'configuration' => [],
-			'init'          => [],
-		];
-		$this->handlers[] = [
-			'version'       => DECALOG_VERSION,
-			'id'            => 'BugsnagHandler',
-			'namespace'     => 'Decalog\\Handler',
-			'class'         => 'analytics',
-			'minimal'       => Logger::WARNING,
-			'name'          => 'Bugsnag',
-			'help'          => esc_html__( 'Crash reports sent to Bugsnag service.', 'decalog' ),
-			'icon'          => $this->get_base64_bugsnag_icon(),
-			'needs'         => [],
-			'params'        => [ 'processors', 'privacy' ],
-			'processors'    => [
-				'included' => [ 'WordpressProcessor', 'WWWProcessor', 'IntrospectionProcessor' ],
-				'excluded' => [ 'BacktraceProcessor' ],
-			],
-			'configuration' => [
-				'token'  => [
-					'type'    => 'string',
-					'show'    => true,
-					'name'    => esc_html__( 'API key', 'decalog' ),
-					'help'    => esc_html__( 'The API key of the service.', 'decalog' ),
-					'default' => '',
-					'control' => [
-						'type'    => 'field_input_text',
-						'cast'    => 'string',
-						'enabled' => true,
-					],
-				],
-				'buffer' => [
-					'type'    => 'boolean',
-					'show'    => true,
-					'name'    => esc_html__( 'Deferred forwarding', 'decalog' ),
-					'help'    => esc_html__( 'Wait for the full page is rendered before sending reports (recommended).', 'decalog' ),
-					'default' => true,
-					'control' => [
-						'type'    => 'field_checkbox',
-						'cast'    => 'boolean',
-						'enabled' => true,
-					],
-				],
-			],
-			'init'          => [
-				[
-					'type'  => 'configuration',
-					'value' => 'token',
-				],
-				[
-					'type'  => 'literal',
-					'value' => true,
-				],
-				[ 'type' => 'level' ],
-			],
-		];
-		$this->handlers[] = [
-			'version'       => DECALOG_MONOLOG_VERSION,
-			'id'            => 'BrowserConsoleHandler',
-			'namespace'     => 'Decalog\\Handler',
-			'class'         => 'debugging',
-			'minimal'       => Logger::DEBUG,
-			'name'          => esc_html__( 'Browser console', 'decalog' ),
-			'help'          => esc_html__( 'Events sent to browser\'s javascript console with no browser extension required.', 'decalog' ),
-			'icon'          => $this->get_base64_browserconsole_icon(),
-			'needs'         => [],
-			'params'        => [ 'processors', 'privacy' ],
-			'configuration' => [],
-			'init'          => [
-				[ 'type' => 'level' ],
-				[
-					'type'  => 'literal',
-					'value' => true,
-				],
-			],
-		];
-		$this->handlers[] = [
-			'version'       => DECALOG_MONOLOG_VERSION,
-			'id'            => 'ChromePHPHandler',
-			'namespace'     => 'Monolog\\Handler',
-			'class'         => 'debugging',
-			'minimal'       => Logger::DEBUG,
-			'name'          => 'ChromePHP',
-			'help'          => esc_html__( 'Events sent to the ChromePHP extension (http://www.chromephp.com/).', 'decalog' ),
-			'icon'          => $this->get_base64_chrome_icon(),
-			'needs'         => [],
-			'params'        => [ 'processors', 'privacy' ],
-			'configuration' => [],
-			'init'          => [
-				[ 'type' => 'level' ],
-				[
-					'type'  => 'literal',
-					'value' => true,
-				],
 			],
 		];
 		$this->handlers[] = [
@@ -1781,59 +1636,6 @@ class HandlerTypes {
 		];
 		$this->handlers[] = [
 			'version'       => DECALOG_VERSION,
-			'id'            => 'GAnalyticsHandler',
-			'namespace'     => 'Decalog\\Handler',
-			'class'         => 'analytics',
-			'minimal'       => Logger::WARNING,
-			'name'          => 'Google Universal Analytics',
-			'help'          => esc_html__( 'Exceptions sent to Google Universal Analytics service.', 'decalog' ),
-			'icon'          => $this->get_base64_ganalytics_icon(),
-			'needs'         => [],
-			'params'        => [ 'processors', 'privacy' ],
-			'processors'    => [
-				'included' => [ 'WordpressProcessor', 'WWWProcessor' ],
-				'excluded' => [ 'BacktraceProcessor', 'IntrospectionProcessor' ],
-			],
-			'configuration' => [
-				'token'  => [
-					'type'    => 'string',
-					'show'    => true,
-					'name'    => esc_html__( 'Tracking ID', 'decalog' ),
-					'help'    => esc_html__( 'The tracking ID / web property ID for Google Universal Analytics service. The format must be UA-XXXX-Y.', 'decalog' ),
-					'default' => '',
-					'control' => [
-						'type'    => 'field_input_text',
-						'cast'    => 'string',
-						'enabled' => true,
-					],
-				],
-				'buffer' => [
-					'type'    => 'boolean',
-					'show'    => true,
-					'name'    => esc_html__( 'Deferred forwarding', 'decalog' ),
-					'help'    => esc_html__( 'Wait for the full page is rendered before sending exceptions (recommended).', 'decalog' ),
-					'default' => true,
-					'control' => [
-						'type'    => 'field_checkbox',
-						'cast'    => 'boolean',
-						'enabled' => true,
-					],
-				],
-			],
-			'init'          => [
-				[
-					'type'  => 'configuration',
-					'value' => 'token',
-				],
-				[
-					'type'  => 'literal',
-					'value' => true,
-				],
-				[ 'type' => 'level' ],
-			],
-		];
-		$this->handlers[] = [
-			'version'       => DECALOG_VERSION,
 			'id'            => 'LogentriesHandler',
 			'namespace'     => 'Decalog\\Handler',
 			'class'         => 'logging',
@@ -2001,43 +1803,6 @@ class HandlerTypes {
 			],
 		];
 		$this->handlers[] = [
-			'version'       => DECALOG_VERSION,
-			'id'            => 'MailHandler',
-			'namespace'     => 'Decalog\\Handler',
-			'class'         => 'alerting',
-			'minimal'       => Logger::WARNING,
-			'name'          => esc_html__( 'Mail', 'decalog' ),
-			'help'          => esc_html__( 'Event alerts sent by WordPress via mail.', 'decalog' ),
-			'icon'          => $this->get_base64_mail_icon(),
-			'needs'         => [],
-			'params'        => [ 'processors', 'privacy' ],
-			'configuration' => [
-				'recipients' => [
-					'type'    => 'string',
-					'show'    => true,
-					'name'    => esc_html__( 'Recipients', 'decalog' ),
-					'help'    => esc_html__( 'The recipients mail address, in coma separated list.', 'decalog' ),
-					'default' => '',
-					'control' => [
-						'type'    => 'field_input_text',
-						'cast'    => 'string',
-						'enabled' => true,
-					],
-				],
-			],
-			'init'          => [
-				[
-					'type'  => 'configuration',
-					'value' => 'recipients',
-				],
-				[ 'type' => 'level' ],
-				[
-					'type'  => 'literal',
-					'value' => true,
-				],
-			],
-		];
-		$this->handlers[] = [
 			'version'       => DECALOG_MONOLOG_VERSION,
 			'id'            => 'ErrorLogHandler',
 			'namespace'     => 'Monolog\\Handler',
@@ -2059,143 +1824,6 @@ class HandlerTypes {
 					'type'  => 'literal',
 					'value' => true,
 				],
-			],
-		];
-		$this->handlers[] = [
-			'version'       => DECALOG_VERSION,
-			'id'            => 'PshHandler',
-			'namespace'     => 'Decalog\\Handler',
-			'class'         => 'alerting',
-			'minimal'       => Logger::WARNING,
-			'name'          => 'Pushover',
-			'help'          => esc_html__( 'Event alerts sent via Pushover service.', 'decalog' ),
-			'icon'          => $this->get_base64_pushover_icon(),
-			'needs'         => [],
-			'params'        => [ 'processors', 'privacy' ],
-			'configuration' => [
-				'token'   => [
-					'type'    => 'string',
-					'show'    => true,
-					'name'    => esc_html__( 'Application token', 'decalog' ),
-					'help'    => esc_html__( 'The token of the Pushover application.', 'decalog' ),
-					'default' => '',
-					'control' => [
-						'type'    => 'field_input_text',
-						'cast'    => 'string',
-						'enabled' => true,
-					],
-				],
-				'users'   => [
-					'type'    => 'string',
-					'show'    => true,
-					'name'    => esc_html__( 'Recipient', 'decalog' ),
-					'help'    => esc_html__( 'The recipient key. It can be a "user key" or a "group key".', 'decalog' ),
-					'default' => '',
-					'control' => [
-						'type'    => 'field_input_text',
-						'cast'    => 'string',
-						'enabled' => true,
-					],
-				],
-				'title'   => [
-					'type'    => 'string',
-					'show'    => true,
-					'name'    => esc_html__( 'Message title', 'decalog' ),
-					'help'    => esc_html__( 'The title of the message which will be sent.', 'decalog' ),
-					'default' => '',
-					'control' => [
-						'type'    => 'field_input_text',
-						'cast'    => 'string',
-						'enabled' => true,
-					],
-				],
-				'timeout' => [
-					'type'    => 'integer',
-					'show'    => true,
-					'name'    => esc_html__( 'Socket timeout', 'decalog' ),
-					'help'    => esc_html__( 'Max number of milliseconds to wait for the socket.', 'decalog' ),
-					'default' => 800,
-					'control' => [
-						'type'    => 'field_input_integer',
-						'cast'    => 'integer',
-						'min'     => 100,
-						'max'     => 10000,
-						'step'    => 100,
-						'enabled' => true,
-					],
-				],
-			],
-			'init'          => [
-				[
-					'type'  => 'configuration',
-					'value' => 'token',
-				],
-				[
-					'type'  => 'configuration',
-					'value' => 'users',
-				],
-				[
-					'type'  => 'configuration',
-					'value' => 'title',
-				],
-				[
-					'type'  => 'configuration',
-					'value' => 'timeout',
-				],
-				[ 'type' => 'level' ],
-			],
-		];
-		$this->handlers[] = [
-			'version'       => DECALOG_VERSION,
-			'id'            => 'RaygunHandler',
-			'namespace'     => 'Decalog\\Handler',
-			'class'         => 'analytics',
-			'minimal'       => Logger::WARNING,
-			'name'          => 'Raygun',
-			'help'          => esc_html__( 'Crash reports sent to Raygun service.', 'decalog' ),
-			'icon'          => $this->get_base64_raygun_icon(),
-			'needs'         => [],
-			'params'        => [ 'processors', 'privacy' ],
-			'processors'    => [
-				'included' => [ 'WordpressProcessor', 'WWWProcessor', 'IntrospectionProcessor' ],
-				'excluded' => [ 'BacktraceProcessor' ],
-			],
-			'configuration' => [
-				'token'  => [
-					'type'    => 'string',
-					'show'    => true,
-					'name'    => esc_html__( 'API key', 'decalog' ),
-					'help'    => esc_html__( 'The API key of the service.', 'decalog' ),
-					'default' => '',
-					'control' => [
-						'type'    => 'field_input_text',
-						'cast'    => 'string',
-						'enabled' => true,
-					],
-				],
-				'buffer' => [
-					'type'    => 'boolean',
-					'show'    => true,
-					'name'    => esc_html__( 'Deferred forwarding', 'decalog' ),
-					'help'    => esc_html__( 'Wait for the full page is rendered before sending reports (recommended).', 'decalog' ),
-					'default' => true,
-					'control' => [
-						'type'    => 'field_checkbox',
-						'cast'    => 'boolean',
-						'enabled' => true,
-					],
-				],
-			],
-			'init'          => [
-				[
-					'type'  => 'configuration',
-					'value' => 'token',
-				],
-				[
-					'type'  => 'literal',
-					'value' => true,
-				],
-				[ 'type' => 'level' ],
 			],
 		];
 		$this->handlers[] = [
@@ -2304,147 +1932,6 @@ class HandlerTypes {
 				[
 					'type'  => 'configuration',
 					'value' => 'token',
-				],
-				[ 'type' => 'level' ],
-				[
-					'type'  => 'literal',
-					'value' => true,
-				],
-			],
-		];
-		/*$this->handlers[] = [
-			'version'       => DECALOG_VERSION,
-			'id'            => 'SentryHandler',
-			'namespace'     => 'Decalog\\Handler',
-			'class'         => 'analytics',
-			'minimal'       => Logger::WARNING,
-			'name'          => 'Sentry',
-			'help'          => esc_html__( 'Crash reports sent to Sentry service.', 'decalog' ),
-			'icon'          => $this->get_base64_sentry_icon(),
-			'needs'         => [],
-			'params'        => [ 'processors', 'privacy' ],
-			'processors'    => [
-				'included' => [ 'WordpressProcessor', 'WWWProcessor', 'IntrospectionProcessor' ],
-				'excluded' => [ 'BacktraceProcessor' ],
-			],
-			'configuration' => [
-				'token'  => [
-					'type'    => 'string',
-					'show'    => true,
-					'name'    => esc_html__( 'API key', 'decalog' ),
-					'help'    => esc_html__( 'The API key of the service.', 'decalog' ),
-					'default' => '',
-					'control' => [
-						'type'    => 'field_input_text',
-						'cast'    => 'string',
-						'enabled' => true,
-					],
-				],
-				'buffer' => [
-					'type'    => 'boolean',
-					'show'    => true,
-					'name'    => esc_html__( 'Deferred forwarding', 'decalog' ),
-					'help'    => esc_html__( 'Wait for the full page is rendered before sending reports (recommended).', 'decalog' ),
-					'default' => true,
-					'control' => [
-						'type'    => 'field_checkbox',
-						'cast'    => 'boolean',
-						'enabled' => true,
-					],
-				],
-			],
-			'init'          => [
-				[
-					'type'  => 'configuration',
-					'value' => 'token',
-				],
-				[
-					'type'  => 'literal',
-					'value' => true,
-				],
-				[ 'type' => 'level' ],
-			],
-		];*/
-		$this->handlers[] = [
-			'version'       => DECALOG_MONOLOG_VERSION,
-			'id'            => 'SlackWebhookHandler',
-			'namespace'     => 'Monolog\Handler',
-			'class'         => 'alerting',
-			'minimal'       => Logger::WARNING,
-			'name'          => 'Slack',
-			'help'          => esc_html__( 'Event alerts sent through Slack Webhooks.', 'decalog' ),
-			'icon'          => $this->get_base64_slack_icon(),
-			'needs'         => [],
-			'params'        => [ 'processors', 'privacy' ],
-			'processors'    => [
-				'excluded' => [ 'BacktraceProcessor' ],
-			],
-			'configuration' => [
-				'webhook' => [
-					'type'    => 'string',
-					'show'    => true,
-					'name'    => esc_html__( 'Webhook URL', 'decalog' ),
-					'help'    => esc_html__( 'The Webhook URL set in the Slack application.', 'decalog' ),
-					'default' => 'https://hooks.slack.com/services/...',
-					'control' => [
-						'type'    => 'field_input_text',
-						'cast'    => 'string',
-						'enabled' => true,
-					],
-				],
-				'short'   => [
-					'type'    => 'boolean',
-					'show'    => true,
-					'name'    => esc_html__( 'Short attachment', 'decalog' ),
-					'help'    => esc_html__( 'Use a shortened version for attachments sent in channel.', 'decalog' ),
-					'default' => false,
-					'control' => [
-						'type'    => 'field_checkbox',
-						'cast'    => 'boolean',
-						'enabled' => true,
-					],
-				],
-				'data'    => [
-					'type'    => 'boolean',
-					'show'    => true,
-					'name'    => esc_html__( 'Full data', 'decalog' ),
-					'help'    => esc_html__( 'Whether the attachments should include context and extra data.', 'decalog' ),
-					'default' => true,
-					'control' => [
-						'type'    => 'field_checkbox',
-						'cast'    => 'boolean',
-						'enabled' => true,
-					],
-				],
-			],
-			'init'          => [
-				[
-					'type'  => 'configuration',
-					'value' => 'webhook',
-				],
-				[
-					'type'  => 'literal',
-					'value' => null,
-				],
-				[
-					'type'  => 'literal',
-					'value' => null,
-				],
-				[
-					'type'  => 'literal',
-					'value' => true,
-				],
-				[
-					'type'  => 'literal',
-					'value' => null,
-				],
-				[
-					'type'  => 'configuration',
-					'value' => 'short',
-				],
-				[
-					'type'  => 'configuration',
-					'value' => 'data',
 				],
 				[ 'type' => 'level' ],
 				[
@@ -2870,6 +2357,474 @@ class HandlerTypes {
 			],
 		];
 
+		// DEBUGGING
+		$this->handlers[] = [
+			'version'       => DECALOG_VERSION,
+			'id'            => 'TracyHandler',
+			'namespace'     => 'Decalog\\Handler',
+			'class'         => 'debugging',
+			'minimal'       => Logger::DEBUG,
+			'name'          => 'Tracy',
+			'help'          => esc_html__( 'Events sent to the Tracy bar, right in the browser.', 'decalog' ),
+			'icon'          => $this->get_base64_tracy_icon(),
+			'needs'         => [],
+			'params'        => [ 'processors', 'privacy' ],
+			'processors'    => [],
+			'configuration' => [],
+			'init'          => [
+				[ 'type' => 'level' ],
+				[
+					'type'  => 'literal',
+					'value' => true,
+				],
+			],
+		];
+		$this->handlers[] = [
+			'version'       => DECALOG_MONOLOG_VERSION,
+			'id'            => 'BrowserConsoleHandler',
+			'namespace'     => 'Decalog\\Handler',
+			'class'         => 'debugging',
+			'minimal'       => Logger::DEBUG,
+			'name'          => esc_html__( 'Browser console', 'decalog' ),
+			'help'          => esc_html__( 'Events sent to browser\'s javascript console with no browser extension required.', 'decalog' ),
+			'icon'          => $this->get_base64_browserconsole_icon(),
+			'needs'         => [],
+			'params'        => [ 'processors', 'privacy' ],
+			'configuration' => [],
+			'init'          => [
+				[ 'type' => 'level' ],
+				[
+					'type'  => 'literal',
+					'value' => true,
+				],
+			],
+		];
+		$this->handlers[] = [
+			'version'       => DECALOG_MONOLOG_VERSION,
+			'id'            => 'ChromePHPHandler',
+			'namespace'     => 'Monolog\\Handler',
+			'class'         => 'debugging',
+			'minimal'       => Logger::DEBUG,
+			'name'          => 'ChromePHP',
+			'help'          => esc_html__( 'Events sent to the ChromePHP extension (http://www.chromephp.com/).', 'decalog' ),
+			'icon'          => $this->get_base64_chrome_icon(),
+			'needs'         => [],
+			'params'        => [ 'processors', 'privacy' ],
+			'configuration' => [],
+			'init'          => [
+				[ 'type' => 'level' ],
+				[
+					'type'  => 'literal',
+					'value' => true,
+				],
+			],
+		];
+
+		// ALERTING
+		$this->handlers[] = [
+			'version'       => DECALOG_MONOLOG_VERSION,
+			'id'            => 'SlackWebhookHandler',
+			'namespace'     => 'Monolog\Handler',
+			'class'         => 'alerting',
+			'minimal'       => Logger::WARNING,
+			'name'          => 'Slack',
+			'help'          => esc_html__( 'Event alerts sent through Slack Webhooks.', 'decalog' ),
+			'icon'          => $this->get_base64_slack_icon(),
+			'needs'         => [],
+			'params'        => [ 'processors', 'privacy' ],
+			'processors'    => [
+				'excluded' => [ 'BacktraceProcessor' ],
+			],
+			'configuration' => [
+				'webhook' => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Webhook URL', 'decalog' ),
+					'help'    => esc_html__( 'The Webhook URL set in the Slack application.', 'decalog' ),
+					'default' => 'https://hooks.slack.com/services/...',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
+				'short'   => [
+					'type'    => 'boolean',
+					'show'    => true,
+					'name'    => esc_html__( 'Short attachment', 'decalog' ),
+					'help'    => esc_html__( 'Use a shortened version for attachments sent in channel.', 'decalog' ),
+					'default' => false,
+					'control' => [
+						'type'    => 'field_checkbox',
+						'cast'    => 'boolean',
+						'enabled' => true,
+					],
+				],
+				'data'    => [
+					'type'    => 'boolean',
+					'show'    => true,
+					'name'    => esc_html__( 'Full data', 'decalog' ),
+					'help'    => esc_html__( 'Whether the attachments should include context and extra data.', 'decalog' ),
+					'default' => true,
+					'control' => [
+						'type'    => 'field_checkbox',
+						'cast'    => 'boolean',
+						'enabled' => true,
+					],
+				],
+			],
+			'init'          => [
+				[
+					'type'  => 'configuration',
+					'value' => 'webhook',
+				],
+				[
+					'type'  => 'literal',
+					'value' => null,
+				],
+				[
+					'type'  => 'literal',
+					'value' => null,
+				],
+				[
+					'type'  => 'literal',
+					'value' => true,
+				],
+				[
+					'type'  => 'literal',
+					'value' => null,
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'short',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'data',
+				],
+				[ 'type' => 'level' ],
+				[
+					'type'  => 'literal',
+					'value' => true,
+				],
+			],
+		];
+		$this->handlers[] = [
+			'version'       => DECALOG_VERSION,
+			'id'            => 'MailHandler',
+			'namespace'     => 'Decalog\\Handler',
+			'class'         => 'alerting',
+			'minimal'       => Logger::WARNING,
+			'name'          => esc_html__( 'Mail', 'decalog' ),
+			'help'          => esc_html__( 'Event alerts sent by WordPress via mail.', 'decalog' ),
+			'icon'          => $this->get_base64_mail_icon(),
+			'needs'         => [],
+			'params'        => [ 'processors', 'privacy' ],
+			'configuration' => [
+				'recipients' => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Recipients', 'decalog' ),
+					'help'    => esc_html__( 'The recipients mail address, in coma separated list.', 'decalog' ),
+					'default' => '',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
+			],
+			'init'          => [
+				[
+					'type'  => 'configuration',
+					'value' => 'recipients',
+				],
+				[ 'type' => 'level' ],
+				[
+					'type'  => 'literal',
+					'value' => true,
+				],
+			],
+		];
+		$this->handlers[] = [
+			'version'       => DECALOG_VERSION,
+			'id'            => 'PshHandler',
+			'namespace'     => 'Decalog\\Handler',
+			'class'         => 'alerting',
+			'minimal'       => Logger::WARNING,
+			'name'          => 'Pushover',
+			'help'          => esc_html__( 'Event alerts sent via Pushover service.', 'decalog' ),
+			'icon'          => $this->get_base64_pushover_icon(),
+			'needs'         => [],
+			'params'        => [ 'processors', 'privacy' ],
+			'configuration' => [
+				'token'   => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Application token', 'decalog' ),
+					'help'    => esc_html__( 'The token of the Pushover application.', 'decalog' ),
+					'default' => '',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
+				'users'   => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Recipient', 'decalog' ),
+					'help'    => esc_html__( 'The recipient key. It can be a "user key" or a "group key".', 'decalog' ),
+					'default' => '',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
+				'title'   => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Message title', 'decalog' ),
+					'help'    => esc_html__( 'The title of the message which will be sent.', 'decalog' ),
+					'default' => '',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
+				'timeout' => [
+					'type'    => 'integer',
+					'show'    => true,
+					'name'    => esc_html__( 'Socket timeout', 'decalog' ),
+					'help'    => esc_html__( 'Max number of milliseconds to wait for the socket.', 'decalog' ),
+					'default' => 800,
+					'control' => [
+						'type'    => 'field_input_integer',
+						'cast'    => 'integer',
+						'min'     => 100,
+						'max'     => 10000,
+						'step'    => 100,
+						'enabled' => true,
+					],
+				],
+			],
+			'init'          => [
+				[
+					'type'  => 'configuration',
+					'value' => 'token',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'users',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'title',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'timeout',
+				],
+				[ 'type' => 'level' ],
+			],
+		];
+
+		// ANALYTICS
+		$this->handlers[] = [
+			'version'       => DECALOG_VERSION,
+			'id'            => 'BugsnagHandler',
+			'namespace'     => 'Decalog\\Handler',
+			'class'         => 'analytics',
+			'minimal'       => Logger::WARNING,
+			'name'          => 'Bugsnag',
+			'help'          => esc_html__( 'Crash reports sent to Bugsnag service.', 'decalog' ),
+			'icon'          => $this->get_base64_bugsnag_icon(),
+			'needs'         => [],
+			'params'        => [ 'processors', 'privacy' ],
+			'processors'    => [
+				'included' => [ 'WordpressProcessor', 'WWWProcessor', 'IntrospectionProcessor' ],
+				'excluded' => [ 'BacktraceProcessor' ],
+			],
+			'configuration' => [
+				'token'  => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'API key', 'decalog' ),
+					'help'    => esc_html__( 'The API key of the service.', 'decalog' ),
+					'default' => '',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
+				'buffer' => [
+					'type'    => 'boolean',
+					'show'    => true,
+					'name'    => esc_html__( 'Deferred forwarding', 'decalog' ),
+					'help'    => esc_html__( 'Wait for the full page is rendered before sending reports (recommended).', 'decalog' ),
+					'default' => true,
+					'control' => [
+						'type'    => 'field_checkbox',
+						'cast'    => 'boolean',
+						'enabled' => true,
+					],
+				],
+			],
+			'init'          => [
+				[
+					'type'  => 'configuration',
+					'value' => 'token',
+				],
+				[
+					'type'  => 'literal',
+					'value' => true,
+				],
+				[ 'type' => 'level' ],
+			],
+		];
+		$this->handlers[] = [
+			'version'       => DECALOG_VERSION,
+			'id'            => 'GAnalyticsHandler',
+			'namespace'     => 'Decalog\\Handler',
+			'class'         => 'analytics',
+			'minimal'       => Logger::WARNING,
+			'name'          => 'Google Universal Analytics',
+			'help'          => esc_html__( 'Exceptions sent to Google Universal Analytics service.', 'decalog' ),
+			'icon'          => $this->get_base64_ganalytics_icon(),
+			'needs'         => [],
+			'params'        => [ 'processors', 'privacy' ],
+			'processors'    => [
+				'included' => [ 'WordpressProcessor', 'WWWProcessor' ],
+				'excluded' => [ 'BacktraceProcessor', 'IntrospectionProcessor' ],
+			],
+			'configuration' => [
+				'token'  => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Tracking ID', 'decalog' ),
+					'help'    => esc_html__( 'The tracking ID / web property ID for Google Universal Analytics service. The format must be UA-XXXX-Y.', 'decalog' ),
+					'default' => '',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
+				'buffer' => [
+					'type'    => 'boolean',
+					'show'    => true,
+					'name'    => esc_html__( 'Deferred forwarding', 'decalog' ),
+					'help'    => esc_html__( 'Wait for the full page is rendered before sending exceptions (recommended).', 'decalog' ),
+					'default' => true,
+					'control' => [
+						'type'    => 'field_checkbox',
+						'cast'    => 'boolean',
+						'enabled' => true,
+					],
+				],
+			],
+			'init'          => [
+				[
+					'type'  => 'configuration',
+					'value' => 'token',
+				],
+				[
+					'type'  => 'literal',
+					'value' => true,
+				],
+				[ 'type' => 'level' ],
+			],
+		];
+		$this->handlers[] = [
+			'version'       => DECALOG_VERSION,
+			'id'            => 'RaygunHandler',
+			'namespace'     => 'Decalog\\Handler',
+			'class'         => 'analytics',
+			'minimal'       => Logger::WARNING,
+			'name'          => 'Raygun',
+			'help'          => esc_html__( 'Crash reports sent to Raygun service.', 'decalog' ),
+			'icon'          => $this->get_base64_raygun_icon(),
+			'needs'         => [],
+			'params'        => [ 'processors', 'privacy' ],
+			'processors'    => [
+				'included' => [ 'WordpressProcessor', 'WWWProcessor', 'IntrospectionProcessor' ],
+				'excluded' => [ 'BacktraceProcessor' ],
+			],
+			'configuration' => [
+				'token'  => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'API key', 'decalog' ),
+					'help'    => esc_html__( 'The API key of the service.', 'decalog' ),
+					'default' => '',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
+				'buffer' => [
+					'type'    => 'boolean',
+					'show'    => true,
+					'name'    => esc_html__( 'Deferred forwarding', 'decalog' ),
+					'help'    => esc_html__( 'Wait for the full page is rendered before sending reports (recommended).', 'decalog' ),
+					'default' => true,
+					'control' => [
+						'type'    => 'field_checkbox',
+						'cast'    => 'boolean',
+						'enabled' => true,
+					],
+				],
+			],
+			'init'          => [
+				[
+					'type'  => 'configuration',
+					'value' => 'token',
+				],
+				[
+					'type'  => 'literal',
+					'value' => true,
+				],
+				[ 'type' => 'level' ],
+			],
+		];
+
+		// SYSTEM
+		$this->handlers[] = [
+			'version'       => DECALOG_VERSION,
+			'id'            => 'NullHandler',
+			'namespace'     => 'Monolog\Handler',
+			'class'         => 'system',
+			'minimal'       => Logger::DEBUG,
+			'name'          => esc_html__( 'Blackhole', 'decalog' ),
+			'help'          => esc_html__( 'Any event it can handle will be thrown away.', 'decalog' ),
+			'icon'          => $this->get_base64_php_icon(),
+			'needs'         => [],
+			'params'        => [],
+			'configuration' => [],
+			'init'          => [],
+		];
+		$this->handlers[] = [
+			'version'       => DECALOG_VERSION,
+			'id'            => 'SharedMemoryHandler',
+			'namespace'     => 'Decalog\\Handler',
+			'class'         => 'system',
+			'minimal'       => Logger::INFO,
+			'name'          => esc_html__( 'Shared memory', 'decalog' ),
+			'help'          => esc_html__( 'Automatic events log, stored in server shared memory.', 'decalog' ),
+			'icon'          => $this->get_base64_ram_icon(),
+			'needs'         => [
+				'option'          => [ 'livelog' ],
+				'function_exists' => [ 'shmop_open', 'shmop_read', 'shmop_write', 'shmop_delete', 'shmop_close' ],
+			],
+			'params'        => [],
+			'configuration' => [],
+			'init'          => [],
+		];
+
 		uasort(
 			$this->handlers,
 			function ( $a, $b ) {
@@ -2889,7 +2844,7 @@ class HandlerTypes {
 	}
 
 	/**
-	 * Get the tname for a specific class.
+	 * Get the name for a specific class.
 	 *
 	 * @param   string $class  The class of loggers ( 'alerting', 'debugging', 'logging').
 	 * @return  string   The name of the class.

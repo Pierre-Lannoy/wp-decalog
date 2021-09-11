@@ -3,6 +3,16 @@ All notable changes to **DecaLog** are documented in this *changelog*.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.0] - Not yet released
+
+### Added
+- Compatibility with WordPress 5.9.
+
+### Changed
+
+### Fixed
+- The loggers list displays wrong types for "crash analytics" and "alerting".
+
 ## [3.2.0] - 2021-09-07
 
 ### Added
