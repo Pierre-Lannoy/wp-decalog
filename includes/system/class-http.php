@@ -52,7 +52,7 @@ class Http {
 	 * @since  1.0.0
 	 * @var    array    $http_success_codes    Maintains the success codes list.
 	 */
-	public static $http_success_codes = [ 100, 101, 102, 200, 201, 202, 203, 204, 205, 206, 207, 300, 301, 302, 303, 304, 305, 306, 307, 308 ];
+	public static $http_success_codes = [ 100, 101, 102, 200, 201, 202, 203, 204, 205, 206, 207, 208, 226, 300, 301, 302, 303, 304, 305, 306, 307, 308 ];
 
 	/**
 	 * The list of HTTP codes meaning effective pass.
@@ -60,7 +60,7 @@ class Http {
 	 * @since  1.0.0
 	 * @var    array    $http_effective_pass_codes    Maintains the effective pass codes list.
 	 */
-	public static $http_effective_pass_codes = [ 200, 201, 202 ];
+	public static $http_effective_pass_codes = [ 200, 201, 202, 203, 204, 205, 226 ];
 
 	/**
 	 * The list of HTTP codes meaning error.
