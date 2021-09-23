@@ -1,8 +1,8 @@
 <?php
 /**
- * WordPress handler for Monolog
+ * Abstract HTTP handler for Monolog
  *
- * Handles all features of WordPress handler for Monolog.
+ * Handles all features of abstract HTTP handler for Monolog.
  *
  * @package Handlers
  * @author  Pierre Lannoy <https://pierre.lannoy.fr/>.
@@ -19,9 +19,9 @@ use Monolog\Formatter\FormatterInterface;
 use Decalog\Formatter\WordpressFormatter;
 
 /**
- * Define the Monolog WordPress handler.
+ * Define the Monolog abstract HTTP handler.
  *
- * Handles all features of WordPress handler for Monolog.
+ * Handles all features of abstract HTTP handler for Monolog.
  *
  * @package Handlers
  * @author  Pierre Lannoy <https://pierre.lannoy.fr/>.
