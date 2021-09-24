@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Monolog\Processor;
+namespace DLMonolog\Processor;
 
 /**
  * Some methods that are common for all memory processors

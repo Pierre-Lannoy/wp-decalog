@@ -9,19 +9,23 @@
  * file that was distributed with this source code.
  */
 
-namespace Monolog\Handler;
+namespace DLMonolog\Handler;
 
-use Monolog\Processor\ProcessorInterface;
+use DLMonolog\Processor\ProcessorInterface;
 
 /**
  * Interface to describe loggers that have processors
  *
  * @author Jordi Boggiano <j.boggiano@seld.be>
+ *
+ * @phpstan-import-type Record from \Monolog\Logger
  */
 interface ProcessableHandlerInterface
 {
     /**
      * Adds a processor in the stack.
+     *
+     * @psalm-param ProcessorInterface|callable(Record): Record $callback
      *
      * @param  ProcessorInterface|callable $callback
      * @return HandlerInterface            self
@@ -31,8 +35,10 @@ interface ProcessableHandlerInterface
     /**
      * Removes the processor on top of the stack and returns it.
      *
-     * @throws \LogicException In case the processor stack is empty
-     * @return callable
+     * @psalm-return ProcessorInterface|callable(Record): Record $callback
+     *
+     * @throws \LogicException             In case the processor stack is empty
+     * @return callable|ProcessorInterface
      */
     public function popProcessor(): callable;
 }

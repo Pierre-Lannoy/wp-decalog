@@ -12,7 +12,7 @@
 namespace Decalog\Processor;
 
 use Decalog\System\Environment;
-use Monolog\Processor\ProcessorInterface;
+use DLMonolog\Processor\ProcessorInterface;
 use Decalog\System\Blog;
 use Decalog\System\Hash;
 use Decalog\System\User;

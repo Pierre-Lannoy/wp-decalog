@@ -11,11 +11,11 @@
 
 namespace Decalog\Handler;
 
-use Monolog\Logger;
+use DLMonolog\Logger;
 use Decalog\Plugin\Feature\DLogger;
-use Monolog\Handler\ElasticsearchHandler;
-use Monolog\Handler\HandlerInterface;
-use Monolog\Formatter\FormatterInterface;
+use DLMonolog\Handler\ElasticsearchHandler;
+use DLMonolog\Handler\HandlerInterface;
+use DLMonolog\Formatter\FormatterInterface;
 use Decalog\Formatter\SematextFormatter;
 use Elasticsearch\Common\Exceptions\RuntimeException as ElasticsearchRuntimeException;
 use Elasticsearch\Client;

@@ -12,7 +12,7 @@
 namespace Decalog\Processor;
 
 use Decalog\System\Hash;
-use Monolog\Processor\WebProcessor;
+use DLMonolog\Processor\WebProcessor;
 use Decalog\System\Environment;
 use Decalog\System\IP;
 

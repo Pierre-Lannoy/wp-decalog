@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Monolog\Formatter;
+namespace DLMonolog\Formatter;
 
-use Monolog\Logger;
-use Monolog\Utils;
+use DLMonolog\Logger;
+use DLMonolog\Utils;
 
 /**
  * Formats incoming records into an HTML table
@@ -25,15 +25,17 @@ class HtmlFormatter extends NormalizerFormatter
 {
     /**
      * Translates Monolog log levels to html color priorities.
+     *
+     * @var array<int, string>
      */
     protected $logLevels = [
-        Logger::DEBUG     => '#cccccc',
-        Logger::INFO      => '#468847',
-        Logger::NOTICE    => '#3a87ad',
-        Logger::WARNING   => '#c09853',
-        Logger::ERROR     => '#f0ad4e',
-        Logger::CRITICAL  => '#FF7708',
-        Logger::ALERT     => '#C12A19',
+        Logger::DEBUG     => '#CCCCCC',
+        Logger::INFO      => '#28A745',
+        Logger::NOTICE    => '#17A2B8',
+        Logger::WARNING   => '#FFC107',
+        Logger::ERROR     => '#FD7E14',
+        Logger::CRITICAL  => '#DC3545',
+        Logger::ALERT     => '#821722',
         Logger::EMERGENCY => '#000000',
     ];
 
@@ -79,7 +81,6 @@ class HtmlFormatter extends NormalizerFormatter
     /**
      * Formats a log record.
      *
-     * @param  array  $record A record to format
      * @return string The formatted record
      */
     public function format(array $record): string
@@ -93,7 +94,7 @@ class HtmlFormatter extends NormalizerFormatter
         if ($record['context']) {
             $embeddedTable = '<table cellspacing="1" width="100%">';
             foreach ($record['context'] as $key => $value) {
-                $embeddedTable .= $this->addRow((string)$key, $this->convertToString($value));
+                $embeddedTable .= $this->addRow((string) $key, $this->convertToString($value));
             }
             $embeddedTable .= '</table>';
             $output .= $this->addRow('Context', $embeddedTable, false);
@@ -101,7 +102,7 @@ class HtmlFormatter extends NormalizerFormatter
         if ($record['extra']) {
             $embeddedTable = '<table cellspacing="1" width="100%">';
             foreach ($record['extra'] as $key => $value) {
-                $embeddedTable .= $this->addRow((string)$key, $this->convertToString($value));
+                $embeddedTable .= $this->addRow((string) $key, $this->convertToString($value));
             }
             $embeddedTable .= '</table>';
             $output .= $this->addRow('Extra', $embeddedTable, false);
@@ -113,7 +114,6 @@ class HtmlFormatter extends NormalizerFormatter
     /**
      * Formats a set of log records.
      *
-     * @param  array  $records A set of records to format
      * @return string The formatted set of records
      */
     public function formatBatch(array $records): string
@@ -126,6 +126,9 @@ class HtmlFormatter extends NormalizerFormatter
         return $message;
     }
 
+    /**
+     * @param mixed $data
+     */
     protected function convertToString($data): string
     {
         if (null === $data || is_scalar($data)) {

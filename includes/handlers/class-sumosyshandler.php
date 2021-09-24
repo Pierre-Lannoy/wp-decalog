@@ -12,9 +12,9 @@
 namespace Decalog\Handler;
 
 use DateTimeInterface;
-use Monolog\Logger;
-use Monolog\Handler\SocketHandler;
-use Monolog\Handler\AbstractSyslogHandler;
+use DLMonolog\Logger;
+use DLMonolog\Handler\SocketHandler;
+use DLMonolog\Handler\AbstractSyslogHandler;
 
 
 /**

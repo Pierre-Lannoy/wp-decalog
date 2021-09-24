@@ -10,7 +10,7 @@
 namespace Decalog\Plugin\Feature;
 
 use Decalog\Plugin\Feature\DLogger;
-use Monolog\Logger;
+use DLMonolog\Logger;
 use Decalog\Plugin\Feature\EventTypes;
 
 

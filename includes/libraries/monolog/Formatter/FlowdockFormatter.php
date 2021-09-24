@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Monolog\Formatter;
+namespace DLMonolog\Formatter;
 
 /**
  * formats the record to be used in the FlowdockHandler
@@ -35,7 +35,9 @@ class FlowdockFormatter implements FormatterInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
+     *
+     * @return mixed[]
      */
     public function format(array $record): array
     {
@@ -69,7 +71,9 @@ class FlowdockFormatter implements FormatterInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
+     *
+     * @return mixed[][]
      */
     public function formatBatch(array $records): array
     {

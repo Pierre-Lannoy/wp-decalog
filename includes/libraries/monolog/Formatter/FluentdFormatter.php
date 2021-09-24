@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Monolog\Formatter;
+namespace DLMonolog\Formatter;
 
-use Monolog\Utils;
+use DLMonolog\Utils;
 
 /**
  * Class FluentdFormatter
@@ -44,7 +44,7 @@ class FluentdFormatter implements FormatterInterface
     public function __construct(bool $levelTag = false)
     {
         if (!function_exists('json_encode')) {
-            throw new \RuntimeException('PHP\'s json extension is required to use Monolog\'s FluentdUnixFormatter');
+            throw new \RuntimeException('PHP\'s json extension is required to use DLMonolog\'s FluentdUnixFormatter');
         }
 
         $this->levelTag = $levelTag;

@@ -14,7 +14,7 @@ namespace Decalog\Formatter;
 use Decalog\Plugin\Feature\ClassTypes;
 use Decalog\System\Http;
 use Decalog\Formatter\WordpressFormatter;
-use Monolog\Logger;
+use DLMonolog\Logger;
 
 /**
  * Define the Monolog WordPress formatter.

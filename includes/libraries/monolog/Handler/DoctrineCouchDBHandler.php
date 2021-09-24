@@ -9,11 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Monolog\Handler;
+namespace DLMonolog\Handler;
 
-use Monolog\Logger;
-use Monolog\Formatter\NormalizerFormatter;
-use Monolog\Formatter\FormatterInterface;
+use DLMonolog\Logger;
+use DLMonolog\Formatter\NormalizerFormatter;
+use DLMonolog\Formatter\FormatterInterface;
 use Doctrine\CouchDB\CouchDBClient;
 
 /**
@@ -23,6 +23,7 @@ use Doctrine\CouchDB\CouchDBClient;
  */
 class DoctrineCouchDBHandler extends AbstractProcessingHandler
 {
+    /** @var CouchDBClient */
     private $client;
 
     public function __construct(CouchDBClient $client, $level = Logger::DEBUG, bool $bubble = true)

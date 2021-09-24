@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Monolog\Formatter;
+namespace DLMonolog\Formatter;
 
-use Monolog\Logger;
+use DLMonolog\Logger;
 
 /**
  * Formats a log message according to the ChromePHP array format
@@ -22,6 +22,8 @@ class ChromePHPFormatter implements FormatterInterface
 {
     /**
      * Translates Monolog log levels to Wildfire levels.
+     *
+     * @var array<int, 'log'|'info'|'warn'|'error'>
      */
     private $logLevels = [
         Logger::DEBUG     => 'log',
@@ -35,7 +37,7 @@ class ChromePHPFormatter implements FormatterInterface
     ];
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function format(array $record)
     {
@@ -66,7 +68,7 @@ class ChromePHPFormatter implements FormatterInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function formatBatch(array $records)
     {

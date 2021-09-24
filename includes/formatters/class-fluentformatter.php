@@ -12,7 +12,7 @@
 namespace Decalog\Formatter;
 
 use Decalog\System\Http;
-use Monolog\Formatter\FormatterInterface;
+use DLMonolog\Formatter\FormatterInterface;
 use Decalog\Plugin\Feature\EventTypes;
 
 /**

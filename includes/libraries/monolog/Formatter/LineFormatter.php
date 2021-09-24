@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Monolog\Formatter;
+namespace DLMonolog\Formatter;
 
-use Monolog\Utils;
+use DLMonolog\Utils;
 
 /**
  * Formats incoming records into a one-line string
@@ -25,9 +25,13 @@ class LineFormatter extends NormalizerFormatter
 {
     public const SIMPLE_FORMAT = "[%datetime%] %channel%.%level_name%: %message% %context% %extra%\n";
 
+    /** @var string */
     protected $format;
+    /** @var bool */
     protected $allowInlineLineBreaks;
+    /** @var bool */
     protected $ignoreEmptyContextAndExtra;
+    /** @var bool */
     protected $includeStacktraces;
 
     /**
@@ -44,7 +48,7 @@ class LineFormatter extends NormalizerFormatter
         parent::__construct($dateFormat);
     }
 
-    public function includeStacktraces(bool $include = true)
+    public function includeStacktraces(bool $include = true): void
     {
         $this->includeStacktraces = $include;
         if ($this->includeStacktraces) {
@@ -52,18 +56,18 @@ class LineFormatter extends NormalizerFormatter
         }
     }
 
-    public function allowInlineLineBreaks(bool $allow = true)
+    public function allowInlineLineBreaks(bool $allow = true): void
     {
         $this->allowInlineLineBreaks = $allow;
     }
 
-    public function ignoreEmptyContextAndExtra(bool $ignore = true)
+    public function ignoreEmptyContextAndExtra(bool $ignore = true): void
     {
         $this->ignoreEmptyContextAndExtra = $ignore;
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function format(array $record): string
     {
@@ -106,6 +110,10 @@ class LineFormatter extends NormalizerFormatter
         // remove leftover %extra.xxx% and %context.xxx% if any
         if (false !== strpos($output, '%')) {
             $output = preg_replace('/%(?:extra|context)\..+?%/', '', $output);
+            if (null === $output) {
+                $pcreErrorCode = preg_last_error();
+                throw new \RuntimeException('Failed to run preg_replace: ' . $pcreErrorCode . ' / ' . Utils::pcreLastErrorMessage($pcreErrorCode));
+            }
         }
 
         return $output;
@@ -121,14 +129,14 @@ class LineFormatter extends NormalizerFormatter
         return $message;
     }
 
+    /**
+     * @param mixed $value
+     */
     public function stringify($value): string
     {
         return $this->replaceNewlines($this->convertToString($value));
     }
 
-    /**
-     * @suppress PhanParamSignatureMismatch
-     */
     protected function normalizeException(\Throwable $e, int $depth = 0): string
     {
         $str = $this->formatException($e);
@@ -142,6 +150,9 @@ class LineFormatter extends NormalizerFormatter
         return $str;
     }
 
+    /**
+     * @param mixed $data
+     */
     protected function convertToString($data): string
     {
         if (null === $data || is_bool($data)) {
@@ -180,8 +191,12 @@ class LineFormatter extends NormalizerFormatter
                 $str .= ' faultactor: ' . $e->faultactor;
             }
 
-            if (isset($e->detail) && (is_string($e->detail) || is_object($e->detail) || is_array($e->detail))) {
-                $str .= ' detail: ' . (is_string($e->detail) ? $e->detail : reset($e->detail));
+            if (isset($e->detail)) {
+                if (is_string($e->detail)) {
+                    $str .= ' detail: ' . $e->detail;
+                } elseif (is_object($e->detail) || is_array($e->detail)) {
+                    $str .= ' detail: ' . $this->toJson($e->detail, true);
+                }
             }
         }
         $str .= '): ' . $e->getMessage() . ' at ' . $e->getFile() . ':' . $e->getLine() . ')';

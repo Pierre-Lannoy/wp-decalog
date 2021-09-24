@@ -9,39 +9,72 @@
  * file that was distributed with this source code.
  */
 
-namespace Monolog;
+namespace DLMonolog;
 
 final class Utils
 {
-    const DEFAULT_JSON_FLAGS = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRESERVE_ZERO_FRACTION;
+    const DEFAULT_JSON_FLAGS = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRESERVE_ZERO_FRACTION | JSON_INVALID_UTF8_SUBSTITUTE | JSON_PARTIAL_OUTPUT_ON_ERROR;
 
-    /**
-     * @internal
-     */
-    public static function getClass($object): string
+    public static function getClass(object $object): string
     {
         $class = \get_class($object);
 
-        return 'c' === $class[0] && 0 === strpos($class, "class@anonymous\0") ? get_parent_class($class).'@anonymous' : $class;
+        if (false === ($pos = \strpos($class, "@anonymous\0"))) {
+            return $class;
+        }
+
+        if (false === ($parent = \get_parent_class($class))) {
+            return \substr($class, 0, $pos + 10);
+        }
+
+        return $parent . '@anonymous';
     }
 
-    public static function substr(string $string, int $start, ?int $length = null)
+    public static function substr(string $string, int $start, ?int $length = null): string
     {
         if (extension_loaded('mbstring')) {
             return mb_strcut($string, $start, $length);
         }
 
-        return substr($string, $start, $length);
+        return substr($string, $start, (null === $length) ? strlen($string) : $length);
+    }
+
+    /**
+     * Makes sure if a relative path is passed in it is turned into an absolute path
+     *
+     * @param string $streamUrl stream URL or path without protocol
+     */
+    public static function canonicalizePath(string $streamUrl): string
+    {
+        $prefix = '';
+        if ('file://' === substr($streamUrl, 0, 7)) {
+            $streamUrl = substr($streamUrl, 7);
+            $prefix = 'file://';
+        }
+
+        // other type of stream, not supported
+        if (false !== strpos($streamUrl, '://')) {
+            return $streamUrl;
+        }
+
+        // already absolute
+        if (substr($streamUrl, 0, 1) === '/' || substr($streamUrl, 1, 1) === ':' || substr($streamUrl, 0, 2) === '\\\\') {
+            return $prefix.$streamUrl;
+        }
+
+        $streamUrl = getcwd() . '/' . $streamUrl;
+
+        return $prefix.$streamUrl;
     }
 
     /**
      * Return the JSON representation of a value
      *
      * @param  mixed             $data
-     * @param  int               $encodeFlags flags to pass to json encode, defaults to JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
+     * @param  int               $encodeFlags  flags to pass to json encode, defaults to DEFAULT_JSON_FLAGS
      * @param  bool              $ignoreErrors whether to ignore encoding errors or to throw on error, when ignored and the encoding fails, "null" is returned which is valid json for null
      * @throws \RuntimeException if encoding fails and errors are not ignored
-     * @return string when errors are ignored and the encoding fails, "null" is returned which is valid json for null
+     * @return string            when errors are ignored and the encoding fails, "null" is returned which is valid json for null
      */
     public static function jsonEncode($data, ?int $encodeFlags = null, bool $ignoreErrors = false): string
     {
@@ -71,11 +104,11 @@ final class Utils
      *
      * If the failure is due to invalid string encoding, try to clean the
      * input and encode again. If the second encoding attempt fails, the
-     * inital error is not encoding related or the input can't be cleaned then
+     * initial error is not encoding related or the input can't be cleaned then
      * raise a descriptive exception.
      *
-     * @param  int               $code return code of json_last_error function
-     * @param  mixed             $data data that was meant to be encoded
+     * @param  int               $code        return code of json_last_error function
+     * @param  mixed             $data        data that was meant to be encoded
      * @param  int               $encodeFlags flags to pass to json encode, defaults to JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRESERVE_ZERO_FRACTION
      * @throws \RuntimeException if failure can't be corrected
      * @return string            JSON encoded data after error correction
@@ -89,7 +122,7 @@ final class Utils
         if (is_string($data)) {
             self::detectAndCleanUtf8($data);
         } elseif (is_array($data)) {
-            array_walk_recursive($data, array('Monolog\Utils', 'detectAndCleanUtf8'));
+            array_walk_recursive($data, array('DLMonolog\Utils', 'detectAndCleanUtf8'));
         } else {
             self::throwEncodeError($code, $data);
         }
@@ -108,13 +141,34 @@ final class Utils
     }
 
     /**
+     * @internal
+     */
+    public static function pcreLastErrorMessage(int $code): string
+    {
+        if (PHP_VERSION_ID >= 80000) {
+            return preg_last_error_msg();
+        }
+
+        $constants = (get_defined_constants(true))['pcre'];
+        $constants = array_filter($constants, function ($key) {
+            return substr($key, -6) == '_ERROR';
+        }, ARRAY_FILTER_USE_KEY);
+
+        $constants = array_flip($constants);
+
+        return $constants[$code] ?? 'UNDEFINED_ERROR';
+    }
+
+    /**
      * Throws an exception according to a given code with a customized message
      *
      * @param  int               $code return code of json_last_error function
      * @param  mixed             $data data that was meant to be encoded
      * @throws \RuntimeException
+     *
+     * @return never
      */
-    private static function throwEncodeError(int $code, $data)
+    private static function throwEncodeError(int $code, $data): void
     {
         switch ($code) {
             case JSON_ERROR_DEPTH:
@@ -149,9 +203,9 @@ final class Utils
      * Function converts the input in place in the passed variable so that it
      * can be used as a callback for array_walk_recursive.
      *
-     * @param mixed &$data Input to check and convert if needed
+     * @param mixed $data Input to check and convert if needed, passed by ref
      */
-    private static function detectAndCleanUtf8(&$data)
+    private static function detectAndCleanUtf8(&$data): void
     {
         if (is_string($data) && !preg_match('//u', $data)) {
             $data = preg_replace_callback(
@@ -161,11 +215,49 @@ final class Utils
                 },
                 $data
             );
+            if (!is_string($data)) {
+                $pcreErrorCode = preg_last_error();
+                throw new \RuntimeException('Failed to preg_replace_callback: ' . $pcreErrorCode . ' / ' . self::pcreLastErrorMessage($pcreErrorCode));
+            }
             $data = str_replace(
                 ['¤', '¦', '¨', '´', '¸', '¼', '½', '¾'],
                 ['€', 'Š', 'š', 'Ž', 'ž', 'Œ', 'œ', 'Ÿ'],
                 $data
             );
         }
+    }
+
+    /**
+     * Converts a string with a valid 'memory_limit' format, to bytes.
+     *
+     * @param string|false $val
+     * @return int|false Returns an integer representing bytes. Returns FALSE in case of error.
+     */
+    public static function expandIniShorthandBytes($val)
+    {
+        if (!is_string($val)) {
+            return false;
+        }
+
+        // support -1
+        if ((int) $val < 0) {
+            return (int) $val;
+        }
+
+        if (!preg_match('/^\s*(?<val>\d+)(?:\.\d+)?\s*(?<unit>[gmk]?)\s*$/i', $val, $match)) {
+            return false;
+        }
+
+        $val = (int) $match['val'];
+        switch (strtolower($match['unit'] ?? '')) {
+            case 'g':
+                $val *= 1024;
+            case 'm':
+                $val *= 1024;
+            case 'k':
+                $val *= 1024;
+        }
+
+        return $val;
     }
 }

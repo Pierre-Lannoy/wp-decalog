@@ -12,8 +12,8 @@
 namespace Decalog\Processor;
 
 use Decalog\System\PHP;
-use Monolog\Logger;
-use Monolog\Processor\ProcessorInterface;
+use DLMonolog\Logger;
+use DLMonolog\Processor\ProcessorInterface;
 
 /**
  * Define the backtrace processor functionality.
@@ -41,7 +41,7 @@ class BacktraceProcessor implements ProcessorInterface {
 	 * @var    array    $skip_classes    List of class partials.
 	 */
 	private $skip_classes = [
-		'Monolog\\',
+		'DLMonolog\\',
 		'Decalog\\',
 		'DecaLog\\',
 		'System\\Logger',

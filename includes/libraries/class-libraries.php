@@ -58,7 +58,7 @@ class Libraries {
 		self::$psr4_libraries              = [];
 		self::$psr4_libraries['monolog']   = [
 			'name'    => 'Monolog',
-			'prefix'  => 'Monolog',
+			'prefix'  => 'DLMonolog',
 			'base'    => DECALOG_VENDOR_DIR . 'monolog/',
 			'version' => DECALOG_MONOLOG_VERSION,
 			// phpcs:ignore

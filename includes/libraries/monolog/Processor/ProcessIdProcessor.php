@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Monolog\Processor;
+namespace DLMonolog\Processor;
 
 /**
  * Adds value of getmypid into records
@@ -18,6 +18,9 @@ namespace Monolog\Processor;
  */
 class ProcessIdProcessor implements ProcessorInterface
 {
+    /**
+     * {@inheritDoc}
+     */
     public function __invoke(array $record): array
     {
         $record['extra']['process_id'] = getmypid();

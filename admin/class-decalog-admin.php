@@ -29,7 +29,7 @@ use Decalog\System\Form;
 use Decalog\System\Role;
 use Decalog\System\GeoIP;
 use Decalog\System\Environment;
-use Monolog\Logger;
+use DLMonolog\Logger;
 use PerfOpsOne\Menus;
 use PerfOpsOne\AdminBar;
 use Decalog\Plugin\Feature\DLogger;

@@ -17,8 +17,8 @@ use Decalog\Plugin\Feature\ChannelTypes;
 use Decalog\System\Environment;
 use Decalog\System\Http;
 use Decalog\System\UserAgent;
-use Monolog\Formatter\JsonFormatter;
-use Monolog\Logger;
+use DLMonolog\Formatter\JsonFormatter;
+use DLMonolog\Logger;
 
 /**
  * Define the Monolog New Relic formatter.

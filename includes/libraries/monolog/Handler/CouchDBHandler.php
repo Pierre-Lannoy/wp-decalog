@@ -9,11 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Monolog\Handler;
+namespace DLMonolog\Handler;
 
-use Monolog\Formatter\FormatterInterface;
-use Monolog\Formatter\JsonFormatter;
-use Monolog\Logger;
+use DLMonolog\Formatter\FormatterInterface;
+use DLMonolog\Formatter\JsonFormatter;
+use DLMonolog\Logger;
 
 /**
  * CouchDB handler
@@ -22,8 +22,12 @@ use Monolog\Logger;
  */
 class CouchDBHandler extends AbstractProcessingHandler
 {
+    /** @var mixed[] */
     private $options;
 
+    /**
+     * @param mixed[] $options
+     */
     public function __construct(array $options = [], $level = Logger::DEBUG, bool $bubble = true)
     {
         $this->options = array_merge([

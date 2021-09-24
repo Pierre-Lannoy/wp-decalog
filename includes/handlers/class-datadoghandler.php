@@ -11,9 +11,9 @@
 
 namespace Decalog\Handler;
 
-use Monolog\Logger;
-use Monolog\Formatter\FormatterInterface;
-use Monolog\Formatter\JsonFormatter;
+use DLMonolog\Logger;
+use DLMonolog\Formatter\FormatterInterface;
+use DLMonolog\Formatter\JsonFormatter;
 use Decalog\Formatter\DatadogFormatter;
 
 /**

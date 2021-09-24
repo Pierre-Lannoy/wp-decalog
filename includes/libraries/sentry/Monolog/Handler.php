@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Sentry\Monolog;
+namespace Sentry\DLMonolog;
 
-use Monolog\Handler\AbstractProcessingHandler;
-use Monolog\Logger;
+use DLMonolog\Handler\AbstractProcessingHandler;
+use DLMonolog\Logger;
 use Sentry\Event;
 use Sentry\EventHint;
 use Sentry\Severity;

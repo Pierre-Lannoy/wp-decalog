@@ -11,10 +11,10 @@
 
 namespace Decalog\Handler;
 
-use Monolog\Logger;
+use DLMonolog\Logger;
 use Decalog\Plugin\Feature\DLogger;
-use Monolog\Handler\SocketHandler;
-use Monolog\Formatter\FormatterInterface;
+use DLMonolog\Handler\SocketHandler;
+use DLMonolog\Formatter\FormatterInterface;
 use Decalog\Formatter\FluentFormatter;
 
 /**

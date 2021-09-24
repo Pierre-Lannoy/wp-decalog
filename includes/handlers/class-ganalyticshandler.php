@@ -13,8 +13,8 @@ namespace Decalog\Handler;
 
 use Decalog\System\Environment;
 use Decalog\System\UserAgent;
-use Monolog\Logger;
-use Monolog\Formatter\FormatterInterface;
+use DLMonolog\Logger;
+use DLMonolog\Formatter\FormatterInterface;
 use Decalog\Formatter\GAnalyticsFormatter;
 use Decalog\System\Http;
 

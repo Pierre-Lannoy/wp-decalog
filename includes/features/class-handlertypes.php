@@ -11,7 +11,7 @@
 
 namespace Decalog\Plugin\Feature;
 
-use Monolog\Logger;
+use DLMonolog\Logger;
 use Decalog\System\Cache;
 
 /**
@@ -1706,7 +1706,7 @@ class HandlerTypes {
 		$this->handlers[] = [
 			'version'       => DECALOG_MONOLOG_VERSION,
 			'id'            => 'LogglyHandler',
-			'namespace'     => 'Monolog\\Handler',
+			'namespace'     => 'DLMonolog\\Handler',
 			'class'         => 'logging',
 			'minimal'       => Logger::WARNING,
 			'name'          => 'Loggly',
@@ -1805,7 +1805,7 @@ class HandlerTypes {
 		$this->handlers[] = [
 			'version'       => DECALOG_MONOLOG_VERSION,
 			'id'            => 'ErrorLogHandler',
-			'namespace'     => 'Monolog\\Handler',
+			'namespace'     => 'DLMonolog\\Handler',
 			'class'         => 'logging',
 			'minimal'       => Logger::DEBUG,
 			'name'          => esc_html__( 'PHP error log', 'decalog' ),
@@ -1829,7 +1829,7 @@ class HandlerTypes {
 		$this->handlers[] = [
 			'version'       => DECALOG_MONOLOG_VERSION,
 			'id'            => 'RotatingFileHandler',
-			'namespace'     => 'Monolog\Handler',
+			'namespace'     => 'DLMonolog\Handler',
 			'class'         => 'logging',
 			'minimal'       => Logger::DEBUG,
 			'name'          => esc_html__( 'Rotating files', 'decalog' ),
@@ -2153,7 +2153,7 @@ class HandlerTypes {
 		$this->handlers[] = [
 			'version'       => DECALOG_MONOLOG_VERSION,
 			'id'            => 'SyslogUdpHandler',
-			'namespace'     => 'Monolog\Handler',
+			'namespace'     => 'DLMonolog\Handler',
 			'class'         => 'logging',
 			'minimal'       => Logger::DEBUG,
 			'name'          => 'Syslog',
@@ -2402,7 +2402,7 @@ class HandlerTypes {
 		$this->handlers[] = [
 			'version'       => DECALOG_MONOLOG_VERSION,
 			'id'            => 'ChromePHPHandler',
-			'namespace'     => 'Monolog\\Handler',
+			'namespace'     => 'DLMonolog\\Handler',
 			'class'         => 'debugging',
 			'minimal'       => Logger::DEBUG,
 			'name'          => 'ChromePHP',
@@ -2424,7 +2424,7 @@ class HandlerTypes {
 		$this->handlers[] = [
 			'version'       => DECALOG_MONOLOG_VERSION,
 			'id'            => 'SlackWebhookHandler',
-			'namespace'     => 'Monolog\Handler',
+			'namespace'     => 'DLMonolog\Handler',
 			'class'         => 'alerting',
 			'minimal'       => Logger::WARNING,
 			'name'          => 'Slack',
@@ -2796,7 +2796,7 @@ class HandlerTypes {
 		$this->handlers[] = [
 			'version'       => DECALOG_VERSION,
 			'id'            => 'NullHandler',
-			'namespace'     => 'Monolog\Handler',
+			'namespace'     => 'DLMonolog\Handler',
 			'class'         => 'system',
 			'minimal'       => Logger::DEBUG,
 			'name'          => esc_html__( 'Blackhole', 'decalog' ),

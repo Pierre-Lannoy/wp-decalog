@@ -15,10 +15,10 @@ use Decalog\Listener\AbstractListener;
 use Decalog\Plugin\Feature\Log;
 use Decalog\System\Environment;
 use Decalog\System\Http;
-use Monolog\Logger;
-use Monolog\Handler\AbstractProcessingHandler;
-use Monolog\Handler\HandlerInterface;
-use Monolog\Formatter\FormatterInterface;
+use DLMonolog\Logger;
+use DLMonolog\Handler\AbstractProcessingHandler;
+use DLMonolog\Handler\HandlerInterface;
+use DLMonolog\Formatter\FormatterInterface;
 use Decalog\Formatter\WordpressFormatter;
 use Decalog\System\Cache;
 

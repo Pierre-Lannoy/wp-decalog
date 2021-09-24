@@ -11,7 +11,7 @@
 
 namespace Decalog\Plugin\Feature;
 
-use Monolog\Logger;
+use DLMonolog\Logger;
 use Feather;
 
 /**

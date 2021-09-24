@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Monolog\Handler;
+namespace DLMonolog\Handler;
 
-use Monolog\Formatter\FormatterInterface;
+use DLMonolog\Formatter\FormatterInterface;
 
 /**
  * Interface to describe loggers that have a formatter

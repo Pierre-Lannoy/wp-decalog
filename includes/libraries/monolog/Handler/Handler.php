@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Monolog\Handler;
+namespace DLMonolog\Handler;
 
 /**
  * Base Handler class providing basic close() support as well as handleBatch
@@ -19,7 +19,7 @@ namespace Monolog\Handler;
 abstract class Handler implements HandlerInterface
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function handleBatch(array $records): void
     {
@@ -29,7 +29,7 @@ abstract class Handler implements HandlerInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function close(): void
     {

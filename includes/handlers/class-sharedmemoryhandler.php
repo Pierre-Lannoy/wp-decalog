@@ -12,9 +12,9 @@
 namespace Decalog\Handler;
 
 use Decalog\System\Option;
-use Monolog\Logger;
-use Monolog\Handler\AbstractProcessingHandler;
-use Monolog\Formatter\FormatterInterface;
+use DLMonolog\Logger;
+use DLMonolog\Handler\AbstractProcessingHandler;
+use DLMonolog\Formatter\FormatterInterface;
 use Decalog\Formatter\GenericFormatter;
 use Decalog\System\SharedMemory;
 use Decalog\System\Environment;

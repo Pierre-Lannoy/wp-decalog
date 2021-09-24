@@ -10,7 +10,7 @@
 namespace Decalog\Plugin\Feature;
 
 use Decalog\Plugin\Feature\HandlerTypes;
-use Monolog\Logger;
+use DLMonolog\Logger;
 use Decalog\System\Environment;
 use Decalog\System\Option;
 use Decalog\System\Timezone;
@@ -151,7 +151,7 @@ class DLogger {
 			$logger['uuid'] = $key;
 			if ( $handler_def && $diagnosis->check( $handler_def['id'] ) ) {
 				$handler = $factory->create_logger( $logger );
-				if ( $handler instanceof \Monolog\Handler\HandlerInterface ) {
+				if ( $handler instanceof \DLMonolog\Handler\HandlerInterface ) {
 					$this->logger->pushHandler( $handler );
 				} elseif ( $logger['running'] ) {
 					$skipped[] = sprintf( 'Skipping loading of a %s logger.', $handler_def['name'] );

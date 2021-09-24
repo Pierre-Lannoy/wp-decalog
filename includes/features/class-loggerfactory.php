@@ -12,7 +12,7 @@
 namespace Decalog\Plugin\Feature;
 
 use Decalog\System\Option;
-use Monolog\Logger;
+use DLMonolog\Logger;
 
 /**
  * Define the logger consistency functionality.

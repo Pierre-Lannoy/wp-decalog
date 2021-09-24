@@ -15,8 +15,8 @@ use Decalog\Plugin\Feature\DLogger;
 use Decalog\System\Environment;
 use Decalog\System\Option;
 use Decalog\System\PHP;
-use Monolog\Logger;
-use Monolog\Utils;
+use DLMonolog\Logger;
+use DLMonolog\Utils;
 
 /**
  * PHP listener for DecaLog.

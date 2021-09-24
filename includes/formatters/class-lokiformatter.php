@@ -19,8 +19,8 @@ use Decalog\System\Environment;
 use Decalog\System\Http;
 use Decalog\System\User;
 use Decalog\System\UserAgent;
-use Monolog\Formatter\FormatterInterface;
-use Monolog\Logger;
+use DLMonolog\Formatter\FormatterInterface;
+use DLMonolog\Logger;
 use PODeviceDetector\API\Device;
 use Decalog\System\Hash;
 

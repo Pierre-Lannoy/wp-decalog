@@ -12,7 +12,7 @@
 namespace Decalog\Formatter;
 
 use Decalog\System\Http;
-use Monolog\Formatter\ElasticsearchFormatter;
+use DLMonolog\Formatter\ElasticsearchFormatter;
 use Decalog\Plugin\Feature\EventTypes;
 
 /**

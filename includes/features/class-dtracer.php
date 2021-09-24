@@ -103,7 +103,7 @@ class DTracer {
 	 * @var    array    $skip_classes    List of class partials.
 	 */
 	private $skip_classes = [
-		'Monolog\\',
+		'DLMonolog\\',
 		'Decalog\\',
 		'DecaLog\\',
 		'System\\Logger',

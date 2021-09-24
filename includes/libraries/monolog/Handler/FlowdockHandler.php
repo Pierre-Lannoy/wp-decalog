@@ -9,12 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Monolog\Handler;
+namespace DLMonolog\Handler;
 
-use Monolog\Logger;
-use Monolog\Utils;
-use Monolog\Formatter\FlowdockFormatter;
-use Monolog\Formatter\FormatterInterface;
+use DLMonolog\Logger;
+use DLMonolog\Utils;
+use DLMonolog\Formatter\FlowdockFormatter;
+use DLMonolog\Formatter\FormatterInterface;
 
 /**
  * Sends notifications through the Flowdock push API
@@ -26,6 +26,8 @@ use Monolog\Formatter\FormatterInterface;
  *
  * @author Dominik Liebler <liebler.dominik@gmail.com>
  * @see https://www.flowdock.com/api/push
+ *
+ * @phpstan-import-type FormattedRecord from AbstractProcessingHandler
  */
 class FlowdockHandler extends SocketHandler
 {
@@ -35,9 +37,6 @@ class FlowdockHandler extends SocketHandler
     protected $apiToken;
 
     /**
-     * @param string|int $level  The minimum logging level at which this handler will be triggered
-     * @param bool       $bubble Whether the messages that are handled can bubble up the stack or not
-     *
      * @throws MissingExtensionException if OpenSSL is missing
      */
     public function __construct(string $apiToken, $level = Logger::DEBUG, bool $bubble = true)
@@ -51,12 +50,12 @@ class FlowdockHandler extends SocketHandler
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function setFormatter(FormatterInterface $formatter): HandlerInterface
     {
         if (!$formatter instanceof FlowdockFormatter) {
-            throw new \InvalidArgumentException('The FlowdockHandler requires an instance of Monolog\Formatter\FlowdockFormatter to function correctly');
+            throw new \InvalidArgumentException('The FlowdockHandler requires an instance of DLMonolog\Formatter\FlowdockFormatter to function correctly');
         }
 
         return parent::setFormatter($formatter);
@@ -67,13 +66,11 @@ class FlowdockHandler extends SocketHandler
      */
     protected function getDefaultFormatter(): FormatterInterface
     {
-        throw new \InvalidArgumentException('The FlowdockHandler must be configured (via setFormatter) with an instance of Monolog\Formatter\FlowdockFormatter to function correctly');
+        throw new \InvalidArgumentException('The FlowdockHandler must be configured (via setFormatter) with an instance of DLMonolog\Formatter\FlowdockFormatter to function correctly');
     }
 
     /**
-     * {@inheritdoc}
-     *
-     * @param array $record
+     * {@inheritDoc}
      */
     protected function write(array $record): void
     {
@@ -83,7 +80,7 @@ class FlowdockHandler extends SocketHandler
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function generateDataStream(array $record): string
     {
@@ -94,6 +91,8 @@ class FlowdockHandler extends SocketHandler
 
     /**
      * Builds the body of API call
+     *
+     * @phpstan-param FormattedRecord $record
      */
     private function buildContent(array $record): string
     {

@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Monolog\Processor;
+namespace DLMonolog\Processor;
 
-use Monolog\ResettableInterface;
+use DLMonolog\ResettableInterface;
 
 /**
  * Adds a unique identifier into records
@@ -20,6 +20,7 @@ use Monolog\ResettableInterface;
  */
 class UidProcessor implements ProcessorInterface, ResettableInterface
 {
+    /** @var string */
     private $uid;
 
     public function __construct(int $length = 7)
@@ -31,6 +32,9 @@ class UidProcessor implements ProcessorInterface, ResettableInterface
         $this->uid = $this->generateUid($length);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function __invoke(array $record): array
     {
         $record['extra']['uid'] = $this->uid;

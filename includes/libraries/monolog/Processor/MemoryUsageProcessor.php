@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Monolog\Processor;
+namespace DLMonolog\Processor;
 
 /**
  * Injects memory_get_usage in all records
@@ -19,6 +19,9 @@ namespace Monolog\Processor;
  */
 class MemoryUsageProcessor extends MemoryProcessor
 {
+    /**
+     * {@inheritDoc}
+     */
     public function __invoke(array $record): array
     {
         $usage = memory_get_usage($this->realUsage);

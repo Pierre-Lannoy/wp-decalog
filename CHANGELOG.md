@@ -9,11 +9,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Compatibility with WordPress 5.9.
 
 ### Changed
+- Upgraded Monolog library from version 2.2.0 to version 2.3.4.
 
 ### Fixed
 - The loggers list displays wrong types for "crash analytics" and "alerting".
 - The default index names for Elasticsearch and Elastic Cloud are inconsistent.
 - The HTTP 204 error code sometimes returned by a Loki instance is wrongly interpreted.
+- Name collisions or PHP errors can occur with plugins using outdated versions of Monolog library (like BackWPup).
 
 ## [3.2.0] - 2021-09-07
 

@@ -17,8 +17,8 @@ use Decalog\Plugin\Feature\ChannelTypes;
 use Decalog\System\Environment;
 use Decalog\System\Http;
 use Decalog\System\UserAgent;
-use Monolog\Formatter\FormatterInterface;
-use Monolog\Logger;
+use DLMonolog\Formatter\FormatterInterface;
+use DLMonolog\Logger;
 use PODeviceDetector\API\Device;
 
 /**

@@ -12,9 +12,9 @@
 namespace Decalog\Handler;
 
 use Decalog\Plugin\Feature\EventTypes;
-use Monolog\Logger;
-use Monolog\Handler\AbstractProcessingHandler;
-use Monolog\Formatter\FormatterInterface;
+use DLMonolog\Logger;
+use DLMonolog\Handler\AbstractProcessingHandler;
+use DLMonolog\Formatter\FormatterInterface;
 use Decalog\Formatter\NewlineFormatter;
 
 /**

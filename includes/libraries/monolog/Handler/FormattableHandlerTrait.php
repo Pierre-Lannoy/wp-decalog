@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Monolog\Handler;
+namespace DLMonolog\Handler;
 
-use Monolog\Formatter\FormatterInterface;
-use Monolog\Formatter\LineFormatter;
+use DLMonolog\Formatter\FormatterInterface;
+use DLMonolog\Formatter\LineFormatter;
 
 /**
  * Helper trait for implementing FormattableInterface
@@ -22,13 +22,12 @@ use Monolog\Formatter\LineFormatter;
 trait FormattableHandlerTrait
 {
     /**
-     * @var FormatterInterface
+     * @var ?FormatterInterface
      */
     protected $formatter;
 
     /**
-     * {@inheritdoc}
-     * @suppress PhanTypeMismatchReturn
+     * {@inheritDoc}
      */
     public function setFormatter(FormatterInterface $formatter): HandlerInterface
     {
@@ -38,7 +37,7 @@ trait FormattableHandlerTrait
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getFormatter(): FormatterInterface
     {

@@ -12,10 +12,10 @@
 
 namespace Decalog\Handler;
 
-use Monolog\Formatter\LineFormatter;
-use Monolog\Formatter\FormatterInterface;
-use Monolog\Utils;
-use Monolog\Handler\AbstractProcessingHandler;
+use DLMonolog\Formatter\LineFormatter;
+use DLMonolog\Formatter\FormatterInterface;
+use DLMonolog\Utils;
+use DLMonolog\Handler\AbstractProcessingHandler;
 use Decalog\Plugin\Feature\EventTypes;
 
 /**

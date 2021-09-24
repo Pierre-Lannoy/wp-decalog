@@ -9,12 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Monolog\Handler;
+namespace DLMonolog\Handler;
 
-use Monolog\Formatter\ChromePHPFormatter;
-use Monolog\Formatter\FormatterInterface;
-use Monolog\Logger;
-use Monolog\Utils;
+use DLMonolog\Formatter\ChromePHPFormatter;
+use DLMonolog\Formatter\FormatterInterface;
+use DLMonolog\Logger;
+use DLMonolog\Utils;
 
 /**
  * Handler sending logs to the ChromePHP extension (http://www.chromephp.com/)
@@ -22,6 +22,8 @@ use Monolog\Utils;
  * This also works out of the box with Firefox 43+
  *
  * @author Christophe Coevoet <stof@notk.org>
+ *
+ * @phpstan-import-type Record from \Monolog\Logger
  */
 class ChromePHPHandler extends AbstractProcessingHandler
 {
@@ -42,6 +44,7 @@ class ChromePHPHandler extends AbstractProcessingHandler
      */
     protected const USER_AGENT_REGEX = '{\b(?:Chrome/\d+(?:\.\d+)*|HeadlessChrome|Firefox/(?:4[3-9]|[5-9]\d|\d{3,})(?:\.\d)*)\b}';
 
+    /** @var bool */
     protected static $initialized = false;
 
     /**
@@ -53,28 +56,26 @@ class ChromePHPHandler extends AbstractProcessingHandler
      */
     protected static $overflowed = false;
 
+    /** @var mixed[] */
     protected static $json = [
         'version' => self::VERSION,
         'columns' => ['label', 'log', 'backtrace', 'type'],
         'rows' => [],
     ];
 
+    /** @var bool */
     protected static $sendHeaders = true;
 
-    /**
-     * @param string|int $level  The minimum logging level at which this handler will be triggered
-     * @param bool       $bubble Whether the messages that are handled can bubble up the stack or not
-     */
     public function __construct($level = Logger::DEBUG, bool $bubble = true)
     {
         parent::__construct($level, $bubble);
         if (!function_exists('json_encode')) {
-            throw new \RuntimeException('PHP\'s json extension is required to use Monolog\'s ChromePHPHandler');
+            throw new \RuntimeException('PHP\'s json extension is required to use DLMonolog\'s ChromePHPHandler');
         }
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function handleBatch(array $records): void
     {
@@ -88,7 +89,9 @@ class ChromePHPHandler extends AbstractProcessingHandler
             if ($record['level'] < $this->level) {
                 continue;
             }
-            $messages[] = $this->processRecord($record);
+            /** @var Record $message */
+            $message = $this->processRecord($record);
+            $messages[] = $message;
         }
 
         if (!empty($messages)) {
@@ -145,7 +148,7 @@ class ChromePHPHandler extends AbstractProcessingHandler
             self::$json['request_uri'] = $_SERVER['REQUEST_URI'] ?? '';
         }
 
-        $json = Utils::jsonEncode(self::$json, null, true);
+        $json = Utils::jsonEncode(self::$json, Utils::DEFAULT_JSON_FLAGS & ~JSON_UNESCAPED_UNICODE, true);
         $data = base64_encode(utf8_encode($json));
         if (strlen($data) > 3 * 1024) {
             self::$overflowed = true;

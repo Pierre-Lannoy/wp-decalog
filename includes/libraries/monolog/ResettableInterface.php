@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Monolog;
+namespace DLMonolog;
 
 /**
  * Handler or Processor implementing this interface will be reset when Logger::reset() is called.

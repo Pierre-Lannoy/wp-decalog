@@ -11,9 +11,9 @@
 
 namespace Decalog\Handler;
 
-use Monolog\Logger;
-use Monolog\Handler\AbstractProcessingHandler;
-use Monolog\Formatter\FormatterInterface;
+use DLMonolog\Logger;
+use DLMonolog\Handler\AbstractProcessingHandler;
+use DLMonolog\Formatter\FormatterInterface;
 use Decalog\Formatter\WordpressFormatter;
 use Decalog\Plugin\Feature\EventTypes;
 

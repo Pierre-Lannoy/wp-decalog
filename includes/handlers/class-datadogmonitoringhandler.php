@@ -13,8 +13,8 @@ namespace Decalog\Handler;
 
 use Decalog\System\Blog;
 use Decalog\System\Environment;
-use Monolog\Logger;
-use Monolog\Formatter\FormatterInterface;
+use DLMonolog\Logger;
+use DLMonolog\Formatter\FormatterInterface;
 use Decalog\Plugin\Feature\DMonitor;
 use Prometheus\RenderDatadogFormat;
 use Prometheus\CollectorRegistry;

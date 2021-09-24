@@ -9,11 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Monolog\Handler;
+namespace DLMonolog\Handler;
 
 use Aws\Sqs\SqsClient;
-use Monolog\Logger;
-use Monolog\Utils;
+use DLMonolog\Logger;
+use DLMonolog\Utils;
 
 /**
  * Writes to any sqs queue.
@@ -41,9 +41,7 @@ class SqsHandler extends AbstractProcessingHandler
     }
 
     /**
-     * Writes the record down to the log of the implementing handler.
-     *
-     * @param array $record
+     * {@inheritDoc}
      */
     protected function write(array $record): void
     {

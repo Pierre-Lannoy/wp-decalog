@@ -9,11 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Monolog\Handler;
+namespace DLMonolog\Handler;
 
-use Monolog\Logger;
+use DLMonolog\Logger;
 use Psr\Log\LoggerInterface;
-use Monolog\Formatter\FormatterInterface;
+use DLMonolog\Formatter\FormatterInterface;
 
 /**
  * Proxies log messages to an existing PSR-3 compliant logger.
@@ -40,8 +40,6 @@ class PsrHandler extends AbstractHandler implements FormattableHandlerInterface
 
     /**
      * @param LoggerInterface $logger The underlying PSR-3 compliant logger to which messages will be proxied
-     * @param string|int      $level  The minimum logging level at which this handler will be triggered
-     * @param bool            $bubble Whether the messages that are handled can bubble up the stack or not
      */
     public function __construct(LoggerInterface $logger, $level = Logger::DEBUG, bool $bubble = true)
     {

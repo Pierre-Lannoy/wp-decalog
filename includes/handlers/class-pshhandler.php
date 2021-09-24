@@ -11,8 +11,8 @@
 
 namespace Decalog\Handler;
 
-use Monolog\Logger;
-use Monolog\Handler\PushoverHandler;
+use DLMonolog\Logger;
+use DLMonolog\Handler\PushoverHandler;
 
 /**
  * Define the Monolog Pushover handler.
