@@ -185,7 +185,7 @@ class CoreListener extends AbstractListener {
 		add_filter( 'http_api_debug', [ $this, 'http_api_debug' ], 10, 5 );
 		// Cron
 		add_filter( 'schedule_event', [ $this, 'schedule_event' ], PHP_INT_MAX, 1 );
-		add_filter( 'pre_clear_scheduled_hook', [ $this, 'pre_clear_scheduled_hook' ], PHP_INT_MAX, 5 );
+		add_filter( 'pre_clear_scheduled_hook', [ $this, 'pre_clear_scheduled_hook' ], PHP_INT_MAX, 4 );
 		add_filter( 'pre_unschedule_hook', [ $this, 'pre_unschedule_hook' ], PHP_INT_MAX, 4 );
 		// Aplications Passwords
 		add_action( 'wp_create_application_password', [ $this, 'wp_create_application_password' ], 10, 4 );
