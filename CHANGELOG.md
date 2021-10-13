@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - The default index names for Elasticsearch and Elastic Cloud are inconsistent.
 - The HTTP 204 error code sometimes returned by a Loki instance is wrongly interpreted.
 - Name collisions or PHP errors can occur with plugins using outdated versions of Monolog library (like BackWPup).
+- Unscheduling events may be not logged (thanks to [Jan Thiel](https://github.com/JanThiel)).
 
 ## [3.2.0] - 2021-09-07
 
