@@ -183,10 +183,12 @@ class CoreListener extends AbstractListener {
 		add_filter( 'wp', [ $this, 'wp' ], 10, 1 );
 		// Rest API
 		add_filter( 'http_api_debug', [ $this, 'http_api_debug' ], 10, 5 );
-		// Cron
-		add_filter( 'schedule_event', [ $this, 'schedule_event' ], PHP_INT_MAX, 1 );
-		add_filter( 'pre_clear_scheduled_hook', [ $this, 'pre_clear_scheduled_hook' ], PHP_INT_MAX, 4 );
-		add_filter( 'pre_unschedule_hook', [ $this, 'pre_unschedule_hook' ], PHP_INT_MAX, 4 );
+		// Standard Cron
+		if ( ! function_exists( 'HM\Cavalcade\Plugin\Bootstrap' ) ) {
+			add_filter( 'schedule_event', [ $this, 'schedule_event' ], PHP_INT_MAX, 1 );
+			add_filter( 'pre_clear_scheduled_hook', [ $this, 'pre_clear_scheduled_hook' ], PHP_INT_MAX, 4 );
+			add_filter( 'pre_unschedule_hook', [ $this, 'pre_unschedule_hook' ], PHP_INT_MAX, 4 );
+		}
 		// Aplications Passwords
 		add_action( 'wp_create_application_password', [ $this, 'wp_create_application_password' ], 10, 4 );
 		add_action( 'wp_update_application_password', [ $this, 'wp_update_application_password' ], 10, 3 );
