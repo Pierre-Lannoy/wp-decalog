@@ -843,7 +843,7 @@ class HandlerTypes {
 					'show'    => true,
 					'name'    => esc_html__( 'Token', 'decalog' ),
 					'help'    => esc_html__( 'Token value to write in bucket.', 'decalog' ),
-					'default' => 'my-bucket',
+					'default' => 'my-token',
 					'control' => [
 						'type'    => 'field_input_text',
 						'cast'    => 'string',
