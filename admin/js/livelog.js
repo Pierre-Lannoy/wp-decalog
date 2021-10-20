@@ -1,18 +1,26 @@
 jQuery( document ).ready(
 	function($) {
 		function initialize() {
-			$('#decalog-select-level').change(function () {
-				level = $(this).val();
-			});
-			$('#decalog-select-format').change(function () {
-				mode = $(this).val();
-			});
-			$('#decalog-control-play').click(function () {
-				consoleRun();
-			});
-			$('#decalog-control-pause').click(function () {
-				consolePause();
-			});
+			$( '#decalog-select-level' ).change(
+				function () {
+					level = $( this ).val();
+				}
+			);
+			$( '#decalog-select-format' ).change(
+				function () {
+					mode = $( this ).val();
+				}
+			);
+			$( '#decalog-control-play' ).click(
+				function () {
+					consoleRun();
+				}
+			);
+			$( '#decalog-control-pause' ).click(
+				function () {
+					consolePause();
+				}
+			);
 		}
 		function consoleRun() {
 			document.querySelector( '#decalog-control-pause' ).classList.remove( 'decalog-control-inactive' );
@@ -45,7 +53,7 @@ jQuery( document ).ready(
 						type : 'GET',
 						url : livelog.restUrl,
 						data : { level: level, mode: mode, index: index },
-						beforeSend: function ( xhr ) { xhr.setRequestHeader( 'X-WP-Nonce', livelog.restNonce ); },
+						beforeSend: function ( xhr ) { xhr.setRequestHeader( 'X-WP-Nonce', livelog.restNonce ); xhr.setRequestHeader( 'Decalog-No-Log', 'inbound' ); },
 						success: function( response ) {
 							if ( response ) {
 								if ( undefined !== response.index ) {
@@ -69,7 +77,7 @@ jQuery( document ).ready(
 													root.removeChild( root.firstElementChild );
 												}
 												root.appendChild( elem );
-												$('#decalog-logger-lines').animate( { scrollTop: elem.offsetTop }, 20 );
+												$( '#decalog-logger-lines' ).animate( { scrollTop: elem.offsetTop }, 20 );
 											}
 										);
 									}
@@ -77,8 +85,8 @@ jQuery( document ).ready(
 							}
 						},
 						/*error: function( response ) {
-                            console.log( response );
-                        },*/
+							console.log( response );
+						},*/
 						complete:function( response ) {
 							setTimeout( loadLines, livelog.frequency );
 						}
