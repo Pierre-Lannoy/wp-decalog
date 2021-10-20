@@ -187,7 +187,7 @@ class Events extends \WP_List_Table {
 		$args['eventid'] = $item['id'];
 		$url             = add_query_arg( $args, admin_url( 'admin.php' ) );
 		$icon            = '<img style="width:18px;float:left;padding-right:6px;" src="' . EventTypes::$icons[ $item['level'] ] . '" />';
-		$name            = '<a href="' . $url . '">' . ChannelTypes::$channel_names[ strtoupper( $item['channel'] ) ] . '</a>' . $this->get_filter( 'channel', $item['channel'] ) . '&nbsp;<span style="color:silver">#' . $item['id'] . '</span>';
+		$name            = '<a href="' . $url . '">' . ChannelTypes::$channel_names[ strtoupper( $item['channel'] ) ] . '</a>' . $this->get_filter( 'channel', $item['channel'] ) . $this->get_actions( 'event', $item ) . '&nbsp;<span style="color:silver">#' . $item['id'] . '</span>';
 		/* translators: as in the sentence "Error code 501" or "Alert code 0" */
 		$code   = '<br /><span style="color:silver">' . sprintf( esc_html__( '%1$s code %2$s', 'decalog' ), ucfirst( $item['level'] ), $item['code'] ) . '</span>';
 		$result = $icon . $name . $code;
@@ -203,7 +203,7 @@ class Events extends \WP_List_Table {
 	 */
 	protected function column_component( $item ) {
 		$icon   = '<img style="width:28px;float:left;padding-top:6px;padding-right:6px;" src="' . SDK::get_icon( $item['component'] ) . '" />';
-		$name   = $item['component'] . $this->get_filter( 'component', $item['component'] ) . ' <span style="color:silver">' . $item['version'] . '</span>';
+		$name   = $item['component'] . $this->get_filter( 'component', $item['component'] ) . $this->get_actions( 'source', $item ) . ' <span style="color:silver">' . $item['version'] . '</span>';
 		$result = $icon . $name . '<br /><span style="color:silver">' . ClassTypes::$classe_names[ $item['class'] ] . $this->get_filter( 'class', $item['class'], true ) . '</span>';
 		return $result;
 	}
@@ -216,7 +216,7 @@ class Events extends \WP_List_Table {
 	 * @since   1.0.0
 	 */
 	protected function column_time( $item ) {
-		$result  = Date::get_date_from_mysql_utc( $item['timestamp'], Timezone::network_get()->getName(), 'Y-m-d H:i:s' );
+		$result  = Date::get_date_from_mysql_utc( $item['timestamp'], Timezone::network_get()->getName(), 'Y-m-d H:i:s' ) . $this->get_actions( 'time', $item );
 		$result .= '<br /><span style="color:silver">' . Date::get_positive_time_diff_from_mysql_utc( $item['timestamp'] ) . '</span>';
 		return $result;
 	}
@@ -231,7 +231,7 @@ class Events extends \WP_List_Table {
 	protected function column_site( $item ) {
 		$name = $item['site_name'] . $this->get_filter( 'site_id', $item['site_id'] );
 		// phpcs:ignore
-		$result = $name . '<br /><span style="color:silver">' . sprintf(esc_html__('Site ID %s', 'decalog'), $item['site_id']) . '</span>';
+		$result = $name . '<br /><span style="color:silver">' . sprintf(esc_html__('Site ID %s', 'decalog'), $item['site_id']) . '</span>' . $this->get_actions( 'site', $item );
 		return $result;
 	}
 
@@ -254,10 +254,10 @@ class Events extends \WP_List_Table {
 		} elseif ( 0 !== (int) $item['user_id'] ) {
 			// phpcs:ignore
 			$id = sprintf( esc_html__( ' (UID %s)', 'decalog' ), $item[ 'user_id' ] );
-			$se = '<br /><span style="color:silver">' . sprintf( esc_html__( 'Session #%s…%s', 'decalog' ), substr( $item[ 'user_session' ], 0, 2 ), substr( $item[ 'user_session' ], -2 ) ) . '</span>';
+			$se = '<br /><span style="color:silver">' . sprintf( esc_html__( 'Session #%1$s…%2$s', 'decalog' ), substr( $item['user_session'], 0, 2 ), substr( $item['user_session'], -2 ) ) . '</span>';
 		}
-		$result = $user . $id . $this->get_filter( 'user_id', $item['user_id'] ) . $se . ( '' !== $se ? $this->get_pose_shortcut( (int) $item['user_id'] ) : '' ) . ( '' !== $se ? $this->get_filter( 'user_session', $item['user_session'] ) : '' );
-		return '<span' . ( ( $item['user_session'] ?? '') === $this->selftoken ? ' class="decalog-selftoken"' : '' ) . '>' . $result . '</span>';
+		$result = $user . $id . $this->get_filter( 'user_id', $item['user_id'] ) . $this->get_actions( 'user', $item ) . $se . ( '' !== $se ? $this->get_pose_shortcut( (int) $item['user_id'] ) : '' ) . ( '' !== $se ? $this->get_filter( 'user_session', $item['user_session'] ) : '' );
+		return '<span' . ( ( $item['user_session'] ?? '' ) === $this->selftoken ? ' class="decalog-selftoken"' : '' ) . '>' . $result . '</span>';
 	}
 
 	/**
@@ -275,7 +275,7 @@ class Events extends \WP_List_Table {
 		} else {
 			$icon = $this->geoip->get_flag( $ip, '', 'width:14px;padding-left:4px;padding-right:4px;vertical-align:baseline;' );
 		}
-		$result = $icon . $ip . $this->get_filter( 'remote_ip', $item['remote_ip'] );
+		$result = $icon . $ip . $this->get_filter( 'remote_ip', $item['remote_ip'] ) . $this->get_actions( 'ip', $item );
 		return $result;
 	}
 
@@ -367,7 +367,7 @@ class Events extends \WP_List_Table {
 		}
 		$v = filter_input( INPUT_GET, 'component', FILTER_SANITIZE_STRING );
 		if ( $v ) {
-			$this->filters[ 'component' ] = $v;
+			$this->filters['component'] = $v;
 		}
 		if ( $this->force_siteid ) {
 			$this->filters['site_id'] = $this->force_siteid;
@@ -422,6 +422,51 @@ class Events extends \WP_List_Table {
 		$fill   = '#C0C0FF';
 		$stroke = '#3333AA';
 		return '&nbsp;<a target="_blank" href="' . $url . '"><img title="' . $alt . '" style="width:11px;vertical-align:baseline;" src="' . Icons::get_base64( 'users', $fill, $stroke ) . '" /></a>';
+	}
+
+	/**
+	 * Get the action image.
+	 *
+	 * @param   string  $url        The url to call.
+	 * @param   string  $hint       The hint to display.
+	 * @param   string  $icon       The icon to display.
+	 * @param   boolean $soft       Optional. The image must be softened.
+	 * @return  string  The action image, ready to print.
+	 * @since   3.3.0
+	 */
+	protected function get_action( $url, $hint, $icon, $soft = false ) {
+		return '&nbsp;<a href="' . $url . '" target="_blank"><img title="' . esc_html( $hint ) . '" style="width:11px;vertical-align:baseline;" src="' . Icons::get_base64( $icon, 'none', $soft ? '#C0C0FF' : '#3333AA' ) . '" /></a>';
+	}
+
+	/**
+	 * Get the action image.
+	 *
+	 * @param   string  $column     The column where to display actions.
+	 * @param   object  $item       The row item, an event.
+	 * @return  string  The actions images, ready to print.
+	 * @since   3.3.0
+	 */
+	protected function get_actions( $column, $item ) {
+
+		/**
+		 * Filters the actions for the current item and column.
+		 *
+		 * The current column, may be a value in {'event', 'source', 'time', 'site', 'user', 'ip'}.
+		 * Note 'site' column is only displayed when in WordPress Multisite.
+		 *
+		 * @since 3.3.0
+		 *
+		 * @param   array   $item       The full event with metadata.
+		 */
+		$actions = apply_filters( 'decalog_events_list_actions_for_' . $column, [], (array) $item );
+
+		$result = '';
+		foreach ( $actions as $action ) {
+			if ( isset( $action['url'] ) ) {
+				$result .= $this->get_action( $action['url'], isset( $action['hint'] ) ? $action['hint'] : __( 'Unknown action', 'decalog' ), isset( $action['icon'] ) ? $action['icon'] : '' );
+			}
+		}
+		return $result;
 	}
 
 	/**
