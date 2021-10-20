@@ -454,8 +454,26 @@ class Events extends \WP_List_Table {
 		 * The current column, may be a value in {'event', 'source', 'time', 'site', 'user', 'ip'}.
 		 * Note 'site' column is only displayed when in WordPress Multisite.
 		 *
-		 * @since 3.3.0
+		 * Icons are from https://feathericons.com/
 		 *
+		 * EXAMPLE:
+		 *
+		 * add_filter(
+		 *  'decalog_events_list_actions_for_ip',
+		 *  function( $actions, $item ) {
+		 *    $actions[] = [
+		 *      'url'  => 'https://www.infobyip.com/ip-' . $item['remote_ip'] . '.html',
+		 *      'hint' => 'Get information about this IP',
+		 *      'icon' => 'eye',
+		 *    ];
+		 *    return $actions;
+		 *  },
+		 *  10,
+		 *  2
+		 * );
+		 *
+		 *
+		 * @since 3.3.0
 		 * @param   array   $item       The full event with metadata.
 		 */
 		$actions = apply_filters( 'decalog_events_list_actions_for_' . $column, [], (array) $item );
