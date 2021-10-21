@@ -322,7 +322,7 @@ class TraceViewer {
 			$result .= 'NOTHING';
 		}
 		$result .= '</div>';
-		$this->output_activity_block( $result );
+		$this->output_activity_block( $result, 'none' );
 	}
 
 	/**
@@ -357,15 +357,65 @@ class TraceViewer {
 	}
 
 	/**
+	 * Get the action image.
+	 *
+	 * @param   string  $url        The url to call.
+	 * @param   string  $text       The anchor to display.
+	 * @return  string  The action image, ready to print.
+	 * @since   3.3.0
+	 */
+	protected function get_action( $url, $text ) {
+		return '<a href="' . $url . '" target="_blank">' . esc_html( $text ) . '</a>';
+	}
+
+	/**
+	 * Get the action image.
+	 *
+	 * @param   string  $box     The box where to display actions.
+	 * @return  string  The actions texts, ready to print.
+	 * @since   3.3.0
+	 */
+	protected function get_actions( $box ) {
+		$item              = $this->trace;
+		$item['logger_id'] = $this->logid;
+
+		/**
+		 * Filters the available actions for the current item.
+		 *
+		 * @See https://github.com/Pierre-Lannoy/wp-decalog/blob/master/HOOKS.md
+		 * @since 3.3.0
+		 * @param   array   $item       The full trace with metadata.
+		 */
+		$actions = apply_filters( 'decalog_trace_view_actions_for_' . $box, [], $item );
+
+		$result = '';
+		$list   = [];
+		foreach ( $actions as $action ) {
+			if ( isset( $action['url'] ) && isset( $action['text'] ) ) {
+				$list[] = $this->get_action( $action['url'], $action['text'] );
+			}
+		}
+		if ( 0 < count( $list ) ) {
+			$result = implode( ' | ', $list );
+		}
+		return $result;
+	}
+
+	/**
 	 * Print an activity block.
 	 *
-	 * @param   string $content The content of the block.
-	 * @since 3.0.0
+	 * @param   string  $content    The content of the block.
+	 * @param   string  $box        The corresponding box id.
+	 * @since 1.0.0
 	 */
-	private function output_activity_block( $content ) {
+	private function output_activity_block( $content, $box ) {
+		$actions = $this->get_actions( $box );
 		echo '<div class="activity-block" style="padding-bottom: 0;padding-top: 0;">';
 		// phpcs:ignore
 		echo $content;
+		if ( '' !== $actions ) {
+			echo '<div style="font-size:x-small; margin-bottom:-4px;text-align:right">' . $actions . '</div>';
+		}
 		echo '</div>';
 	}
 
@@ -440,7 +490,7 @@ class TraceViewer {
 		$content = '<span style="width:100%;cursor: default;">' . $this->get_icon( 'clock' ) . $time . '</span> <span style="color:silver">(' . $dif . ')</span>';
 		$hour    = $this->get_section( $content );
 
-		$this->output_activity_block( $trace . $hour );
+		$this->output_activity_block( $trace . $hour, 'trace' );
 	}
 
 	/**
@@ -462,7 +512,7 @@ class TraceViewer {
 		// Site detail.
 		$content = '<span style="width:100%;cursor: default;">' . $this->get_icon( 'layout' ) . $this->trace['site_name'] . '</span>';
 		$site    = $this->get_section( $content );
-		$this->output_activity_block( $user . $site );
+		$this->output_activity_block( $user . $site, 'wp' );
 	}
 
 }

@@ -300,15 +300,70 @@ class EventViewer {
 	}
 
 	/**
+	 * Get the action image.
+	 *
+	 * @param   string  $url        The url to call.
+	 * @param   string  $text       The anchor to display.
+	 * @return  string  The action image, ready to print.
+	 * @since   3.3.0
+	 */
+	protected function get_action( $url, $text ) {
+		return '<a href="' . $url . '" target="_blank">' . esc_html( $text ) . '</a>';
+	}
+
+	/**
+	 * Get the action image.
+	 *
+	 * @param   string  $box     The box where to display actions.
+	 * @return  string  The actions texts, ready to print.
+	 * @since   3.3.0
+	 */
+	protected function get_actions( $box ) {
+		$item                 = $this->event;
+		$item['logger_id']    = $this->logid;
+		$item['country_code'] = '';
+		if ( false === strpos( $item['remote_ip'], '{' ) ) {
+			$geoip                = new GeoIP();
+			$item['country_code'] = $geoip->get_iso3166_alpha2( $item['remote_ip'] );
+		}
+
+		/**
+		 * Filters the available actions for the current item.
+		 *
+		 * @See https://github.com/Pierre-Lannoy/wp-decalog/blob/master/HOOKS.md
+		 * @since 3.3.0
+		 * @param   array   $item       The full event with metadata.
+		 */
+		$actions = apply_filters( 'decalog_event_view_actions_for_' . $box, [], $item );
+
+		$result = '';
+		$list   = [];
+		foreach ( $actions as $action ) {
+			if ( isset( $action['url'] ) && isset( $action['text'] ) ) {
+				$list[] = $this->get_action( $action['url'], $action['text'] );
+			}
+		}
+		if ( 0 < count( $list ) ) {
+			$result = implode( ' | ', $list );
+		}
+		return $result;
+	}
+
+	/**
 	 * Print an activity block.
 	 *
-	 * @param   string $content The content of the block.
+	 * @param   string  $content    The content of the block.
+	 * @param   string  $box        The corresponding box id.
 	 * @since 1.0.0
 	 */
-	private function output_activity_block( $content ) {
+	private function output_activity_block( $content, $box ) {
+		$actions = $this->get_actions( $box );
 		echo '<div class="activity-block" style="padding-bottom: 0;padding-top: 0;">';
 		// phpcs:ignore
 		echo $content;
+		if ( '' !== $actions ) {
+			echo '<div style="font-size:x-small; margin-bottom:-4px;text-align:right">' . $actions . '</div>';
+		}
 		echo '</div>';
 	}
 
@@ -404,7 +459,7 @@ class EventViewer {
 		$content  .= '<span style="width:60%;cursor: default;">' . $this->get_component_icon( $this->event['component'] ) . $component . '</span>';
 		$source    = $this->get_section( $content );
 
-		$this->output_activity_block( $event . $hour . $source );
+		$this->output_activity_block( $event . $hour . $source, 'event' );
 	}
 
 	/**
@@ -420,7 +475,7 @@ class EventViewer {
 		$content = '<span style="width:100%;cursor: default;word-break: break-all;">' . $this->get_icon( 'message-square' ) . $this->event['message'] . '</span>';
 		$message = $this->get_section( $content );
 
-		$this->output_activity_block( $error . $message );
+		$this->output_activity_block( $error . $message, 'content' );
 	}
 
 	/**
@@ -443,7 +498,7 @@ class EventViewer {
 		$content = '<span style="width:100%;cursor: default;">' . $this->get_icon( 'layout' ) . $this->event['site_name'] . '</span>';
 		$site    = $this->get_section( $content );
 
-		$this->output_activity_block( $user . $site );
+		$this->output_activity_block( $user . $site, 'wp' );
 	}
 
 	/**
@@ -481,7 +536,7 @@ class EventViewer {
 			$content  = '<span style="width:100%;cursor: default;word-break: break-all;">' . $this->get_icon( 'arrow-left-circle' ) . $this->event['referrer'] . '</span>';
 			$referrer = $this->get_section( $content );
 		}
-		$this->output_activity_block( $server . $request . $referrer );
+		$this->output_activity_block( $server . $request . $referrer, 'http' );
 	}
 
 	/**
@@ -547,7 +602,7 @@ class EventViewer {
 		$content .= '<span style="width:60%;cursor: default;">' . $ios . $os . '</span>';
 		$model    = $this->get_section( $content );
 
-		$this->output_activity_block( $model . $this->get_client() );
+		$this->output_activity_block( $model . $this->get_client(), 'device' );
 	}
 
 	/**
@@ -568,7 +623,7 @@ class EventViewer {
 		$content .= '<span style="width:60%;cursor: default;">' . $imanuf . $manuf . $this->get_external_link( $this->device->bot_producer_url ) . '</span>';
 		$prod     = $this->get_section( $content );
 
-		$this->output_activity_block( $model . $prod );
+		$this->output_activity_block( $model . $prod, 'device' );
 	}
 
 	/**
@@ -577,8 +632,7 @@ class EventViewer {
 	 * @since 1.0.0
 	 */
 	public function call_widget() {
-
-		$this->output_activity_block( $this->get_client() );
+		$this->output_activity_block( $this->get_client(), 'device' );
 	}
 
 	/**
@@ -601,7 +655,7 @@ class EventViewer {
 		// Function detail.
 		$element = '<span style="width:100%;cursor: default;word-break: break-all;">' . $this->get_icon( 'layers' ) . ( $this->event['classname'] ?? '' ) . '</span>';
 		$class   = $this->get_section( $element );
-		$this->output_activity_block( $class . $function . $file );
+		$this->output_activity_block( $class . $function . $file, 'php' );
 	}
 
 	/**
@@ -637,7 +691,7 @@ class EventViewer {
 		} else {
 			$content = '<span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="width:100%;cursor: default;">' . $this->get_icon( 'eye-off' ) . esc_html__( 'No backtrace available', 'decalog' ) . '</span>';
 		}
-		$this->output_activity_block( $content );
+		$this->output_activity_block( $content, 'phpbacktrace' );
 	}
 
 	/**
@@ -670,7 +724,7 @@ class EventViewer {
 		} else {
 			$content = '<span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="width:100%;cursor: default;">' . $this->get_icon( 'eye-off' ) . esc_html__( 'No backtrace available', 'decalog' ) . '</span>';
 		}
-		$this->output_activity_block( $content );
+		$this->output_activity_block( $content, 'wpbacktrace' );
 	}
 
 }
