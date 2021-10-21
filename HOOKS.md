@@ -104,7 +104,7 @@ Each item passed to the filter as second parameter is an array containing detail
 * `id` _integer_: the unique trace id (for this specific logger id);
 * `trace_id` _string_: the main TraceID;
 * `timestamp` _string_: the date of the event, respecting the format `Y-m-d H:i:s`;
-* `channel` _string_: the [channel](LOGGING.md#anatomy-of-an-event) in {`'cli'`, `'cron'`, `'ajax'`, `'xmlrpc'`, `'api'`, `'feed'`, `'wback'`, `'wfront'`, `'unknown'`};
+* `channel` _string_: the [channel](TRACING.md#anatomy-of-a-trace) in {`'cli'`, `'cron'`, `'ajax'`, `'xmlrpc'`, `'api'`, `'feed'`, `'wback'`, `'wfront'`, `'unknown'`};
 * `duration` _integer_: the full duration (in ms.) of the trace;
 * `scount` _integer_: the number of spans in the trace;
 * `site_id` _integer_: the unique site id where the event was triggered;
