@@ -9,7 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Compatibility with WordPress 5.9.
 - New listener for Cavalcade (thanks to [Jan Thiel](https://github.com/JanThiel) for the suggestion).
 - There's now `decalog_events_list_actions_for_event`, `decalog_events_list_actions_for_source`, `decalog_events_list_actions_for_time`, `decalog_events_list_actions_for_site`, `decalog_events_list_actions_for_user` and `decalog_events_list_actions_for_ip`, filters to add actions to events list view (thanks to [Julio Potier](https://github.com/JulioPotier) for the suggestion).
-
+- In all internal viewers, country flags have the name of the country as alternative text.
 
 ### Changed
 - Upgraded Monolog library from version 2.2.0 to version 2.3.4.

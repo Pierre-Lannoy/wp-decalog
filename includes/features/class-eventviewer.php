@@ -460,7 +460,7 @@ class EventViewer {
 		} else {
 			if ( filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_RES_RANGE | FILTER_FLAG_NO_PRIV_RANGE ) ) {
 				$geoip = new GeoIP();
-				$icon  = $geoip->get_flag( $ip, '', 'width:14px;padding-left:4px;padding-right:4px;vertical-align:baseline;' );
+				$icon  = $geoip->get_flag( $ip, '', 'width:14px;padding-left:4px;padding-right:4px;vertical-align:baseline;', '', '', false, true );
 			}
 		}
 		// phpcs:ignore

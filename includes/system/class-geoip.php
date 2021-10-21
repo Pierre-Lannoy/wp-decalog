@@ -170,19 +170,23 @@ class GeoIP {
 	/**
 	 * Get the image flag.
 	 *
-	 * @param   string    $ip         Optional. The ip to detect from.
-	 *                                If not specified, get the ip of the current request.
-	 * @param   string    $class      Optional. The class(es) name(s).
-	 * @param   string    $style      Optional. The style.
-	 * @param   string    $id         Optional. The ID.
-	 * @param   string    $alt        Optional. The alt text.
-	 * @param   boolean   $squared    Optional. The flag must be squared.
-	 * @return  string                The svg flag base 64 encoded.
+	 * @param   string    $ip           Optional. The ip to detect from.
+	 *                                  If not specified, get the ip of the current request.
+	 * @param   string    $class        Optional. The class(es) name(s).
+	 * @param   string    $style        Optional. The style.
+	 * @param   string    $id           Optional. The ID.
+	 * @param   string    $alt          Optional. The alt text.
+	 * @param   boolean   $squared      Optional. The flag must be squared.
+	 * @param   boolean   $forced_alt   Optional. The flag must be squared.
+	 * @return  string                  The svg flag base 64 encoded.
 	 * @since 1.0.0
 	 */
-	public function get_flag( $ip = null, $class = '', $style = '', $id = '', $alt = '', $squared = false ) {
+	public function get_flag( $ip = null, $class = '', $style = '', $id = '', $alt = '', $squared = false, $forced_alt = false ) {
 		// IP Locator.
 		if ( '' !== $ip && 'ip-locator' === $this->provider_id ) {
+			if ( $forced_alt ) {
+				$alt = iplocator_get_country_name( $ip );
+			}
 			return iplocator_get_flag_image( $ip, $class, $style, $id, $alt, $squared );
 		}
 		// GeoIP Detect.

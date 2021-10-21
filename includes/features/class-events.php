@@ -273,7 +273,7 @@ class Events extends \WP_List_Table {
 		if ( 0 === strpos( $ip, '{' ) ) {
 			$ip = '<em>' . esc_html__( 'Obfuscated', 'decalog' ) . '</em>';
 		} else {
-			$icon = $this->geoip->get_flag( $ip, '', 'width:14px;padding-left:4px;padding-right:4px;vertical-align:baseline;' );
+			$icon = $this->geoip->get_flag( $ip, '', 'width:14px;padding-left:4px;padding-right:4px;vertical-align:baseline;', '', '', false, true );
 		}
 		$result = $icon . $ip . $this->get_filter( 'remote_ip', $item['remote_ip'] ) . $this->get_actions( 'ip', $item );
 		return $result;
