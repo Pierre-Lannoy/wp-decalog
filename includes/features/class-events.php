@@ -448,36 +448,16 @@ class Events extends \WP_List_Table {
 	 */
 	protected function get_actions( $column, $item ) {
 		$item                 = (array) $item;
+		$item['logger_id']    = $this->logger;
 		$item['country_code'] = '';
 		if ( false === strpos( $item['remote_ip'], '{' ) ) {
 			$item['country_code'] = $this->geoip->get_iso3166_alpha2( $item['remote_ip'] );
 		}
 
 		/**
-		 * Filters the actions for the current item and column.
+		 * Filters the available actions for the current item and column.
 		 *
-		 * The current column, may be a value in {'event', 'source', 'time', 'site', 'user', 'ip'}.
-		 * Note 'site' column is only displayed when in WordPress Multisite.
-		 *
-		 * Icons are from https://feathericons.com/
-		 *
-		 * EXAMPLE:
-		 *
-		 * add_filter(
-		 *  'decalog_events_list_actions_for_ip',
-		 *  function( $actions, $item ) {
-		 *    $actions[] = [
-		 *      'url'  => 'https://www.infobyip.com/ip-' . $item['remote_ip'] . '.html',
-		 *      'hint' => 'Get information about this IP',
-		 *      'icon' => 'eye',
-		 *    ];
-		 *    return $actions;
-		 *  },
-		 *  10,
-		 *  2
-		 * );
-		 *
-		 *
+		 * @See https://github.com/Pierre-Lannoy/wp-decalog/blob/master/HOOKS.md
 		 * @since 3.3.0
 		 * @param   array   $item       The full event with metadata.
 		 */
