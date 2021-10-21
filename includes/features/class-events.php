@@ -447,6 +447,11 @@ class Events extends \WP_List_Table {
 	 * @since   3.3.0
 	 */
 	protected function get_actions( $column, $item ) {
+		$item                 = (array) $item;
+		$item['country_code'] = '';
+		if ( false === strpos( $item['remote_ip'], '{' ) ) {
+			$item['country_code'] = $this->geoip->get_iso3166_alpha2( $item['remote_ip'] );
+		}
 
 		/**
 		 * Filters the actions for the current item and column.
@@ -476,7 +481,7 @@ class Events extends \WP_List_Table {
 		 * @since 3.3.0
 		 * @param   array   $item       The full event with metadata.
 		 */
-		$actions = apply_filters( 'decalog_events_list_actions_for_' . $column, [], (array) $item );
+		$actions = apply_filters( 'decalog_events_list_actions_for_' . $column, [], $item );
 
 		$result = '';
 		foreach ( $actions as $action ) {
