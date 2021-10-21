@@ -20,6 +20,16 @@ __DecaLog__ can be used in dev/debug phases or on production sites: it has nearl
 
 > __DecaLog__ is part of [PerfOps One](https://perfops.one/), a suite of free and open source WordPress plugins dedicated to observability and operations performance.
 
+__DecaLog__ is a free and open source plugin for WordPress. It integrates many other free and open source works (as-is or modified). Please, see 'about' tab in the plugin settings to see the details.
+
+## WP-CLI
+
+__DecaLog__ implements a set of WP-CLI commands. For a full help on these commands, please read [this guide](WP-CLI.md).
+
+## Hooks
+
+__DecaLog__ introduces some filters and actions to allow plugin customization. Please, read the [hooks reference](HOOKS.md) to learn more about them.
+
 ## Installation
 
 1. From your WordPress dashboard, visit _Plugins | Add New_.
