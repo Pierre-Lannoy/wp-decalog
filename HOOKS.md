@@ -103,14 +103,14 @@ Each item passed to the filter as second parameter is an array containing detail
 * `logger_id` _string_: the unique logger id;
 * `id` _integer_: the unique trace id (for this specific logger id);
 * `trace_id` _string_: the main TraceID;
-* `timestamp` _string_: the date of the event, following the format `Y-m-d H:i:s`;
+* `timestamp` _string_: the date of the trace, following the format `Y-m-d H:i:s`;
 * `channel` _string_: the [channel](TRACING.md#anatomy-of-a-trace) in {`'cli'`, `'cron'`, `'ajax'`, `'xmlrpc'`, `'api'`, `'feed'`, `'wback'`, `'wfront'`, `'unknown'`};
 * `duration` _integer_: the full duration (in ms.) of the trace;
 * `scount` _integer_: the number of spans in the trace;
-* `site_id` _integer_: the unique site id where the event was triggered;
-* `site_name` _string_: the name of the site where the event was triggered;
-* `user_id` _integer_: the unique user id for whom the event was triggered - may be pseudonymized;
-* `user_name` _string_: the name of the user for whom the event was triggered - may be pseudonymized;
+* `site_id` _integer_: the unique site id where the trace was recorded;
+* `site_name` _string_: the name of the site where the trace was recorded;
+* `user_id` _integer_: the unique user id for whom the trace was recorded - may be pseudonymized;
+* `user_name` _string_: the name of the user for whom the trace was recorded - may be pseudonymized;
 * `user_session` _string_: the user's session hash;
 * `spans` _string_: the serialized full spans array.
 
