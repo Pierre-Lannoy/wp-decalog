@@ -25,6 +25,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Name collisions or PHP errors can occur with plugins using outdated versions of Monolog library (like BackWPup).
 - Clearing events by hook reference may be not logged (thanks to [Jan Thiel](https://github.com/JanThiel)).
 - Unscheduling events may be not logged.
+- There's typos in `CHANGELOG.md`.
 
 ## [3.2.0] - 2021-09-07
 
@@ -448,7 +449,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 - New listener for Wordfence plugin.
-- Full integration with PerfOps.One suite.
+- Full integration with PerfOps One suite.
 - Compatibility with WordPress 5.4.
 
 ### Changed
