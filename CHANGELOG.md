@@ -20,6 +20,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 - The loggers list displays wrong types for "crash analytics" and "alerting".
+- The warning message about "debugging" class logger is not always displayed when it should be.
 - The default index names for Elasticsearch and Elastic Cloud are inconsistent.
 - The HTTP 204 error code sometimes returned by a Loki instance is wrongly interpreted.
 - Name collisions or PHP errors can occur with plugins using outdated versions of Monolog library (like BackWPup).

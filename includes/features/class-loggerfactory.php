@@ -143,7 +143,7 @@ class LoggerFactory {
 				}
 			}
 			if ( $handler ) {
-				static::$debugging = $debug;
+				static::$debugging = static::$debugging || $debug;
 				foreach ( array_reverse( $logger['processors'] ) as $processor ) {
 					$p_instance    = null;
 					$processor_def = $this->processor_types->get( $processor );
