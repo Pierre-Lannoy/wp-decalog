@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - There's now `decalog_traces_list_actions_for_trace`, `decalog_traces_list_actions_for_duration`, `decalog_traces_list_actions_for_time`, `decalog_traces_list_actions_for_site` and `decalog_traces_list_actions_for_user` filters to add custom actions to traces list view (thanks to [Julio Potier](https://github.com/JulioPotier) for the suggestion).
 - There's no  `decalog_trace_view_actions_for_trace` and `decalog_trace_view_actions_for_wp` filters to add custom actions to single trace viewer (thanks to [Julio Potier](https://github.com/JulioPotier) for the suggestion).
 - In all internal viewers, country flags have the name of the country as alternative text.
+- Logo for WP-CLI in events list and viewer.
 
 ### Changed
 - Upgraded Monolog library from version 2.2.0 to version 2.3.4.
