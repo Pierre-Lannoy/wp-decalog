@@ -162,11 +162,11 @@ class PhpListener extends AbstractListener {
 	 */
 	public function version_check() {
 		if ( 1 === Environment::exec_mode() ) {
-			$prefix = 'command_line_';
-			$name   = 'command-line';
+			$prefix = DECALOG_INSTANCE_NAME . '_command_line_';
+			$name   = DECALOG_INSTANCE_NAME . ' command-line';
 		} else {
-			$prefix = 'web_server_';
-			$name   = 'web server';
+			$prefix = DECALOG_INSTANCE_NAME . '_web_server_';
+			$name   = DECALOG_INSTANCE_NAME . ' web server';
 		}
 		$php_version = Environment::php_version();
 		$old_version = Option::network_get( $prefix . 'php_version', 'x' );
@@ -209,11 +209,11 @@ class PhpListener extends AbstractListener {
 	 */
 	public function extensions_check() {
 		if ( 1 === Environment::exec_mode() ) {
-			$prefix = 'command_line_';
-			$name   = 'to command-line configuration';
+			$prefix = DECALOG_INSTANCE_NAME . '_command_line_';
+			$name   = DECALOG_INSTANCE_NAME . ' command-line configuration';
 		} else {
-			$prefix = 'web_server_';
-			$name   = 'to web server configuration';
+			$prefix = DECALOG_INSTANCE_NAME . '_web_server_';
+			$name   = DECALOG_INSTANCE_NAME . ' web server configuration';
 		}
 		$old_extensions = Option::network_get( $prefix . 'php_extensions', 'x' );
 		$new_extensions = get_loaded_extensions();
@@ -229,10 +229,10 @@ class PhpListener extends AbstractListener {
 		$added   = array_diff( $new_extensions, $old_extensions );
 		$removed = array_diff( $old_extensions, $new_extensions );
 		if ( count( $added ) > 0 ) {
-			$this->logger->notice( sprintf( 'Added PHP extension(s) %s : %s.', $name, implode( ', ', $added ) ) );
+			$this->logger->notice( sprintf( 'Added PHP extension(s) to %s : %s.', $name, implode( ', ', $added ) ) );
 		}
 		if ( count( $removed ) > 0 ) {
-			$this->logger->warning( sprintf( 'Removed PHP extension(s) %s : %s.', $name, implode( ', ', $removed ) ) );
+			$this->logger->warning( sprintf( 'Removed PHP extension(s) to %s : %s.', $name, implode( ', ', $removed ) ) );
 		}
 	}
 
@@ -243,11 +243,11 @@ class PhpListener extends AbstractListener {
 	 */
 	public function opcache_check() {
 		if ( 1 === Environment::exec_mode() ) {
-			$prefix = 'command_line_';
-			$name   = 'command-line';
+			$prefix = DECALOG_INSTANCE_NAME . '_command_line_';
+			$name   = DECALOG_INSTANCE_NAME . ' command-line';
 		} else {
-			$prefix = 'web_server_';
-			$name   = 'web server';
+			$prefix = DECALOG_INSTANCE_NAME . '_web_server_';
+			$name   = DECALOG_INSTANCE_NAME . ' web server';
 		}
 		$old_opcache = Option::network_get( $prefix . 'php_opcache', 'x' );
 		if ( function_exists( 'opcache_get_status' ) ) {

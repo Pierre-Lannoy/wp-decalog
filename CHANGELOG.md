@@ -8,12 +8,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 - Compatibility with WordPress 5.9.
 - New listener for [Cavalcade](https://github.com/humanmade/Cavalcade) (thanks to [Jan Thiel](https://github.com/JanThiel) for the suggestion).
-- Internal viewers for events and traces display instance name in details screen.
+- Internal viewers for events and traces display instance name in details screens.
 - There's now `decalog_events_list_actions_for_event`, `decalog_events_list_actions_for_source`, `decalog_events_list_actions_for_time`, `decalog_events_list_actions_for_site`, `decalog_events_list_actions_for_user` and `decalog_events_list_actions_for_ip` filters to add custom actions to events list view (thanks to [Julio Potier](https://github.com/JulioPotier) for the suggestion).
 - There's now `decalog_event_view_actions_for_event`, `decalog_event_view_actions_for_content`, `decalog_event_view_actions_for_php`, `decalog_event_view_actions_for_device`, `decalog_event_view_actions_for_wp`, `decalog_event_view_actions_for_http`, `decalog_event_view_actions_for_wpbacktrace` and `decalog_event_view_actions_for_phpbacktrace` filters to add custom actions to single event viewer (thanks to [Julio Potier](https://github.com/JulioPotier) for the suggestion).
 - There's now `decalog_traces_list_actions_for_trace`, `decalog_traces_list_actions_for_duration`, `decalog_traces_list_actions_for_time`, `decalog_traces_list_actions_for_site` and `decalog_traces_list_actions_for_user` filters to add custom actions to traces list view (thanks to [Julio Potier](https://github.com/JulioPotier) for the suggestion).
 - There's no  `decalog_trace_view_actions_for_trace` and `decalog_trace_view_actions_for_wp` filters to add custom actions to single trace viewer (thanks to [Julio Potier](https://github.com/JulioPotier) for the suggestion).
 - In all internal viewers, country flags have the name of the country as alternative text.
+- Adds OPcache compatibility for cluster/nodes environments - including Kubernetes.
+- Adds, for consistency check, PHP versions and modules compatibility for cluster/nodes environments - including Kubernetes.
 - Logo for WP-CLI in events list and viewer.
 
 ### Changed
@@ -25,6 +27,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 - The loggers list displays wrong types for "crash analytics" and "alerting".
+- OPcache events logging is wrong on clustered environments (thanks to [Jan Thiel](https://github.com/JanThiel)).
 - The warning message about "debugging" class logger is not always displayed when it should be.
 - The default index names for Elasticsearch and Elastic Cloud are inconsistent.
 - The HTTP 204 error code sometimes returned by a Loki instance is wrongly interpreted.
