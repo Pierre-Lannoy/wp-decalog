@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Logo for WP-CLI in events list and viewer.
 
 ### Changed
+- Improved update process on high-traffic sites to avoid concurrent resources accesses.
 - Upgraded Monolog library from version 2.2.0 to version 2.3.4.
 - Improved default values for "InfluxDB 2" logger.
 - Improved way to detect instance name.
