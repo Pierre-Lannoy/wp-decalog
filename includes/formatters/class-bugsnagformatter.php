@@ -113,7 +113,7 @@ class BugsnagFormatter implements FormatterInterface {
 		$app['releaseStage'] = Environment::stage();
 		$app['id']           = str_replace( '/', '_', str_replace( [ 'https://', 'http://' ], '', get_site_url() ) );
 		$app['version']      = Environment::wordpress_version_text( true );
-		$device['hostname']  = gethostname();
+		$device['hostname']  = DECALOG_INSTANCE_NAME;
 		// Context formatting.
 		if ( array_key_exists( 'context', $record ) ) {
 			$context = $record['context'];

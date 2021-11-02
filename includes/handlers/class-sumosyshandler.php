@@ -94,7 +94,7 @@ class SumoSysHandler extends AbstractSyslogHandler
         if ( ! $pid = getmypid() ) {
             $pid = '-';
         }
-        if ( ! $hostname = gethostname() ) {
+        if ( ! $hostname = DECALOG_INSTANCE_NAME ) {
             $hostname = '-';
         }
         if ($this->rfc === self::RFC3164) {

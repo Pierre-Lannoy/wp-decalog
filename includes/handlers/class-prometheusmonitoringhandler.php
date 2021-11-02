@@ -66,12 +66,12 @@ class PrometheusMonitoringHandler extends AbstractMonitoringHandler {
 		switch ( $this->template ) {
 			case 1:
 				$stream['job']         = $this->job;
-				$stream['instance']    = gethostname();
+				$stream['instance']    = DECALOG_INSTANCE_NAME;
 				$stream['environment'] = Environment::stage();
 				break;
 			case 2:
 				$stream['job']      = $this->job;
-				$stream['instance'] = gethostname();
+				$stream['instance'] = DECALOG_INSTANCE_NAME;
 				$stream['version']  = Environment::wordpress_version_text( true );
 				break;
 			case 3:
@@ -80,7 +80,7 @@ class PrometheusMonitoringHandler extends AbstractMonitoringHandler {
 				break;
 			default:
 				$stream['job']      = $this->job;
-				$stream['instance'] = gethostname();
+				$stream['instance'] = DECALOG_INSTANCE_NAME;
 		}
 		foreach ( $stream as $key => $value ) {
 			$this->endpoint .= '/' . $key . '/' . $value;

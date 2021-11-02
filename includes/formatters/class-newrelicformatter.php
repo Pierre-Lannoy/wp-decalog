@@ -58,7 +58,7 @@ class NewRelicFormatter extends JsonFormatter {
 	public function format( array $record ): string {
 		$event              = [];
 		$event['timestamp'] = $record['datetime']->getTimestamp();
-		$event['hostname']  = gethostname();
+		$event['hostname']  = DECALOG_INSTANCE_NAME;
 		if ( array_key_exists( 'channel', $record ) ) {
 			$event['service'] = ChannelTypes::$channel_names_en[ strtoupper( $record['channel'] ) ];
 		} else {

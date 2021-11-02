@@ -56,6 +56,13 @@ class Environment {
 		define( 'DECALOG_ASSETS_ID', DECALOG_PRODUCT_ABBREVIATION . '-assets' );
 		define( 'DECALOG_LIVELOG_ID', DECALOG_PRODUCT_ABBREVIATION . '-console' );
 		define( 'DECALOG_REST_NAMESPACE', DECALOG_SLUG . '/v' . DECALOG_API_VERSION );
+		$host = gethostname();
+		if ( $host ) {
+			define( 'DECALOG_INSTANCE_NAME', $host );
+		} else {
+			define( 'DECALOG_INSTANCE_NAME', 'undefined' );
+		}
+		
 	}
 
 	/**

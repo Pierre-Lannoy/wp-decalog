@@ -59,7 +59,7 @@ class RaygunFormatter implements FormatterInterface {
 			'version'   => DECALOG_VERSION,
 			'clientUrl' => DECALOG_PRODUCT_URL,
 		];
-		$detail['machineName'] = gethostname();
+		$detail['machineName'] = DECALOG_INSTANCE_NAME;
 		$detail['version']     = Environment::wordpress_version_text( true );
 		if ( array_key_exists( 'level', $record ) ) {
 			$level_class      = ucfirst( strtolower( EventTypes::$level_names[ $record['level'] ] ) );
