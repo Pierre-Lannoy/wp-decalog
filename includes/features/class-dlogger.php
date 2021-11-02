@@ -325,7 +325,7 @@ class DLogger {
 				'code'        => (int) $code,
 				'environment' => (string) Environment::stage(),
 				'traceID'     => (string) DECALOG_TRACEID,
-				'instance'    => (string) DECALOG_TRACEID,
+				'instance'    => (string) DECALOG_INSTANCE_NAME,
 			];
 			$channel = $this->current_channel_tag();
 			if ( $this->logger->getName() !== $channel ) {

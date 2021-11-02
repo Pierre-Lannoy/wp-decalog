@@ -458,8 +458,11 @@ class EventViewer {
 		$content   = '<span style="width:40%;cursor: default;float:left">' . $this->get_icon( 'folder' ) . $class . '</span>';
 		$content  .= '<span style="width:60%;cursor: default;">' . $this->get_component_icon( $this->event['component'] ) . $component . '</span>';
 		$source    = $this->get_section( $content );
+		// Instance.
+		$content  = '<span style="width:100%;cursor: default;">' . $this->get_icon( 'cpu' ) . $this->event['instance'] . '</span>';
+		$instance = $this->get_section( $content );
 
-		$this->output_activity_block( $event . $hour . $source, 'event' );
+		$this->output_activity_block( $event . $hour . $source . $instance, 'event' );
 	}
 
 	/**
@@ -532,6 +535,7 @@ class EventViewer {
 		$content = '<span style="width:100%;cursor: default;word-break: break-all;">' . $this->get_icon( 'server' ) . $this->event['url'] . '&nbsp;' . $verb . '</span>';
 		$request = $this->get_section( $content );
 		// referrer detail.
+		$referrer = '';
 		if ( isset( $this->event['referrer'] ) ) {
 			$content  = '<span style="width:100%;cursor: default;word-break: break-all;">' . $this->get_icon( 'arrow-left-circle' ) . $this->event['referrer'] . '</span>';
 			$referrer = $this->get_section( $content );

@@ -66,6 +66,9 @@ class WordpressFormatter implements FormatterInterface {
 			if ( array_key_exists( 'code', $context ) ) {
 				$values['code'] = (int) $context['code'];
 			}
+			if ( array_key_exists( 'instance', $context ) && is_string( $context['instance'] ) ) {
+				$values['instance'] = substr( $context['instance'], 0, 66 );
+			}
 		}
 		// Extra formatting.
 		if ( array_key_exists( 'extra', $record ) ) {

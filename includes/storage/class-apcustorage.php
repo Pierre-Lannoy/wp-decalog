@@ -208,6 +208,9 @@ class APCuStorage extends AbstractStorage {
 							}
 						}
 					}
+					if ( ! array_key_exists( 'instance', $log ) ) {
+						$log['instance'] = 'undefined';
+					}
 					$l[ $id ] = $log;
 				}
 				$logs = array_reverse( $l );
@@ -230,7 +233,11 @@ class APCuStorage extends AbstractStorage {
 	public function get_by_id( $id ) {
 		$logs = $this->get_list( [] );
 		if ( array_key_exists( $id, $logs ) ) {
-			return $logs[ $id ];
+			$result = $logs[ $id ];
+			if ( ! array_key_exists( 'instance', $result ) ) {
+				$result['instance'] = 'undefined';
+			}
+			return $result;
 		}
 		return null;
 	}

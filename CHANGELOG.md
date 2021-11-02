@@ -7,7 +7,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 - Compatibility with WordPress 5.9.
-- New listener for Cavalcade (thanks to [Jan Thiel](https://github.com/JanThiel) for the suggestion).
+- New listener for [Cavalcade](https://github.com/humanmade/Cavalcade) (thanks to [Jan Thiel](https://github.com/JanThiel) for the suggestion).
+- Internal viewers for events and traces display instance name in details screen.
 - There's now `decalog_events_list_actions_for_event`, `decalog_events_list_actions_for_source`, `decalog_events_list_actions_for_time`, `decalog_events_list_actions_for_site`, `decalog_events_list_actions_for_user` and `decalog_events_list_actions_for_ip` filters to add custom actions to events list view (thanks to [Julio Potier](https://github.com/JulioPotier) for the suggestion).
 - There's now `decalog_event_view_actions_for_event`, `decalog_event_view_actions_for_content`, `decalog_event_view_actions_for_php`, `decalog_event_view_actions_for_device`, `decalog_event_view_actions_for_wp`, `decalog_event_view_actions_for_http`, `decalog_event_view_actions_for_wpbacktrace` and `decalog_event_view_actions_for_phpbacktrace` filters to add custom actions to single event viewer (thanks to [Julio Potier](https://github.com/JulioPotier) for the suggestion).
 - There's now `decalog_traces_list_actions_for_trace`, `decalog_traces_list_actions_for_duration`, `decalog_traces_list_actions_for_time`, `decalog_traces_list_actions_for_site` and `decalog_traces_list_actions_for_user` filters to add custom actions to traces list view (thanks to [Julio Potier](https://github.com/JulioPotier) for the suggestion).
@@ -17,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 - Improved update process on high-traffic sites to avoid concurrent resources accesses.
+- Instance name is now propagated for all events and traces loggers (in context), even if it is not required by the corresponding service.
 - Upgraded Monolog library from version 2.2.0 to version 2.3.4.
 - Improved default values for "InfluxDB 2" logger.
 - Improved way to detect instance name.
@@ -29,6 +31,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Name collisions or PHP errors can occur with plugins using outdated versions of Monolog library (like BackWPup).
 - Clearing events by hook reference may be not logged (thanks to [Jan Thiel](https://github.com/JanThiel)).
 - Unscheduling events may be not logged.
+- WordPress event viewer try to display request referrer even if it doesn't exist.
 - There's typos in `CHANGELOG.md`.
 
 ## [3.2.0] - 2021-09-07

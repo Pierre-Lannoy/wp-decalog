@@ -379,6 +379,7 @@ abstract class AbstractTracingHandler extends AbstractProcessingHandler {
 		$trace['trace_id']  = DECALOG_TRACEID;
 		$trace['timestamp'] = date( 'Y-m-d H:i:s' );
 		$trace['channel']   = strtolower( $this->channel_tag( Environment::exec_mode() ) );
+		$trace['instance']  = (string) DECALOG_INSTANCE_NAME;
 		$trace['duration']  = 0;
 		foreach ( $this->traces as $span ) {
 			if ( $trace['duration'] < (int) $span['duration'] ) {

@@ -489,8 +489,11 @@ class TraceViewer {
 		$dif     = Date::get_positive_time_diff_from_mysql_utc( $this->trace['timestamp'] );
 		$content = '<span style="width:100%;cursor: default;">' . $this->get_icon( 'clock' ) . $time . '</span> <span style="color:silver">(' . $dif . ')</span>';
 		$hour    = $this->get_section( $content );
+		// Instance.
+		$content  = '<span style="width:100%;cursor: default;">' . $this->get_icon( 'cpu' ) . $this->trace['instance'] . '</span>';
+		$instance = $this->get_section( $content );
 
-		$this->output_activity_block( $trace . $hour, 'trace' );
+		$this->output_activity_block( $trace . $hour . $instance, 'trace' );
 	}
 
 	/**
