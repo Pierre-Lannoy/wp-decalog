@@ -2,10 +2,10 @@
 /**
  *
  * Plugin Name:       DecaLog Early Loader
- * Plugin URI:        https://github.com/Pierre-Lannoy/wp-decalog
+ * Plugin URI:        https://perfops.one/decalog
  * Description:       MU plugin to early initialize DecaLog engine and listeners.
- * Author:            Pierre Lannoy
- * Author URI:        https://pierre.lannoy.fr
+ * Author:            PerfOps One / Pierre Lannoy
+ * Author URI:        https://perfops.one
  * License:           GPLv3
  * License URI:       https://www.gnu.org/licenses/gpl-3.0.html
  */
