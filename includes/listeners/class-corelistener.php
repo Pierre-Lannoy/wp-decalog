@@ -1429,7 +1429,7 @@ class CoreListener extends AbstractListener {
 			wp_update_plugins();
 			$updates = get_site_transient( 'update_plugins' );
 		}
-		if ( is_object( $updates ) ) {
+		if ( is_object( $updates ) && property_exists( $updates, 'response' ) ) {
 			if ( is_array( $updates->response ) ) {
 				$this->monitor->inc_prod_counter( 'plugin_updatable', count( $updates->response ) );
 			}
