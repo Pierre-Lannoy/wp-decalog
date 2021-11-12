@@ -24,6 +24,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Upgraded Monolog library from version 2.2.0 to version 2.3.4.
 - Improved default values for "InfluxDB 2" logger.
 - Improved way to detect instance name.
+- Updated labels and links in plugins page.
 
 ### Fixed
 - The loggers list displays wrong types for "crash analytics" and "alerting".
