@@ -37,6 +37,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Unscheduling events may be not logged.
 - In some edge cases, logging plugins updates may not work correctly.
 - WordPress event viewer try to display request referrer even if it doesn't exist.
+- Country translation with i18n module may be wrong.
 - There's typos in `CHANGELOG.md`.
 
 ## [3.2.0] - 2021-09-07

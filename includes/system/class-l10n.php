@@ -459,7 +459,7 @@ class L10n {
 		} else {
 			$result = '[unknown]';
 		}
-		if ( I18n::is_extension_loaded() ) {
+		if ( I18n::is_extension_loaded() && false === strpos( $result, ']' ) ) {
 			$tmp = \Locale::getDisplayRegion( '-' . strtoupper( $country ), $locale );
 			if ( $tmp !== $country ) {
 				$result = $tmp;
