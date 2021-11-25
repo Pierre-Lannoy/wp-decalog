@@ -35,6 +35,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Name collisions or PHP errors can occur with plugins using outdated versions of Monolog library (like BackWPup).
 - Clearing events by hook reference may be not logged (thanks to [Jan Thiel](https://github.com/JanThiel)).
 - Unscheduling events may be not logged.
+- Logging an event with a message containing SQL `select` may be wrongly truncated in the `where` clause.
 - In some edge cases, logging plugins updates may not work correctly.
 - WordPress event viewer try to display request referrer even if it doesn't exist.
 - Country translation with i18n module may be wrong.
