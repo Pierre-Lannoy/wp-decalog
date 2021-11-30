@@ -38,7 +38,7 @@ if ( ! class_exists( 'PerfOpsOne\Resources' ) ) {
 		 * @since  2.1.0
 		 * @var    string $version Maintains the PerfOps One internal version.
 		 */
-		public static $version = '2.1.0';
+		public static $version = '2.2.0';
 
 		/**
 		 * Returns a base64 svg resource for the PerfOps One logo.

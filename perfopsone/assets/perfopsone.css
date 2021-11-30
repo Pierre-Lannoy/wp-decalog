@@ -25,3 +25,22 @@
 .poo-ico-logo:before {
 	content: "\e900";
 }
+
+a.poo-button-install{
+	border-radius: 3px;
+	background-color: #73879C;
+	padding: 4px 8px;
+	margin-top: 4px;
+	display: inline-block;
+	color: white;
+	text-decoration: none;
+	filter: contrast(92%) saturate(92%);
+}
+
+a.poo-button-install:active,
+a.poo-button-install:hover {
+	color: #FFFFFF;
+	filter: contrast(100%) saturate(100%);
+}
+
+
