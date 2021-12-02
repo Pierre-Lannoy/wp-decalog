@@ -10,7 +10,7 @@
  * Plugin Name:       DecaLog
  * Plugin URI:        https://perfops.one/decalog
  * Description:       Capture and log events on your site. View them in your dashboard and send them to logging services.
- * Version:           3.2.0
+ * Version:           3.3.0
  * Requires at least: 5.2
  * Requires PHP:      7.2
  * Author:            PerfOps One / Pierre Lannoy
