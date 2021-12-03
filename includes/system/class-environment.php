@@ -102,7 +102,7 @@ class Environment {
 	 * @since 1.0.0
 	 */
 	public static function exec_mode_for_metrics() {
-		return in_array( self::exec_mode(), [ 1, 5, 7 ], true );
+		return in_array( self::exec_mode(), [ 1, 2, 4, 5, 6, 7 ], true );
 	}
 
 	/**
