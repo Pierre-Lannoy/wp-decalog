@@ -318,8 +318,11 @@ if ( ! class_exists( 'PerfOpsOne\Menus' ) ) {
 					if ( $item['activated'] ) {
 						$i['text'] = $item['description'];
 						$i['url']  = esc_url( admin_url( 'admin.php?page=' . $item['slug'] ) );
-						$items[]   = $i;
+					} else {
+						$i['text'] = esc_html__( 'This console is currently unavailable. Click here to see why.', 'decalog' );
+						$i['url']  = $item['remedy'];
 					}
+					$items[] = $i;
 				}
 				self::display_as_bubbles( $items );
 			}
