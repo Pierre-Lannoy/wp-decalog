@@ -64,7 +64,7 @@ class UUID {
 		$result = '';
 		$date   = new \DateTime();
 		do {
-			$s       = $this->generate_v4();
+			$s       = self::generate_v4();
 			$s       = str_replace( '-', (string) ( $date->format( 'u' ) ), $s );
 			$result .= $s;
 			$l       = strlen( $result );
