@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [3.4.0] - Not Yet Released
 
+### Changed
+- Updated DecaLog SDK from version 2.0.0 to version 2.0.1.
+
 ### Fixed
 - The console menu may display an empty screen (thanks to [Renaud Pacouil](https://www.laboiteare.fr)).
 
