@@ -369,6 +369,7 @@ if ( ! class_exists( 'PerfOpsOne\Menus' ) ) {
 			$disp       .= '   .perfopsone-admin-inside .poo-util {display: grid;margin: 14px;min-width: fit-content;}';
 			$disp       .= '   .perfopsone-admin-inside .poo-update {min-width: fit-content;}';
 			$disp       .= '   .perfopsone-admin-inside .poo-autoupdate {min-width: fit-content; text-align: end;}';
+			$disp       .= '   .perfopsone-admin-inside .poo-switch {max-width:100px;max-height:2em;}';
 			$disp       .= '   .perfopsone-admin-inside .poo-need-update {display: inline-block;;border-radius:2px;background:rgb(255,147,8);color:rgb(255,255,255);text-transform: uppercase;font-weight: bolder;width: 106px;height: fit-content;font-size: x-small;}';
 			$disp       .= '   .perfopsone-admin-inside .poo-noneed-update {display: inline-block;;border-radius:2px;background:rgb(68,93,159);color:rgb(255,255,255);text-transform: uppercase;font-weight: bolder;width: 106px;height: fit-content;font-size: x-small;}';
 			$disp       .= '   .perfopsone-admin-inside a:focus {box-shadow:none;outline:none;}';
