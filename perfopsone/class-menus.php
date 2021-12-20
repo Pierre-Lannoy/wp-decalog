@@ -501,7 +501,7 @@ if ( ! class_exists( 'PerfOpsOne\Menus' ) ) {
 			$disp .= '   .perfopsone-admin-inside .poo-text {display:grid;text-align:left;padding-top:16px;padding-right:16px;width: 100%;}';
 			$disp .= '   .perfopsone-admin-inside .poo-description {font-size:1em;padding-top:10px;}';
 			$disp .= '   .perfopsone-admin-inside a:focus {box-shadow:none;outline:none;}';
-			$disp .= '    @media only screen and (max-width: 501px) {.perfopsone-admin-inside .poo-actionable {width:100%} .perfopsone-admin-inside {grid-template-columns:unset;}';
+			$disp .= '    @media only screen and (max-width: 501px) {.perfopsone-admin-inside .poo-icon {padding-left:16px;} .perfopsone-admin-inside .poo-actionable {width:100%} .perfopsone-admin-inside {grid-template-columns:unset;} .perfopsone-admin-inside .poo-description {display:none}.perfopsone-admin-inside .poo-text {align-content: baseline;padding-top: 26px;text-align: center;}';
 
 			$disp .= '  </style>';
 			foreach ( $items as $item ) {
