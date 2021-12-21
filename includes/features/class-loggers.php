@@ -350,8 +350,8 @@ class Loggers extends \WP_List_Table {
 		usort(
 			$data,
 			function ( $a, $b ) {
-				$orderby = ( ! is_null( filter_input( INPUT_GET, 'orderby', FILTER_SANITIZE_STRING ) ) ) ? filter_input( INPUT_GET, 'orderby', FILTER_SANITIZE_STRING ) : 'name';
-				$order   = ( ! is_null( filter_input( INPUT_GET, 'order', FILTER_SANITIZE_STRING ) ) ) ? filter_input( INPUT_GET, 'order', FILTER_SANITIZE_STRING ) : 'desc';
+				$orderby = ( ! is_null( filter_input( INPUT_GET, 'orderby', FILTER_SANITIZE_FULL_SPECIAL_CHARS ) ) ) ? filter_input( INPUT_GET, 'orderby', FILTER_SANITIZE_FULL_SPECIAL_CHARS ) : 'name';
+				$order   = ( ! is_null( filter_input( INPUT_GET, 'order', FILTER_SANITIZE_FULL_SPECIAL_CHARS ) ) ) ? filter_input( INPUT_GET, 'order', FILTER_SANITIZE_FULL_SPECIAL_CHARS ) : 'desc';
 				$result  = strcmp( strtolower( $a[ $orderby ] ), strtolower( $b[ $orderby ] ) );
 				return ( 'asc' === $order ) ? -$result : $result;
 			}

@@ -82,17 +82,17 @@ class InlineHelp {
 	 */
 	private function init() {
 		$this->screen = get_current_screen();
-		if ( ! ( $this->tab = filter_input( INPUT_GET, 'tab', FILTER_SANITIZE_STRING ) ) ) {
-			$this->tab = filter_input( INPUT_POST, 'tab', FILTER_SANITIZE_STRING );
+		if ( ! ( $this->tab = filter_input( INPUT_GET, 'tab', FILTER_SANITIZE_FULL_SPECIAL_CHARS ) ) ) {
+			$this->tab = filter_input( INPUT_POST, 'tab', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
 		}
-		if ( ! ( $this->log_id = filter_input( INPUT_GET, 'logid', FILTER_SANITIZE_STRING ) ) ) {
-			$this->log_id = filter_input( INPUT_POST, 'logid', FILTER_SANITIZE_STRING );
+		if ( ! ( $this->log_id = filter_input( INPUT_GET, 'logid', FILTER_SANITIZE_FULL_SPECIAL_CHARS ) ) ) {
+			$this->log_id = filter_input( INPUT_POST, 'logid', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
 		}
-		if ( ! ( $this->event_id = filter_input( INPUT_GET, 'eventid', FILTER_SANITIZE_STRING ) ) ) {
-			$this->event_id = filter_input( INPUT_POST, 'eventid', FILTER_SANITIZE_STRING );
+		if ( ! ( $this->event_id = filter_input( INPUT_GET, 'eventid', FILTER_SANITIZE_FULL_SPECIAL_CHARS ) ) ) {
+			$this->event_id = filter_input( INPUT_POST, 'eventid', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
 		}
-		if ( ! ( $this->trace_id = filter_input( INPUT_GET, 'traceid', FILTER_SANITIZE_STRING ) ) ) {
-			$this->trace_id = filter_input( INPUT_POST, 'traceid', FILTER_SANITIZE_STRING );
+		if ( ! ( $this->trace_id = filter_input( INPUT_GET, 'traceid', FILTER_SANITIZE_FULL_SPECIAL_CHARS ) ) ) {
+			$this->trace_id = filter_input( INPUT_POST, 'traceid', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
 		}
 	}
 

@@ -347,7 +347,7 @@ class Events extends \WP_List_Table {
 			$this->limit = 25;
 		}
 		$this->force_siteid = null;
-		$this->logger       = filter_input( INPUT_GET, 'logger_id', FILTER_SANITIZE_STRING );
+		$this->logger       = filter_input( INPUT_GET, 'logger_id', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
 		if ( $this->logger ) {
 			$this->set_level_access();
 		} else {
@@ -355,17 +355,17 @@ class Events extends \WP_List_Table {
 		}
 		$this->init_storage();
 		$this->filters = [];
-		$level         = filter_input( INPUT_GET, 'level', FILTER_SANITIZE_STRING );
+		$level         = filter_input( INPUT_GET, 'level', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
 		if ( $level && array_key_exists( strtolower( $level ), EventTypes::$levels ) && 'debug' !== strtolower( $level ) ) {
 			$this->filters['level'] = strtolower( $level );
 		}
 		foreach ( [ 'class', 'channel', 'site_id', 'user_id', 'remote_ip', 'user_session' ] as $f ) {
-			$v = filter_input( INPUT_GET, $f, FILTER_SANITIZE_STRING );
+			$v = filter_input( INPUT_GET, $f, FILTER_SANITIZE_FULL_SPECIAL_CHARS );
 			if ( $v ) {
 				$this->filters[ $f ] = strtolower( $v );
 			}
 		}
-		$v = filter_input( INPUT_GET, 'component', FILTER_SANITIZE_STRING );
+		$v = filter_input( INPUT_GET, 'component', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
 		if ( $v ) {
 			$this->filters['component'] = $v;
 		}
