@@ -709,7 +709,7 @@ class CoreListener extends AbstractListener {
 	 */
 	public function lostpassword_post( $errors ) {
 		if ( isset( $this->logger ) ) {
-			if ( is_wp_error( $errors ) ) {
+			if ( is_wp_error( $errors ) && '' !== (string) $errors->get_error_message() ) {
 				$this->logger->info( sprintf( 'Lost password form submitted with error "%s".', wp_kses( $errors->get_error_message(), [] ) ), $errors->get_error_code() );
 			} else {
 				$this->logger->info( 'Lost password form submitted.' );

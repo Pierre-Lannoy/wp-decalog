@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [3.4.0] - Not Yet Released
 
 ### Changed
+- Better events messages for lost password form submission.
 - Updated DecaLog SDK from version 2.0.0 to version 2.0.2.
 - Updated PerfOps One library from 2.2.1 to 2.2.2.
 - Improved bubbles display when width is less than 500px (thanks to [Pat Ol](https://profiles.wordpress.org/pasglop/)).
