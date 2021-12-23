@@ -65,7 +65,8 @@ class NewRelicFormatter extends JsonFormatter {
 			$event['service'] = ChannelTypes::$channel_names_en['UNKNOWN'];
 		}
 		if ( array_key_exists( 'message', $record ) ) {
-			$event['message'] = $record['message'];
+			$event['message'] = str_replace( [ '"', '&ldquo;', '&rdquo;', ], '“', $record['message'] );
+			$event['message'] = str_replace( '\'', '`', $event['message'] );
 		} else {
 			$event['message'] = '<no messsage>';
 		}
