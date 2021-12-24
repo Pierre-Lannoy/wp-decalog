@@ -84,7 +84,13 @@ class WsalListener extends AbstractListener {
 	 *
 	 * @since    1.6.0
 	 */
-	public function wsal_logged_alert( $occ, $type, $data, $date, $siteid, $migrated ) {
+	public function wsal_logged_alert( $occ = null, $type = null, $data = null, $date = null, $siteid = null, $migrated = null ) {
+		if ( ! isset( $type ) ) {
+			$type = 0;
+		}
+		if ( ! isset( $data ) ) {
+			$data = [];
+		}
 		if ( $occ instanceof \WSAL_Models_Occurrence ) {
 			$message = $occ->GetMessage();
 		} else {

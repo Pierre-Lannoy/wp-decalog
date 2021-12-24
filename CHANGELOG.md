@@ -9,7 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Compatibility with PHP 8.1.
 
 ### Changed
-- Html entities are now substituted for better readability in New Relic NR-Logs.  
+- Html entities are now substituted for better readability in New Relic NR-Logs.
 - Better events messages for lost password form submission.
 - Updated DecaLog SDK from version 2.0.0 to version 2.0.2.
 - Updated PerfOps One library from 2.2.1 to 2.2.2.
@@ -17,6 +17,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 - The console menu may display an empty screen (thanks to [Renaud Pacouil](https://www.laboiteare.fr)).
+- There’s a PHP error when reaching the checkout page of woocommerce with WP Activity Log activated (thanks to [freshuk](https://profiles.wordpress.org/freshuk/)).
 
 ## [3.3.0] - 2021-12-07
 
