@@ -7,6 +7,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 - Compatibility with PHP 8.1.
+- Logo for bbPress in events list and viewer.
+- Logo for MysQL DB in events list and viewer.
+- Logo for MariaDB DB in events list and viewer.
+- Logo for PostgreSQL DB in events list and viewer.
+- Logo for Percona DB in events list and viewer.
 
 ### Changed
 - Html entities are now substituted for better readability in New Relic NR-Logs.

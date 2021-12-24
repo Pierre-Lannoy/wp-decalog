@@ -191,6 +191,23 @@ class SDK {
 	}
 
 	/**
+	 * Returns a base64 svg resource for the bbPress icon.
+	 *
+	 * @param string $color Optional. Color of the icon.
+	 * @return string The svg resource as a base64.
+	 * @since 3.1.0
+	 */
+	private static function get_base64_bbpress_icon( $color = '#4f4d4b' ) {
+		$source  = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet">';
+		$source .= '<g transform="scale(56,56) translate(0,-1)">';
+		$source .= '<path d="M4.5 6.2C3.7 7.3 3.3 8.6 3.3 10c0 1 .2 1.9.6 2.8l1-4.6c.3-1.7.4-2-.4-2zm4 6.4c.3-1.3 0-2.3-1.1-2.3c-.8 0-1.6.6-1.8 1.5l-.3 1.7c-.3 1 .3 1.5 1 1.5c1.2 0 1.9-1.1 2.2-2.4zM10 2c-4.4 0-8 3.6-8 8s3.6 8 8 8s8-3.6 8-8s-3.6-8-8-8zm0 15.5c-2.1 0-4-.8-5.3-2.2c-.3-.4-.7-.8-1-1.2c-.7-1.2-1.2-2.6-1.2-4.1c0-4.1 3.4-7.5 7.5-7.5s7.5 3.4 7.5 7.5s-3.4 7.5-7.5 7.5zm3.8-4.9c.3-1.3 0-2.3-1.1-2.3c-.8 0-1.6.6-1.8 1.5l-.4 1.7c-.2 1.1.4 1.6 1.1 1.6c1.1-.1 1.9-1.2 2.2-2.5zM10 3.3c-2 0-3.9.9-5.1 2.3c.6-.1 1.4-.2 1.8-.3c.2 0 .2.1.2.2c0 .2-1 4.8-1 4.8c.5-.3 1.2-.7 1.8-.7c.9 0 1.5.4 1.9.9l.5-2.4c.4-1.6.4-1.9-.4-1.9c-.4 0-.4-.5 0-.6c.6-.1 1.8-.2 2.3-.3c.2 0 .2.1.2.2l-1 4.8c.5-.4 1.2-.7 1.9-.7c1.7 0 2.5 1.3 2.1 3c-.3 1.7-2 3-3.8 3c-1.3 0-2.1-.7-2.3-1.4c-.7.8-1.7 1.3-2.8 1.4c1.1.7 2.4 1.1 3.7 1.1a6.7 6.7 0 0 0 0-13.4z" fill="' . $color . '"/>';
+		$source .= '</g>';
+		$source .= '</svg>';
+		// phpcs:ignore
+		return 'data:image/svg+xml;base64,' . base64_encode( $source );
+	}
+
+	/**
 	 * Returns a base64 svg resource for the W3TC icon.
 	 *
 	 * @param string $color1 Optional. Color 1 of the icon.
@@ -368,42 +385,56 @@ class SDK {
 			return self::$icons[ $component ];
 		}
 		$result = '';
-		switch ( $component ) {
-			case 'WordPress':
+		switch ( strtolower( $component ) ) {
+			case 'wordpress':
 				$result = self::get_base64_wordpress_icon();
-				$result = self::get_base64_db_percona_icon();
 				break;
-			case 'W3 Total Cache':
+			case 'w3 total cache':
 				$result = self::get_base64_w3tc_icon();
 				break;
-			case 'PHP':
+			case 'php':
 				$result = self::get_base64_php_icon();
 				break;
-			case 'Jetpack':
+			case 'jetpack':
 				$result = self::get_base64_jetpack_icon();
 				break;
-			case 'DecaLog':
+			case 'decalog':
 				$result = Core::get_base64_logo();
 				break;
-			case 'Amelia Stripe Gateway':
+			case 'amelia stripe gateway':
 				$result = self::get_base64_amelia_icon();
 				break;
-			case 'Standard Stripe Gateway':
-			case 'Forminator Stripe Gateway':
+			case 'standard stripe gateway':
+			case 'forminator stripe gateway':
 				$result = self::get_base64_stripe_icon();
 				break;
-			case 'Action Scheduler':
-			case 'WooCommerce':
+			case 'action scheduler':
+			case 'woocommerce':
 				$result = self::get_base64_woo_icon();
 				break;
-			case 'BuddyPress':
+			case 'buddypress':
 				$result = self::get_base64_buddypress_icon();
 				break;
-			case 'Cavalcade':
+			case 'bbpress':
+				$result = self::get_base64_bbpress_icon();
+				break;
+			case 'cavalcade':
 				$result = self::get_base64_cavalcade_icon();
 				break;
-			case 'WP-CLI':
+			case 'wp-cli':
 				$result = self::get_base64_wpcli_icon();
+				break;
+			case 'mariadb':
+				$result = self::get_base64_db_mariadb_icon();
+				break;
+			case 'percona':
+				$result = self::get_base64_db_percona_icon();
+				break;
+			case 'postgresql':
+				$result = self::get_base64_db_postgresql_icon();
+				break;
+			case 'mysql':
+				$result = self::get_base64_db_mysql_icon();
 				break;
 		}
 		if ( '' === $result ) {
