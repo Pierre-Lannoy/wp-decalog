@@ -607,7 +607,9 @@ class Cache {
 		$result['miss']['count'] = $miss_count;
 		$result['miss']['time'] = $miss_time;
 		$result['miss']['size'] = $miss_size;
-		if ( self::$apcu_available ) {
+		if ( wp_using_ext_object_cache() ) {
+			$result['type'] = 'object_cache';
+		} elseif ( self::$apcu_available ) {
 			$result['type'] = 'apcu';
 		} else {
 			$result['type'] = 'db_transient';
