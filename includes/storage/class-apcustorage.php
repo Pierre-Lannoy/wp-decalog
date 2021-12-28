@@ -37,6 +37,17 @@ class APCuStorage extends AbstractMemoryStorage {
 		Cache::init();
 		parent::__construct( $name );
 		$this->bucket_name = str_replace( $this->pool_name . '_', 'storage_', $this->bucket_name );
+		if ( ! $this->available() ) {
+			global $dclg_btsrp;
+			if ( ! is_array( $dclg_btsrp ) ) {
+				$dclg_btsrp = [];
+			}
+			$dclg_btsrp[] = [
+				'level'   => 550,
+				'message' => sprintf( 'A logger can\'t be started because APCu is unavailable. Please, pause the logger having "%s" key as storage then, fix the APCu issue before restarting the logger.', $this->bucket_name ),
+				'code'    => 781,
+			];
+		}
 	}
 
 	/**

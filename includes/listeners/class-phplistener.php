@@ -198,7 +198,7 @@ class PhpListener extends AbstractListener {
 			}
 		} else {
 			// phpcs:ignore
-			$this->logger->debug( 'Corrupted data in bootstrap array.' );
+			$this->logger->debug( 'No data in bootstrap array.' );
 		}
 	}
 
