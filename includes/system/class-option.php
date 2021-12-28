@@ -66,6 +66,7 @@ class Option {
 	 * @since 1.0.0
 	 */
 	public static function init() {
+		self::$defaults['use_apcu']         = true;
 		self::$defaults['use_cdn']           = false;
 		self::$defaults['download_favicons'] = false;
 		self::$defaults['script_in_footer']  = false;
