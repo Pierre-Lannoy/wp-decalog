@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 - Html entities are now substituted for better readability in New Relic NR-Logs.
 - Better events messages for lost password form submission.
+- Improved APCu storage for loggers.
 - Updated DecaLog SDK from version 2.0.0 to version 2.0.2.
 - Updated PerfOps One library from 2.2.1 to 2.2.2.
 - Improved bubbles display when width is less than 500px (thanks to [Pat Ol](https://profiles.wordpress.org/pasglop/)).

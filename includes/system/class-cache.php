@@ -12,6 +12,7 @@ namespace Decalog\System;
 
 use Decalog\Logger;
 use Decalog\System\Conversion;
+use Decalog\System\Option;
 
 /**
  * The class responsible to handle cache management.
@@ -204,11 +205,42 @@ class Cache {
 		$chrono    = microtime( true );
 		$item_name = self::normalized_item_name( $item_name );
 		$found     = false;
-		if ( self::$apcu_available ) {
+		if ( self::$apcu_available && Option::network_get( 'use_apcu', true ) ) {
 			$result = apcu_fetch( self::$pool_name . '_' . $item_name, $found );
+		} elseif ( wp_using_ext_object_cache() ) {
+			$result = wp_cache_get( $item_name, self::$pool_name, false, $found );
 		} else {
 			$result = get_transient( self::$pool_name . '_' . $item_name );
 			$found  = false !== $result;
+		}
+		if ( $found ) {
+			self::$hit[] = [
+				'time' => microtime( true ) - $chrono,
+				'size' => strlen( serialize( $result ) ),
+			];
+			return $result;
+		} else {
+			self::$current[ $item_name ] = $chrono;
+			return null;
+		}
+	}
+
+	/**
+	 * Get the value of a fully named apcu cache item.
+	 *
+	 * If the item does not exist, does not have a value, or has expired,
+	 * then the return value will be false.
+	 *
+	 * @param  string $item_name Item name. Expected to not be SQL-escaped.
+	 * @return mixed Value of item.
+	 * @since  3.4.0
+	 */
+	private static function get_apcu_for_full_name( $item_name ) {
+		$chrono    = microtime( true );
+		$item_name = self::normalized_item_name( $item_name );
+		$found     = false;
+		if ( self::$apcu_available ) {
+			$result = apcu_fetch( self::$pool_name . '_' . $item_name, $found );
 		}
 		if ( $found ) {
 			self::$hit[] = [
@@ -255,6 +287,20 @@ class Cache {
 	}
 
 	/**
+	 * Get the value of a global apcu cache item.
+	 *
+	 * If the item does not exist, does not have a value, or has expired,
+	 * then the return value will be false.
+	 *
+	 * @param  string $item_name Item name. Expected to not be SQL-escaped.
+	 * @return mixed Value of item.
+	 * @since  3.4.0
+	 */
+	public static function get_global_apcu( $item_name ) {
+		return self::get_apcu_for_full_name( self::full_item_name( $item_name ) );
+	}
+
+	/**
 	 * Get the value of a standard cache item.
 	 *
 	 * If the item does not exist, does not have a value, or has expired,
@@ -295,10 +341,51 @@ class Cache {
 			$expiration = (int) $ttl;
 		}
 		if ( $expiration > 0 ) {
-			if ( self::$apcu_available ) {
+			if ( self::$apcu_available && Option::network_get( 'use_apcu', true ) ) {
 				$result = apcu_store( self::$pool_name . '_' . $item_name, $value, $expiration );
+			}  elseif ( wp_using_ext_object_cache() ) {
+				$result = wp_cache_set( $item_name, $value, self::$pool_name, $expiration );
 			} else {
 				$result = set_transient( self::$pool_name . '_' . $item_name, $value, $expiration );
+			}
+			if ( array_key_exists( $item_name, self::$current ) ) {
+				self::$miss[] = [
+					'time' => microtime( true ) - self::$current[ $item_name ],
+					'size' => strlen( serialize( $result ) ),
+				];
+			}
+		} else {
+			$result = false;
+		}
+		return $result;
+	}
+
+	/**
+	 * Set the value of a fully named apcu cache item.
+	 *
+	 * You do not need to serialize values. If the value needs to be serialized, then
+	 * it will be serialized before it is set.
+	 *
+	 * @param  string $item_name Item name. Expected to not be SQL-escaped.
+	 * @param  mixed  $value     Item value. Must be serializable if non-scalar.
+	 *                           Expected to not be SQL-escaped.
+	 * @param  int|string $ttl   Optional. The previously defined ttl @see self::init() if it's a string.
+	 *                           The ttl value in seconds if it's and integer.
+	 * @return bool False if value was not set and true if value was set.
+	 * @since  1.0.0
+	 */
+	private static function set_apcu_for_full_name( $item_name, $value, $ttl = 'default' ) {
+		$item_name  = self::normalized_item_name( $item_name );
+		$expiration = self::$default_ttl;
+		if ( is_string( $ttl ) && array_key_exists( $ttl, self::$ttls ) ) {
+			$expiration = self::$ttls[ $ttl ];
+		}
+		if ( is_integer( $ttl ) && 0 < (int) $ttl ) {
+			$expiration = (int) $ttl;
+		}
+		if ( $expiration > 0 ) {
+			if ( self::$apcu_available ) {
+				$result = apcu_store( self::$pool_name . '_' . $item_name, $value, $expiration );
 			}
 			if ( array_key_exists( $item_name, self::$current ) ) {
 				self::$miss[] = [
@@ -353,6 +440,24 @@ class Cache {
 	}
 
 	/**
+	 * Set the value of a global cache item.
+	 *
+	 * You do not need to serialize values. If the value needs to be serialized, then
+	 * it will be serialized before it is set.
+	 *
+	 * @param  string $item_name Item name. Expected to not be SQL-escaped.
+	 * @param  mixed  $value     Item value. Must be serializable if non-scalar.
+	 *                           Expected to not be SQL-escaped.
+	 * @param  int|string $ttl   Optional. The previously defined ttl @see self::init() if it's a string.
+	 *                           The ttl value in seconds if it's and integer.
+	 * @return bool False if value was not set and true if value was set.
+	 * @since  1.0.0
+	 */
+	public static function set_global_apcu( $item_name, $value, $ttl = 'default' ) {
+		return self::set_apcu_for_full_name( self::full_item_name( $item_name ), $value, $ttl );
+	}
+
+	/**
 	 * Set the value of a standard cache item.
 	 *
 	 * You do not need to serialize values. If the value needs to be serialized, then
@@ -385,11 +490,18 @@ class Cache {
 	private static function delete_for_ful_name( $item_name ) {
 		$item_name = self::normalized_item_name( $item_name );
 		$result    = 0;
-		if ( self::$apcu_available ) {
+		if ( self::$apcu_available && Option::network_get( 'use_apcu', true ) ) {
 			if ( strlen( $item_name ) - 1 === strpos( $item_name, '_*' ) ) {
 				return false;
 			} else {
 				return apcu_delete( self::$pool_name . '_' . $item_name );
+			}
+		}
+		if ( wp_using_ext_object_cache() ) {
+			if ( strlen( $item_name ) - 1 === strpos( $item_name, '_*' ) ) {
+				return false;
+			} else {
+				return wp_cache_delete( $item_name, self::$pool_name );
 			}
 		}
 		global $wpdb;
@@ -411,6 +523,26 @@ class Cache {
 	}
 
 	/**
+	 * Delete the value of a fully named apcu cache item.
+	 *
+	 * @param  string $item_name Item name. Expected to not be SQL-escaped.
+	 * @return integer Number of deleted items.
+	 * @since  3.4.0
+	 */
+	private static function delete_apcu_for_ful_name( $item_name ) {
+		$item_name = self::normalized_item_name( $item_name );
+		$result    = 0;
+		if ( self::$apcu_available ) {
+			if ( strlen( $item_name ) - 1 === strpos( $item_name, '_*' ) ) {
+				return false;
+			} else {
+				return apcu_delete( self::$pool_name . '_' . $item_name );
+			}
+		}
+		return $result;
+	}
+
+	/**
 	 * Delete the full pool.
 	 *
 	 * @return integer Number of deleted items.
@@ -418,7 +550,7 @@ class Cache {
 	 */
 	public static function delete_pool() {
 		$result = 0;
-		if ( self::$apcu_available ) {
+		if ( self::$apcu_available && Option::network_get( 'use_apcu', true ) ) {
 			if ( function_exists( 'apcu_cache_info' ) && function_exists( 'apcu_delete' ) ) {
 				try {
 					$infos = apcu_cache_info( false );
@@ -431,9 +563,11 @@ class Cache {
 						}
 					}
 				} catch ( \Throwable $e ) {
-					Logger::error( sprintf( 'Unable to query APCu status: %s.', $e->getMessage() ), $e->getCode() );
+					$result = 0;
 				}
 			}
+		} elseif ( wp_using_ext_object_cache() ) {
+			$result = 0;
 		} else {
 			$result = self::delete_global( '/*' );
 		}
@@ -468,6 +602,17 @@ class Cache {
 	 */
 	public static function delete_global( $item_name ) {
 		return self::delete_for_ful_name( self::full_item_name( $item_name ) );
+	}
+
+	/**
+	 * Delete the value of a global apcu cache item.
+	 *
+	 * @param  string $item_name Item name. Expected to not be SQL-escaped.
+	 * @return integer Number of deleted items.
+	 * @since  3.4.0
+	 */
+	public static function delete_global_apcu( $item_name ) {
+		return self::delete_apcu_for_ful_name( self::full_item_name( $item_name ) );
 	}
 
 	/**
