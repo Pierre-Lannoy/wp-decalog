@@ -214,7 +214,6 @@ class CoreListener extends AbstractListener {
 	 * @since    2.4.0
 	 */
 	protected function launched() {
-		$span = $this->tracer->start_span( 'Metrics collation', DECALOG_SPAN_PLUGINS_LOAD );
 		if ( 1 !== Environment::exec_mode() ) {
 			$this->monitor->create_prod_gauge( 'page_latency', 0, 'Execution time for full page rendering - [second]' );
 			$this->monitor->create_prod_gauge( 'wp_latency', 0, 'Execution time for WordPress page rendering - [second]' );
@@ -231,7 +230,6 @@ class CoreListener extends AbstractListener {
 		$this->monitor->create_prod_counter( 'user_ham', 'Number of ham users - [count]' );
 		$this->monitor->create_prod_counter( 'user_spam', 'Number of spam users - [count]' );
 		$this->monitor->create_prod_counter( 'user_trash', 'Number of trashed users - [count]' );
-		$this->tracer->end_span( $span );
 	}
 
 	/**
