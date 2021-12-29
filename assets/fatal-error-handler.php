@@ -1,9 +1,13 @@
 <?php
 /**
- * Bootstrap handler for DecaLog.
- *
- * @author  Pierre Lannoy <https://pierre.lannoy.fr/>.
- * @since   2.4.0
+ * Plugin Name:         DecaLog Error Handler
+ * Plugin URI:          https://perfops.one/decalog
+ * Description:         Capture and log events, metrics and traces on your site. Make WordPress observable – finally!
+ * Version:             3.x
+ * Author:              Pierre Lannoy / PerfOps One
+ * Author URI:          https://perfops.one
+ * License:             GPLv3
+ * License URI:         https://www.gnu.org/licenses/gpl-3.0.html
  */
 
 
