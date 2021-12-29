@@ -123,7 +123,11 @@ class LoggerMaintainer {
 			unset( $logger['name'] );
 			$logger['uuid']    = '{' . $key . '}';
 			$logger['running'] = $logger['running'] ? 'yes' : 'no';
-			$logger['level']   = strtolower( EventTypes::$level_names[ $logger['level'] ] );
+			if ( array_key_exists( $logger['level'], EventTypes::$level_names ) ) {
+				$logger['level'] = strtolower( EventTypes::$level_names[ $logger['level'] ] );
+			} else {
+				$logger['level'] = 'none';
+			}
 			$privacy           = [];
 			foreach ( $logger['privacy'] as $i => $item ) {
 				if ( $item ) {
