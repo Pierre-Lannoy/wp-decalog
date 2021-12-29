@@ -275,30 +275,54 @@ class TraceViewer {
 		$result .= str_pad( '', ( $level * 3 ) * 6, '&nbsp;' ) . '<strong>' . $span['resource'] . '</strong>' . ( 0 === $level ? '' : '&nbsp;&nbsp;' . $span['name'] );
 		$result .= '</div>';
 		// Span timeline
-		$bblank = round( 100 * ( $span['start'] - $start ) / $duration, 3 );
-		$lblank = round( 100 * ( $span['duration'] ) / $duration, 3 );
+		$bblank = round( 100 * ( $span['start'] - $start ) / $duration, 2 );
+		$lblank = round( 100 * ( $span['duration'] ) / $duration, 2 );
+		if ( 0.1 > $lblank ) {
+			$lblank = 0.1;
+		}
 		$eblank = 100.0 - $bblank - $lblank;
-		$tick   = round( 100 * 500000 / $duration, 3 );
+		$tick   = round( 100 * 500000 / $duration, 2 );
 		$color  = $this->colors['wordpress'];
 		if ( array_key_exists( strtolower( $span['resource'] ), $this->colors ) ) {
 			$color = $this->colors[ strtolower( $span['resource'] ) ];
 		}
 		$style = '';
-		if ( 80 > $lblank ) {
+		if ( 0 > $eblank ) {
+			$eblank = 0.0;
+			$bblank = 100.0 - $lblank;
+		}
+		if ( 90 > $lblank ) {
 			if ( 10 < $eblank ) {
 				$style = 'style="margin-left:100%;"';
 			}
 		}
-		$result .= '<div class="decalog-span-timeline" style="background-size: ' . $tick . '% 100%;">';
-		$result .= '<div class="decalog-span-timeline-blank" style="width:' . $bblank . '%">';
-		$result .= '</div>';
-		$result .= '<div class="decalog-span-timeline-line" style="background-color:' . $color . ';width:' . $lblank . '%">';
-		$result .= '<span class="decalog-span-timeline-text" ' . $style . '>' . (int) round( ( $span['duration'] / 1000 ), 0 ) . '&nbsp;ms</span>';
-		$result .= '</div>';
-		$result .= '<div class="decalog-span-timeline-blank" style="width:' . $eblank . '%;">';
-		$result .= '</div>';
-		$result .= '</div>';
-		$result .= '</div>';
+		if ( 90 > $bblank ) {
+			$result .= '<div class="decalog-span-timeline" style="background-size: ' . $tick . '% 100%;">';
+			$result .= '<div class="decalog-span-timeline-blank" style="width:' . $bblank . '%">';
+			$result .= '</div>';
+			$result .= '<div class="decalog-span-timeline-line" style="background-color:' . $color . ';width:' . $lblank . '%">';
+			$result .= '<span class="decalog-span-timeline-text" ' . $style . '>' . (int) round( ( $span['duration'] / 1000 ), 0 ) . '&nbsp;ms</span>';
+			$result .= '</div>';
+			$result .= '<div class="decalog-span-timeline-blank" style="width:' . $eblank . '%;">';
+			$result .= '</div>';
+			$result .= '</div>';
+			$result .= '</div>';
+		} else {
+			$result .= '<div class="decalog-span-timeline" style="background-size: ' . $tick . '% 100%;">';
+			$result .= '<div class="decalog-span-timeline-blank" style="width:' . $bblank . '%;vertical-align: middle;">';
+			$result .= '<span class="decalog-span-timeline-text" style="float:right">' . (int) round( ( $span['duration'] / 1000 ), 0 ) . '&nbsp;ms</span>';
+			$result .= '</div>';
+			$result .= '<div class="decalog-span-timeline-line" style="background-color:' . $color . ';width:' . $lblank . '%">';
+			$result .= '</div>';
+			$result .= '<div class="decalog-span-timeline-blank" style="width:' . $eblank . '%;">';
+			$result .= '</div>';
+			$result .= '</div>';
+			$result .= '</div>';
+		}
+
+
+
+
 		if ( $span['subspans'] && is_array( $span['subspans'] ) && 0 < count( $span['subspans'] ) ) {
 			foreach ( $span['subspans'] as $s ) {
 				$result .= $this->get_span( $s, $level + 1, $start, $duration );
