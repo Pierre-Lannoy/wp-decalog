@@ -102,8 +102,9 @@ class APCu {
 	public static function delete( $objects ) {
 		$cpt = 0;
 		if ( function_exists( 'apcu_delete' ) ) {
+			$prefix = md5( ABSPATH ) . '_';
 			foreach ( $objects as $object ) {
-				if ( false !== apcu_delete( $object ) ) {
+				if ( false !== apcu_delete( $prefix . $object ) ) {
 					$cpt++;
 				}
 			}
@@ -119,8 +120,17 @@ class APCu {
 	 * @since   1.0.0
 	 */
 	public static function reset() {
-		if ( function_exists( 'apcu_clear_cache' ) ) {
-			apcu_clear_cache();
+		if ( function_exists( 'apcu_cache_info' ) && function_exists( 'apcu_delete' ) ) {
+			$prefix = md5( ABSPATH ) . '_';
+			$infos = apcu_cache_info( false );
+			if ( array_key_exists( 'cache_list', $infos ) && is_array( $infos['cache_list'] ) ) {
+				foreach ( $infos['cache_list'] as $script ) {
+					if ( 0 === strpos( $script['info'], $prefix ) ) {
+						apcu_delete( $script['info'] );
+						$result++;
+					}
+				}
+			}
 			$logger = new Logger( 'plugin', DECALOG_PRODUCT_NAME, DECALOG_VERSION );
 			$logger->notice( 'Cache cleared.' );
 		}
