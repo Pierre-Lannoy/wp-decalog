@@ -29,6 +29,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - There’s a PHP error when reaching the checkout page of woocommerce with WP Activity Log activated (thanks to [freshuk](https://profiles.wordpress.org/freshuk/)).
 - Object caching method may be wrongly detected in Site Health status (thanks to [freshuk](https://profiles.wordpress.org/freshuk/)).
 - The "WordPress metrics collation" span is attached to the wrong parent.
+- There may be name collisions with internal APCu cache.
 
 ## [3.3.0] - 2021-12-07
 

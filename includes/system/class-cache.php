@@ -32,6 +32,14 @@ class Cache {
 	private static $pool_name = DECALOG_SLUG;
 
 	/**
+	 * The apcu pool's prefix, specific to the WordPress instance.
+	 *
+	 * @since  1.0.0
+	 * @var    string    $apcu_pool_prefix    The pool's name.
+	 */
+	private static $apcu_pool_prefix = '';
+
+	/**
 	 * Available TTLs.
 	 *
 	 * @since  1.0.0
@@ -115,6 +123,7 @@ class Cache {
 		if ( wp_using_ext_object_cache() ) {
 			wp_cache_add_global_groups( self::$pool_name );
 		}
+		self::$apcu_pool_prefix = md5( ABSPATH ) . '_';
 		self::$apcu_available = function_exists( 'apcu_delete' ) && function_exists( 'apcu_fetch' ) && function_exists( 'apcu_store' );
 		add_action( 'shutdown', [ 'Decalog\System\Cache', 'log_debug' ], 10, 0 );
 		add_filter( 'perfopsone_icache_introspection', [ 'Decalog\System\Cache', 'introspection' ] );
@@ -170,7 +179,7 @@ class Cache {
 			$name .= (string) User::get_current_user_id() . '/';
 		}
 		$name .= $item_name;
-		return substr( trim( $name ), 0, 172 - strlen( self::$pool_name ) );
+		return substr( trim( $name ), 0, 172 - strlen( self::$apcu_pool_prefix . self::$pool_name ) );
 	}
 
 	/**
@@ -206,7 +215,7 @@ class Cache {
 		$item_name = self::normalized_item_name( $item_name );
 		$found     = false;
 		if ( self::$apcu_available && Option::network_get( 'use_apcu', true ) ) {
-			$result = apcu_fetch( self::$pool_name . '_' . $item_name, $found );
+			$result = apcu_fetch( self::$apcu_pool_prefix . self::$pool_name . '_' . $item_name, $found );
 		} elseif ( wp_using_ext_object_cache() ) {
 			$result = wp_cache_get( $item_name, self::$pool_name, false, $found );
 		} else {
@@ -240,7 +249,7 @@ class Cache {
 		$item_name = self::normalized_item_name( $item_name );
 		$found     = false;
 		if ( self::$apcu_available ) {
-			$result = apcu_fetch( self::$pool_name . '_' . $item_name, $found );
+			$result = apcu_fetch( self::$apcu_pool_prefix . self::$pool_name . '_' . $item_name, $found );
 		}
 		if ( $found ) {
 			self::$hit[] = [
@@ -252,24 +261,6 @@ class Cache {
 			self::$current[ $item_name ] = $chrono;
 			return null;
 		}
-	}
-
-	/**
-	 * Get the value of a shared cache item.
-	 *
-	 * If the item does not exist, does not have a value, or has expired,
-	 * then the return value will be false.
-	 *
-	 * @param  string $item_name Item name. Expected to not be SQL-escaped.
-	 * @return mixed Value of item.
-	 * @since  1.0.0
-	 */
-	public static function get_shared( $item_name ) {
-		$save            = self::$pool_name;
-		self::$pool_name = 'perfopsone';
-		$result = self::get_for_full_name( self::full_item_name( $item_name ) );
-		self::$pool_name = $save;
-		return $result;
 	}
 
 	/**
@@ -342,7 +333,7 @@ class Cache {
 		}
 		if ( $expiration > 0 ) {
 			if ( self::$apcu_available && Option::network_get( 'use_apcu', true ) ) {
-				$result = apcu_store( self::$pool_name . '_' . $item_name, $value, $expiration );
+				$result = apcu_store( self::$apcu_pool_prefix . self::$pool_name . '_' . $item_name, $value, $expiration );
 			}  elseif ( wp_using_ext_object_cache() ) {
 				$result = wp_cache_set( $item_name, $value, self::$pool_name, $expiration );
 			} else {
@@ -385,7 +376,7 @@ class Cache {
 		}
 		if ( $expiration > 0 ) {
 			if ( self::$apcu_available ) {
-				$result = apcu_store( self::$pool_name . '_' . $item_name, $value, $expiration );
+				$result = apcu_store( self::$apcu_pool_prefix . self::$pool_name . '_' . $item_name, $value, $expiration );
 			}
 			if ( array_key_exists( $item_name, self::$current ) ) {
 				self::$miss[] = [
@@ -396,28 +387,6 @@ class Cache {
 		} else {
 			$result = false;
 		}
-		return $result;
-	}
-
-	/**
-	 * Set the value of a shared cache item.
-	 *
-	 * You do not need to serialize values. If the value needs to be serialized, then
-	 * it will be serialized before it is set.
-	 *
-	 * @param  string $item_name Item name. Expected to not be SQL-escaped.
-	 * @param  mixed  $value     Item value. Must be serializable if non-scalar.
-	 *                           Expected to not be SQL-escaped.
-	 * @param  int|string $ttl   Optional. The previously defined ttl @see self::init() if it's a string.
-	 *                           The ttl value in seconds if it's and integer.
-	 * @return bool False if value was not set and true if value was set.
-	 * @since  1.0.0
-	 */
-	public static function set_shared( $item_name, $value, $ttl = 'default' ) {
-		$save            = self::$pool_name;
-		self::$pool_name = 'perfopsone';
-		$result = self::set_for_full_name( self::full_item_name( $item_name ), $value, $ttl );
-		self::$pool_name = $save;
 		return $result;
 	}
 
@@ -494,7 +463,7 @@ class Cache {
 			if ( strlen( $item_name ) - 1 === strpos( $item_name, '_*' ) ) {
 				return false;
 			} else {
-				return apcu_delete( self::$pool_name . '_' . $item_name );
+				return apcu_delete( self::$apcu_pool_prefix . self::$pool_name . '_' . $item_name );
 			}
 		}
 		if ( wp_using_ext_object_cache() ) {
@@ -536,7 +505,7 @@ class Cache {
 			if ( strlen( $item_name ) - 1 === strpos( $item_name, '_*' ) ) {
 				return false;
 			} else {
-				return apcu_delete( self::$pool_name . '_' . $item_name );
+				return apcu_delete( self::$apcu_pool_prefix . self::$pool_name . '_' . $item_name );
 			}
 		}
 		return $result;
@@ -556,7 +525,7 @@ class Cache {
 					$infos = apcu_cache_info( false );
 					if ( array_key_exists( 'cache_list', $infos ) && is_array( $infos['cache_list'] ) ) {
 						foreach ( $infos['cache_list'] as $script ) {
-							if ( 0 === strpos( $script['info'], self::$pool_name . '_' ) ) {
+							if ( 0 === strpos( $script['info'], self::$apcu_pool_prefix . self::$pool_name . '_' ) ) {
 								apcu_delete( $script['info'] );
 								$result++;
 							}
@@ -571,23 +540,6 @@ class Cache {
 		} else {
 			$result = self::delete_global( '/*' );
 		}
-		return $result;
-	}
-
-	/**
-	 * Delete the value of a shared cache item.
-	 *
-	 * This function accepts generic car "*" for transients.
-	 *
-	 * @param  string $item_name Item name. Expected to not be SQL-escaped.
-	 * @return integer Number of deleted items.
-	 * @since  1.0.0
-	 */
-	public static function delete_shared( $item_name ) {
-		$save            = self::$pool_name;
-		self::$pool_name = 'perfopsone';
-		$result = self::delete_for_ful_name( self::full_item_name( $item_name ) );
-		self::$pool_name = $save;
 		return $result;
 	}
 
