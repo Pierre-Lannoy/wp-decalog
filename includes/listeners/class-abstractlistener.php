@@ -14,6 +14,7 @@ namespace Decalog\Listener;
 use Decalog\Plugin\Feature\DMonitor;
 use Decalog\Plugin\Feature\DTracer;
 use Decalog\Plugin\Feature\Log;
+use Decalog\System\Environment;
 use Decalog\System\Option;
 use Decalog\System\User;
 use WP_User;
@@ -141,7 +142,9 @@ abstract class AbstractListener {
 				if ( isset( $this->log ) ) {
 					$this->log->debug( sprintf( 'Listener for %s is launched.', $this->name ) );
 				}
-				add_action( 'shutdown', [ $this, 'monitoring_close' ], self::$monitor_priority, 0 );
+				if ( 1 !== Environment::exec_mode() ) {
+					add_action( 'shutdown', [ $this, 'monitoring_close' ], self::$monitor_priority, 0 );
+				}
 				$this->launched();
 			}
 		}
