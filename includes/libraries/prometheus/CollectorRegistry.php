@@ -107,7 +107,7 @@ class CollectorRegistry implements RegistryInterface
     {
         $metricIdentifier = self::metricIdentifier($namespace, $name);
         if (! isset($this->gauges[$metricIdentifier])) {
-            throw new MetricNotFoundException("Metric not found:" . $metricIdentifier);
+            throw new MetricNotFoundException("Metric not found: " . $metricIdentifier);
         }
         return $this->gauges[$metricIdentifier];
     }
@@ -167,7 +167,7 @@ class CollectorRegistry implements RegistryInterface
     {
         $metricIdentifier = self::metricIdentifier($namespace, $name);
         if (! isset($this->counters[$metricIdentifier])) {
-            throw new MetricNotFoundException("Metric not found:" . $metricIdentifier);
+            throw new MetricNotFoundException("Metric not found: " . $metricIdentifier);
         }
         return $this->counters[self::metricIdentifier($namespace, $name)];
     }
@@ -234,7 +234,7 @@ class CollectorRegistry implements RegistryInterface
     {
         $metricIdentifier = self::metricIdentifier($namespace, $name);
         if (! isset($this->histograms[$metricIdentifier])) {
-            throw new MetricNotFoundException("Metric not found:" . $metricIdentifier);
+            throw new MetricNotFoundException("Metric not found: " . $metricIdentifier);
         }
         return $this->histograms[self::metricIdentifier($namespace, $name)];
     }
