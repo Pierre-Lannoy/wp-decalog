@@ -208,6 +208,17 @@ class Libraries {
 			'license' => 'mit',
 			'langs'   => 'en',
 		];
+
+		self::$psr4_libraries['psr-11']     = [
+			'name'    => 'PSR-11',
+			'prefix'  => 'Psr\\Container',
+			'base'    => DECALOG_VENDOR_DIR . 'psr/container/',
+			'version' => '',
+			'author'  => 'PHP Framework Interop Group',
+			'url'     => 'https://www.php-fig.org/',
+			'license' => 'mit',
+			'langs'   => 'en',
+		];
 		self::$psr4_libraries['psr-18']     = [
 			'name'    => 'PSR-18',
 			'prefix'  => 'Psr\\Http\\Client',
@@ -226,6 +237,36 @@ class Libraries {
 			// phpcs:ignore
 			'author'  => sprintf( esc_html__( '%s & contributors', 'decalog' ), 'Carsten Brandt' ),
 			'url'     => 'https://github.com/cebe/markdown',
+			'license' => 'mit',
+			'langs'   => 'en',
+		];
+		self::$psr4_libraries['spatie-ray']     = [
+			'name'    => 'Ray',
+			'prefix'  => 'DLSpatie\\Ray',
+			'base'    => DECALOG_VENDOR_DIR . 'spatie/ray/src/',
+			'version' => '1.33.0',
+			'author'  => sprintf( esc_html__( '%s & contributors', 'decalog' ), 'Spatie' ),
+			'url'     => 'https://github.com/spatie/ray',
+			'license' => 'mit',
+			'langs'   => 'en',
+		];
+		self::$psr4_libraries['spatie-macroable']     = [
+			'name'    => 'Macroable',
+			'prefix'  => 'DLSpatie\\Macroable',
+			'base'    => DECALOG_VENDOR_DIR . 'spatie/macroable/src/',
+			'version' => '2.0.0',
+			'author'  => sprintf( esc_html__( '%s & contributors', 'decalog' ), 'Spatie' ),
+			'url'     => 'https://github.com/spatie/macroable',
+			'license' => 'mit',
+			'langs'   => 'en',
+		];
+		self::$psr4_libraries['spatie-backtrace']     = [
+			'name'    => 'Backtrace',
+			'prefix'  => 'DLSpatie\\Backtrace',
+			'base'    => DECALOG_VENDOR_DIR . 'spatie/backtrace/src/',
+			'version' => '1.2.1',
+			'author'  => sprintf( esc_html__( '%s & contributors', 'decalog' ), 'Spatie' ),
+			'url'     => 'https://github.com/spatie/backtrace',
 			'license' => 'mit',
 			'langs'   => 'en',
 		];
