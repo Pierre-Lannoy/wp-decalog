@@ -174,7 +174,7 @@ class CoreListener extends AbstractListener {
 		add_action( 'after_setup_theme', [ $this, 'after_setup_theme' ], PHP_INT_MAX );
 		add_action( 'switch_theme', [ $this, 'switch_theme' ], 10, 3 );
 		// Errors.
-		add_filter( 'wp_die_ajax_handler', [ $this, 'wp_die_handler' ], 10, 1 );
+		add_filter( 'wp_die_ajax_handler', [ $this, 'wp_die_ajax_handler' ], 10, 1 );
 		add_filter( 'wp_die_xmlrpc_handler', [ $this, 'wp_die_handler' ], 10, 1 );
 		add_filter( 'wp_die_handler', [ $this, 'wp_die_handler' ], 10, 1 );
 		add_filter( 'wp_die_json_handler', [ $this, 'wp_die_handler' ], 10, 1 );
@@ -1220,11 +1220,43 @@ class CoreListener extends AbstractListener {
 			} elseif ( '' !== $msg ) {
 				if ( 0 === strpos( $msg, '[' ) || 0 === strpos( $msg, '{' ) ) {
 					$this->logger->debug( wp_kses( $msg, [] ), $code );
-				} elseif ( false !== strpos( $msg, '&lrm;' ) ) { // hack to filter wp_ajax_sample_permalink hook.
-					$this->logger->debug( wp_kses( $msg, [] ), $code );
 				} else {
 					$this->logger->critical( wp_kses( $msg, [] ), $code );
 				}
+			}
+			return $handler( $message, $title, $args );
+		};
+	}
+
+	/**
+	 * "wp_die_*" events.
+	 *
+	 * @since    1.0.0
+	 */
+	public function wp_die_ajax_handler( $handler ) {
+		if ( ! $handler || ! is_callable( $handler ) ) {
+			return $handler;
+		}
+		return function ( $message, $title = '', $args = [] ) use ( $handler ) {
+			$msg  = '';
+			$code = 0;
+			if ( is_string( $title ) && '' !== $title ) {
+				$title .= ': ';
+			}
+			if ( is_numeric( $title ) ) {
+				$code  = $title;
+				$title = '';
+			}
+			if ( function_exists( 'is_wp_error' ) && is_wp_error( $message ) ) {
+				$msg  = $title . $message->get_error_message();
+				$code = $message->get_error_code();
+			} elseif ( is_string( $message ) ) {
+				$msg = $title . $message;
+			}
+			if ( is_numeric( $msg ) ) {
+				$this->logger->debug( 'Malformed wp_die call.', $code );
+			} elseif ( '' !== $msg ) {
+				$this->logger->debug( wp_kses( $msg, [] ), $code );
 			}
 			return $handler( $message, $title, $args );
 		};
