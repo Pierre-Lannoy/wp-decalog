@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 - Compatibility with PHP 8.1.
+- New logger to send events to Spatie Ray app.
 - New listener for [Redis Object Cache](https://wordpress.org/plugins/redis-cache/) (thanks to [Till Krüss](https://github.com/tillkruss) for the help).
 - Logo for bbPress in events list and viewer.
 - Logo for MysQL DB in events list and viewer.
