@@ -71,7 +71,7 @@ class RedisOCListener extends AbstractListener {
 	/**
 	 * Performs post-launch operations if needed.
 	 *
-	 * @since    2.4.0
+	 * @since    3.4.0
 	 */
 	protected function launched() {
 		if ( class_exists( '\Rhubarb\RedisCache\Metrics' ) && method_exists( \Rhubarb\RedisCache\Metrics::class, 'get' ) ) {
@@ -195,7 +195,7 @@ class RedisOCListener extends AbstractListener {
 	/**
 	 * Finalizes monitoring operations.
 	 *
-	 * @since    3.0.0
+	 * @since    3.4.0
 	 */
 	public function monitoring_close() {
 		if ( ! $this->is_available() ) {
