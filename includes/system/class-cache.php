@@ -82,6 +82,24 @@ class Cache {
 	}
 
 	/**
+	 * Get cache analytics.
+	 *
+	 * @return array The cache analytics.
+	 * @since  1.0.0
+	 */
+	public static function get_analytics() {
+		$result    = [];
+		if ( self::$apcu_available ) {
+			$result['type'] = 'apcu';
+		} elseif ( wp_using_ext_object_cache() ) {
+			$result['type'] = 'object_cache';
+		} else {
+			$result['type'] = 'db_transient';
+		}
+		return $result;
+	}
+
+	/**
 	 * Initializes properties.
 	 *
 	 * @since 1.0.0
