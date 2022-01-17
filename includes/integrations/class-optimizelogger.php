@@ -33,7 +33,7 @@ class OptimizeLogger extends \Updraft_Abstract_Logger {
 	 * The "true" DLogger instance.
 	 *
 	 * @since  1.9.0
-	 * @var    \Decalog\API\DLogger    $logger    Maintains the internal DLogger instance.
+	 * @var    \Decalog\Plugin\Feature\DLogger    $logger    Maintains the internal DLogger instance.
 	 */
 	private $logger = null;
 

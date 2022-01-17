@@ -27,7 +27,7 @@ if ( interface_exists( '\AmeliaStripe\Util\LoggerInterface' ) ) {
 		 * The "true" DLogger instance.
 		 *
 		 * @since 2.4.0
-		 * @var    \Decalog\API\DLogger    $logger    Maintains the internal DLogger instance.
+		 * @var    \Decalog\Plugin\Feature\DLogger    $logger    Maintains the internal DLogger instance.
 		 */
 		private $logger = null;
 

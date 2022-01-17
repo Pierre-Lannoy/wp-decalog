@@ -33,7 +33,7 @@ class WpseoLogger implements \YoastSEO_Vendor\Psr\Log\LoggerInterface {
 	 * The "true" DLogger instance.
 	 *
 	 * @since  1.14.0
-	 * @var    \Decalog\API\DLogger    $logger    Maintains the internal DLogger instance.
+	 * @var    \Decalog\Plugin\Feature\DLogger    $logger    Maintains the internal DLogger instance.
 	 */
 	private $logger = null;
 
