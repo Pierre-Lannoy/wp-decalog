@@ -481,7 +481,7 @@ class InlineHelp {
 	 * @return  string  The output of the shortcode, ready to print.
 	 * @since 1.0.0
 	 */
-	public function sc_get_logging( $attributes ) {
+	public static function sc_get_logging( $attributes ) {
 		$md = new Markdown();
 		return $md->get_shortcode( 'LOGGING.md', $attributes );
 	}
@@ -494,7 +494,7 @@ class InlineHelp {
 	 * @return  string  The output of the shortcode, ready to print.
 	 * @since 1.0.0
 	 */
-	public function sc_get_monitoring( $attributes ) {
+	public static function sc_get_monitoring( $attributes ) {
 		$md = new Markdown();
 		return $md->get_shortcode( 'MONITORING.md', $attributes );
 	}
@@ -507,7 +507,7 @@ class InlineHelp {
 	 * @return  string  The output of the shortcode, ready to print.
 	 * @since 1.0.0
 	 */
-	public function sc_get_tracing( $attributes ) {
+	public static function sc_get_tracing( $attributes ) {
 		$md = new Markdown();
 		return $md->get_shortcode( 'TRACING.md', $attributes );
 	}
