@@ -204,7 +204,7 @@ class DLogger {
 			$loggers[ DECALOG_SHM_ID ] = $shm;
 			Option::network_set( 'loggers', $loggers );
 		}
-		return Option::network_get( 'loggers' );
+		return $loggers;
 	}
 
 	/**
