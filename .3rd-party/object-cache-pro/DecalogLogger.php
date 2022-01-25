@@ -20,9 +20,17 @@ class DecalogLogger implements LoggerInterface {
 	 * The DLogger instance.
 	 *
 	 * @since  1.0.0
-	 * @var    \Decalog\Plugin\Feature\DLogger    $logger    Maintains the internal DLogger instance.
+	 * @var    \Decalog\Plugin\Feature\DLogger    $events_logger    Maintains the internal DLogger instance.
 	 */
-	private $logger = null;
+	private $events_logger = null;
+
+	/**
+	 * The DMonitor instance.
+	 *
+	 * @since  1.0.0
+	 * @var    \Decalog\Plugin\Feature\DMonitor    $metrics_logger    Maintains the internal DMonitor instance.
+	 */
+	private $metrics_logger = null;
 
 	/**
 	 * Early logged events.
@@ -47,15 +55,39 @@ class DecalogLogger implements LoggerInterface {
 	 * @since 1.0.0
 	 */
 	public function ready() {
-		if ( ! isset( $this->logger ) && class_exists( '\Decalog\Plugin\Feature\DLogger' ) ) {
-			$this->logger = new \Decalog\Plugin\Feature\DLogger( 'plugin', 'Object Cache Pro', defined( 'RedisCachePro\Version' ) ? constant('\RedisCachePro\Version') : '1.x', null, true );
+		if ( ! defined( 'DECALOG_MAX_SHUTDOWN_PRIORITY' ) ) {
+			define( 'DECALOG_MAX_SHUTDOWN_PRIORITY', PHP_INT_MAX - 1000 );
+		}
+		$version = defined( 'RedisCachePro\Version' ) ? constant('\RedisCachePro\Version') : '1.x';
+		if ( ! isset( $this->events_logger ) && class_exists( '\Decalog\Plugin\Feature\DLogger' ) ) {
+			$this->events_logger = new \Decalog\Plugin\Feature\DLogger( 'plugin', 'Object Cache Pro', $version, null, true );
 			foreach ( self::$earlyLogged as $event ) {
-				$this->log( $event['level'], $event['message'], [ 'code' => $event['code'] ] );
+				$this->log( $event['level'], '[loader] ' . $event['message'], [ 'code' => $event['code'] ] );
 			}
 			self::$earlyLogged = [];
+			$this->debug( 'Events logger initialized.' );
 		}
-		if ( ! isset( $this->logger ) ) {
-			\error_log('objectcache.warning: unable to load DecalogLogger.');
+		if ( ! isset( $this->events_logger ) ) {
+			\error_log('objectcache.warning: unable to load DecalogLogger for events.');
+		}
+		if ( defined( 'WP_REDIS_ANALYTICS' ) && WP_REDIS_ANALYTICS ) {
+			if ( ! isset( $this->metrics_logger ) && class_exists( '\Decalog\Plugin\Feature\DMonitor' ) ) {
+				$this->metrics_logger = new \Decalog\Plugin\Feature\DMonitor( 'plugin', 'Object Cache Pro', $version );
+				$this->metrics_logger->create_prod_gauge( 'cache_hit_ratio', 0, 'Object cache hit ratio per request, 5 min average - [percent]' );
+				$this->metrics_logger->create_prod_gauge( 'cache_size', 0, 'Object cache size per request, 5 min average - [byte]' );
+				$this->metrics_logger->create_prod_gauge( 'cache_time', 0, 'Object cache time per request, 5 min average - [second]' );
+				$this->metrics_logger->create_prod_gauge( 'cache_calls', 0, 'Number of calls per request, 5 min average - [count]' );
+			}
+			if ( ! isset( $this->metrics_logger ) ) {
+				if ( ! isset( $this->events_logger ) ) {
+					\error_log('objectcache.warning: unable to load DecalogLogger for metrics.');
+				} else {
+					$this->warning( 'Unable to load metrics logger.' );
+				}
+			} else {
+				add_action( 'shutdown', [ $this, 'monitoring_close' ], DECALOG_MAX_SHUTDOWN_PRIORITY );
+				$this->debug( 'Metrics logger initialized.' );
+			}
 		}
 	}
 
@@ -67,8 +99,8 @@ class DecalogLogger implements LoggerInterface {
 	 * @since 1.0.0
 	 */
 	public function emergency( $message, array $context = [] ) {
-		if ( isset( $this->logger ) ) {
-			$this->logger->emergency( (string) $message, is_array( $context ) && array_key_exists( 'code', $context ) && is_scalar( $context['code'] ) ? (int) $context['code'] : 0 );
+		if ( isset( $this->events_logger ) ) {
+			$this->events_logger->emergency( (string) $message, is_array( $context ) && array_key_exists( 'code', $context ) && is_scalar( $context['code'] ) ? (int) $context['code'] : 0 );
 		}  else {
 			$this->earlyLog( 'emergency', (string) $message, is_array( $context ) && array_key_exists( 'code', $context ) && is_scalar( $context['code'] ) ? (int) $context['code'] : 0 );
 		}
@@ -82,8 +114,8 @@ class DecalogLogger implements LoggerInterface {
 	 * @since 1.0.0
 	 */
 	public function alert( $message, array $context = [] ) {
-		if ( isset( $this->logger ) ) {
-			$this->logger->alert( (string) $message, is_array( $context ) && array_key_exists( 'code', $context ) && is_scalar( $context['code'] ) ? (int) $context['code'] : 0 );
+		if ( isset( $this->events_logger ) ) {
+			$this->events_logger->alert( (string) $message, is_array( $context ) && array_key_exists( 'code', $context ) && is_scalar( $context['code'] ) ? (int) $context['code'] : 0 );
 		}  else {
 			$this->earlyLog( 'alert', (string) $message, is_array( $context ) && array_key_exists( 'code', $context ) && is_scalar( $context['code'] ) ? (int) $context['code'] : 0 );
 		}
@@ -97,8 +129,8 @@ class DecalogLogger implements LoggerInterface {
 	 * @since 1.0.0
 	 */
 	public function critical( $message, array $context = [] ) {
-		if ( isset( $this->logger ) ) {
-			$this->logger->critical( (string) $message, is_array( $context ) && array_key_exists( 'code', $context ) && is_scalar( $context['code'] ) ? (int) $context['code'] : 0 );
+		if ( isset( $this->events_logger ) ) {
+			$this->events_logger->critical( (string) $message, is_array( $context ) && array_key_exists( 'code', $context ) && is_scalar( $context['code'] ) ? (int) $context['code'] : 0 );
 		}  else {
 			$this->earlyLog( 'critical', (string) $message, is_array( $context ) && array_key_exists( 'code', $context ) && is_scalar( $context['code'] ) ? (int) $context['code'] : 0 );
 		}
@@ -113,8 +145,8 @@ class DecalogLogger implements LoggerInterface {
 	 * @since 1.0.0
 	 */
 	public function error( $message, array $context = [] ) {
-		if ( isset( $this->logger ) ) {
-			$this->logger->error( (string) $message, is_array( $context ) && array_key_exists( 'code', $context ) && is_scalar( $context['code'] ) ? (int) $context['code'] : 0 );
+		if ( isset( $this->events_logger ) ) {
+			$this->events_logger->error( (string) $message, is_array( $context ) && array_key_exists( 'code', $context ) && is_scalar( $context['code'] ) ? (int) $context['code'] : 0 );
 		}  else {
 			$this->earlyLog( 'error', (string) $message, is_array( $context ) && array_key_exists( 'code', $context ) && is_scalar( $context['code'] ) ? (int) $context['code'] : 0 );
 		}
@@ -128,8 +160,8 @@ class DecalogLogger implements LoggerInterface {
 	 * @since 1.0.0
 	 */
 	public function warning( $message, array $context = [] ) {
-		if ( isset( $this->logger ) ) {
-			$this->logger->warning( (string) $message, is_array( $context ) && array_key_exists( 'code', $context ) && is_scalar( $context['code'] ) ? (int) $context['code'] : 0 );
+		if ( isset( $this->events_logger ) ) {
+			$this->events_logger->warning( (string) $message, is_array( $context ) && array_key_exists( 'code', $context ) && is_scalar( $context['code'] ) ? (int) $context['code'] : 0 );
 		}  else {
 			$this->earlyLog( 'warning', (string) $message, is_array( $context ) && array_key_exists( 'code', $context ) && is_scalar( $context['code'] ) ? (int) $context['code'] : 0 );
 		}
@@ -143,8 +175,8 @@ class DecalogLogger implements LoggerInterface {
 	 * @since 1.0.0
 	 */
 	public function notice( $message, array $context = [] ) {
-		if ( isset( $this->logger ) ) {
-			$this->logger->notice( (string) $message, is_array( $context ) && array_key_exists( 'code', $context ) && is_scalar( $context['code'] ) ? (int) $context['code'] : 0 );
+		if ( isset( $this->events_logger ) ) {
+			$this->events_logger->notice( (string) $message, is_array( $context ) && array_key_exists( 'code', $context ) && is_scalar( $context['code'] ) ? (int) $context['code'] : 0 );
 		}  else {
 			$this->earlyLog( 'notice', (string) $message, is_array( $context ) && array_key_exists( 'code', $context ) && is_scalar( $context['code'] ) ? (int) $context['code'] : 0 );
 		}
@@ -160,8 +192,8 @@ class DecalogLogger implements LoggerInterface {
 	 * @since 1.0.0
 	 */
 	public function info( $message, array $context = [] ) {
-		if ( isset( $this->logger ) ) {
-			$this->logger->debug( (string) $message, is_array( $context ) && array_key_exists( 'code', $context ) && is_scalar( $context['code'] ) ? (int) $context['code'] : 0 );
+		if ( isset( $this->events_logger ) ) {
+			$this->events_logger->debug( (string) $message, is_array( $context ) && array_key_exists( 'code', $context ) && is_scalar( $context['code'] ) ? (int) $context['code'] : 0 );
 		}  else {
 			$this->earlyLog( 'debug', (string) $message, is_array( $context ) && array_key_exists( 'code', $context ) && is_scalar( $context['code'] ) ? (int) $context['code'] : 0 );
 		}
@@ -175,8 +207,8 @@ class DecalogLogger implements LoggerInterface {
 	 * @since 1.0.0
 	 */
 	public function debug( $message, array $context = [] ) {
-		if ( isset( $this->logger ) ) {
-			$this->logger->debug( (string) $message, is_array( $context ) && array_key_exists( 'code', $context ) && is_scalar( $context['code'] ) ? (int) $context['code'] : 0 );
+		if ( isset( $this->events_logger ) ) {
+			$this->events_logger->debug( (string) $message, is_array( $context ) && array_key_exists( 'code', $context ) && is_scalar( $context['code'] ) ? (int) $context['code'] : 0 );
 		} else {
 			$this->earlyLog( 'debug', (string) $message, is_array( $context ) && array_key_exists( 'code', $context ) && is_scalar( $context['code'] ) ? (int) $context['code'] : 0 );
 		}
@@ -191,8 +223,8 @@ class DecalogLogger implements LoggerInterface {
 	 * @since 1.0.0
 	 */
 	public function log( $level, $message, array $context = [] ) {
-		if ( isset( $this->logger ) ) {
-			$this->logger->log( $level, (string) $message, is_array( $context ) && array_key_exists( 'code', $context ) && is_scalar( $context['code'] ) ? (int) $context['code'] : 0 );
+		if ( isset( $this->events_logger ) ) {
+			$this->events_logger->log( $level, (string) $message, is_array( $context ) && array_key_exists( 'code', $context ) && is_scalar( $context['code'] ) ? (int) $context['code'] : 0 );
 		} else {
 			$this->earlyLog( $level, (string) $message, is_array( $context ) && array_key_exists( 'code', $context ) && is_scalar( $context['code'] ) ? (int) $context['code'] : 0 );
 		}
@@ -212,5 +244,23 @@ class DecalogLogger implements LoggerInterface {
 			'message' => $message,
 			'code'    => $code,
 		];
+	}
+
+	/**
+	 * Finalizes monitoring operations.
+	 *
+	 * @since    1.0.0
+	 */
+	public function monitoring_close() {
+		if ( $this->metrics_logger instanceof \Decalog\Plugin\Feature\DMonitor ) {
+			global $wp_object_cache;
+			if ( $wp_object_cache instanceof \RedisCachePro\ObjectCaches\PhpRedisObjectCache && defined( 'WP_REDIS_ANALYTICS' ) && WP_REDIS_ANALYTICS) {
+				$measurements  = $wp_object_cache->measurements( microtime(true) - 300 );
+				$this->metrics_logger->set_prod_gauge( 'cache_hit_ratio', $measurements->mean( 'wp->hitRatio' ) / 100 );
+				$this->metrics_logger->set_prod_gauge( 'cache_size', $measurements->mean( 'wp->bytes' ) );
+				$this->metrics_logger->set_prod_gauge( 'cache_time', $measurements->mean( 'wp->cacheMs' ) / 1000 );
+				$this->metrics_logger->set_prod_gauge( 'cache_calls', $measurements->mean( 'wp->storeReads' ) + $measurements->mean( 'wp->storeWrites' ) );
+			}
+		}
 	}
 }
