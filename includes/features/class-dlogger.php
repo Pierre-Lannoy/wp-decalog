@@ -184,6 +184,11 @@ class DLogger {
 	 */
 	private function loggers_check() {
 		$loggers = Option::network_get( 'loggers' );
+		// Verify data structure and fix if required
+		if ( ! is_array( $loggers ) ) {
+			$loggers = array();
+			Option::network_set( 'loggers', $loggers );
+		}
 		// Verify shared memory logger
 		if ( ! array_key_exists( DECALOG_SHM_ID, $loggers ) ) {
 			$shm                       = [];
@@ -199,7 +204,7 @@ class DLogger {
 			$loggers[ DECALOG_SHM_ID ] = $shm;
 			Option::network_set( 'loggers', $loggers );
 		}
-		return Option::network_get( 'loggers' );
+		return $loggers;
 	}
 
 	/**
