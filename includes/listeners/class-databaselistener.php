@@ -148,10 +148,10 @@ class DatabaseListener extends AbstractListener {
 		}
 		Option::network_set( 'db_version', $db_version );
 		if ( version_compare( $db_version, $old_version, '<' ) ) {
-			$this->logger->warning( sprintf( '%s version downgraded from %s to %s.', Environment::mysql_version(), $old_version, $db_version ) );
+			$this->logger->warning( sprintf( '%s version downgraded from %s to %s.', Environment::mysql_model(), $old_version, $db_version ) );
 			return;
 		}
-		$this->logger->notice( sprintf( '%s version upgraded from %s to %s.', Environment::mysql_version(), $old_version, $db_version ) );
+		$this->logger->notice( sprintf( '%s version upgraded from %s to %s.', Environment::mysql_model(), $old_version, $db_version ) );
 	}
 
 	/**
