@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - DecaLog - Stable Readme (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2021-06-23 18:26+0200\n"
+"PO-Revision-Date: 2022-01-26 09:41+0100\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -21,6 +21,22 @@ msgstr "Capturez et enregistrez les évènements, les métriques et les traces s
 #. Plugin name.
 msgid "DecaLog"
 msgstr "DecaLog"
+
+#. Found in installation list item.
+msgid "Visit 'PerfOps One &gt; Control Center &gt; DecaLog' in the left-hand menu of your WP Admin to adjust settings."
+msgstr "Visitez « PerfOps One > Centre de contrôle > DecaLog » dans le menu gauche de votre panneau d’administration pour ajuster les réglages."
+
+#. Found in description paragraph.
+msgid "🎁 Give this plugin a drive test on a free dummy site: <a href=\"https://tastewp.com/new/?pre-installed-plugin-slug=decalog\">One-Click Test!</a>"
+msgstr "🎁 Essayez cette extension sur un site factice gratuit : <a href=\"https://tastewp.com/new/?pre-installed-plugin-slug=decalog\">test en un clic !</a>"
+
+#. Screenshot description.
+msgid "Metrics Seen in InfluxDB (example of external service)"
+msgstr "Métriques vues dans InfluxDB (exemple de service externe)"
+
+#. Screenshot description.
+msgid "Events &amp; Traces Seen in Grafana (example of external service)"
+msgstr "Évènements et traces vues dans Grafana (exemple de service externe)"
 
 #. Found in faq paragraph.
 msgid "Developer's documentation can be found in the <a href=\"https://decalog.io/\">DecaLog SDK Documentation</a>."
@@ -57,14 +73,6 @@ msgstr "Standard de fait pour l’observabilité de WordPress, <strong>DecaLog</
 #. Found in description paragraph.
 msgid "<strong>Capture and log events, metrics and traces on your site. Make WordPress observable - finally!</strong>"
 msgstr "<strong>Capturez et enregistrez les événements, les métriques et les traces sur votre site. Rendez WordPress observable - enfin !</strong>"
-
-#. Screenshot description.
-msgid ""
-"Events &amp; Traces Seen in Grafana (example of external service)\n"
-"ç. Metrics Seen in InfluxDB (example of external service)"
-msgstr ""
-"Évènements &amp; traces observés dans Grafana (exemple de service externe)\n"
-"9. Métriques visualisées dans InfluxDB (exemple de service externe)"
 
 #. Screenshot description.
 msgid "Live Events with In-browser Console"
@@ -153,10 +161,6 @@ msgstr "Quels sont les prérequis pour que cette extension fonctionne ?"
 #. Found in installation list item.
 msgid "Enjoy!"
 msgstr "Profitez !"
-
-#. Found in installation list item.
-msgid "Visit 'Settings &gt; DecaLog' in the left-hand menu of your WP Admin to adjust settings."
-msgstr "Visitez « Réglages &gt; DecaLog » dans le menu gauche de votre panneau d’administration pour ajuster les paramètres."
 
 #. Found in installation list item.
 msgid "Activate DecaLog from your Plugins page."
