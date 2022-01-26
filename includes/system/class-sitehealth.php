@@ -198,32 +198,21 @@ class Sitehealth {
 	public static function perfopsone_test_objectcache_do() {
 		$key       = 'perfopsone_objectcache';
 		$analytics = Cache::get_analytics();
-		if ( 'db_transient' === $analytics['type'] ) {
-			$result = [
-				'label'       => esc_html__( 'You should use object caching', 'decalog' ),
-				'status'      => 'recommended',
-				'badge'       => [
-					'label' => esc_html__( 'Performance', 'decalog' ),
-					'color' => 'orange',
-				],
-				'description' => sprintf( '<p>%s %s</p>', esc_html__( 'Your site uses database transient.', 'decalog' ), esc_html__( 'You should consider using a dedicated object caching mechanism, like Memcached or Redis, to improve your site\'s speed.', 'decalog' ) ),
-				'actions'     => '',
-				'test'        => $key,
-			];
-		} elseif ( 'apcu' === $analytics['type'] ) {
-			$result = [
+		if ( 'apcu' === $analytics['type'] ) {
+			return [
 				'label'       => esc_html__( 'You should improve object caching', 'decalog' ),
 				'status'      => 'recommended',
 				'badge'       => [
 					'label' => esc_html__( 'Performance', 'decalog' ),
 					'color' => 'blue',
 				],
-				'description' => sprintf( '<p>%s %s</p>', esc_html__( 'Your site uses APCu, but only a few plugins know how to take advantage of it.', 'decalog' ), esc_html__( 'You should consider using a dedicated object caching mechanism, like Memcached or Redis, to improve your site\'s speed.', 'decalog' ) ),
+				'description' => sprintf( '<p>%s %s</p>', esc_html__( 'APCu is available on your site, but only PerfOps One suite and some few other plugins know how to take advantage of it.', 'decalog' ), sprintf( esc_html__( 'You should consider using %s to improve your site\'s speed.', 'decalog' ), '<a href="https://perfops.one/apcu-manager/">APCu Manager</a>' ) ),
 				'actions'     => '',
 				'test'        => $key,
 			];
-		} elseif ( 'object_cache' === $analytics['type'] ) {
-			$result = [
+		}
+		if ( 'object_cache' === $analytics['type'] ) {
+			return [
 				'label'       => esc_html__( 'Your site uses object caching', 'decalog' ),
 				'status'      => 'good',
 				'badge'       => [
@@ -235,7 +224,17 @@ class Sitehealth {
 				'test'        => $key,
 			];
 		}
-		return $result;
+		return [
+			'label'       => esc_html__( 'You should use object caching', 'decalog' ),
+			'status'      => 'recommended',
+			'badge'       => [
+				'label' => esc_html__( 'Performance', 'decalog' ),
+				'color' => 'orange',
+			],
+			'description' => sprintf( '<p>%s %s</p>', esc_html__( 'Your site uses database transient.', 'decalog' ), esc_html__( 'You should consider using a dedicated object caching mechanism, like APCu, Memcached or Redis, to improve your site\'s speed.', 'decalog' ) ),
+			'actions'     => '',
+			'test'        => $key,
+		];
 	}
 
 	/**

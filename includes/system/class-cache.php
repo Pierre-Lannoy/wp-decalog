@@ -89,10 +89,10 @@ class Cache {
 	 */
 	public static function get_analytics() {
 		$result    = [];
-		if ( self::$apcu_available ) {
-			$result['type'] = 'apcu';
-		} elseif ( wp_using_ext_object_cache() ) {
+		if ( wp_using_ext_object_cache() ) {
 			$result['type'] = 'object_cache';
+		} elseif ( self::$apcu_available ) {
+			$result['type'] = 'apcu';
 		} else {
 			$result['type'] = 'db_transient';
 		}
