@@ -69,6 +69,7 @@ class Favicon {
 				}
 			}
 		}
+		$name = str_replace( [ 'https://', 'http://' ], '', $name );
 		$filename = $dir . sanitize_file_name( $name ) . '.png';
 		if ( array_key_exists( $name, self::$icons ) ) {
 			return self::$icons[ $name ];
@@ -86,7 +87,7 @@ class Favicon {
 			if ( ! $force_download ) {
 				return self::get_default();
 			}
-			$response = wp_remote_get( 'https://www.google.com/s2/favicons?domain=' . esc_url_raw( $name ) );
+			$response = wp_remote_get( 'https://www.google.com/s2/favicons?domain=' . $name );
 			if ( is_wp_error( $response ) ) {
 				$logger->error( 'Unable to download "' . $name . '" favicon: ' . $response->get_error_message(), $response->get_error_code() );
 				return self::get_default();

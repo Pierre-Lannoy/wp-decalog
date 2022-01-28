@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 - Messages for database version downgrade/upgrade are much more precise.
 - Site Health page now presents a much more realistic test about object caching.
+- Improved favicon handling for new Google API specifications.
 
 ### Fixed
 
