@@ -34,10 +34,13 @@ class Environment {
 	 * @since 1.0.0
 	 */
 	public static function init() {
+		$all_plugins_path    = str_replace( DECALOG_SLUG . '/includes/system/', '', plugin_dir_path( __FILE__ ) );
+		$all_plugins_path    = str_replace( DECALOG_SLUG . '\includes\system/', '', $all_plugins_path );
 		$plugin_path         = str_replace( DECALOG_SLUG . '/includes/system/', DECALOG_SLUG . '/', plugin_dir_path( __FILE__ ) );
 		$plugin_path         = str_replace( DECALOG_SLUG . '\includes\system/', DECALOG_SLUG . '/', $plugin_path );
 		$plugin_url          = str_replace( DECALOG_SLUG . '/includes/system/', DECALOG_SLUG . '/', plugin_dir_url( __FILE__ ) );
 		$plugin_relative_url = str_replace( get_site_url() . '/', '', $plugin_url );
+		define( 'DECALOG_ALL_PLUGINS_DIR', $all_plugins_path );
 		define( 'DECALOG_PLUGIN_DIR', $plugin_path );
 		define( 'DECALOG_PLUGIN_URL', $plugin_url );
 		define( 'DECALOG_PLUGIN_RELATIVE_URL', $plugin_relative_url );
