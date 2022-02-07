@@ -355,7 +355,7 @@ if ( ! class_exists( 'PerfOpsOne\Menus' ) ) {
 			$disp       .= '   .perfopsone-admin-inside .poo-actionable {color:#73879C;width: 450px;}';
 			$disp       .= '   .perfopsone-admin-inside .poo-actionable a {font-style:normal;text-decoration:none;color:inherit;}';
 			$disp       .= '   .perfopsone-admin-inside .poo-icon {display:block;width:120px;float:left;padding-top:10px;}';
-			$disp       .= '   .perfopsone-admin-inside .poo-title {height: 0;font-size:1.8em;font-weight: 600;margin-bottom: 10px;}';
+			$disp       .= '   .perfopsone-admin-inside .poo-title {height: 0;font-size:1.78em;font-weight: 600;margin-bottom: 10px;}';
 			$disp       .= '   .perfopsone-admin-inside .poo-main {width:70%;display: grid;text-align:left;padding-top:18px;}';
 			$disp       .= '   .perfopsone-admin-inside .poo-actions {font-size:larger;text-align: center; margin-top: 8px;}';
 			$disp       .= '   .perfopsone-admin-inside .poo-action {border:1px solid #e7e7e7;border-radius:4px;padding: 4px 8px 7px 4px;margin: 0 4px;}';
@@ -497,7 +497,7 @@ if ( ! class_exists( 'PerfOpsOne\Menus' ) ) {
 			$disp .= '   .perfopsone-admin-inside .poo-actionable {color:#73879C;width: 450px;}';
 			$disp .= '   .perfopsone-admin-inside .poo-actionable a {font-style:normal;text-decoration:none;color:inherit;}';
 			$disp .= '   .perfopsone-admin-inside .poo-icon {display:block;width:120px;float:left;padding-top:10px;}';
-			$disp .= '   .perfopsone-admin-inside .poo-title {height: 0;font-size:1.8em;font-weight: 600;margin-bottom: 10px;}';
+			$disp .= '   .perfopsone-admin-inside .poo-title {height: 0;font-size:1.78em;font-weight: 600;margin-bottom: 10px;}';
 			$disp .= '   .perfopsone-admin-inside .poo-text {display:grid;text-align:left;padding-top:16px;padding-right:16px;width: 100%;}';
 			$disp .= '   .perfopsone-admin-inside .poo-description {font-size:1em;padding-top:10px;}';
 			$disp .= '   .perfopsone-admin-inside a:focus {box-shadow:none;outline:none;}';
