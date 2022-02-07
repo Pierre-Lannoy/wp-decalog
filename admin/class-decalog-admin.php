@@ -11,6 +11,7 @@ namespace Decalog\Plugin;
 
 use Decalog\Plugin\Feature\Autolog;
 use Decalog\Plugin\Feature\BootstrapManager;
+use Decalog\System\APCu;
 use Decalog\System\Blog;
 use Decalog\System\SharedMemory;
 use Decalog\Plugin\Feature\Log;
@@ -1181,7 +1182,7 @@ class Decalog_Admin {
 				'text' => $help
 			]
 		);
-		if ( SharedMemory::$available ) {
+		if ( APCu::$available ) {
 			$help  = '<img style="width:16px;vertical-align:text-bottom;" src="' . \Feather\Icons::get_base64( 'thumbs-up', 'none', '#00C800' ) . '" />&nbsp;';
 			$help .= esc_html__('APCu is available on your server: you can use high peformance storage mechanism.', 'decalog' );
 		} else {

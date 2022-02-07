@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Improved favicon handling for new Google API specifications.
 
 ### Fixed
+- The APCu test in option page may fail (thanks to [Renaud Pacouil](https://www.laboiteare.fr)).
 
 ### Removed
 
