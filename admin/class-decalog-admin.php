@@ -35,6 +35,7 @@ use PerfOpsOne\Menus;
 use PerfOpsOne\AdminBar;
 use Decalog\Plugin\Feature\DLogger;
 use Decalog\Plugin\Feature\TraceViewer;
+use Decalog\System\Cache;
 
 /**
  * The admin-specific functionality of the plugin.
@@ -1182,7 +1183,7 @@ class Decalog_Admin {
 				'text' => $help
 			]
 		);
-		if ( APCu::$available ) {
+		if ( Cache::$apcu_available) {
 			$help  = '<img style="width:16px;vertical-align:text-bottom;" src="' . \Feather\Icons::get_base64( 'thumbs-up', 'none', '#00C800' ) . '" />&nbsp;';
 			$help .= esc_html__('APCu is available on your server: you can use high peformance storage mechanism.', 'decalog' );
 		} else {
