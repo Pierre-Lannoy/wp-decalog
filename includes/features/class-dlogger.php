@@ -186,7 +186,7 @@ class DLogger {
 		$loggers = Option::network_get( 'loggers' );
 		// Verify data structure and fix if required
 		if ( ! is_array( $loggers ) ) {
-			$loggers = array();
+			$loggers = [];
 			Option::network_set( 'loggers', $loggers );
 		}
 		// Verify shared memory logger
