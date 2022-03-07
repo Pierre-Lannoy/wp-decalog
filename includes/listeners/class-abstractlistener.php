@@ -79,6 +79,14 @@ abstract class AbstractListener {
 	public static $tracer_priority = DECALOG_MAX_SHUTDOWN_PRIORITY + 500;
 
 	/**
+	 * The self instance.
+	 *
+	 * @since  3.5.0
+	 * @var    \Decalog\Listener\AbstractListener   $instance    The self instance.
+	 */
+	public static $instance = null;
+
+	/**
 	 * The listener id.
 	 *
 	 * @since  1.0.0
