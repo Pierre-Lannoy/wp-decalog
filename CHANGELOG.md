@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [3.5.0] - Not Yet Released
 
 ### Added
+- New events when adding or removing a user role.
 
 ### Changed
 - Messages for database version downgrade/upgrade are much more precise.
@@ -13,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Improved favicon handling for new Google API specifications.
 
 ### Fixed
+- Events about roles changes are wrongly reported (thanks to [Valérie Galassi](https://profiles.wordpress.org/valer1e/)).
 - The APCu test in option page may fail (thanks to [Renaud Pacouil](https://www.laboiteare.fr)).
 
 ### Removed
