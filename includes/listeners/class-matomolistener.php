@@ -25,17 +25,17 @@ class MatomoListener extends AbstractListener {
 	/**
 	 * Sets the listener properties.
 	 *
-	 * @since    1.0.0
+	 * @since    3.5.0
 	 */
 	protected function init() {
 		$this->id      = 'matomo';
 		$this->class   = 'plugin';
 		$this->product = 'Matomo for WordPress';
 		$this->name    = 'Matomo for WordPress';
-		$version       = DECALOG_ALL_PLUGINS_DIR . 'matomo/app/core/Version.php';
+		/*$version       = DECALOG_ALL_PLUGINS_DIR . 'matomo/app/core/Version.php';
 		if ( file_exists( $version ) ) {
 			require $version;
-		}
+		}*/
 		if ( class_exists( '\Piwik\Version' ) ) {
 			$this->version = \Piwik\Version::VERSION;
 		} else {
@@ -50,7 +50,7 @@ class MatomoListener extends AbstractListener {
 	 * @since    3.5.0
 	 */
 	protected function is_available() {
-		return class_exists( '\WpMatomo\Logger' );
+		return false;//class_exists( '\WpMatomo\Logger' );
 	}
 
 	/**
@@ -67,26 +67,29 @@ class MatomoListener extends AbstractListener {
 	/**
 	 * Performs post-launch operations if needed.
 	 *
-	 * @since    2.4.0
+	 * @since    3.5.0
 	 */
 	protected function launched() {
 		// No post-launch operations
 	}
 
 	/**
-	 * "woocommerce_register_log_handlers" filter.
+	 * "matomo_register_psr3_log_handlers" filter.
 	 *
 	 * @since    3.5.0
 	 */
 	public function matomo_register_psr3_log_handlers( $handlers ) {
-		array_push( $handlers, new \Decalog\Integration\MatomoLogger( $this->class, $this->name, $this->version ) );
+		if ( ! isset( self::$instance ) ) {
+			self::$instance = new \Decalog\Integration\MatomoLogger( $this->class, $this->name, $this->version );
+		}
+		array_push( $handlers, self::$instance );
 		return $handlers;
 	}
 
 	/**
 	 * Finalizes monitoring operations.
 	 *
-	 * @since    3.0.0
+	 * @since    3.5.0
 	 */
 	public function monitoring_close() {
 		if ( ! $this->is_available() ) {
