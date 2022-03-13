@@ -340,8 +340,8 @@ class Wpcli {
 	/**
 	 * Add a logger.
 	 *
-	 * @param   string  $uuid   The logger uuid.
-	 * @param   array   $args   The command line parameters.
+	 * @param   string  $handler    The logger type.
+	 * @param   array   $args       The command line parameters.
 	 * @return  string The logger uuid.
 	 * @since   2.0.0
 	 */
