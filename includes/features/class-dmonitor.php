@@ -665,7 +665,7 @@ class DMonitor {
 	private function normalize_string( $string ) {
 		$string = str_replace( '"', '“', $string );
 		$string = str_replace( '\'', '`', $string );
-		return filter_var( $string, FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+		return decalog_filter_string( $string );
 	}
 
 	/**

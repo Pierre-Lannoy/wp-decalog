@@ -95,3 +95,10 @@ if ( ! function_exists( 'array_key_first' ) ) {
 		}
 	}
 }
+
+/**
+ * Provide a replacement for filter_var() used with FILTER_SANITIZE_STRING flag (was legit with PHP prior to 8.1).
+ */
+function decalog_filter_string( string $string ) {
+	return preg_replace( '/\x00|<[^>]*>?/', '', $string );
+}

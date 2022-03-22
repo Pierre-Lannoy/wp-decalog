@@ -187,6 +187,13 @@ class DLogger {
 		// Verify data structure and fix if required
 		if ( ! is_array( $loggers ) ) {
 			$loggers = [];
+			// Check if a failsafe is declared somewhere. A failsafe is a set of loggers to activate when everything
+			// went wrong.
+			// Note, the best place to define a failsafe is the config.php file.
+			// You can use any valid handler id and set of params (see wp-cli for details)
+			// Example:
+			//
+
 			Option::network_set( 'loggers', $loggers );
 		}
 		// Verify shared memory logger
@@ -204,6 +211,7 @@ class DLogger {
 			$loggers[ DECALOG_SHM_ID ] = $shm;
 			Option::network_set( 'loggers', $loggers );
 		}
+		//error_log(print_r($loggers,true));
 		return $loggers;
 	}
 
@@ -259,7 +267,7 @@ class DLogger {
 		$string = str_replace( '\'', '`', $string );
 		$string = str_replace( '>=', '≥', $string );
 		$string = str_replace( '<=', '≤', $string );
-		return filter_var( $string, FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+		return decalog_filter_string( $string );
 	}
 
 	/**
@@ -309,6 +317,7 @@ class DLogger {
 	 * @since 1.0.0
 	 */
 	public function log( $level, $message, $code = 0, $phase = '', $signal = true ) {
+
 		if ( is_string( $level ) ) {
 			$level = EventTypes::$levels[ strtolower( $level ) ];
 		}
