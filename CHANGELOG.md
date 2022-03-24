@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 - New events when adding or removing a user role.
+- A new filter allows now to exclude specific metrics for specific loggers (based on a suggestion from [Jan Thiel](https://github.com/JanThiel)).
 
 ### Changed
 - Messages for database version downgrade/upgrade are much more precise.

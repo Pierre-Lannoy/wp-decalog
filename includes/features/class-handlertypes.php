@@ -628,6 +628,20 @@ class HandlerTypes {
 						'list'    => [ [ 1000, '100%' ], [ 500, '50%' ], [ 250, '25%' ], [ 100, '10%' ], [ 50, '5%' ], [ 20, '2%' ], [ 10, '1%' ], [ 5, '5‰' ], [ 2, '2‰' ], [ 1, '1‰' ] ],
 					],
 				],
+				'filter' => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Metrics filter', 'decalog' ),
+					'help'    => esc_html__( 'Exclude metrics to be collated by specifying them with regular expressions (one expression per line).', 'decalog' ) . '<br/>' . esc_html__( 'Example:', 'decalog' ) . ' <code>core_wordpress_content_status_(?:draft|pending|inherit)</code>',
+					'default' => '',
+					'control' => [
+						'type'    => 'field_input_textarea',
+						'cast'    => 'string',
+						'enabled' => true,
+						'columns' => 50,
+						'lines'   => 5,
+					],
+				],
 				'host'     => [
 					'type'    => 'string',
 					'show'    => true,
@@ -674,6 +688,10 @@ class HandlerTypes {
 					'type'  => 'configuration',
 					'value' => 'sampling',
 				],
+				[
+					'type'  => 'configuration',
+					'value' => 'filter',
+				],
 			],
 		];
 		$this->handlers[] = [
@@ -713,6 +731,20 @@ class HandlerTypes {
 						'cast'    => 'integer',
 						'enabled' => true,
 						'list'    => [ [ 1000, '100%' ], [ 500, '50%' ], [ 250, '25%' ], [ 100, '10%' ], [ 50, '5%' ], [ 20, '2%' ], [ 10, '1%' ], [ 5, '5‰' ], [ 2, '2‰' ], [ 1, '1‰' ] ],
+					],
+				],
+				'filter' => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Metrics filter', 'decalog' ),
+					'help'    => esc_html__( 'Exclude metrics to be collated by specifying them with regular expressions (one expression per line).', 'decalog' ) . '<br/>' . esc_html__( 'Example:', 'decalog' ) . ' <code>core_wordpress_content_status_(?:draft|pending|inherit)</code>',
+					'default' => '',
+					'control' => [
+						'type'    => 'field_input_textarea',
+						'cast'    => 'string',
+						'enabled' => true,
+						'columns' => 50,
+						'lines'   => 5,
 					],
 				],
 				'host'     => [
@@ -761,6 +793,10 @@ class HandlerTypes {
 					'type'  => 'configuration',
 					'value' => 'sampling',
 				],
+				[
+					'type'  => 'configuration',
+					'value' => 'filter',
+				],
 			],
 		];
 		$this->handlers[] = [
@@ -800,6 +836,20 @@ class HandlerTypes {
 						'cast'    => 'integer',
 						'enabled' => true,
 						'list'    => [ [ 1000, '100%' ], [ 500, '50%' ], [ 250, '25%' ], [ 100, '10%' ], [ 50, '5%' ], [ 20, '2%' ], [ 10, '1%' ], [ 5, '5‰' ], [ 2, '2‰' ], [ 1, '1‰' ] ],
+					],
+				],
+				'filter' => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Metrics filter', 'decalog' ),
+					'help'    => esc_html__( 'Exclude metrics to be collated by specifying them with regular expressions (one expression per line).', 'decalog' ) . '<br/>' . esc_html__( 'Example:', 'decalog' ) . ' <code>core_wordpress_content_status_(?:draft|pending|inherit)</code>',
+					'default' => '',
+					'control' => [
+						'type'    => 'field_input_textarea',
+						'cast'    => 'string',
+						'enabled' => true,
+						'columns' => 50,
+						'lines'   => 5,
 					],
 				],
 				'url'      => [
@@ -879,6 +929,10 @@ class HandlerTypes {
 					'type'  => 'configuration',
 					'value' => 'token',
 				],
+				[
+					'type'  => 'configuration',
+					'value' => 'filter',
+				],
 			],
 		];
 		$this->handlers[] = [
@@ -920,6 +974,20 @@ class HandlerTypes {
 						'list'    => [ [ 1000, '100%' ], [ 500, '50%' ], [ 250, '25%' ], [ 100, '10%' ], [ 50, '5%' ], [ 20, '2%' ], [ 10, '1%' ], [ 5, '5‰' ], [ 2, '2‰' ], [ 1, '1‰' ] ],
 					],
 				],
+				'filter' => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Metrics filter', 'decalog' ),
+					'help'    => esc_html__( 'Exclude metrics to be collated by specifying them with regular expressions (one expression per line).', 'decalog' ) . '<br/>' . esc_html__( 'Example:', 'decalog' ) . ' <code>core_wordpress_content_status_(?:draft|pending|inherit)</code>',
+					'default' => '',
+					'control' => [
+						'type'    => 'field_input_textarea',
+						'cast'    => 'string',
+						'enabled' => true,
+						'columns' => 50,
+						'lines'   => 5,
+					],
+				],
 			],
 			'init'          => [
 				[
@@ -932,6 +1000,10 @@ class HandlerTypes {
 				[
 					'type'  => 'configuration',
 					'value' => 'sampling',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'filter',
 				],
 			],
 		];
@@ -972,6 +1044,20 @@ class HandlerTypes {
 						'cast'    => 'integer',
 						'enabled' => true,
 						'list'    => [ [ 1000, '100%' ], [ 500, '50%' ], [ 250, '25%' ], [ 100, '10%' ], [ 50, '5%' ], [ 20, '2%' ], [ 10, '1%' ], [ 5, '5‰' ], [ 2, '2‰' ], [ 1, '1‰' ] ],
+					],
+				],
+				'filter' => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Metrics filter', 'decalog' ),
+					'help'    => esc_html__( 'Exclude metrics to be collated by specifying them with regular expressions (one expression per line).', 'decalog' ) . '<br/>' . esc_html__( 'Example:', 'decalog' ) . ' <code>core_wordpress_content_status_(?:draft|pending|inherit)</code>',
+					'default' => '',
+					'control' => [
+						'type'    => 'field_input_textarea',
+						'cast'    => 'string',
+						'enabled' => true,
+						'columns' => 50,
+						'lines'   => 5,
 					],
 				],
 				'url'      => [
@@ -1035,6 +1121,10 @@ class HandlerTypes {
 				[
 					'type'  => 'configuration',
 					'value' => 'id',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'filter',
 				],
 			],
 		];

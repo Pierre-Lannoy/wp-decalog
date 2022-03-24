@@ -55,10 +55,11 @@ class PrometheusMonitoringHandler extends AbstractMonitoringHandler {
 	 * @param   string  $url        The base endpoint.
 	 * @param   int     $model      The model to use for labels.
 	 * @param   string  $id         Optional. The job id.
+	 * @param   string  $filters    Optional. The filter to exclude metrics.
 	 * @since    3.0.0
 	 */
-	public function __construct( string $uuid, int $profile, int $sampling, string $url, int $model, string $id = 'wp_decalog' ) {
-		parent::__construct( $uuid, $profile, $sampling );
+	public function __construct( string $uuid, int $profile, int $sampling, string $url, int $model, string $id = 'wp_decalog', string $filters = '' ) {
+		parent::__construct( $uuid, $profile, $sampling, $filters );
 		$this->job      = $id;
 		$this->template = $model;
 		$this->endpoint = $url . '/metrics';
@@ -97,7 +98,7 @@ class PrometheusMonitoringHandler extends AbstractMonitoringHandler {
 		if ( $monitor->prod_registry() && $monitor->dev_registry() ) {
 			$production              = $monitor->prod_registry()->getMetricFamilySamples();
 			$development             = ( Logger::ALERT === $this->level ? $monitor->dev_registry()->getMetricFamilySamples() : [] );
-			$this->post_args['body'] = $renderer->render( array_merge( $production, $development ) );
+			$this->post_args['body'] = $renderer->render( $this->filter( $production, $development ) );
 			parent::send();
 		}
 	}

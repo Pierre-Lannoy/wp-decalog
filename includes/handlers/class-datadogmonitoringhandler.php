@@ -38,10 +38,11 @@ class DatadogMonitoringHandler extends AbstractMonitoringHandler {
 	 * @param   string  $key        The API key.
 	 * @param   int     $profile    The profile of collected metrics (500, 550 or 600).
 	 * @param   int     $sampling   The sampling rate (0->1000).
+	 * @param   string  $filters    Optional. The filter to exclude metrics.
 	 * @since    3.0.0
 	 */
-	public function __construct( string $uuid, string $host, string $key, int $profile, int $sampling ) {
-		parent::__construct( $uuid, $profile, $sampling );
+	public function __construct( string $uuid, string $host, string $key, int $profile, int $sampling, string $filters = '' ) {
+		parent::__construct( $uuid, $profile, $sampling, $filters );
 		$this->endpoint                             = $host;
 		$this->post_args['headers']['Content-Type'] = 'application/json';
 		$this->post_args['headers']['DD-API-KEY']   = $key;
@@ -56,7 +57,7 @@ class DatadogMonitoringHandler extends AbstractMonitoringHandler {
 		if ( $monitor->prod_registry() && $monitor->dev_registry() ) {
 			$production              = $monitor->prod_registry()->getMetricFamilySamples();
 			$development             = ( Logger::ALERT === $this->level ? $monitor->dev_registry()->getMetricFamilySamples() : [] );
-			$this->post_args['body'] = $renderer->render( array_merge( $production, $development ) );
+			$this->post_args['body'] = $renderer->render( $this->filter( $production, $development ) );
 			parent::send();
 		}
 	}

@@ -74,6 +74,14 @@ abstract class AbstractMonitoringHandler extends AbstractProcessingHandler {
 	protected $error_control = true;
 
 	/**
+	 * Filter to exclude metrics.
+	 *
+	 * @since  3.5.0
+	 * @var    array    $filters    Maintains the filters list.
+	 */
+	protected $filters = [];
+
+	/**
 	 * Running monitors.
 	 *
 	 * @since  3.0.0
@@ -87,10 +95,16 @@ abstract class AbstractMonitoringHandler extends AbstractProcessingHandler {
 	 * @param   string  $uuid       The UUID of the logger.
 	 * @param   int     $profile    The profile of collected metrics (500, 550 or 600).
 	 * @param   int     $sampling   The sampling rate (0->1000).
+	 * @param   string  $filters    The filter to exclude metrics.
 	 * @since    3.0.0
 	 */
-	public function __construct( $uuid, $profile, $sampling ) {
+	public function __construct( $uuid, $profile, $sampling, $filters = '' ) {
 		$this->uuid = $uuid;
+		foreach ( explode ( PHP_EOL, $filters ) as $filter ) {
+			if ( $filter ) {
+				$this->filters[] = '/' . $filter . '/i';
+			}
+		}
 		if ( 500 === $profile ) {
 			if ( 'production' === Environment::stage() ) {
 				$profile = 600;
@@ -145,6 +159,33 @@ abstract class AbstractMonitoringHandler extends AbstractProcessingHandler {
 				$logger->warning( $message, $code );
 			}
 		}
+	}
+
+	/**
+	 * Filters and merge profiles metrics.
+	 *
+	 * @param   array   $production     The production metrics.
+	 * @param   array   $development    The development metrics.
+	 * @since    3.5.0
+	 */
+	protected function filter( $production, $development ): array {
+		if ( 0 === count( $this->filters ) ) {
+			return array_merge( $production, $development );
+		}
+		$metrics = [];
+		foreach ( array_merge( $production, $development ) as $metric ) {
+			$add = true;
+			foreach ( $this->filters as $filter ) {
+				if ( preg_match( $filter, $metric->getName() ) ) {
+					$add = false;
+					break;
+				}
+			}
+			if ( $add ) {
+				$metrics[] = $metric;
+			}
+		}
+		return $metrics;
 	}
 
 	/**

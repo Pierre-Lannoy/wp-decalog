@@ -57,10 +57,12 @@ class GrafanaMonitoringHandler extends AbstractMonitoringHandler {
 	 * @param   int     $sampling   The sampling rate (0->1000).
 	 * @param   int     $model      The model to use for labels.
 	 * @param   string  $id         Optional. The job id.
+	 * @param   string  $filters    Optional. The filter to exclude metrics.
+	 *
 	 * @since    3.0.0
 	 */
-	public function __construct( string $uuid, string $host, string $user, string $key, int $profile, int $sampling, int $model, string $id = 'wp_decalog' ) {
-		parent::__construct( $uuid, $profile, $sampling );
+	public function __construct( string $uuid, string $host, string $user, string $key, int $profile, int $sampling, int $model, string $id = 'wp_decalog', string $filters = '' ) {
+		parent::__construct( $uuid, $profile, $sampling, $filters );
 		$this->job      = $id;
 		$this->template = $model;
 		$this->endpoint = 'https://' . $user . ':' . $key . '@' . $host . '.grafana.net/api/prom/push';
@@ -99,7 +101,7 @@ class GrafanaMonitoringHandler extends AbstractMonitoringHandler {
 		if ( $monitor->prod_registry() && $monitor->dev_registry() ) {
 			$production              = $monitor->prod_registry()->getMetricFamilySamples();
 			$development             = ( Logger::ALERT === $this->level ? $monitor->dev_registry()->getMetricFamilySamples() : [] );
-			$this->post_args['body'] = $renderer->render( array_merge( $production, $development ) );
+			$this->post_args['body'] = $renderer->render( $this->filter( $production, $development ) );
 			parent::send();
 		}
 	}

@@ -51,10 +51,11 @@ class InfluxMonitoringHandler extends AbstractMonitoringHandler {
 	 * @param   string  $org        The organization name.
 	 * @param   string  $bucket     The bucket name.
 	 * @param   string  $token      The token.
+	 * @param   string  $filters    Optional. The filter to exclude metrics.
 	 * @since    3.0.0
 	 */
-	public function __construct( string $uuid, int $profile, int $sampling, string $url, string $org, string $bucket, string $token ) {
-		parent::__construct( $uuid, $profile, $sampling );
+	public function __construct( string $uuid, int $profile, int $sampling, string $url, string $org, string $bucket, string $token, string $filters = '' ) {
+		parent::__construct( $uuid, $profile, $sampling, $filters );
 		$this->connection = [
 			'url'       => $url,
 			'org'       => $org,
@@ -98,7 +99,7 @@ class InfluxMonitoringHandler extends AbstractMonitoringHandler {
 		if ( $monitor->prod_registry() && $monitor->dev_registry() ) {
 			$production              = $monitor->prod_registry()->getMetricFamilySamples();
 			$development             = ( Logger::ALERT === $this->level ? $monitor->dev_registry()->getMetricFamilySamples() : [] );
-			$this->post_args['body'] = $renderer->render( array_merge( $production, $development ) );
+			$this->post_args['body'] = $renderer->render( $this->filter( $production, $development ) );
 			$this->send();
 		}
 	}
