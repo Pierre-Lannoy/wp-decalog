@@ -19,8 +19,8 @@ use Psr\Log\LogLevel;
  *
  * @author Jonathan A. Schweder <jonathanschweder@gmail.com>
  *
- * @phpstan-import-type LevelName from \Monolog\Logger
- * @phpstan-import-type Level from \Monolog\Logger
+ * @phpstan-import-type LevelName from \DLMonolog\Logger
+ * @phpstan-import-type Level from \DLMonolog\Logger
  */
 class MercurialProcessor implements ProcessorInterface
 {

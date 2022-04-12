@@ -18,7 +18,7 @@ use Elastica\Document;
  *
  * @author Jelle Vink <jelle.vink@gmail.com>
  *
- * @phpstan-import-type Record from \Monolog\Logger
+ * @phpstan-import-type Record from \DLMonolog\Logger
  */
 class ElasticaFormatter extends NormalizerFormatter
 {

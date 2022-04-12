@@ -19,7 +19,7 @@ use DLMonolog\ResettableInterface;
  *
  * @author Lenar Lõhmus <lenar@city.ee>
  *
- * @phpstan-import-type Record from \Monolog\Logger
+ * @phpstan-import-type Record from \DLMonolog\Logger
  */
 class GroupHandler extends Handler implements ProcessableHandlerInterface, ResettableInterface
 {

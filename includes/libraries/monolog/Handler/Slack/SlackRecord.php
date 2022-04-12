@@ -24,8 +24,8 @@ use DLMonolog\Formatter\FormatterInterface;
  * @see    https://api.slack.com/incoming-webhooks
  * @see    https://api.slack.com/docs/message-attachments
  *
- * @phpstan-import-type FormattedRecord from \Monolog\Handler\AbstractProcessingHandler
- * @phpstan-import-type Record from \Monolog\Logger
+ * @phpstan-import-type FormattedRecord from \DLMonolog\Handler\AbstractProcessingHandler
+ * @phpstan-import-type Record from \DLMonolog\Logger
  */
 class SlackRecord
 {
@@ -146,12 +146,14 @@ class SlackRecord
 
         if ($this->useAttachment) {
             $attachment = array(
-                'fallback'  => $message,
-                'text'      => $message,
-                'color'     => $this->getAttachmentColor($record['level']),
-                'fields'    => array(),
-                'mrkdwn_in' => array('fields'),
-                'ts'        => $record['datetime']->getTimestamp(),
+                'fallback'    => $message,
+                'text'        => $message,
+                'color'       => $this->getAttachmentColor($record['level']),
+                'fields'      => array(),
+                'mrkdwn_in'   => array('fields'),
+                'ts'          => $record['datetime']->getTimestamp(),
+                'footer'      => $this->username,
+                'footer_icon' => $this->userIcon,
             );
 
             if ($this->useShortAttachment) {

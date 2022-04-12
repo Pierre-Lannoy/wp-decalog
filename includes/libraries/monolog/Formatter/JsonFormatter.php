@@ -20,7 +20,7 @@ use Throwable;
  *
  * @author Jordi Boggiano <j.boggiano@seld.be>
  *
- * @phpstan-import-type Record from \Monolog\Logger
+ * @phpstan-import-type Record from \DLMonolog\Logger
  */
 class JsonFormatter extends NormalizerFormatter
 {
@@ -39,11 +39,12 @@ class JsonFormatter extends NormalizerFormatter
     /**
      * @param self::BATCH_MODE_* $batchMode
      */
-    public function __construct(int $batchMode = self::BATCH_MODE_JSON, bool $appendNewline = true, bool $ignoreEmptyContextAndExtra = false)
+    public function __construct(int $batchMode = self::BATCH_MODE_JSON, bool $appendNewline = true, bool $ignoreEmptyContextAndExtra = false, bool $includeStacktraces = false)
     {
         $this->batchMode = $batchMode;
         $this->appendNewline = $appendNewline;
         $this->ignoreEmptyContextAndExtra = $ignoreEmptyContextAndExtra;
+        $this->includeStacktraces = $includeStacktraces;
 
         parent::__construct();
     }
@@ -109,11 +110,13 @@ class JsonFormatter extends NormalizerFormatter
     }
 
     /**
-     * @return void
+     * @return self
      */
-    public function includeStacktraces(bool $include = true)
+    public function includeStacktraces(bool $include = true): self
     {
         $this->includeStacktraces = $include;
+
+        return $this;
     }
 
     /**

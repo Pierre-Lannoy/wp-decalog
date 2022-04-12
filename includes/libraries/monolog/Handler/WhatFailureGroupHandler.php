@@ -17,7 +17,7 @@ namespace DLMonolog\Handler;
  *
  * @author Craig D'Amelio <craig@damelio.ca>
  *
- * @phpstan-import-type Record from \Monolog\Logger
+ * @phpstan-import-type Record from \DLMonolog\Logger
  */
 class WhatFailureGroupHandler extends GroupHandler
 {

@@ -25,8 +25,8 @@ use Psr\Log\LogLevel;
  *
  * @author Jordi Boggiano <j.boggiano@seld.be>
  *
- * @phpstan-import-type Level from \Monolog\Logger
- * @phpstan-import-type LevelName from \Monolog\Logger
+ * @phpstan-import-type Level from \DLMonolog\Logger
+ * @phpstan-import-type LevelName from \DLMonolog\Logger
  */
 class IntrospectionProcessor implements ProcessorInterface
 {
@@ -101,6 +101,7 @@ class IntrospectionProcessor implements ProcessorInterface
                 'file'      => isset($trace[$i - 1]['file']) ? $trace[$i - 1]['file'] : null,
                 'line'      => isset($trace[$i - 1]['line']) ? $trace[$i - 1]['line'] : null,
                 'class'     => isset($trace[$i]['class']) ? $trace[$i]['class'] : null,
+                'callType'  => isset($trace[$i]['type']) ? $trace[$i]['type'] : null,
                 'function'  => isset($trace[$i]['function']) ? $trace[$i]['function'] : null,
             ]
         );

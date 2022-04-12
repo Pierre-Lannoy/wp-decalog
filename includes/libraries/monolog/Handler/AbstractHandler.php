@@ -20,8 +20,8 @@ use Psr\Log\LogLevel;
  *
  * @author Jordi Boggiano <j.boggiano@seld.be>
  *
- * @phpstan-import-type Level from \Monolog\Logger
- * @phpstan-import-type LevelName from \Monolog\Logger
+ * @phpstan-import-type Level from \DLMonolog\Logger
+ * @phpstan-import-type LevelName from \DLMonolog\Logger
  */
 abstract class AbstractHandler extends Handler implements ResettableInterface
 {

@@ -16,7 +16,7 @@ namespace DLMonolog\Processor;
  *
  * @author Nicolas Grekas <p@tchwork.com>
  *
- * @phpstan-import-type Record from \Monolog\Logger
+ * @phpstan-import-type Record from \DLMonolog\Logger
  */
 interface ProcessorInterface
 {

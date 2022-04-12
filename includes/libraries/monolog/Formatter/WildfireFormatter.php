@@ -20,7 +20,7 @@ use DLMonolog\Logger;
  * @author Christophe Coevoet <stof@notk.org>
  * @author Kirill chEbba Chebunin <iam@chebba.org>
  *
- * @phpstan-import-type Level from \Monolog\Logger
+ * @phpstan-import-type Level from \DLMonolog\Logger
  */
 class WildfireFormatter extends NormalizerFormatter
 {

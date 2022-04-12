@@ -18,7 +18,7 @@ use DLMonolog\Formatter\LineFormatter;
 /**
  * Common syslog functionality
  *
- * @phpstan-import-type Level from \Monolog\Logger
+ * @phpstan-import-type Level from \DLMonolog\Logger
  */
 abstract class AbstractSyslogHandler extends AbstractProcessingHandler
 {

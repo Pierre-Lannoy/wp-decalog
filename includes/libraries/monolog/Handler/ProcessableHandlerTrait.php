@@ -19,7 +19,7 @@ use DLMonolog\Processor\ProcessorInterface;
  *
  * @author Jordi Boggiano <j.boggiano@seld.be>
  *
- * @phpstan-import-type Record from \Monolog\Logger
+ * @phpstan-import-type Record from \DLMonolog\Logger
  */
 trait ProcessableHandlerTrait
 {

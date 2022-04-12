@@ -16,8 +16,8 @@ namespace DLMonolog\Handler;
  *
  * @author Jordi Boggiano <j.boggiano@seld.be>
  *
- * @phpstan-import-type Record from \Monolog\Logger
- * @phpstan-import-type Level from \Monolog\Logger
+ * @phpstan-import-type Record from \DLMonolog\Logger
+ * @phpstan-import-type Level from \DLMonolog\Logger
  */
 interface HandlerInterface
 {
@@ -76,7 +76,7 @@ interface HandlerInterface
      * and ideally handlers should be able to reopen themselves on handle() after they have been closed.
      *
      * This is useful at the end of a request and will be called automatically when the object
-     * is destroyed if you extend Monolog\Handler\Handler.
+     * is destroyed if you extend DLMonolog\Handler\Handler.
      *
      * If you are thinking of calling this method yourself, most likely you should be
      * calling ResettableInterface::reset instead. Have a look.

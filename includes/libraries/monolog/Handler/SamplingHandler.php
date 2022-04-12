@@ -27,8 +27,8 @@ use DLMonolog\Formatter\FormatterInterface;
  * @author Bryan Davis <bd808@wikimedia.org>
  * @author Kunal Mehta <legoktm@gmail.com>
  *
- * @phpstan-import-type Record from \Monolog\Logger
- * @phpstan-import-type Level from \Monolog\Logger
+ * @phpstan-import-type Record from \DLMonolog\Logger
+ * @phpstan-import-type Level from \DLMonolog\Logger
  */
 class SamplingHandler extends AbstractHandler implements ProcessableHandlerInterface, FormattableHandlerInterface
 {

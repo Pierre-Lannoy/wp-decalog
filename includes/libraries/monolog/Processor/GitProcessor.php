@@ -20,8 +20,8 @@ use Psr\Log\LogLevel;
  * @author Nick Otter
  * @author Jordi Boggiano <j.boggiano@seld.be>
  *
- * @phpstan-import-type Level from \Monolog\Logger
- * @phpstan-import-type LevelName from \Monolog\Logger
+ * @phpstan-import-type Level from \DLMonolog\Logger
+ * @phpstan-import-type LevelName from \DLMonolog\Logger
  */
 class GitProcessor implements ProcessorInterface
 {

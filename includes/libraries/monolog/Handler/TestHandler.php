@@ -66,9 +66,9 @@ use Psr\Log\LogLevel;
  * @method bool hasInfoThatPasses($message)
  * @method bool hasDebugThatPasses($message)
  *
- * @phpstan-import-type Record from \Monolog\Logger
- * @phpstan-import-type Level from \Monolog\Logger
- * @phpstan-import-type LevelName from \Monolog\Logger
+ * @phpstan-import-type Record from \DLMonolog\Logger
+ * @phpstan-import-type Level from \DLMonolog\Logger
+ * @phpstan-import-type LevelName from \DLMonolog\Logger
  */
 class TestHandler extends AbstractProcessingHandler
 {

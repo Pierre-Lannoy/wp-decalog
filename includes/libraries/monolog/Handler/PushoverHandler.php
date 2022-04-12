@@ -22,8 +22,8 @@ use Psr\Log\LogLevel;
  * @see    https://www.pushover.net/api
  *
  * @phpstan-import-type FormattedRecord from AbstractProcessingHandler
- * @phpstan-import-type Level from \Monolog\Logger
- * @phpstan-import-type LevelName from \Monolog\Logger
+ * @phpstan-import-type Level from \DLMonolog\Logger
+ * @phpstan-import-type LevelName from \DLMonolog\Logger
  */
 class PushoverHandler extends SocketHandler
 {
@@ -108,10 +108,24 @@ class PushoverHandler extends SocketHandler
         $highPriorityLevel = Logger::CRITICAL,
         $emergencyLevel = Logger::EMERGENCY,
         int $retry = 30,
-        int $expire = 25200
+        int $expire = 25200,
+        bool $persistent = false,
+        float $timeout = 0.0,
+        float $writingTimeout = 10.0,
+        ?float $connectionTimeout = null,
+        ?int $chunkSize = null
     ) {
         $connectionString = $useSSL ? 'ssl://api.pushover.net:443' : 'api.pushover.net:80';
-        parent::__construct($connectionString, $level, $bubble);
+        parent::__construct(
+            $connectionString,
+            $level,
+            $bubble,
+            $persistent,
+            $timeout,
+            $writingTimeout,
+            $connectionTimeout,
+            $chunkSize
+        );
 
         $this->token = $token;
         $this->users = (array) $users;
