@@ -144,31 +144,33 @@ class LoggerFactory {
 			}
 			if ( $handler ) {
 				static::$debugging = static::$debugging || $debug;
-				foreach ( array_reverse( $logger['processors'] ) as $processor ) {
-					$p_instance    = null;
-					$processor_def = $this->processor_types->get( $processor );
-					if ( $processor_def ) {
-						$classname = $processor_def['namespace'] . '\\' . $processor_def['id'];
-						if ( class_exists( $classname ) ) {
-							$args = [];
-							foreach ( $processor_def['init'] as $p ) {
-								switch ( $p['type'] ) {
-									case 'level':
-										$args[] = (int) $logger['level'];
-										break;
-									case 'privacy':
-										$args[] = (bool) $logger['privacy'][ $p['value'] ];
-										break;
-									case 'literal':
-										$args[] = $p['value'];
-										break;
+				if ( array_key_exists( 'processors',$logger ) ) {
+					foreach ( array_reverse( $logger['processors'] ) as $processor ) {
+						$p_instance    = null;
+						$processor_def = $this->processor_types->get( $processor );
+						if ( $processor_def ) {
+							$classname = $processor_def['namespace'] . '\\' . $processor_def['id'];
+							if ( class_exists( $classname ) ) {
+								$args = [];
+								foreach ( $processor_def['init'] as $p ) {
+									switch ( $p['type'] ) {
+										case 'level':
+											$args[] = (int) $logger['level'];
+											break;
+										case 'privacy':
+											$args[] = (bool) $logger['privacy'][ $p['value'] ];
+											break;
+										case 'literal':
+											$args[] = $p['value'];
+											break;
+									}
 								}
+								$p_instance = $this->create_instance( $classname, $args );
 							}
-							$p_instance = $this->create_instance( $classname, $args );
 						}
-					}
-					if ( $p_instance ) {
-						$handler->pushProcessor( $p_instance );
+						if ( $p_instance ) {
+							$handler->pushProcessor( $p_instance );
+						}
 					}
 				}
 			}
@@ -280,11 +282,11 @@ class LoggerFactory {
 			$logger['handler'] = 'NullHandler';
 		}
 		if ( ! array_key_exists( 'level', $logger ) ) {
-			$logger['level'] = $handler['minimal'];
+			$logger['level'] = $handler['minimal'] ?? 500;
 		} elseif ( ! in_array( $logger['level'], EventTypes::$level_values, false ) ) {
-			$logger['level'] = $handler['minimal'];
-		} elseif ( $logger['level'] < $handler['minimal'] ) {
-			$logger['level'] = $handler['minimal'];
+			$logger['level'] = $handler['minimal'] ?? 500;
+		} elseif ( $logger['level'] < ( $handler['minimal'] ?? 500 ) ) {
+			$logger['level'] = $handler['minimal'] ?? 500;
 		}
 		return $logger;
 	}
