@@ -142,6 +142,12 @@ class LokiFormatter implements FormatterInterface {
 	protected function build_logline( array $fragments, string $id = '', string $separator = '_' ): string {
 		$result = '';
 		foreach ( $fragments as $key => $fragment ) {
+			if ( is_integer( $key ) ) {
+				$key = (string) $key;
+				if ( 1 === strlen( $key ) ) {
+					$key = '0' . $key;
+				}
+			}
 			$name = $id . ( '' === $id ? '' : $separator ) . $key;
 			if ( is_array( $fragment ) ) {
 				$result .= ( '' === $result ? '' : ' ' ) . $this->build_logline( $fragment, $name );

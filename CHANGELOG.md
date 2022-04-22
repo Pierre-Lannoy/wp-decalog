@@ -23,6 +23,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Events about roles changes are wrongly reported (thanks to [Valérie Galassi](https://profiles.wordpress.org/valer1e/)).
 - The APCu test in option page may fail (thanks to [Renaud Pacouil](https://www.laboiteare.fr)).
 - PHP 8.1 compatibility changes have introduced side effect on HTML entities encoding (thanks to [Jan Thiel](https://github.com/JanThiel)).
+- Callstack items are wrongly named (and ordered) in Loki logger.
 
 ### Removed
 
