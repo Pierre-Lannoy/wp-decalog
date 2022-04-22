@@ -14,6 +14,8 @@ namespace Decalog\Plugin\Feature;
 use Decalog\System\Environment;
 use Decalog\System\Option;
 use Decalog\Plugin\Feature\Log;
+use Decalog\Plugin\Feature\PrivacyOptions;
+use Feather\Icons;
 
 if ( ! class_exists( 'WP_List_Table' ) ) {
 	require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
@@ -271,6 +273,11 @@ class Loggers extends \WP_List_Table {
 			$result .= '<span style="margin-bottom: 6px;vertical-align: middle;font-size:10px;display: inline-block;text-transform:uppercase;font-weight: 900;background-color:' . EventTypes::$levels_colors[ $level ][0] . ';color:' . EventTypes::$levels_colors[ $level ][1] . ';border-radius:2px;border: 1px solid ' . EventTypes::$levels_colors[ $level ][1] . ';cursor: default;word-break: break-word;">&nbsp;&nbsp;&nbsp;' . $level . '&nbsp;&nbsp;&nbsp;</span>';
 		}
 		if ( in_array( $class, [ 'alerting', 'logging', 'debugging', 'analytics', 'tracing' ], true ) ) {
+			foreach ( PrivacyOptions::$options as $option ) {
+				if ( $item['privacy'][$option] ) {
+					$result .= '<img alt="' . PrivacyOptions::$options_names[ $option ] . '" title="' . PrivacyOptions::$options_names[ $option ] . '" style="width:16px;padding-left:6px;padding-top:6px;" src="' . Icons::get_base64( PrivacyOptions::$options_icons[ $option ], 'none', '#9999BB' ) . '" />';
+				}
+			}
 			$result .= '<br/>' . implode( ' ', $list );
 		}
 		return $result;

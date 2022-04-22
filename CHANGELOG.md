@@ -6,8 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [3.5.0] - Not Yet Released
 
 ### Added
+- Compatibility with WordPress 6.0.
 - New events when adding or removing a user role.
 - A new filter allows now to exclude specific metrics for specific loggers (based on a suggestion from [Jan Thiel](https://github.com/JanThiel)).
+- New icons in loggers list to show activated privacy options.
 
 ### Changed
 - Messages for database version downgrade/upgrade are much more precise.
