@@ -3,7 +3,7 @@ All notable changes to **DecaLog** are documented in this *changelog*.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.5.0] - Not Yet Released
+## [3.5.0] - 2022-04-22
 
 ### Added
 - Compatibility with WordPress 6.0.
@@ -24,8 +24,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - The APCu test in option page may fail (thanks to [Renaud Pacouil](https://www.laboiteare.fr)).
 - PHP 8.1 compatibility changes have introduced side effect on HTML entities encoding (thanks to [Jan Thiel](https://github.com/JanThiel)).
 - Callstack items are wrongly named (and ordered) in Loki logger.
-
-### Removed
 
 ## [3.4.1] - 2022-01-17
 
