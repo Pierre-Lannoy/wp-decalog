@@ -144,33 +144,31 @@ class LoggerFactory {
 			}
 			if ( $handler ) {
 				static::$debugging = static::$debugging || $debug;
-				if ( array_key_exists( 'processors',$logger ) ) {
-					foreach ( array_reverse( $logger['processors'] ) as $processor ) {
-						$p_instance    = null;
-						$processor_def = $this->processor_types->get( $processor );
-						if ( $processor_def ) {
-							$classname = $processor_def['namespace'] . '\\' . $processor_def['id'];
-							if ( class_exists( $classname ) ) {
-								$args = [];
-								foreach ( $processor_def['init'] as $p ) {
-									switch ( $p['type'] ) {
-										case 'level':
-											$args[] = (int) $logger['level'];
-											break;
-										case 'privacy':
-											$args[] = (bool) $logger['privacy'][ $p['value'] ];
-											break;
-										case 'literal':
-											$args[] = $p['value'];
-											break;
-									}
+				foreach ( array_reverse( $logger['processors'] ) as $processor ) {
+					$p_instance    = null;
+					$processor_def = $this->processor_types->get( $processor );
+					if ( $processor_def ) {
+						$classname = $processor_def['namespace'] . '\\' . $processor_def['id'];
+						if ( class_exists( $classname ) ) {
+							$args = [];
+							foreach ( $processor_def['init'] as $p ) {
+								switch ( $p['type'] ) {
+									case 'level':
+										$args[] = (int) $logger['level'];
+										break;
+									case 'privacy':
+										$args[] = (bool) $logger['privacy'][ $p['value'] ];
+										break;
+									case 'literal':
+										$args[] = $p['value'];
+										break;
 								}
-								$p_instance = $this->create_instance( $classname, $args );
 							}
+							$p_instance = $this->create_instance( $classname, $args );
 						}
-						if ( $p_instance ) {
-							$handler->pushProcessor( $p_instance );
-						}
+					}
+					if ( $p_instance ) {
+						$handler->pushProcessor( $p_instance );
 					}
 				}
 			}
@@ -189,14 +187,10 @@ class LoggerFactory {
 	public function check( $logger, $init_handler = false ) {
 		$handler = $this->handler_types->get( $logger['handler'] );
 		$logger  = $this->standard_check( $logger, $handler );
-		if ( $handler && in_array( 'privacy', $handler['params'], true ) ) {
+		if ( $handler ) {
 			$logger = $this->privacy_check( $logger );
-		}
-		if ( $handler && in_array( 'processors', $handler['params'], true ) ) {
 			$logger = $this->processor_check( $logger, $handler );
-		}
-		if ( $handler && array_key_exists( 'configuration', $handler ) ) {
-			$logger = $this->configuration_check( $logger, $handler['configuration'] );
+			$logger = $this->configuration_check( $logger, $handler['configuration'] ?? [] );
 		}
 		if ( $init_handler && array_key_exists( 'uuid', $logger ) ) {
 			$classname = 'Decalog\Plugin\Feature\\' . $logger['handler'];

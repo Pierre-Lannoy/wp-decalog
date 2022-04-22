@@ -147,6 +147,9 @@ class DLogger {
 			if ( $this->in_test && $key !== $test ) {
 				continue;
 			}
+			if ( '' === $key ) {
+				continue;
+			}
 			$handler_def    = $handlers->get( $logger['handler'] );
 			$logger['uuid'] = $key;
 			if ( $handler_def && $diagnosis->check( $handler_def['id'] ) ) {
@@ -187,13 +190,6 @@ class DLogger {
 		// Verify data structure and fix if required
 		if ( ! is_array( $loggers ) ) {
 			$loggers = [];
-			// Check if a failsafe is declared somewhere. A failsafe is a set of loggers to activate when everything
-			// went wrong.
-			// Note, the best place to define a failsafe is the config.php file.
-			// You can use any valid handler id and set of params (see wp-cli for details)
-			// Example:
-			//
-
 			Option::network_set( 'loggers', $loggers );
 		}
 		// Verify shared memory logger
@@ -211,7 +207,6 @@ class DLogger {
 			$loggers[ DECALOG_SHM_ID ] = $shm;
 			Option::network_set( 'loggers', $loggers );
 		}
-		//error_log(print_r($loggers,true));
 		return $loggers;
 	}
 
