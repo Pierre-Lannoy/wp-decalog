@@ -3,6 +3,15 @@ All notable changes to **DecaLog** are documented in this *changelog*.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.5.1] - 2022-05-12
+
+### Changed
+- Upgraded Monolog library from version 2.5.0 to version 2.6.0.
+- Experimental: Elasticsearch V7-only support is now upgraded to V7/V8.
+
+### Fixed
+- A PHP error may be triggered when adding a new role to a user (thanks to [Axel Ducoron](https://github.com/aksld)).
+
 ## [3.5.0] - 2022-04-22
 
 ### Added
