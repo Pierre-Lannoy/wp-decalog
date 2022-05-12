@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 /*
- * This file is part of the Monolog package.
+ * This file is part of the DLMonolog package.
  *
  * (c) Jordi Boggiano <j.boggiano@seld.be>
  *
@@ -32,12 +32,12 @@ class LogstashFormatter extends NormalizerFormatter
     protected $applicationName;
 
     /**
-     * @var string the key for 'extra' fields from the Monolog record
+     * @var string the key for 'extra' fields from the DLMonolog record
      */
     protected $extraKey;
 
     /**
-     * @var string the key for 'context' fields from the Monolog record
+     * @var string the key for 'context' fields from the DLMonolog record
      */
     protected $contextKey;
 
@@ -84,7 +84,7 @@ class LogstashFormatter extends NormalizerFormatter
             $message['level'] = $record['level_name'];
         }
         if (isset($record['level'])) {
-            $message['monolog_level'] = $record['level'];
+            $message['DLMonolog_level'] = $record['level'];
         }
         if ($this->applicationName) {
             $message['type'] = $this->applicationName;

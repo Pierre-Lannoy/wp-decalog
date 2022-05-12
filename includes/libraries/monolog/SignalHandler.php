@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 /*
- * This file is part of the Monolog package.
+ * This file is part of the DLMonolog package.
  *
  * (c) Jordi Boggiano <j.boggiano@seld.be>
  *
@@ -16,7 +16,7 @@ use Psr\Log\LogLevel;
 use ReflectionExtension;
 
 /**
- * Monolog POSIX signal handler
+ * DLMonolog POSIX signal handler
  *
  * @author Robert Gust-Bardon <robert@gust-bardon.org>
  *

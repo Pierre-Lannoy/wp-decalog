@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 /*
- * This file is part of the Monolog package.
+ * This file is part of the DLMonolog package.
  *
  * (c) Jordi Boggiano <j.boggiano@seld.be>
  *
@@ -19,7 +19,7 @@ use DLMonolog\Logger;
  * Usage example:
  * <pre>
  * $log = new Logger('myLogger');
- * $log->pushHandler(new ProcessHandler('/usr/bin/php /var/www/monolog/someScript.php'));
+ * $log->pushHandler(new ProcessHandler('/usr/bin/php /var/www/DLMonolog/someScript.php'));
  * </pre>
  *
  * @author Kolja Zuelsdorf <koljaz@web.de>

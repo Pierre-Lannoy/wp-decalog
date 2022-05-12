@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 /*
- * This file is part of the Monolog package.
+ * This file is part of the DLMonolog package.
  *
  * (c) Jordi Boggiano <j.boggiano@seld.be>
  *
@@ -14,7 +14,7 @@ namespace DLMonolog;
 use InvalidArgumentException;
 
 /**
- * Monolog log registry
+ * DLMonolog log registry
  *
  * Allows to get `Logger` instances in the global scope
  * via static method calls on this class.

@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 /*
- * This file is part of the Monolog package.
+ * This file is part of the DLMonolog package.
  *
  * (c) Jordi Boggiano <j.boggiano@seld.be>
  *
@@ -14,9 +14,9 @@ namespace DLMonolog;
 use ArrayAccess;
 
 /**
- * Monolog log record interface for forward compatibility with Monolog 3.0
+ * DLMonolog log record interface for forward compatibility with DLMonolog 3.0
  *
- * This is just present in Monolog 2.4+ to allow interoperable code to be written against
+ * This is just present in DLMonolog 2.4+ to allow interoperable code to be written against
  * both versions by type-hinting arguments as `array|\DLMonolog\LogRecord $record`
  *
  * Do not rely on this interface for other purposes, and do not implement it.

@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 /*
- * This file is part of the Monolog package.
+ * This file is part of the DLMonolog package.
  *
  * (c) Jordi Boggiano <j.boggiano@seld.be>
  *
@@ -158,7 +158,7 @@ class ChromePHPHandler extends AbstractProcessingHandler
                 'context' => [],
                 'level' => Logger::WARNING,
                 'level_name' => Logger::getLevelName(Logger::WARNING),
-                'channel' => 'monolog',
+                'channel' => 'DLMonolog',
                 'datetime' => new \DateTimeImmutable(),
                 'extra' => [],
             ];

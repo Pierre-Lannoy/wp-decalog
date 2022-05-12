@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 /*
- * This file is part of the Monolog package.
+ * This file is part of the DLMonolog package.
  *
  * (c) Jordi Boggiano <j.boggiano@seld.be>
  *
@@ -25,7 +25,7 @@ use DLMonolog\Utils;
  *  path /var/run/td-agent/td-agent.sock
  * </source>
  *
- * Monolog setup:
+ * DLMonolog setup:
  *
  * $logger = new DLMonolog\Logger('fluent.tag');
  * $fluentHandler = new DLMonolog\Handler\SocketHandler('unix:///var/run/td-agent/td-agent.sock');

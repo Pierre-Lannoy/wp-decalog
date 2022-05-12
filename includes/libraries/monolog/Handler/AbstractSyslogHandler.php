@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 /*
- * This file is part of the Monolog package.
+ * This file is part of the DLMonolog package.
  *
  * (c) Jordi Boggiano <j.boggiano@seld.be>
  *
@@ -26,7 +26,7 @@ abstract class AbstractSyslogHandler extends AbstractProcessingHandler
     protected $facility;
 
     /**
-     * Translates Monolog log levels to syslog log priorities.
+     * Translates DLMonolog log levels to syslog log priorities.
      * @var array
      * @phpstan-var array<Level, int>
      */

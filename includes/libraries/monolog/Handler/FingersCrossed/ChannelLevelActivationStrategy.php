@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 /*
- * This file is part of the Monolog package.
+ * This file is part of the DLMonolog package.
  *
  * (c) Jordi Boggiano <j.boggiano@seld.be>
  *
@@ -15,7 +15,7 @@ use DLMonolog\Logger;
 use Psr\Log\LogLevel;
 
 /**
- * Channel and Error level based monolog activation strategy. Allows to trigger activation
+ * Channel and Error level based DLMonolog activation strategy. Allows to trigger activation
  * based on level per channel. e.g. trigger activation on level 'ERROR' by default, except
  * for records of the 'sql' channel; those should trigger activation on level 'WARN'.
  *

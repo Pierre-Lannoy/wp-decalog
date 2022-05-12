@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 /*
- * This file is part of the Monolog package.
+ * This file is part of the DLMonolog package.
  *
  * (c) Jordi Boggiano <j.boggiano@seld.be>
  *
@@ -20,7 +20,7 @@ use Throwable;
 use Stringable;
 
 /**
- * Monolog log channel
+ * DLMonolog log channel
  *
  * It contains a stack of Handlers and a stack of Processors,
  * and uses them to store records that are added to it.
@@ -84,7 +84,7 @@ class Logger implements LoggerInterface, ResettableInterface
     public const EMERGENCY = 600;
 
     /**
-     * Monolog API version
+     * DLMonolog API version
      *
      * This is only bumped when API breaks are done and should
      * follow the major version of the library
@@ -146,6 +146,11 @@ class Logger implements LoggerInterface, ResettableInterface
      * @var callable|null
      */
     protected $exceptionHandler;
+
+    /**
+     * @var int Keeps track of depth to prevent infinite logging loops
+     */
+    private $logDepth = 0;
 
     /**
      * @psalm-param array<callable(array): array> $processors
@@ -266,7 +271,7 @@ class Logger implements LoggerInterface, ResettableInterface
      * member of new records.
      *
      * As of PHP7.1 microseconds are always included by the engine, so
-     * there is no performance penalty and Monolog 2 enabled microseconds
+     * there is no performance penalty and DLMonolog 2 enabled microseconds
      * by default. This function lets you disable them though in case you want
      * to suppress microseconds from the output.
      *
@@ -291,30 +296,51 @@ class Logger implements LoggerInterface, ResettableInterface
      */
     public function addRecord(int $level, string $message, array $context = []): bool
     {
-        $record = null;
+        $this->logDepth += 1;
+        if ($this->logDepth === 3) {
+            $this->warning('A possible infinite logging loop was detected and aborted. It appears some of your handler code is triggering logging, see the previous log record for a hint as to what may be the cause.');
+            return false;
+        } elseif ($this->logDepth >= 5) { // log depth 4 is let through so we can log the warning above
+            return false;
+        }
 
-        foreach ($this->handlers as $handler) {
-            if (null === $record) {
-                // skip creating the record as long as no handler is going to handle it
-                if (!$handler->isHandling(['level' => $level])) {
-                    continue;
+        try {
+            $record = null;
+
+            foreach ($this->handlers as $handler) {
+                if (null === $record) {
+                    // skip creating the record as long as no handler is going to handle it
+                    if (!$handler->isHandling(['level' => $level])) {
+                        continue;
+                    }
+
+                    $levelName = static::getLevelName($level);
+
+                    $record = [
+                        'message' => $message,
+                        'context' => $context,
+                        'level' => $level,
+                        'level_name' => $levelName,
+                        'channel' => $this->name,
+                        'datetime' => new DateTimeImmutable($this->microsecondTimestamps, $this->timezone),
+                        'extra' => [],
+                    ];
+
+                    try {
+                        foreach ($this->processors as $processor) {
+                            $record = $processor($record);
+                        }
+                    } catch (Throwable $e) {
+                        $this->handleException($e, $record);
+
+                        return true;
+                    }
                 }
 
-                $levelName = static::getLevelName($level);
-
-                $record = [
-                    'message' => $message,
-                    'context' => $context,
-                    'level' => $level,
-                    'level_name' => $levelName,
-                    'channel' => $this->name,
-                    'datetime' => new DateTimeImmutable($this->microsecondTimestamps, $this->timezone),
-                    'extra' => [],
-                ];
-
+                // once the record exists, send it to all handlers as long as the bubbling chain is not interrupted
                 try {
-                    foreach ($this->processors as $processor) {
-                        $record = $processor($record);
+                    if (true === $handler->handle($record)) {
+                        break;
                     }
                 } catch (Throwable $e) {
                     $this->handleException($e, $record);
@@ -322,17 +348,8 @@ class Logger implements LoggerInterface, ResettableInterface
                     return true;
                 }
             }
-
-            // once the record exists, send it to all handlers as long as the bubbling chain is not interrupted
-            try {
-                if (true === $handler->handle($record)) {
-                    break;
-                }
-            } catch (Throwable $e) {
-                $this->handleException($e, $record);
-
-                return true;
-            }
+        } finally {
+            $this->logDepth--;
         }
 
         return null !== $record;
@@ -409,9 +426,9 @@ class Logger implements LoggerInterface, ResettableInterface
     }
 
     /**
-     * Converts PSR-3 levels to Monolog ones if necessary
+     * Converts PSR-3 levels to DLMonolog ones if necessary
      *
-     * @param  string|int                        $level Level number (monolog) or name (PSR-3)
+     * @param  string|int                        $level Level number (DLMonolog) or name (PSR-3)
      * @throws \Psr\Log\InvalidArgumentException If level is not defined
      *
      * @phpstan-param  Level|LevelName|LogLevel::* $level

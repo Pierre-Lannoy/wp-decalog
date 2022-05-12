@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 /*
- * This file is part of the Monolog package.
+ * This file is part of the DLMonolog package.
  *
  * (c) Jordi Boggiano <j.boggiano@seld.be>
  *
@@ -20,7 +20,7 @@ use PhpConsole\Handler as VendorPhpConsoleHandler;
 use PhpConsole\Helper;
 
 /**
- * Monolog handler for Google Chrome extension "PHP Console"
+ * DLMonolog handler for Google Chrome extension "PHP Console"
  *
  * Display PHP error/debug log messages in Google Chrome console and notification popups, executes PHP code remotely
  *
