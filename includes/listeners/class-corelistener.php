@@ -720,7 +720,7 @@ class CoreListener extends AbstractListener {
 	 */
 	public function set_user_role( $user_id, $role, $old_roles = [] ) {
 		if ( isset( $this->logger ) ) {
-			$this->logger->notice( sprintf( 'New roles for %s: %s.', $this->get_user( $user_id ), implode( $old_roles, ', ' ) ) );
+			$this->logger->notice( sprintf( 'New role for %s: %s.', $this->get_user( $user_id ), $role ) );
 		}
 	}
 
