@@ -225,6 +225,8 @@ class CoreListener extends AbstractListener {
 		$this->monitor->create_prod_counter( 'plugin_active', 'Number of active plugins - [count]' );
 		$this->monitor->create_prod_counter( 'plugin_inactive', 'Number of inactive plugins - [count]' );
 		$this->monitor->create_prod_counter( 'plugin_updatable', 'Number of plugins needing update - [count]' );
+		$this->monitor->create_prod_counter( 'theme_installed', 'Number of installed themes - [count]' );
+		$this->monitor->create_prod_counter( 'theme_updatable', 'Number of themes needing update - [count]' );
 		$this->monitor->create_prod_counter( 'muplugin_active', 'Number of active must-use plugins - [count]' );
 		$this->monitor->create_prod_counter( 'dropin_active', 'Number of active drop-ins - [count]' );
 		$this->monitor->create_prod_counter( 'user_active', 'Number of active users - [count]' );
@@ -1474,6 +1476,30 @@ class CoreListener extends AbstractListener {
 	/**
 	 * Monitors plugins.
 	 *
+	 * @since    3.6.0
+	 */
+	public function theme_close() {
+		$updates = get_site_transient( 'update_themes' );
+		if ( ! is_object( $updates ) && function_exists( 'wp_update_themes' ) ) {
+			wp_update_themes();
+			$updates = get_site_transient( 'update_themes' );
+		}
+		if ( is_object( $updates ) && property_exists( $updates, 'response' ) ) {
+			if ( is_array( $updates->response ) ) {
+				$this->monitor->inc_prod_counter( 'theme_updatable', count( $updates->response ) );
+			}
+		}
+		if ( ! Environment::is_wordpress_multisite() && function_exists( 'wp_get_themes' ) ) {
+			$installed = wp_get_themes();
+			if ( is_array( $installed ) ) {
+				$this->monitor->inc_prod_counter( 'theme_installed', count( $installed ) );
+			}
+		}
+	}
+
+	/**
+	 * Monitors plugins.
+	 *
 	 * @since    3.0.0
 	 */
 	public function plugin_close() {
@@ -1683,6 +1709,7 @@ class CoreListener extends AbstractListener {
 		$this->post_close();
 		$this->comment_close();
 		$this->plugin_close();
+		$this->theme_close();
 		$this->tracer->end_span( $span );
 	}
 

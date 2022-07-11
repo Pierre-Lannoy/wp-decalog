@@ -3,6 +3,12 @@ All notable changes to **DecaLog** are documented in this *changelog*.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.6.0] - Not Yet Released
+
+### Added
+- Compatibility with WordPress 6.1.
+- DecaLog now collects installed/updatable themes metrics (based on a suggestion from [deltaecho07](https://github.com/deltaecho07)).
+
 ## [3.5.1] - 2022-05-12
 
 ### Changed
@@ -174,7 +180,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - New WordPress traces viewer allowing to view traces right in the admin dashboard. 
 - New "metrics" tab in settings to list all currently collected metrics.
 - New "self-registration" tab in settings to list all currently self-registered components.
-- DecaLog now collects extended metrics for: PHP, WordPress core, database, WordPress multisite and plugins / themes using [WordPress DecaLog SDK](https://decalog.io).
+- DecaLog now collects extended metrics for: PHP, WordPress core, database, WordPress multisite and plugins / themes.
 - DecaLog now collects minimalist metrics for Wordfence.
 - DecaLog now collects extended traces for WordPress core and plugins / themes using [WordPress DecaLog SDK](https://decalog.io).
 - New logger to send events to Datadog.
