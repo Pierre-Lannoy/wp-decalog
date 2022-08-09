@@ -156,7 +156,7 @@ class LoggerMaintainer {
 	 * @since    1.0.0
 	 */
 	public static function forced_pause() {
-		$loggers = Option::network_get( 'loggers' );
+		$loggers = Option::network_get( 'loggers', [] );
 		if ( 0 < count( $loggers ) ) {
 			$new = [];
 			foreach ( $loggers as $uuid => $logger ) {
