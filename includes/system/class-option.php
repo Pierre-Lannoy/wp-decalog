@@ -214,9 +214,6 @@ class Option {
 		if ( is_bool( $default ) ) {
 			return (bool) $val;
 		}
-		if ( is_bool( $default ) ) {
-			return (bool) $val;
-		}
 		return $val;
 	}
 
