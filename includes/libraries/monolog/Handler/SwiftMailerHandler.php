@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 /*
- * This file is part of the DLMonolog package.
+ * This file is part of the Monolog package.
  *
  * (c) Jordi Boggiano <j.boggiano@seld.be>
  *
@@ -24,7 +24,7 @@ use Swift;
  * @author Gyula Sallai
  *
  * @phpstan-import-type Record from \DLMonolog\Logger
- * @deprecated Since DLMonolog 2.6. Use SymfonyMailerHandler instead.
+ * @deprecated Since Monolog 2.6. Use SymfonyMailerHandler instead.
  */
 class SwiftMailerHandler extends MailHandler
 {
@@ -43,7 +43,7 @@ class SwiftMailerHandler extends MailHandler
     {
         parent::__construct($level, $bubble);
 
-        @trigger_error('The SwiftMailerHandler is deprecated since DLMonolog 2.6. Use SymfonyMailerHandler instead.', E_USER_DEPRECATED);
+        @trigger_error('The SwiftMailerHandler is deprecated since Monolog 2.6. Use SymfonyMailerHandler instead.', E_USER_DEPRECATED);
 
         $this->mailer = $mailer;
         $this->messageTemplate = $message;
