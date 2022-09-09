@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 /*
- * This file is part of the DLMonolog package.
+ * This file is part of the Monolog package.
  *
  * (c) Jordi Boggiano <j.boggiano@seld.be>
  *
@@ -198,6 +198,10 @@ class NormalizerFormatter implements FormatterInterface
      */
     protected function normalizeException(Throwable $e, int $depth = 0)
     {
+        if ($depth > $this->maxNormalizeDepth) {
+            return ['Over ' . $this->maxNormalizeDepth . ' levels deep, aborting normalization'];
+        }
+
         if ($e instanceof \JsonSerializable) {
             return (array) $e->jsonSerialize();
         }

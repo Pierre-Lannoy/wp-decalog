@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 /*
- * This file is part of the DLMonolog package.
+ * This file is part of the Monolog package.
  *
  * (c) Jordi Boggiano <j.boggiano@seld.be>
  *
@@ -25,7 +25,7 @@ use DLMonolog\Logger;
  * merged, and then on top of that a few keys:
  *
  *  - level (rollbar level name)
- *  - DLMonolog_level (DLMonolog level name, raw level, as rollbar only has 5 but DLMonolog 8)
+ *  - monolog_level (monolog level name, raw level, as rollbar only has 5 but monolog 8)
  *  - channel
  *  - datetime (unix timestamp)
  *
@@ -84,7 +84,7 @@ class RollbarHandler extends AbstractProcessingHandler
         $context = $record['context'];
         $context = array_merge($context, $record['extra'], [
             'level' => $this->levelMap[$record['level']],
-            'DLMonolog_level' => $record['level_name'],
+            'monolog_level' => $record['level_name'],
             'channel' => $record['channel'],
             'datetime' => $record['datetime']->format('U'),
         ]);

@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 /*
- * This file is part of the DLMonolog package.
+ * This file is part of the Monolog package.
  *
  * (c) Jordi Boggiano <j.boggiano@seld.be>
  *
@@ -19,7 +19,7 @@ use DLMonolog\Utils;
  *
  * Register a secret key and trigger/event name at https://ifttt.com/maker
  *
- * value1 will be the channel from DLMonolog's Logger constructor,
+ * value1 will be the channel from monolog's Logger constructor,
  * value2 will be the level name (ERROR, WARNING, ..)
  * value3 will be the log record's message
  *

@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 /*
- * This file is part of the DLMonolog package.
+ * This file is part of the Monolog package.
  *
  * (c) Jordi Boggiano <j.boggiano@seld.be>
  *
@@ -12,7 +12,7 @@
 namespace DLMonolog\Handler;
 
 /**
- * Interface that all DLMonolog Handlers must implement
+ * Interface that all Monolog Handlers must implement
  *
  * @author Jordi Boggiano <j.boggiano@seld.be>
  *

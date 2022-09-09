@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 /*
- * This file is part of the DLMonolog package.
+ * This file is part of the Monolog package.
  *
  * (c) Jordi Boggiano <j.boggiano@seld.be>
  *
@@ -26,7 +26,7 @@ use DLMonolog\Logger;
 class ZendMonitorHandler extends AbstractProcessingHandler
 {
     /**
-     * DLMonolog level / ZendMonitor Custom Event priority map
+     * Monolog level / ZendMonitor Custom Event priority map
      *
      * @var array<int, int>
      */

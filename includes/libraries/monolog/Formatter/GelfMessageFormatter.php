@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 /*
- * This file is part of the DLMonolog package.
+ * This file is part of the Monolog package.
  *
  * (c) Jordi Boggiano <j.boggiano@seld.be>
  *
@@ -33,12 +33,12 @@ class GelfMessageFormatter extends NormalizerFormatter
     protected $systemName;
 
     /**
-     * @var string a prefix for 'extra' fields from the DLMonolog record (optional)
+     * @var string a prefix for 'extra' fields from the Monolog record (optional)
      */
     protected $extraPrefix;
 
     /**
-     * @var string a prefix for 'context' fields from the DLMonolog record (optional)
+     * @var string a prefix for 'context' fields from the Monolog record (optional)
      */
     protected $contextPrefix;
 
@@ -48,7 +48,7 @@ class GelfMessageFormatter extends NormalizerFormatter
     protected $maxLength;
 
     /**
-     * Translates DLMonolog log levels to Graylog2 log priorities.
+     * Translates Monolog log levels to Graylog2 log priorities.
      *
      * @var array<int, int>
      *

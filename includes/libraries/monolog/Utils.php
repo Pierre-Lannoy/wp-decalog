@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 /*
- * This file is part of the DLMonolog package.
+ * This file is part of the Monolog package.
  *
  * (c) Jordi Boggiano <j.boggiano@seld.be>
  *
@@ -211,7 +211,7 @@ final class Utils
             $data = preg_replace_callback(
                 '/[\x80-\xFF]+/',
                 function ($m) {
-                    return utf8_encode($m[0]);
+                    return function_exists('mb_convert_encoding') ? mb_convert_encoding($m[0], 'UTF-8', 'ISO-8859-1') : utf8_encode($m[0]);
                 },
                 $data
             );

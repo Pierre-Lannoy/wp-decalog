@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 /*
- * This file is part of the DLMonolog package.
+ * This file is part of the Monolog package.
  *
  * (c) Jordi Boggiano <j.boggiano@seld.be>
  *
@@ -17,8 +17,9 @@ use DLMonolog\Utils;
 /**
  * Logs to Cube.
  *
- * @link http://square.github.com/cube/
+ * @link https://github.com/square/cube/wiki
  * @author Wan Chen <kami@kamisama.me>
+ * @deprecated Since 2.8.0 and 3.2.0, Cube appears abandoned and thus we will drop this handler in Monolog 4
  */
 class CubeHandler extends AbstractProcessingHandler
 {

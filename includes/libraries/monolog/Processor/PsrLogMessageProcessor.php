@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 /*
- * This file is part of the DLMonolog package.
+ * This file is part of the Monolog package.
  *
  * (c) Jordi Boggiano <j.boggiano@seld.be>
  *
@@ -60,7 +60,7 @@ class PsrLogMessageProcessor implements ProcessorInterface
                 $replacements[$placeholder] = $val;
             } elseif ($val instanceof \DateTimeInterface) {
                 if (!$this->dateFormat && $val instanceof \DLMonolog\DateTimeImmutable) {
-                    // handle DLMonolog dates using __toString if no specific dateFormat was asked for
+                    // handle monolog dates using __toString if no specific dateFormat was asked for
                     // so that it follows the useMicroseconds flag
                     $replacements[$placeholder] = (string) $val;
                 } else {

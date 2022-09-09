@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 /*
- * This file is part of the DLMonolog package.
+ * This file is part of the Monolog package.
  *
  * (c) Jordi Boggiano <j.boggiano@seld.be>
  *
@@ -48,6 +48,15 @@ abstract class Handler implements HandlerInterface
     {
         $this->close();
 
-        return array_keys(get_object_vars($this));
+        $reflClass = new \ReflectionClass($this);
+
+        $keys = [];
+        foreach ($reflClass->getProperties() as $reflProp) {
+            if (!$reflProp->isStatic()) {
+                $keys[] = $reflProp->getName();
+            }
+        }
+
+        return $keys;
     }
 }
