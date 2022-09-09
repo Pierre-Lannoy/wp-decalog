@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 /*
- * This file is part of the DLMonolog package.
+ * This file is part of the Monolog package.
  *
  * (c) Jordi Boggiano <j.boggiano@seld.be>
  *
@@ -20,12 +20,12 @@ use PhpConsole\Handler as VendorPhpConsoleHandler;
 use PhpConsole\Helper;
 
 /**
- * DLMonolog handler for Google Chrome extension "PHP Console"
+ * Monolog handler for Google Chrome extension "PHP Console"
  *
  * Display PHP error/debug log messages in Google Chrome console and notification popups, executes PHP code remotely
  *
  * Usage:
- * 1. Install Google Chrome extension https://chrome.google.com/webstore/detail/php-console/nfhmhhlpfleoednkpnnnkolmclajemef
+ * 1. Install Google Chrome extension [now dead and removed from the chrome store]
  * 2. See overview https://github.com/barbushin/php-console#overview
  * 3. Install PHP Console library https://github.com/barbushin/php-console#installation
  * 4. Example (result will looks like http://i.hizliresim.com/vg3Pz4.png)
@@ -39,6 +39,7 @@ use PhpConsole\Helper;
  * @author Sergey Barbushin https://www.linkedin.com/in/barbushin
  *
  * @phpstan-import-type Record from \DLMonolog\Logger
+ * @deprecated Since 2.8.0 and 3.2.0, PHPConsole is abandoned and thus we will drop this handler in Monolog 4
  */
 class PHPConsoleHandler extends AbstractProcessingHandler
 {

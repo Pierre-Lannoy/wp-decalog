@@ -7,7 +7,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 - Compatibility with WordPress 6.1.
+- Compatibility with PHP 8.2.
 - DecaLog now collects installed/updatable themes metrics (based on a suggestion from [deltaecho07](https://github.com/deltaecho07)).
+
+### Changed
+- Upgraded Monolog library from version 2.6.0 to version 2.8.0.
+
+### Fixed
+- In some rare conditions, Rotating Files logger may wrongly compute the file path or name.
 
 ## [3.5.1] - 2022-05-12
 

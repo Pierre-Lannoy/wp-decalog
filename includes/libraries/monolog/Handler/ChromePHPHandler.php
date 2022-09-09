@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 /*
- * This file is part of the DLMonolog package.
+ * This file is part of the Monolog package.
  *
  * (c) Jordi Boggiano <j.boggiano@seld.be>
  *
@@ -149,7 +149,7 @@ class ChromePHPHandler extends AbstractProcessingHandler
         }
 
         $json = Utils::jsonEncode(self::$json, Utils::DEFAULT_JSON_FLAGS & ~JSON_UNESCAPED_UNICODE, true);
-        $data = base64_encode(utf8_encode($json));
+        $data = base64_encode($json);
         if (strlen($data) > 3 * 1024) {
             self::$overflowed = true;
 
@@ -158,13 +158,13 @@ class ChromePHPHandler extends AbstractProcessingHandler
                 'context' => [],
                 'level' => Logger::WARNING,
                 'level_name' => Logger::getLevelName(Logger::WARNING),
-                'channel' => 'DLMonolog',
+                'channel' => 'monolog',
                 'datetime' => new \DateTimeImmutable(),
                 'extra' => [],
             ];
             self::$json['rows'][count(self::$json['rows']) - 1] = $this->getFormatter()->format($record);
-            $json = Utils::jsonEncode(self::$json, null, true);
-            $data = base64_encode(utf8_encode($json));
+            $json = Utils::jsonEncode(self::$json, Utils::DEFAULT_JSON_FLAGS & ~JSON_UNESCAPED_UNICODE, true);
+            $data = base64_encode($json);
         }
 
         if (trim($data) !== '') {
