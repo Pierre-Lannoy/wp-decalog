@@ -97,12 +97,14 @@ class LoggerMaintainer {
 	 */
 	public function finalize() {
 		foreach ( Option::network_get( 'loggers' ) as $key => $logger ) {
-			$classname = 'Decalog\Plugin\Feature\\' . $logger['handler'];
-			if ( class_exists( $classname ) ) {
-				$logger['uuid'] = $key;
-				$instance       = $this->create_instance( $classname );
-				$instance->set_logger( $logger );
-				$instance->finalize();
+			if ( is_array($logger) && array_key_exists('handler', $logger) ) {
+				$classname = 'Decalog\Plugin\Feature\\' . $logger['handler'];
+				if ( class_exists( $classname ) ) {
+					$logger['uuid'] = $key;
+					$instance       = $this->create_instance( $classname );
+					$instance->set_logger( $logger );
+					$instance->finalize();
+				}
 			}
 		}
 	}
