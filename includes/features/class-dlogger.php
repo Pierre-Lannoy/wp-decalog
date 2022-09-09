@@ -150,6 +150,9 @@ class DLogger {
 			if ( '' === $key ) {
 				continue;
 			}
+			if ( ! is_array( $logger ) || ( is_array( $logger ) && !array_key_exists('handler', $logger) ) ) {
+				continue;
+			}
 			$handler_def    = $handlers->get( $logger['handler'] );
 			$logger['uuid'] = $key;
 			if ( $handler_def && $diagnosis->check( $handler_def['id'] ) ) {
