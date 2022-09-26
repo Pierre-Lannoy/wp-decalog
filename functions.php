@@ -49,6 +49,24 @@ function decalog_mb_str_pad( $input, $length, $padding = ' ', $padType = STR_PAD
 }
 
 /**
+ * Multibyte full trim
+ *
+ * Functionally, the equivalent of the standard str_pad function, but is capable of successfully padding multibyte strings.
+ *
+ * @param string $input The string to be fully trimed.
+ *
+ * @return string A fully trimed multibyte string.
+ * @since   3.6.0
+ */
+function decalog_mb_full_trim( $input ) {
+	return preg_replace(
+		"/(\t|\n|\v|\f|\r| |\xC2\x85|\xc2\xa0|\xe1\xa0\x8e|\xe2\x80[\x80-\x8D]|\xe2\x80\xa8|\xe2\x80\xa9|\xe2\x80\xaF|\xe2\x81\x9f|\xe2\x81\xa0|\xe3\x80\x80|\xef\xbb\xbf)+/",
+		'',
+		$input
+	);
+}
+
+/**
  * Performs an HTTP request using the PUT method and returns its response.
  * Mimics wp_remote_get or wp_remote_post, but for PUT method.
  *

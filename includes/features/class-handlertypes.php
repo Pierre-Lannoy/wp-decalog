@@ -108,6 +108,18 @@ class HandlerTypes {
 						'enabled' => true,
 					],
 				],
+				'ftags'      => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Custom tags', 'decalog' ),
+					'help'    => sprintf( esc_html__( 'Custom tags to add to each span. Format: %s.', 'decalog' ), '<code>' . htmlentities( 'key=value, key=value …' ) . '</code>' ),
+					'default' => '',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
 			],
 			'init'          => [
 				[
@@ -124,6 +136,10 @@ class HandlerTypes {
 				[
 					'type'  => 'configuration',
 					'value' => 'url',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'ftags',
 				],
 			],
 		];
@@ -178,6 +194,18 @@ class HandlerTypes {
 						'enabled' => true,
 					],
 				],
+				'ftags'      => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Custom tags', 'decalog' ),
+					'help'    => sprintf( esc_html__( 'Custom tags to add to each span. Format: %s.', 'decalog' ), '<code>' . htmlentities( 'key=value, key=value …' ) . '</code>' ),
+					'default' => '',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
 			],
 			'init'          => [
 				[
@@ -194,6 +222,10 @@ class HandlerTypes {
 				[
 					'type'  => 'configuration',
 					'value' => 'url',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'ftags',
 				],
 			],
 		];
@@ -248,6 +280,18 @@ class HandlerTypes {
 						'enabled' => true,
 					],
 				],
+				'ftags'      => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Custom tags', 'decalog' ),
+					'help'    => sprintf( esc_html__( 'Custom tags to add to each span. Format: %s.', 'decalog' ), '<code>' . htmlentities( 'key=value, key=value …' ) . '</code>' ),
+					'default' => '',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
 			],
 			'init'          => [
 				[
@@ -264,6 +308,10 @@ class HandlerTypes {
 				[
 					'type'  => 'configuration',
 					'value' => 'url',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'ftags',
 				],
 			],
 		];
@@ -317,6 +365,18 @@ class HandlerTypes {
 						'enabled' => true,
 					],
 				],
+				'ftags'      => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Custom tags', 'decalog' ),
+					'help'    => sprintf( esc_html__( 'Custom tags to add to each span. Format: %s.', 'decalog' ), '<code>' . htmlentities( 'key=value, key=value …' ) . '</code>' ),
+					'default' => '',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
 			],
 			'init'          => [
 				[
@@ -333,6 +393,10 @@ class HandlerTypes {
 				[
 					'type'  => 'configuration',
 					'value' => 'sampling',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'ftags',
 				],
 			],
 		];
@@ -387,6 +451,18 @@ class HandlerTypes {
 						'enabled' => true,
 					],
 				],
+				'ftags'      => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Custom tags', 'decalog' ),
+					'help'    => sprintf( esc_html__( 'Custom tags to add to each span. Format: %s.', 'decalog' ), '<code>' . htmlentities( 'key=value, key=value …' ) . '</code>' ),
+					'default' => '',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
 			],
 			'init'          => [
 				[
@@ -399,6 +475,10 @@ class HandlerTypes {
 				[
 					'type'  => 'configuration',
 					'value' => 'url',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'ftags',
 				],
 			],
 		];
@@ -568,6 +648,18 @@ class HandlerTypes {
 						'enabled' => true,
 					],
 				],
+				'ftags'      => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Custom tags', 'decalog' ),
+					'help'    => sprintf( esc_html__( 'Custom tags to add to each span. Format: %s.', 'decalog' ), '<code>' . htmlentities( 'key=value, key=value …' ) . '</code>' ),
+					'default' => '',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
 			],
 			'init'          => [
 				[
@@ -584,6 +676,10 @@ class HandlerTypes {
 				[
 					'type'  => 'configuration',
 					'value' => 'token',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'ftags',
 				],
 			],
 		];

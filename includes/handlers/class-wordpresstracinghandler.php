@@ -35,7 +35,7 @@ class WordpressTracingHandler extends AbstractTracingHandler {
 	 * @since    3.0.0
 	 */
 	public function __construct( string $uuid, int $sampling, string $table, string $storage ) {
-		parent::__construct( $uuid, 400, $sampling );
+		parent::__construct( $uuid, 400, $sampling, '' );
 		$this->verb = 'STORAGE';
 		switch ( $storage ) {
 			case 'apcu':

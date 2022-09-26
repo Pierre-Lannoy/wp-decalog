@@ -28,10 +28,11 @@ class ZipkinTracingHandler extends AbstractTracingHandler {
 	 * @param   string  $uuid       The UUID of the logger.
 	 * @param   int     $sampling   The sampling rate (0->1000).
 	 * @param   string  $url        The base endpoint.
+	 * @param   string  $tags       Optional. The tags to add for each span.
 	 * @since    3.0.0
 	 */
-	public function __construct( string $uuid, int $sampling, string $url ) {
-		parent::__construct( $uuid, 100, $sampling );
+	public function __construct( string $uuid, int $sampling, string $url, string $tags = '' ) {
+		parent::__construct( $uuid, 100, $sampling, $tags );
 		$this->endpoint                             = $url . '/api/v2/spans';
 		$this->post_args['headers']['Content-Type'] = 'application/json';
 	}
