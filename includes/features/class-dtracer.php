@@ -171,6 +171,14 @@ class DTracer {
 	private static $wp_root_id = null;
 
 	/**
+	 * IDs stack.
+	 *
+	 * @since  3.6.0
+	 * @var    string    $stack    The IDs stack.
+	 */
+	private static $stack = [];
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @param   string  $class      The class identifier, must be in ClassTypes::$classes.
@@ -218,41 +226,64 @@ class DTracer {
 	 * @since   3.0.0
 	 */
 	public function start_span( $name, $parent_id = 'xxx' ) {
-		if ( ! array_key_exists( $parent_id, self::$traces_registry ) ) {
-			$parent_id = self::$wp_root_id;
-		} else {
-			$parent_id = self::$traces_registry[ $parent_id ]['id'];
-		}
-		$span                                 = $this->init_span();
-		$span['parentId']                     = $parent_id;
-		$span['name']                         = $span['name'] . $name;
-		$span['tags']                         = array_merge( $span['tags'], $this->introspection_data() );
-		self::$traces_registry[ $span['id'] ] = $span;
-		return $span['id'];
+		return $this->start_span_with_id( $name, null, $parent_id );
 	}
 
 	/**
 	 * Starts a span.
 	 *
 	 * @param   string  $name       The name of the span.
-	 * @param   string  $id         The id of the span.
+	 * @param   string  $id         Optional. The id of the span.
 	 * @param   string  $parent_id  Optional. The id of the parent. If none, it will be linked to WP root id.
+	 * @param   int     $timestamp  Optional. The microsecond timestamp at which the span started.
 	 * @return  string   Id of started span.
 	 * @since   3.0.0
 	 */
-	public function start_span_with_id( $name, $id, $parent_id = 'xxx' ) {
+	public function start_span_with_id( $name, $id, $parent_id = 'xxx', $timestamp = 0 ) {
+		if ( 'auto' === $parent_id ) {
+			$parent_id = $this->get_auto_parent_id( $timestamp );
+		}
 		if ( ! array_key_exists( $parent_id, self::$traces_registry ) ) {
 			$parent_id = self::$wp_root_id;
 		} else {
 			$parent_id = self::$traces_registry[ $parent_id ]['id'];
 		}
-		$span                                 = $this->init_span();
-		$span['id']                           = $id;
+		$span                                 = $this->init_span( $id );
 		$span['parentId']                     = $parent_id;
 		$span['name']                         = $span['name'] . $name;
 		$span['tags']                         = array_merge( $span['tags'], $this->introspection_data() );
 		self::$traces_registry[ $span['id'] ] = $span;
+		self::$stack[]                        = $span['id'];
 		return $span['id'];
+	}
+
+	/**
+	 * Try to get parent Id.
+	 *
+	 * @param   int     $timestamp  The microsecond timestamp at which the span started.
+	 * @return  string   Id of the parent span.
+	 * @since   3.6.0
+	 */
+	protected function get_auto_parent_id( $timestamp ) {
+		if ( 0 < count( self::$stack ) ) {
+			return self::$stack[ array_key_last( self::$stack ) ];
+		}
+		$mark        = 0;
+		$probable_id = 'unknown';
+		foreach ( self::$traces_registry as $key => $span ) {
+			if ( 'Core' === $span['localEndpoint']['serviceName'] && $timestamp >= $span['timestamp'] && $timestamp > $mark ) {
+				if ( 0 === $span['duration'] ) {
+					$mark        = $span['timestamp'];
+					$probable_id = $key;
+				} else {
+					if ( $timestamp < $span['timestamp'] + $span['duration'] ) {
+						$mark        = $span['timestamp'];
+						$probable_id = $key;
+					}
+				}
+			}
+		}
+		return $probable_id;
 	}
 
 	/**
@@ -265,17 +296,46 @@ class DTracer {
 		if ( array_key_exists( $id, self::$traces_registry ) ) {
 			self::$traces_registry[ $id ]['duration'] = (int) ( ( 1000000 * microtime( true ) ) - self::$traces_registry[ $id ]['timestamp'] );
 		}
+		if ( in_array( $id, self::$stack, true ) ) {
+			do {
+				$key = array_pop( self::$stack );
+			} while ( $id !== $key );
+		}
+	}
+
+	/**
+	 * Starts, set and ends a span.
+	 *
+	 * @param   string  $name       The name of the span.
+	 * @param   array   $values     Optional. The values to add to the span.
+	 * @since   3.6.0
+	 */
+	public function inject_span( $name, $values ) {
+		$id = $this->start_span_with_id( $name, null, 'auto', array_key_exists( 'timestamp', $values ) ? $values['timestamp'] : 0 );
+		foreach ( $values as $key => $value ) {
+			if ( 'tags' === $key ) {
+				if ( is_array( $value ) ) {
+					foreach ( $value as $k => $v ) {
+						self::$traces_registry[ $id ]['tags'][ (string) $k ] = (string) $v;
+					}
+				}
+			} else {
+				self::$traces_registry[ $id ][ $key ] = $value;
+			}
+		}
+		array_pop( self::$stack );
 	}
 
 	/**
 	 * Initializes a span.
 	 *
-	 * @return  array   A initialized span.
+	 * @param   string  $id     Optional. The forced Id.
+	 * @return  array   An initialized span.
 	 * @since   3.0.0
 	 */
-	private function init_span() {
+	private function init_span( $id = null ) {
 		return [
-			'id'             => UUID::generate_unique_id( 8 ),
+			'id'             => $id ?? UUID::generate_unique_id( 8 ),
 			'traceId'        => DECALOG_TRACEID,
 			'parentId'       => '',
 			'name'           => $this->name . ' / ',

@@ -14,9 +14,6 @@ namespace Decalog\Listener;
 use Decalog\System\Environment;
 use Decalog\System\Option;
 
-if ( ! defined( 'DECALOG_SLOW_QUERY' ) ) {
-	define( 'DECALOG_SLOW_QUERY', 0.05 );
-}
 
 /**
  * WP database listener for DecaLog.
@@ -36,6 +33,38 @@ class DatabaseListener extends AbstractListener {
 	 * @var    integer    $fails    Maintains the number of fails.
 	 */
 	private $fails = 0;
+
+	/**
+	 * Slow query time threshold.
+	 *
+	 * @since 3.6.0
+	 * @var    integer    $slow_query_ms    The threshold in ms.
+	 */
+	private $slow_query_ms = 50;
+
+	/**
+	 * Medium query time threshold.
+	 *
+	 * @since 3.6.0
+	 * @var    integer    $medium_query_ms    The threshold in ms.
+	 */
+	private $medium_query_ms = 10;
+
+	/**
+	 * Query traces switch.
+	 *
+	 * @since 3.6.0
+	 * @var    bool    $query_trace    Has the queries to be traced.
+	 */
+	private $query_trace = false;
+
+	/**
+	 * Slow query log switch.
+	 *
+	 * @since 3.6.0
+	 * @var    bool    $slow_query_log    Has the slow queries to be logged.
+	 */
+	private $slow_query_log = true;
 
 	/**
 	 * Monitored SQL statements.
@@ -59,11 +88,15 @@ class DatabaseListener extends AbstractListener {
 	 * @since    1.0.0
 	 */
 	protected function init() {
-		$this->id      = 'wpdb';
-		$this->name    = esc_html__( 'Database', 'decalog' );
-		$this->class   = 'db';
-		$this->product = Environment::mysql_model();
-		$this->version = Environment::mysql_version();
+		$this->id              = 'wpdb';
+		$this->name            = esc_html__( 'Database', 'decalog' );
+		$this->class           = 'db';
+		$this->product         = Environment::mysql_model();
+		$this->version         = Environment::mysql_version();
+		$this->slow_query_log  = Option::network_get( 'slow_query_warn', $this->slow_query_log );
+		$this->query_trace     = Option::network_get( 'trace_query', $this->query_trace );
+		$this->slow_query_ms   = Option::network_get( 'slow_query_ms', $this->slow_query_ms );
+		$this->medium_query_ms = Option::network_get( 'medium_query_ms', $this->medium_query_ms );
 		sort( $this->statements );
 	}
 
@@ -92,7 +125,55 @@ class DatabaseListener extends AbstractListener {
 		add_filter( 'wp_die_json_handler', [ $this, 'wp_die_handler' ], 10, 1 );
 		add_filter( 'wp_die_jsonp_handler', [ $this, 'wp_die_handler' ], 10, 1 );
 		add_filter( 'wp_die_xml_handler', [ $this, 'wp_die_handler' ], 10, 1 );
+		if ( $this->query_trace ) {
+			add_filter( 'log_query_custom_data', [ $this, 'log_query' ], 0, 5 );
+		}
 		return true;
+	}
+
+	/**
+	 * Logs and traces a database query.
+	 *
+	 * @param array  $query_data      Custom query data.
+	 * @param string $query           The query's SQL.
+	 * @param float  $query_time      Total time spent on the query, in seconds.
+	 * @param string $query_callstack Comma-separated list of the calling functions.
+	 * @param float  $query_start     Unix timestamp of the time at the start of the query.
+	 *
+	 * @since   3.6.0
+	 */
+	public function log_query( $query_data, $query, $query_time, $query_callstack, $query_start ) {
+		if ( 0 < substr_count( $query_callstack, ',' ) ) {
+			$query_callers = explode( ',', $query_callstack );
+			$query_caller  = $query_callers[ array_key_last( $query_callers ) ];
+		} else {
+			$query_caller = $query_callstack;
+		}
+		$query = decalog_mb_full_trim( $query, ' ' );
+		while ( false !== strpos( $query , '  ' ) ) {
+			$query = str_replace( '  ', ' ', $query );
+		}
+		$query = trim( $query ) ;
+		$span  = [
+			'timestamp'      => (int) ( 1000000 * (float) $query_start ),
+			'duration'       => (int) ( 1000000 * (float) $query_time ),
+			'tags'           => [
+				'db.query'   => $query,
+				'db.caller'   => '\\' . trim( $query_caller ) . '()',
+			],
+		];
+		$lquery = strtolower( $query );
+		$name   = 'unknown query';
+		foreach ( $this->statements as $q ) {
+			if ( 0 === strpos( $lquery , $q ) ) {
+				$name = strtoupper( $q ) . ' query';
+			}
+		}
+
+		if ( $this->query_trace ) {
+			$this->tracer->inject_span( $name, $span );
+		}
+		return $query_data;
 	}
 
 	/**
@@ -264,8 +345,31 @@ class DatabaseListener extends AbstractListener {
 					} else {
 						$duplicates[] = $sql;
 					}
-					if ( DECALOG_SLOW_QUERY <= $query[1] ) {
+					if ( ( $this->slow_query_ms / 1000 ) <= $query[1] ) {
 						$this->monitor->inc_dev_counter( 'query_slow', 1 );
+						if ( $this->slow_query_log ) {
+							$query_string = $query[0];
+							$query_callstack = $query[2];
+							if ( 0 < substr_count( $query_callstack, ',' ) ) {
+								$query_callers = explode( ',', $query_callstack );
+								$query_caller  = $query_callers[ array_key_last( $query_callers ) ];
+							} else {
+								$query_caller = $query_callstack;
+							}
+							$query_string = decalog_mb_full_trim( $query_string, ' ' );
+							while ( false !== strpos( $query_string , '  ' ) ) {
+								$query_string = str_replace( '  ', ' ', $query_string );
+							}
+							$query_string = trim( $query_string ) ;
+							$lquery = strtolower( $query_string );
+							$name   = 'unknown query';
+							foreach ( $this->statements as $q ) {
+								if ( 0 === strpos( $lquery , $q ) ) {
+									$name = strtoupper( $q ) . ' query';
+								}
+							}
+							$this->logger->warning( sprintf( 'Slow %s from `\%s()`. %.2F ms to execute "%s".', $name, trim( $query_caller ), 1000.0 * (float) $query[1], $query_string ) );
+						}
 					}
 					$this->monitor->observe_dev_histogram( 'query_detail_latency', $query[1] );
 				}

@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 - Compatibility with WordPress 6.1.
 - Compatibility with PHP 8.2.
+- DecaLog can now warn about slow SQL queries - see "options" tab in plugin settings.
+- It's now possible to collect SQL queries in traces (based on a suggestion from [evoicefire](https://github.com/evoicefire)) - see "options" tab in plugin settings.
 - DecaLog now collects installed/updatable themes metrics (based on a suggestion from [deltaecho07](https://github.com/deltaecho07)).
 - It's now possible to add custom tags to each span in traces for Datadog, Grafana, Jaeger, NewRelic, Tempo and Zipkin loggers (based on a suggestion from [YR Chen](https://github.com/stevapple)).
 
@@ -16,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 - In some rare conditions, Rotating Files logger may wrongly compute the file path or name.
+- The trace span for logger purges may be attached to a wrong parent.
 
 ## [3.5.1] - 2022-05-12
 

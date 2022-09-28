@@ -762,6 +762,8 @@ class Decalog_Admin {
 				Option::network_set( 'pseudonymization', array_key_exists( 'decalog_loggers_options_pseudonymization', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_loggers_options_pseudonymization' ) : false );
 				Option::network_set( 'respect_wp_debug', array_key_exists( 'decalog_loggers_options_wpdebug', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_loggers_options_wpdebug' ) : false );
 				Option::network_set( 'privileges', array_key_exists( 'decalog_plugin_options_privileges', $_POST ) ? (string) filter_input( INPUT_POST, 'decalog_plugin_options_privileges', FILTER_SANITIZE_NUMBER_INT ) : Option::network_get( 'privileges' ) );
+				Option::network_set( 'slow_query_warn', array_key_exists( 'decalog_loggers_options_slowqueries', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_loggers_options_slowqueries' ) : false );
+				Option::network_set( 'trace_query', array_key_exists( 'decalog_loggers_options_tracequeries', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_loggers_options_tracequeries' ) : false );
 				$autolog = array_key_exists( 'decalog_plugin_features_livelog', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_plugin_features_livelog' ) : false;
 				if ( $autolog ) {
 					Autolog::activate();
@@ -1033,6 +1035,38 @@ class Decalog_Admin {
 			]
 		);
 		register_setting( 'decalog_loggers_options_section', 'decalog_loggers_options_wpdebug' );
+		add_settings_field(
+			'decalog_loggers_options_slowqueries',
+			__( 'Database', 'decalog' ),
+			[ $form, 'echo_field_checkbox' ],
+			'decalog_loggers_options_section',
+			'decalog_loggers_options_section',
+			[
+				'text'        => esc_html__( 'Warn about slow queries', 'decalog' ),
+				'id'          => 'decalog_loggers_options_slowqueries',
+				'checked'     => Option::network_get( 'slow_query_warn' ),
+				'description' => sprintf( esc_html__( 'If checked, a warning will be triggered for each SQL query that takes %.1F ms or more to execute.', 'decalog' ), Option::network_get( 'slow_query_ms', 50 ) ),
+				'full_width'  => false,
+				'enabled'     => true,
+			]
+		);
+		register_setting( 'decalog_loggers_options_section', 'decalog_loggers_options_slowqueries' );
+		add_settings_field(
+			'decalog_loggers_options_tracequeries',
+			'',
+			[ $form, 'echo_field_checkbox' ],
+			'decalog_loggers_options_section',
+			'decalog_loggers_options_section',
+			[
+				'text'        => esc_html__( 'Trace queries', 'decalog' ),
+				'id'          => 'decalog_loggers_options_tracequeries',
+				'checked'     => Option::network_get( 'trace_query' ),
+				'description' => esc_html__( 'If checked, all SQL queries will be traced and pushed to running trace loggers.', 'decalog' ),
+				'full_width'  => false,
+				'enabled'     => true,
+			]
+		);
+		register_setting( 'decalog_loggers_options_section', 'decalog_loggers_options_tracequeries' );
 	}
 
 	/**
