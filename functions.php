@@ -91,6 +91,19 @@ function decalog_remote_put( $url, $args = [] ) {
 }
 
 /**
+ * Close a shmop resource.
+ *
+ * @since 3.6.0
+ *
+ * @param mixed $shmop  The shmop resource to close.
+ */
+function decalog_shmop_close( $shmop ){
+	if ( defined( 'PHP_VERSION' ) && version_compare( PHP_VERSION, '8.0.0', '<' ) ) {
+		shmop_close( $shmop );
+	}
+}
+
+/**
  * Verify if a resource is a shmop resource.
  *
  * @since 3.6.0

@@ -3080,7 +3080,7 @@ class HandlerTypes {
 			'icon'          => $this->get_base64_ram_icon(),
 			'needs'         => [
 				'option'          => [ 'livelog' ],
-				'function_exists' => [ 'shmop_open', 'shmop_read', 'shmop_write', 'shmop_delete', 'shmop_close' ],
+				'function_exists' => [ 'shmop_open', 'shmop_read', 'shmop_write', 'shmop_delete' ],
 			],
 			'params'        => [],
 			'configuration' => [],

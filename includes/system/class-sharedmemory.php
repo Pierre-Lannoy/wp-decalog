@@ -64,7 +64,7 @@ class SharedMemory {
 	 * @since    1.0.0
 	 */
 	public static function init() {
-		self::$available = ( function_exists( 'shmop_open' ) && function_exists( 'shmop_read' ) && function_exists( 'shmop_write' ) && function_exists( 'shmop_delete' ) && function_exists( 'shmop_close' ) );
+		self::$available = ( function_exists( 'shmop_open' ) && function_exists( 'shmop_read' ) && function_exists( 'shmop_write' ) && function_exists( 'shmop_delete' ) );
 	}
 
 	/**
@@ -109,7 +109,7 @@ class SharedMemory {
 	private function exists() {
 		$result = decalog_is_shmop_resource( $this->acquire() );
 		if ( $result ) {
-			shmop_close( $this->shmid );
+			decalog_shmop_close( $this->shmid );
 		}
 		return $result;
 	}
@@ -139,7 +139,7 @@ class SharedMemory {
 			}
 			if ( decalog_is_shmop_resource( $this->shmid ) ) {
 				shmop_delete( $this->shmid );
-				shmop_close( $this->shmid );
+				decalog_shmop_close( $this->shmid );
 			} else {
 				return false;
 			}
@@ -147,7 +147,7 @@ class SharedMemory {
 		$this->shmid = $this->acquire( 'c', $this->perms, $size );
 		if ( decalog_is_shmop_resource( $this->shmid ) ) {
 			$result = shmop_write( $this->shmid, $data, 0 );
-			shmop_close( $this->shmid );
+			decalog_shmop_close( $this->shmid );
 			return $result;
 		}
 		return false;
@@ -178,7 +178,7 @@ class SharedMemory {
 			if ( decalog_is_shmop_resource( $this->shmid ) ) {
 				$size = shmop_size( $this->shmid );
 				$data = shmop_read( $this->shmid, 0, $size );
-				shmop_close( $this->shmid );
+				decalog_shmop_close( $this->shmid );
 			} else {
 				return [];
 			}
