@@ -15,11 +15,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 - Upgraded Monolog library from version 2.6.0 to version 2.8.0.
+- Improved and optimized launch of listeners.
 
 ### Fixed
 - Live console with PHP 8 may be broken (thanks to [stuffeh](https://github.com/stuffeh)).
 - In some rare conditions, Rotating Files logger may wrongly compute the file path or name.
 - The trace span for logger purges may be attached to a wrong parent.
+- Some listeners may not detect they need to be launched.
 
 ## [3.5.1] - 2022-05-12
 
