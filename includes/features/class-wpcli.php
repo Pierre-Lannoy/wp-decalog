@@ -141,6 +141,8 @@ class Wpcli {
 	 * @since   2.0.0
 	 */
 	private function error( $code = 255, $stdout = false ) {
+		$logger = Log::bootstrap( 'core', 'WP-CLI', defined( 'WP_CLI_VERSION' ) ? WP_CLI_VERSION : 'x' );
+		$logger->error( 'DecaLog: ' . $this->exit_codes[ $code ], $code );
 		if ( \WP_CLI\Utils\isPiped() ) {
 			// phpcs:ignore
 			fwrite( STDOUT, '' );
@@ -165,6 +167,8 @@ class Wpcli {
 	 * @since   2.0.0
 	 */
 	private function warning( $msg, $result = '', $stdout = false ) {
+		$logger = Log::bootstrap( 'core', 'WP-CLI', defined( 'WP_CLI_VERSION' ) ? WP_CLI_VERSION : 'x' );
+		$logger->warning( 'DecaLog: ' . $msg );
 		if ( \WP_CLI\Utils\isPiped() || $stdout ) {
 			// phpcs:ignore
 			fwrite( STDOUT, $result );
@@ -182,6 +186,8 @@ class Wpcli {
 	 * @since   2.0.0
 	 */
 	private function success( $msg, $result = '', $stdout = false ) {
+		$logger = Log::bootstrap( 'core', 'WP-CLI', defined( 'WP_CLI_VERSION' ) ? WP_CLI_VERSION : 'x' );
+		$logger->info( 'DecaLog: ' . $msg );
 		if ( \WP_CLI\Utils\isPiped() || $stdout ) {
 			// phpcs:ignore
 			fwrite( STDOUT, $result );
@@ -1167,7 +1173,7 @@ class Wpcli {
 		switch ( $action ) {
 			case 'list':
 				if ( 'full' === $detail ) {
-					$detail = [ 'id', 'class', 'name', 'product', 'version', 'available', 'enabled' ];
+					$detail = [ 'id', 'class', 'name', 'product', 'version', 'available', 'enabled', 'step' ];
 				} else {
 					$detail = [ 'id', 'name', 'available', 'enabled' ];
 				}
@@ -1240,7 +1246,7 @@ class Wpcli {
 	 * <enable|disable>
 	 * : The action to take.
 	 *
-	 * <early-loading|auto-logging|auto-start|auth-endpoint>
+	 * <early-loading|auto-logging|auto-start|auth-endpoint|slow-query-warn|query-trace>
 	 * : The setting to change.
 	 *
 	 * [--yes]
@@ -1281,6 +1287,14 @@ class Wpcli {
 						Option::network_set( 'metrics_authent', true );
 						$this->success( 'endpoints authentication is now activated.', '', $stdout );
 						break;
+					case 'slow-query-warn':
+						Option::network_set( 'slow_query_warn', true );
+						$this->success( 'slow-query warning is now activated.', '', $stdout );
+						break;
+					case 'trace-query':
+						Option::network_set( 'trace_query', true );
+						$this->success( 'query tracing is now activated.', '', $stdout );
+						break;
 					default:
 						$this->error( 7, $stdout );
 				}
@@ -1306,6 +1320,16 @@ class Wpcli {
 						\WP_CLI::confirm( 'Are you sure you want to deactivate endpoint authentication?', $assoc_args );
 						Option::network_set( 'metrics_authent', false );
 						$this->success( 'endpoints authentication is now deactivated.', '', $stdout );
+						break;
+					case 'slow-query-warn':
+						\WP_CLI::confirm( 'Are you sure you want to deactivate slow-query warning?', $assoc_args );
+						Option::network_set( 'slow_query_warn', false );
+						$this->success( 'slow-query warning is now deactivated.', '', $stdout );
+						break;
+					case 'trace-query':
+						\WP_CLI::confirm( 'Are you sure you want to deactivate query tracing?', $assoc_args );
+						Option::network_set( 'trace_query', false );
+						$this->success( 'query tracing is now deactivated.', '', $stdout );
 						break;
 					default:
 						$this->error( 7, $stdout );
@@ -1749,7 +1773,7 @@ class Wpcli {
 	 *
 	 */
 	public function tail( $args, $assoc_args ) {
-		if ( ! function_exists( 'shmop_open' ) || ! function_exists( 'shmop_read' ) || ! function_exists( 'shmop_write' ) || ! function_exists( 'shmop_delete' ) || ! function_exists( 'shmop_close' ) ) {
+		if ( ! function_exists( 'shmop_open' ) || ! function_exists( 'shmop_read' ) || ! function_exists( 'shmop_write' ) || ! function_exists( 'shmop_delete' ) ) {
 			$this->error( 11 );
 		}
 		if ( ! Autolog::is_enabled() ) {

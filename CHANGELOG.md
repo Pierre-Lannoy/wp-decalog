@@ -12,10 +12,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - It's now possible to collect SQL queries in traces (based on a suggestion from [evoicefire](https://github.com/evoicefire)) - see "options" tab in plugin settings.
 - DecaLog now collects installed/updatable themes metrics (based on a suggestion from [deltaecho07](https://github.com/deltaecho07)).
 - It's now possible to add custom tags to each span in traces for Datadog, Grafana, Jaeger, NewRelic, Tempo and Zipkin loggers (based on a suggestion from [YR Chen](https://github.com/stevapple)).
+- DecaLog can now log all events triggered by WooCommerce status tools.
 
 ### Changed
 - Upgraded Monolog library from version 2.6.0 to version 2.8.0.
 - Improved and optimized launch of listeners.
+- [WPCLI] The command `wp log listener list --detail=full` now returns launch step too.
 
 ### Fixed
 - Live console with PHP 8 may be broken (thanks to [stuffeh](https://github.com/stuffeh)).

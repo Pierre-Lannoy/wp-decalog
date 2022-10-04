@@ -87,15 +87,19 @@ class ListenerFactory {
 				self::$classes[] = $classname;
 			}
 		}
-		$this->launch();
+		$this->launch( 'init' );
 	}
 
 	/**
 	 * Launch the available listeners.
 	 *
+	 * $param   string  $step   The step of the launch.
 	 * @since    3.6.0
 	 */
-	public function launch() {
+	public function launch( $step = 'default') {
+		if ( ! isset( $step ) ) {
+			$step = 'default';
+		}
 		$loaded = [];
 		foreach ( self::$classes as $classname ) {
 			if ( ! array_key_exists( $classname, self::$instances ) ) {
@@ -105,7 +109,11 @@ class ListenerFactory {
 					if ( $info['available'] ) {
 						self::$instances[$classname] = $instance;
 						$loaded[] = $classname;
+						$info['step'] = $step;
+					} else {
+						$info['step'] = '-';
 					}
+
 					self::$infos['Decalog\Listener\\' . $classname] = $info;
 				} else {
 					$this->log->debug( sprintf( 'Unable to load "%s".', $classname ) );
@@ -121,7 +129,7 @@ class ListenerFactory {
 	 * @since    3.6.0
 	 */
 	public function late_launch() {
-		$this->launch();
+		$this->launch( 'late' );
 		DTracer::plugins_loaded();
 	}
 
