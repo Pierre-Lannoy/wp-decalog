@@ -109,7 +109,7 @@ class ListenerFactory {
 					if ( $info['available'] ) {
 						self::$instances[$classname] = $instance;
 						$loaded[] = $classname;
-						$info['step'] = $step;
+						$info['step'] .= $step;
 					} else {
 						$info['step'] = '-';
 					}

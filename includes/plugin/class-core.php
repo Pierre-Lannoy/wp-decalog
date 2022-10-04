@@ -75,8 +75,8 @@ class Core {
 		$this->loader->add_filter( 'perfopsone_plugin_info', self::class, 'perfopsone_plugin_info' );
 		$this->loader->add_action( 'init', $bootstrap, 'initialize', 0 );
 		$this->loader->add_action( 'init', $bootstrap, 'late_initialize', PHP_INT_MAX );
-		$this->loader->add_action( 'plugins_loaded', $listeners, 'launch', PHP_INT_MIN );
-		$this->loader->add_action( 'plugins_loaded', $listeners, 'late_launch', PHP_INT_MAX );
+		$this->loader->add_action( 'plugins_loaded', $listeners, 'launch', PHP_INT_MIN, 0 );
+		$this->loader->add_action( 'plugins_loaded', $listeners, 'late_launch', PHP_INT_MAX, 0 );
 		$this->loader->add_action( 'wp_head', $assets, 'prefetch' );
 		add_shortcode( 'decalog-changelog', [ $updater, 'sc_get_changelog' ] );
 		add_shortcode( 'decalog-libraries', [ $libraries, 'sc_get_list' ] );
