@@ -19,7 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Upgraded Monolog library from version 2.6.0 to version 2.8.0.
 - Improved and optimized launch of listeners.
 - [WPCLI] The command `wp log listener list --detail=full` now returns launch step too.
-- [WPCLI] The result of `wp log` commands are now prefixed by the product name.
+- [WPCLI] The results of `wp log` commands are now prefixed by the product name.
 - Improved detection, loading and listening of WooCommerce.
 
 ### Fixed
