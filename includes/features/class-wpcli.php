@@ -33,7 +33,7 @@ use Decalog\Plugin\Feature\DLogger;
 use Decalog\Plugin\Feature\SDK;
 
 /**
- * Manages DecaLog, view events logs and send messages to loggers.
+ * Manages DecaLog, view events logs and send events to loggers.
  *
  * @package Features
  * @author  Pierre Lannoy <https://pierre.lannoy.fr/>.
@@ -141,8 +141,7 @@ class Wpcli {
 	 * @since   2.0.0
 	 */
 	private function error( $code = 255, $stdout = false ) {
-		$logger = Log::bootstrap( 'core', 'WP-CLI', defined( 'WP_CLI_VERSION' ) ? WP_CLI_VERSION : 'x' );
-		$logger->error( 'DecaLog: ' . $this->exit_codes[ $code ], $code );
+		$msg = '[' . DECALOG_PRODUCT_NAME . '] ' . ucfirst( $this->exit_codes[ $code ] );
 		if ( \WP_CLI\Utils\isPiped() ) {
 			// phpcs:ignore
 			fwrite( STDOUT, '' );
@@ -150,11 +149,11 @@ class Wpcli {
 			exit( $code );
 		} elseif ( $stdout ) {
 			// phpcs:ignore
-			fwrite( STDERR, ucfirst( $this->exit_codes[ $code ] ) );
+			fwrite( STDERR, $msg );
 			// phpcs:ignore
 			exit( $code );
 		} else {
-			\WP_CLI::error( $this->exit_codes[ $code ] );
+			\WP_CLI::error( $msg );
 		}
 	}
 
@@ -167,8 +166,7 @@ class Wpcli {
 	 * @since   2.0.0
 	 */
 	private function warning( $msg, $result = '', $stdout = false ) {
-		$logger = Log::bootstrap( 'core', 'WP-CLI', defined( 'WP_CLI_VERSION' ) ? WP_CLI_VERSION : 'x' );
-		$logger->warning( 'DecaLog: ' . $msg );
+		$msg = '[' . DECALOG_PRODUCT_NAME . '] ' . ucfirst( $msg );
 		if ( \WP_CLI\Utils\isPiped() || $stdout ) {
 			// phpcs:ignore
 			fwrite( STDOUT, $result );
@@ -186,8 +184,7 @@ class Wpcli {
 	 * @since   2.0.0
 	 */
 	private function success( $msg, $result = '', $stdout = false ) {
-		$logger = Log::bootstrap( 'core', 'WP-CLI', defined( 'WP_CLI_VERSION' ) ? WP_CLI_VERSION : 'x' );
-		$logger->info( 'DecaLog: ' . $msg );
+		$msg = '[' . DECALOG_PRODUCT_NAME . '] ' . ucfirst( $msg );
 		if ( \WP_CLI\Utils\isPiped() || $stdout ) {
 			// phpcs:ignore
 			fwrite( STDOUT, $result );
@@ -1341,7 +1338,7 @@ class Wpcli {
 	}
 
 	/**
-	 * Send a message to all running loggers.
+	 * Send an event to all running loggers.
 	 *
 	 * ## OPTIONS
 	 *
@@ -1377,9 +1374,9 @@ class Wpcli {
 		if ( ! in_array( $level, [ 'info', 'notice', 'warning', 'error', 'critical', 'alert' ], true ) ) {
 			$this->error( 10, $stdout );
 		}
-		$logger = Log::bootstrap( 'core', 'WP-CLI', defined( 'WP_CLI_VERSION' ) ? WP_CLI_VERSION : 'x' );
+		$logger = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
 		$logger->log( $level, $message, $code );
-		$this->success( 'message sent.', 'OK', $stdout );
+		$this->success( 'event triggered and sent.', 'OK', $stdout );
 	}
 
 	/**
