@@ -3,7 +3,7 @@ All notable changes to **DecaLog** are documented in this *changelog*.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.6.0] - Not Yet Released
+## [3.6.0] - 2022-10-06
 
 ### Added
 - Compatibility with WordPress 6.1.
