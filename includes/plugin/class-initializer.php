@@ -61,19 +61,24 @@ class Initializer {
 	 */
 	public function wpcli_initialize() {
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
-			$class = str_replace( 'WP_CLI\Loggers\\', 'Decalog\Listener\WP_CLI\\', get_class( \WP_CLI::get_logger() ) );
-			if ( class_exists( $class ) ) {
-				try {
-					$reflection = new \ReflectionClass( $class );
-					$instance   = $reflection->newInstance();
-					\WP_CLI::set_logger( $instance );
-				} catch ( \Exception $e ) {
+			if ( method_exists( '\WP_CLI', 'set_logger') && method_exists( '\WP_CLI', 'get_logger') ) {
+				$class = str_replace( 'WP_CLI\Loggers\\', 'Decalog\Listener\WP_CLI\\', get_class( \WP_CLI::get_logger() ) );
+				if ( class_exists( $class ) ) {
+					try {
+						$reflection = new \ReflectionClass( $class );
+						$instance   = $reflection->newInstance();
+						\WP_CLI::set_logger( $instance );
+					} catch ( \Exception $e ) {
+						$logger = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
+						$logger->critical( sprintf( 'Unable to instanciate `%s` class. DecaLog will not log following WP-CLI events.', $class ) );
+					}
+				} else {
 					$logger = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
-					$logger->critical( sprintf( 'Unable to instanciate `%s` class. DecaLog will not log following WP-CLI events.', $class ) );
+					$logger->critical( sprintf( 'Unable to find `%s` class. DecaLog will not log following WP-CLI events.', $class ) );
 				}
 			} else {
 				$logger = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
-				$logger->critical( sprintf( 'Unable to find `%s` class. DecaLog will not log following WP-CLI events.', $class ) );
+				$logger->warning( 'WP-CLI is outdated: DecaLog will not be able to report events triggered in interactive command-line session. Please, update WP-CLI!' );
 			}
 		}
 	}
