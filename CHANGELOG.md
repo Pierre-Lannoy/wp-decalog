@@ -3,13 +3,14 @@ All notable changes to **DecaLog** are documented in this *changelog*.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.6.1] - Not Yet Released
+## [3.6.1] - 2022-10-11
 
 ### Changed
 - [WP-CLI] A warning is now triggered when an outdated version of WP-CLI is detected.
 
 ### Fixed
 - [WP-CLI] With outdated versions of WP-CLI, a PHP uncaught exception is thrown (thanks to [Jan Thiel](https://github.com/JanThiel)).
+- Unable to use Plesk WordPress toolkit when Plesk WP-CLI is not up to date.
 
 ## [3.6.0] - 2022-10-06
 
