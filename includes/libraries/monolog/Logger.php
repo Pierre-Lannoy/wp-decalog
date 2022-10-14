@@ -17,7 +17,7 @@ use Psr\Log\LoggerInterface;
 use Psr\Log\InvalidArgumentException;
 use Psr\Log\LogLevel;
 use Throwable;
-use Stringable;
+//use Stringable;
 
 /**
  * Monolog log channel

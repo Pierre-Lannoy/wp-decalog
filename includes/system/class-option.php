@@ -66,7 +66,7 @@ class Option {
 	 * @since 1.0.0
 	 */
 	public static function init() {
-		self::$defaults['use_apcu']         = true;
+		self::$defaults['use_apcu']          = true;
 		self::$defaults['use_cdn']           = false;
 		self::$defaults['download_favicons'] = false;
 		self::$defaults['script_in_footer']  = false;
@@ -84,7 +84,11 @@ class Option {
 		self::$defaults['earlyloading']      = true;  // In plugin settings.
 		self::$defaults['metrics_authent']   = false;  // In plugin settings.
 		self::$defaults['adminbar']          = true;
-		self::$network                       = [ 'version', 'earlyloading', 'use_cdn', 'download_favicons', 'script_in_footer', 'display_nag', 'respect_wp_debug', 'livelog', 'logger_autostart', 'autolisteners', 'pseudonymization', 'privileges', 'metrics_authent', 'adminbar' ];
+		self::$defaults['slow_query_ms']     = 50;
+		self::$defaults['medium_query_ms']   = 10;
+		self::$defaults['trace_query']       = false;
+		self::$defaults['slow_query_warn']   = true;
+		self::$network                       = [ 'version', 'earlyloading', 'use_cdn', 'download_favicons', 'script_in_footer', 'display_nag', 'respect_wp_debug', 'livelog', 'logger_autostart', 'autolisteners', 'pseudonymization', 'privileges', 'metrics_authent', 'adminbar', 'slow_query_ms', 'medium_query_ms', 'trace_query', 'slow_query_warn' ];
 	}
 
 	/**

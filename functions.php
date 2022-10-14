@@ -49,6 +49,25 @@ function decalog_mb_str_pad( $input, $length, $padding = ' ', $padType = STR_PAD
 }
 
 /**
+ * Multibyte full trim
+ *
+ * Functionally, the equivalent of the standard str_pad function, but is capable of successfully padding multibyte strings.
+ *
+ * @param string $input         The string to be fully trimed.
+ * @param string $replacement   Optional. The string replacement.
+ *
+ * @return string A fully trimed multibyte string.
+ * @since   3.6.0
+ */
+function decalog_mb_full_trim( $input, $replacement = '' ) {
+	return preg_replace(
+		"/(\t|\n|\v|\f|\r| |\xC2\x85|\xc2\xa0|\xe1\xa0\x8e|\xe2\x80[\x80-\x8D]|\xe2\x80\xa8|\xe2\x80\xa9|\xe2\x80\xaF|\xe2\x81\x9f|\xe2\x81\xa0|\xe3\x80\x80|\xef\xbb\xbf)+/",
+		$replacement,
+		$input
+	);
+}
+
+/**
  * Performs an HTTP request using the PUT method and returns its response.
  * Mimics wp_remote_get or wp_remote_post, but for PUT method.
  *
@@ -69,6 +88,34 @@ function decalog_remote_put( $url, $args = [] ) {
 		return $http->request( $url, $parsed_args );
 	}
 	return new WP_Error( 500 );
+}
+
+/**
+ * Close a shmop resource.
+ *
+ * @since 3.6.0
+ *
+ * @param mixed $shmop  The shmop resource to close.
+ */
+function decalog_shmop_close( $shmop ){
+	if ( defined( 'PHP_VERSION' ) && version_compare( PHP_VERSION, '8.0.0', '<' ) ) {
+		shmop_close( $shmop );
+	}
+}
+
+/**
+ * Verify if a resource is a shmop resource.
+ *
+ * @since 3.6.0
+ *
+ * @param mixed     $value  URL to retrieve.
+ * @return bool     True if it's a shmop resource, false otherwise.
+ */
+function decalog_is_shmop_resource( $value ) {
+	if ( class_exists( 'Shmop' ) ) {
+		return $value instanceof Shmop;
+	}
+	return ( is_resource( $value ) );
 }
 
 

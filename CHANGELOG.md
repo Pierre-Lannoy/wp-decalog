@@ -3,18 +3,39 @@ All notable changes to **DecaLog** are documented in this *changelog*.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.6.0] - Not Yet Released
+## [3.6.1] - 2022-10-11
+
+### Changed
+- [WP-CLI] A warning is now triggered when an outdated version of WP-CLI is detected.
+
+### Fixed
+- [WP-CLI] With outdated versions of WP-CLI, a PHP uncaught exception is thrown (thanks to [Jan Thiel](https://github.com/JanThiel)).
+- Unable to use Plesk WordPress toolkit when Plesk WP-CLI is not up to date.
+
+## [3.6.0] - 2022-10-06
 
 ### Added
 - Compatibility with WordPress 6.1.
 - Compatibility with PHP 8.2.
+- DecaLog can now warn about slow SQL queries - see "options" tab in plugin settings.
+- It's now possible to collect SQL queries in traces (based on a suggestion from [evoicefire](https://github.com/evoicefire)) - see "options" tab in plugin settings.
 - DecaLog now collects installed/updatable themes metrics (based on a suggestion from [deltaecho07](https://github.com/deltaecho07)).
+- It's now possible to add custom tags to each span in traces for Datadog, Grafana, Jaeger, NewRelic, Tempo and Zipkin loggers (based on a suggestion from [YR Chen](https://github.com/stevapple)).
+- DecaLog can now log all events triggered by WooCommerce status tools.
+- [WPCLI] DecaLog can now log all events triggered in interactive wp-cli sessions.
 
 ### Changed
 - Upgraded Monolog library from version 2.6.0 to version 2.8.0.
+- Improved and optimized launch of listeners.
+- [WPCLI] The command `wp log listener list --detail=full` now returns launch step too.
+- [WPCLI] The results of `wp log` commands are now prefixed by the product name.
+- Improved detection, loading and listening of WooCommerce.
 
 ### Fixed
+- Live console with PHP 8 may be broken (thanks to [stuffeh](https://github.com/stuffeh)).
 - In some rare conditions, Rotating Files logger may wrongly compute the file path or name.
+- The trace span for logger purges may be attached to a wrong parent.
+- Some listeners may not detect they need to be launched.
 
 ## [3.5.1] - 2022-05-12
 

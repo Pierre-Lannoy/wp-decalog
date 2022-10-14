@@ -113,6 +113,14 @@ abstract class AbstractTracingHandler extends AbstractProcessingHandler {
 	protected $processors = [];
 
 	/**
+	 * Fixed tags to add for each span.
+	 *
+	 * @since  3.6.0
+	 * @var    array    $ftags    Fixed tags.
+	 */
+	protected $ftags = [];
+
+	/**
 	 * The traces.
 	 *
 	 * @since  3.0.0
@@ -143,11 +151,29 @@ abstract class AbstractTracingHandler extends AbstractProcessingHandler {
 	 * @param   int     $format     The format in which to push data:
 	 *                              100 - Zipkin.
 	 * @param   int     $sampling   The sampling rate (0->1000).
+	 * @param   string  $tags       The tags to add for each span.
 	 * @since    3.0.0
 	 */
-	public function __construct( $uuid, $format, $sampling ) {
+	public function __construct( $uuid, $format, $sampling, $tags ) {
 		$this->uuid   = $uuid;
 		$this->format = $format;
+		if ( isset( $tags ) && is_string( $tags ) && '' !== $tags ) {
+			if ( false !== strpos( $tags, ',' ) ) {
+				$tags = explode( ',', $tags );
+			} else {
+				$tags = [ $tags ];
+			}
+			foreach ( $tags as $pair ) {
+				if ( 1 === substr_count( $pair, '=' ) ) {
+					$t    = explode( '=', $pair );
+					$t[0] = decalog_mb_full_trim( $t[0] );
+					$t[1] = decalog_mb_full_trim( $t[1] );
+					if ( '' !== $t[0] && '' !== $t[1] ) {
+						$this->ftags[ $t[0] ] = $t[1];
+					}
+				}
+			}
+		}
 		parent::__construct( Logger::EMERGENCY, true );
 		$this->post_args = [
 			'headers'    => [
@@ -195,6 +221,13 @@ abstract class AbstractTracingHandler extends AbstractProcessingHandler {
 			}
 		}
 		foreach ( $this->traces as $index => $span ) {
+			if ( 0 < count( $this->ftags ) ) {
+				if ( array_key_exists( 'tags', $span ) && is_array( $span['tags'] ) ) {
+					$span['tags'] = array_merge( $span['tags'], $this->ftags );
+				} else {
+					$span['tags'] = $this->ftags;
+				}
+			}
 			if ( array_key_exists( 'tags', $span ) ) {
 				if ( 0 === count( $remove ) || ! isset( $span['parentId'] ) || 'Server' === $span['localEndpoint']['serviceName'] ) {
 					$new_tags = $span['tags'];

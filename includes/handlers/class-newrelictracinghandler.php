@@ -29,10 +29,11 @@ class NewRelicTracingHandler extends AbstractTracingHandler {
 	 * @param   int     $sampling   The sampling rate (0->1000).
 	 * @param   string  $host       The New Relic ingestion host (for location selection).
 	 * @param   string  $key        The API key.
+	 * @param   string  $tags       Optional. The tags to add for each span.
 	 * @since    3.2.0
 	 */
-	public function __construct( string $uuid, int $sampling, string $host, string $key ) {
-		parent::__construct( $uuid, 100, $sampling );
+	public function __construct( string $uuid, int $sampling, string $host, string $key, string $tags = '' ) {
+		parent::__construct( $uuid, 100, $sampling, $tags );
 		$this->endpoint                                    = $host;
 		$this->post_args['headers']['Content-Type']        = 'application/json';
 		$this->post_args['headers']['Api-Key']             = $key;

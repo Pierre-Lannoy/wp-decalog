@@ -49,21 +49,6 @@ class ListenerFactory {
 	];
 
 	/**
-	 * Excluded files from early listeners auto loading.
-	 *
-	 * @since  1.6.0
-	 * @var    array    $late_init    The list of excluded files.
-	 */
-	private $late_init = [
-		'class-wsallistener.php',
-		'class-wordfencelistener.php',
-		'class-updraftpluslistener.php',
-		'class-libforminatorstripelistener.php',
-		'class-libstripelistener.php',
-		'class-libaschedulerlistener.php',
-	];
-
-	/**
 	 * Infos on all loadable listeners.
 	 *
 	 * @since  1.0.$infos
@@ -80,57 +65,71 @@ class ListenerFactory {
 	private static $instances = [];
 
 	/**
+	 * Registered listeners' classes.
+	 *
+	 * @since  3.6.0
+	 * @var    array    $classes    The list of registered classes.
+	 */
+	private static $classes = [];
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
 	 */
 	public function __construct() {
 		$this->log = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
-	}
-
-	/**
-	 * Launch the listeners.
-	 *
-	 * @since    1.0.0
-	 */
-	public function launch() {
-		self::$infos = [];
-		foreach (
-			array_diff( scandir( DECALOG_LISTENERS_DIR ), $this->excluded_files, $this->late_init ) as $item ) {
+		foreach ( array_diff( scandir( DECALOG_LISTENERS_DIR ), $this->excluded_files ) as $item ) {
 			if ( ! is_dir( DECALOG_LISTENERS_DIR . $item ) ) {
 				$classname = str_replace( [ 'class-', '.php' ], '', $item );
 				$classname = str_replace( 'listener', 'Listener', strtolower( $classname ) );
 				$classname = ucfirst( $classname );
-				$instance  = $this->create_listener_instance( $classname );
-				if ( $instance ) {
-					self::$infos[] = $instance->get_info();
+				self::$classes[] = $classname;
+			}
+		}
+		$this->launch( 'init' );
+	}
+
+	/**
+	 * Launch the available listeners.
+	 *
+	 * $param   string  $step   The step of the launch.
+	 * @since    3.6.0
+	 */
+	public function launch( $step = 'default') {
+		if ( ! isset( $step ) ) {
+			$step = 'default';
+		}
+		$loaded = [];
+		foreach ( self::$classes as $classname ) {
+			if ( ! array_key_exists( $classname, self::$instances ) ) {
+				$instance = $this->create_listener_instance( $classname );
+				if ( $instance instanceof \Decalog\Listener\AbstractListener ) {
+					$info = $instance->get_info();
+					if ( $info['available'] ) {
+						self::$instances[$classname] = $instance;
+						$loaded[] = $classname;
+						$info['step'] .= $step;
+					} else {
+						$info['step'] = '-';
+					}
+
+					self::$infos['Decalog\Listener\\' . $classname] = $info;
 				} else {
-					$this->log->error( sprintf( 'Unable to load "%s".', $classname ) );
+					$this->log->debug( sprintf( 'Unable to load "%s".', $classname ) );
 				}
 			}
 		}
+		self::$classes = array_diff( self::$classes, $loaded );
 	}
 
 	/**
 	 * Launch the listeners which need to be launched at the end of plugin load sequence.
 	 *
-	 * @since    1.6.0
+	 * @since    3.6.0
 	 */
-	public function launch_late_init() {
-		foreach (
-			array_intersect( scandir( DECALOG_LISTENERS_DIR ), $this->late_init ) as $item ) {
-			if ( ! is_dir( DECALOG_LISTENERS_DIR . $item ) ) {
-				$classname = str_replace( [ 'class-', '.php' ], '', $item );
-				$classname = str_replace( 'listener', 'Listener', strtolower( $classname ) );
-				$classname = ucfirst( $classname );
-				$instance  = $this->create_listener_instance( $classname );
-				if ( $instance ) {
-					self::$infos[] = $instance->get_info();
-				} else {
-					$this->log->error( sprintf( 'Unable to load "%s".', $classname ) );
-				}
-			}
-		}
+	public function late_launch() {
+		$this->launch( 'late' );
 		DTracer::plugins_loaded();
 	}
 
@@ -138,16 +137,15 @@ class ListenerFactory {
 	 * Create an instance of a listener.
 	 *
 	 * @param   string $class_name The class name.
-	 * @return  boolean|object The instance of the class if creation was possible, null otherwise.
+	 * @return  boolean|object The instance of the class if creation was possible, false otherwise.
 	 * @since    1.0.0
 	 */
 	private function create_listener_instance( $class_name ) {
 		$class_name = 'Decalog\Listener\\' . $class_name;
 		if ( class_exists( $class_name ) ) {
 			try {
-				$reflection        = new \ReflectionClass( $class_name );
-				$instance          = $reflection->newInstanceArgs( [ $this->log ] );
-				self::$instances[] = $instance;
+				$reflection = new \ReflectionClass( $class_name );
+				$instance   = $reflection->newInstanceArgs( [ $this->log ] );
 				return $instance;
 			} catch ( \Exception $e ) {
 				return false;

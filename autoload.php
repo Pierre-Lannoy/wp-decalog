@@ -30,6 +30,8 @@ spl_autoload_register(
 				$filepath = DECALOG_INCLUDES_DIR . 'storage/';
 			} elseif ( strpos( $class, 'Decalog\Formatter\\' ) === 0 ) {
 				$filepath = DECALOG_INCLUDES_DIR . 'formatters/';
+			} elseif ( strpos( $class, 'Decalog\Listener\WP_CLI\\' ) === 0 ) {
+				$filepath = DECALOG_INCLUDES_DIR . 'listeners/wp-cli/';
 			} elseif ( strpos( $class, 'Decalog\Listener\\' ) === 0 ) {
 				$filepath = DECALOG_INCLUDES_DIR . 'listeners/';
 			} elseif ( strpos( $class, 'Decalog\Panel\\' ) === 0 ) {

@@ -317,7 +317,7 @@ class Sitehealth {
 	 */
 	public static function perfopsone_test_shmop_do() {
 		$key = 'perfopsone_shmop';
-		if ( function_exists( 'shmop_open' ) && function_exists( 'shmop_read' ) && function_exists( 'shmop_write' ) && function_exists( 'shmop_delete' ) && function_exists( 'shmop_close' ) ) {
+		if ( function_exists( 'shmop_open' ) && function_exists( 'shmop_read' ) && function_exists( 'shmop_write' ) && function_exists( 'shmop_delete' ) ) {
 			$result = [
 				'label'       => esc_html__( 'Your site can use shared memory', 'decalog' ),
 				'status'      => 'good',

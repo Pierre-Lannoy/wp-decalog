@@ -33,10 +33,11 @@ class GrafanaTracingHandler extends AbstractTracingHandler {
 	 * @param   string  $url        The agent url.
 	 * @param   int     $format     The format in which to push data.
 	 * @param   int     $sampling   The sampling rate (0->1000).
+	 * @param   string  $tags       Optional. The tags to add for each span.
 	 * @since    3.0.0
 	 */
-	public function __construct( string $uuid, string $url, int $format, int $sampling ) {
-		parent::__construct( $uuid, $format, $sampling );
+	public function __construct( string $uuid, string $url, int $format, int $sampling, string $tags = '' ) {
+		parent::__construct( $uuid, $format, $sampling, $tags );
 		switch ( $this->format ) {
 			case 100:
 				$this->endpoint                             = $url;

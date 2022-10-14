@@ -172,6 +172,7 @@ abstract class AbstractListener {
 		$result['class']     = $this->class;
 		$result['version']   = $this->version;
 		$result['available'] = $this->is_available();
+		$result['step']      = '';
 		return $result;
 	}
 
