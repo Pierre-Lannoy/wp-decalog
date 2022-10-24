@@ -1143,9 +1143,6 @@ class Wpcli {
 		$action    = $args[0] ?? 'list';
 		if ( isset( $args[1] ) ) {
 			$uuid = strtolower( $args[1] );
-			if ( ! array_key_exists( $uuid, $listeners ) && 'list' !== $action ) {
-				$uuid = '';
-			}
 		}
 		foreach ( ListenerFactory::$infos as $listener ) {
 			if ( '' === $uuid || $listener['id'] === $uuid ) {
@@ -1163,6 +1160,9 @@ class Wpcli {
 				return strcmp( strtolower( $a['name'] ), strtolower( $b['name'] ) );
 			}
 		);
+		if ( ! array_key_exists( $uuid, $listeners ) && 'list' !== $action ) {
+			$uuid = '';
+		}
 
 		if ( 'list' !== $action && 'auto-on' !== $action && 'auto-off' !== $action && '' === $uuid ) {
 			$this->error( 6, $stdout );
