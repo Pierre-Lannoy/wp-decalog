@@ -983,45 +983,45 @@ class Wpcli {
 				break;
 			case 'start':
 				if ( $loggers_list[ $uuid ]['running'] ) {
-					$this->line( sprintf( 'The logger %s is already running.', $uuid ), $uuid, $stdout );
+					$this->warning( sprintf( 'The logger %s is already running.', $uuid ), $uuid, $stdout );
 				} else {
 					$loggers_list[ $uuid ]['running'] = true;
 					Option::network_set( 'loggers', $loggers_list );
 					$ilog->info( sprintf( 'Logger "%s" has started.', $loggers_list[ $uuid ]['name'] ) );
-					$this->success( sprintf( 'logger %s is now running.', $uuid ), $uuid, $stdout );
+					$this->success( sprintf( 'Logger %s is now running.', $uuid ), $uuid, $stdout );
 				}
 				break;
 			case 'pause':
 				if ( ! $loggers_list[ $uuid ]['running'] ) {
-					$this->line( sprintf( 'The logger %s is already paused.', $uuid ), $uuid, $stdout );
+					$this->warning( sprintf( 'The logger %s is already paused.', $uuid ), $uuid, $stdout );
 				} else {
 					$loggers_list[ $uuid ]['running'] = false;
 					$ilog->info( sprintf( 'Logger "%s" has been paused.', $loggers_list[ $uuid ]['name'] ) );
 					Option::network_set( 'loggers', $loggers_list );
-					$this->success( sprintf( 'logger %s is now paused.', $uuid ), $uuid, $stdout );
+					$this->success( sprintf( 'Logger %s is now paused.', $uuid ), $uuid, $stdout );
 				}
 				break;
 			case 'purge':
 				$loggers_list[ $uuid ]['uuid'] = $uuid;
 				if ( 'WordpressHandler' !== $loggers_list[ $uuid ]['handler'] ) {
-					$this->warning( sprintf( 'logger %s can\'t be purged.', $uuid ), $uuid, $stdout );
+					$this->warning( sprintf( 'The logger %s can\'t be purged.', $uuid ), $uuid, $stdout );
 				} else {
 					\WP_CLI::confirm( sprintf( 'Are you sure you want to purge logger %s?', $uuid ), $assoc_args );
 					$factory = new LoggerFactory();
 					$factory->purge( $loggers_list[ $uuid ] );
 					$ilog->notice( sprintf( 'Logger "%s" has been purged.', $loggers_list[ $uuid ]['name'] ) );
-					$this->success( sprintf( 'logger %s successfully purged.', $uuid ), $uuid, $stdout );
+					$this->success( sprintf( 'Logger %s successfully purged.', $uuid ), $uuid, $stdout );
 				}
 				break;
 			case 'clean':
 				$loggers_list[ $uuid ]['uuid'] = $uuid;
 				if ( 'WordpressHandler' !== $loggers_list[ $uuid ]['handler'] ) {
-					$this->warning( sprintf( 'logger %s can\'t be cleaned.', $uuid ), $uuid, $stdout );
+					$this->warning( sprintf( 'The logger %s can\'t be cleaned.', $uuid ), $uuid, $stdout );
 				} else {
 					$factory = new LoggerFactory();
 					$count   = $factory->clean( $loggers_list[ $uuid ] );
 					$this->log( sprintf( '%d record(s) deleted.', $count ), $stdout );
-					$this->success( sprintf( 'logger %s successfully cleaned.', $uuid ), $uuid, $stdout );
+					$this->success( sprintf( 'Logger %s successfully cleaned.', $uuid ), $uuid, $stdout );
 				}
 				break;
 			case 'remove':
@@ -1042,7 +1042,7 @@ class Wpcli {
 				} else {
 					$loggers_list = Option::network_get( 'loggers' );
 					$ilog->notice( sprintf( 'Logger "%s" has been saved.', $loggers_list[ $result ]['name'] ) );
-					$this->success( sprintf( 'logger %s successfully created.', $result ), $result, $stdout );
+					$this->success( sprintf( 'Logger %s successfully created.', $result ), $result, $stdout );
 				}
 				break;
 			case 'set':
@@ -1053,7 +1053,7 @@ class Wpcli {
 				} else {
 					$loggers_list = Option::network_get( 'loggers' );
 					$ilog->notice( sprintf( 'Logger "%s" has been saved.', $loggers_list[ $result ]['name'] ) );
-					$this->success( sprintf( 'logger %s successfully saved.', $result ), $result, $stdout );
+					$this->success( sprintf( 'Logger %s successfully saved.', $result ), $result, $stdout );
 				}
 				break;
 		}
@@ -1188,17 +1188,17 @@ class Wpcli {
 				break;
 			case 'enable':
 				if ( in_array( $uuid, $activated, true ) ) {
-					$this->line( sprintf( 'the listener %s is already enabled.', $uuid ), $uuid, $stdout );
+					$this->warning( sprintf( 'The listener %s is already enabled.', $uuid ), $uuid, $stdout );
 				} else {
 					$activated[] = $uuid;
 					Option::network_set( 'listeners', $activated );
 					$ilog->info( 'Listeners settings updated.' );
-					$this->success( sprintf( 'the listener %s is now enabled.', $uuid ), $uuid, $stdout );
+					$this->success( sprintf( 'The listener %s is now enabled.', $uuid ), $uuid, $stdout );
 				}
 				break;
 			case 'disable':
 				if ( ! in_array( $uuid, $activated, true ) ) {
-					$this->line( sprintf( 'the listener %s is already disabled.', $uuid ), $uuid, $stdout );
+					$this->warning( sprintf( 'The listener %s is already disabled.', $uuid ), $uuid, $stdout );
 				} else {
 					$list = [];
 					foreach ( $activated as $listener ) {
@@ -1208,27 +1208,27 @@ class Wpcli {
 					}
 					Option::network_set( 'listeners', $list );
 					$ilog->info( 'Listeners settings updated.' );
-					$this->success( sprintf( 'the listener %s is now disabled.', $uuid ), $uuid, $stdout );
+					$this->success( sprintf( 'The listener %s is now disabled.', $uuid ), $uuid, $stdout );
 				}
 				break;
 			case 'auto-on':
 				if ( Option::network_get( 'autolisteners' ) ) {
-					$this->line( 'auto-listening is already activated.', '', $stdout );
+					$this->warning( 'Auto-listening is already activated.', '', $stdout );
 				} else {
 					\WP_CLI::confirm( 'Are you sure you want to activate auto-listening?', $assoc_args );
 					Option::network_set( 'autolisteners', true );
 					$ilog->info( 'Listeners settings updated.' );
-					$this->success( 'auto-listening is now activated.', '', $stdout );
+					$this->success( 'Auto-listening is now activated.', '', $stdout );
 				}
 				break;
 			case 'auto-off':
 				if ( ! Option::network_get( 'autolisteners' ) ) {
-					$this->line( 'auto-listening is already deactivated.', '', $stdout );
+					$this->warning( 'Auto-listening is already deactivated.', '', $stdout );
 				} else {
 					\WP_CLI::confirm( 'Are you sure you want to deactivate auto-listening?', $assoc_args );
 					Option::network_set( 'autolisteners', false );
 					$ilog->info( 'Listeners settings updated.' );
-					$this->success( 'auto-listening is now deactivated.', '', $stdout );
+					$this->success( 'Auto-listening is now deactivated.', '', $stdout );
 				}
 				break;
 		}
@@ -1270,27 +1270,27 @@ class Wpcli {
 				switch ( $setting ) {
 					case 'early-loading':
 						Option::network_set( 'earlyloading', true );
-						$this->success( 'early-loading is now activated.', '', $stdout );
+						$this->success( 'Early-loading is now activated.', '', $stdout );
 						break;
 					case 'auto-start':
 						Option::network_set( 'logger_autostart', true );
-						$this->success( 'auto-start is now activated.', '', $stdout );
+						$this->success( 'Auto-start is now activated.', '', $stdout );
 						break;
 					case 'auto-logging':
 						Autolog::activate();
-						$this->success( 'auto-logging is now activated.', '', $stdout );
+						$this->success( 'Auto-logging is now activated.', '', $stdout );
 						break;
 					case 'auth-endpoint':
 						Option::network_set( 'metrics_authent', true );
-						$this->success( 'endpoints authentication is now activated.', '', $stdout );
+						$this->success( 'Endpoints authentication is now activated.', '', $stdout );
 						break;
 					case 'slow-query-warn':
 						Option::network_set( 'slow_query_warn', true );
-						$this->success( 'slow-query warning is now activated.', '', $stdout );
+						$this->success( 'Slow-query warning is now activated.', '', $stdout );
 						break;
 					case 'trace-query':
 						Option::network_set( 'trace_query', true );
-						$this->success( 'query tracing is now activated.', '', $stdout );
+						$this->success( 'Query tracing is now activated.', '', $stdout );
 						break;
 					default:
 						$this->error( 7, $stdout );
@@ -1301,32 +1301,32 @@ class Wpcli {
 					case 'early-loading':
 						\WP_CLI::confirm( 'Are you sure you want to deactivate early-loading?', $assoc_args );
 						Option::network_set( 'earlyloading', false );
-						$this->success( 'early-loading is now deactivated.', '', $stdout );
+						$this->success( 'Early-loading is now deactivated.', '', $stdout );
 						break;
 					case 'auto-start':
 						\WP_CLI::confirm( 'Are you sure you want to deactivate auto-start?', $assoc_args );
 						Option::network_set( 'logger_autostart', false );
-						$this->success( 'auto-start is now deactivated.', '', $stdout );
+						$this->success( 'Auto-start is now deactivated.', '', $stdout );
 						break;
 					case 'auto-logging':
 						\WP_CLI::confirm( 'Are you sure you want to deactivate auto-logging?', $assoc_args );
 						Autolog::deactivate();
-						$this->success( 'auto-logging is now deactivated.', '', $stdout );
+						$this->success( 'Auto-logging is now deactivated.', '', $stdout );
 						break;
 					case 'auth-endpoint':
 						\WP_CLI::confirm( 'Are you sure you want to deactivate endpoint authentication?', $assoc_args );
 						Option::network_set( 'metrics_authent', false );
-						$this->success( 'endpoints authentication is now deactivated.', '', $stdout );
+						$this->success( 'Endpoints authentication is now deactivated.', '', $stdout );
 						break;
 					case 'slow-query-warn':
 						\WP_CLI::confirm( 'Are you sure you want to deactivate slow-query warning?', $assoc_args );
 						Option::network_set( 'slow_query_warn', false );
-						$this->success( 'slow-query warning is now deactivated.', '', $stdout );
+						$this->success( 'Slow-query warning is now deactivated.', '', $stdout );
 						break;
 					case 'trace-query':
 						\WP_CLI::confirm( 'Are you sure you want to deactivate query tracing?', $assoc_args );
 						Option::network_set( 'trace_query', false );
-						$this->success( 'query tracing is now deactivated.', '', $stdout );
+						$this->success( 'Query tracing is now deactivated.', '', $stdout );
 						break;
 					default:
 						$this->error( 7, $stdout );
@@ -1376,7 +1376,7 @@ class Wpcli {
 		}
 		$logger = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
 		$logger->log( $level, $message, $code );
-		$this->success( 'event triggered and sent.', 'OK', $stdout );
+		$this->success( 'Event triggered and sent.', 'OK', $stdout );
 	}
 
 	/**
