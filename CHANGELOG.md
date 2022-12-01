@@ -3,6 +3,14 @@ All notable changes to **DecaLog** are documented in this *changelog*.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.6.3] - 2022-12-01
+
+### Changed
+- [WP-CLI] Now, metrics are not sent by default when using command line (thanks to [Jan Thiel](https://github.com/JanThiel)).
+
+### Fixed
+- DecaLog may produce PHP errors with new versions of WP Activity Log (thanks to [Axel Ducoron](https://github.com/aksld)).
+
 ## [3.6.2] - 2022-10-24
 
 ### Fixed

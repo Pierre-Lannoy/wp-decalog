@@ -109,6 +109,23 @@ class Environment {
 	}
 
 	/**
+	 * Get the current execution mode.
+	 *
+	 * @return  boolean True if metrics are available.
+	 * @since 3.6.3
+	 */
+	public static function exec_mode_for_closing_metrics() {
+		$exec_mode = self::exec_mode();
+		if ( in_array( $exec_mode, [ 2, 4, 5, 6, 7 ], true ) ) {
+			return true;
+		}
+		if ( 1 === $exec_mode ) {
+			return defined( 'DECALOG_FORCE_MONITORING');
+		}
+		return false;
+	}
+
+	/**
 	 * Verify scrapping mode..
 	 *
 	 * @return  boolean True if we're in scrapping call for theme/plugin editor.
