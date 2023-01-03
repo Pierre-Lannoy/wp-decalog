@@ -91,32 +91,48 @@ class WsalListener extends AbstractListener {
 		if ( ! isset( $data ) ) {
 			$data = [];
 		}
+		$old = true;
 		if ( $occ instanceof \WSAL_Models_Occurrence ) {
-			$message = $occ->GetMessage();
+			if ( method_exists( $occ, 'GetMessage' ) ) {
+				$message = $occ->GetMessage();
+			}
+			if ( method_exists( $occ, 'get_message' ) ) {
+				$message = $occ->get_message();
+				$old = false;
+			}
 		} else {
 			$message = '<unable to retrieve WP Security Audit Log message>';
 		}
 		$code     = (int) $type;
-		$severity = 3;
-		if ( array_key_exists( 'Severity', $data ) ) {
-			$severity = (int) $data['Severity'];
+		if ( $old ) {
+			$severity = 3;
+			if ( array_key_exists( 'Severity', $data ) ) {
+				$severity = (int) $data['Severity'];
+			}
+			switch ( $severity ) {
+				case 2:
+					$severity = 4;
+					break;
+				case 4:
+				case 5:
+					$severity = $severity + 1;
+					break;
+			}
+			if ( 7 < $severity ) {
+				$severity = 7;
+			}
+			if ( 0 > $severity ) {
+				$severity = 0;
+			}
+			$this->logger->log( EventTypes::$wsal_levels[ $severity ], $message, $code );
+		} else {
+			$severity = 400;
+			if ( array_key_exists( 'Severity', $data ) ) {
+				$severity = (int) $data['Severity'];
+			}
+			$this->logger->log( in_array( $severity, EventTypes::$level_values, true ) ? $severity : 550, $message, $code );
 		}
-		switch ( $severity ) {
-			case 2:
-				$severity = 4;
-				break;
-			case 4:
-			case 5:
-				$severity = $severity + 1;
-				break;
-		}
-		if ( 7 < $severity ) {
-			$severity = 7;
-		}
-		if ( 0 > $severity ) {
-			$severity = 0;
-		}
-		$this->logger->log( EventTypes::$wsal_levels[ $severity ], $message, $code );
+
 	}
 
 	/**

@@ -3,6 +3,25 @@ All notable changes to **DecaLog** are documented in this *changelog*.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.7.0] - Not Yet Released
+
+### Changed
+- Improved loading by removing unneeded jQuery references in public rendering (thanks to [Kishorchand](https://github.com/Kishorchandth)).
+
+## [3.6.3] - 2022-12-01
+
+### Changed
+- [WP-CLI] Now, metrics are not sent by default when using command line (thanks to [Jan Thiel](https://github.com/JanThiel)).
+
+### Fixed
+- DecaLog may produce PHP errors with new versions of WP Activity Log (thanks to [Axel Ducoron](https://github.com/aksld)).
+
+## [3.6.2] - 2022-10-24
+
+### Fixed
+- [WP-CLI] Enabling/disabling listeners is not working properly (thanks to [Alex Mozhey](https://github.com/AlexMazey)).
+- [WP-CLI] Some messages have inconsistent upper/lower casing or success/warning prefix.
+
 ## [3.6.1] - 2022-10-11
 
 ### Changed
