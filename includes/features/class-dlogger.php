@@ -189,13 +189,16 @@ class DLogger {
 	 * @since 2.0.0
 	 */
 	private function loggers_check() {
-		$loggers = Option::network_get( 'loggers', [] );
+		$loggers               = Option::network_get( 'loggers', [] );
+		$persist_logger_update = false;
 		// Verify data structure and fix if required
 		if ( ! is_array( $loggers ) ) {
-			$loggers = [];
+			$persist_logger_update = true;
+			$loggers               = [];
 		}
 		// Verify shared memory logger
 		if ( ! array_key_exists( DECALOG_SHM_ID, $loggers ) ) {
+			$persist_logger_update     = true;
 			$shm                       = [];
 			$shm['name']               = __( 'System events-logger', 'decalog' );
 			$shm['handler']            = 'SharedMemoryHandler';
@@ -208,6 +211,19 @@ class DLogger {
 			$shm['processors']         = [ 'WordpressProcessor', 'IntrospectionProcessor', 'WWWProcessor' ];
 			$loggers[ DECALOG_SHM_ID ] = $shm;
 		}
+		// Setup loggers from wp-config
+		if ( defined( 'DECALOG_DEFAULT_LOGGERS' ) && is_array( DECALOG_DEFAULT_LOGGERS ) ) {
+			foreach ( DECALOG_DEFAULT_LOGGERS as $default_logger_id => $default_logger ) {
+				if ( ! array_key_exists( $default_logger_id, $loggers ) ) {
+					$persist_logger_update         = true;
+					$loggers[ $default_logger_id ] = $default_logger;
+				}
+			}
+		}
+		if ( $persist_logger_update ) {
+			Option::network_set( 'loggers', $loggers );
+		}
+
 		return $loggers;
 	}
 
