@@ -312,7 +312,7 @@ class CoreListener extends AbstractListener {
 	public function add_attachment( $post_ID ) {
 		$message = 'Attachment added.';
 		if ( $att = wp_get_attachment_metadata( $post_ID ) ) {
-			$message = sprintf( 'Attachment added: "%s".', $att['file'] );
+			$message = sprintf( 'Attachment added: "%s".', $att['file']  ?? 'unknown' );
 		}
 		if ( isset( $this->logger ) ) {
 			$this->logger->info( $message );
@@ -327,7 +327,7 @@ class CoreListener extends AbstractListener {
 	public function delete_attachment( $post_ID ) {
 		$message = 'Attachment deleted.';
 		if ( $att = wp_get_attachment_metadata( $post_ID ) ) {
-			$message = sprintf( 'Attachment deleted: "%s".', $att['file'] );
+			$message = sprintf( 'Attachment deleted: "%s".', $att['file'] ?? 'unknown' );
 		}
 		if ( isset( $this->logger ) ) {
 			$this->logger->info( $message );
@@ -342,7 +342,7 @@ class CoreListener extends AbstractListener {
 	public function edit_attachment( $post_ID ) {
 		$message = 'Attachment updated.';
 		if ( $att = wp_get_attachment_metadata( $post_ID ) ) {
-			$message = sprintf( 'Attachment updated: "%s".', $att['file'] );
+			$message = sprintf( 'Attachment updated: "%s".', $att['file']  ?? 'unknown' );
 		}
 		if ( isset( $this->logger ) ) {
 			$this->logger->info( $message );

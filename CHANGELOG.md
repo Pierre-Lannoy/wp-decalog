@@ -8,6 +8,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 - Improved loading by removing unneeded jQuery references in public rendering (thanks to [Kishorchand](https://github.com/Kishorchandth)).
 
+### Fixed
+- Some weird processes can try to delete null attachments, and it produces PHP warning (thanks to [Axel Ducoron](https://github.com/aksld)).
+
 ## [3.6.3] - 2022-12-01
 
 ### Changed
