@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 - Some weird processes can try to delete null attachments, and it produces PHP warning (thanks to [Axel Ducoron](https://github.com/aksld)).
+- Some strings should not be translatable [Laurent Millet](https://profiles.wordpress.org/wplmillet/).
 
 ## [3.6.3] - 2022-12-01
 
