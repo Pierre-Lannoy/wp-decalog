@@ -96,7 +96,7 @@ class IP {
 				] as $field
 			) {
 				if ( array_key_exists( $field, $_SERVER ) ) {
-					$ip = self::maybe_extract_ip( explode( ',', filter_input( INPUT_SERVER, $field ) ), 1 === $i );
+					$ip = self::maybe_extract_ip( explode( ',', filter_input( INPUT_SERVER, $field ) ?? '' ), 1 === $i );
 					if ( '' !== $ip ) {
 						return $ip;
 					}
