@@ -149,7 +149,10 @@ abstract class AbstractTracingHandler extends AbstractProcessingHandler {
 	 *
 	 * @param   string  $uuid       The UUID of the logger.
 	 * @param   int     $format     The format in which to push data:
-	 *                              100 - Zipkin.
+	 *                              * 100 - Zipkin.
+	 *                              * 200 - Jaeger.
+	 *                              * 300 - Datadog.
+	 *                              * 400 - Decalog.
 	 * @param   int     $sampling   The sampling rate (0->1000).
 	 * @param   string  $tags       The tags to add for each span.
 	 * @since    3.0.0
@@ -221,7 +224,7 @@ abstract class AbstractTracingHandler extends AbstractProcessingHandler {
 			}
 		}
 		foreach ( $this->traces as $index => $span ) {
-			if ( 0 < count( $this->ftags ) ) {
+			if ( 0 < count( $this->ftags ) && 200 != $this->format ) {
 				if ( array_key_exists( 'tags', $span ) && is_array( $span['tags'] ) ) {
 					$span['tags'] = array_merge( $span['tags'], $this->ftags );
 				} else {
@@ -289,6 +292,15 @@ abstract class AbstractTracingHandler extends AbstractProcessingHandler {
 				'serviceName' => 'WP',
 			]
 		);
+		foreach ( $this->ftags as $key => $tag ) {
+			$process->tags[] = new JTag(
+				[
+					'key'   => $key,
+					'vType' => JTagType::STRING,
+					'vStr'  => (string) $tag,
+				]
+			);
+		}
 		foreach ( $this->traces as $span ) {
 			$s = [
 				'traceIdLow'  => (int) base_convert( substr( $span['traceId'], 16, 16 ), 16, 10 ),
