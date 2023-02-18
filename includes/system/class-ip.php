@@ -95,8 +95,8 @@ class IP {
 					'REMOTE_ADDR',
 				] as $field
 			) {
-				if ( array_key_exists( $field, $_SERVER ) ) {
-					$ip = self::maybe_extract_ip( explode( ',', filter_input( INPUT_SERVER, $field ) ), 1 === $i );
+				if ( !empty( $_SERVER[ $field ] ) ) {
+					$ip = self::maybe_extract_ip( explode( ',', $_SERVER[ $field ] ), 1 === $i );
 					if ( '' !== $ip ) {
 						return $ip;
 					}
