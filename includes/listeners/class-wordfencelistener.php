@@ -148,6 +148,9 @@ class WordfenceListener extends AbstractListener {
 		if ( ! $this->is_available() ) {
 			return;
 		}
+		if ( ! \Decalog\Plugin\Feature\DMonitor::$active ) {
+			return;
+		}
 		global $wpdb;
 		if ( class_exists( '\wfBlock' ) ) {
 			$span = $this->tracer->start_span( 'Metrics collation', DECALOG_SPAN_SHUTDOWN );

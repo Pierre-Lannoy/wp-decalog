@@ -123,6 +123,7 @@ abstract class AbstractMonitoringHandler extends AbstractProcessingHandler {
 		if ( ! in_array( $this->uuid, self::$running, true ) ) {
 			// phpcs:ignore
 			if ( $sampling >= mt_rand( 1, 1000 ) && Environment::exec_mode_for_closing_metrics() ) {
+				\Decalog\Plugin\Feature\DMonitor::$active = true;
 				add_action( 'shutdown', [ $this, 'close' ], AbstractListener::$monitor_priority + 2, 0 );
 			}
 			self::$running[] = $this->uuid;

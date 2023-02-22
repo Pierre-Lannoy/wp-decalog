@@ -343,6 +343,9 @@ class WpmuListener extends AbstractListener {
 		if ( ! $this->is_available() ) {
 			return;
 		}
+		if ( ! \Decalog\Plugin\Feature\DMonitor::$active ) {
+			return;
+		}
 		$span = $this->tracer->start_span( 'Metrics collation', DECALOG_SPAN_SHUTDOWN );
 		if ( function_exists( 'get_sites' ) ) {
 			foreach ( get_sites() as $site ) {

@@ -439,6 +439,9 @@ class DatabaseListener extends AbstractListener {
 		if ( ! $this->is_available() ) {
 			return;
 		}
+		if ( ! \Decalog\Plugin\Feature\DMonitor::$active ) {
+			return;
+		}
 		$this->query_monitoring_close();
 		$this->db_monitoring_close();
 	}

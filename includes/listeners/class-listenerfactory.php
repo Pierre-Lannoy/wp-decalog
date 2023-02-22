@@ -160,6 +160,7 @@ class ListenerFactory {
 	 * @since    3.0.0
 	 */
 	public static function force_monitoring_close() {
+		\Decalog\Plugin\Feature\DMonitor::$active = true;
 		foreach ( self::$instances as $instance ) {
 			$instance->monitoring_close();
 		}

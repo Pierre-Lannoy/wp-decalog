@@ -408,6 +408,9 @@ class PhpListener extends AbstractListener {
 		if ( ! $this->is_available() ) {
 			return;
 		}
+		if ( ! \Decalog\Plugin\Feature\DMonitor::$active ) {
+			return;
+		}
 		if ( defined( 'POWP_START_TIMESTAMP' ) ) {
 			$this->monitor->set_dev_gauge( 'execution_latency', microtime( true ) - POWP_START_TIMESTAMP );
 		}

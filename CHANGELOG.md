@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 - Fixed tags are now passed as global tags when tracing with Jaeger logger (thanks to [YR Chen](https://github.com/stevapple)).
+- Great resources improvement for WordPress install where there's no monitoring needed (thanks to [Jan Thiel](https://github.com/JanThiel)).
 - Improved loading by removing unneeded jQuery references in public rendering (thanks to [Kishorchand](https://github.com/Kishorchandth)).
 
 ### Fixed

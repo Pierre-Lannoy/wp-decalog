@@ -54,6 +54,14 @@ class DMonitor {
 	protected $version = '-';
 
 	/**
+	 * Is metrics mode active?
+	 *
+	 * @since  3.7.0
+	 * @var    boolean    $active    True if there is at least one running metrics logger.
+	 */
+	public static $active = false;
+
+	/**
 	 * The metrics registry.
 	 *
 	 * @since  3.0.0
@@ -128,7 +136,7 @@ class DMonitor {
 	 * @param   string  $version    Optional. The version of the component.
 	 * @since   3.0.0
 	 */
-	public function __construct( $class, $name = null, $version = null ) {
+	public function  __construct( $class, $name = null, $version = null ) {
 		if ( ! isset( self::$logger ) ) {
 			self::$logger = new Logger( 'plugin', DECALOG_PRODUCT_NAME, DECALOG_VERSION );
 		}

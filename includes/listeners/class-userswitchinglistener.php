@@ -137,6 +137,9 @@ class UserSwitchingListener extends AbstractListener {
 		if ( ! $this->is_available() ) {
 			return;
 		}
+		if ( ! \Decalog\Plugin\Feature\DMonitor::$active ) {
+			return;
+		}
 		// No monitors to finalize.
 	}
 

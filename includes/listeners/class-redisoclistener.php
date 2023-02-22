@@ -201,6 +201,9 @@ class RedisOCListener extends AbstractListener {
 		if ( ! $this->is_available() ) {
 			return;
 		}
+		if ( ! \Decalog\Plugin\Feature\DMonitor::$active ) {
+			return;
+		}
 		$span = $this->tracer->start_span( 'Metrics collation', DECALOG_SPAN_SHUTDOWN );
 		if ( class_exists( '\Rhubarb\RedisCache\Metrics' ) && method_exists( \Rhubarb\RedisCache\Metrics::class, 'get' ) ) {
 			$result  = \Rhubarb\RedisCache\Metrics::get( 300 );
