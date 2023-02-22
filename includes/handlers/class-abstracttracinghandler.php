@@ -318,6 +318,15 @@ abstract class AbstractTracingHandler extends AbstractProcessingHandler {
 				$s['parentSpanId']  = 0;
 				$s['operationName'] = $span['localEndpoint']['serviceName'] . ' [' . str_replace( 'CALL:', '', $span['name'] . ']' );
 			}
+			if ( isset( $span['kind'] ) && is_string( $span['kind'] ) ) {
+				$s['tags'][] = new JTag(
+					[
+						'key'   => 'span.kind',
+						'vType' => JTagType::STRING,
+						'vStr'  => strtolower( $span['kind'] ),
+					]
+				);
+			}
 			if ( isset( $span['tags'] ) && is_array( $span['tags'] ) && 0 < count( $span['tags'] ) ) {
 				foreach ( $span['tags'] as $key => $tag ) {
 					$s['tags'][] = new JTag(

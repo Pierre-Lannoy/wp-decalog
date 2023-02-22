@@ -402,6 +402,7 @@ class DTracer {
 		$root['localEndpoint']['serviceName'] = 'Main Request';
 		$root['timestamp']                    = (int) ( 1000000 * POWS_START_TIMESTAMP );
 		$root['tags']                         = $this->www_data();
+		$root['kind']                         = 'SERVER';
 		unset( $root['parentId'] );
 		self::$traces_registry['ROOT'] = $root;
 		// Server Init
