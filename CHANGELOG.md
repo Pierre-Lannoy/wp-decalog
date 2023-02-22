@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [3.7.0] - Not Yet Released
 
+### Added
+- Compatibility with WordPress 6.2.
+
 ### Changed
 - Improved loading by removing unneeded jQuery references in public rendering (thanks to [Kishorchand](https://github.com/Kishorchandth)).
 

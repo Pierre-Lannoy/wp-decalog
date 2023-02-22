@@ -1,5 +1,5 @@
 === DecaLog ===
-Contributors: PierreLannoy
+Contributors: PierreLannoy, hosterra
 Tags: logs, error reporting, monitoring, tracing, logging
 Requires at least: 5.2
 Requires PHP: 7.2
