@@ -62,12 +62,14 @@ class LoggerMaintainer {
 		$tracer = new DTracer( 'plugin', DECALOG_PRODUCT_NAME, DECALOG_VERSION );
 		$span   = $tracer->start_span( 'Events logs rotation', 'auto' );
 		foreach ( Option::network_get( 'loggers' ) as $key => $logger ) {
-			$classname = 'Decalog\Plugin\Feature\\' . $logger['handler'];
-			if ( class_exists( $classname ) ) {
-				$logger['uuid'] = $key;
-				$instance       = $this->create_instance( $classname );
-				$instance->set_logger( $logger );
-				$instance->cron_clean();
+			if ( is_array( $logger ) && array_key_exists( 'handler', $logger ) ) {
+				$classname = 'Decalog\Plugin\Feature\\' . $logger['handler'];
+				if ( class_exists( $classname ) ) {
+					$logger['uuid'] = $key;
+					$instance       = $this->create_instance( $classname );
+					$instance->set_logger( $logger );
+					$instance->cron_clean();
+				}
 			}
 		}
 		$tracer->end_span( $span );
@@ -80,12 +82,14 @@ class LoggerMaintainer {
 	 */
 	public function update( $from ) {
 		foreach ( Option::network_get( 'loggers' ) as $key => $logger ) {
-			$classname = 'Decalog\Plugin\Feature\\' . $logger['handler'];
-			if ( class_exists( $classname ) ) {
-				$logger['uuid'] = $key;
-				$instance       = $this->create_instance( $classname );
-				$instance->set_logger( $logger );
-				$instance->update( $from );
+			if ( is_array( $logger ) && array_key_exists( 'handler', $logger ) ) {
+				$classname = 'Decalog\Plugin\Feature\\' . $logger['handler'];
+				if ( class_exists( $classname ) ) {
+					$logger['uuid'] = $key;
+					$instance       = $this->create_instance( $classname );
+					$instance->set_logger( $logger );
+					$instance->update( $from );
+				}
 			}
 		}
 	}
@@ -97,12 +101,14 @@ class LoggerMaintainer {
 	 */
 	public function finalize() {
 		foreach ( Option::network_get( 'loggers' ) as $key => $logger ) {
-			$classname = 'Decalog\Plugin\Feature\\' . $logger['handler'];
-			if ( class_exists( $classname ) ) {
-				$logger['uuid'] = $key;
-				$instance       = $this->create_instance( $classname );
-				$instance->set_logger( $logger );
-				$instance->finalize();
+			if ( is_array($logger) && array_key_exists('handler', $logger) ) {
+				$classname = 'Decalog\Plugin\Feature\\' . $logger['handler'];
+				if ( class_exists( $classname ) ) {
+					$logger['uuid'] = $key;
+					$instance       = $this->create_instance( $classname );
+					$instance->set_logger( $logger );
+					$instance->finalize();
+				}
 			}
 		}
 	}
@@ -156,7 +162,7 @@ class LoggerMaintainer {
 	 * @since    1.0.0
 	 */
 	public static function forced_pause() {
-		$loggers = Option::network_get( 'loggers' );
+		$loggers = Option::network_get( 'loggers', [] );
 		if ( 0 < count( $loggers ) ) {
 			$new = [];
 			foreach ( $loggers as $uuid => $logger ) {
