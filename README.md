@@ -21,6 +21,8 @@ For a full list of supported - internal or third-party - services please, jump t
 __DecaLog__ can be used in dev/debug phases or on production sites: it has nearly no resource impact on the server. It provides an extensive set of WP-CLI commands to help operations too.
 
 > __DecaLog__ is part of [PerfOps One](https://perfops.one/), a suite of free and open source WordPress plugins dedicated to observability and operations performance.
+> 
+> __The development of the PerfOps One suite is sponsored by [Hosterra - Ethical & Sustainable Internet Hosting](https://hosterra.eu/).__
 
 __DecaLog__ is a free and open source plugin for WordPress. It integrates many other free and open source works (as-is or modified). Please, see 'about' tab in the plugin settings to see the details.
 
