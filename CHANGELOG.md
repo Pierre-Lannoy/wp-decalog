@@ -17,8 +17,10 @@ This sponsoring is a way to keep PerfOps One plugins suite free, open source and
 - Jaeger and Zipkin traces loggers now support SpanKind feature (thanks to [YR Chen](https://github.com/stevapple)).
 
 ### Changed
+- Upgraded Monolog library from version 2.8.0 to version 2.9.1.
+- Improved browser logger for events.
 - Fixed tags are now passed as global tags when tracing with Jaeger logger (thanks to [YR Chen](https://github.com/stevapple)).
-- Great resources improvement for WordPress install where there's no monitoring needed (thanks to [Jan Thiel](https://github.com/JanThiel)).
+- Great resources improvement for WordPress installs where there's no monitoring needed (thanks to [Jan Thiel](https://github.com/JanThiel)).
 - Improved loading by removing unneeded jQuery references in public rendering (thanks to [Kishorchand](https://github.com/Kishorchandth)).
 
 ### Fixed

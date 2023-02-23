@@ -27,9 +27,9 @@ use DLMonolog\Utils;
  *
  * Monolog setup:
  *
- * $logger = new DLMonolog\Logger('fluent.tag');
- * $fluentHandler = new DLMonolog\Handler\SocketHandler('unix:///var/run/td-agent/td-agent.sock');
- * $fluentHandler->setFormatter(new DLMonolog\Formatter\FluentdFormatter());
+ * $logger = new Monolog\Logger('fluent.tag');
+ * $fluentHandler = new Monolog\Handler\SocketHandler('unix:///var/run/td-agent/td-agent.sock');
+ * $fluentHandler->setFormatter(new Monolog\Formatter\FluentdFormatter());
  * $logger->pushHandler($fluentHandler);
  *
  * @author Andrius Putna <fordnox@gmail.com>

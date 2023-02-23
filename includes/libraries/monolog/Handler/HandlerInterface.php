@@ -76,7 +76,7 @@ interface HandlerInterface
      * and ideally handlers should be able to reopen themselves on handle() after they have been closed.
      *
      * This is useful at the end of a request and will be called automatically when the object
-     * is destroyed if you extend DLMonolog\Handler\Handler.
+     * is destroyed if you extend Monolog\Handler\Handler.
      *
      * If you are thinking of calling this method yourself, most likely you should be
      * calling ResettableInterface::reset instead. Have a look.

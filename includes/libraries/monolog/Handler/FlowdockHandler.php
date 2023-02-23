@@ -28,6 +28,7 @@ use DLMonolog\Formatter\FormatterInterface;
  * @see https://www.flowdock.com/api/push
  *
  * @phpstan-import-type FormattedRecord from AbstractProcessingHandler
+ * @deprecated Since 2.9.0 and 3.3.0, Flowdock was shutdown we will thus drop this handler in Monolog 4
  */
 class FlowdockHandler extends SocketHandler
 {
@@ -72,7 +73,7 @@ class FlowdockHandler extends SocketHandler
     public function setFormatter(FormatterInterface $formatter): HandlerInterface
     {
         if (!$formatter instanceof FlowdockFormatter) {
-            throw new \InvalidArgumentException('The FlowdockHandler requires an instance of DLMonolog\Formatter\FlowdockFormatter to function correctly');
+            throw new \InvalidArgumentException('The FlowdockHandler requires an instance of Monolog\Formatter\FlowdockFormatter to function correctly');
         }
 
         return parent::setFormatter($formatter);
@@ -83,7 +84,7 @@ class FlowdockHandler extends SocketHandler
      */
     protected function getDefaultFormatter(): FormatterInterface
     {
-        throw new \InvalidArgumentException('The FlowdockHandler must be configured (via setFormatter) with an instance of DLMonolog\Formatter\FlowdockFormatter to function correctly');
+        throw new \InvalidArgumentException('The FlowdockHandler must be configured (via setFormatter) with an instance of Monolog\Formatter\FlowdockFormatter to function correctly');
     }
 
     /**
