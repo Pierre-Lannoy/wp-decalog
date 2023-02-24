@@ -15,6 +15,8 @@ This sponsoring is a way to keep PerfOps One plugins suite free, open source and
 - Compatibility with WordPress 6.2.
 - It's now possible to define failsafe loggers right in the `wp-config.php` file (thanks to [Jan Thiel](https://github.com/JanThiel)).
 - Jaeger and Zipkin traces loggers now support SpanKind feature (thanks to [YR Chen](https://github.com/stevapple)).
+- It's now possible to add a custom service name for tracers using Jaeger thrift over HTTP format.
+- New option to not report non-existent metrics.
 
 ### Changed
 - Upgraded Monolog library from version 2.8.0 to version 2.9.1.

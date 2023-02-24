@@ -763,6 +763,7 @@ class Decalog_Admin {
 				Option::network_set( 'respect_wp_debug', array_key_exists( 'decalog_loggers_options_wpdebug', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_loggers_options_wpdebug' ) : false );
 				Option::network_set( 'privileges', array_key_exists( 'decalog_plugin_options_privileges', $_POST ) ? (string) filter_input( INPUT_POST, 'decalog_plugin_options_privileges', FILTER_SANITIZE_NUMBER_INT ) : Option::network_get( 'privileges' ) );
 				Option::network_set( 'slow_query_warn', array_key_exists( 'decalog_loggers_options_slowqueries', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_loggers_options_slowqueries' ) : false );
+				Option::network_set( 'unknown_metrics_warn', array_key_exists( 'decalog_loggers_options_unknownmetrics', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_loggers_options_unknownmetrics' ) : false );
 				Option::network_set( 'trace_query', array_key_exists( 'decalog_loggers_options_tracequeries', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_loggers_options_tracequeries' ) : false );
 				$autolog = array_key_exists( 'decalog_plugin_features_livelog', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_plugin_features_livelog' ) : false;
 				if ( $autolog ) {
@@ -1067,6 +1068,22 @@ class Decalog_Admin {
 			]
 		);
 		register_setting( 'decalog_loggers_options_section', 'decalog_loggers_options_tracequeries' );
+		add_settings_field(
+			'decalog_loggers_options_unknownmetrics',
+			__( 'Metrics', 'decalog' ),
+			[ $form, 'echo_field_checkbox' ],
+			'decalog_loggers_options_section',
+			'decalog_loggers_options_section',
+			[
+				'text'        => esc_html__( 'Warn about non-existent metrics', 'decalog' ),
+				'id'          => 'decalog_loggers_options_unknownmetrics',
+				'checked'     => Option::network_get( 'unknown_metrics_warn' ),
+				'description' => esc_html__( 'If checked, an error will be triggered when a process try to set a value for a metric which is not defined.', 'decalog' ),
+				'full_width'  => false,
+				'enabled'     => true,
+			]
+		);
+		register_setting( 'decalog_loggers_options_section', 'decalog_loggers_options_unknownmetrics' );
 	}
 
 	/**

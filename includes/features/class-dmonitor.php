@@ -10,6 +10,7 @@
 namespace Decalog\Plugin\Feature;
 
 use Prometheus\CollectorRegistry;
+use Prometheus\Exception\MetricNotFoundException;
 use Prometheus\Storage\InMemory;
 use Decalog\System\Option;
 use Decalog\System\Environment;
@@ -365,7 +366,13 @@ class DMonitor {
 			$counter  = $registry->getCounter( $this->current_namespace(), $name );
 			$counter->incBy( 0, $this->label_values[ ( $prod ? 'prod' : 'dev' ) ] );
 		} catch ( \Throwable $e ) {
-			self::$logger->error( $e->getMessage(), [ 'code' => $e->getCode() ] );
+			if ( $e instanceof MetricNotFoundException ) {
+				if ( Option::network_get( 'unknown_metrics_warn', true ) ) {
+					self::$logger->error( $e->getMessage(), [ 'code' => $e->getCode() ] );
+				}
+			} else {
+				self::$logger->error( $e->getMessage(), [ 'code' => $e->getCode() ] );
+			}
 		}
 	}
 
@@ -390,7 +397,13 @@ class DMonitor {
 			$gauge    = $registry->getGauge( $this->current_namespace(), $name );
 			$gauge->set( $value, $this->label_values[ ( $prod ? 'prod' : 'dev' ) ] );
 		} catch ( \Throwable $e ) {
-			self::$logger->error( $e->getMessage(), [ 'code' => $e->getCode() ] );
+			if ( $e instanceof MetricNotFoundException ) {
+				if ( Option::network_get( 'unknown_metrics_warn', true ) ) {
+					self::$logger->error( $e->getMessage(), [ 'code' => $e->getCode() ] );
+				}
+			} else {
+				self::$logger->error( $e->getMessage(), [ 'code' => $e->getCode() ] );
+			}
 		}
 	}
 
@@ -415,7 +428,13 @@ class DMonitor {
 			$counter  = $registry->getCounter( $this->current_namespace(), $name );
 			$counter->incBy( $value, $this->label_values[ ( $prod ? 'prod' : 'dev' ) ] );
 		} catch ( \Throwable $e ) {
-			self::$logger->error( $e->getMessage(), [ 'code' => $e->getCode() ] );
+			if ( $e instanceof MetricNotFoundException ) {
+				if ( Option::network_get( 'unknown_metrics_warn', true ) ) {
+					self::$logger->error( $e->getMessage(), [ 'code' => $e->getCode() ] );
+				}
+			} else {
+				self::$logger->error( $e->getMessage(), [ 'code' => $e->getCode() ] );
+			}
 		}
 	}
 
@@ -440,7 +459,13 @@ class DMonitor {
 			$gauge    = $registry->getGauge( $this->current_namespace(), $name );
 			$gauge->incBy( $value, $this->label_values[ ( $prod ? 'prod' : 'dev' ) ] );
 		} catch ( \Throwable $e ) {
-			self::$logger->error( $e->getMessage(), [ 'code' => $e->getCode() ] );
+			if ( $e instanceof MetricNotFoundException ) {
+				if ( Option::network_get( 'unknown_metrics_warn', true ) ) {
+					self::$logger->error( $e->getMessage(), [ 'code' => $e->getCode() ] );
+				}
+			} else {
+				self::$logger->error( $e->getMessage(), [ 'code' => $e->getCode() ] );
+			}
 		}
 	}
 
@@ -465,7 +490,13 @@ class DMonitor {
 			$histogram = $registry->getHistogram( $this->current_namespace(), $name );
 			$histogram->observe( $value, $this->label_values[ ( $prod ? 'prod' : 'dev' ) ] );
 		} catch ( \Throwable $e ) {
-			self::$logger->error( $e->getMessage(), [ 'code' => $e->getCode() ] );
+			if ( $e instanceof MetricNotFoundException ) {
+				if ( Option::network_get( 'unknown_metrics_warn', true ) ) {
+					self::$logger->error( $e->getMessage(), [ 'code' => $e->getCode() ] );
+				}
+			} else {
+				self::$logger->error( $e->getMessage(), [ 'code' => $e->getCode() ] );
+			}
 		}
 	}
 
