@@ -194,6 +194,19 @@ class HandlerTypes {
 						'enabled' => true,
 					],
 				],
+				'service'      => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Service name', 'decalog' ),
+					/* translators: "Jaeger thrift over HTTP" must not be translated because it is a "product name". */
+					'help'    => esc_html__( 'Name of the service to use when "Jaeger thrift over HTTP" is the selected format.', 'decalog' ),
+					'default' => 'WordPress',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
 				'ftags'      => [
 					'type'    => 'string',
 					'show'    => true,
@@ -226,6 +239,10 @@ class HandlerTypes {
 				[
 					'type'  => 'configuration',
 					'value' => 'ftags',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'service',
 				],
 			],
 		];
@@ -280,6 +297,19 @@ class HandlerTypes {
 						'enabled' => true,
 					],
 				],
+				'service'      => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Service name', 'decalog' ),
+					/* translators: "Jaeger thrift over HTTP" must not be translated because it is a "product name". */
+					'help'    => esc_html__( 'Name of the service to use when "Jaeger thrift over HTTP" is the selected format.', 'decalog' ),
+					'default' => 'WordPress',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
 				'ftags'      => [
 					'type'    => 'string',
 					'show'    => true,
@@ -312,6 +342,10 @@ class HandlerTypes {
 				[
 					'type'  => 'configuration',
 					'value' => 'ftags',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'service',
 				],
 			],
 		];
@@ -365,6 +399,19 @@ class HandlerTypes {
 						'enabled' => true,
 					],
 				],
+				'service'      => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Service name', 'decalog' ),
+					/* translators: "Jaeger thrift over HTTP" must not be translated because it is a "product name". */
+					'help'    => esc_html__( 'Name of the service to use when "Jaeger thrift over HTTP" is the selected format.', 'decalog' ),
+					'default' => 'WordPress',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
 				'ftags'      => [
 					'type'    => 'string',
 					'show'    => true,
@@ -397,6 +444,10 @@ class HandlerTypes {
 				[
 					'type'  => 'configuration',
 					'value' => 'ftags',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'service',
 				],
 			],
 		];

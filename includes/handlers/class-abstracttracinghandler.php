@@ -105,6 +105,14 @@ abstract class AbstractTracingHandler extends AbstractProcessingHandler {
 	protected $privacy = [];
 
 	/**
+	 * The service name.
+	 *
+	 * @since  3.7.0
+	 * @var    string    $service    Service name.
+	 */
+	protected $service = '';
+
+	/**
 	 * Activated processors.
 	 *
 	 * @since  3.0.0
@@ -155,11 +163,13 @@ abstract class AbstractTracingHandler extends AbstractProcessingHandler {
 	 *                              * 400 - Decalog.
 	 * @param   int     $sampling   The sampling rate (0->1000).
 	 * @param   string  $tags       The tags to add for each span.
+	 * @param   string  $service    The service name.
 	 * @since    3.0.0
 	 */
-	public function __construct( $uuid, $format, $sampling, $tags ) {
-		$this->uuid   = $uuid;
-		$this->format = $format;
+	public function __construct( $uuid, $format, $sampling, $tags, $service = 'WordPress' ) {
+		$this->uuid    = $uuid;
+		$this->format  = $format;
+		$this->service = $service;
 		if ( isset( $tags ) && is_string( $tags ) && '' !== $tags ) {
 			if ( false !== strpos( $tags, ',' ) ) {
 				$tags = explode( ',', $tags );
@@ -289,7 +299,7 @@ abstract class AbstractTracingHandler extends AbstractProcessingHandler {
 		$spans   = [];
 		$process = new JProcess(
 			[
-				'serviceName' => 'WP',
+				'serviceName' => $this->service,
 			]
 		);
 		foreach ( $this->ftags as $key => $tag ) {
