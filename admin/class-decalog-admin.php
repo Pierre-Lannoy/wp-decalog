@@ -653,7 +653,7 @@ class Decalog_Admin {
 							}
 							break;
 						case 'install-podd':
-							if ( class_exists( 'PerfOpsOne\Installer' ) ) {
+							if ( class_exists( 'PerfOpsOne\Installer' ) && $nonce && wp_verify_nonce( $nonce, $action ) ) {
 								$result = \PerfOpsOne\Installer::do( 'device-detector', true );
 								if ( '' === $result ) {
 									add_settings_error( 'decalog_no_error', '', esc_html__( 'Plugin successfully installed and activated with default settings.', 'decalog' ), 'info' );
@@ -663,7 +663,7 @@ class Decalog_Admin {
 							}
 							break;
 						case 'install-iplocator':
-							if ( class_exists( 'PerfOpsOne\Installer' ) ) {
+							if ( class_exists( 'PerfOpsOne\Installer' ) && $nonce && wp_verify_nonce( $nonce, $action ) ) {
 								$result = \PerfOpsOne\Installer::do( 'ip-locator', true );
 								if ( '' === $result ) {
 									add_settings_error( 'decalog_no_error', '', esc_html__( 'Plugin successfully installed and activated with default settings.', 'decalog' ), 'info' );
@@ -1181,7 +1181,7 @@ class Decalog_Admin {
 			$help  = '<img style="width:16px;vertical-align:text-bottom;" src="' . \Feather\Icons::get_base64( 'alert-triangle', 'none', '#FF8C00' ) . '" />&nbsp;';
 			$help .= sprintf( esc_html__('Your site does not use any device detection mechanism. To handle user-agents and callers reporting in DecaLog, I recommend you to install the excellent (and free) %s. But it is not mandatory.', 'decalog' ), '<a href="https://wordpress.org/plugins/device-detector/">Device Detector</a>' );
 			if ( class_exists( 'PerfOpsOne\Installer' ) && ! Environment::is_wordpress_multisite() ) {
-				$help .= '<br/><a href="' . esc_url( admin_url( 'admin.php?page=decalog-settings&tab=misc&action=install-podd' ) ) . '" class="poo-button-install"><img style="width:16px;vertical-align:text-bottom;" src="' . \Feather\Icons::get_base64( 'download-cloud', 'none', '#FFFFFF', 3 ) . '" />&nbsp;&nbsp;' . esc_html__('Install It Now', 'decalog' ) . '</a>';
+				$help .= '<br/><a href="' . wp_nonce_url( admin_url( 'admin.php?page=decalog-settings&tab=misc&action=install-podd' ), 'install-podd', 'nonce' ) . '" class="poo-button-install"><img style="width:16px;vertical-align:text-bottom;" src="' . \Feather\Icons::get_base64( 'download-cloud', 'none', '#FFFFFF', 3 ) . '" />&nbsp;&nbsp;' . esc_html__('Install It Now', 'decalog' ) . '</a>';
 			}
 		}
 		add_settings_field(
@@ -1203,7 +1203,7 @@ class Decalog_Admin {
 			$help  = '<img style="width:16px;vertical-align:text-bottom;" src="' . \Feather\Icons::get_base64( 'alert-triangle', 'none', '#FF8C00' ) . '" />&nbsp;';
 			$help .= sprintf( esc_html__('Your site does not use any IP geographic information plugin. To display callers geographical details in DecaLog, I recommend you to install the excellent (and free) %s. But it is not mandatory.', 'decalog' ), '<a href="https://wordpress.org/plugins/ip-locator/">IP Locator</a>' );
 			if ( class_exists( 'PerfOpsOne\Installer' ) && ! Environment::is_wordpress_multisite() ) {
-				$help .= '<br/><a href="' . esc_url( admin_url( 'admin.php?page=decalog-settings&tab=misc&action=install-iplocator' ) ) . '" class="poo-button-install"><img style="width:16px;vertical-align:text-bottom;" src="' . \Feather\Icons::get_base64( 'download-cloud', 'none', '#FFFFFF', 3 ) . '" />&nbsp;&nbsp;' . esc_html__('Install It Now', 'decalog' ) . '</a>';
+				$help .= '<br/><a href="' . wp_nonce_url( admin_url( 'admin.php?page=decalog-settings&tab=misc&action=install-iplocator' ), 'install-iplocator', 'nonce' ) . '" class="poo-button-install"><img style="width:16px;vertical-align:text-bottom;" src="' . \Feather\Icons::get_base64( 'download-cloud', 'none', '#FFFFFF', 3 ) . '" />&nbsp;&nbsp;' . esc_html__('Install It Now', 'decalog' ) . '</a>';
 			}
 		}
 		add_settings_field(
