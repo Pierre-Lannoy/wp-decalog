@@ -260,7 +260,7 @@ class Decalog_Admin {
 				'callback'      => [ $this, 'get_console_page' ],
 				'plugin'        => DECALOG_SLUG,
 				'activated'     => SharedMemory::$available,
-				'remedy'        => esc_url( admin_url( 'admin.php?page=decalog&tab=misc' ) ),
+				'remedy'        => esc_url( admin_url( 'admin.php?page=decalog-settings&tab=misc' ) ),
 			];
 		}
 		return $perfops;
