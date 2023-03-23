@@ -40,13 +40,6 @@ class WsalListener extends AbstractListener {
 		} else {
 			$this->version = 'x';
 		}
-		if ( function_exists( 'wsal_freemius' ) && wsal_freemius()->is_premium() ) {
-			$this->name .= ' Premium';
-		} elseif ( function_exists( 'wsal_freemius' ) && wsal_freemius()->is_trial() ) {
-			$this->name .= ' Trial';
-		} elseif ( function_exists( 'wsal_freemius' ) && wsal_freemius()->is_free_plan() ) {
-			$this->name .= ' Free';
-		}
 	}
 
 	/**
