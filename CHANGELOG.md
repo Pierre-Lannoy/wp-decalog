@@ -15,7 +15,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 - The url for console error remediation is wrong.
-- It's impossible to activate DecaLog via the web UI when WP Activity Log is activated.
+
+### Removed
+- Support for WP Activity Log plugin because it doesn't adhere to observability basic standards.
 
 ## [3.7.1] - 2023-03-02
 
