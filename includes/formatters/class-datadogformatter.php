@@ -32,23 +32,6 @@ use DLMonolog\Logger;
 class DatadogFormatter extends JsonFormatter {
 
 	/**
-	 * List of the available level severities.
-	 *
-	 * @since   3.0.0
-	 * @var string[] $level_names Logging levels severities.
-	 */
-	public static $level_severities = [
-		Logger::DEBUG     => 'info',
-		Logger::INFO      => 'info',
-		Logger::NOTICE    => 'info',
-		Logger::WARNING   => 'warning',
-		Logger::ERROR     => 'error',
-		Logger::CRITICAL  => 'error',
-		Logger::ALERT     => 'error',
-		Logger::EMERGENCY => 'error',
-	];
-
-	/**
 	 * Formats a log record.
 	 *
 	 * @param  array $record A record to format.
@@ -72,9 +55,8 @@ class DatadogFormatter extends JsonFormatter {
 			$event['message'] = '<no messsage>';
 		}
 		if ( array_key_exists( 'level', $record ) ) {
-			if ( array_key_exists( $record['level'], self::$level_severities ) ) {
-				$event['message'] = EventTypes::$level_emojis[ $record['level'] ] . ' ' . ucfirst( strtolower( EventTypes::$level_names[ $record['level'] ] ) ) . ' ¶ ' . $event['message'];
-				$event['status']  = self::$level_severities[ $record['level'] ];
+			if ( array_key_exists( $record['level'], EventTypes::$level_names ) ) {
+				$event['status']  = strtolower( EventTypes::$level_names[ $record['level'] ] );
 			} else {
 				$event['status'] = 'error';
 			}

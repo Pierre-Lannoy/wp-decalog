@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 - Compatibility with WordPress 6.3.
+- Datadog events logging now supports of events levels (thanks to [Jan Thiel](https://github.com/JanThiel)).
 
 ### Changed
 - The color for `shmop` test in Site Health is now gray to not worry to much about it (was previously orange).

@@ -88,7 +88,7 @@ class EventTypes {
 	/**
 	 * List of the available level texts.
 	 *
-	 * @var string[] $level_names Logging levels texts.
+	 * @var string[] $level_texts Logging levels texts.
 	 */
 	public static $level_texts = [];
 
