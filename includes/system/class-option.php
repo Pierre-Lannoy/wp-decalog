@@ -89,7 +89,8 @@ class Option {
 		self::$defaults['trace_query']          = false;
 		self::$defaults['slow_query_warn']      = true;
 		self::$defaults['unknown_metrics_warn'] = true;
-		self::$network                          = [ 'version', 'earlyloading', 'use_cdn', 'download_favicons', 'script_in_footer', 'display_nag', 'respect_wp_debug', 'livelog', 'logger_autostart', 'autolisteners', 'pseudonymization', 'privileges', 'metrics_authent', 'adminbar', 'slow_query_ms', 'medium_query_ms', 'trace_query', 'slow_query_warn', 'unknown_metrics_warn' ];
+		self::$defaults['env_substitution']     = false;
+		self::$network                          = [ 'version', 'earlyloading', 'use_cdn', 'download_favicons', 'script_in_footer', 'display_nag', 'respect_wp_debug', 'livelog', 'logger_autostart', 'autolisteners', 'pseudonymization', 'privileges', 'metrics_authent', 'adminbar', 'slow_query_ms', 'medium_query_ms', 'trace_query', 'slow_query_warn', 'unknown_metrics_warn', 'env_substitution' ];
 	}
 
 	/**

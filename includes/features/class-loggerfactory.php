@@ -13,6 +13,7 @@ namespace Decalog\Plugin\Feature;
 
 use Decalog\System\Option;
 use DLMonolog\Logger;
+use function Automattic\Jetpack\Creative_Mail\error_notice;
 
 /**
  * Define the logger consistency functionality.
@@ -48,6 +49,14 @@ class LoggerFactory {
 	 * @var    processorTypes    $processor_types    The processors types.
 	 */
 	private $processor_types;
+
+	/**
+	 * The substitutable configuration items.
+	 *
+	 * @since  3.9.0
+	 * @var    array    $substitutable    The configuration items that could be substituted by environment variables.
+	 */
+	private $substitutable = [ 'url', 'ftags', 'service', 'host', 'token', 'org', 'bucket', 'id' , 'cloudid', 'user', 'pass', 'index', 'key', 'ident', 'recipients', 'users', 'title', 'filename' ];
 
 	/**
 	 * Initialize the class and set its properties.
@@ -109,7 +118,20 @@ class LoggerFactory {
 								$args[] = $p['value'];
 								break;
 							case 'configuration':
-								$args[] = $logger['configuration'][ $p['value'] ];
+								$value = $logger['configuration'][ $p['value'] ];
+								if ( Option::network_get( 'env_substitution' ) && is_string( $value ) /*&& in_array( $value, $this->substitutable )*/ ) {
+									if ( preg_match_all('/{(.*)}/U', $value,$matches ) ) {
+										if ( 2 === count( $matches ) ) {
+											foreach ($matches[1] as $match) {
+												$env = getenv( $match );
+												if ( is_string( $env ) ) {
+													$value = str_replace( '{' . $match . '}', $env, $value );
+												}
+											}
+										}
+									}
+								}
+								$args[] = $value;
 								break;
 							case 'compute':
 								switch ( $p['value'] ) {

@@ -11,6 +11,7 @@
 
 namespace Decalog\Plugin\Feature;
 
+use Decalog\System\Option;
 use DLMonolog\Logger;
 use Decalog\System\Cache;
 
@@ -100,7 +101,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Service URL', 'decalog' ),
-					'help'    => sprintf( esc_html__( 'URL where to send spans. Format: %s.', 'decalog' ), '<code>' . htmlentities( '<proto>://<host>[:<port>]' ) . '</code>' ),
+					'help'    => sprintf( esc_html__( 'URL where to send spans. Format: %s.', 'decalog' ), '<code>' . htmlentities( '<proto>://<host>[:<port>]' ) . '</code>' ) . $this->get_substitution_note(),
 					'default' => 'http://localhost:8126',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -112,7 +113,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Custom tags', 'decalog' ),
-					'help'    => sprintf( esc_html__( 'Custom tags to add to each span. Format: %s.', 'decalog' ), '<code>' . htmlentities( 'key=value, key=value …' ) . '</code>' ),
+					'help'    => sprintf( esc_html__( 'Custom tags to add to each span. Format: %s.', 'decalog' ), '<code>' . htmlentities( 'key=value, key=value …' ) . '</code>' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -186,7 +187,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Service URL', 'decalog' ),
-					'help'    => sprintf( esc_html__( 'URL where to send spans. Format: %s.', 'decalog' ), '<code>' . htmlentities( '<proto>://<host>[:<port>]' ) . '</code>' ),
+					'help'    => sprintf( esc_html__( 'URL where to send spans. Format: %s.', 'decalog' ), '<code>' . htmlentities( '<proto>://<host>[:<port>]' ) . '</code>' ) . $this->get_substitution_note(),
 					'default' => 'http://localhost:14268',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -199,7 +200,7 @@ class HandlerTypes {
 					'show'    => true,
 					'name'    => esc_html__( 'Service name', 'decalog' ),
 					/* translators: "Jaeger thrift over HTTP" must not be translated because it is a "product name". */
-					'help'    => esc_html__( 'Name of the service to use when "Jaeger thrift over HTTP" is the selected format.', 'decalog' ),
+					'help'    => esc_html__( 'Name of the service to use when "Jaeger thrift over HTTP" is the selected format.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => 'WordPress',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -211,7 +212,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Custom tags', 'decalog' ),
-					'help'    => sprintf( esc_html__( 'Custom tags to add to each span. Format: %s.', 'decalog' ), '<code>' . htmlentities( 'key=value, key=value …' ) . '</code>' ),
+					'help'    => sprintf( esc_html__( 'Custom tags to add to each span. Format: %s.', 'decalog' ), '<code>' . htmlentities( 'key=value, key=value …' ) . '</code>' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -289,7 +290,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Service URL', 'decalog' ),
-					'help'    => sprintf( esc_html__( 'URL where to send spans. Format: %s.', 'decalog' ), '<code>' . htmlentities( '<proto>://<host>[:<port>]' ) . '</code>' ),
+					'help'    => sprintf( esc_html__( 'URL where to send spans. Format: %s.', 'decalog' ), '<code>' . htmlentities( '<proto>://<host>[:<port>]' ) . '</code>' ) . $this->get_substitution_note(),
 					'default' => 'http://localhost:9411',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -302,7 +303,7 @@ class HandlerTypes {
 					'show'    => true,
 					'name'    => esc_html__( 'Service name', 'decalog' ),
 					/* translators: "Jaeger thrift over HTTP" must not be translated because it is a "product name". */
-					'help'    => esc_html__( 'Name of the service to use when "Jaeger thrift over HTTP" is the selected format.', 'decalog' ),
+					'help'    => esc_html__( 'Name of the service to use when "Jaeger thrift over HTTP" is the selected format.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => 'WordPress',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -314,7 +315,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Custom tags', 'decalog' ),
-					'help'    => sprintf( esc_html__( 'Custom tags to add to each span. Format: %s.', 'decalog' ), '<code>' . htmlentities( 'key=value, key=value …' ) . '</code>' ),
+					'help'    => sprintf( esc_html__( 'Custom tags to add to each span. Format: %s.', 'decalog' ), '<code>' . htmlentities( 'key=value, key=value …' ) . '</code>' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -391,7 +392,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Service URL', 'decalog' ),
-					'help'    => sprintf( esc_html__( 'URL where to send spans. Format: %s.', 'decalog' ), '<code>' . htmlentities( '<proto>://<host>[:<port>]' ) . '</code>' ),
+					'help'    => sprintf( esc_html__( 'URL where to send spans. Format: %s.', 'decalog' ), '<code>' . htmlentities( '<proto>://<host>[:<port>]' ) . '</code>' ) . $this->get_substitution_note(),
 					'default' => 'http://localhost:9411',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -404,7 +405,7 @@ class HandlerTypes {
 					'show'    => true,
 					'name'    => esc_html__( 'Service name', 'decalog' ),
 					/* translators: "Jaeger thrift over HTTP" must not be translated because it is a "product name". */
-					'help'    => esc_html__( 'Name of the service to use when "Jaeger thrift over HTTP" is the selected format.', 'decalog' ),
+					'help'    => esc_html__( 'Name of the service to use when "Jaeger thrift over HTTP" is the selected format.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => 'WordPress',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -416,7 +417,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Custom tags', 'decalog' ),
-					'help'    => sprintf( esc_html__( 'Custom tags to add to each span. Format: %s.', 'decalog' ), '<code>' . htmlentities( 'key=value, key=value …' ) . '</code>' ),
+					'help'    => sprintf( esc_html__( 'Custom tags to add to each span. Format: %s.', 'decalog' ), '<code>' . htmlentities( 'key=value, key=value …' ) . '</code>' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -494,7 +495,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Service URL', 'decalog' ),
-					'help'    => sprintf( esc_html__( 'URL where to send spans. Format: %s.', 'decalog' ), '<code>' . htmlentities( '<proto>://<host>[:<port>]' ) . '</code>' ),
+					'help'    => sprintf( esc_html__( 'URL where to send spans. Format: %s.', 'decalog' ), '<code>' . htmlentities( '<proto>://<host>[:<port>]' ) . '</code>' ) . $this->get_substitution_note(),
 					'default' => 'http://localhost:9411',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -506,7 +507,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Custom tags', 'decalog' ),
-					'help'    => sprintf( esc_html__( 'Custom tags to add to each span. Format: %s.', 'decalog' ), '<code>' . htmlentities( 'key=value, key=value …' ) . '</code>' ),
+					'help'    => sprintf( esc_html__( 'Custom tags to add to each span. Format: %s.', 'decalog' ), '<code>' . htmlentities( 'key=value, key=value …' ) . '</code>' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -691,7 +692,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'II key', 'decalog' ),
-					'help'    => esc_html__( 'An account\'s "Insights insert key".', 'decalog' ),
+					'help'    => esc_html__( 'An account\'s "Insights insert key".', 'decalog' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -703,7 +704,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Custom tags', 'decalog' ),
-					'help'    => sprintf( esc_html__( 'Custom tags to add to each span. Format: %s.', 'decalog' ), '<code>' . htmlentities( 'key=value, key=value …' ) . '</code>' ),
+					'help'    => sprintf( esc_html__( 'Custom tags to add to each span. Format: %s.', 'decalog' ), '<code>' . htmlentities( 'key=value, key=value …' ) . '</code>' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -806,7 +807,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'II key', 'decalog' ),
-					'help'    => esc_html__( 'An account\'s "Insights insert key".', 'decalog' ),
+					'help'    => esc_html__( 'An account\'s "Insights insert key".', 'decalog' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -911,7 +912,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'API key', 'decalog' ),
-					'help'    => esc_html__( 'The API key of the service.', 'decalog' ),
+					'help'    => esc_html__( 'The API key of the service.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -1003,7 +1004,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Service URL', 'decalog' ),
-					'help'    => sprintf( esc_html__( 'URL where to send metrics. Format: %s.', 'decalog' ), '<code>' . htmlentities( '<proto>://<host>[:<port>]' ) . '</code>' ),
+					'help'    => sprintf( esc_html__( 'URL where to send metrics. Format: %s.', 'decalog' ), '<code>' . htmlentities( '<proto>://<host>[:<port>]' ) . '</code>' ) . $this->get_substitution_note(),
 					'default' => 'http://localhost:8086',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -1015,7 +1016,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Organization', 'decalog' ),
-					'help'    => esc_html__( 'Organization name to use (must exist).', 'decalog' ),
+					'help'    => esc_html__( 'Organization name to use (must exist).', 'decalog' ) . $this->get_substitution_note(),
 					'default' => 'my-org',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -1027,7 +1028,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Bucket', 'decalog' ),
-					'help'    => esc_html__( 'Bucket name to use (must exist).', 'decalog' ),
+					'help'    => esc_html__( 'Bucket name to use (must exist).', 'decalog' ) . $this->get_substitution_note(),
 					'default' => 'my-bucket',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -1039,7 +1040,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Token', 'decalog' ),
-					'help'    => esc_html__( 'Token value to write in bucket.', 'decalog' ),
+					'help'    => esc_html__( 'Token value to write in bucket.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => 'my-token',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -1211,7 +1212,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Service URL', 'decalog' ),
-					'help'    => sprintf( esc_html__( 'URL where to send metrics. Format: %s.', 'decalog' ), '<code>' . htmlentities( '<proto>://<host>[:<port>]' ) . '</code>' ),
+					'help'    => sprintf( esc_html__( 'URL where to send metrics. Format: %s.', 'decalog' ), '<code>' . htmlentities( '<proto>://<host>[:<port>]' ) . '</code>' ) . $this->get_substitution_note(),
 					'default' => 'http://localhost:9091',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -1236,7 +1237,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Job', 'decalog' ),
-					'help'    => esc_html__( 'The fixed job name for some templates.', 'decalog' ),
+					'help'    => esc_html__( 'The fixed job name for some templates.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => 'wp_decalog',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -1444,7 +1445,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'License key', 'decalog' ),
-					'help'    => esc_html__( 'The account\'s license key.', 'decalog' ),
+					'help'    => esc_html__( 'The account\'s license key.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -1510,7 +1511,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'API key', 'decalog' ),
-					'help'    => esc_html__( 'The API key of the service.', 'decalog' ),
+					'help'    => esc_html__( 'The API key of the service.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -1563,7 +1564,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Cloud ID', 'decalog' ),
-					'help'    => esc_html__( 'The generated cloud ID.', 'decalog' ),
+					'help'    => esc_html__( 'The generated cloud ID.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -1575,7 +1576,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Username', 'decalog' ),
-					'help'    => esc_html__( 'The username of the instance.', 'decalog' ),
+					'help'    => esc_html__( 'The username of the instance.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -1587,7 +1588,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Password', 'decalog' ),
-					'help'    => esc_html__( 'The password of the instance.', 'decalog' ),
+					'help'    => esc_html__( 'The password of the instance.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -1599,7 +1600,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Index', 'decalog' ),
-					'help'    => esc_html__( 'The index name.', 'decalog' ),
+					'help'    => esc_html__( 'The index name.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => 'decalog',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -1648,7 +1649,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Service URL', 'decalog' ),
-					'help'    => sprintf( esc_html__( 'URL where to send logs. Format: %s.', 'decalog' ), '<code>' . htmlentities( '<proto>://<host>:<port>' ) . '</code>' ),
+					'help'    => sprintf( esc_html__( 'URL where to send logs. Format: %s.', 'decalog' ), '<code>' . htmlentities( '<proto>://<host>:<port>' ) . '</code>' ) . $this->get_substitution_note(),
 					'default' => 'http://localhost:9200',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -1660,7 +1661,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Username', 'decalog' ),
-					'help'    => esc_html__( 'The username of the instance.', 'decalog' ),
+					'help'    => esc_html__( 'The username of the instance.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -1672,7 +1673,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Password', 'decalog' ),
-					'help'    => esc_html__( 'The password of the instance.', 'decalog' ),
+					'help'    => esc_html__( 'The password of the instance.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -1684,7 +1685,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Index', 'decalog' ),
-					'help'    => esc_html__( 'The index name.', 'decalog' ),
+					'help'    => esc_html__( 'The index name.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => 'decalog',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -1733,7 +1734,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Connection string', 'decalog' ),
-					'help'    => esc_html__( 'Connection string to Fluentd. Can be something like "tcp://127.0.0.1:24224" or something like "unix:///var/run/td-agent/td-agent.sock".', 'decalog' ),
+					'help'    => esc_html__( 'Connection string to Fluentd. Can be something like "tcp://127.0.0.1:24224" or something like "unix:///var/run/td-agent/td-agent.sock".', 'decalog' ) . $this->get_substitution_note(),
 					'default' => 'tcp://localhost:24224',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -1780,7 +1781,7 @@ class HandlerTypes {
 			'class'         => 'logging',
 			'minimal'       => Logger::INFO,
 			'name'          => 'Grafana Cloud Events',
-			'help'          => esc_html__( 'Events sent to Grafana Cloud.', 'decalog' ),
+			'help'          => esc_html__( 'Events sent to Grafana Cloud (Loki).', 'decalog' ),
 			'icon'          => $this->get_base64_grafana_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -1789,7 +1790,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Loki host', 'decalog' ),
-					'help'    => sprintf( esc_html__( 'The host name portion of the Loki instance url. Something like %s.', 'decalog' ), '<code>logs-prod-us-central1</code>' ),
+					'help'    => sprintf( esc_html__( 'The host name portion of the Loki instance url. Something like %s.', 'decalog' ), '<code>logs-prod-us-central1</code>' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -1801,7 +1802,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Username', 'decalog' ),
-					'help'    => sprintf( esc_html__( 'The user name for Basic Auth authentication. Something like %s.', 'decalog' ), '<code>21087</code>' ),
+					'help'    => sprintf( esc_html__( 'The user name for Basic Auth authentication. Something like %s.', 'decalog' ), '<code>21087</code>' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -1813,7 +1814,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'API key', 'decalog' ),
-					'help'    => esc_html__( 'The Grafana.com API Key.', 'decalog' ),
+					'help'    => esc_html__( 'The Grafana.com API Key.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -1838,7 +1839,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Job', 'decalog' ),
-					'help'    => esc_html__( 'The fixed job name for some templates.', 'decalog' ),
+					'help'    => esc_html__( 'The fixed job name for some templates.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => 'wp_decalog',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -1900,7 +1901,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Log token', 'decalog' ),
-					'help'    => esc_html__( 'The token of the Logentries/insightOps log.', 'decalog' ),
+					'help'    => esc_html__( 'The token of the Logentries/insightOps log.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -1956,7 +1957,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Application token', 'decalog' ),
-					'help'    => esc_html__( 'The token of the Solawinds Loggly application.', 'decalog' ),
+					'help'    => esc_html__( 'The token of the Solawinds Loggly application.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -1989,7 +1990,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Service URL', 'decalog' ),
-					'help'    => sprintf( esc_html__( 'URL where to send logs. Format: %s.', 'decalog' ), '<code>' . htmlentities( '<proto>://<host>:<port>' ) . '</code>' ),
+					'help'    => sprintf( esc_html__( 'URL where to send logs. Format: %s.', 'decalog' ), '<code>' . htmlentities( '<proto>://<host>:<port>' ) . '</code>' ) . $this->get_substitution_note(),
 					'default' => 'http://localhost:3100',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -2014,7 +2015,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Job', 'decalog' ),
-					'help'    => esc_html__( 'The fixed job name for some templates.', 'decalog' ),
+					'help'    => esc_html__( 'The fixed job name for some templates.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => 'wp_decalog',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -2079,7 +2080,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'File', 'decalog' ),
-					'help'    => esc_html__( 'The full absolute path and filename, like "/path/to/file".', 'decalog' ),
+					'help'    => esc_html__( 'The full absolute path and filename, like "/path/to/file".', 'decalog' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -2152,7 +2153,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Application Token', 'decalog' ),
-					'help'    => esc_html__( 'The "Logs App Token" set in Sematext.', 'decalog' ),
+					'help'    => esc_html__( 'The "Logs App Token" set in Sematext.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -2193,7 +2194,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Connection string', 'decalog' ),
-					'help'    => esc_html__( 'Connection string to Fluentd. Can be something like "tcp://127.0.0.1:24224" or something like "unix:///var/run/td-agent/td-agent.sock".', 'decalog' ),
+					'help'    => esc_html__( 'Connection string to Fluentd. Can be something like "tcp://127.0.0.1:24224" or something like "unix:///var/run/td-agent/td-agent.sock".', 'decalog' ) . $this->get_substitution_note(),
 					'default' => 'tcp://localhost:24224',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -2262,7 +2263,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Source token', 'decalog' ),
-					'help'    => esc_html__( 'The token of cloud-syslog source.', 'decalog' ),
+					'help'    => esc_html__( 'The token of cloud-syslog source.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -2328,7 +2329,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Identifier', 'decalog' ),
-					'help'    => esc_html__( 'The program identifier for messages sent by DecaLog.', 'decalog' ),
+					'help'    => esc_html__( 'The program identifier for messages sent by DecaLog.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => 'DecaLog',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -2403,7 +2404,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Host', 'decalog' ),
-					'help'    => esc_html__( 'The remote host receiving syslog messages.', 'decalog' ),
+					'help'    => esc_html__( 'The remote host receiving syslog messages.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => '127.0.0.1',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -2454,7 +2455,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Identifier', 'decalog' ),
-					'help'    => esc_html__( 'The program identifier for messages sent by DecaLog.', 'decalog' ),
+					'help'    => esc_html__( 'The program identifier for messages sent by DecaLog.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => 'DecaLog',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -2801,7 +2802,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Recipients', 'decalog' ),
-					'help'    => esc_html__( 'The recipients mail address, in coma separated list.', 'decalog' ),
+					'help'    => esc_html__( 'The recipients mail address, in coma separated list.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -2875,7 +2876,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Application token', 'decalog' ),
-					'help'    => esc_html__( 'The token of the Pushover application.', 'decalog' ),
+					'help'    => esc_html__( 'The token of the Pushover application.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -2887,7 +2888,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Recipient', 'decalog' ),
-					'help'    => esc_html__( 'The recipient key. It can be a "user key" or a "group key".', 'decalog' ),
+					'help'    => esc_html__( 'The recipient key. It can be a "user key" or a "group key".', 'decalog' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -2899,7 +2900,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Message title', 'decalog' ),
-					'help'    => esc_html__( 'The title of the message which will be sent.', 'decalog' ),
+					'help'    => esc_html__( 'The title of the message which will be sent.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -2965,7 +2966,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'API key', 'decalog' ),
-					'help'    => esc_html__( 'The API key of the service.', 'decalog' ),
+					'help'    => esc_html__( 'The API key of the service.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -3018,7 +3019,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'Tracking ID', 'decalog' ),
-					'help'    => esc_html__( 'The tracking ID / web property ID for Google Universal Analytics service. The format must be UA-XXXX-Y.', 'decalog' ),
+					'help'    => esc_html__( 'The tracking ID / web property ID for Google Universal Analytics service. The format must be UA-XXXX-Y.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -3071,7 +3072,7 @@ class HandlerTypes {
 					'type'    => 'string',
 					'show'    => true,
 					'name'    => esc_html__( 'API key', 'decalog' ),
-					'help'    => esc_html__( 'The API key of the service.', 'decalog' ),
+					'help'    => esc_html__( 'The API key of the service.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -3144,6 +3145,19 @@ class HandlerTypes {
 				return strcmp( strtolower( $a['name'] ), strtolower( $b['name'] ) );
 			}
 		);
+	}
+
+	/**
+	 * Get the string for substitution note.
+	 *
+	 * @return  string   The string to add.
+	 * @since    3.9.0
+	 */
+	private function get_substitution_note() {
+		if ( ! Option::network_get( 'env_substitution' ) ) {
+			return '';
+		}
+		return '<br/><small>ⓘ&nbsp;' . esc_html__( 'This field is eligible to environment variable substitution.', 'decalog' ) . '</small>';
 	}
 
 	/**

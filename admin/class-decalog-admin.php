@@ -752,7 +752,6 @@ class Decalog_Admin {
 	private function save_options() {
 		if ( ! empty( $_POST ) ) {
 			if ( array_key_exists( '_wpnonce', $_POST ) && wp_verify_nonce( $_POST['_wpnonce'], 'decalog-plugin-options' ) ) {
-				Option::network_set( 'metrics_authent', array_key_exists( 'decalog_plugin_options_metrics_authent', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_plugin_options_metrics_authent' ) : false );
 				Option::network_set( 'use_cdn', array_key_exists( 'decalog_plugin_options_usecdn', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_plugin_options_usecdn' ) : false );
 				Option::network_set( 'display_nag', array_key_exists( 'decalog_plugin_options_nag', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_plugin_options_nag' ) : false );
 				Option::network_set( 'adminbar', array_key_exists( 'decalog_plugin_options_adminbar', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_plugin_options_adminbar' ) : false );
@@ -761,10 +760,12 @@ class Decalog_Admin {
 				Option::network_set( 'logger_autostart', array_key_exists( 'decalog_loggers_options_autostart', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_loggers_options_autostart' ) : false );
 				Option::network_set( 'pseudonymization', array_key_exists( 'decalog_loggers_options_pseudonymization', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_loggers_options_pseudonymization' ) : false );
 				Option::network_set( 'respect_wp_debug', array_key_exists( 'decalog_loggers_options_wpdebug', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_loggers_options_wpdebug' ) : false );
+				Option::network_set( 'env_substitution', array_key_exists( 'decalog_loggers_options_env_substitution', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_loggers_options_env_substitution' ) : false );
 				Option::network_set( 'privileges', array_key_exists( 'decalog_plugin_options_privileges', $_POST ) ? (string) filter_input( INPUT_POST, 'decalog_plugin_options_privileges', FILTER_SANITIZE_NUMBER_INT ) : Option::network_get( 'privileges' ) );
-				Option::network_set( 'slow_query_warn', array_key_exists( 'decalog_loggers_options_slowqueries', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_loggers_options_slowqueries' ) : false );
-				Option::network_set( 'unknown_metrics_warn', array_key_exists( 'decalog_loggers_options_unknownmetrics', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_loggers_options_unknownmetrics' ) : false );
-				Option::network_set( 'trace_query', array_key_exists( 'decalog_loggers_options_tracequeries', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_loggers_options_tracequeries' ) : false );
+				Option::network_set( 'metrics_authent', array_key_exists( 'decalog_plugin_features_metrics_authent', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_plugin_features_metrics_authent' ) : false );
+				Option::network_set( 'slow_query_warn', array_key_exists( 'decalog_plugin_features_slowqueries', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_plugin_features_slowqueries' ) : false );
+				Option::network_set( 'unknown_metrics_warn', array_key_exists( 'decalog_plugin_features_unknownmetrics', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_plugin_features_unknownmetrics' ) : false );
+				Option::network_set( 'trace_query', array_key_exists( 'decalog_plugin_features_tracequeries', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_plugin_features_tracequeries' ) : false );
 				$autolog = array_key_exists( 'decalog_plugin_features_livelog', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_plugin_features_livelog' ) : false;
 				if ( $autolog ) {
 					Autolog::activate();
@@ -1037,53 +1038,21 @@ class Decalog_Admin {
 		);
 		register_setting( 'decalog_loggers_options_section', 'decalog_loggers_options_wpdebug' );
 		add_settings_field(
-			'decalog_loggers_options_slowqueries',
-			__( 'Database', 'decalog' ),
+			'decalog_loggers_options_env_substitution',
+			__( 'Parameters', 'decalog' ),
 			[ $form, 'echo_field_checkbox' ],
 			'decalog_loggers_options_section',
 			'decalog_loggers_options_section',
 			[
-				'text'        => esc_html__( 'Warn about slow queries', 'decalog' ),
-				'id'          => 'decalog_loggers_options_slowqueries',
-				'checked'     => Option::network_get( 'slow_query_warn' ),
-				'description' => sprintf( esc_html__( 'If checked, a warning will be triggered for each SQL query that takes %.1F ms or more to execute.', 'decalog' ), Option::network_get( 'slow_query_ms', 50 ) ),
+				'text'        => esc_html__( 'Environment variables substitution', 'decalog' ),
+				'id'          => 'decalog_loggers_options_env_substitution',
+				'checked'     => Option::network_get( 'env_substitution' ),
+				'description' => esc_html__( 'If checked, DecaLog will replace strings between curly braces by the corresponding environment variables.', 'decalog' ),
 				'full_width'  => false,
 				'enabled'     => true,
 			]
 		);
-		register_setting( 'decalog_loggers_options_section', 'decalog_loggers_options_slowqueries' );
-		add_settings_field(
-			'decalog_loggers_options_tracequeries',
-			'',
-			[ $form, 'echo_field_checkbox' ],
-			'decalog_loggers_options_section',
-			'decalog_loggers_options_section',
-			[
-				'text'        => esc_html__( 'Trace queries', 'decalog' ),
-				'id'          => 'decalog_loggers_options_tracequeries',
-				'checked'     => Option::network_get( 'trace_query' ),
-				'description' => esc_html__( 'If checked, all SQL queries will be traced and pushed to running trace loggers.', 'decalog' ),
-				'full_width'  => false,
-				'enabled'     => true,
-			]
-		);
-		register_setting( 'decalog_loggers_options_section', 'decalog_loggers_options_tracequeries' );
-		add_settings_field(
-			'decalog_loggers_options_unknownmetrics',
-			__( 'Metrics', 'decalog' ),
-			[ $form, 'echo_field_checkbox' ],
-			'decalog_loggers_options_section',
-			'decalog_loggers_options_section',
-			[
-				'text'        => esc_html__( 'Warn about non-existent metrics', 'decalog' ),
-				'id'          => 'decalog_loggers_options_unknownmetrics',
-				'checked'     => Option::network_get( 'unknown_metrics_warn' ),
-				'description' => esc_html__( 'If checked, an error will be triggered when a process try to set a value for a metric which is not defined.', 'decalog' ),
-				'full_width'  => false,
-				'enabled'     => true,
-			]
-		);
-		register_setting( 'decalog_loggers_options_section', 'decalog_loggers_options_unknownmetrics' );
+		register_setting( 'decalog_loggers_options_section', 'decalog_loggers_options_env_substitution' );
 	}
 
 	/**
@@ -1126,22 +1095,6 @@ class Decalog_Admin {
 			);
 			register_setting( 'decalog_plugin_options_section', 'decalog_plugin_options_privileges' );
 		}
-		add_settings_field(
-			'decalog_plugin_options_metrics_authent',
-			esc_html__( 'Metrics accesses', 'decalog' ),
-			[ $form, 'echo_field_checkbox' ],
-			'decalog_plugin_options_section',
-			'decalog_plugin_options_section',
-			[
-				'text'        => esc_html__( 'Authenticated endpoint', 'decalog' ),
-				'id'          => 'decalog_plugin_options_metrics_authent',
-				'checked'     => Option::network_get( 'metrics_authent' ),
-				'description' => sprintf( esc_html__( 'If checked, DecaLog will require authentication to serve %s calls.', 'decalog' ), '<code>' . htmlentities( '/wp-json/' . DECALOG_REST_NAMESPACE . '/metrics' ) . '</code>' ) . '<br/>' . sprintf( esc_html__( 'Note: if you activate authentication, you must generate an application password for a user having %s capability.', 'decalog' ), '<code>read_private_pages</code>' ),
-				'full_width'  => false,
-				'enabled'     => true,
-			]
-		);
-		register_setting( 'decalog_plugin_options_section', 'decalog_plugin_options_metrics_authent' );
 		add_settings_field(
 			'decalog_plugin_options_adminbar',
 			__( 'Quick actions', 'decalog' ),
@@ -1326,6 +1279,70 @@ class Decalog_Admin {
 				]
 			);
 			register_setting( 'decalog_plugin_features_section', 'decalog_plugin_features_livelog' );
+			add_settings_field(
+				'decalog_plugin_features_slowqueries',
+				__( 'Database', 'decalog' ),
+				[ $form, 'echo_field_checkbox' ],
+				'decalog_plugin_features_section',
+				'decalog_plugin_features_section',
+				[
+					'text'        => esc_html__( 'Warn about slow queries', 'decalog' ),
+					'id'          => 'decalog_plugin_features_slowqueries',
+					'checked'     => Option::network_get( 'slow_query_warn' ),
+					'description' => sprintf( esc_html__( 'If checked, a warning will be triggered for each SQL query that takes %.1F ms or more to execute.', 'decalog' ), Option::network_get( 'slow_query_ms', 50 ) ),
+					'full_width'  => false,
+					'enabled'     => true,
+				]
+			);
+			register_setting( 'decalog_plugin_features_section', 'decalog_plugin_features_slowqueries' );
+			add_settings_field(
+				'decalog_plugin_features_tracequeries',
+				'',
+				[ $form, 'echo_field_checkbox' ],
+				'decalog_plugin_features_section',
+				'decalog_plugin_features_section',
+				[
+					'text'        => esc_html__( 'Trace queries', 'decalog' ),
+					'id'          => 'decalog_plugin_features_tracequeries',
+					'checked'     => Option::network_get( 'trace_query' ),
+					'description' => esc_html__( 'If checked, all SQL queries will be traced and pushed to running trace loggers.', 'decalog' ),
+					'full_width'  => false,
+					'enabled'     => true,
+				]
+			);
+			register_setting( 'decalog_plugin_features_section', 'decalog_plugin_features_tracequeries' );
+			add_settings_field(
+				'decalog_plugin_features_unknownmetrics',
+				__( 'Metrics', 'decalog' ),
+				[ $form, 'echo_field_checkbox' ],
+				'decalog_plugin_features_section',
+				'decalog_plugin_features_section',
+				[
+					'text'        => esc_html__( 'Warn about non-existent metrics', 'decalog' ),
+					'id'          => 'decalog_plugin_features_unknownmetrics',
+					'checked'     => Option::network_get( 'unknown_metrics_warn' ),
+					'description' => esc_html__( 'If checked, an error will be triggered when a process try to set a value for a metric which is not defined.', 'decalog' ),
+					'full_width'  => false,
+					'enabled'     => true,
+				]
+			);
+			register_setting( 'decalog_plugin_features_section', 'decalog_plugin_features_unknownmetrics' );
+			add_settings_field(
+				'decalog_plugin_features_metrics_authent',
+				'',
+				[ $form, 'echo_field_checkbox' ],
+				'decalog_plugin_features_section',
+				'decalog_plugin_features_section',
+				[
+					'text'        => esc_html__( 'Authenticated endpoint', 'decalog' ),
+					'id'          => 'decalog_plugin_features_metrics_authent',
+					'checked'     => Option::network_get( 'metrics_authent' ),
+					'description' => sprintf( esc_html__( 'If checked, DecaLog will require authentication to serve %s calls.', 'decalog' ), '<code>' . htmlentities( '/wp-json/' . DECALOG_REST_NAMESPACE . '/metrics' ) . '</code>' ) . '<br/>' . sprintf( esc_html__( 'Note: if you activate authentication, you must generate an application password for a user having %s capability.', 'decalog' ), '<code>read_private_pages</code>' ),
+					'full_width'  => false,
+					'enabled'     => true,
+				]
+			);
+			register_setting( 'decalog_plugin_features_section', 'decalog_plugin_features_metrics_authent' );
 		}
 	}
 

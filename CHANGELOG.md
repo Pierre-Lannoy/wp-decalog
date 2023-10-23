@@ -3,6 +3,14 @@ All notable changes to **DecaLog** are documented in this *changelog*.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.9.0] - 2023-10-25
+
+### Added
+- It's now possible to substitute environment variables for some loggers settings.
+- Compatibility with WordPress 6.4.
+
+### Changed
+- Settings options have been reorganized to be more consistent.
 
 ## [3.8.0] - 2023-07-19
 
