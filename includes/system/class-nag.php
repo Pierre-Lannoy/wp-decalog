@@ -106,6 +106,7 @@ class Nag {
 			$html = '<div id="decalog-debugging-critical" class="notice notice-error"><p>' . $text . '</p></div>';
 			// phpcs:ignore
 			print( $html );
+
 		}
 	}
 
