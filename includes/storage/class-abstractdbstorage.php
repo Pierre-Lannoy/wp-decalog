@@ -214,7 +214,7 @@ abstract class AbstractDBStorage extends AbstractStorage {
 	 */
 	public function get_by_id( $id ) {
 		global $wpdb;
-		$sql = 'SELECT * FROM ' . $wpdb->base_prefix . $this->bucket_name . ' WHERE  id=' . $id . ';';
+		$sql = $wpdb->prepare('SELECT * FROM ' . $wpdb->base_prefix . $this->bucket_name . ' WHERE  id=%s;', [$id] );
 		// phpcs:ignore
 		$logs = $wpdb->get_results( $sql, ARRAY_A );
 		if ( 1 === count( $logs ) ) {
@@ -222,5 +222,4 @@ abstract class AbstractDBStorage extends AbstractStorage {
 		}
 		return null;
 	}
-
 }

@@ -3,6 +3,17 @@ All notable changes to **DecaLog** are documented in this *changelog*.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.9.1] - Not Yet Released
+
+### Changed
+- Upgraded Tracy library from version 2.8.7 to version 2.10.5.
+
+### Fixed
+- [SEC004] SQL Injection vulnerability (thanks to [isacaya](https://patchstack.com/database/researcher/399a4781-9ac6-4858-9ed6-9be792029311) from [Patchstack](https://patchstack.com)).
+
+### Removed
+- Warning message when Spatie Ray is activated as it doesn't log in browser.
+
 ## [3.9.0] - 2023-10-25
 
 ### Added
