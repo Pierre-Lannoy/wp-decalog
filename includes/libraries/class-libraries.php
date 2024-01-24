@@ -71,7 +71,7 @@ class Libraries {
 			'name'    => 'Tracy',
 			'prefix'  => 'Tracy',
 			'base'    => DECALOG_VENDOR_DIR . 'tracy/',
-			'version' => '2.8.7',
+			'version' => '2.10.5',
 			// phpcs:ignore
 			'author'  => sprintf( esc_html__( '%s & contributors', 'decalog' ), 'David Grudl' ),
 			'url'     => 'https://github.com/nette/tracy',

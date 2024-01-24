@@ -15,7 +15,7 @@ namespace Tracy;
  */
 interface ILogger
 {
-	const
+	public const
 		DEBUG = 'debug',
 		INFO = 'info',
 		WARNING = 'warning',
@@ -23,5 +23,5 @@ interface ILogger
 		EXCEPTION = 'exception',
 		CRITICAL = 'critical';
 
-	function log($value, $level = self::INFO);
+	function log(mixed $value, string $level = self::INFO);
 }

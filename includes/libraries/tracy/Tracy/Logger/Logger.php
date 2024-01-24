@@ -34,10 +34,7 @@ class Logger implements ILogger
 	private $blueScreen;
 
 
-	/**
-	 * @param  string|array|null  $email
-	 */
-	public function __construct(?string $directory, $email = null, BlueScreen $blueScreen = null)
+	public function __construct(?string $directory, string|array|null $email = null, ?BlueScreen $blueScreen = null)
 	{
 		$this->directory = $directory;
 		$this->email = $email;
@@ -48,11 +45,10 @@ class Logger implements ILogger
 
 	/**
 	 * Logs message or exception to file and sends email notification.
-	 * @param  mixed  $message
-	 * @param  string  $level  one of constant ILogger::INFO, WARNING, ERROR (sends email), EXCEPTION (sends email), CRITICAL (sends email)
+	 * For levels ERROR, EXCEPTION and CRITICAL it sends email.
 	 * @return string|null logged error filename
 	 */
-	public function log($message, $level = self::INFO)
+	public function log(mixed $message, string $level = self::INFO)
 	{
 		if (!$this->directory) {
 			throw new \LogicException('Logging directory is not specified.');
@@ -91,9 +87,10 @@ class Logger implements ILogger
 			foreach (Helpers::getExceptionChain($message) as $exception) {
 				$tmp[] = ($exception instanceof \ErrorException
 					? Helpers::errorTypeToString($exception->getSeverity()) . ': ' . $exception->getMessage()
-					: Helpers::getClass($exception) . ': ' . $exception->getMessage() . ($exception->getCode() ? ' #' . $exception->getCode() : '')
+					: get_debug_type($exception) . ': ' . $exception->getMessage() . ($exception->getCode() ? ' #' . $exception->getCode() : '')
 				) . ' in ' . $exception->getFile() . ':' . $exception->getLine();
 			}
+
 			$message = implode("\ncaused by ", $tmp);
 
 		} elseif (!is_string($message)) {
@@ -107,7 +104,7 @@ class Logger implements ILogger
 	/**
 	 * @param  mixed  $message
 	 */
-	public static function formatLogLine($message, string $exceptionFile = null): string
+	public static function formatLogLine($message, ?string $exceptionFile = null): string
 	{
 		return implode(' ', [
 			date('[Y-m-d H-i-s]'),
@@ -122,10 +119,14 @@ class Logger implements ILogger
 	{
 		foreach (Helpers::getExceptionChain($exception) as $exception) {
 			$data[] = [
-				get_class($exception), $exception->getMessage(), $exception->getCode(), $exception->getFile(), $exception->getLine(),
-				array_map(function (array $item): array { unset($item['args']); return $item; }, $exception->getTrace()),
+				$exception::class, $exception->getMessage(), $exception->getCode(), $exception->getFile(), $exception->getLine(),
+				array_map(function (array $item): array {
+					unset($item['args']);
+					return $item;
+				}, $exception->getTrace()),
 			];
 		}
+
 		$hash = substr(md5(serialize($data)), 0, 10);
 		$dir = strtr($this->directory . '/', '\\/', DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR);
 		foreach (new \DirectoryIterator($this->directory) as $file) {
@@ -133,6 +134,7 @@ class Logger implements ILogger
 				return $dir . $file;
 			}
 		}
+
 		return $dir . $level . '--' . date('Y-m-d--H-i') . "--$hash.html";
 	}
 
@@ -141,7 +143,7 @@ class Logger implements ILogger
 	 * Logs exception to the file if file doesn't exist.
 	 * @return string logged error filename
 	 */
-	protected function logException(\Throwable $exception, string $file = null): string
+	protected function logException(\Throwable $exception, ?string $file = null): string
 	{
 		$file = $file ?: $this->getExceptionFile($exception);
 		$bs = $this->blueScreen ?: new BlueScreen;
@@ -190,7 +192,7 @@ class Logger implements ILogger
 				]) . "\n",
 				'subject' => "PHP: An error occurred on the server $host",
 				'body' => static::formatMessage($message) . "\n\nsource: " . Helpers::getSource(),
-			]
+			],
 		);
 
 		mail($email, $parts['subject'], $parts['body'], $parts['headers']);

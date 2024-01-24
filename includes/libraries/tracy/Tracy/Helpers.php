@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace Tracy;
 
+use Nette;
+
 
 /**
  * Rendering helpers for Debugger.
@@ -18,22 +20,26 @@ class Helpers
 	/**
 	 * Returns HTML link to editor.
 	 */
-	public static function editorLink(string $file, int $line = null): string
+	public static function editorLink(string $file, ?int $line = null): string
 	{
 		$file = strtr($origFile = $file, Debugger::$editorMapping);
 		if ($editor = self::editorUri($origFile, $line)) {
-			$file = strtr($file, '\\', '/');
-			if (preg_match('#(^[a-z]:)?/.{1,40}$#i', $file, $m) && strlen($file) > strlen($m[0])) {
-				$file = '...' . $m[0];
+			$parts = explode('/', strtr($file, '\\', '/'));
+			$file = array_pop($parts);
+			while ($parts && strlen($file) < 50) {
+				$file = array_pop($parts) . '/' . $file;
 			}
+
+			$file = ($parts ? '.../' : '') . $file;
 			$file = strtr($file, '/', DIRECTORY_SEPARATOR);
+
 			return self::formatHtml(
 				'<a href="%" title="%" class="tracy-editor">%<b>%</b>%</a>',
 				$editor,
 				$origFile . ($line ? ":$line" : ''),
 				rtrim(dirname($file), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR,
 				basename($file),
-				$line ? ":$line" : ''
+				$line ? ":$line" : '',
 			);
 		} else {
 			return self::formatHtml('<span>%</span>', $file . ($line ? ":$line" : ''));
@@ -46,14 +52,17 @@ class Helpers
 	 */
 	public static function editorUri(
 		string $file,
-		int $line = null,
+		?int $line = null,
 		string $action = 'open',
 		string $search = '',
-		string $replace = ''
-	): ?string {
-		if (Debugger::$editor && $file && ($action === 'create' || is_file($file))) {
+		string $replace = '',
+	): ?string
+	{
+		if (Debugger::$editor && $file && ($action === 'create' || @is_file($file))) { // @ - may trigger error
 			$file = strtr($file, '/', DIRECTORY_SEPARATOR);
 			$file = strtr($file, Debugger::$editorMapping);
+			$search = str_replace("\n", PHP_EOL, $search);
+			$replace = str_replace("\n", PHP_EOL, $replace);
 			return strtr(Debugger::$editor, [
 				'%action' => $action,
 				'%file' => rawurlencode($file),
@@ -62,6 +71,7 @@ class Helpers
 				'%replace' => rawurlencode($replace),
 			]);
 		}
+
 		return null;
 	}
 
@@ -75,13 +85,19 @@ class Helpers
 	}
 
 
-	public static function escapeHtml($s): string
+	public static function escapeHtml(mixed $s): string
 	{
 		return htmlspecialchars((string) $s, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML5, 'UTF-8');
 	}
 
 
-	public static function findTrace(array $trace, $method, int &$index = null): ?array
+	public static function htmlToText(string $s): string
+	{
+		return htmlspecialchars_decode(strip_tags($s), ENT_QUOTES | ENT_HTML5);
+	}
+
+
+	public static function findTrace(array $trace, array|string $method, ?int &$index = null): ?array
 	{
 		$m = is_array($method) ? $method : explode('::', $method);
 		foreach ($trace as $i => $item) {
@@ -89,19 +105,14 @@ class Helpers
 				isset($item['function'])
 				&& $item['function'] === end($m)
 				&& isset($item['class']) === isset($m[1])
-				&& (!isset($item['class']) || $m[0] === '*' || is_a($item['class'], $m[0], true))
+				&& (!isset($item['class']) || $m[0] === '*' || is_a($item['class'], $m[0], allow_string: true))
 			) {
 				$index = $i;
 				return $item;
 			}
 		}
+
 		return null;
-	}
-
-
-	public static function getClass($obj): string
-	{
-		return explode("\x00", get_class($obj))[0];
 	}
 
 
@@ -123,12 +134,15 @@ class Helpers
 					$frame['type'] = isset($row['type']) && $row['type'] === 'dynamic' ? '->' : '::';
 					$frame['class'] = $row['class'];
 				}
+
 				$stack[] = $frame;
 			}
+
 			$ref = new \ReflectionProperty('Exception', 'trace');
 			$ref->setAccessible(true);
 			$ref->setValue($exception, $stack);
 		}
+
 		return $exception;
 	}
 
@@ -160,13 +174,17 @@ class Helpers
 	/** @internal */
 	public static function getSource(): string
 	{
-		if (isset($_SERVER['REQUEST_URI'])) {
+		if (self::isCli()) {
+			return 'CLI (PID: ' . getmypid() . ')'
+				. (isset($_SERVER['argv']) ? ': ' . implode(' ', array_map([self::class, 'escapeArg'], $_SERVER['argv'])) : '');
+
+		} elseif (isset($_SERVER['REQUEST_URI'])) {
 			return (!empty($_SERVER['HTTPS']) && strcasecmp($_SERVER['HTTPS'], 'off') ? 'https://' : 'http://')
 				. ($_SERVER['HTTP_HOST'] ?? '')
 				. $_SERVER['REQUEST_URI'];
+
 		} else {
-			return 'CLI (PID: ' . getmypid() . ')'
-				. (isset($_SERVER['argv']) ? ': ' . implode(' ', array_map([self::class, 'escapeArg'], $_SERVER['argv'])) : '');
+			return PHP_SAPI;
 		}
 	}
 
@@ -177,7 +195,7 @@ class Helpers
 		$message = $e->getMessage();
 		if (
 			(!$e instanceof \Error && !$e instanceof \ErrorException)
-			|| $e instanceof \Nette\MemberAccessException
+			|| $e instanceof Nette\MemberAccessException
 			|| strpos($e->getMessage(), 'did you mean')
 		) {
 			// do nothing
@@ -192,32 +210,28 @@ class Helpers
 			$message .= ", did you mean $hint()?";
 			$replace = ["$m[2](", "$hint("];
 
-		} elseif (preg_match('#^Undefined variable:? \$?(\w+)#', $message, $m) && !empty($e->context)) {
-			$hint = self::getSuggestion(array_keys($e->context), $m[1]);
-			$message = "Undefined variable $$m[1], did you mean $$hint?";
-			$replace = ["$$m[1]", "$$hint"];
-
 		} elseif (preg_match('#^Undefined property: ([\w\\\\]+)::\$(\w+)#', $message, $m)) {
 			$rc = new \ReflectionClass($m[1]);
-			$items = array_filter($rc->getProperties(\ReflectionProperty::IS_PUBLIC), function ($prop) { return !$prop->isStatic(); });
+			$items = array_filter($rc->getProperties(\ReflectionProperty::IS_PUBLIC), fn($prop) => !$prop->isStatic());
 			$hint = self::getSuggestion($items, $m[2]);
 			$message .= ", did you mean $$hint?";
 			$replace = ["->$m[2]", "->$hint"];
 
 		} elseif (preg_match('#^Access to undeclared static property:? ([\w\\\\]+)::\$(\w+)#', $message, $m)) {
 			$rc = new \ReflectionClass($m[1]);
-			$items = array_filter($rc->getProperties(\ReflectionProperty::IS_STATIC), function ($prop) { return $prop->isPublic(); });
+			$items = array_filter($rc->getProperties(\ReflectionProperty::IS_STATIC), fn($prop) => $prop->isPublic());
 			$hint = self::getSuggestion($items, $m[2]);
 			$message .= ", did you mean $$hint?";
 			$replace = ["::$$m[2]", "::$$hint"];
 		}
 
 		if (isset($hint)) {
+			$loc = Debugger::mapSource($e->getFile(), $e->getLine()) ?? ['file' => $e->getFile(), 'line' => $e->getLine()];
 			$ref = new \ReflectionProperty($e, 'message');
 			$ref->setAccessible(true);
 			$ref->setValue($e, $message);
-			$e->tracyAction = [
-				'link' => self::editorUri($e->getFile(), $e->getLine(), 'fix', $replace[0], $replace[1]),
+			@$e->tracyAction = [ // dynamic properties are deprecated since PHP 8.2
+				'link' => self::editorUri($loc['file'], $loc['line'], 'fix', $replace[0], $replace[1]),
 				'label' => 'fix it',
 			];
 		}
@@ -225,20 +239,15 @@ class Helpers
 
 
 	/** @internal */
-	public static function improveError(string $message, array $context = []): string
+	public static function improveError(string $message): string
 	{
-		if (preg_match('#^Undefined variable:? \$?(\w+)#', $message, $m) && $context) {
-			$hint = self::getSuggestion(array_keys($context), $m[1]);
-			return $hint
-				? "Undefined variable $$m[1], did you mean $$hint?"
-				: $message;
-
-		} elseif (preg_match('#^Undefined property: ([\w\\\\]+)::\$(\w+)#', $message, $m)) {
+		if (preg_match('#^Undefined property: ([\w\\\\]+)::\$(\w+)#', $message, $m)) {
 			$rc = new \ReflectionClass($m[1]);
-			$items = array_filter($rc->getProperties(\ReflectionProperty::IS_PUBLIC), function ($prop) { return !$prop->isStatic(); });
+			$items = array_filter($rc->getProperties(\ReflectionProperty::IS_PUBLIC), fn($prop) => !$prop->isStatic());
 			$hint = self::getSuggestion($items, $m[2]);
 			return $hint ? $message . ", did you mean $$hint?" : $message;
 		}
+
 		return $message;
 	}
 
@@ -256,12 +265,14 @@ class Helpers
 					break;
 				}
 			}
+
 			if ($i > $max && $i < count($segments) && ($file = (new \ReflectionClass($class))->getFileName())) {
 				$max = $i;
 				$res = array_merge(array_slice(explode(DIRECTORY_SEPARATOR, $file), 0, $i - count($parts)), array_slice($segments, $i));
 				$res = implode(DIRECTORY_SEPARATOR, $res) . '.php';
 			}
 		}
+
 		return $res;
 	}
 
@@ -274,15 +285,14 @@ class Helpers
 	{
 		$best = null;
 		$min = (strlen($value) / 4 + 1) * 10 + .1;
-		$items = array_map(function ($item) {
-			return $item instanceof \Reflector ? $item->getName() : (string) $item;
-		}, $items);
+		$items = array_map(fn($item) => $item instanceof \Reflector ? $item->getName() : (string) $item, $items);
 		foreach (array_unique($items) as $item) {
 			if (($len = levenshtein($item, $value, 10, 11, 10)) > 0 && $len < $min) {
 				$min = $len;
 				$best = $item;
 			}
 		}
+
 		return $best;
 	}
 
@@ -290,9 +300,11 @@ class Helpers
 	/** @internal */
 	public static function isHtmlMode(): bool
 	{
-		return empty($_SERVER['HTTP_X_REQUESTED_WITH']) && empty($_SERVER['HTTP_X_TRACY_AJAX'])
-			&& PHP_SAPI !== 'cli'
-			&& !preg_match('#^Content-Type: (?!text/html)#im', implode("\n", headers_list()));
+		return empty($_SERVER['HTTP_X_REQUESTED_WITH'])
+			&& empty($_SERVER['HTTP_X_TRACY_AJAX'])
+			&& isset($_SERVER['HTTP_HOST'])
+			&& !self::isCli()
+			&& !preg_match('#^Content-Type: *+(?!text/html)#im', implode("\n", headers_list()));
 	}
 
 
@@ -300,6 +312,27 @@ class Helpers
 	public static function isAjax(): bool
 	{
 		return isset($_SERVER['HTTP_X_TRACY_AJAX']) && preg_match('#^\w{10,15}$#D', $_SERVER['HTTP_X_TRACY_AJAX']);
+	}
+
+
+	/** @internal */
+	public static function isRedirect(): bool
+	{
+		return (bool) preg_match('#^Location:#im', implode("\n", headers_list()));
+	}
+
+
+	/** @internal */
+	public static function createId(): string
+	{
+		return bin2hex(random_bytes(5));
+	}
+
+
+	/** @internal */
+	public static function isCli(): bool
+	{
+		return PHP_SAPI === 'cli' || PHP_SAPI === 'phpdbg';
 	}
 
 
@@ -332,7 +365,7 @@ class Helpers
 	 */
 	public static function capture(callable $func): string
 	{
-		ob_start(function () {});
+		ob_start(fn() => null);
 		try {
 			$func();
 			return ob_get_clean();
@@ -344,49 +377,75 @@ class Helpers
 
 
 	/** @internal */
-	public static function encodeString(string $s, int $maxLength = null, bool $showWhitespaces = true): string
+	public static function encodeString(string $s, ?int $maxLength = null, bool $showWhitespaces = true): string
 	{
-		static $tableU, $tableB;
-		if ($tableU === null) {
-			foreach (range("\x00", "\x1F") as $ch) {
-				$tableU[$ch] = '<i>\x' . str_pad(strtoupper(dechex(ord($ch))), 2, '0', STR_PAD_LEFT) . '</i>';
-			}
-			$tableB = $tableU = [
+		$utf8 = self::isUtf8($s);
+		$len = $utf8 ? self::utf8Length($s) : strlen($s);
+		return $maxLength && $len > $maxLength + 20
+			? self::doEncodeString(self::truncateString($s, $maxLength, $utf8), $utf8, $showWhitespaces)
+				. ' <span>…</span> '
+				. self::doEncodeString(self::truncateString($s, -10, $utf8), $utf8, $showWhitespaces)
+			: self::doEncodeString($s, $utf8, $showWhitespaces);
+	}
+
+
+	private static function doEncodeString(string $s, bool $utf8, bool $showWhitespaces): string
+	{
+		$specials = [
+			true => [
 				"\r" => '<i>\r</i>',
 				"\n" => "<i>\\n</i>\n",
 				"\t" => '<i>\t</i>    ',
 				"\e" => '<i>\e</i>',
 				'<' => '&lt;',
 				'&' => '&amp;',
-			] + $tableU;
-			foreach (range("\x7F", "\xFF") as $ch) {
-				$tableB[$ch] = '<i>\x' . str_pad(strtoupper(dechex(ord($ch))), 2, '0', STR_PAD_LEFT) . '</i>';
-			}
-		}
-
-		$utf = self::isUtf8($s);
-		$table = $utf ? $tableU : $tableB;
-		if (!$showWhitespaces) {
-			unset($table["\r"], $table["\n"], $table["\t"]);
-		}
-
-		$len = $utf ? self::utf8Length($s) : strlen($s);
-		$s = $maxLength && $len > $maxLength + 20
-			? strtr(self::truncateString($s, $maxLength, $utf), $table)
-				. ' <span>…</span> '
-				. strtr(self::truncateString($s, -10, $utf), $table)
-			: strtr($s, $table);
-
+			],
+			false => [
+				"\r" => "\r",
+				"\n" => "\n",
+				"\t" => "\t",
+				"\e" => '<i>\e</i>',
+				'<' => '&lt;',
+				'&' => '&amp;',
+			],
+		];
+		$special = $specials[$showWhitespaces];
+		$s = preg_replace_callback(
+			$utf8 ? '#[\p{C}<&]#u' : '#[\x00-\x1F\x7F-\xFF<&]#',
+			fn($m) => $special[$m[0]] ?? (strlen($m[0]) === 1
+					? '<i>\x' . str_pad(strtoupper(dechex(ord($m[0]))), 2, '0', STR_PAD_LEFT) . '</i>'
+					: '<i>\u{' . strtoupper(ltrim(dechex(self::utf8Ord($m[0])), '0')) . '}</i>'),
+			$s,
+		);
 		$s = str_replace('</i><i>', '', $s);
 		$s = preg_replace('~\n$~D', '', $s);
 		return $s;
 	}
 
 
+	private static function utf8Ord(string $c): int
+	{
+		$ord0 = ord($c[0]);
+		if ($ord0 < 0x80) {
+			return $ord0;
+		} elseif ($ord0 < 0xE0) {
+			return ($ord0 << 6) + ord($c[1]) - 0x3080;
+		} elseif ($ord0 < 0xF0) {
+			return ($ord0 << 12) + (ord($c[1]) << 6) + ord($c[2]) - 0xE2080;
+		} else {
+			return ($ord0 << 18) + (ord($c[1]) << 12) + (ord($c[2]) << 6) + ord($c[3]) - 0x3C82080;
+		}
+	}
+
+
 	/** @internal */
 	public static function utf8Length(string $s): int
 	{
-		return strlen(utf8_decode($s));
+		return match (true) {
+			extension_loaded('mbstring') => mb_strlen($s, 'UTF-8'),
+			extension_loaded('iconv') => iconv_strlen($s, 'UTF-8'),
+			default => strlen(@utf8_decode($s)), // deprecated
+		};
 	}
 
 
@@ -398,9 +457,9 @@ class Helpers
 
 
 	/** @internal */
-	public static function truncateString(string $s, int $len, bool $utf): string
+	public static function truncateString(string $s, int $len, bool $utf8): string
 	{
-		if (!$utf) {
+		if (!$utf8) {
 			return $len < 0 ? substr($s, $len) : substr($s, 0, $len);
 		} elseif (function_exists('mb_substr')) {
 			return $len < 0
@@ -416,28 +475,49 @@ class Helpers
 
 
 	/** @internal */
+	public static function htmlToAnsi(string $s, array $colors): string
+	{
+		$stack = ['0'];
+		$s = preg_replace_callback(
+			'#<\w+(?: class=["\']tracy-(?:dump-)?([\w-]+)["\'])?[^>]*>|</\w+>#',
+			function ($m) use ($colors, &$stack): string {
+				if ($m[0][1] === '/') {
+					array_pop($stack);
+				} else {
+					$stack[] = isset($m[1], $colors[$m[1]]) ? $colors[$m[1]] : '0';
+				}
+				return "\e[" . end($stack) . 'm';
+			},
+			$s,
+		);
+		$s = preg_replace('/\e\[0m( *)(?=\e)/', '$1', $s);
+		$s = self::htmlToText($s);
+		return $s;
+	}
+
+
+	/** @internal */
 	public static function minifyJs(string $s): string
 	{
 		// author: Jakub Vrana https://php.vrana.cz/minifikace-javascriptu.php
 		$last = '';
 		return preg_replace_callback(
 			<<<'XX'
-			(
-				(?:
-					(^|[-+\([{}=,:;!%^&*|?~]|/(?![/*])|return|throw) # context before regexp
-					(?:\s|//[^\n]*+\n|/\*(?:[^*]|\*(?!/))*+\*/)* # optional space
-					(/(?![/*])(?:\\[^\n]|[^[\n/\\]|\[(?:\\[^\n]|[^]])++)+/) # regexp
-					|(^
-						|'(?:\\.|[^\n'\\])*'
-						|"(?:\\.|[^\n"\\])*"
-						|([0-9A-Za-z_$]+)
-						|([-+]+)
-						|.
-					)
-				)(?:\s|//[^\n]*+\n|/\*(?:[^*]|\*(?!/))*+\*/)* # optional space
-			())sx
-XX
-,
+				(
+					(?:
+						(^|[-+\([{}=,:;!%^&*|?~]|/(?![/*])|return|throw) # context before regexp
+						(?:\s|//[^\n]*+\n|/\*(?:[^*]|\*(?!/))*+\*/)* # optional space
+						(/(?![/*])(?:\\[^\n]|[^[\n/\\]|\[(?:\\[^\n]|[^]])++)+/) # regexp
+						|(^
+							|'(?:\\.|[^\n'\\])*'
+							|"(?:\\.|[^\n"\\])*"
+							|([0-9A-Za-z_$]+)
+							|([-+]+)
+							|.
+						)
+					)(?:\s|//[^\n]*+\n|/\*(?:[^*]|\*(?!/))*+\*/)* # optional space
+				())sx
+				XX,
 			function ($match) use (&$last) {
 				[, $context, $regexp, $result, $word, $operator] = $match;
 				if ($word !== '') {
@@ -450,11 +530,13 @@ XX
 					if ($regexp) {
 						$result = $context . ($context === '/' ? ' ' : '') . $regexp;
 					}
+
 					$last = '';
 				}
+
 				return $result;
 			},
-			$s . "\n"
+			$s . "\n",
 		);
 	}
 
@@ -465,22 +547,22 @@ XX
 		$last = '';
 		return preg_replace_callback(
 			<<<'XX'
-			(
-				(^
-					|'(?:\\.|[^\n'\\])*'
-					|"(?:\\.|[^\n"\\])*"
-					|([0-9A-Za-z_*#.%:()[\]-]+)
-					|.
-				)(?:\s|/\*(?:[^*]|\*(?!/))*+\*/)* # optional space
-			())sx
-XX
-,
+				(
+					(^
+						|'(?:\\.|[^\n'\\])*'
+						|"(?:\\.|[^\n"\\])*"
+						|([0-9A-Za-z_*#.%:()[\]-]+)
+						|.
+					)(?:\s|/\*(?:[^*]|\*(?!/))*+\*/)* # optional space
+				())sx
+				XX,
 			function ($match) use (&$last) {
 				[, $result, $word] = $match;
 				if ($last === ';') {
 					$result = $result === '}' ? '}' : ';' . $result;
 					$last = '';
 				}
+
 				if ($word !== '') {
 					$result = ($last === 'word' ? ' ' : '') . $result;
 					$last = 'word';
@@ -490,26 +572,22 @@ XX
 				} else {
 					$last = '';
 				}
+
 				return $result;
 			},
-			$s . "\n"
+			$s . "\n",
 		);
 	}
 
 
 	public static function detectColors(): bool
 	{
-		return (PHP_SAPI === 'cli' || PHP_SAPI === 'phpdbg')
+		return self::isCli()
 			&& getenv('NO_COLOR') === false // https://no-color.org
 			&& (getenv('FORCE_COLOR')
-				|| @stream_isatty(STDOUT) // @ may trigger error 'cannot cast a filtered stream on this system'
-				|| (defined('PHP_WINDOWS_VERSION_BUILD')
-					&& (function_exists('sapi_windows_vt100_support') && sapi_windows_vt100_support(STDOUT))
-						|| getenv('ConEmuANSI') === 'ON' // ConEmu
-						|| getenv('ANSICON') !== false // ANSICON
-						|| getenv('term') === 'xterm' // MSYS
-						|| getenv('term') === 'xterm-256color' // MSYS
-					)
+				|| (function_exists('sapi_windows_vt100_support')
+					? sapi_windows_vt100_support(STDOUT)
+					: @stream_isatty(STDOUT)) // @ may trigger error 'cannot cast a filtered stream on this system'
 			);
 	}
 
@@ -519,6 +597,58 @@ XX
 		$res = [$ex];
 		while (($ex = $ex->getPrevious()) && !in_array($ex, $res, true)) {
 			$res[] = $ex;
+		}
+
+		return $res;
+	}
+
+
+	public static function traverseValue(mixed $val, callable $callback, array &$skip = [], ?string $refId = null): void
+	{
+		if (is_object($val)) {
+			$id = spl_object_id($val);
+			if (!isset($skip[$id])) {
+				$skip[$id] = true;
+				$callback($val);
+				self::traverseValue((array) $val, $callback, $skip);
+			}
+
+		} elseif (is_array($val)) {
+			if ($refId) {
+				if (isset($skip[$refId])) {
+					return;
+				}
+				$skip[$refId] = true;
+			}
+
+			foreach ($val as $k => $v) {
+				$refId = \ReflectionReference::fromArrayElement($val, $k)?->getId();
+				self::traverseValue($v, $callback, $skip, $refId);
+			}
+		}
+	}
+
+
+	/** @internal */
+	public static function decomposeFlags(int $flags, bool $set, array $constants): ?array
+	{
+		$res = null;
+		foreach ($constants as $constant) {
+			if (defined($constant)) {
+				$v = constant($constant);
+				if ($set) {
+					if ($v && ($flags & $v) === $v) {
+						$res[] = $constant;
+						$flags &= ~$v;
+					}
+				} elseif ($flags === $v) {
+					return [$constant];
+				}
+			}
+		}
+
+		if ($flags && $res && $set) {
+			$res[] = (string) $flags;
 		}
 		return $res;
 	}
