@@ -102,7 +102,7 @@ class LoggerFactory {
 		if ( $logger['running'] ) {
 			$handler_def = $this->handler_types->get( $logger['handler'] );
 			if ( isset( $handler_def ) ) {
-				$debug     = ( 'debugging' === $handler_def['class'] );
+				$debug     = ( 'SpatierayHandler' !== $handler_def['id'] ) && ( 'debugging' === $handler_def['class'] );
 				$classname = $handler_def['namespace'] . '\\' . $handler_def['id'];
 				if ( class_exists( $classname ) ) {
 					$args = [];
