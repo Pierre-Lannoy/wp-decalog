@@ -38,8 +38,8 @@ class Regular extends \WP_CLI\Loggers\Regular {
 	 * @param bool $in_color Optional. Whether or not to Colorize strings.
 	 * @since 3.6.0
 	 */
-	public function __construct( $in_color = true ) {
-		parent::__construct( $in_color );
+	public function __construct( $in_color = null ) {
+		parent::__construct( decalog_is_wpcli_colorized() );
 		$this->logger = Log::bootstrap( 'core', 'WP-CLI', defined( 'WP_CLI_VERSION' ) ? WP_CLI_VERSION : 'x' );
 	}
 

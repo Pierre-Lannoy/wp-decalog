@@ -149,3 +149,19 @@ if ( ! function_exists( 'array_key_first' ) ) {
 function decalog_filter_string( string $string ) {
 	return preg_replace( '/\x00|<[^>]*>?/', '', $string );
 }
+
+/**
+ * Verify if wp-cli colorization is needed.
+ */
+function decalog_is_wpcli_colorized() {
+	global $argv;
+	foreach ( $argv as $arg ) {
+		if ( '--NO-COLOR' === strtoupper( $arg ) ) {
+			return false;
+		}
+		if ( '--COLOR' === strtoupper( $arg ) ) {
+			return true;
+		}
+	}
+	return false;
+}

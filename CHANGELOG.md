@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 - [SEC004] SQL Injection vulnerability (thanks to [isacaya](https://patchstack.com/database/researcher/399a4781-9ac6-4858-9ed6-9be792029311) from [Patchstack](https://patchstack.com)).
+- [WP-CLI] In some cases `--no-color` and `--color` global parameters may be overridden.
 
 ### Removed
 - Warning message when Spatie Ray is activated as it doesn't log in browser.
