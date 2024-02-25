@@ -48,14 +48,20 @@ class SpatieRayHandler extends AbstractProcessingHandler {
 	/**
 	 * Initialize the class and set its properties.
 	 *
+	 * @param   string  $host The cloud-syslog host (for location selection).
+	 * @param   int     $port The cloud-syslog port.
 	 * @param   integer $format     The format to display.
 	 * @param   integer $level      Optional. The min level to log.
 	 * @param   boolean $bubble     Optional. Has the record to bubble?.
+	 *
 	 * @since    3.4.0
 	 */
-	public function __construct( $format, $level = Logger::DEBUG, bool $bubble = true ) {
+	public function __construct( string $host, int $port, int $format, $level = Logger::DEBUG, bool $bubble = true ) {
 		parent::__construct( $level, $bubble );
-		$this->settings = new \DLSpatie\Ray\Settings\Settings( [] );
+		$this->settings = new \DLSpatie\Ray\Settings\Settings( [
+			'host' => $host,
+			'port' => $port
+		] );
 		$this->model    = $format;
 	}
 

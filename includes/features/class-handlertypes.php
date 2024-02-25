@@ -2609,6 +2609,33 @@ class HandlerTypes {
 			'params'        => [ 'processors', 'privacy' ],
 			'processors'    => [],
 			'configuration' => [
+				'host'     => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Host', 'decalog' ),
+					'help'    => esc_html__( 'The host receiving messages.', 'decalog' ) . $this->get_substitution_note(),
+					'default' => 'localhost',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
+				'port'     => [
+					'type'    => 'integer',
+					'show'    => true,
+					'name'    => esc_html__( 'Port', 'decalog' ),
+					'help'    => esc_html__( 'The opened port to receive messages.', 'decalog' ),
+					'default' => 23517,
+					'control' => [
+						'type'    => 'field_input_integer',
+						'cast'    => 'integer',
+						'min'     => 1,
+						'max'     => 64738,
+						'step'    => 1,
+						'enabled' => true,
+					],
+				],
 				'format'   => [
 					'type'    => 'integer',
 					'show'    => true,
@@ -2624,6 +2651,14 @@ class HandlerTypes {
 				],
 			],
 			'init'          => [
+				[
+					'type'  => 'configuration',
+					'value' => 'host',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'port',
+				],
 				[
 					'type'  => 'configuration',
 					'value' => 'format',
