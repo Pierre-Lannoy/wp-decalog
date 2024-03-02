@@ -3,11 +3,15 @@ All notable changes to **DecaLog** are documented in this *changelog*.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.10.0] - Not Yet Released
+## [3.10.0] - 2024-03-02
 
 ### Added
 - Compatibility with WordPress 6.5.
-- Spatie Ray logger now supports host and port settings to allow Docker, Kubernetes, etc. usage (thanks to [Axel Ducoron](https://github.com/aksld)).
+- Spatie Ray logger now supports host and port settings to allow Docker, Kubernetes and other "local" usage (thanks to [Axel Ducoron](https://github.com/aksld)).
+
+### Changed
+- Minimal required WordPress version is now 6.1.
+- Minimal required PHP version is now 8.1.
 
 ## [3.9.1] - 2024-01-24
 
