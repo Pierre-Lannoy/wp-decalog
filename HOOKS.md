@@ -140,3 +140,18 @@ Display advanced settings and controls in admin screens:
 ```php
   add_filter( 'perfopsone_show_advanced', '__return_true' );
 ```
+
+## Error level customization
+PHP error levels are supernumemary compared to the logger levels. The [mapping](https://github.com/Pierre-Lannoy/wp-decalog/blob/3.10.0/includes/listeners/class-phplistener.php#L38-L54) to translate one from the other can be customized with the `decalog_error_level_map` filter.
+
+### Example
+Log the `E_DERECATED` and `E_USER_DEPRECATED` errors as `DEBUG` level.
+```php
+use DLMonolog\Logger;
+
+add_filter('decalog_error_level_map', function($levels) {
+  $levels[E_DEPRECATED] = Logger::DEBUG;
+  $levels[E_USER_DEPRECATED] = Logger::DEBUG;
+  return $levels;
+});
+```
