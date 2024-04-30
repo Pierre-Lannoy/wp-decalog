@@ -321,7 +321,15 @@ class PhpListener extends AbstractListener {
 	 */
 	public function handle_error( $code, $message, $file = '', $line = 0, $context = [] ) {
 		if ( ! in_array( $code, $this->fatal_errors, true ) ) {
-			$level   = $this->error_level_map[ $code ] ?? Logger::CRITICAL;
+			/**
+			 * Filters the error levels map
+			 *
+			 * @See https://github.com/Pierre-Lannoy/wp-decalog/blob/master/HOOKS.md
+			 * @since 3.11.0
+			 * @param   array   $levels       The current map
+			 */
+			$map = apply_filters( 'decalog_error_level_map', $this->error_level_map );
+			$level = $map[ $code ] ?? Logger::CRITICAL;
 			$file    = PHP::normalized_file_line( $file, $line );
 			$message = sprintf( 'Error (%s): "%s" at `%s`.', $this->code_to_string( $code ), $message, $file );
 			$this->logger->log( $level, $message, (int) $code );
