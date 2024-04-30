@@ -126,6 +126,8 @@ class LoggerFactory {
 												$env = getenv( $match );
 												if ( is_string( $env ) ) {
 													$value = str_replace( '{' . $match . '}', $env, $value );
+												} elseif ( defined( $match )) {
+													$value = str_replace( '{' . $match . '}', constant( $match ), $value );
 												}
 											}
 										}

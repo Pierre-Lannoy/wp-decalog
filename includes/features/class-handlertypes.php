@@ -3192,7 +3192,7 @@ class HandlerTypes {
 		if ( ! Option::network_get( 'env_substitution' ) ) {
 			return '';
 		}
-		return '<br/><small>ⓘ&nbsp;' . esc_html__( 'This field is eligible to environment variable substitution.', 'decalog' ) . '</small>';
+		return '<br/><small>ⓘ&nbsp;' . esc_html__( 'This field is eligible to environment variable and PHP-defined constant substitution.', 'decalog' ) . '</small>';
 	}
 
 	/**

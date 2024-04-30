@@ -1044,10 +1044,10 @@ class Decalog_Admin {
 			'decalog_loggers_options_section',
 			'decalog_loggers_options_section',
 			[
-				'text'        => esc_html__( 'Environment variables substitution', 'decalog' ),
+				'text'        => esc_html__( 'Variables substitution', 'decalog' ),
 				'id'          => 'decalog_loggers_options_env_substitution',
 				'checked'     => Option::network_get( 'env_substitution' ),
-				'description' => esc_html__( 'If checked, DecaLog will replace strings between curly braces by the corresponding environment variables.', 'decalog' ),
+				'description' => esc_html__( 'If checked, DecaLog will replace strings between curly braces by the corresponding environment variables or PHP-defined constants.', 'decalog' ),
 				'full_width'  => false,
 				'enabled'     => true,
 			]
