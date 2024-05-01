@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 - It's now possible to substitute PHP-defined constants for some loggers settings.
+- There's now a filter to map PHP error levels to PSR3 levels - see [hooks reference](HOOKS.md) (thanks to [Clément Hallet](https://github.com/challet)).
 
 ## [3.10.0] - 2024-03-02
 
