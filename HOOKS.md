@@ -114,11 +114,11 @@ Each item passed to the filter as second parameter is an array containing detail
 * `user_session` _string_: the user's session hash;
 * `spans` _string_: the serialized full spans array.
 
-## Error level customization
+## PHP error level customization
 PHP error levels are supernumemary compared to the logger levels. The [mapping](https://github.com/Pierre-Lannoy/wp-decalog/blob/3.10.0/includes/listeners/class-phplistener.php#L38-L54) translating one from the other can be customized with the `decalog_error_level_map` filter.
 
 ### Example
-Log the `E_DERECATED` and `E_USER_DEPRECATED` errors as `DEBUG` level.
+Log the `E_DEPRECATED` and `E_USER_DEPRECATED` errors as `DEBUG` level.
 ```php
 use \Decalog\Logger;
 
