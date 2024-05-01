@@ -5,9 +5,21 @@ declare(strict_types=1);
 namespace Sentry\Tracing;
 
 use Sentry\EventId;
+use Sentry\Metrics\MetricsUnit;
+use Sentry\Metrics\Types\SetType;
+use Sentry\SentrySdk;
+use Sentry\State\Scope;
 
 /**
- * This class stores all the information about a Span.
+ * This class stores all the information about a span.
+ *
+ * @phpstan-type MetricsSummary array{
+ *     min: int|float,
+ *     max: int|float,
+ *     sum: int|float,
+ *     count: int,
+ *     tags: array<string>,
+ * }
  */
 class Span
 {
@@ -22,22 +34,22 @@ class Span
     protected $traceId;
 
     /**
-     * @var string|null Description of the Span
+     * @var string|null Description of the span
      */
     protected $description;
 
     /**
-     * @var string|null Operation of the Span
+     * @var string|null Operation of the span
      */
     protected $op;
 
     /**
-     * @var SpanStatus|null Completion status of the Span
+     * @var SpanStatus|null Completion status of the span
      */
     protected $status;
 
     /**
-     * @var SpanId|null ID of the parent Span
+     * @var SpanId|null ID of the parent span
      */
     protected $parentSpanId;
 
@@ -47,7 +59,7 @@ class Span
     protected $sampled;
 
     /**
-     * @var array<string, string> A List of tags associated to this Span
+     * @var array<string, string> A List of tags associated to this span
      */
     protected $tags = [];
 
@@ -67,9 +79,19 @@ class Span
     protected $endTimestamp;
 
     /**
-     * @var SpanRecorder|null Reference instance to the SpanRecorder
+     * @var SpanRecorder|null Reference instance to the {@see SpanRecorder}
      */
     protected $spanRecorder;
+
+    /**
+     * @var Transaction|null The transaction containing this span
+     */
+    protected $transaction;
+
+    /**
+     * @var array<string, array<string, MetricsSummary>>
+     */
+    protected $metricsSummary = [];
 
     /**
      * Constructor.
@@ -80,26 +102,17 @@ class Span
      */
     public function __construct(?SpanContext $context = null)
     {
-        $this->traceId = TraceId::generate();
-        $this->spanId = SpanId::generate();
-        $this->startTimestamp = microtime(true);
+        if ($context === null) {
+            $this->traceId = TraceId::generate();
+            $this->spanId = SpanId::generate();
+            $this->startTimestamp = microtime(true);
 
-        if (null === $context) {
             return;
         }
 
-        if (null !== $context->getTraceId()) {
-            $this->traceId = $context->getTraceId();
-        }
-
-        if (null !== $context->getSpanId()) {
-            $this->spanId = $context->getSpanId();
-        }
-
-        if (null !== $context->getStartTimestamp()) {
-            $this->startTimestamp = $context->getStartTimestamp();
-        }
-
+        $this->traceId = $context->getTraceId() ?? TraceId::generate();
+        $this->spanId = $context->getSpanId() ?? SpanId::generate();
+        $this->startTimestamp = $context->getStartTimestamp() ?? microtime(true);
         $this->parentSpanId = $context->getParentSpanId();
         $this->description = $context->getDescription();
         $this->op = $context->getOp();
@@ -115,9 +128,11 @@ class Span
      *
      * @param SpanId $spanId The ID
      */
-    public function setSpanId(SpanId $spanId): void
+    public function setSpanId(SpanId $spanId): self
     {
         $this->spanId = $spanId;
+
+        return $this;
     }
 
     /**
@@ -132,10 +147,14 @@ class Span
      * Sets the ID that determines which trace the span belongs to.
      *
      * @param TraceId $traceId The ID
+     *
+     * @return $this
      */
-    public function setTraceId(TraceId $traceId): void
+    public function setTraceId(TraceId $traceId)
     {
         $this->traceId = $traceId;
+
+        return $this;
     }
 
     /**
@@ -150,10 +169,14 @@ class Span
      * Sets the ID that determines which span is the parent of the current one.
      *
      * @param SpanId|null $parentSpanId The ID
+     *
+     * @return $this
      */
-    public function setParentSpanId(?SpanId $parentSpanId): void
+    public function setParentSpanId(?SpanId $parentSpanId)
     {
         $this->parentSpanId = $parentSpanId;
+
+        return $this;
     }
 
     /**
@@ -168,10 +191,14 @@ class Span
      * Sets the timestamp representing when the measuring started.
      *
      * @param float $startTimestamp The timestamp
+     *
+     * @return $this
      */
-    public function setStartTimestamp(float $startTimestamp): void
+    public function setStartTimestamp(float $startTimestamp)
     {
         $this->startTimestamp = $startTimestamp;
+
+        return $this;
     }
 
     /**
@@ -196,10 +223,14 @@ class Span
      * the span but is consistent across instances of the span.
      *
      * @param string|null $description The description
+     *
+     * @return $this
      */
-    public function setDescription(?string $description): void
+    public function setDescription(?string $description)
     {
         $this->description = $description;
+
+        return $this;
     }
 
     /**
@@ -214,10 +245,14 @@ class Span
      * Sets a short code identifying the type of operation the span is measuring.
      *
      * @param string|null $op The short code
+     *
+     * @return $this
      */
-    public function setOp(?string $op): void
+    public function setOp(?string $op)
     {
         $this->op = $op;
+
+        return $this;
     }
 
     /**
@@ -232,26 +267,38 @@ class Span
      * Sets the status of the span/transaction.
      *
      * @param SpanStatus|null $status The status
+     *
+     * @return $this
      */
-    public function setStatus(?SpanStatus $status): void
+    public function setStatus(?SpanStatus $status)
     {
         $this->status = $status;
+
+        return $this;
     }
 
     /**
      * Sets the HTTP status code and the status of the span/transaction.
      *
      * @param int $statusCode The HTTP status code
+     *
+     * @return $this
      */
-    public function setHttpStatus(int $statusCode): void
+    public function setHttpStatus(int $statusCode)
     {
-        $this->tags['http.status_code'] = (string) $statusCode;
+        SentrySdk::getCurrentHub()->configureScope(function (Scope $scope) use ($statusCode) {
+            $scope->setContext('response', [
+                'status_code' => $statusCode,
+            ]);
+        });
 
         $status = SpanStatus::createFromHttpStatusCode($statusCode);
 
         if ($status !== SpanStatus::unknownError()) {
             $this->status = $status;
         }
+
+        return $this;
     }
 
     /**
@@ -265,13 +312,18 @@ class Span
     }
 
     /**
-     * Sets a map of tags for this event.
+     * Sets a map of tags for this event. This method will merge the given tags with
+     * the existing ones.
      *
      * @param array<string, string> $tags The tags
+     *
+     * @return $this
      */
-    public function setTags(array $tags): void
+    public function setTags(array $tags)
     {
         $this->tags = array_merge($this->tags, $tags);
+
+        return $this;
     }
 
     /**
@@ -294,10 +346,14 @@ class Span
      * Sets the flag determining whether this span should be sampled or not.
      *
      * @param bool $sampled Whether to sample or not this span
+     *
+     * @return $this
      */
-    public function setSampled(?bool $sampled): void
+    public function setSampled(?bool $sampled)
     {
         $this->sampled = $sampled;
+
+        return $this;
     }
 
     /**
@@ -315,10 +371,14 @@ class Span
      * the existing one.
      *
      * @param array<string, mixed> $data The data
+     *
+     * @return $this
      */
-    public function setData(array $data): void
+    public function setData(array $data)
     {
         $this->data = array_merge($this->data, $data);
+
+        return $this;
     }
 
     /**
@@ -344,19 +404,19 @@ class Span
             'trace_id' => (string) $this->traceId,
         ];
 
-        if (null !== $this->parentSpanId) {
+        if ($this->parentSpanId !== null) {
             $result['parent_span_id'] = (string) $this->parentSpanId;
         }
 
-        if (null !== $this->description) {
+        if ($this->description !== null) {
             $result['description'] = $this->description;
         }
 
-        if (null !== $this->op) {
+        if ($this->op !== null) {
             $result['op'] = $this->op;
         }
 
-        if (null !== $this->status) {
+        if ($this->status !== null) {
             $result['status'] = (string) $this->status;
         }
 
@@ -399,9 +459,10 @@ class Span
         $context->setTraceId($this->traceId);
 
         $span = new self($context);
+        $span->transaction = $this->transaction;
         $span->spanRecorder = $this->spanRecorder;
 
-        if (null != $span->spanRecorder) {
+        if ($span->spanRecorder !== null) {
             $span->spanRecorder->add($span);
         }
 
@@ -420,23 +481,123 @@ class Span
 
     /**
      * Detaches the span recorder from this instance.
+     *
+     * @return $this
      */
-    public function detachSpanRecorder(): void
+    public function detachSpanRecorder()
     {
         $this->spanRecorder = null;
+
+        return $this;
     }
 
     /**
-     * Returns a string that can be used for the `sentry-trace` header.
+     * @return array<string, array<string, MetricsSummary>>
+     */
+    public function getMetricsSummary(): array
+    {
+        return $this->metricsSummary;
+    }
+
+    /**
+     * @param string|int|float $value
+     * @param string[]         $tags
+     */
+    public function setMetricsSummary(
+        string $type,
+        string $key,
+        $value,
+        MetricsUnit $unit,
+        array $tags
+    ): void {
+        $mri = sprintf('%s:%s@%s', $type, $key, (string) $unit);
+        $bucketKey = $mri . serialize($tags);
+
+        if (
+            isset($this->metricsSummary[$mri])
+            && \array_key_exists($bucketKey, $this->metricsSummary[$mri])
+        ) {
+            if ($type === SetType::TYPE) {
+                $value = 1.0;
+            } else {
+                $value = (float) $value;
+            }
+
+            $summary = $this->metricsSummary[$mri][$bucketKey];
+            $this->metricsSummary[$mri][$bucketKey] = [
+                'min' => min($summary['min'], $value),
+                'max' => max($summary['max'], $value),
+                'sum' => $summary['sum'] + $value,
+                'count' => $summary['count'] + 1,
+                'tags' => $tags,
+            ];
+        } else {
+            if ($type === SetType::TYPE) {
+                $value = 0.0;
+            } else {
+                $value = (float) $value;
+            }
+
+            $this->metricsSummary[$mri][$bucketKey] = [
+                'min' => $value,
+                'max' => $value,
+                'sum' => $value,
+                'count' => 1,
+                'tags' => $tags,
+            ];
+        }
+    }
+
+    /**
+     * Returns the transaction containing this span.
+     */
+    public function getTransaction(): ?Transaction
+    {
+        return $this->transaction;
+    }
+
+    /**
+     * Returns a string that can be used for the `sentry-trace` header & meta tag.
      */
     public function toTraceparent(): string
     {
         $sampled = '';
 
-        if (null !== $this->sampled) {
+        if ($this->sampled !== null) {
             $sampled = $this->sampled ? '-1' : '-0';
         }
 
         return sprintf('%s-%s%s', (string) $this->traceId, (string) $this->spanId, $sampled);
+    }
+
+    /**
+     * Returns a string that can be used for the W3C `traceparent` header & meta tag.
+     */
+    public function toW3CTraceparent(): string
+    {
+        $sampled = '';
+
+        if ($this->sampled !== null) {
+            $sampled = $this->sampled ? '01' : '00';
+        } else {
+            // If no sampling decision was made, set the flag to 00
+            $sampled = '00';
+        }
+
+        return sprintf('00-%s-%s-%s', (string) $this->traceId, (string) $this->spanId, $sampled);
+    }
+
+    /**
+     * Returns a string that can be used for the `baggage` header & meta tag.
+     */
+    public function toBaggage(): string
+    {
+        $transaction = $this->getTransaction();
+
+        if ($transaction !== null) {
+            return (string) $transaction->getDynamicSamplingContext();
+        }
+
+        return '';
     }
 }

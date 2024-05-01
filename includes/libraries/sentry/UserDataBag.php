@@ -6,6 +6,8 @@ namespace Sentry;
 
 /**
  * This class stores the information about the authenticated user for a request.
+ *
+ * @see https://develop.sentry.dev/sdk/event-payloads/types/#user
  */
 final class UserDataBag
 {
@@ -30,6 +32,11 @@ final class UserDataBag
     private $username;
 
     /**
+     * @var string|null the user segment, for apps that divide users in user segments
+     */
+    private $segment;
+
+    /**
      * @var array<string, mixed> Additional data
      */
     private $metadata = [];
@@ -39,12 +46,18 @@ final class UserDataBag
      *
      * @param string|int|null $id
      */
-    public function __construct($id = null, ?string $email = null, ?string $ipAddress = null, ?string $username = null)
-    {
+    public function __construct(
+        $id = null,
+        ?string $email = null,
+        ?string $ipAddress = null,
+        ?string $username = null,
+        ?string $segment = null
+    ) {
         $this->setId($id);
         $this->setEmail($email);
         $this->setIpAddress($ipAddress);
         $this->setUsername($username);
+        $this->setSegment($segment);
     }
 
     /**
@@ -90,6 +103,9 @@ final class UserDataBag
                 case 'username':
                     $instance->setUsername($value);
                     break;
+                case 'segment':
+                    $instance->setSegment($value);
+                    break;
                 default:
                     $instance->setMetadata($field, $value);
                     break;
@@ -114,13 +130,15 @@ final class UserDataBag
      *
      * @param string|int|null $id The ID
      */
-    public function setId($id): void
+    public function setId($id): self
     {
-        if (null !== $id && !\is_string($id) && !\is_int($id)) {
+        if ($id !== null && !\is_string($id) && !\is_int($id)) {
             throw new \UnexpectedValueException(sprintf('Expected an integer or string value for the $id argument. Got: "%s".', get_debug_type($id)));
         }
 
         $this->id = $id;
+
+        return $this;
     }
 
     /**
@@ -136,9 +154,11 @@ final class UserDataBag
      *
      * @param string|null $username The username
      */
-    public function setUsername(?string $username): void
+    public function setUsername(?string $username): self
     {
         $this->username = $username;
+
+        return $this;
     }
 
     /**
@@ -154,9 +174,35 @@ final class UserDataBag
      *
      * @param string|null $email The email
      */
-    public function setEmail(?string $email): void
+    public function setEmail(?string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Gets the segement of the user.
+     *
+     * @deprecated since version 4.4. To be removed in version 5.0
+     */
+    public function getSegment(): ?string
+    {
+        return $this->segment;
+    }
+
+    /**
+     * Sets the segment of the user.
+     *
+     * @param string|null $segment The segment
+     *
+     * @deprecated since version 4.4. To be removed in version 5.0. You may use a custom tag or context instead.
+     */
+    public function setSegment(?string $segment): self
+    {
+        $this->segment = $segment;
+
+        return $this;
     }
 
     /**
@@ -172,13 +218,15 @@ final class UserDataBag
      *
      * @param string|null $ipAddress The ip address
      */
-    public function setIpAddress(?string $ipAddress): void
+    public function setIpAddress(?string $ipAddress): self
     {
-        if (null !== $ipAddress && false === filter_var($ipAddress, \FILTER_VALIDATE_IP)) {
+        if ($ipAddress !== null && filter_var($ipAddress, \FILTER_VALIDATE_IP) === false) {
             throw new \InvalidArgumentException(sprintf('The "%s" value is not a valid IP address.', $ipAddress));
         }
 
         $this->ipAddress = $ipAddress;
+
+        return $this;
     }
 
     /**
@@ -197,9 +245,11 @@ final class UserDataBag
      * @param string $name  The name of the field
      * @param mixed  $value The value
      */
-    public function setMetadata(string $name, $value): void
+    public function setMetadata(string $name, $value): self
     {
         $this->metadata[$name] = $value;
+
+        return $this;
     }
 
     /**
@@ -207,9 +257,11 @@ final class UserDataBag
      *
      * @param string $name The name of the field
      */
-    public function removeMetadata(string $name): void
+    public function removeMetadata(string $name): self
     {
         unset($this->metadata[$name]);
+
+        return $this;
     }
 
     /**
@@ -225,6 +277,7 @@ final class UserDataBag
         $this->email = $other->email;
         $this->ipAddress = $other->ipAddress;
         $this->username = $other->username;
+        $this->segment = $other->segment;
         $this->metadata = array_merge($this->metadata, $other->metadata);
 
         return $this;

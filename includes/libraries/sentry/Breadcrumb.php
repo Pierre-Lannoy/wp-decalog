@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Sentry;
 
-use Sentry\Exception\InvalidArgumentException;
-
 /**
  * This class stores all the information about a breadcrumb.
  *
@@ -108,16 +106,17 @@ final class Breadcrumb
     /**
      * Constructor.
      *
-     * @param string               $level    The error level of the breadcrumb
-     * @param string               $type     The type of the breadcrumb
-     * @param string               $category The category of the breadcrumb
-     * @param string|null          $message  Optional text message
-     * @param array<string, mixed> $metadata Additional information about the breadcrumb
+     * @param string               $level     The error level of the breadcrumb
+     * @param string               $type      The type of the breadcrumb
+     * @param string               $category  The category of the breadcrumb
+     * @param string|null          $message   Optional text message
+     * @param array<string, mixed> $metadata  Additional information about the breadcrumb
+     * @param float|null           $timestamp Optional timestamp of the breadcrumb
      */
-    public function __construct(string $level, string $type, string $category, ?string $message = null, array $metadata = [])
+    public function __construct(string $level, string $type, string $category, ?string $message = null, array $metadata = [], ?float $timestamp = null)
     {
         if (!\in_array($level, self::ALLOWED_LEVELS, true)) {
-            throw new InvalidArgumentException('The value of the $level argument must be one of the Breadcrumb::LEVEL_* constants.');
+            throw new \InvalidArgumentException('The value of the $level argument must be one of the Breadcrumb::LEVEL_* constants.');
         }
 
         $this->type = $type;
@@ -125,7 +124,7 @@ final class Breadcrumb
         $this->category = $category;
         $this->message = $message;
         $this->metadata = $metadata;
-        $this->timestamp = microtime(true);
+        $this->timestamp = $timestamp ?? microtime(true);
     }
 
     /**
@@ -173,7 +172,7 @@ final class Breadcrumb
     public function withLevel(string $level): self
     {
         if (!\in_array($level, self::ALLOWED_LEVELS, true)) {
-            throw new InvalidArgumentException('The value of the $level argument must be one of the Breadcrumb::LEVEL_* constants.');
+            throw new \InvalidArgumentException('The value of the $level argument must be one of the Breadcrumb::LEVEL_* constants.');
         }
 
         if ($level === $this->level) {
@@ -301,6 +300,25 @@ final class Breadcrumb
     }
 
     /**
+     * Sets the breadcrumb timestamp.
+     *
+     * @param float $timestamp The timestamp
+     *
+     * @return static
+     */
+    public function withTimestamp(float $timestamp): self
+    {
+        if ($timestamp === $this->timestamp) {
+            return $this;
+        }
+
+        $new = clone $this;
+        $new->timestamp = $timestamp;
+
+        return $new;
+    }
+
+    /**
      * Helper method to create an instance of this class from an array of data.
      *
      * @param array $data Data used to populate the breadcrumb
@@ -309,8 +327,9 @@ final class Breadcrumb
      *     level: string,
      *     type?: string,
      *     category: string,
-     *     message?: string,
-     *     data?: array<string, mixed>
+     *     message?: string|null,
+     *     data?: array<string, mixed>,
+     *     timestamp?: float|null
      * } $data
      */
     public static function fromArray(array $data): self
@@ -320,7 +339,8 @@ final class Breadcrumb
             $data['type'] ?? self::TYPE_DEFAULT,
             $data['category'],
             $data['message'] ?? null,
-            $data['data'] ?? []
+            $data['data'] ?? [],
+            $data['timestamp'] ?? null
         );
     }
 }

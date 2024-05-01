@@ -2,10 +2,6 @@
 
 namespace InfluxDB2;
 
-use DLGuzzleHttp\Psr7\Stream;
-use Psr\Http\Message\StreamInterface;
-use RuntimeException;
-
 /**
  * Class FluxCsvParser us used to construct FluxResult from CSV.
  * @package InfluxDB2
@@ -22,6 +18,8 @@ class FluxCsvParser
 
     private $response;
     private $stream;
+    private $responseMode;
+    private $resource;
 
     /* @var  $variable int */
     private $tableIndex = 0;
@@ -29,7 +27,7 @@ class FluxCsvParser
 
     private $startNewTable;
 
-    /* @var $variable FluxTable */
+    /** @var FluxTable */
     private $table;
     private $groups = [];
 
@@ -37,18 +35,21 @@ class FluxCsvParser
 
     public $closed;
 
-    /* @var $variable FluxColumn[] */
+    /** @var FluxColumn[] */
     private $fluxColumns;
 
     /**
      * FluxCsvParser constructor.
      * @param $response mixed response to by parsed
      * @param $stream bool use streaming
+     * @param $responseMode string metadata expected in response ('full', 'only_names')
      */
-    public function __construct($response, $stream = false)
+    public function __construct($response, bool $stream = false, string $responseMode = "full")
     {
-        $this->response = is_string($response) ? new Stream($this->stringToStream($response)) : $response;
+        $this->response = is_string($response) ? null : $response;
+        $this->resource = is_string($response) ? $this->stringToStream($response) : $response->detach();
         $this->stream = $stream;
+        $this->responseMode = $responseMode;
         $this->tableIndex = 0;
         if (!$stream) {
             $this->tables = [];
@@ -75,12 +76,10 @@ class FluxCsvParser
     public function each()
     {
         try {
-            while ($row = $this->readline($this->response)) {
-                if (!isset($row) || trim($row) === '') {
+            while (($csv = fgetcsv($this->resource)) !== false) {
+                if (!isset($csv) || (count($csv) == 1 && $csv[0] == null)) {
                     continue;
                 }
-
-                $csv = str_getcsv($row);
 
                 //skip empty csv row
                 if ($csv[1] == 'error' && $csv[2] == 'reference') {
@@ -113,7 +112,8 @@ class FluxCsvParser
     {
         $token = $csv[0];
         # start new table
-        if (in_array($token, self::ANNOTATIONS) && !$this->startNewTable) {
+        if ((in_array($token, self::ANNOTATIONS) && !$this->startNewTable)
+            || ($this->responseMode == "only_names" && is_null($this->table))) {
             # Return already parsed DataFrame
             $this->startNewTable = true;
             $this->table = new FluxTable();
@@ -147,7 +147,9 @@ class FluxCsvParser
         foreach ($table->columns as $fluxColumn) {
             $columnName = $fluxColumn->label;
             $strVal = $csv[$fluxColumn->index + 1];
-            $record->values[$columnName] = $this->toValue($strVal, $fluxColumn);
+            $value = $this->toValue($strVal, $fluxColumn);
+            $record->values[$columnName] = $value;
+            $record->row[] = $value;
         }
         return $record;
     }
@@ -183,9 +185,23 @@ class FluxCsvParser
     private function addColumnNamesAndTags(FluxTable $table, array $csv)
     {
         $i = 1;
-        foreach ($table->columns as &$column) {
+
+        foreach ($table->columns as $column) {
             $column->label = $csv[$i];
             $i++;
+        }
+
+        $duplicates = array();
+        foreach (array_count_values($csv) as $label => $count) {
+            if ($count > 1) {
+                $duplicates[] = $label;
+            }
+        }
+
+        if (count($duplicates) > 0) {
+            $duplicatesStr = implode(", ", $duplicates);
+            print "The response contains columns with duplicated names: {$duplicatesStr}\n";
+            print "You should use the 'FluxRecord.row' to access your data instead of 'FluxRecord.values'.";
         }
     }
 
@@ -194,6 +210,10 @@ class FluxCsvParser
     {
         # parse column names
         if ($this->startNewTable) {
+            if ($this->responseMode == 'only_names' && empty($this->table->columns)) {
+                $this->addDataTypes($this->table, array_fill(0, sizeof($csv), 'string'));
+                $this->groups = array_fill(0, sizeof($csv), 'false');
+            }
             $this->addGroups($this->table, $this->groups);
             $this->addColumnNamesAndTags($this->table, $csv);
             $this->startNewTable = false;
@@ -257,6 +277,12 @@ class FluxCsvParser
         }
 
         if ('double' == $column->dataType) {
+            if ($strVal == '+Inf') {
+                return INF;
+            }
+            if ($strVal == '-Inf') {
+                return -INF;
+            }
             return (double)$strVal;
         }
 
@@ -272,34 +298,18 @@ class FluxCsvParser
         return $strVal;
     }
 
-    private function readline(StreamInterface $stream)
-    {
-        $buffer = null;
-
-        while (null !== ($byte = $stream->read(1))) {
-            if ($byte === "") {
-                break;
-            }
-
-            if ($buffer == null) {
-                $buffer .= '';
-            }
-
-            $buffer .= $byte;
-
-            // Break when a new line is found
-            if ($byte === "\n") {
-                break;
-            }
-        }
-
-        return $buffer;
-    }
-
     private function closeConnection()
     {
         # Close CSV Parser
         $this->closed = true;
-        $this->response->close();
+        if (isset($this->response)) {
+            $this->response->close();
+        }
+        if (is_resource($this->resource)) {
+            fclose($this->resource);
+        }
+
+        unset($this->response);
+        unset($this->resource);
     }
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Sentry\Integration;
 
-use DLGuzzleHttp\Psr7\ServerRequest;
+use GuzzleHttp\Psr7\ServerRequest;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**

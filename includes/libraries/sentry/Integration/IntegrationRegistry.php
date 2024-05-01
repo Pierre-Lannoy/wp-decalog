@@ -32,7 +32,7 @@ final class IntegrationRegistry
      */
     public static function getInstance(): self
     {
-        if (null === self::$instance) {
+        if (self::$instance === null) {
             self::$instance = new self();
         }
 
@@ -51,29 +51,38 @@ final class IntegrationRegistry
     public function setupIntegrations(Options $options, LoggerInterface $logger): array
     {
         $integrations = [];
+        $installed = [];
 
         foreach ($this->getIntegrationsToSetup($options) as $integration) {
-            $integrations[\get_class($integration)] = $integration;
+            $integrationName = \get_class($integration);
 
-            $this->setupIntegration($integration, $logger);
+            $integrations[$integrationName] = $integration;
+
+            if ($this->setupIntegration($integration)) {
+                $installed[] = $integrationName;
+            }
+        }
+
+        if (\count($installed) > 0) {
+            $logger->debug(sprintf('The "%s" integration(s) have been installed.', implode(', ', $installed)));
         }
 
         return $integrations;
     }
 
-    private function setupIntegration(IntegrationInterface $integration, LoggerInterface $logger): void
+    private function setupIntegration(IntegrationInterface $integration): bool
     {
         $integrationName = \get_class($integration);
 
         if (isset($this->integrations[$integrationName])) {
-            return;
+            return false;
         }
 
         $integration->setupOnce();
 
         $this->integrations[$integrationName] = true;
 
-        $logger->debug(sprintf('The "%s" integration has been installed.', $integrationName));
+        return true;
     }
 
     /**
@@ -86,7 +95,6 @@ final class IntegrationRegistry
         $userIntegrations = $options->getIntegrations();
 
         if (\is_array($userIntegrations)) {
-            /** @psalm-suppress PossiblyInvalidArgument */
             $userIntegrationsClasses = array_map('get_class', $userIntegrations);
             $pickedIntegrationsClasses = [];
 
@@ -100,7 +108,6 @@ final class IntegrationRegistry
             }
 
             foreach ($userIntegrations as $userIntegration) {
-                /** @psalm-suppress PossiblyInvalidArgument */
                 $integrationClassName = \get_class($userIntegration);
 
                 if (!isset($pickedIntegrationsClasses[$integrationClassName])) {
@@ -128,14 +135,18 @@ final class IntegrationRegistry
             return [];
         }
 
-        return [
-            new ExceptionListenerIntegration(),
-            new ErrorListenerIntegration(),
-            new FatalErrorListenerIntegration(),
+        $integrations = [
             new RequestIntegration(),
             new TransactionIntegration(),
             new FrameContextifierIntegration(),
             new EnvironmentIntegration(),
+            new ModulesIntegration(),
         ];
+
+        if ($options->getDsn() !== null) {
+            array_unshift($integrations, new ExceptionListenerIntegration(), new ErrorListenerIntegration(), new FatalErrorListenerIntegration());
+        }
+
+        return $integrations;
     }
 }

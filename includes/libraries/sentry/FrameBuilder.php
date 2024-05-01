@@ -5,14 +5,26 @@ declare(strict_types=1);
 namespace Sentry;
 
 use Sentry\Serializer\RepresentationSerializerInterface;
+use Sentry\Util\PrefixStripper;
 
 /**
  * This class builds a {@see Frame} object out of a backtrace's raw frame.
  *
  * @internal
+ *
+ * @psalm-type StacktraceFrame array{
+ *     function?: string,
+ *     line?: int,
+ *     file?: string,
+ *     class?: class-string,
+ *     type?: string,
+ *     args?: mixed[]
+ * }
  */
 final class FrameBuilder
 {
+    use PrefixStripper;
+
     /**
      * @var Options The SDK client options
      */
@@ -42,14 +54,7 @@ final class FrameBuilder
      * @param int                  $line           The line at which the frame originated
      * @param array<string, mixed> $backtraceFrame The raw frame
      *
-     * @psalm-param array{
-     *     function?: callable-string,
-     *     line?: integer,
-     *     file?: string,
-     *     class?: class-string,
-     *     type?: string,
-     *     args?: array
-     * } $backtraceFrame
+     * @psalm-param StacktraceFrame $backtraceFrame
      */
     public function buildFromBacktraceFrame(string $file, int $line, array $backtraceFrame): Frame
     {
@@ -64,17 +69,17 @@ final class FrameBuilder
 
         $functionName = null;
         $rawFunctionName = null;
-        $strippedFilePath = $this->stripPrefixFromFilePath($file);
+        $strippedFilePath = $this->stripPrefixFromFilePath($this->options, $file);
 
         if (isset($backtraceFrame['class']) && isset($backtraceFrame['function'])) {
             $functionName = $backtraceFrame['class'];
 
-            if (str_starts_with($functionName, Frame::ANONYMOUS_CLASS_PREFIX)) {
-                $functionName = Frame::ANONYMOUS_CLASS_PREFIX . $this->stripPrefixFromFilePath(substr($backtraceFrame['class'], \strlen(Frame::ANONYMOUS_CLASS_PREFIX)));
+            if (mb_substr($functionName, 0, mb_strlen(Frame::ANONYMOUS_CLASS_PREFIX)) === Frame::ANONYMOUS_CLASS_PREFIX) {
+                $functionName = Frame::ANONYMOUS_CLASS_PREFIX . $this->stripPrefixFromFilePath($this->options, substr($backtraceFrame['class'], \strlen(Frame::ANONYMOUS_CLASS_PREFIX)));
             }
 
             $rawFunctionName = sprintf('%s::%s', $backtraceFrame['class'], $backtraceFrame['function']);
-            $functionName = sprintf('%s::%s', preg_replace('/0x[a-fA-F0-9]+$/', '', $functionName), $backtraceFrame['function']);
+            $functionName = sprintf('%s::%s', preg_replace('/(?::\d+\$|0x)[a-fA-F0-9]+$/', '', $functionName), $backtraceFrame['function']);
         } elseif (isset($backtraceFrame['function'])) {
             $functionName = $backtraceFrame['function'];
         }
@@ -84,26 +89,10 @@ final class FrameBuilder
             $strippedFilePath,
             $line,
             $rawFunctionName,
-            Frame::INTERNAL_FRAME_FILENAME !== $file ? $file : null,
+            $file !== Frame::INTERNAL_FRAME_FILENAME ? $file : null,
             $this->getFunctionArguments($backtraceFrame),
             $this->isFrameInApp($file, $functionName)
         );
-    }
-
-    /**
-     * Removes from the given file path the specified prefixes.
-     *
-     * @param string $filePath The path to the file
-     */
-    private function stripPrefixFromFilePath(string $filePath): string
-    {
-        foreach ($this->options->getPrefixes() as $prefix) {
-            if (str_starts_with($filePath, $prefix)) {
-                return mb_substr($filePath, mb_strlen($prefix));
-            }
-        }
-
-        return $filePath;
     }
 
     /**
@@ -114,11 +103,11 @@ final class FrameBuilder
      */
     private function isFrameInApp(string $file, ?string $functionName): bool
     {
-        if (Frame::INTERNAL_FRAME_FILENAME === $file) {
+        if ($file === Frame::INTERNAL_FRAME_FILENAME) {
             return false;
         }
 
-        if (null !== $functionName && str_starts_with($functionName, 'Sentry\\')) {
+        if ($functionName !== null && substr($functionName, 0, \strlen('Sentry\\')) === 'Sentry\\') {
             return false;
         }
 
@@ -128,7 +117,7 @@ final class FrameBuilder
         $isInApp = true;
 
         foreach ($excludedAppPaths as $excludedAppPath) {
-            if (str_starts_with($absoluteFilePath, $excludedAppPath)) {
+            if (mb_substr($absoluteFilePath, 0, mb_strlen($excludedAppPath)) === $excludedAppPath) {
                 $isInApp = false;
 
                 break;
@@ -136,7 +125,7 @@ final class FrameBuilder
         }
 
         foreach ($includedAppPaths as $includedAppPath) {
-            if (str_starts_with($absoluteFilePath, $includedAppPath)) {
+            if (mb_substr($absoluteFilePath, 0, mb_strlen($includedAppPath)) === $includedAppPath) {
                 $isInApp = true;
 
                 break;
@@ -153,14 +142,7 @@ final class FrameBuilder
      *
      * @return array<string, mixed>
      *
-     * @throws \ReflectionException
-     *
-     * @psalm-param array{
-     *     function?: callable-string,
-     *     class?: class-string,
-     *     type?: string,
-     *     args?: array
-     * } $backtraceFrame
+     * @psalm-param StacktraceFrame $backtraceFrame
      */
     private function getFunctionArguments(array $backtraceFrame): array
     {
@@ -171,15 +153,15 @@ final class FrameBuilder
         $reflectionFunction = null;
 
         try {
-            if (isset($backtraceFrame['class'], $backtraceFrame['function'])) {
+            if (isset($backtraceFrame['class'])) {
                 if (method_exists($backtraceFrame['class'], $backtraceFrame['function'])) {
                     $reflectionFunction = new \ReflectionMethod($backtraceFrame['class'], $backtraceFrame['function']);
-                } elseif (isset($backtraceFrame['type']) && '::' === $backtraceFrame['type']) {
+                } elseif (isset($backtraceFrame['type']) && $backtraceFrame['type'] === '::') {
                     $reflectionFunction = new \ReflectionMethod($backtraceFrame['class'], '__callStatic');
                 } else {
                     $reflectionFunction = new \ReflectionMethod($backtraceFrame['class'], '__call');
                 }
-            } elseif (isset($backtraceFrame['function']) && !\in_array($backtraceFrame['function'], ['{closure}', '__lambda_func'], true) && \function_exists($backtraceFrame['function'])) {
+            } elseif (!\in_array($backtraceFrame['function'], ['{closure}', '__lambda_func'], true) && \function_exists($backtraceFrame['function'])) {
                 $reflectionFunction = new \ReflectionFunction($backtraceFrame['function']);
             }
         } catch (\ReflectionException $e) {
@@ -188,7 +170,7 @@ final class FrameBuilder
 
         $argumentValues = [];
 
-        if (null !== $reflectionFunction) {
+        if ($reflectionFunction !== null) {
             $argumentValues = $this->getFunctionArgumentValues($reflectionFunction, $backtraceFrame['args']);
         } else {
             foreach ($backtraceFrame['args'] as $parameterPosition => $parameterValue) {

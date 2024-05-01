@@ -4,15 +4,10 @@ declare(strict_types=1);
 
 namespace Sentry;
 
-use DLGuzzleHttp\Promise\PromiseInterface;
 use Sentry\Integration\IntegrationInterface;
 use Sentry\State\Scope;
+use Sentry\Transport\Result;
 
-/**
- * This interface must be implemented by all Raven client classes.
- *
- * @author Stefano Arlandini <sarlandini@alice.it>
- */
 interface ClientInterface
 {
     /**
@@ -21,28 +16,36 @@ interface ClientInterface
     public function getOptions(): Options;
 
     /**
+     * Returns an URL for security policy reporting that's generated from the configured DSN.
+     */
+    public function getCspReportUrl(): ?string;
+
+    /**
      * Logs a message.
      *
-     * @param string     $message The message (primary description) for the event
-     * @param Severity   $level   The level of the message to be sent
-     * @param Scope|null $scope   An optional scope keeping the state
+     * @param string         $message The message (primary description) for the event
+     * @param Severity|null  $level   The level of the message to be sent
+     * @param Scope|null     $scope   An optional scope keeping the state
+     * @param EventHint|null $hint    Object that can contain additional information about the event
      */
-    public function captureMessage(string $message, ?Severity $level = null, ?Scope $scope = null): ?EventId;
+    public function captureMessage(string $message, ?Severity $level = null, ?Scope $scope = null, ?EventHint $hint = null): ?EventId;
 
     /**
      * Logs an exception.
      *
-     * @param \Throwable $exception The exception object
-     * @param Scope|null $scope     An optional scope keeping the state
+     * @param \Throwable     $exception The exception object
+     * @param Scope|null     $scope     An optional scope keeping the state
+     * @param EventHint|null $hint      Object that can contain additional information about the event
      */
-    public function captureException(\Throwable $exception, ?Scope $scope = null): ?EventId;
+    public function captureException(\Throwable $exception, ?Scope $scope = null, ?EventHint $hint = null): ?EventId;
 
     /**
      * Logs the most recent error (obtained with {@link error_get_last}).
      *
-     * @param Scope|null $scope An optional scope keeping the state
+     * @param Scope|null     $scope An optional scope keeping the state
+     * @param EventHint|null $hint  Object that can contain additional information about the event
      */
-    public function captureLastError(?Scope $scope = null): ?EventId;
+    public function captureLastError(?Scope $scope = null, ?EventHint $hint = null): ?EventId;
 
     /**
      * Captures a new event using the provided data.
@@ -72,5 +75,10 @@ interface ClientInterface
      *
      * @param int|null $timeout Maximum time in seconds the client should wait
      */
-    public function flush(?int $timeout = null): PromiseInterface;
+    public function flush(?int $timeout = null): Result;
+
+    /**
+     * Returns the stacktrace builder of the client.
+     */
+    public function getStacktraceBuilder(): StacktraceBuilder;
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DLGuzzleHttp\Promise;
 
 /**
@@ -7,7 +9,7 @@ namespace DLGuzzleHttp\Promise;
  */
 class AggregateException extends RejectionException
 {
-    public function __construct($msg, array $reasons)
+    public function __construct(string $msg, array $reasons)
     {
         parent::__construct(
             $reasons,

@@ -11,7 +11,7 @@
  * Plugin URI:        https://perfops.one/decalog
  * Description:       Capture and log events, metrics and traces on your site. Make WordPress observable – finally!
  * Version:           3.10.0
- * Requires at least: 6.1
+ * Requires at least: 6.2
  * Requires PHP:      8.1
  * Author:            Pierre Lannoy / PerfOps One
  * Author URI:        https://perfops.one
@@ -34,8 +34,8 @@ require_once __DIR__ . '/includes/system/class-environment.php';
 require_once __DIR__ . '/autoload.php';
 require_once __DIR__ . '/includes/libraries/class-libraries.php';
 require_once __DIR__ . '/includes/libraries/autoload.php';
-require_once __DIR__ . '/includes/libraries/guzzlehttp/Promise/functions_include.php';
-require_once __DIR__ . '/includes/libraries/guzzlehttp/Psr7/functions_include.php';
+//require_once __DIR__ . '/includes/libraries/guzzlehttp/Promise/functions_include.php';
+//require_once __DIR__ . '/includes/libraries/guzzlehttp/Psr7/functions_include.php';
 require_once __DIR__ . '/includes/libraries/guzzlehttp/functions_include.php';
 
 /**

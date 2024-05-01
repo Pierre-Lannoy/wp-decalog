@@ -3,11 +3,22 @@ All notable changes to **DecaLog** are documented in this *changelog*.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.11.0] - Not Yet Released
+## [4.0.0] - Not Yet Released
 
 ### Added
 - It's now possible to substitute PHP-defined constants for some loggers settings.
 - There's now a filter to map PHP error levels to PSR3 levels - see [hooks reference](HOOKS.md) (thanks to [Clément Hallet](https://github.com/challet)).
+
+### Changed
+- [BC] DecaLog now uses PSR3 3.x
+- The responsiveness of DecaLog settings pages has been greatly improved.
+- Upgraded Monolog library from version 2.9.1 to version 2.9.3.
+- Upgraded InfluxDB library from version 1.12.0 to version 3.5.0.
+- Upgraded GuzzleHttp library from version 7.2.0 to version 7.8.1.
+
+### Fixed
+- Constant storage may produce PHP warning while initializing.
+- There's some deprecation warnings with PHP 8.4.
 
 ## [3.10.0] - 2024-03-02
 

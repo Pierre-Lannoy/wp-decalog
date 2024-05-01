@@ -4,49 +4,29 @@ declare(strict_types=1);
 
 namespace Sentry\Transport;
 
-use DLGuzzleHttp\Promise\FulfilledPromise;
-use DLGuzzleHttp\Promise\PromiseInterface;
-use DLGuzzleHttp\Promise\RejectedPromise;
-use Http\Client\HttpAsyncClient as HttpAsyncClientInterface;
-use Psr\Http\Message\RequestFactoryInterface;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use Sentry\Event;
-use Sentry\EventType;
+use Sentry\HttpClient\HttpClientInterface;
+use Sentry\HttpClient\Request;
 use Sentry\Options;
-use Sentry\Response;
-use Sentry\ResponseStatus;
 use Sentry\Serializer\PayloadSerializerInterface;
+use Sentry\Spotlight\SpotlightClient;
 
 /**
- * This transport sends the events using a syncronous HTTP client that will
- * delay sending of the requests until the shutdown of the application.
- *
- * @author Stefano Arlandini <sarlandini@alice.it>
+ * @internal
  */
-final class HttpTransport implements TransportInterface
+class HttpTransport implements TransportInterface
 {
     /**
-     * @var Options The Sentry client options
+     * @var Options
      */
     private $options;
 
     /**
-     * @var HttpAsyncClientInterface The HTTP client
+     * @var HttpClientInterface The HTTP client
      */
     private $httpClient;
-
-    /**
-     * @var StreamFactoryInterface The PSR-7 stream factory
-     */
-    private $streamFactory;
-
-    /**
-     * @var RequestFactoryInterface The PSR-7 request factory
-     */
-    private $requestFactory;
 
     /**
      * @var PayloadSerializerInterface The event serializer
@@ -59,78 +39,144 @@ final class HttpTransport implements TransportInterface
     private $logger;
 
     /**
-     * Constructor.
-     *
-     * @param Options                    $options           The Sentry client configuration
-     * @param HttpAsyncClientInterface   $httpClient        The HTTP client
-     * @param StreamFactoryInterface     $streamFactory     The PSR-7 stream factory
-     * @param RequestFactoryInterface    $requestFactory    The PSR-7 request factory
+     * @var RateLimiter The rate limiter
+     */
+    private $rateLimiter;
+
+    /**
+     * @param Options                    $options           The options
+     * @param HttpClientInterface        $httpClient        The HTTP client
      * @param PayloadSerializerInterface $payloadSerializer The event serializer
      * @param LoggerInterface|null       $logger            An instance of a PSR-3 logger
      */
     public function __construct(
         Options $options,
-        HttpAsyncClientInterface $httpClient,
-        StreamFactoryInterface $streamFactory,
-        RequestFactoryInterface $requestFactory,
+        HttpClientInterface $httpClient,
         PayloadSerializerInterface $payloadSerializer,
         ?LoggerInterface $logger = null
     ) {
         $this->options = $options;
         $this->httpClient = $httpClient;
-        $this->streamFactory = $streamFactory;
-        $this->requestFactory = $requestFactory;
         $this->payloadSerializer = $payloadSerializer;
         $this->logger = $logger ?? new NullLogger();
+        $this->rateLimiter = new RateLimiter($this->logger);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function send(Event $event): PromiseInterface
+    public function send(Event $event): Result
     {
-        $dsn = $this->options->getDsn();
+        $this->sendRequestToSpotlight($event);
 
-        if (null === $dsn) {
-            throw new \RuntimeException(sprintf('The DSN option must be set to use the "%s" transport.', self::class));
+        $eventDescription = sprintf(
+            '%s%s [%s]',
+            $event->getLevel() !== null ? $event->getLevel() . ' ' : '',
+            (string) $event->getType(),
+            (string) $event->getId()
+        );
+
+        if ($this->options->getDsn() === null) {
+            $this->logger->info(sprintf('Skipping %s, because no DSN is set.', $eventDescription), ['event' => $event]);
+
+            return new Result(ResultStatus::skipped(), $event);
         }
 
-        if (EventType::transaction() === $event->getType()) {
-            $request = $this->requestFactory->createRequest('POST', $dsn->getEnvelopeApiEndpointUrl())
-                ->withHeader('Content-Type', 'application/x-sentry-envelope')
-                ->withBody($this->streamFactory->createStream($this->payloadSerializer->serialize($event)));
-        } else {
-            $request = $this->requestFactory->createRequest('POST', $dsn->getStoreApiEndpointUrl())
-                ->withHeader('Content-Type', 'application/json')
-                ->withBody($this->streamFactory->createStream($this->payloadSerializer->serialize($event)));
+        $targetDescription = sprintf(
+            '%s [project:%s]',
+            $this->options->getDsn()->getHost(),
+            $this->options->getDsn()->getProjectId()
+        );
+
+        $this->logger->info(sprintf('Sending %s to %s.', $eventDescription, $targetDescription), ['event' => $event]);
+
+        $eventType = $event->getType();
+        if ($this->rateLimiter->isRateLimited($eventType)) {
+            $this->logger->warning(
+                sprintf('Rate limit exceeded for sending requests of type "%s".', (string) $eventType),
+                ['event' => $event]
+            );
+
+            return new Result(ResultStatus::rateLimit());
         }
+
+        $request = new Request();
+        $request->setStringBody($this->payloadSerializer->serialize($event));
 
         try {
-            /** @var ResponseInterface $response */
-            $response = $this->httpClient->sendAsyncRequest($request)->wait();
+            $response = $this->httpClient->sendRequest($request, $this->options);
         } catch (\Throwable $exception) {
             $this->logger->error(
-                sprintf('Failed to send the event to Sentry. Reason: "%s".', $exception->getMessage()),
+                sprintf('Failed to send %s to %s. Reason: "%s".', $eventDescription, $targetDescription, $exception->getMessage()),
                 ['exception' => $exception, 'event' => $event]
             );
 
-            return new RejectedPromise(new Response(ResponseStatus::failed(), $event));
+            return new Result(ResultStatus::failed());
         }
 
-        $sendResponse = new Response(ResponseStatus::createFromHttpStatusCode($response->getStatusCode()), $event);
+        if ($response->hasError()) {
+            $this->logger->error(
+                sprintf('Failed to send %s to %s. Reason: "%s".', $eventDescription, $targetDescription, $response->getError()),
+                ['event' => $event]
+            );
 
-        if (ResponseStatus::success() === $sendResponse->getStatus()) {
-            return new FulfilledPromise($sendResponse);
+            return new Result(ResultStatus::unknown());
         }
 
-        return new RejectedPromise($sendResponse);
+        $this->rateLimiter->handleResponse($response);
+
+        $resultStatus = ResultStatus::createFromHttpStatusCode($response->getStatusCode());
+
+        $this->logger->info(
+            sprintf('Sent %s to %s. Result: "%s" (status: %s).', $eventDescription, $targetDescription, strtolower((string) $resultStatus), $response->getStatusCode()),
+            ['response' => $response, 'event' => $event]
+        );
+
+        return new Result($resultStatus, $event);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function close(?int $timeout = null): PromiseInterface
+    public function close(?int $timeout = null): Result
     {
-        return new FulfilledPromise(true);
+        return new Result(ResultStatus::success());
+    }
+
+    /**
+     * @internal
+     */
+    public function getHttpClient(): HttpClientInterface
+    {
+        return $this->httpClient;
+    }
+
+    private function sendRequestToSpotlight(Event $event): void
+    {
+        if (!$this->options->isSpotlightEnabled()) {
+            return;
+        }
+
+        $request = new Request();
+        $request->setStringBody($this->payloadSerializer->serialize($event));
+
+        try {
+            $spotLightResponse = SpotlightClient::sendRequest(
+                $request,
+                $this->options->getSpotlightUrl() . '/stream'
+            );
+
+            if ($spotLightResponse->hasError()) {
+                $this->logger->info(
+                    sprintf('Failed to send the event to Spotlight. Reason: "%s".', $spotLightResponse->getError()),
+                    ['event' => $event]
+                );
+            }
+        } catch (\Throwable $exception) {
+            $this->logger->info(
+                sprintf('Failed to send the event to Spotlight. Reason: "%s".', $exception->getMessage()),
+                ['exception' => $exception, 'event' => $event]
+            );
+        }
     }
 }

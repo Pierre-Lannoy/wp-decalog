@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Sentry\DLMonolog;
+namespace Sentry\Monolog;
 
-use DLMonolog\Handler\AbstractProcessingHandler;
-use DLMonolog\Logger;
+use Monolog\Handler\AbstractProcessingHandler;
+use Monolog\Logger;
+use Monolog\LogRecord;
 use Sentry\Event;
 use Sentry\EventHint;
-use Sentry\Severity;
 use Sentry\State\HubInterface;
 use Sentry\State\Scope;
 
@@ -20,31 +20,37 @@ use Sentry\State\Scope;
  */
 final class Handler extends AbstractProcessingHandler
 {
+    use CompatibilityProcessingHandlerTrait;
+
+    private const CONTEXT_EXCEPTION_KEY = 'exception';
+
     /**
      * @var HubInterface
      */
     private $hub;
 
     /**
-     * Constructor.
-     *
-     * @param HubInterface $hub    The hub to which errors are reported
-     * @param int|string   $level  The minimum logging level at which this
-     *                             handler will be triggered
-     * @param bool         $bubble Whether the messages that are handled can
-     *                             bubble up the stack or not
+     * @var bool
      */
-    public function __construct(HubInterface $hub, $level = Logger::DEBUG, bool $bubble = true)
-    {
-        $this->hub = $hub;
-
-        parent::__construct($level, $bubble);
-    }
+    private $fillExtraContext;
 
     /**
      * {@inheritdoc}
+     *
+     * @param HubInterface $hub The hub to which errors are reported
      */
-    protected function write(array $record): void
+    public function __construct(HubInterface $hub, $level = Logger::DEBUG, bool $bubble = true, bool $fillExtraContext = false)
+    {
+        parent::__construct($level, $bubble);
+
+        $this->hub = $hub;
+        $this->fillExtraContext = $fillExtraContext;
+    }
+
+    /**
+     * @param array<string, mixed>|LogRecord $record
+     */
+    protected function doWrite($record): void
     {
         $event = Event::createEvent();
         $event->setLevel(self::getSeverityFromLevel($record['level']));
@@ -61,32 +67,64 @@ final class Handler extends AbstractProcessingHandler
             $scope->setExtra('monolog.channel', $record['channel']);
             $scope->setExtra('monolog.level', $record['level_name']);
 
+            $monologContextData = $this->getMonologContextData($record['context']);
+
+            if ($monologContextData !== []) {
+                $scope->setExtra('monolog.context', $monologContextData);
+            }
+
+            $monologExtraData = $this->getMonologExtraData($record['extra']);
+
+            if ($monologExtraData !== []) {
+                $scope->setExtra('monolog.extra', $monologExtraData);
+            }
+
             $this->hub->captureEvent($event, $hint);
         });
     }
 
     /**
-     * Translates the Monolog level into the Sentry severity.
+     * @param mixed[] $context
      *
-     * @param int $level The Monolog log level
+     * @return mixed[]
      */
-    private static function getSeverityFromLevel(int $level): Severity
+    private function getMonologContextData(array $context): array
     {
-        switch ($level) {
-            case Logger::DEBUG:
-                return Severity::debug();
-            case Logger::WARNING:
-                return Severity::warning();
-            case Logger::ERROR:
-                return Severity::error();
-            case Logger::CRITICAL:
-            case Logger::ALERT:
-            case Logger::EMERGENCY:
-                return Severity::fatal();
-            case Logger::INFO:
-            case Logger::NOTICE:
-            default:
-                return Severity::info();
+        if (!$this->fillExtraContext) {
+            return [];
         }
+
+        $contextData = [];
+
+        foreach ($context as $key => $value) {
+            // We skip the `exception` field because it goes in its own context
+            if ($key === self::CONTEXT_EXCEPTION_KEY) {
+                continue;
+            }
+
+            $contextData[$key] = $value;
+        }
+
+        return $contextData;
+    }
+
+    /**
+     * @param mixed[] $context
+     *
+     * @return mixed[]
+     */
+    private function getMonologExtraData(array $context): array
+    {
+        if (!$this->fillExtraContext) {
+            return [];
+        }
+
+        $extraData = [];
+
+        foreach ($context as $key => $value) {
+            $extraData[$key] = $value;
+        }
+
+        return $extraData;
     }
 }

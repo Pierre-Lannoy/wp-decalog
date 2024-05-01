@@ -11,7 +11,7 @@ namespace DLGuzzleHttp;
  * @return string Returns a string containing the type of the variable and
  *                if a class is provided, the class name.
  *
- * @deprecated describe_type will be removed in guzzlehttp/guzzle:8.0. Use Utils::describeType instead.
+ * @deprecated describe_type will be removed in DLGuzzleHttp/guzzle:8.0. Use Utils::describeType instead.
  */
 function describe_type($input): string
 {
@@ -24,7 +24,7 @@ function describe_type($input): string
  * @param iterable $lines Header lines array of strings in the following
  *                        format: "Name: Value"
  *
- * @deprecated headers_from_lines will be removed in guzzlehttp/guzzle:8.0. Use Utils::headersFromLines instead.
+ * @deprecated headers_from_lines will be removed in DLGuzzleHttp/guzzle:8.0. Use Utils::headersFromLines instead.
  */
 function headers_from_lines(iterable $lines): array
 {
@@ -38,7 +38,7 @@ function headers_from_lines(iterable $lines): array
  *
  * @return resource
  *
- * @deprecated debug_resource will be removed in guzzlehttp/guzzle:8.0. Use Utils::debugResource instead.
+ * @deprecated debug_resource will be removed in DLGuzzleHttp/guzzle:8.0. Use Utils::debugResource instead.
  */
 function debug_resource($value = null)
 {
@@ -50,11 +50,11 @@ function debug_resource($value = null)
  *
  * The returned handler is not wrapped by any default middlewares.
  *
- * @throws \RuntimeException if no viable Handler is available.
- *
  * @return callable(\Psr\Http\Message\RequestInterface, array): \DLGuzzleHttp\Promise\PromiseInterface Returns the best handler for the given system.
  *
- * @deprecated choose_handler will be removed in guzzlehttp/guzzle:8.0. Use Utils::chooseHandler instead.
+ * @throws \RuntimeException if no viable Handler is available.
+ *
+ * @deprecated choose_handler will be removed in DLGuzzleHttp/guzzle:8.0. Use Utils::chooseHandler instead.
  */
 function choose_handler(): callable
 {
@@ -64,7 +64,7 @@ function choose_handler(): callable
 /**
  * Get the default User-Agent string to use with Guzzle.
  *
- * @deprecated default_user_agent will be removed in guzzlehttp/guzzle:8.0. Use Utils::defaultUserAgent instead.
+ * @deprecated default_user_agent will be removed in DLGuzzleHttp/guzzle:8.0. Use Utils::defaultUserAgent instead.
  */
 function default_user_agent(): string
 {
@@ -84,7 +84,7 @@ function default_user_agent(): string
  *
  * @throws \RuntimeException if no bundle can be found.
  *
- * @deprecated default_ca_bundle will be removed in guzzlehttp/guzzle:8.0. This function is not needed in PHP 5.6+.
+ * @deprecated default_ca_bundle will be removed in DLGuzzleHttp/guzzle:8.0. This function is not needed in PHP 5.6+.
  */
 function default_ca_bundle(): string
 {
@@ -95,7 +95,7 @@ function default_ca_bundle(): string
  * Creates an associative array of lowercase header names to the actual
  * header casing.
  *
- * @deprecated normalize_header_keys will be removed in guzzlehttp/guzzle:8.0. Use Utils::normalizeHeaderKeys instead.
+ * @deprecated normalize_header_keys will be removed in DLGuzzleHttp/guzzle:8.0. Use Utils::normalizeHeaderKeys instead.
  */
 function normalize_header_keys(array $headers): array
 {
@@ -121,7 +121,7 @@ function normalize_header_keys(array $headers): array
  *
  * @throws Exception\InvalidArgumentException
  *
- * @deprecated is_host_in_noproxy will be removed in guzzlehttp/guzzle:8.0. Use Utils::isHostInNoProxy instead.
+ * @deprecated is_host_in_noproxy will be removed in DLGuzzleHttp/guzzle:8.0. Use Utils::isHostInNoProxy instead.
  */
 function is_host_in_noproxy(string $host, array $noProxyArray): bool
 {
@@ -141,8 +141,8 @@ function is_host_in_noproxy(string $host, array $noProxyArray): bool
  *
  * @throws Exception\InvalidArgumentException if the JSON cannot be decoded.
  *
- * @link https://www.php.net/manual/en/function.json-decode.php
- * @deprecated json_decode will be removed in guzzlehttp/guzzle:8.0. Use Utils::jsonDecode instead.
+ * @see https://www.php.net/manual/en/function.json-decode.php
+ * @deprecated json_decode will be removed in DLGuzzleHttp/guzzle:8.0. Use Utils::jsonDecode instead.
  */
 function json_decode(string $json, bool $assoc = false, int $depth = 512, int $options = 0)
 {
@@ -158,8 +158,8 @@ function json_decode(string $json, bool $assoc = false, int $depth = 512, int $o
  *
  * @throws Exception\InvalidArgumentException if the JSON cannot be encoded.
  *
- * @link https://www.php.net/manual/en/function.json-encode.php
- * @deprecated json_encode will be removed in guzzlehttp/guzzle:8.0. Use Utils::jsonEncode instead.
+ * @see https://www.php.net/manual/en/function.json-encode.php
+ * @deprecated json_encode will be removed in DLGuzzleHttp/guzzle:8.0. Use Utils::jsonEncode instead.
  */
 function json_encode($value, int $options = 0, int $depth = 512): string
 {

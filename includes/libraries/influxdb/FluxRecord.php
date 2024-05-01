@@ -3,6 +3,7 @@
 
 namespace InfluxDB2;
 
+use ArrayAccess;
 use RuntimeException;
 
 /**
@@ -10,20 +11,22 @@ use RuntimeException;
  * @see http://bit.ly/flux-spec#record
  * @package InfluxDB2
  */
-class FluxRecord
+class FluxRecord implements ArrayAccess
 {
     public $table;
     public $values;
+    public $row;
 
     /**
      * FluxRecord constructor.
      * @param $table int table index
      * @param $values array array with record values, key is the column name
      */
-    public function __construct($table, $values=null)
+    public function __construct($table, $values = null, $row = null)
     {
         $this->table = $table;
         $this->values = $values;
+        $this->row = $row;
     }
 
     /**
@@ -69,7 +72,7 @@ class FluxRecord
     /**
      * @return mixed record value for column named '_measurement'
      */
-    public function getMeasurement():string
+    public function getMeasurement(): string
     {
         return $this->getRecordValue('_measurement');
     }
@@ -90,5 +93,30 @@ class FluxRecord
         $array_keys = join(", ", array_keys($this->values));
 
         throw new RuntimeException("Record doesn't contain column named '$column'. Columns: '$array_keys'.");
+    }
+
+    public function offsetSet($offset, $value): void
+    {
+        if (is_null($offset)) {
+            $this->values[] = $value;
+        } else {
+            $this->values[$offset] = $value;
+        }
+    }
+
+    public function offsetExists($offset): bool
+    {
+        return isset($this->values[$offset]);
+    }
+
+    public function offsetUnset($offset): void
+    {
+        unset($this->values[$offset]);
+    }
+
+    #[\ReturnTypeWillChange]
+    public function offsetGet($offset)
+    {
+        return $this->values[$offset] ?? null;
     }
 }

@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace Sentry\State;
 
 use Sentry\Breadcrumb;
+use Sentry\CheckInStatus;
 use Sentry\ClientInterface;
 use Sentry\Event;
 use Sentry\EventHint;
 use Sentry\EventId;
 use Sentry\Integration\IntegrationInterface;
+use Sentry\MonitorConfig;
 use Sentry\SentrySdk;
 use Sentry\Severity;
 use Sentry\Tracing\Span;
@@ -40,7 +42,7 @@ final class HubAdapter implements HubInterface
      */
     public static function getInstance(): self
     {
-        if (null === self::$instance) {
+        if (self::$instance === null) {
             self::$instance = new self();
         }
 
@@ -82,9 +84,9 @@ final class HubAdapter implements HubInterface
     /**
      * {@inheritdoc}
      */
-    public function withScope(callable $callback): void
+    public function withScope(callable $callback)
     {
-        SentrySdk::getCurrentHub()->withScope($callback);
+        return SentrySdk::getCurrentHub()->withScope($callback);
     }
 
     /**
@@ -106,17 +108,17 @@ final class HubAdapter implements HubInterface
     /**
      * {@inheritdoc}
      */
-    public function captureMessage(string $message, ?Severity $level = null): ?EventId
+    public function captureMessage(string $message, ?Severity $level = null, ?EventHint $hint = null): ?EventId
     {
-        return SentrySdk::getCurrentHub()->captureMessage($message, $level);
+        return SentrySdk::getCurrentHub()->captureMessage($message, $level, $hint);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function captureException(\Throwable $exception): ?EventId
+    public function captureException(\Throwable $exception, ?EventHint $hint = null): ?EventId
     {
-        return SentrySdk::getCurrentHub()->captureException($exception);
+        return SentrySdk::getCurrentHub()->captureException($exception, $hint);
     }
 
     /**
@@ -130,9 +132,19 @@ final class HubAdapter implements HubInterface
     /**
      * {@inheritdoc}
      */
-    public function captureLastError(): ?EventId
+    public function captureLastError(?EventHint $hint = null): ?EventId
     {
-        return SentrySdk::getCurrentHub()->captureLastError();
+        return SentrySdk::getCurrentHub()->captureLastError($hint);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @param int|float|null $duration
+     */
+    public function captureCheckIn(string $slug, CheckInStatus $status, $duration = null, ?MonitorConfig $monitorConfig = null, ?string $checkInId = null): ?string
+    {
+        return SentrySdk::getCurrentHub()->captureCheckIn($slug, $status, $duration, $monitorConfig, $checkInId);
     }
 
     /**
@@ -153,12 +165,9 @@ final class HubAdapter implements HubInterface
 
     /**
      * {@inheritdoc}
-     *
-     * @param array<string, mixed> $customSamplingContext Additional context that will be passed to the {@see SamplingContext}
      */
     public function startTransaction(TransactionContext $context, array $customSamplingContext = []): Transaction
     {
-        /** @psalm-suppress TooManyArguments */
         return SentrySdk::getCurrentHub()->startTransaction($context, $customSamplingContext);
     }
 
@@ -200,5 +209,13 @@ final class HubAdapter implements HubInterface
     public function __wakeup()
     {
         throw new \BadMethodCallException('Unserializing instances of this class is forbidden.');
+    }
+
+    /**
+     * @see https://www.php.net/manual/en/language.oop5.magic.php#object.sleep
+     */
+    public function __sleep()
+    {
+        throw new \BadMethodCallException('Serializing instances of this class is forbidden.');
     }
 }

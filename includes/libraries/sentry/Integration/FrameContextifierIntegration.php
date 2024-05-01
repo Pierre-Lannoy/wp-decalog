@@ -7,6 +7,7 @@ namespace Sentry\Integration;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use Sentry\Event;
+use Sentry\Frame;
 use Sentry\SentrySdk;
 use Sentry\Stacktrace;
 use Sentry\State\Scope;
@@ -27,7 +28,7 @@ final class FrameContextifierIntegration implements IntegrationInterface
     /**
      * Creates a new instance of this integration.
      *
-     * @param LoggerInterface $logger A PSR-3 logger
+     * @param LoggerInterface|null $logger A PSR-3 logger
      */
     public function __construct(?LoggerInterface $logger = null)
     {
@@ -42,26 +43,33 @@ final class FrameContextifierIntegration implements IntegrationInterface
         Scope::addGlobalEventProcessor(static function (Event $event): Event {
             $client = SentrySdk::getCurrentHub()->getClient();
 
-            if (null === $client) {
+            if ($client === null) {
                 return $event;
             }
 
             $maxContextLines = $client->getOptions()->getContextLines();
             $integration = $client->getIntegration(self::class);
 
-            if (null === $integration || null === $maxContextLines) {
+            if ($integration === null || $maxContextLines === null) {
                 return $event;
             }
 
             $stacktrace = $event->getStacktrace();
 
-            if (null !== $stacktrace) {
+            if ($stacktrace !== null) {
                 $integration->addContextToStacktraceFrames($maxContextLines, $stacktrace);
             }
 
             foreach ($event->getExceptions() as $exception) {
-                if (null !== $exception->getStacktrace()) {
+                if ($exception->getStacktrace() !== null) {
                     $integration->addContextToStacktraceFrames($maxContextLines, $exception->getStacktrace());
+                }
+            }
+
+            foreach ($event->getMetrics() as $metric) {
+                if ($metric->hasCodeLocation()) {
+                    $frame = $metric->getCodeLocation();
+                    $integration->addContextToStacktraceFrame($maxContextLines, $frame);
                 }
             }
 
@@ -78,16 +86,30 @@ final class FrameContextifierIntegration implements IntegrationInterface
     private function addContextToStacktraceFrames(int $maxContextLines, Stacktrace $stacktrace): void
     {
         foreach ($stacktrace->getFrames() as $frame) {
-            if ($frame->isInternal() || null === $frame->getAbsoluteFilePath()) {
+            if ($frame->isInternal()) {
                 continue;
             }
 
-            $sourceCodeExcerpt = $this->getSourceCodeExcerpt($maxContextLines, $frame->getAbsoluteFilePath(), $frame->getLine());
-
-            $frame->setPreContext($sourceCodeExcerpt['pre_context']);
-            $frame->setContextLine($sourceCodeExcerpt['context_line']);
-            $frame->setPostContext($sourceCodeExcerpt['post_context']);
+            $this->addContextToStacktraceFrame($maxContextLines, $frame);
         }
+    }
+
+    /**
+     * Contextifies the given frame.
+     *
+     * @param int $maxContextLines The maximum number of lines of code to read
+     */
+    private function addContextToStacktraceFrame(int $maxContextLines, Frame $frame): void
+    {
+        if ($frame->getAbsoluteFilePath() === null) {
+            return;
+        }
+
+        $sourceCodeExcerpt = $this->getSourceCodeExcerpt($maxContextLines, $frame->getAbsoluteFilePath(), $frame->getLine());
+
+        $frame->setPreContext($sourceCodeExcerpt['pre_context']);
+        $frame->setContextLine($sourceCodeExcerpt['context_line']);
+        $frame->setPostContext($sourceCodeExcerpt['post_context']);
     }
 
     /**
@@ -113,7 +135,7 @@ final class FrameContextifierIntegration implements IntegrationInterface
             'post_context' => [],
         ];
 
-        $target = max(0, ($lineNumber - ($maxContextLines + 1)));
+        $target = max(0, $lineNumber - ($maxContextLines + 1));
         $currentLineNumber = $target + 1;
 
         try {
@@ -142,7 +164,10 @@ final class FrameContextifierIntegration implements IntegrationInterface
                 $file->next();
             }
         } catch (\Throwable $exception) {
-            $this->logger->warning(sprintf('Failed to get the source code excerpt for the file "%s".', $filePath));
+            $this->logger->warning(
+                sprintf('Failed to get the source code excerpt for the file "%s".', $filePath),
+                ['exception' => $exception]
+            );
         }
 
         return $frame;

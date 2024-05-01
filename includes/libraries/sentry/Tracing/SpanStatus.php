@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Sentry\Tracing;
 
-final class SpanStatus
+final class SpanStatus implements \Stringable
 {
     /**
      * @var string The value of the enum instance
@@ -76,9 +76,20 @@ final class SpanStatus
      * Gets an instance of this enum representing the fact that the server returned
      * 429 Too Many Requests.
      */
-    public static function resourceExchausted(): self
+    public static function resourceExhausted(): self
     {
         return self::getInstance('resource_exhausted');
+    }
+
+    /**
+     * Gets an instance of this enum representing the fact that the server returned
+     * 429 Too Many Requests.
+     *
+     * @deprecated since version 4.7. To be removed in version 5.0. Use SpanStatus::resourceExhausted() instead.
+     */
+    public static function resourceExchausted(): self
+    {
+        return self::resourceExhausted();
     }
 
     /**
@@ -152,23 +163,23 @@ final class SpanStatus
     public static function createFromHttpStatusCode(int $statusCode): self
     {
         switch (true) {
-            case 401 === $statusCode:
+            case $statusCode === 401:
                 return self::unauthenticated();
-            case 403 === $statusCode:
+            case $statusCode === 403:
                 return self::permissionDenied();
-            case 404 === $statusCode:
+            case $statusCode === 404:
                 return self::notFound();
-            case 409 === $statusCode:
+            case $statusCode === 409:
                 return self::alreadyExists();
-            case 413 === $statusCode:
+            case $statusCode === 413:
                 return self::failedPrecondition();
-            case 429 === $statusCode:
-                return self::resourceExchausted();
-            case 501 === $statusCode:
+            case $statusCode === 429:
+                return self::resourceExhausted();
+            case $statusCode === 501:
                 return self::unimplemented();
-            case 503 === $statusCode:
+            case $statusCode === 503:
                 return self::unavailable();
-            case 504 === $statusCode:
+            case $statusCode === 504:
                 return self::deadlineExceeded();
             case $statusCode < 400:
                 return self::ok();

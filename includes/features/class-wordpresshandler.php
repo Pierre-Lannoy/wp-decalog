@@ -73,7 +73,7 @@ class WordpressHandler {
 	public function set_logger( $logger ) {
 		$this->logger      = $logger;
 		$this->bucket_name = 'decalog_' . str_replace( '-', '', $logger['uuid'] );
-		switch ( $logger['configuration']['constant-storage'] ) {
+		switch ( $logger['configuration']['constant-storage'] ?? 'default' ) {
 			case 'apcu':
 				$this->storage = new APCuStorage( $this->bucket_name );
 				break;

@@ -26,7 +26,7 @@ final class EnvironmentIntegration implements IntegrationInterface
         Scope::addGlobalEventProcessor(static function (Event $event): Event {
             $integration = SentrySdk::getCurrentHub()->getIntegration(self::class);
 
-            if (null !== $integration) {
+            if ($integration !== null) {
                 $event->setRuntimeContext($integration->updateRuntimeContext($event->getRuntimeContext()));
                 $event->setOsContext($integration->updateServerOsContext($event->getOsContext()));
             }
@@ -37,33 +37,45 @@ final class EnvironmentIntegration implements IntegrationInterface
 
     private function updateRuntimeContext(?RuntimeContext $runtimeContext): RuntimeContext
     {
-        if (null === $runtimeContext) {
+        if ($runtimeContext === null) {
             $runtimeContext = new RuntimeContext('php');
         }
 
-        if (null === $runtimeContext->getVersion()) {
+        if ($runtimeContext->getVersion() === null) {
             $runtimeContext->setVersion(PHPVersion::parseVersion());
+        }
+
+        if ($runtimeContext->getSAPI() === null) {
+            $runtimeContext->setSAPI(\PHP_SAPI);
         }
 
         return $runtimeContext;
     }
 
-    private function updateServerOsContext(?OsContext $osContext): OsContext
+    private function updateServerOsContext(?OsContext $osContext): ?OsContext
     {
-        if (null === $osContext) {
+        if (!\function_exists('php_uname')) {
+            return $osContext;
+        }
+
+        if ($osContext === null) {
             $osContext = new OsContext(php_uname('s'));
         }
 
-        if (null === $osContext->getVersion()) {
+        if ($osContext->getVersion() === null) {
             $osContext->setVersion(php_uname('r'));
         }
 
-        if (null === $osContext->getBuild()) {
+        if ($osContext->getBuild() === null) {
             $osContext->setBuild(php_uname('v'));
         }
 
-        if (null === $osContext->getKernelVersion()) {
+        if ($osContext->getKernelVersion() === null) {
             $osContext->setKernelVersion(php_uname('a'));
+        }
+
+        if ($osContext->getMachineType() === null) {
+            $osContext->setMachineType(php_uname('m'));
         }
 
         return $osContext;

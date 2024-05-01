@@ -28,15 +28,15 @@ final class TransactionIntegration implements IntegrationInterface
 
             // The client bound to the current hub, if any, could not have this
             // integration enabled. If this is the case, bail out
-            if (null === $integration) {
+            if ($integration === null) {
                 return $event;
             }
 
-            if (null !== $event->getTransaction()) {
+            if ($event->getTransaction() !== null) {
                 return $event;
             }
 
-            if (isset($hint->extra['transaction'])) {
+            if (isset($hint->extra['transaction']) && \is_string($hint->extra['transaction'])) {
                 $event->setTransaction($hint->extra['transaction']);
             } elseif (isset($_SERVER['PATH_INFO'])) {
                 $event->setTransaction($_SERVER['PATH_INFO']);

@@ -1,734 +1,472 @@
 <?php
-
+/**
+ * Elasticsearch PHP Client
+ *
+ * @link      https://github.com/elastic/elasticsearch-php
+ * @copyright Copyright (c) Elasticsearch B.V (https://www.elastic.co)
+ * @license   https://opensource.org/licenses/MIT MIT License
+ *
+ * Licensed to Elasticsearch B.V under one or more agreements.
+ * Elasticsearch B.V licenses this file to you under the MIT License.
+ * See the LICENSE file in the project root for more information.
+ */
 declare(strict_types = 1);
 
-namespace Elasticsearch;
+namespace Elastic\Elasticsearch;
 
-use Elasticsearch\Common\Exceptions\InvalidArgumentException;
-use Elasticsearch\Common\Exceptions\RuntimeException;
-use Elasticsearch\Common\Exceptions\ElasticCloudIdParseException;
-use Elasticsearch\Common\Exceptions\AuthenticationConfigException;
-use Elasticsearch\ConnectionPool\AbstractConnectionPool;
-use Elasticsearch\ConnectionPool\Selectors\RoundRobinSelector;
-use Elasticsearch\ConnectionPool\Selectors\SelectorInterface;
-use Elasticsearch\ConnectionPool\StaticNoPingConnectionPool;
-use Elasticsearch\Connections\Connection;
-use Elasticsearch\Connections\ConnectionFactory;
-use Elasticsearch\Connections\ConnectionFactoryInterface;
-use Elasticsearch\Namespaces\NamespaceBuilderInterface;
-use Elasticsearch\Serializers\SerializerInterface;
-use Elasticsearch\ConnectionPool\Selectors;
-use Elasticsearch\Serializers\SmartSerializer;
-use DLGuzzleHttp\Ring\Client\CurlHandler;
-use DLGuzzleHttp\Ring\Client\CurlMultiHandler;
-use DLGuzzleHttp\Ring\Client\Middleware;
+use Elastic\Elasticsearch\Exception\AuthenticationException;
+use Elastic\Elasticsearch\Exception\ConfigException;
+use Elastic\Elasticsearch\Exception\HttpClientException;
+use Elastic\Elasticsearch\Exception\InvalidArgumentException;
+use Elastic\Elasticsearch\Transport\Adapter\AdapterInterface;
+use Elastic\Elasticsearch\Transport\Adapter\AdapterOptions;
+use Elastic\Elasticsearch\Transport\RequestOptions;
+use Elastic\Transport\Exception\NoAsyncClientException;
+use Elastic\Transport\NodePool\NodePoolInterface;
+use Elastic\Transport\Transport;
+use Elastic\Transport\TransportBuilder;
+use GuzzleHttp\Client as GuzzleHttpClient;
+use Http\Client\HttpAsyncClient;
+use Psr\Http\Client\ClientInterface;
 use Psr\Log\LoggerInterface;
-use Psr\Log\NullLogger;
+use ReflectionClass;
 
-/**
- * Class ClientBuilder
- *
- * @category Elasticsearch
- * @package  Elasticsearch\Common\Exceptions
- * @author   Zachary Tong <zach@elastic.co>
- * @license  http://www.apache.org/licenses/LICENSE-2.0 Apache2
- * @link     http://elastic.co
- */
 class ClientBuilder
 {
-    /**
-     * @var Transport
-     */
-    private $transport;
+    const DEFAULT_HOST = 'localhost:9200';
 
     /**
-     * @var callable
+     * PSR-18 client
      */
-    private $endpoint;
+    private ClientInterface $httpClient;
 
     /**
-     * @var NamespaceBuilderInterface[]
+     * The HTTP async client
      */
-    private $registeredNamespacesBuilders = [];
+    private HttpAsyncClient $asyncHttpClient;
 
     /**
-     * @var ConnectionFactoryInterface
+     * PSR-3 Logger
      */
-    private $connectionFactory;
+    private LoggerInterface $logger;
 
     /**
-     * @var callable
+     * The NodelPool
      */
-    private $handler;
+    private NodePoolInterface $nodePool;
 
     /**
-     * @var LoggerInterface
+     * Hosts (elasticsearch nodes)
      */
-    private $logger;
+    private array $hosts;
 
     /**
-     * @var LoggerInterface
+     * Elasticsearch API key
      */
-    private $tracer;
+    private string $apiKey;
 
     /**
-     * @var string
+     * Basic authentication username
      */
-    private $connectionPool = StaticNoPingConnectionPool::class;
+    private string $username;
 
     /**
-     * @var string
+     * Basic authentication password
      */
-    private $serializer = SmartSerializer::class;
+    private string $password;
 
     /**
-     * @var string
+     * Elastic cloud Id
      */
-    private $selector = RoundRobinSelector::class;
+    private string $cloudId;
 
     /**
-     * @var array
+     * Retries
+     * 
+     * The default value is calculated during the client build
+     * and it is equal to the number of hosts
      */
-    private $connectionPoolArgs = [
-        'randomizeHosts' => true
-    ];
+    private int $retries;
 
     /**
-     * @var array
+     * SSL certificate 
+     * @var array [$cert, $password] $cert is the name of a file containing a PEM formatted certificate,
+     *              $password if the certificate requires a password 
      */
-    private $hosts;
+    private array $sslCert;
 
     /**
-     * @var array
+     * SSL key
+     * @var array [$key, $password] $key is the name of a file containing a private SSL key,
+     *              $password if the private key requires a password
      */
-    private $connectionParams;
+    private array $sslKey;
 
     /**
-     * @var int
+     * SSL verification
+     * 
+     * Enable or disable the SSL verfiication (default is true)
      */
-    private $retries;
+    private bool $sslVerification = true;
 
     /**
-     * @var bool
+     * SSL CA bundle
      */
-    private $sniffOnStart = false;
+    private string $sslCA;
 
     /**
-     * @var null|array
+     * Elastic meta header
+     * 
+     * Enable or disable the x-elastic-client-meta header (default is true)
      */
-    private $sslCert = null;
+    private bool $elasticMetaHeader = true;
 
     /**
-     * @var null|array
+     * HTTP client options
      */
-    private $sslKey = null;
+    private array $httpClientOptions = [];
 
     /**
-     * @var null|bool|string
+     * Make the constructor final so cannot be overwritten
      */
-    private $sslVerification = null;
+    final public function __construct()
+    {
+    }
 
     /**
-     *  @var bool
+     * Create an instance of ClientBuilder
      */
-    private $includePortInHostHeader = false;
-
     public static function create(): ClientBuilder
     {
         return new static();
     }
 
     /**
-     * Can supply first parm to Client::__construct() when invoking manually or with dependency injection
-     */
-    public function getTransport(): Transport
-    {
-        return $this->transport;
-    }
-
-    /**
-     * Can supply second parm to Client::__construct() when invoking manually or with dependency injection
-     */
-    public function getEndpoint(): callable
-    {
-        return $this->endpoint;
-    }
-
-    /**
-     * Can supply third parm to Client::__construct() when invoking manually or with dependency injection
-     *
-     * @return NamespaceBuilderInterface[]
-     */
-    public function getRegisteredNamespacesBuilders(): array
-    {
-        return $this->registeredNamespacesBuilders;
-    }
-
-    /**
      * Build a new client from the provided config.  Hash keys
-     * should correspond to the method name e.g. ['connectionPool']
-     * corresponds to setConnectionPool().
+     * should correspond to the method name e.g. ['nodePool']
+     * corresponds to setNodePool().
      *
      * Missing keys will use the default for that setting if applicable
      *
      * Unknown keys will throw an exception by default, but this can be silenced
      * by setting `quiet` to true
      *
+     * @param  array $config
      * @param  bool $quiet False if unknown settings throw exception, true to silently
      *                     ignore unknown settings
-     * @throws Common\Exceptions\RuntimeException
+     * @throws ConfigException
      */
     public static function fromConfig(array $config, bool $quiet = false): Client
     {
-        $builder = new self;
+        $builder = new static;
         foreach ($config as $key => $value) {
             $method = "set$key";
-            if (method_exists($builder, $method)) {
-                $builder->$method($value);
+            $reflection = new ReflectionClass($builder);
+            if ($reflection->hasMethod($method)) {
+                $func = $reflection->getMethod($method);
+                if ($func->getNumberOfParameters() > 1) {
+                    $builder->$method(...$value);
+                } else {
+                    $builder->$method($value);
+                }
                 unset($config[$key]);
             }
         }
 
         if ($quiet === false && count($config) > 0) {
             $unknown = implode(array_keys($config));
-            throw new RuntimeException("Unknown parameters provided: $unknown");
+            throw new ConfigException("Unknown parameters provided: $unknown");
         }
         return $builder->build();
     }
 
-    /**
-     * @throws \RuntimeException
-     */
-    public static function defaultHandler(array $multiParams = [], array $singleParams = []): callable
+    public function setHttpClient(ClientInterface $httpClient): ClientBuilder
     {
-        $future = null;
-        if (extension_loaded('curl')) {
-            $config = array_merge([ 'mh' => curl_multi_init() ], $multiParams);
-            if (function_exists('curl_reset')) {
-                $default = new CurlHandler($singleParams);
-                $future = new CurlMultiHandler($config);
-            } else {
-                $default = new CurlMultiHandler($config);
-            }
-        } else {
-            throw new \RuntimeException('Elasticsearch-PHP requires cURL, or a custom HTTP handler.');
-        }
-
-        return $future ? Middleware::wrapFuture($default, $future) : $default;
+        $this->httpClient = $httpClient;
+        return $this;
     }
 
-    /**
-     * @throws \RuntimeException
-     */
-    public static function multiHandler(array $params = []): CurlMultiHandler
+    public function setAsyncHttpClient(HttpAsyncClient $asyncHttpClient): ClientBuilder
     {
-        if (function_exists('curl_multi_init')) {
-            return new CurlMultiHandler(array_merge([ 'mh' => curl_multi_init() ], $params));
-        } else {
-            throw new \RuntimeException('CurlMulti handler requires cURL.');
-        }
-    }
-
-    /**
-     * @throws \RuntimeException
-     */
-    public static function singleHandler(): CurlHandler
-    {
-        if (function_exists('curl_reset')) {
-            return new CurlHandler();
-        } else {
-            throw new \RuntimeException('CurlSingle handler requires cURL.');
-        }
-    }
-
-    public function setConnectionFactory(ConnectionFactoryInterface $connectionFactory): ClientBuilder
-    {
-        $this->connectionFactory = $connectionFactory;
-
+        $this->asyncHttpClient = $asyncHttpClient;
         return $this;
     }
 
     /**
-     * @param  AbstractConnectionPool|string $connectionPool
-     * @throws \InvalidArgumentException
+     * Set the PSR-3 Logger
      */
-    public function setConnectionPool($connectionPool, array $args = []): ClientBuilder
-    {
-        if (is_string($connectionPool)) {
-            $this->connectionPool = $connectionPool;
-            $this->connectionPoolArgs = $args;
-        } elseif (is_object($connectionPool)) {
-            $this->connectionPool = $connectionPool;
-        } else {
-            throw new InvalidArgumentException("Serializer must be a class path or instantiated object extending AbstractConnectionPool");
-        }
-
-        return $this;
-    }
-
-    public function setEndpoint(callable $endpoint): ClientBuilder
-    {
-        $this->endpoint = $endpoint;
-
-        return $this;
-    }
-
-    public function registerNamespace(NamespaceBuilderInterface $namespaceBuilder): ClientBuilder
-    {
-        $this->registeredNamespacesBuilders[] = $namespaceBuilder;
-
-        return $this;
-    }
-
-    public function setTransport(Transport $transport): ClientBuilder
-    {
-        $this->transport = $transport;
-
-        return $this;
-    }
-
-    /**
-     * @param  mixed $handler
-     * @return $this
-     */
-    public function setHandler($handler): ClientBuilder
-    {
-        $this->handler = $handler;
-
-        return $this;
-    }
-
     public function setLogger(LoggerInterface $logger): ClientBuilder
     {
-        if (!$logger instanceof LoggerInterface) {
-            throw new InvalidArgumentException('$logger must implement \Psr\Log\LoggerInterface!');
-        }
-
         $this->logger = $logger;
-
-        return $this;
-    }
-
-    public function setTracer(LoggerInterface $tracer): ClientBuilder
-    {
-        if (!$tracer instanceof LoggerInterface) {
-            throw new InvalidArgumentException('$tracer must implement \Psr\Log\LoggerInterface!');
-        }
-
-        $this->tracer = $tracer;
-
         return $this;
     }
 
     /**
-     * @param \Elasticsearch\Serializers\SerializerInterface|string $serializer
+     * Set the NodePool
      */
-    public function setSerializer($serializer): ClientBuilder
+    public function setNodePool(NodePoolInterface $nodePool): ClientBuilder
     {
-        $this->parseStringOrObject($serializer, $this->serializer, 'SerializerInterface');
-
+        $this->nodePool = $nodePool;
         return $this;
     }
 
+    /**
+     * Set the hosts (nodes)
+     */
     public function setHosts(array $hosts): ClientBuilder
     {
         $this->hosts = $hosts;
-
         return $this;
     }
 
     /**
-     * Set the APIKey Pair, consiting of the API Id and the ApiKey of the Response from /_security/api_key
+     * Set the ApiKey
+     * If the id is not specified we store the ApiKey otherwise
+     * we store as Base64(id:ApiKey)
      *
-     * @link https://www.elastic.co/guide/en/elasticsearch/reference/current/security-api-create-api-key.html
-     *
-     * @throws Elasticsearch\Common\Exceptions\AuthenticationConfigException
+     * @see https://www.elastic.co/guide/en/elasticsearch/reference/current/security-api-create-api-key.html
      */
-    public function setApiKey(string $id, string $apiKey): ClientBuilder
+    public function setApiKey(string $apiKey, string $id = null): ClientBuilder
     {
-        if (isset($this->connectionParams['client']['curl'][CURLOPT_HTTPAUTH]) === true) {
-            throw new AuthenticationConfigException("You can't use APIKey - and Basic Authenication together.");
+        if (empty($id)) {
+            $this->apiKey = $apiKey;
+        } else {
+            $this->apiKey = base64_encode($id . ':' . $apiKey);
         }
-
-        $this->connectionParams['client']['headers']['Authorization'] = [
-            'ApiKey ' . base64_encode($id . ':' . $apiKey)
-        ];
-
         return $this;
     }
 
     /**
-     * Set the APIKey Pair, consiting of the API Id and the ApiKey of the Response from /_security/api_key
-     *
-     * @param string $username
-     * @param string $password
-     *
-     * @throws Elasticsearch\Common\Exceptions\AuthenticationConfigException
+     * Set the Basic Authentication
      */
     public function setBasicAuthentication(string $username, string $password): ClientBuilder
     {
-        if (isset($this->connectionParams['client']['headers']['Authorization']) === true) {
-            throw new AuthenticationConfigException("You can't use APIKey - and Basic Authenication together.");
-        }
+        $this->username = $username;
+        $this->password = $password;
+        return $this;
+    }
 
-        if (isset($this->connectionParams['client']['curl']) === false) {
-            $this->connectionParams['client']['curl'] = [];
-        }
-
-        $this->connectionParams['client']['curl'] += [
-            CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-            CURLOPT_USERPWD  => $username.':'.$password
-        ];
-
+    public function setElasticCloudId(string $cloudId)
+    {
+        $this->cloudId = $cloudId;
         return $this;
     }
 
     /**
-     * Set Elastic Cloud ID to connect to Elastic Cloud
-     *
-     * @link  https://elastic.co/cloud
-     *
-     * @param string $cloudId
+     * Set number or retries
+     * 
+     * @param int $retries
      */
-    public function setElasticCloudId(string $cloudId): ClientBuilder
-    {
-        // Register the Hosts array
-        $this->setHosts([
-            [
-                'host'   => $this->parseElasticCloudId($cloudId),
-                'port'   => '',
-                'scheme' => 'https',
-            ]
-        ]);
-
-        if (!isset($this->connectionParams['client']['curl'][CURLOPT_ENCODING])) {
-            // Merge best practices for the connection (enable gzip)
-            $this->connectionParams['client']['curl'][CURLOPT_ENCODING] = 'gzip';
-        }
-
-        return $this;
-    }
-
-    public function setConnectionParams(array $params): ClientBuilder
-    {
-        $this->connectionParams = $params;
-
-        return $this;
-    }
-
     public function setRetries(int $retries): ClientBuilder
     {
+        if ($retries < 0) {
+            throw new InvalidArgumentException('The retries number must be >= 0');
+        }
         $this->retries = $retries;
-
         return $this;
     }
 
     /**
-     * @param \Elasticsearch\ConnectionPool\Selectors\SelectorInterface|string $selector
-     */
-    public function setSelector($selector): ClientBuilder
-    {
-        $this->parseStringOrObject($selector, $this->selector, 'SelectorInterface');
-
-        return $this;
-    }
-
-    public function setSniffOnStart(bool $sniffOnStart): ClientBuilder
-    {
-        $this->sniffOnStart = $sniffOnStart;
-
-        return $this;
-    }
-
-    /**
-     * @param string $cert The name of a file containing a PEM formatted certificate.
+     * Set SSL certificate
+     * 
+     * @param string $cert The name of a file containing a PEM formatted certificate
+     * @param string $password if the certificate requires a password
      */
     public function setSSLCert(string $cert, string $password = null): ClientBuilder
     {
         $this->sslCert = [$cert, $password];
-
         return $this;
     }
 
     /**
-     * @param string $key The name of a file containing a private SSL key.
+     * Set the Certificate Authority (CA) bundle 
+     * 
+     * @param string $cert The name of a file containing a PEM formatted certificate
+     */
+    public function setCABundle(string $cert): ClientBuilder
+    {
+        $this->sslCA = $cert;
+        return $this;
+    }
+
+    /**
+     * Set SSL key
+     * 
+     * @param string $key The name of a file containing a private SSL key
+     * @param string $password if the private key requires a password
      */
     public function setSSLKey(string $key, string $password = null): ClientBuilder
     {
         $this->sslKey = [$key, $password];
-
         return $this;
     }
 
     /**
-     *  @param bool|string $value
+     * Enable or disable the SSL verification 
      */
-    public function setSSLVerification($value = true): ClientBuilder
+    public function setSSLVerification(bool $value = true): ClientBuilder
     {
         $this->sslVerification = $value;
-
         return $this;
     }
 
     /**
-     * Include the port in Host header
-     * @see https://github.com/elastic/elasticsearch-php/issues/993
+     * Enable or disable the x-elastic-client-meta header
      */
-    public function includePortInHostHeader(bool $enable): ClientBuilder
+    public function setElasticMetaHeader(bool $value = true): ClientBuilder
     {
-        $this->includePortInHostHeader = $enable;
-
+        $this->elasticMetaHeader = $value;
         return $this;
     }
 
+    public function setHttpClientOptions(array $options): ClientBuilder
+    {
+        $this->httpClientOptions = $options;
+        return $this;
+    }
+
+    /**
+     * Build and returns the Client object
+     */
     public function build(): Client
     {
-        $this->buildLoggers();
+        // Transport builder
+        $builder = TransportBuilder::create();
 
-        if (is_null($this->handler)) {
-            $this->handler = ClientBuilder::defaultHandler();
+        // Set the default hosts if empty
+        if (empty($this->hosts)) {
+            $this->hosts = [self::DEFAULT_HOST];
+        }
+        $builder->setHosts($this->hosts);
+
+        // Logger
+        if (!empty($this->logger)) {    
+            $builder->setLogger($this->logger);
         }
 
-        $sslOptions = null;
-        if (isset($this->sslKey)) {
-            $sslOptions['ssl_key'] = $this->sslKey;
+        // Http client
+        if (!empty($this->httpClient)) {
+            $builder->setClient($this->httpClient);
         }
-        if (isset($this->sslCert)) {
-            $sslOptions['cert'] = $this->sslCert;
-        }
-        if (isset($this->sslVerification)) {
-            $sslOptions['verify'] = $this->sslVerification;
-        }
+        // Set HTTP client options
+        $builder->setClient(
+            $this->setOptions($builder->getClient(), $this->getConfig(), $this->httpClientOptions)
+        );
 
-        if (!is_null($sslOptions)) {
-            $sslHandler = function (callable $handler, array $sslOptions) {
-                return function (array $request) use ($handler, $sslOptions) {
-                    // Add our custom headers
-                    foreach ($sslOptions as $key => $value) {
-                        $request['client'][$key] = $value;
-                    }
-
-                    // Send the request using the handler and return the response.
-                    return $handler($request);
-                };
-            };
-            $this->handler = $sslHandler($this->handler, $sslOptions);
+        // Cloud id
+        if (!empty($this->cloudId)) {
+            $builder->setCloudId($this->cloudId);
         }
 
-        if (is_null($this->serializer)) {
-            $this->serializer = new SmartSerializer();
-        } elseif (is_string($this->serializer)) {
-            $this->serializer = new $this->serializer;
+        // Node Pool
+        if (!empty($this->nodePool)) {
+            $builder->setNodePool($this->nodePool);
         }
 
-        $this->connectionParams['client']['port_in_header'] = $this->includePortInHostHeader;
+        $transport = $builder->build();
+        
+        // The default retries is equal to the number of hosts
+        if (empty($this->retries)) {
+            $this->retries = count($this->hosts);
+        }
+        $transport->setRetries($this->retries);
 
-        if (is_null($this->connectionFactory)) {
-            if (is_null($this->connectionParams)) {
-                $this->connectionParams = [];
+        // Async client
+        if (!empty($this->asyncHttpClient)) {
+            $transport->setAsyncClient($this->asyncHttpClient);
+        }
+        
+        // Basic authentication
+        if (!empty($this->username) && !empty($this->password)) {
+            $transport->setUserInfo($this->username, $this->password);
+        }
+
+        // API key
+        if (!empty($this->apiKey)) {
+            if (!empty($this->username)) {
+                throw new AuthenticationException('You cannot use APIKey and Basic Authenication together');
             }
-
-            // Make sure we are setting Content-Type and Accept (unless the user has explicitly
-            // overridden it
-            if (! isset($this->connectionParams['client']['headers'])) {
-                $this->connectionParams['client']['headers'] = [];
-            }
-            if (! isset($this->connectionParams['client']['headers']['Content-Type'])) {
-                $this->connectionParams['client']['headers']['Content-Type'] = ['application/json'];
-            }
-            if (! isset($this->connectionParams['client']['headers']['Accept'])) {
-                $this->connectionParams['client']['headers']['Accept'] = ['application/json'];
-            }
-
-            $this->connectionFactory = new ConnectionFactory($this->handler, $this->connectionParams, $this->serializer, $this->logger, $this->tracer);
+            $transport->setHeader('Authorization', sprintf("ApiKey %s", $this->apiKey));
         }
 
-        if (is_null($this->hosts)) {
-            $this->hosts = $this->getDefaultHost();
+        /**
+         * Elastic cloud optimized with gzip
+         * @see https://github.com/elastic/elasticsearch-php/issues/1241 omit for Symfony HTTP Client    
+         */
+        if (!empty($this->cloudId) && !$this->isSymfonyHttpClient($transport)) {
+            $transport->setHeader('Accept-Encoding', 'gzip');
         }
 
-        if (is_null($this->selector)) {
-            $this->selector = new RoundRobinSelector();
-        } elseif (is_string($this->selector)) {
-            $this->selector = new $this->selector;
-        }
+        $client = new Client($transport, $transport->getLogger());
+        // Enable or disable the x-elastic-client-meta header
+        $client->setElasticMetaHeader($this->elasticMetaHeader);
 
-        $this->buildTransport();
-
-        if (is_null($this->endpoint)) {
-            $serializer = $this->serializer;
-
-            $this->endpoint = function ($class) use ($serializer) {
-                $fullPath = '\\Elasticsearch\\Endpoints\\' . $class;
-                if ($class === 'Bulk' || $class === 'Msearch' || $class === 'MsearchTemplate' || $class === 'MPercolate') {
-                    return new $fullPath($serializer);
-                } else {
-                    return new $fullPath();
-                }
-            };
-        }
-
-        $registeredNamespaces = [];
-        foreach ($this->registeredNamespacesBuilders as $builder) {
-            /**
- * @var NamespaceBuilderInterface $builder
-*/
-            $registeredNamespaces[$builder->getName()] = $builder->getObject($this->transport, $this->serializer);
-        }
-
-        return $this->instantiate($this->transport, $this->endpoint, $registeredNamespaces);
-    }
-
-    protected function instantiate(Transport $transport, callable $endpoint, array $registeredNamespaces): Client
-    {
-        return new Client($transport, $endpoint, $registeredNamespaces);
-    }
-
-    private function buildLoggers(): void
-    {
-        if (is_null($this->logger)) {
-            $this->logger = new NullLogger();
-        }
-
-        if (is_null($this->tracer)) {
-            $this->tracer = new NullLogger();
-        }
-    }
-
-    private function buildTransport(): void
-    {
-        $connections = $this->buildConnectionsFromHosts($this->hosts);
-
-        if (is_string($this->connectionPool)) {
-            $this->connectionPool = new $this->connectionPool(
-                $connections,
-                $this->selector,
-                $this->connectionFactory,
-                $this->connectionPoolArgs
-            );
-        } elseif (is_null($this->connectionPool)) {
-            $this->connectionPool = new StaticNoPingConnectionPool(
-                $connections,
-                $this->selector,
-                $this->connectionFactory,
-                $this->connectionPoolArgs
-            );
-        }
-
-        if (is_null($this->retries)) {
-            $this->retries = count($connections);
-        }
-
-        if (is_null($this->transport)) {
-            $this->transport = new Transport($this->retries, $this->connectionPool, $this->logger, $this->sniffOnStart);
-        }
-    }
-
-    private function parseStringOrObject($arg, &$destination, $interface): void
-    {
-        if (is_string($arg)) {
-            $destination = new $arg;
-        } elseif (is_object($arg)) {
-            $destination = $arg;
-        } else {
-            throw new InvalidArgumentException("Serializer must be a class path or instantiated object implementing $interface");
-        }
-    }
-
-    private function getDefaultHost(): array
-    {
-        return ['localhost:9200'];
+        return $client;
     }
 
     /**
-     * @return \Elasticsearch\Connections\Connection[]
-     * @throws RuntimeException
+     * Returns true if the transport HTTP client is Symfony
      */
-    private function buildConnectionsFromHosts(array $hosts): array
+    protected function isSymfonyHttpClient(Transport $transport): bool
     {
-        $connections = [];
-        foreach ($hosts as $host) {
-            if (is_string($host)) {
-                $host = $this->prependMissingScheme($host);
-                $host = $this->extractURIParts($host);
-            } elseif (is_array($host)) {
-                $host = $this->normalizeExtendedHost($host);
-            } else {
-                $this->logger->error("Could not parse host: ".print_r($host, true));
-                throw new RuntimeException("Could not parse host: ".print_r($host, true));
-            }
-
-            $connections[] = $this->connectionFactory->create($host);
+        if (false !== strpos(get_class($transport->getClient()), 'Symfony\Component\HttpClient')) {
+            return true;
         }
-
-        return $connections;
-    }
-
-    /**
-     * @throws RuntimeException
-     */
-    private function normalizeExtendedHost(array $host): array
-    {
-        if (isset($host['host']) === false) {
-            $this->logger->error("Required 'host' was not defined in extended format: ".print_r($host, true));
-            throw new RuntimeException("Required 'host' was not defined in extended format: ".print_r($host, true));
-        }
-
-        if (isset($host['scheme']) === false) {
-            $host['scheme'] = 'http';
-        }
-        if (isset($host['port']) === false) {
-            $host['port'] = 9200;
-        }
-        return $host;
-    }
-
-    /**
-     * @throws InvalidArgumentException
-     */
-    private function extractURIParts(string $host): array
-    {
-        $parts = parse_url($host);
-
-        if ($parts === false) {
-            throw new InvalidArgumentException("Could not parse URI");
-        }
-
-        if (isset($parts['port']) !== true) {
-            $parts['port'] = 9200;
-        }
-
-        return $parts;
-    }
-
-    private function prependMissingScheme(string $host): string
-    {
-        if (!preg_match("/^https?:\/\//", $host)) {
-            $host = 'http://' . $host;
-        }
-
-        return $host;
-    }
-
-    /**
-     * Parse the Elastic Cloud Params from the CloudId
-     *
-     * @param string $cloudId
-     *
-     * @return string
-     *
-     * @throws ElasticCloudIdParseException
-     */
-    private function parseElasticCloudId(string $cloudId): string
-    {
         try {
-            list($name, $encoded) = explode(':', $cloudId);
-            list($uri, $uuids)    = explode('$', base64_decode($encoded));
-            list($es,)            = explode(':', $uuids);
-
-            return $es . '.' . $uri;
-        } catch (\Throwable $t) {
-            throw new ElasticCloudIdParseException('could not parse the Cloud ID:' . $cloudId);
+            if (false !== strpos(get_class($transport->getAsyncClient()), 'Symfony\Component\HttpClient')) {
+                return true;
+            }
+        } catch (NoAsyncClientException $e) {
+            return false;
         }
+        return false;
+    }
+
+    /**
+     * Returns the configuration to be used in the HTTP client
+     */
+    protected function getConfig(): array
+    {
+        $config = [];
+        if (!empty($this->sslCert)) {
+            $config[RequestOptions::SSL_CERT] = $this->sslCert;
+        }
+        if (!empty($this->sslKey)) {
+            $config[RequestOptions::SSL_KEY] = $this->sslKey;
+        }
+        if (!$this->sslVerification) {
+            $config[RequestOptions::SSL_VERIFY] = false;
+        }
+        if (!empty($this->sslCA)) {
+            $config[RequestOptions::SSL_CA] = $this->sslCA;
+        }
+        return $config;
+    }
+
+    /**
+     * Set the configuration for the specific HTTP client using an adapter
+     */
+    protected function setOptions(ClientInterface $client, array $config, array $clientOptions = []): ClientInterface
+    {
+        if (empty($config) && empty($clientOptions)) {
+            return $client;
+        }
+        $class = get_class($client);
+        if (!isset(AdapterOptions::HTTP_ADAPTERS[$class])) {
+            throw new HttpClientException(sprintf(
+                "The HTTP client %s is not supported for custom options",
+                $class
+            ));
+        }
+        $adapterClass = AdapterOptions::HTTP_ADAPTERS[$class];
+        if (!class_exists($adapterClass) || !in_array(AdapterInterface::class, class_implements($adapterClass))) {
+            throw new HttpClientException(sprintf(
+                "The class %s does not exists or does not implement %s",
+                $adapterClass,
+                AdapterInterface::class
+            ));
+        }
+        $adapter = new $adapterClass;
+        return $adapter->setConfig($client, $config, $clientOptions);
     }
 }

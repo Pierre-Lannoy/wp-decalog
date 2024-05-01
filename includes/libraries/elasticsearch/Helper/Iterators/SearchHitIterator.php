@@ -1,79 +1,84 @@
 <?php
-
+/**
+ * Elasticsearch PHP Client
+ *
+ * @link      https://github.com/elastic/elasticsearch-php
+ * @copyright Copyright (c) Elasticsearch B.V (https://www.elastic.co)
+ * @license   https://opensource.org/licenses/MIT MIT License
+ *
+ * Licensed to Elasticsearch B.V under one or more agreements.
+ * Elasticsearch B.V licenses this file to you under the MIT License.
+ * See the LICENSE file in the project root for more information.
+ */
 declare(strict_types = 1);
 
-namespace Elasticsearch\Helper\Iterators;
+namespace Elastic\Elasticsearch\Helper\Iterators;
 
+use Countable;
+use Elastic\Elasticsearch\Exception\ClientResponseException;
+use Elastic\Elasticsearch\Exception\ServerResponseException;
 use Iterator;
 
-/**
- * Class SearchHitIterator
- *
- * @category Elasticsearch
- * @package  Elasticsearch\Helper\Iterators
- * @author   Arturo Mejia <arturo.mejia@kreatetechnology.com>
- * @license  http://www.apache.org/licenses/LICENSE-2.0 Apache2
- * @link     http://elastic.co
- * @see      Iterator
- */
-class SearchHitIterator implements Iterator, \Countable
+class SearchHitIterator implements Iterator, Countable
 {
 
     /**
      * @var SearchResponseIterator
      */
-    private $search_responses;
+    private SearchResponseIterator $searchResponses;
 
     /**
      * @var int
      */
-    protected $current_key;
+    protected int $currentKey;
 
     /**
      * @var int
      */
-    protected $current_hit_index;
+    protected int $currentHitIndex;
 
     /**
      * @var array|null
      */
-    protected $current_hit_data;
+    protected ?array $currentHitData;
 
     /**
      * @var int
      */
-    protected $count = 0;
+    protected int $count = 0;
 
     /**
      * Constructor
      *
-     * @param SearchResponseIterator $search_responses
+     * @param SearchResponseIterator $searchResponses
      */
-    public function __construct(SearchResponseIterator $search_responses)
+    public function __construct(SearchResponseIterator $searchResponses)
     {
-        $this->search_responses = $search_responses;
+        $this->searchResponses = $searchResponses;
     }
 
     /**
      * Rewinds the internal SearchResponseIterator and itself
      *
      * @return void
+     * @throws ClientResponseException
+     * @throws ServerResponseException
      * @see    Iterator::rewind()
      */
     public function rewind(): void
     {
-        $this->current_key = 0;
-        $this->search_responses->rewind();
+        $this->currentKey = 0;
+        $this->searchResponses->rewind();
 
         // The first page may be empty. In that case, the next page is fetched.
-        $current_page = $this->search_responses->current();
-        if ($this->search_responses->valid() && empty($current_page['hits']['hits'])) {
-            $this->search_responses->next();
+        $currentPage = $this->searchResponses->current();
+        if ($this->searchResponses->valid() && empty($currentPage['hits']['hits'])) {
+            $this->searchResponses->next();
         }
 
         $this->count = 0;
-        if (isset($current_page['hits']) && isset($current_page['hits']['total'])) {
-            $this->count = $current_page['hits']['total'];
+        if (isset($currentPage['hits']['total']['value'], $currentPage['hits']['total'])) {
+            $this->count = $currentPage['hits']['total']['value'] ?? $currentPage['hits']['total'];
         }
 
         $this->readPageData();
@@ -85,17 +90,19 @@ class SearchHitIterator implements Iterator, \Countable
      * pointer to the first hit in the page.
      *
      * @return void
+     * @throws ClientResponseException
+     * @throws ServerResponseException
      * @see    Iterator::next()
      */
     public function next(): void
     {
-        $this->current_key++;
-        $this->current_hit_index++;
-        $current_page = $this->search_responses->current();
-        if (isset($current_page['hits']['hits'][$this->current_hit_index])) {
-            $this->current_hit_data = $current_page['hits']['hits'][$this->current_hit_index];
+        $this->currentKey++;
+        $this->currentHitIndex++;
+        $currentPage = $this->searchResponses->current();
+        if (isset($currentPage['hits']['hits'][$this->currentHitIndex])) {
+            $this->currentHitData = $currentPage['hits']['hits'][$this->currentHitIndex];
         } else {
-            $this->search_responses->next();
+            $this->searchResponses->next();
             $this->readPageData();
         }
     }
@@ -108,7 +115,7 @@ class SearchHitIterator implements Iterator, \Countable
      */
     public function valid(): bool
     {
-        return is_array($this->current_hit_data);
+        return is_array($this->currentHitData);
     }
 
     /**
@@ -119,7 +126,7 @@ class SearchHitIterator implements Iterator, \Countable
      */
     public function current(): array
     {
-        return $this->current_hit_data;
+        return $this->currentHitData;
     }
 
     /**
@@ -130,22 +137,22 @@ class SearchHitIterator implements Iterator, \Countable
      */
     public function key(): int
     {
-        return $this->current_key;
+        return $this->currentKey;
     }
 
     /**
-     * Advances the internal SearchResponseIterator and resets the current_hit_index to 0
+     * Advances the internal SearchResponseIterator and resets the currentHitIndex to 0
      *
      * @internal
      */
     private function readPageData(): void
     {
-        if ($this->search_responses->valid()) {
-            $current_page = $this->search_responses->current();
-            $this->current_hit_index = 0;
-            $this->current_hit_data = $current_page['hits']['hits'][$this->current_hit_index];
+        if ($this->searchResponses->valid()) {
+            $currentPage = $this->searchResponses->current();
+            $this->currentHitIndex = 0;
+            $this->currentHitData = $currentPage['hits']['hits'][$this->currentHitIndex];
         } else {
-            $this->current_hit_data = null;
+            $this->currentHitData = null;
         }
     }
 

@@ -12,6 +12,8 @@ use Sentry\Exception\SilencedErrorException;
  * error types and relays them to all configured listeners. Registering this
  * error handler more than once is not supported and will lead to nasty
  * problems. The code is based on the Symfony ErrorHandler component.
+ *
+ * @psalm-import-type StacktraceFrame from FrameBuilder
  */
 final class ErrorHandler
 {
@@ -20,7 +22,14 @@ final class ErrorHandler
      *
      * @internal
      */
-    public const DEFAULT_RESERVED_MEMORY_SIZE = 10240;
+    public const DEFAULT_RESERVED_MEMORY_SIZE = 16 * 1024; // 16 KiB
+
+    /**
+     * The regular expression used to match the message of an out of memory error.
+     *
+     * Regex inspired by https://github.com/php/php-src/blob/524b13460752fba908f88e3c4428b91fa66c083a/Zend/tests/new_oom.phpt#L15
+     */
+    private const OOM_MESSAGE_MATCHER = '/^Allowed memory size of (?<memory_limit>\d+) bytes exhausted[^\r\n]* \(tried to allocate \d+ bytes\)/';
 
     /**
      * The fatal error types that cannot be silenced using the @ operator in PHP 8+.
@@ -87,13 +96,29 @@ final class ErrorHandler
     private $isFatalErrorHandlerRegistered = false;
 
     /**
-     * @var string|null A portion of pre-allocated memory data that will be reclaimed
-     *                  in case a fatal error occurs to handle it
+     * @var int|null the amount of bytes of memory to increase the memory limit by when we are capturing a out of memory error, set to null to not increase the memory limit
+     */
+    private $memoryLimitIncreaseOnOutOfMemoryErrorValue = 5 * 1024 * 1024; // 5 MiB
+
+    /**
+     * @var bool Whether the memory limit has been increased
+     */
+    private static $didIncreaseMemoryLimit = false;
+
+    /**
+     * @var string|null A portion of pre-allocated memory data that will be reclaimed in case a fatal error occurs to handle it
+     *
+     * @phpstan-ignore-next-line This property is used to reserve memory for the fatal error handler and is thus never read
      */
     private static $reservedMemory;
 
     /**
-     * @var array<string, string> List of error levels and their description
+     * @var bool Whether the fatal error handler should be disabled
+     */
+    private static $disableFatalErrorHandler = false;
+
+    /**
+     * @var string[] List of error levels and their description
      */
     private const ERROR_LEVELS_DESCRIPTION = [
         \E_DEPRECATED => 'Deprecated',
@@ -130,7 +155,7 @@ final class ErrorHandler
      */
     public static function registerOnceErrorHandler(): self
     {
-        if (null === self::$handlerInstance) {
+        if (self::$handlerInstance === null) {
             self::$handlerInstance = new self();
         }
 
@@ -143,7 +168,7 @@ final class ErrorHandler
         self::$handlerInstance->isErrorHandlerRegistered = true;
         self::$handlerInstance->previousErrorHandler = set_error_handler($errorHandlerCallback);
 
-        if (null === self::$handlerInstance->previousErrorHandler) {
+        if (self::$handlerInstance->previousErrorHandler === null) {
             restore_error_handler();
 
             // Specifying the error types caught by the error handler with the
@@ -170,7 +195,7 @@ final class ErrorHandler
             throw new \InvalidArgumentException('The $reservedMemorySize argument must be greater than 0.');
         }
 
-        if (null === self::$handlerInstance) {
+        if (self::$handlerInstance === null) {
             self::$handlerInstance = new self();
         }
 
@@ -193,7 +218,7 @@ final class ErrorHandler
      */
     public static function registerOnceExceptionHandler(): self
     {
-        if (null === self::$handlerInstance) {
+        if (self::$handlerInstance === null) {
             self::$handlerInstance = new self();
         }
 
@@ -253,6 +278,20 @@ final class ErrorHandler
     }
 
     /**
+     * Sets the amount of memory to increase the memory limit by when we are capturing a out of memory error.
+     *
+     * @param int|null $valueInBytes the number of bytes to increase the memory limit by, or null to not increase the memory limit
+     */
+    public function setMemoryLimitIncreaseOnOutOfMemoryErrorInBytes(?int $valueInBytes): void
+    {
+        if ($valueInBytes !== null && $valueInBytes <= 0) {
+            throw new \InvalidArgumentException('The $valueInBytes argument must be greater than 0 or null.');
+        }
+
+        $this->memoryLimitIncreaseOnOutOfMemoryErrorValue = $valueInBytes;
+    }
+
+    /**
      * Handles errors by capturing them through the client according to the
      * configured bit field.
      *
@@ -270,7 +309,7 @@ final class ErrorHandler
      */
     private function handleError(int $level, string $message, string $file, int $line, ?array $errcontext = []): bool
     {
-        $isSilencedError = 0 === error_reporting();
+        $isSilencedError = error_reporting() === 0;
 
         if (\PHP_MAJOR_VERSION >= 8) {
             // Starting from PHP8, when a silenced error occurs the `error_reporting()`
@@ -299,7 +338,7 @@ final class ErrorHandler
 
         $this->invokeListeners($this->errorListeners, $errorAsException);
 
-        if (null !== $this->previousErrorHandler) {
+        if ($this->previousErrorHandler !== null) {
             return false !== ($this->previousErrorHandler)($level, $message, $file, $line, $errcontext);
         }
 
@@ -313,16 +352,28 @@ final class ErrorHandler
      */
     private function handleFatalError(): void
     {
-        // If there is not enough memory that can be used to handle the error
-        // do nothing
-        if (null === self::$reservedMemory) {
+        if (self::$disableFatalErrorHandler) {
             return;
         }
 
+        // Free the reserved memory that allows us to potentially handle OOM errors
         self::$reservedMemory = null;
+
         $error = error_get_last();
 
         if (!empty($error) && $error['type'] & (\E_ERROR | \E_PARSE | \E_CORE_ERROR | \E_CORE_WARNING | \E_COMPILE_ERROR | \E_COMPILE_WARNING)) {
+            // If we did not do so already and we are allowed to increase the memory limit, we do so when we detect an OOM error
+            if (self::$didIncreaseMemoryLimit === false
+                && $this->memoryLimitIncreaseOnOutOfMemoryErrorValue !== null
+                && preg_match(self::OOM_MESSAGE_MATCHER, $error['message'], $matches) === 1
+            ) {
+                $currentMemoryLimit = (int) $matches['memory_limit'];
+
+                ini_set('memory_limit', (string) ($currentMemoryLimit + $this->memoryLimitIncreaseOnOutOfMemoryErrorValue));
+
+                self::$didIncreaseMemoryLimit = true;
+            }
+
             $errorAsException = new FatalErrorException(self::ERROR_LEVELS_DESCRIPTION[$error['type']] . ': ' . $error['message'], 0, $error['type'], $error['file'], $error['line']);
 
             $this->exceptionReflection->setValue($errorAsException, []);
@@ -351,7 +402,7 @@ final class ErrorHandler
         $this->previousExceptionHandler = null;
 
         try {
-            if (null !== $previousExceptionHandler) {
+            if ($previousExceptionHandler !== null) {
                 $previousExceptionHandler($exception);
 
                 return;
@@ -367,7 +418,7 @@ final class ErrorHandler
         // native PHP handler to prevent an infinite loop
         if ($exception === $previousExceptionHandlerException) {
             // Disable the fatal error handler or the error will be reported twice
-            self::$reservedMemory = null;
+            self::$disableFatalErrorHandler = true;
 
             throw $exception;
         }
@@ -379,11 +430,13 @@ final class ErrorHandler
      * Cleans and returns the backtrace without the first frames that belong to
      * this error handler.
      *
-     * @param array<int, mixed> $backtrace The backtrace to clear
-     * @param string            $file      The filename the backtrace was raised in
-     * @param int               $line      The line number the backtrace was raised at
+     * @param array<int, array<string, mixed>> $backtrace The backtrace to clear
+     * @param string                           $file      The filename the backtrace was raised in
+     * @param int                              $line      The line number the backtrace was raised at
      *
      * @return array<int, mixed>
+     *
+     * @psalm-param list<StacktraceFrame> $backtrace
      */
     private function cleanBacktraceFromErrorHandlerFrames(array $backtrace, string $file, int $line): array
     {

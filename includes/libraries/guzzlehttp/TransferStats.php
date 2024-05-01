@@ -46,8 +46,8 @@ final class TransferStats
      */
     public function __construct(
         RequestInterface $request,
-        ?ResponseInterface $response = null,
-        ?float $transferTime = null,
+        ResponseInterface $response = null,
+        float $transferTime = null,
         $handlerErrorData = null,
         array $handlerStats = []
     ) {
@@ -128,6 +128,6 @@ final class TransferStats
      */
     public function getHandlerStat(string $stat)
     {
-        return isset($this->handlerStats[$stat]) ? $this->handlerStats[$stat] : null;
+        return $this->handlerStats[$stat] ?? null;
     }
 }

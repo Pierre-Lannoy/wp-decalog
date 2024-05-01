@@ -1,6 +1,6 @@
 <?php
 
-namespace DLGuzzleHttp\Psr7;
+namespace DLDLGuzzleHttp\Psr7;
 
 use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\RequestInterface;
@@ -14,7 +14,7 @@ use Psr\Http\Message\UriInterface;
  *
  * @return string
  *
- * @deprecated str will be removed in guzzlehttp/psr7:2.0. Use Message::toString instead.
+ * @deprecated str will be removed in DLGuzzleHttp/psr7:2.0. Use Message::toString instead.
  */
 function str(MessageInterface $message)
 {
@@ -34,7 +34,7 @@ function str(MessageInterface $message)
  *
  * @throws \InvalidArgumentException
  *
- * @deprecated uri_for will be removed in guzzlehttp/psr7:2.0. Use Utils::uriFor instead.
+ * @deprecated uri_for will be removed in DLGuzzleHttp/psr7:2.0. Use Utils::uriFor instead.
  */
 function uri_for($uri)
 {
@@ -77,7 +77,7 @@ function uri_for($uri)
  *
  * @throws \InvalidArgumentException if the $resource arg is not valid.
  *
- * @deprecated stream_for will be removed in guzzlehttp/psr7:2.0. Use Utils::streamFor instead.
+ * @deprecated stream_for will be removed in DLGuzzleHttp/psr7:2.0. Use Utils::streamFor instead.
  */
 function stream_for($resource = '', array $options = [])
 {
@@ -94,7 +94,7 @@ function stream_for($resource = '', array $options = [])
  *
  * @return array Returns the parsed header values.
  *
- * @deprecated parse_header will be removed in guzzlehttp/psr7:2.0. Use Header::parse instead.
+ * @deprecated parse_header will be removed in DLGuzzleHttp/psr7:2.0. Use Header::parse instead.
  */
 function parse_header($header)
 {
@@ -109,7 +109,7 @@ function parse_header($header)
  *
  * @return array Returns the normalized header field values.
  *
- * @deprecated normalize_header will be removed in guzzlehttp/psr7:2.0. Use Header::normalize instead.
+ * @deprecated normalize_header will be removed in DLGuzzleHttp/psr7:2.0. Use Header::normalize instead.
  */
 function normalize_header($header)
 {
@@ -136,7 +136,7 @@ function normalize_header($header)
  *
  * @return RequestInterface
  *
- * @deprecated modify_request will be removed in guzzlehttp/psr7:2.0. Use Utils::modifyRequest instead.
+ * @deprecated modify_request will be removed in DLGuzzleHttp/psr7:2.0. Use Utils::modifyRequest instead.
  */
 function modify_request(RequestInterface $request, array $changes)
 {
@@ -153,7 +153,7 @@ function modify_request(RequestInterface $request, array $changes)
  *
  * @throws \RuntimeException
  *
- * @deprecated rewind_body will be removed in guzzlehttp/psr7:2.0. Use Message::rewindBody instead.
+ * @deprecated rewind_body will be removed in DLGuzzleHttp/psr7:2.0. Use Message::rewindBody instead.
  */
 function rewind_body(MessageInterface $message)
 {
@@ -173,7 +173,7 @@ function rewind_body(MessageInterface $message)
  *
  * @throws \RuntimeException if the file cannot be opened
  *
- * @deprecated try_fopen will be removed in guzzlehttp/psr7:2.0. Use Utils::tryFopen instead.
+ * @deprecated try_fopen will be removed in DLGuzzleHttp/psr7:2.0. Use Utils::tryFopen instead.
  */
 function try_fopen($filename, $mode)
 {
@@ -191,7 +191,7 @@ function try_fopen($filename, $mode)
  *
  * @throws \RuntimeException on error.
  *
- * @deprecated copy_to_string will be removed in guzzlehttp/psr7:2.0. Use Utils::copyToString instead.
+ * @deprecated copy_to_string will be removed in DLGuzzleHttp/psr7:2.0. Use Utils::copyToString instead.
  */
 function copy_to_string(StreamInterface $stream, $maxLen = -1)
 {
@@ -209,7 +209,7 @@ function copy_to_string(StreamInterface $stream, $maxLen = -1)
  *
  * @throws \RuntimeException on error.
  *
- * @deprecated copy_to_stream will be removed in guzzlehttp/psr7:2.0. Use Utils::copyToStream instead.
+ * @deprecated copy_to_stream will be removed in DLGuzzleHttp/psr7:2.0. Use Utils::copyToStream instead.
  */
 function copy_to_stream(StreamInterface $source, StreamInterface $dest, $maxLen = -1)
 {
@@ -230,7 +230,7 @@ function copy_to_stream(StreamInterface $source, StreamInterface $dest, $maxLen 
  *
  * @throws \RuntimeException on error.
  *
- * @deprecated hash will be removed in guzzlehttp/psr7:2.0. Use Utils::hash instead.
+ * @deprecated hash will be removed in DLGuzzleHttp/psr7:2.0. Use Utils::hash instead.
  */
 function hash(StreamInterface $stream, $algo, $rawOutput = false)
 {
@@ -245,7 +245,7 @@ function hash(StreamInterface $stream, $algo, $rawOutput = false)
  *
  * @return string
  *
- * @deprecated readline will be removed in guzzlehttp/psr7:2.0. Use Utils::readLine instead.
+ * @deprecated readline will be removed in DLGuzzleHttp/psr7:2.0. Use Utils::readLine instead.
  */
 function readline(StreamInterface $stream, $maxLength = null)
 {
@@ -259,7 +259,7 @@ function readline(StreamInterface $stream, $maxLength = null)
  *
  * @return Request
  *
- * @deprecated parse_request will be removed in guzzlehttp/psr7:2.0. Use Message::parseRequest instead.
+ * @deprecated parse_request will be removed in DLGuzzleHttp/psr7:2.0. Use Message::parseRequest instead.
  */
 function parse_request($message)
 {
@@ -273,7 +273,7 @@ function parse_request($message)
  *
  * @return Response
  *
- * @deprecated parse_response will be removed in guzzlehttp/psr7:2.0. Use Message::parseResponse instead.
+ * @deprecated parse_response will be removed in DLGuzzleHttp/psr7:2.0. Use Message::parseResponse instead.
  */
 function parse_response($message)
 {
@@ -293,7 +293,7 @@ function parse_response($message)
  *
  * @return array
  *
- * @deprecated parse_query will be removed in guzzlehttp/psr7:2.0. Use Query::parse instead.
+ * @deprecated parse_query will be removed in DLGuzzleHttp/psr7:2.0. Use Query::parse instead.
  */
 function parse_query($str, $urlEncoding = true)
 {
@@ -313,7 +313,7 @@ function parse_query($str, $urlEncoding = true)
  *                            to encode using RFC1738.
  * @return string
  *
- * @deprecated build_query will be removed in guzzlehttp/psr7:2.0. Use Query::build instead.
+ * @deprecated build_query will be removed in DLGuzzleHttp/psr7:2.0. Use Query::build instead.
  */
 function build_query(array $params, $encoding = PHP_QUERY_RFC3986)
 {
@@ -327,7 +327,7 @@ function build_query(array $params, $encoding = PHP_QUERY_RFC3986)
  *
  * @return string|null
  *
- * @deprecated mimetype_from_filename will be removed in guzzlehttp/psr7:2.0. Use MimeType::fromFilename instead.
+ * @deprecated mimetype_from_filename will be removed in DLGuzzleHttp/psr7:2.0. Use MimeType::fromFilename instead.
  */
 function mimetype_from_filename($filename)
 {
@@ -342,7 +342,7 @@ function mimetype_from_filename($filename)
  * @return string|null
  *
  * @link http://svn.apache.org/repos/asf/httpd/httpd/branches/1.3.x/conf/mime.types
- * @deprecated mimetype_from_extension will be removed in guzzlehttp/psr7:2.0. Use MimeType::fromExtension instead.
+ * @deprecated mimetype_from_extension will be removed in DLGuzzleHttp/psr7:2.0. Use MimeType::fromExtension instead.
  */
 function mimetype_from_extension($extension)
 {
@@ -361,7 +361,7 @@ function mimetype_from_extension($extension)
  * @return array
  *
  * @internal
- * @deprecated _parse_message will be removed in guzzlehttp/psr7:2.0. Use Message::parseMessage instead.
+ * @deprecated _parse_message will be removed in DLGuzzleHttp/psr7:2.0. Use Message::parseMessage instead.
  */
 function _parse_message($message)
 {
@@ -377,7 +377,7 @@ function _parse_message($message)
  * @return string
  *
  * @internal
- * @deprecated _parse_request_uri will be removed in guzzlehttp/psr7:2.0. Use Message::parseRequestUri instead.
+ * @deprecated _parse_request_uri will be removed in DLGuzzleHttp/psr7:2.0. Use Message::parseRequestUri instead.
  */
 function _parse_request_uri($path, array $headers)
 {
@@ -394,7 +394,7 @@ function _parse_request_uri($path, array $headers)
  *
  * @return string|null
  *
- * @deprecated get_message_body_summary will be removed in guzzlehttp/psr7:2.0. Use Message::bodySummary instead.
+ * @deprecated get_message_body_summary will be removed in DLGuzzleHttp/psr7:2.0. Use Message::bodySummary instead.
  */
 function get_message_body_summary(MessageInterface $message, $truncateAt = 666)
 {
@@ -409,7 +409,7 @@ function get_message_body_summary(MessageInterface $message, $truncateAt = 666)
  * @return array
  *
  * @internal
- * @deprecated _caseless_remove will be removed in guzzlehttp/psr7:2.0. Use Utils::caselessRemove instead.
+ * @deprecated _caseless_remove will be removed in DLGuzzleHttp/psr7:2.0. Use Utils::caselessRemove instead.
  */
 function _caseless_remove($keys, array $data)
 {

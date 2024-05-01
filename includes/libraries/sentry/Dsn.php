@@ -10,7 +10,7 @@ namespace Sentry;
  *
  * @author Stefano Arlandini <sarlandini@alice.it>
  */
-final class Dsn
+final class Dsn implements \Stringable
 {
     /**
      * @var string The protocol to be used to access the resource
@@ -33,12 +33,7 @@ final class Dsn
     private $publicKey;
 
     /**
-     * @var string|null The secret key to authenticate the SDK
-     */
-    private $secretKey;
-
-    /**
-     * @var int The ID of the resource to access
+     * @var string The ID of the resource to access
      */
     private $projectId;
 
@@ -50,21 +45,19 @@ final class Dsn
     /**
      * Class constructor.
      *
-     * @param string      $scheme    The protocol to be used to access the resource
-     * @param string      $host      The host that holds the resource
-     * @param int         $port      The port on which the resource is exposed
-     * @param int         $projectId The ID of the resource to access
-     * @param string      $path      The specific resource that the web client wants to access
-     * @param string      $publicKey The public key to authenticate the SDK
-     * @param string|null $secretKey The secret key to authenticate the SDK
+     * @param string $scheme    The protocol to be used to access the resource
+     * @param string $host      The host that holds the resource
+     * @param int    $port      The port on which the resource is exposed
+     * @param string $projectId The ID of the resource to access
+     * @param string $path      The specific resource that the web client wants to access
+     * @param string $publicKey The public key to authenticate the SDK
      */
-    private function __construct(string $scheme, string $host, int $port, int $projectId, string $path, string $publicKey, ?string $secretKey)
+    private function __construct(string $scheme, string $host, int $port, string $projectId, string $path, string $publicKey)
     {
         $this->scheme = $scheme;
         $this->host = $host;
         $this->port = $port;
         $this->publicKey = $publicKey;
-        $this->secretKey = $secretKey;
         $this->path = $path;
         $this->projectId = $projectId;
     }
@@ -78,7 +71,7 @@ final class Dsn
     {
         $parsedDsn = parse_url($value);
 
-        if (false === $parsedDsn) {
+        if ($parsedDsn === false) {
             throw new \InvalidArgumentException(sprintf('The "%s" DSN is invalid.', $value));
         }
 
@@ -88,39 +81,26 @@ final class Dsn
             }
         }
 
-        if (isset($parsedDsn['pass']) && empty($parsedDsn['pass'])) {
-            throw new \InvalidArgumentException(sprintf('The "%s" DSN must contain a valid secret key.', $value));
-        }
-
-        /** @psalm-suppress PossiblyUndefinedArrayOffset */
         if (!\in_array($parsedDsn['scheme'], ['http', 'https'], true)) {
             throw new \InvalidArgumentException(sprintf('The scheme of the "%s" DSN must be either "http" or "https".', $value));
         }
 
-        /** @psalm-suppress PossiblyUndefinedArrayOffset */
         $segmentPaths = explode('/', $parsedDsn['path']);
         $projectId = array_pop($segmentPaths);
-
-        if ((int) $projectId <= 0) {
-            throw new \InvalidArgumentException('"%s" DSN must contain a valid project ID.');
-        }
-
         $lastSlashPosition = strrpos($parsedDsn['path'], '/');
         $path = $parsedDsn['path'];
 
-        if (false !== $lastSlashPosition) {
+        if ($lastSlashPosition !== false) {
             $path = substr($parsedDsn['path'], 0, $lastSlashPosition);
         }
 
-        /** @psalm-suppress PossiblyUndefinedArrayOffset */
         return new self(
             $parsedDsn['scheme'],
             $parsedDsn['host'],
-            $parsedDsn['port'] ?? ('http' === $parsedDsn['scheme'] ? 80 : 443),
-            (int) $projectId,
+            $parsedDsn['port'] ?? ($parsedDsn['scheme'] === 'http' ? 80 : 443),
+            $projectId,
             $path,
-            $parsedDsn['user'],
-            $parsedDsn['pass'] ?? null
+            $parsedDsn['user']
         );
     }
 
@@ -159,7 +139,7 @@ final class Dsn
     /**
      * Gets the ID of the resource to access.
      */
-    public function getProjectId(): int
+    public function getProjectId(): string
     {
         return $this->projectId;
     }
@@ -173,27 +153,19 @@ final class Dsn
     }
 
     /**
-     * Gets the secret key to authenticate the SDK.
-     */
-    public function getSecretKey(): ?string
-    {
-        return $this->secretKey;
-    }
-
-    /**
-     * Returns the URL of the API for the store endpoint.
-     */
-    public function getStoreApiEndpointUrl(): string
-    {
-        return $this->getBaseEndpointUrl() . '/store/';
-    }
-
-    /**
      * Returns the URL of the API for the envelope endpoint.
      */
     public function getEnvelopeApiEndpointUrl(): string
     {
         return $this->getBaseEndpointUrl() . '/envelope/';
+    }
+
+    /**
+     * Returns the URL of the API for the CSP report endpoint.
+     */
+    public function getCspReportEndpointUrl(): string
+    {
+        return $this->getBaseEndpointUrl() . '/security/?sentry_key=' . $this->publicKey;
     }
 
     /**
@@ -203,17 +175,13 @@ final class Dsn
     {
         $url = $this->scheme . '://' . $this->publicKey;
 
-        if (null !== $this->secretKey) {
-            $url .= ':' . $this->secretKey;
-        }
-
         $url .= '@' . $this->host;
 
-        if (('http' === $this->scheme && 80 !== $this->port) || ('https' === $this->scheme && 443 !== $this->port)) {
+        if (($this->scheme === 'http' && $this->port !== 80) || ($this->scheme === 'https' && $this->port !== 443)) {
             $url .= ':' . $this->port;
         }
 
-        if (null !== $this->path) {
+        if ($this->path !== null) {
             $url .= $this->path;
         }
 
@@ -229,11 +197,11 @@ final class Dsn
     {
         $url = $this->scheme . '://' . $this->host;
 
-        if (('http' === $this->scheme && 80 !== $this->port) || ('https' === $this->scheme && 443 !== $this->port)) {
+        if (($this->scheme === 'http' && $this->port !== 80) || ($this->scheme === 'https' && $this->port !== 443)) {
             $url .= ':' . $this->port;
         }
 
-        if (null !== $this->path) {
+        if ($this->path !== null) {
             $url .= $this->path;
         }
 
