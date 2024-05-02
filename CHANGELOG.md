@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 - It's now possible to substitute PHP-defined constants for some loggers settings.
 - There's now a filter to map PHP error levels to PSR3 levels - see [hooks reference](HOOKS.md) (thanks to [Clément Hallet](https://github.com/challet)).
+- Full compatibility with Elasticsearch 8.
+- Events contexts are now fully mapped with standard fields while using Elastic Cloud logger.
 
 ### Changed
 - [BC] DecaLog now uses PSR3 3.x
@@ -15,6 +17,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Upgraded Monolog library from version 2.9.1 to version 2.9.3.
 - Upgraded InfluxDB library from version 1.12.0 to version 3.5.0.
 - Upgraded GuzzleHttp library from version 7.2.0 to version 7.8.1.
+- Upgraded Elasticsearch library from version 7.6.1 to version 8.13.0.
 
 ### Fixed
 - Constant storage may produce PHP warning while initializing.

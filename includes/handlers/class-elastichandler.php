@@ -12,14 +12,10 @@
 namespace Decalog\Handler;
 
 use Decalog\Formatter\ElasticCloudFormatter;
-use DLMonolog\Logger;
-use Decalog\Plugin\Feature\DLogger;
-use DLMonolog\Handler\ElasticsearchHandler;
-use DLMonolog\Handler\HandlerInterface;
 use DLMonolog\Formatter\FormatterInterface;
-use Decalog\Formatter\SematextFormatter;
-use Elasticsearch\Common\Exceptions\RuntimeException as ElasticsearchRuntimeException;
-use Elasticsearch\Client;
+use DLMonolog\Handler\ElasticsearchHandler;
+use DLMonolog\Logger;
+use Elastic\Elasticsearch\Common\Exceptions\RuntimeException as ElasticsearchRuntimeException;
 
 /**
  * Define the Monolog Elastic Cloud handler.
@@ -47,7 +43,7 @@ class ElasticHandler extends ElasticsearchHandler {
 			$index = 'decalog';
 		}
 		$index   = strtolower( str_replace( [ ' ' ], '-', sanitize_text_field( $index ) ) );
-		$client  = \Elasticsearch\ClientBuilder::create()->setHosts( [ $url ] )->setBasicAuthentication( $user, $pass )->build();
+		$client  = \includes\libraries\elastic\elasticsearch\ClientBuilder::create()->setHosts( [ $url ] )->setBasicAuthentication( $user, $pass )->build();
 		$options = [
 			'index' => $index,
 			'type'  => 'wordpress_decalog',

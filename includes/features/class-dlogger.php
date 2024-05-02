@@ -344,7 +344,7 @@ class DLogger {
 		if ( $debug && ! $this->is_debug_allowed() ) {
 			return false;
 		}
-		try {
+		//try {
 			$context = [
 				'class'       => (string) $this->class,
 				'component'   => (string) $this->name,
@@ -361,18 +361,18 @@ class DLogger {
 			}
 			$result = true;
 			// phpcs:ignore
-			set_error_handler( function () use (&$result) {$result = false;} );
+			//set_error_handler( function () use (&$result) {$result = false;} );
 			$this->logger->log( $level, $this->normalize_string( $message ), $this->normalize_array( $context ) );
 			// phpcs:ignore
-			restore_error_handler();
-		} catch ( \Throwable $t ) {
+			//restore_error_handler();
+		/*} catch ( \Throwable $t ) {
 			$result = false;
 		} finally {
 			if ( $signal && ! $result && ! $debug ) {
 				//$this->log( Logger::ALERT, 'error', 666, '', false );
-			}
+			}*/
 			return $result;
-		}
+		//}
 	}
 
 	/**

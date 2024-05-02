@@ -11,17 +11,17 @@
 
 namespace DLMonolog\Handler;
 
-use Elastic\Elasticsearch\Response\Elasticsearch;
-use Throwable;
-use RuntimeException;
-use DLMonolog\Logger;
-use DLMonolog\Formatter\FormatterInterface;
 use DLMonolog\Formatter\ElasticsearchFormatter;
-use InvalidArgumentException;
-use Elasticsearch\Common\Exceptions\RuntimeException as ElasticsearchRuntimeException;
+use DLMonolog\Formatter\FormatterInterface;
+use DLMonolog\Logger;
 use Elasticsearch\Client;
-use Elastic\Elasticsearch\Exception\InvalidArgumentException as ElasticInvalidArgumentException;
+use Elasticsearch\Common\Exceptions\RuntimeException as ElasticsearchRuntimeException;
 use Elastic\Elasticsearch\Client as Client8;
+use Elastic\Elasticsearch\Exception\InvalidArgumentException as ElasticInvalidArgumentException;
+use Elastic\Elasticsearch\Response\Elasticsearch;
+use InvalidArgumentException;
+use RuntimeException;
+use Throwable;
 
 /**
  * Elasticsearch handler

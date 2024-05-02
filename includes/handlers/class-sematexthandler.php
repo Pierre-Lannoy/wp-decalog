@@ -11,14 +11,11 @@
 
 namespace Decalog\Handler;
 
-use DLMonolog\Logger;
-use Decalog\Plugin\Feature\DLogger;
-use DLMonolog\Handler\ElasticsearchHandler;
-use DLMonolog\Handler\HandlerInterface;
-use DLMonolog\Formatter\FormatterInterface;
 use Decalog\Formatter\SematextFormatter;
-use Elasticsearch\Common\Exceptions\RuntimeException as ElasticsearchRuntimeException;
-use Elasticsearch\Client;
+use DLMonolog\Formatter\FormatterInterface;
+use DLMonolog\Handler\ElasticsearchHandler;
+use DLMonolog\Logger;
+use Elastic\Elasticsearch\Common\Exceptions\RuntimeException as ElasticsearchRuntimeException;
 
 /**
  * Define the Monolog Sematext handler.
@@ -38,7 +35,7 @@ class SematextHandler extends ElasticsearchHandler {
 	 * @param bool       $bubble    Whether the messages that are handled can bubble up the stack or not.
 	 */
 	public function __construct( string $host, string $token, $level = Logger::DEBUG, bool $bubble = true ) {
-		$client  = \Elasticsearch\ClientBuilder::create()->setHosts( [ 'https://' . $host . ':443' ] )->build();
+		$client  = \Elastic\Elasticsearch\ClientBuilder::create()->setHosts( [ 'https://' . $host . ':443' ] )->build();
 		$options = [
 			'index' => $token,
 			'type'  => 'wordpress_decalog',

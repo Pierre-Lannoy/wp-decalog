@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Sentry;
 
+use includes\libraries\elastic\elasticsearch\ClientInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use Sentry\Integration\IntegrationInterface;

@@ -135,9 +135,20 @@ class Libraries {
 		];
 		self::$psr4_libraries['elasticsearch']   = [
 			'name'    => 'Elasticsearch',
-			'prefix'  => 'Elasticsearch',
-			'base'    => DECALOG_VENDOR_DIR . 'elasticsearch/',
+			'prefix'  => 'Elastic\\Elasticsearch',
+			'base'    => DECALOG_VENDOR_DIR . 'elastic/elasticsearch/',
 			'version' => '8.13.0',
+			// phpcs:ignore
+			'author'  => sprintf( esc_html__( '%s & contributors', 'decalog' ), 'Elastic' ),
+			'url'     => 'https://github.com/elastic/elasticsearch-php',
+			'license' => 'apl2',
+			'langs'   => 'en',
+		];
+		self::$psr4_libraries['elastictransport']   = [
+			'name'    => 'Elastic Transport',
+			'prefix'  => 'Elastic\\Transport',
+			'base'    => DECALOG_VENDOR_DIR . 'elastic/transport/',
+			'version' => '8.8.0',
 			// phpcs:ignore
 			'author'  => sprintf( esc_html__( '%s & contributors', 'decalog' ), 'Elastic' ),
 			'url'     => 'https://github.com/elastic/elasticsearch-php',
