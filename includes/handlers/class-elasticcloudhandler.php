@@ -29,24 +29,33 @@ use Elastic\Elasticsearch\Common\Exceptions\RuntimeException as ElasticsearchRun
 class ElasticCloudHandler extends ElasticsearchHandler {
 
 	/**
+	 * Normalized extended fields.
+	 *
+	 * @since  4.0.0
+	 * @var    array    $extended    The normalized extended fields, ready to be added to the event.
+	 */
+	private $extended = [];
+
+	/**
 	 * @param string     $cloudid   The cloudID.
 	 * @param string     $user      The deployment user.
 	 * @param string     $pass      The deployment password.
-	 * @param string     $index     The index name.
-	 * @param int|string $level     The minimum logging level at which this handler will be triggered.
-	 * @param bool       $bubble    Whether the messages that are handled can bubble up the stack or not.
+	 * @param string     $index     Optional. The index name.
+	 * @param string     $extended  Optional. Extended fields.
+	 * @param int|string $level     Optional. The minimum logging level at which this handler will be triggered.
+	 * @param bool       $bubble    Optional. Whether the messages that are handled can bubble up the stack or not.
 	 * @since   1.0.0
 	 */
-	public function __construct( string $cloudid, string $user, string $pass, string $index = '', $level = Logger::DEBUG, bool $bubble = true ) {
+	public function __construct( string $cloudid, string $user, string $pass, string $index = '', string $extended = '' , $level = Logger::DEBUG, bool $bubble = true ) {
 		if ( '' === $index ) {
-			$index = 'decalog';
+			$index = 'logs-decalog';
 		}
 		$index   = strtolower( str_replace( [ ' ' ], '-', sanitize_text_field( $index ) ) );
 		$client  = \Elastic\Elasticsearch\ClientBuilder::create()->setElasticCloudId( $cloudid )->setBasicAuthentication( $user, $pass )->build();
 		$options = [
 			'index' => $index,
-			'type'  => 'wordpress_decalog',
 		];
+		$this->extended = decalog_normalize_extended_fields( $extended );
 		parent::__construct( $client, $options, $level, $bubble );
 	}
 
@@ -70,6 +79,9 @@ class ElasticCloudHandler extends ElasticsearchHandler {
 					],
 				];
 				unset( $record['_index'] );
+				if ( ! empty( $this->extended ) ) {
+					$record['extended'] = $this->extended;
+				}
 
 				$params['body'][] = $record;
 			}

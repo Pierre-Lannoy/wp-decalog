@@ -78,6 +78,15 @@ class DatadogFormatter extends JsonFormatter {
 		if ( array_key_exists( 'extra', $record ) && 0 < count( $record['extra'] ) ) {
 			$event['extra'] = $record['extra'];
 		}
+		if ( array_key_exists( 'extended', $record ) && 0 < count( $record['extended'] ) ) {
+			foreach ( $record['extended'] as $key => $value ) {
+				if ( ! array_key_exists( $key, $event ) ) {
+					$event[ $key ] = $value;
+				}
+			}
+			unset( $event['extended'] );
+		}
+
 		return parent::format( $event );
 	}
 }

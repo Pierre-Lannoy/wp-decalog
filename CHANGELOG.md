@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [4.0.0] - Not Yet Released
 
 ### Added
+- Events sent to DataDog, Elastic Cloud, Elasticsearch, Grafana Cloud, Loki and Sematext can now be extended with custom fields (this feature supports variable substitution).
 - It's now possible to substitute PHP-defined constants for some loggers settings.
 - There's now a filter to map PHP error levels to PSR3 levels - see [hooks reference](HOOKS.md) (thanks to [Clément Hallet](https://github.com/challet)).
 - Full compatibility with Elasticsearch 8.

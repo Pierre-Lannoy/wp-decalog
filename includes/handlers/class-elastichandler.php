@@ -29,25 +29,34 @@ use Elastic\Elasticsearch\Common\Exceptions\RuntimeException as ElasticsearchRun
 class ElasticHandler extends ElasticsearchHandler {
 
 	/**
+	 * Normalized extended fields.
+	 *
+	 * @since  4.0.0
+	 * @var    array    $extended    The normalized extended fields, ready to be added to the event.
+	 */
+	private $extended = [];
+
+	/**
 	 * @param string     $url       The service url.
 	 * @param string     $user      The deployment user.
 	 * @param string     $pass      The deployment password.
-	 * @param string     $index     The index name.
-	 * @param int|string $level     The minimum logging level at which this handler will be triggered.
-	 * @param bool       $bubble    Whether the messages that are handled can bubble up the stack or not.
+	 * @param string     $index     Optional. The index name.
+	 * @param string     $extended  Optional. Extended fields.
+	 * @param int|string $level     Optional. The minimum logging level at which this handler will be triggered.
+	 * @param bool       $bubble    Optional. Whether the messages that are handled can bubble up the stack or not.
 	 *
 	 * @since   2.4.0
 	 */
-	public function __construct( string $url, string $user, string $pass, string $index = '', $level = Logger::DEBUG, bool $bubble = true ) {
+	public function __construct( string $url, string $user, string $pass, string $index = '', string $extended = '', $level = Logger::DEBUG, bool $bubble = true ) {
 		if ( '' === $index ) {
 			$index = 'decalog';
 		}
 		$index   = strtolower( str_replace( [ ' ' ], '-', sanitize_text_field( $index ) ) );
-		$client  = \includes\libraries\elastic\elasticsearch\ClientBuilder::create()->setHosts( [ $url ] )->setBasicAuthentication( $user, $pass )->build();
+		$client  = \Elastic\Elasticsearch\ClientBuilder::create()->setHosts( [ $url ] )->setBasicAuthentication( $user, $pass )->build();
 		$options = [
-			'index' => $index,
-			'type'  => 'wordpress_decalog',
+			'index' => $index
 		];
+		$this->extended = decalog_normalize_extended_fields( $extended );
 		parent::__construct( $client, $options, $level, $bubble );
 	}
 
@@ -67,11 +76,13 @@ class ElasticHandler extends ElasticsearchHandler {
 			foreach ( $records as $record ) {
 				$params['body'][] = [
 					'index' => [
-						'_index' => $record['_index'],
-						'_type'  => $record['_type'],
+						'_index' => $record['_index']
 					],
 				];
-				unset( $record['_index'], $record['_type'] );
+				unset( $record['_index'] );
+				if ( ! empty( $this->extended ) ) {
+					$record['extended'] = $this->extended;
+				}
 
 				$params['body'][] = $record;
 			}

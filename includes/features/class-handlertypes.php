@@ -1519,6 +1519,20 @@ class HandlerTypes {
 						'enabled' => true,
 					],
 				],
+				'extended' => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Extended fields', 'decalog' ),
+					'help'    => esc_html__( 'Fields to add to each logged event (one pair of key=value per line).', 'decalog' ) . '<br/>' . esc_html__( 'Example:', 'decalog' ) . ' <code>hostname={HOSTNAME}</code> ' . esc_html__( 'or', 'decalog' ) . ' <code>foo=bar</code> ' . esc_html__( 'or', 'decalog' ) . ' <code>foobar=42</code>.' . $this->get_substitution_note(),
+					'default' => '',
+					'control' => [
+						'type'    => 'field_input_textarea',
+						'cast'    => 'string',
+						'enabled' => true,
+						'columns' => 50,
+						'lines'   => 5,
+					],
+				],
 				'buffer' => [
 					'type'    => 'boolean',
 					'show'    => true,
@@ -1540,6 +1554,10 @@ class HandlerTypes {
 				[
 					'type'  => 'configuration',
 					'value' => 'token',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'extended',
 				],
 				[
 					'type'  => 'literal',
@@ -1608,6 +1626,20 @@ class HandlerTypes {
 						'enabled' => true,
 					],
 				],
+				'extended' => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Extended fields', 'decalog' ),
+					'help'    => esc_html__( 'Fields to add to each logged event (one pair of key=value per line).', 'decalog' ) . '<br/>' . esc_html__( 'Example:', 'decalog' ) . ' <code>hostname={HOSTNAME}</code> ' . esc_html__( 'or', 'decalog' ) . ' <code>foo=bar</code> ' . esc_html__( 'or', 'decalog' ) . ' <code>foobar=42</code>.' . $this->get_substitution_note(),
+					'default' => '',
+					'control' => [
+						'type'    => 'field_input_textarea',
+						'cast'    => 'string',
+						'enabled' => true,
+						'columns' => 50,
+						'lines'   => 5,
+					],
+				],
 			],
 			'init'          => [
 				[
@@ -1625,6 +1657,10 @@ class HandlerTypes {
 				[
 					'type'  => 'configuration',
 					'value' => 'index',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'extended',
 				],
 				[ 'type' => 'level' ],
 				[
@@ -1693,6 +1729,20 @@ class HandlerTypes {
 						'enabled' => true,
 					],
 				],
+				'extended' => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Extended fields', 'decalog' ),
+					'help'    => esc_html__( 'Fields to add to each logged event (one pair of key=value per line).', 'decalog' ) . '<br/>' . esc_html__( 'Example:', 'decalog' ) . ' <code>hostname={HOSTNAME}</code> ' . esc_html__( 'or', 'decalog' ) . ' <code>foo=bar</code> ' . esc_html__( 'or', 'decalog' ) . ' <code>foobar=42</code>.' . $this->get_substitution_note(),
+					'default' => '',
+					'control' => [
+						'type'    => 'field_input_textarea',
+						'cast'    => 'string',
+						'enabled' => true,
+						'columns' => 50,
+						'lines'   => 5,
+					],
+				],
 			],
 			'init'          => [
 				[
@@ -1710,6 +1760,10 @@ class HandlerTypes {
 				[
 					'type'  => 'configuration',
 					'value' => 'index',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'extended',
 				],
 				[ 'type' => 'level' ],
 				[
@@ -1847,6 +1901,20 @@ class HandlerTypes {
 						'enabled' => true,
 					],
 				],
+				'extended' => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Extended fields', 'decalog' ),
+					'help'    => esc_html__( 'Fields to add to each logged event (one pair of key=value per line).', 'decalog' ) . '<br/>' . esc_html__( 'Example:', 'decalog' ) . ' <code>hostname={HOSTNAME}</code> ' . esc_html__( 'or', 'decalog' ) . ' <code>foo=bar</code> ' . esc_html__( 'or', 'decalog' ) . ' <code>foobar=42</code>.' . $this->get_substitution_note(),
+					'default' => '',
+					'control' => [
+						'type'    => 'field_input_textarea',
+						'cast'    => 'string',
+						'enabled' => true,
+						'columns' => 50,
+						'lines'   => 5,
+					],
+				],
 			],
 			'init'          => [
 				[
@@ -1868,6 +1936,10 @@ class HandlerTypes {
 				[
 					'type'  => 'configuration',
 					'value' => 'id',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'extended',
 				],
 				[ 'type' => 'level' ],
 			],
@@ -2023,6 +2095,20 @@ class HandlerTypes {
 						'enabled' => true,
 					],
 				],
+				'extended' => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Extended fields', 'decalog' ),
+					'help'    => esc_html__( 'Fields to add to each logged event (one pair of key=value per line).', 'decalog' ) . '<br/>' . esc_html__( 'Example:', 'decalog' ) . ' <code>hostname={HOSTNAME}</code> ' . esc_html__( 'or', 'decalog' ) . ' <code>foo=bar</code> ' . esc_html__( 'or', 'decalog' ) . ' <code>foobar=42</code>.' . $this->get_substitution_note(),
+					'default' => '',
+					'control' => [
+						'type'    => 'field_input_textarea',
+						'cast'    => 'string',
+						'enabled' => true,
+						'columns' => 50,
+						'lines'   => 5,
+					],
+				],
 			],
 			'init'          => [
 				[
@@ -2036,6 +2122,10 @@ class HandlerTypes {
 				[
 					'type'  => 'configuration',
 					'value' => 'id',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'extended',
 				],
 				[ 'type' => 'level' ],
 			],
@@ -2161,6 +2251,20 @@ class HandlerTypes {
 						'enabled' => true,
 					],
 				],
+				'extended' => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => esc_html__( 'Extended fields', 'decalog' ),
+					'help'    => esc_html__( 'Fields to add to each logged event (one pair of key=value per line).', 'decalog' ) . '<br/>' . esc_html__( 'Example:', 'decalog' ) . ' <code>hostname={HOSTNAME}</code> ' . esc_html__( 'or', 'decalog' ) . ' <code>foo=bar</code> ' . esc_html__( 'or', 'decalog' ) . ' <code>foobar=42</code>.' . $this->get_substitution_note(),
+					'default' => '',
+					'control' => [
+						'type'    => 'field_input_textarea',
+						'cast'    => 'string',
+						'enabled' => true,
+						'columns' => 50,
+						'lines'   => 5,
+					],
+				],
 			],
 			'init'          => [
 				[
@@ -2170,6 +2274,10 @@ class HandlerTypes {
 				[
 					'type'  => 'configuration',
 					'value' => 'token',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'extendee',
 				],
 				[ 'type' => 'level' ],
 				[

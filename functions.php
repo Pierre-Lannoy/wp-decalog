@@ -165,3 +165,18 @@ function decalog_is_wpcli_colorized() {
 	}
 	return false;
 }
+
+/**
+ * Normalize extended fields.
+ */
+function decalog_normalize_extended_fields( string $extended ) {
+	$result = [];
+	foreach ( explode ( PHP_EOL, $extended ) as $line ) {
+		$pair = explode ( '=', $line );
+		if ( 2 === count( $pair ) ) {
+			$result[ trim ( $pair[0] ) ] = is_numeric( $pair[1] ) ? $pair[1] : trim ( $pair[1] );
+		}
+	}
+
+	return $result;
+}

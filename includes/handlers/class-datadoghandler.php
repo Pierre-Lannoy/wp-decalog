@@ -28,20 +28,30 @@ use Decalog\Formatter\DatadogFormatter;
 class DatadogHandler extends AbstractBufferedHTTPHandler {
 
 	/**
+	 * Normalized extended fields.
+	 *
+	 * @since  4.0.0
+	 * @var    array    $extended    The normalized extended fields, ready to be added to the event.
+	 */
+	private $extended = [];
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @param   string  $host       The Datadog ingestion host (for location selection).
 	 * @param   string  $key        The Datadog API key.
+	 * @param   string  $extended   Optional. Extended fields.
 	 * @param   boolean $buffered   Optional. Has the record to be buffered?.
 	 * @param   integer $level      Optional. The min level to log.
 	 * @param   boolean $bubble     Optional. Has the record to bubble?.
 	 * @since    3.0.0
 	 */
-	public function __construct( string $host, string $key, bool $buffered = true, $level = Logger::DEBUG, bool $bubble = true ) {
+	public function __construct( string $host, string $key, string $extended = '', bool $buffered = true, $level = Logger::DEBUG, bool $bubble = true ) {
 		parent::__construct( $level, $buffered, $bubble );
 		$this->endpoint                             = $host;
 		$this->post_args['headers']['Content-Type'] = 'application/json';
 		$this->post_args['headers']['DD-API-KEY']   = $key;
+		$this->extended = decalog_normalize_extended_fields( $extended );
 	}
 
 	/**
@@ -72,6 +82,9 @@ class DatadogHandler extends AbstractBufferedHTTPHandler {
 		foreach ( $records as $record ) {
 			if ( $record['level'] < $this->level ) {
 				continue;
+			}
+			if ( ! empty( $this->extended ) ) {
+				$record['extended'] = $this->extended;
 			}
 			$messages[] = $this->getFormatter()->format( $record );
 		}

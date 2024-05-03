@@ -29,17 +29,26 @@ use Elastic\Elasticsearch\Common\Exceptions\RuntimeException as ElasticsearchRun
 class SematextHandler extends ElasticsearchHandler {
 
 	/**
+	 * Normalized extended fields.
+	 *
+	 * @since  4.0.0
+	 * @var    array    $extended    The normalized extended fields, ready to be added to the event.
+	 */
+	private $extended = [];
+
+	/**
 	 * @param string     $host      The logsene host (for location selection).
 	 * @param string     $token     The logs app token.
-	 * @param int|string $level     The minimum logging level at which this handler will be triggered.
-	 * @param bool       $bubble    Whether the messages that are handled can bubble up the stack or not.
+	 * @param string     $extended  Optional. Extended fields.
+	 * @param int|string $level     Optional. The minimum logging level at which this handler will be triggered.
+	 * @param bool       $bubble    Optional. Whether the messages that are handled can bubble up the stack or not.
 	 */
-	public function __construct( string $host, string $token, $level = Logger::DEBUG, bool $bubble = true ) {
+	public function __construct( string $host, string $token, string $extended = '' , $level = Logger::DEBUG, bool $bubble = true ) {
 		$client  = \Elastic\Elasticsearch\ClientBuilder::create()->setHosts( [ 'https://' . $host . ':443' ] )->build();
 		$options = [
-			'index' => $token,
-			'type'  => 'wordpress_decalog',
+			'index' => $token
 		];
+		$this->extended = decalog_normalize_extended_fields( $extended );
 		parent::__construct( $client, $options, $level, $bubble );
 	}
 
@@ -59,10 +68,12 @@ class SematextHandler extends ElasticsearchHandler {
 				$params['body'][] = [
 					'index' => [
 						'_index' => $record['_index'],
-						'_type'  => $record['_type'],
 					],
 				];
-				unset( $record['_index'], $record['_type'] );
+				unset( $record['_index'] );
+				if ( ! empty( $this->extended ) ) {
+					$record['extended'] = $this->extended;
+				}
 
 				$params['body'][] = $record;
 			}

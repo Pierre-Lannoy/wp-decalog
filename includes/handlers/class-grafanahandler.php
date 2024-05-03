@@ -43,23 +43,33 @@ class GrafanaHandler extends AbstractBufferedHTTPHandler {
 	protected $job;
 
 	/**
+	 * Normalized extended fields.
+	 *
+	 * @since  4.0.0
+	 * @var    array    $extended    The normalized extended fields, ready to be added to the event.
+	 */
+	private $extended = [];
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @param   string  $host       The Loki hostname.
 	 * @param   string  $user       The suer name.
 	 * @param   string  $key        The API key.
 	 * @param   int     $model      The model to use for labels.
-	 * @param   string  $id         The job id.
+	 * @param   string  $id         Optional. The job id.
+	 * @param   string  $extended   Optional. Extended fields.
 	 * @param   integer $level      Optional. The min level to log.
 	 * @param   boolean $bubble     Optional. Has the record to bubble?.
 	 * @since    2.4.0
 	 */
-	public function __construct( string $host, string $user, string $key, int $model, string $id = 'wp_decalog', $level = Logger::DEBUG, bool $bubble = true ) {
+	public function __construct( string $host, string $user, string $key, int $model, string $id = 'wp_decalog', string $extended = '' , $level = Logger::DEBUG, bool $bubble = true ) {
 		parent::__construct( $level, false, $bubble );
 		$this->template                             = $model;
 		$this->job                                  = $id;
 		$this->endpoint                             = 'https://' . $user . ':' . $key . '@' . $host . '.grafana.net/loki/api/v1/push';
 		$this->post_args['headers']['Content-Type'] = 'application/json';
+		$this->extended = decalog_normalize_extended_fields( $extended );
 	}
 
 	/**
@@ -89,6 +99,9 @@ class GrafanaHandler extends AbstractBufferedHTTPHandler {
 		foreach ( $records as $record ) {
 			if ( $record['level'] < $this->level ) {
 				continue;
+			}
+			if ( ! empty( $this->extended ) ) {
+				$record['extended'] = $this->extended;
 			}
 			$this->write( [ $this->getFormatter()->format( $record ) ] );
 		}
