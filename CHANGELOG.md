@@ -19,6 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Upgraded InfluxDB library from version 1.12.0 to version 3.5.0.
 - Upgraded GuzzleHttp library from version 7.2.0 to version 7.8.1.
 - Upgraded Elasticsearch library from version 7.6.1 to version 8.13.0.
+- Upgraded Tracy from version 2.10.5 to version 2.10.7.
 
 ### Fixed
 - Constant storage may produce PHP warning while initializing.

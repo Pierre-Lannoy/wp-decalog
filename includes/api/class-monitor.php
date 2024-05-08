@@ -1,6 +1,6 @@
 <?php
 /**
- * Prometheus monitor definition.
+ * Monitor definition.
  *
  * @package API
  * @author  Pierre Lannoy <https://pierre.lannoy.fr/>.
@@ -12,7 +12,7 @@ namespace Decalog;
 use Decalog\Plugin\Feature\DMonitor;
 
 /**
- * Prometheus monitor class.
+ * Monitor class.
  *
  * This class defines all code necessary to monitor metrics with DecaLog.
  *
@@ -33,7 +33,7 @@ class Monitor {
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @param string $class   The class identifier, must be a value in ['plugin', 'theme'].
+	 * @param string $class   The class identifier, must be a value in ['plugin', 'theme', 'library'].
 	 * @param string $name    Optional. The name of the component that will trigger events.
 	 * @param string $version Optional. The version of the component that will trigger events.
 	 * @since 3.0.0

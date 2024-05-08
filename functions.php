@@ -8,6 +8,28 @@
  */
 
 /**
+ * Get the loaded version of PSR-3.
+ *
+ * @return  int  The PSR-3 main version.
+ * @since 4.0.0
+ */
+function decalog_get_psr_log_version() {
+	if ( class_exists( '\Psr\Log\NullLogger') ) {
+		$reflection = new \ReflectionMethod(\Psr\Log\NullLogger::class, 'log');
+		foreach ( $reflection->getParameters() as $param ) {
+			if ( 'message' === $param->getName() ) {
+				if ( str_contains($param->getType() ?? '', '|') ) {
+					return 3;
+				}
+			}
+		}
+	} else {
+		return 0;
+	}
+	return 1;
+}
+
+/**
  * Multibyte String Pad
  *
  * Functionally, the equivalent of the standard str_pad function, but is capable of successfully padding multibyte strings.

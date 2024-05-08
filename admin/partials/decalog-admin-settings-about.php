@@ -16,6 +16,7 @@ wp_enqueue_style( DECALOG_ASSETS_ID );
 wp_enqueue_script( DECALOG_ASSETS_ID );
 
 $warning = '';
+$psr = '';
 if ( Environment::is_plugin_in_dev_mode() ) {
 	$icon     = '<img style="width:16px;vertical-align:text-bottom;" src="' . \Feather\Icons::get_base64( 'alert-triangle', 'none', '#FF8C00' ) . '" />&nbsp;';
 	$warning .= '<p>' . $icon . sprintf( esc_html__( 'This version of %s is not production-ready. It is a development preview. Use it at your own risk!', 'decalog' ), DECALOG_PRODUCT_NAME ) . '</p>';
@@ -24,16 +25,21 @@ if ( Environment::is_plugin_in_rc_mode() ) {
 	$icon     = '<img style="width:16px;vertical-align:text-bottom;" src="' . \Feather\Icons::get_base64( 'alert-triangle', 'none', '#FF8C00' ) . '" />&nbsp;';
 	$warning .= '<p>' . $icon . sprintf( esc_html__( 'This version of %s is a release candidate. Although ready for production, this version is not officially supported in production environments.', 'decalog' ), DECALOG_PRODUCT_NAME ) . '</p>';
 }
+if ( 3 !== decalog_get_psr_log_version() ) {
+	$icon     = '<img style="width:16px;vertical-align:text-bottom;" src="' . \Feather\Icons::get_base64( 'alert-triangle', 'none', '#FF8C00' ) . '" />&nbsp;';
+	$psr .= '<p>' . $icon . sprintf( esc_html__( '%s is running on PSR-3 v1 compatibility mode. It is due to a deprecated or outdated third-party plugin or theme.', 'decalog' ), DECALOG_PRODUCT_NAME ) . '</p>';
+}
 $icon       = '<img class="decalog-about-logo" style="opacity:0;" src="' . Decalog\Plugin\Core::get_base64_logo() . '" />';
 $intro      = sprintf( esc_html__( '%1$s is a free and open source plugin for WordPress. It integrates other free and open source works (as-is or modified) like: %2$s.', 'decalog' ), '<em>' . DECALOG_PRODUCT_NAME . '</em>', do_shortcode( '[decalog-libraries]' ) );
 $trademarks = esc_html__( 'All brands, icons and graphic illustrations are registered trademarks of their respective owners.', 'decalog' );
-$brands     = [ 'Automattic', 'Bugsnag', 'Datadog', 'Elastic Cloud', 'Fluentd Project', 'Functional Software', 'Grafana Labs', 'Google', 'InfluxData', 'Nette Foundation', 'New Relic', 'Open Zipkin', 'PagerDuty', 'Pushover', 'Rapid7', 'Raygun', 'Sematext', 'Slack', 'Solarwinds', 'Spatie', 'Sumo Logic', 'The Linux Foundation', 'Uber' ];
+$brands     = [ 'Automattic', 'Bugsnag', 'Datadog', 'Elastic Cloud', 'Fluentd Project', 'Functional Software', 'Grafana Labs', 'Google', 'Hosterra', 'InfluxData', 'Nette Foundation', 'New Relic', 'Open Zipkin', 'PagerDuty', 'Pushover', 'Rapid7', 'Raygun', 'Sematext', 'Slack', 'Solarwinds', 'Spatie', 'Sumo Logic', 'The Linux Foundation', 'Uber' ];
 $official   = sprintf( esc_html__( 'This plugin is not an official software from %s and, as such, is not endorsed or supported by these companies.', 'decalog' ), implode( ', ', $brands ) );
 
 
 ?>
 <h2><?php echo esc_html( DECALOG_PRODUCT_NAME . ' ' . DECALOG_VERSION ); ?> / <a href="https://perfops.one">PerfOps One</a></h2>
 <?php echo $icon; ?>
+<?php echo $psr; ?>
 <?php echo $warning; ?>
 <p><?php echo $intro; ?></p>
 <h4><?php esc_html_e( 'Disclaimer', 'decalog' ); ?></h4>

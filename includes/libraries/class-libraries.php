@@ -71,7 +71,7 @@ class Libraries {
 			'name'    => 'Tracy',
 			'prefix'  => 'Tracy',
 			'base'    => DECALOG_VENDOR_DIR . 'tracy/',
-			'version' => '2.10.5',
+			'version' => '2.10.7',
 			// phpcs:ignore
 			'author'  => sprintf( esc_html__( '%s & contributors', 'decalog' ), 'David Grudl' ),
 			'url'     => 'https://github.com/nette/tracy',
@@ -259,7 +259,7 @@ class Libraries {
 			'name'    => 'PSR-3',
 			'prefix'  => 'Psr\\Log',
 			'base'    => DECALOG_VENDOR_DIR . 'psr/log/',
-			'version' => '3.0.0',
+			'version' => '1 & 3',
 			'author'  => 'PHP Framework Interop Group',
 			'url'     => 'https://www.php-fig.org/',
 			'license' => 'mit',

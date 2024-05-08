@@ -35,7 +35,7 @@ if ( interface_exists( '\Stripe\Util\LoggerInterface' ) ) {
 		/**
 		 * Initialize the class and set its properties.
 		 *
-		 * @param string $class   The class identifier, must be a value in ['plugin', 'theme'].
+		 * @param string $class   The class identifier, must be a value in ['plugin', 'theme', 'library'].
 		 * @param string $name    Optional. The name of the component that will trigger events.
 		 * @param string $version Optional. The version of the component that will trigger events.
 		 * @since 2.4.0

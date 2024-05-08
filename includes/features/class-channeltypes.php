@@ -42,7 +42,7 @@ class ChannelTypes {
 	 * The list of available channels names.
 	 *
 	 * @since  1.0.0
-	 * @var    array    $channel_names    Maintains the channels names.
+	 * @var    array    $channel_names_en    Maintains the channels names.
 	 */
 	public static $channel_names_en = [];
 

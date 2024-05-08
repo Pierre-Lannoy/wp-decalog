@@ -34,8 +34,6 @@ require_once __DIR__ . '/includes/system/class-environment.php';
 require_once __DIR__ . '/autoload.php';
 require_once __DIR__ . '/includes/libraries/class-libraries.php';
 require_once __DIR__ . '/includes/libraries/autoload.php';
-//require_once __DIR__ . '/includes/libraries/guzzlehttp/Promise/functions_include.php';
-//require_once __DIR__ . '/includes/libraries/guzzlehttp/Psr7/functions_include.php';
 require_once __DIR__ . '/includes/libraries/guzzlehttp/functions_include.php';
 
 /**

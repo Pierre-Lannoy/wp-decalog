@@ -11,7 +11,6 @@
 
 namespace Decalog\Handler;
 
-use Decalog\Formatter\ElasticCloudFormatter;
 use DLMonolog\Formatter\FormatterInterface;
 use DLMonolog\Handler\ElasticsearchHandler;
 use DLMonolog\Logger;
@@ -103,6 +102,6 @@ class ElasticHandler extends ElasticsearchHandler {
 	 * {@inheritDoc}
 	 */
 	protected function getDefaultFormatter(): FormatterInterface {
-		return new ElasticCloudFormatter( $this->options['index'], $this->options['type'] );
+		return new \Decalog\Formatter\ElasticCloudFormatter( $this->options['index'], $this->options['type'] );
 	}
 }
