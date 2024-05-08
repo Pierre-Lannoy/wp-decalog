@@ -14,7 +14,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 - [BC] DecaLog now uses PSR3 3.x => if you use the [DecaLog SDK](https://packagist.org/packages/perfopsone/decalog), you must update it to version 4.
-- The responsiveness of DecaLog settings pages has been greatly improved.
+- The responsiveness of DecaLog settings pages has been greatly boosted.
+- The rendering of web console has been improved. 
 - Upgraded Monolog library from version 2.9.1 to version 2.9.3.
 - Upgraded InfluxDB library from version 1.12.0 to version 3.5.0.
 - Upgraded GuzzleHttp library from version 7.2.0 to version 7.8.1.

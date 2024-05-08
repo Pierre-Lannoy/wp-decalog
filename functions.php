@@ -113,19 +113,6 @@ function decalog_remote_put( $url, $args = [] ) {
 }
 
 /**
- * Close a shmop resource.
- *
- * @since 3.6.0
- *
- * @param mixed $shmop  The shmop resource to close.
- */
-function decalog_shmop_close( $shmop ){
-	if ( defined( 'PHP_VERSION' ) && version_compare( PHP_VERSION, '8.0.0', '<' ) ) {
-		shmop_close( $shmop );
-	}
-}
-
-/**
  * Verify if a resource is a shmop resource.
  *
  * @since 3.6.0
@@ -138,31 +125,6 @@ function decalog_is_shmop_resource( $value ) {
 		return $value instanceof Shmop;
 	}
 	return ( is_resource( $value ) );
-}
-
-
-/**
- * Provide PHP 7.3 compatibility for array_key_last() function.
- */
-if ( ! function_exists( 'array_key_last' ) ) {
-	// phpcs:ignore
-	function array_key_last( array $array ) {
-		if ( ! empty( $array ) ) {
-			return key( array_slice( $array, -1, 1, true ) );
-		}
-	}
-}
-
-/**
- * Provide PHP 7.3 compatibility for array_key_first() function.
- */
-if ( ! function_exists( 'array_key_first' ) ) {
-	// phpcs:ignore
-	function array_key_first( array $arr ) {
-		foreach ( $arr as $key => $unused ) {
-			return $key;
-		}
-	}
 }
 
 /**

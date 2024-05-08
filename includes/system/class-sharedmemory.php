@@ -46,7 +46,7 @@ class SharedMemory {
 	 * The opened resource.
 	 *
 	 * @since  2.0.0
-	 * @var resource    $shmid     Maintains the opened resource.
+	 * @var \Shmop|null    $shmid     Maintains the opened resource.
 	 */
 	private $shmid = null;
 
@@ -83,14 +83,13 @@ class SharedMemory {
 	 * @param   string  $flags     Optional. The flags for opening.
 	 * @param   integer $mode      Optional. The permissions needed.
 	 * @param   integer $size      Optional. The size of opening.
-	 * @return  null|resource   The opened resource, or null if it's not possible.
+	 * @return  \Shmop|null   The opened resource, or null if it's not possible.
 	 * @since    2.0.0
 	 */
 	private function acquire( $flags = 'a', $mode = 0, $size = 0 ) {
 		if ( ! self::$available ) {
 			return null;
 		}
-		$this->shmid = null;
 		// phpcs:ignore
 		set_error_handler( null );
 		// phpcs:ignore
@@ -107,11 +106,7 @@ class SharedMemory {
 	 * @since    2.0.0
 	 */
 	private function exists() {
-		$result = decalog_is_shmop_resource( $this->acquire() );
-		if ( $result ) {
-			decalog_shmop_close( $this->shmid );
-		}
-		return $result;
+		return decalog_is_shmop_resource( $this->acquire() );
 	}
 	/**
 	 * Writes an array.
@@ -139,7 +134,6 @@ class SharedMemory {
 			}
 			if ( decalog_is_shmop_resource( $this->shmid ) ) {
 				shmop_delete( $this->shmid );
-				decalog_shmop_close( $this->shmid );
 			} else {
 				return false;
 			}
@@ -147,7 +141,6 @@ class SharedMemory {
 		$this->shmid = $this->acquire( 'c', $this->perms, $size );
 		if ( decalog_is_shmop_resource( $this->shmid ) ) {
 			$result = shmop_write( $this->shmid, $data, 0 );
-			decalog_shmop_close( $this->shmid );
 			return $result;
 		}
 		return false;
@@ -178,7 +171,6 @@ class SharedMemory {
 			if ( decalog_is_shmop_resource( $this->shmid ) ) {
 				$size = shmop_size( $this->shmid );
 				$data = shmop_read( $this->shmid, 0, $size );
-				decalog_shmop_close( $this->shmid );
 			} else {
 				return [];
 			}
