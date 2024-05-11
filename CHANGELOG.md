@@ -3,7 +3,7 @@ All notable changes to **DecaLog** are documented in this *changelog*.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [4.0.0] - Not Yet Released
+## [4.0.0] - 2024-05-13
 
 > **Important note about this version:**
 > - **DecaLog 4 is a transition version to prepare DecaLog 5.**
