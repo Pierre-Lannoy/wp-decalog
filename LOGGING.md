@@ -10,11 +10,11 @@ An ___event___ is mainly composed of:
 - A __level__, which represents the severity of the ___event___. This level is set by the ___listener___, regarding what triggered the ___event___. It can take the following values (from the lowest severity to the highest severity): `DEBUG`, `INFO`, `NOTICE`, `WARNING`, `ERROR`, `CRITICAL`, `ALERT`, `EMERGENCY`.
 - A __timestamp__, which is the time when ___event___ was triggered.
 - A versioned __source__, which is the component or the subsystem where the ___event___ is triggered. It may be things like `PHP`/`7.2` or `WordPress`/`5.2.2` and so on...
-- The __class__ of the source, which can take the following values: `core`, `plugin`, `theme`, `db`, `php`.
+- The __class__ of the source, which can take the following values: `core`, `plugin`, `theme`, `library`, `db`, `php`.
 - A __message__ in plain text. It is always in English: messages are not localized.
 - A numerical __code__, which may be everything which makes sense regarding the ___event___ (an error code, for instance).
 
-Depending on each ___loggers___ type or settings, an ___event___ may contains many other fields which are automatically detected and filled by DecaLog. For example, an ___event___ may contain a __trace ID__, a __user name__, etc.
+Depending on each ___loggers___ type or settings, an ___event___ may contain many other fields which are automatically detected and filled by DecaLog. For example, an ___event___ may contain a __trace ID__, a __user name__, etc.
 
 ## Conventions
 An ___event___ respects some rules and adheres to some standards:
