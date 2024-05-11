@@ -81,8 +81,8 @@ class Option {
 		self::$defaults['autolisteners']        = true;  // In plugin settings.
 		self::$defaults['listeners']            = [];    // In plugin settings.
 		self::$defaults['pseudonymization']     = false; // In plugin settings.
-		self::$defaults['earlyloading']         = true;  // In plugin settings.
-		self::$defaults['metrics_authent']      = false;  // In plugin settings.
+		self::$defaults['earlyloading']         = false; // In plugin settings.
+		self::$defaults['metrics_authent']      = false; // In plugin settings.
 		self::$defaults['adminbar']             = true;
 		self::$defaults['slow_query_ms']        = 50;
 		self::$defaults['medium_query_ms']      = 10;

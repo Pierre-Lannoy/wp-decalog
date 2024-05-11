@@ -3,7 +3,7 @@
  * Plugin Name:       DecaLog Early Loader
  * Plugin URI:        https://perfops.one/decalog
  * Description:       MU plugin to early initialize DecaLog engine and listeners.
- * Version:           3.x
+ * Version:           4.x
  * Author:            Pierre Lannoy / PerfOps One
  * Author URI:        https://perfops.one
  * License:           GPLv3

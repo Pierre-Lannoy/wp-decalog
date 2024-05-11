@@ -22,7 +22,6 @@
  * Domain Path:       /languages
  */
 
-// If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
 	die;
 }
@@ -124,6 +123,17 @@ function decalog_reset_earlyloading() {
 }
 
 /**
+ * Disable early loading if we update from version lower than 4.0.0.
+ *
+ * @since 4.0.0
+ */
+function decalog_update_earlyloading_if_needed() {
+	if ( ! str_starts_with( (string) get_site_option( 'decalog_version', '0.0.0' ), '4.' ) ) {
+		update_site_option( 'decalog_earlyloading', false );
+	}
+}
+
+/**
  * The code that runs during plugin activation.
  *
  * @since 1.0.0
@@ -159,6 +169,7 @@ function decalog_uninstall() {
  * @since 1.0.0
  */
 function decalog_run() {
+	//decalog_update_earlyloading_if_needed();
 	require_once __DIR__ . '/includes/features/class-wpcli.php';
 	decalog_check_earlyloading();
 	$plugin = new Decalog\Plugin\Core();

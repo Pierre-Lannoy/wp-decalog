@@ -3,7 +3,7 @@
  * Plugin Name:         DecaLog Error Handler
  * Plugin URI:          https://perfops.one/decalog
  * Description:         Capture and log events, metrics and traces on your site. Make WordPress observable – finally!
- * Version:             3.x
+ * Version:             4.x
  * Author:              Pierre Lannoy / PerfOps One
  * Author URI:          https://perfops.one
  * License:             GPLv3

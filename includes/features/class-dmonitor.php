@@ -138,8 +138,11 @@ class DMonitor {
 	 * @since   3.0.0
 	 */
 	public function  __construct( $class, $name = null, $version = null ) {
-		if ( ! isset( self::$logger ) ) {
-			self::$logger = new Logger( 'plugin', DECALOG_PRODUCT_NAME, DECALOG_VERSION );
+		if ( ! isset( self::$logger ) && class_exists( '\Decalog\Logger' ) ) {
+			self::$logger = new \Decalog\Logger( 'plugin', DECALOG_PRODUCT_NAME, DECALOG_VERSION );
+		}
+		if ( ! isset( self::$logger ) && ! class_exists( '\Decalog\Logger' ) ) {
+			self::$logger = new \Psr\Log\NullLogger();
 		}
 		if ( ! Option::network_get( 'autolisteners' ) ) {
 			$this->allowed = in_array( 'prom', Option::network_get( 'listeners' ), true );

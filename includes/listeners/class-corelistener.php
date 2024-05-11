@@ -1747,6 +1747,9 @@ class CoreListener extends AbstractListener {
 	 * @since    3.0.0
 	 */
 	public function trace_shutdown_start() {
+		if ( ! isset( $this->tracer ) ) {
+			return;
+		}
 		if ( array_key_exists( 'run', $this->hooks ) ) {
 			$this->tracer->end_span( $this->hooks['run'] );
 		}

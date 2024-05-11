@@ -14,8 +14,8 @@
  * @since 4.0.0
  */
 function decalog_get_psr_log_version() {
-	if ( class_exists( '\Psr\Log\NullLogger') ) {
-		$reflection = new \ReflectionMethod(\Psr\Log\NullLogger::class, 'log');
+	if ( class_exists( '\Psr\Log\NullLogger' ) ) {
+		$reflection = new \ReflectionMethod( \Psr\Log\NullLogger::class, 'log');
 		foreach ( $reflection->getParameters() as $param ) {
 			if ( 'message' === $param->getName() ) {
 				if ( str_contains($param->getType() ?? '', '|') ) {

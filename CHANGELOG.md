@@ -5,15 +5,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [4.0.0] - Not Yet Released
 
+> **Important note about this version:**
+> - **DecaLog 4 is a transition version to prepare DecaLog 5.**
+> - **No migration path wil be available to migrate from DecaLog 3.x to 5.x, so don't ignore this version 4: install it!**
+> - **DecaLog 5 will be available in early 2025.**
+
 ### Added
 - Events sent to DataDog, Elastic Cloud, Elasticsearch, Grafana Cloud, Loki and Sematext can now be extended with custom fields (this feature supports variable substitution).
 - It's now possible to substitute PHP-defined constants for some loggers settings.
 - There's now a filter to map PHP error levels to PSR3 levels - see [hooks reference](HOOKS.md) (thanks to [Clément Hallet](https://github.com/challet)).
 - Full compatibility with Elasticsearch 8.
-- Events contexts are now fully mapped with standard fields while using Elastic Cloud logger.
 
 ### Changed
-- [BC] DecaLog now uses PSR3 3.x => if you use the [DecaLog SDK](https://packagist.org/packages/perfopsone/decalog), you must update it to version 4.
+- [BC] If a third-party plugin or theme uses PSR-3 1.x only, DecaLog early-loading option become unavailable.
+- [BC] DecaLog now uses PSR-3 1.x & 3.x => if you use the [DecaLog SDK](https://packagist.org/packages/perfopsone/decalog), you should update it to version 4.
+- Events contexts are now fully mapped with standard fields while using Elastic Cloud logger.
 - The responsiveness of DecaLog settings pages has been greatly boosted.
 - The rendering of web console has been improved. 
 - Upgraded Monolog library from version 2.9.1 to version 2.9.3.
