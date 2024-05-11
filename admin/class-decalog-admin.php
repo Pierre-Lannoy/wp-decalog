@@ -1256,7 +1256,7 @@ class Decalog_Admin {
 				'text'        => esc_html__( 'Activate early loading', 'decalog' ),
 				'id'          => 'decalog_plugin_features_earlyloading',
 				'checked'     => ( 3 === \decalog_get_psr_log_version() ) ? Option::network_get( 'earlyloading' ) : false,
-				'description' => ( 3 === \decalog_get_psr_log_version() ) ? esc_html__( 'If checked, DecaLog will be loaded before all other plugins (recommended).', 'decalog' ) : esc_html__( 'Option not available.', 'decalog' ) . ' ' . sprintf( esc_html__( '%s is running in PSR-3 v1 compatibility mode due to an obsolete or outdated third-party plugin or theme.', 'decalog' ), DECALOG_PRODUCT_NAME ) . '<br/>' . sprintf( __( 'Please, do not hesitate to <a href="%s">participate in discussion</a>.', 'decalog' ), 'https://github.com/Pierre-Lannoy/wp-decalog/discussions/63' ),
+				'description' => ( 3 === \decalog_get_psr_log_version() ) ? esc_html__( 'If checked, DecaLog will be loaded before all other plugins (recommended).', 'decalog' ) : esc_html__( 'Option not available.', 'decalog' ) . ' ' . sprintf( esc_html__( '%s is running in PSR-3 v1 compatibility mode due to an obsolete or outdated third-party plugin or theme.', 'decalog' ), DECALOG_PRODUCT_NAME ) . '<br/>' . sprintf( __( 'Please, do not hesitate to <a href="%s">take part in discussion</a>.', 'decalog' ), 'https://github.com/Pierre-Lannoy/wp-decalog/discussions/63' ),
 				'full_width'  => false,
 				'enabled'     => ( 3 === \decalog_get_psr_log_version() ),
 			]

@@ -27,7 +27,7 @@ if ( Environment::is_plugin_in_rc_mode() ) {
 }
 if ( 3 !== decalog_get_psr_log_version() ) {
 	$icon     = '<img style="width:16px;vertical-align:text-bottom;" src="' . \Feather\Icons::get_base64( 'alert-triangle', 'none', '#FF8C00' ) . '" />&nbsp;';
-	$psr .= '<p>' . $icon . sprintf( esc_html__( '%s is running in PSR-3 v1 compatibility mode due to an obsolete or outdated third-party plugin or theme.', 'decalog' ), DECALOG_PRODUCT_NAME ) . ' ' . sprintf( __( 'Please, do not hesitate to <a href="%s">participate in discussion</a>.', 'decalog' ), 'https://github.com/Pierre-Lannoy/wp-decalog/discussions/63' ) . '</p>';
+	$psr .= '<p>' . $icon . sprintf( esc_html__( '%s is running in PSR-3 v1 compatibility mode due to an obsolete or outdated third-party plugin or theme.', 'decalog' ), DECALOG_PRODUCT_NAME ) . ' ' . sprintf( __( 'Please, do not hesitate to <a href="%s">take part in discussion</a>.', 'decalog' ), 'https://github.com/Pierre-Lannoy/wp-decalog/discussions/63' ) . '</p>';
 }
 $icon       = '<img class="decalog-about-logo" style="opacity:0;" src="' . Decalog\Plugin\Core::get_base64_logo() . '" />';
 $intro      = sprintf( esc_html__( '%1$s is a free and open source plugin for WordPress. It integrates other free and open source works (as-is or modified) like: %2$s.', 'decalog' ), '<em>' . DECALOG_PRODUCT_NAME . '</em>', do_shortcode( '[decalog-libraries]' ) );
