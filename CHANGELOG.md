@@ -3,6 +3,11 @@ All notable changes to **DecaLog** are documented in this *changelog*.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.0.1] - Not Yet Released
+
+### Fixed
+- [WP-CLI] PHP error in some cases when Elastic Cloud is a running logger.
+
 ## [4.0.0] - 2024-05-13
 
 > **Important note about this version:**

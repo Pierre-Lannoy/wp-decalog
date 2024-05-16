@@ -85,7 +85,7 @@ class ElasticCloudFormatter extends ElasticsearchFormatter {
 			unset( $record['extra']['ip'] );
 		}
 		if ( array_key_exists( 'extra', $record ) && array_key_exists( 'http_method', $record['extra'] ) ) {
-			if ( in_array( strtolower( $record['extra']['http_method'] ), Http::$verbs, true ) ) {
+			if ( in_array( strtolower( $record['extra']['http_method']??'' ), Http::$verbs, true ) ) {
 				$record['http']['request']['method'] = $record['extra']['http_method'];
 				unset( $record['extra']['http_method'] );
 			}
