@@ -28,9 +28,9 @@ class WpmigrateListener extends AbstractListener {
 	 * @since    4.1.0
 	 */
 	protected function init() {
-		$this->id      = 'wpmigrate';
-		$this->class   = 'plugin';
-		$this->name    = 'WP Migrate';
+		$this->id    = 'wpmigrate';
+		$this->class = 'plugin';
+		$this->name  = 'WP Migrate';
 		if ( defined( 'WPMDB_PRO' ) && WPMDB_PRO ) {
 			$this->product = 'WP Migrate Pro';
 		} else {
@@ -60,6 +60,7 @@ class WpmigrateListener extends AbstractListener {
 		add_action( 'wpmdb_cli_before_migration', [ $this, 'wpmdb_cli_before_migration' ], 10, 2 );
 		add_action( 'wpmdb_initiate_migration', [ $this, 'wpmdb_initiate_migration' ], 10, 1 );
 		add_action( 'wpmdb_error_migration', [ $this, 'wpmdb_error_migration' ], 10, 1 );
+
 		return true;
 	}
 
@@ -78,13 +79,10 @@ class WpmigrateListener extends AbstractListener {
 	 * @since    4.1.0
 	 */
 	public function wpmdb_migration_complete( $type, $url ) {
-		if ( 'pull' === strtolower( $type ) ) {
-			$message = sprintf( 'Pull from %s completed.', $url );
-		} elseif ( 'push' === strtolower( $type ) ) {
-			$message = sprintf( 'Push to %s completed.', $url );
-		} else {
-			$message = sprintf( '%s for %s completed.', ucfirst( strtolower( $type ) ),  $url );
-		}
+		$url_parts = wp_parse_url( $url );
+		$url       = $url_parts['host'];
+		$secured   = ( 'https' === $url_parts['scheme'] ) ? 'Secured' : 'Unsecured';
+		$message = sprintf( '%s %s for "%s" completed.', $secured, ucfirst( strtolower( $type??'unknown action' ) ), $url );
 		$this->logger->notice( $message );
 	}
 
@@ -111,7 +109,7 @@ class WpmigrateListener extends AbstractListener {
 		if ( is_array( $profile ) ) {
 			$action = $profile['intent'] ?? 'unknown';
 		}
-		$this->logger->info( sprintf( 'Initiating manual %s action.', $action ) );
+		$this->logger->info( sprintf( 'Starting %s action…', $action ) );
 	}
 
 	/**
