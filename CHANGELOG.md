@@ -3,13 +3,14 @@ All notable changes to **DecaLog** are documented in this *changelog*.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [4.1.0] - Not Yet Released
+## [4.1.0] - 2024-05-28
 
 ### Added
 - New listener for [WP Migrate](https://wordpress.org/plugins/wp-migrate-db/) Lite & Pro.
 
 ### Fixed
 - [WP-CLI] PHP error in some cases when Elastic Cloud is a running logger.
+- Some failing loggers may not be able to report their health state.
 
 ## [4.0.0] - 2024-05-13
 
