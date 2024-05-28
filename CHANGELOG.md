@@ -11,7 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 - [WP-CLI] PHP error in some cases when Elastic Cloud is a running logger.
 - Some failing loggers may not be able to report their health state.
-
+ 
 ## [4.0.0] - 2024-05-13
 
 > **Important note about this version:**
