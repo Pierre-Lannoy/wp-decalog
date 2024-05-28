@@ -255,11 +255,16 @@ class Libraries {
 			'license' => 'mit',
 			'langs'   => 'en',
 		];
-		self::$psr4_libraries['psr-03']     = [
+		if ( function_exists( 'decalog_get_psr_log_version' ) ) {
+			$psrlog_version = decalog_get_psr_log_version();
+		} else {
+			$psrlog_version = 1;
+		}
+		self::$psr4_libraries['psr-03']      = [
 			'name'    => 'PSR-3',
 			'prefix'  => 'Psr\\Log',
-			'base'    => DECALOG_VENDOR_DIR . 'psr/log-v1/',
-			'version' => '1 & 3',
+			'base'    => DECALOG_VENDOR_DIR . 'psr/log-v' . $psrlog_version . '/',
+			'version' => $psrlog_version . '.0.0',
 			'author'  => 'PHP Framework Interop Group',
 			'url'     => 'https://www.php-fig.org/',
 			'license' => 'mit',
@@ -460,7 +465,7 @@ class Libraries {
 			$items = [];
 			foreach ( $list as $library ) {
 				/* translators: as in the sentence "Product W version X by author Y (license Z)" */
-				$items[] = sprintf( __( '<a href="%1$s">%2$s %3$s</a>%4$s by %5$s (%6$s)', 'decalog' ), $library['url'], $library['name'], $library['version'], $library['langs'], $library['author'], $library['license'] );
+				$items[] = sprintf( __( '<a href="%1$s">%2$s %3$s</a>%4$s by %5$s (%6$s)', 'decalog' ), $library['url'], $library['name'], 'v' . $library['version'], $library['langs'], $library['author'], $library['license'] );
 			}
 			$result = implode( ', ', $items );
 		}
