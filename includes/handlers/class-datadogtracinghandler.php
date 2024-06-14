@@ -34,7 +34,7 @@ class DatadogTracingHandler extends AbstractTracingHandler {
 	 */
 	public function __construct( string $uuid, int $format, int $sampling, string $url, string $tags = '' ) {
 		parent::__construct( $uuid, $format, $sampling, $tags );
-		$this->endpoint                             = $url . '/v0.3/traces';
+		$this->endpoint                             = defined( 'DECALOG_DATADOG_TRACES_CUSTOM_ENDPOINT' ) ? DECALOG_DATADOG_TRACES_CUSTOM_ENDPOINT : $url . '/v0.3/traces';
 		$this->post_args['headers']['Content-Type'] = 'application/json';
 		$this->verb                                 = 'PUT';
 	}
