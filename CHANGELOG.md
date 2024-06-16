@@ -6,7 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [4.2.0] - 2024-06-xx
 
 ### Added
-- It's now possible to send Datadog events, metrics and traces to custom endpoints. These custom endpoints must be defined in `wp-config.php` as `DECALOG_DATADOG_EVENTS_CUSTOM_ENDPOINT`, `DECALOG_DATADOG_METRICS_CUSTOM_ENDPOINT` and `DECALOG_DATADOG_TRACES_CUSTOM_ENDPOINT` constants. 
+- It's now possible to send Datadog events, metrics and traces to custom endpoints. These custom endpoints must be defined in `wp-config.php` as `DECALOG_DATADOG_EVENTS_CUSTOM_ENDPOINT`, `DECALOG_DATADOG_METRICS_CUSTOM_ENDPOINT` and `DECALOG_DATADOG_TRACES_CUSTOM_ENDPOINT` constants.
+
+### Changed
+- To avoid name collision with some third-party configurations, the environment tag in Datadog, Loki and Grafana loggers is now named `wp_env` (it was previously `env`).
 
 ## [4.1.0] - 2024-05-28
 

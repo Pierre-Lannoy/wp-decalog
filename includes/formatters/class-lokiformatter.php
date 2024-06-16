@@ -97,7 +97,7 @@ class LokiFormatter implements FormatterInterface {
 			case 2:
 				$stream['job']      = $this->job;
 				$stream['instance'] = DECALOG_INSTANCE_NAME;
-				$stream['env']      = Environment::stage();
+				$stream['wp_env']      = Environment::stage();
 				break;
 			case 3:
 				$stream['job']      = $this->job;
@@ -107,7 +107,7 @@ class LokiFormatter implements FormatterInterface {
 			case 4:
 				$stream['job']   = $this->job;
 				$stream['level'] = $level_class;
-				$stream['env']   = Environment::stage();
+				$stream['wp_env']   = Environment::stage();
 				break;
 			case 5:
 				$stream['job']  = $this->job;
