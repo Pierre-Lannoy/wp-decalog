@@ -41,7 +41,7 @@ class DatadogFormatter extends JsonFormatter {
 	public function format( array $record ): string {
 		$event                = [];
 		$event['ddsource']    = 'WordPress';
-		$event['ddtags']      = 'wp_env:' . strtolower( Environment::stage() ) . ',version:' . strtolower( Environment::wordpress_version_text( true ) );
+		$event['ddtags']      = 'wp_env:' . strtolower( Environment::stage() ) . ',wp_version:' . strtolower( Environment::wordpress_version_text( true ) );
 		$event['dd.trace_id'] = base_convert( substr( DECALOG_TRACEID, 16, 16 ), 16, 10 );
 		$event['host']        = DECALOG_INSTANCE_NAME;
 		if ( array_key_exists( 'channel', $record ) ) {
@@ -81,7 +81,7 @@ class DatadogFormatter extends JsonFormatter {
 		if ( array_key_exists( 'extended', $record ) && 0 < count( $record['extended'] ) ) {
 			foreach ( $record['extended'] as $key => $value ) {
 				if ( array_key_exists( $key, $event ) ) {
-					$event[ 'decalog_' . $key ] = $event[ $key ];
+					$event[ 'wp_' . $key ] = $event[ $key ];
 				}
 				$event[ $key ] = $value;
 			}

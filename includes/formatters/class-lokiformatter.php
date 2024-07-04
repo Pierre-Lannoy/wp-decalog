@@ -102,7 +102,7 @@ class LokiFormatter implements FormatterInterface {
 			case 3:
 				$stream['job']      = $this->job;
 				$stream['instance'] = DECALOG_INSTANCE_NAME;
-				$stream['version']  = Environment::wordpress_version_text( true );
+				$stream['wp_version']  = Environment::wordpress_version_text( true );
 				break;
 			case 4:
 				$stream['job']   = $this->job;

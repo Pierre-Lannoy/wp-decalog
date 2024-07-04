@@ -3,6 +3,11 @@ All notable changes to **DecaLog** are documented in this *changelog*.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.2.1] - 
+
+### Changed
+- To avoid name collision with some third-party configurations, the version tag in Datadog, Loki and Grafana loggers is now named `wp_version` (it was previously `version`).
+
 ## [4.2.0] - 2024-06-16
 
 ### Added
