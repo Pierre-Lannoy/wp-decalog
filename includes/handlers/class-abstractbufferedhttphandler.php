@@ -11,7 +11,9 @@
 
 namespace Decalog\Handler;
 
+use Decalog\System\Environment;
 use Decalog\System\Http;
+use Decalog\System\Option;
 use DLMonolog\Logger;
 use DLMonolog\Handler\AbstractProcessingHandler;
 use DLMonolog\Handler\HandlerInterface;
@@ -62,6 +64,14 @@ abstract class AbstractBufferedHTTPHandler extends AbstractProcessingHandler {
 	private $buffer = [];
 
 	/**
+	 * The buffer size.
+	 *
+	 * @since  4.3.0
+	 * @var    int    $buffer_size    The buffer size.
+	 */
+	private $buffer_size = 1000;
+
+	/**
 	 * Is it buffered or direct?.
 	 *
 	 * @since  2.4.0
@@ -88,6 +98,10 @@ abstract class AbstractBufferedHTTPHandler extends AbstractProcessingHandler {
 	public function __construct( $level = Logger::DEBUG, bool $buffered = true, bool $bubble = true ) {
 		parent::__construct( $level, $bubble );
 		$this->buffered  = $buffered;
+		if ( Option::network_get( 'unbuffered_cli' ) && 1 === Environment::exec_mode() ) {
+			$this->buffered  = false;
+		}
+		$this->buffer_size =  Option::network_get( 'buffer_size' );
 		$this->post_args = [
 			'headers'    => [
 				'User-Agent'     => Http::user_agent(),
@@ -123,13 +137,14 @@ abstract class AbstractBufferedHTTPHandler extends AbstractProcessingHandler {
 			return false;
 		}
 		$this->buffer[] = $this->processRecord( $record );
+		if ( ! $this->buffered || Option::network_get( 'buffer_size' ) <= count ( $this->buffer ) ) {
+			$this->flush();
+		}
 		if ( $this->buffered ) {
 			if ( ! $this->initialized ) {
 				add_action( 'shutdown', [ $this, 'close' ], DECALOG_MAX_SHUTDOWN_PRIORITY + 2, 0 );
 				$this->initialized = true;
 			}
-		} else {
-			$this->flush();
 		}
 		return false === $this->bubble;
 	}

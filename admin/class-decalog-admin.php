@@ -399,6 +399,9 @@ class Decalog_Admin {
 		add_settings_section( 'decalog_logger_specific_section', null, [ $this, 'logger_specific_section_callback' ], 'decalog_logger_specific_section' );
 		add_settings_section( 'decalog_logger_privacy_section', esc_html__( 'Privacy options', 'decalog' ), [ $this, 'logger_privacy_section_callback' ], 'decalog_logger_privacy_section' );
 		add_settings_section( 'decalog_logger_details_section', esc_html__( 'Reported details', 'decalog' ), [ $this, 'logger_details_section_callback' ], 'decalog_logger_details_section' );
+		if ( apply_filters( 'perfopsone_show_advanced', false ) ) {
+			add_settings_section( 'decalog_plugin_advanced_section', esc_html__( 'Plugin advanced options', 'decalog' ), [ $this, 'plugin_advanced_section_callback' ], 'decalog_plugin_advanced_section' );
+		}
 	}
 
 	/**
@@ -766,6 +769,10 @@ class Decalog_Admin {
 				Option::network_set( 'slow_query_warn', array_key_exists( 'decalog_plugin_features_slowqueries', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_plugin_features_slowqueries' ) : false );
 				Option::network_set( 'unknown_metrics_warn', array_key_exists( 'decalog_plugin_features_unknownmetrics', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_plugin_features_unknownmetrics' ) : false );
 				Option::network_set( 'trace_query', array_key_exists( 'decalog_plugin_features_tracequeries', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_plugin_features_tracequeries' ) : false );
+
+				Option::network_set( 'unbuffered_cli', array_key_exists( 'decalog_plugin_advanced_unbuffered_cli', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_plugin_advanced_unbuffered_cli' ) : false );
+				Option::network_set( 'buffer_size', array_key_exists( 'decalog_plugin_advanced_buffer_size', $_POST ) ? (string) filter_input( INPUT_POST, 'decalog_plugin_advanced_buffer_size', FILTER_SANITIZE_NUMBER_INT ) : Option::network_get( 'buffer_size' ) );
+
 				$autolog = array_key_exists( 'decalog_plugin_features_livelog', $_POST ) ? (bool) filter_input( INPUT_POST, 'decalog_plugin_features_livelog' ) : false;
 				if ( $autolog ) {
 					Autolog::activate();
@@ -1345,6 +1352,50 @@ class Decalog_Admin {
 			register_setting( 'decalog_plugin_features_section', 'decalog_plugin_features_metrics_authent' );
 		}
 	}
+
+	/**
+	 * Callback for plugin advanced section.
+	 *
+	 * @since 4.3.0
+	 */
+	public function plugin_advanced_section_callback() {
+		$form = new Form();
+		add_settings_field(
+			'decalog_plugin_advanced_unbuffered_cli',
+			'Force unbuffering',
+			[ $form, 'echo_field_checkbox' ],
+			'decalog_plugin_advanced_section',
+			'decalog_plugin_advanced_section',
+			[
+				'text'        => 'WP CLI events',
+				'id'          => 'decalog_plugin_advanced_unbuffered_cli',
+				'checked'     => Option::network_get( 'unbuffered_cli' ),
+				'description' => 'If checked, events triggered via WP CLI will not be buffered.',
+				'full_width'  => false,
+				'enabled'     => true,
+			]
+		);
+		register_setting( 'decalog_plugin_advanced_section', 'decalog_plugin_advanced_unbuffered_cli' );
+		add_settings_field(
+			'decalog_plugin_advanced_buffer_size',
+			'Events buffer size',
+			[ $form, 'echo_field_input_integer' ],
+			'decalog_plugin_advanced_section',
+			'decalog_plugin_advanced_section',
+			[
+				'id'          => 'decalog_plugin_advanced_buffer_size',
+				'value'       => Option::network_get( 'buffer_size' ),
+				'min'         => 10,
+				'max'         => 2000,
+				'step'        => 10,
+				'description' => 'Buffer size, in number of events.',
+				'full_width'  => false,
+				'enabled'     => true,
+			]
+		);
+		register_setting( 'decalog_plugin_advanced_section', 'decalog_plugin_advanced_buffer_size' );
+	}
+	
 
 	/**
 	 * Callback for logger misc section.

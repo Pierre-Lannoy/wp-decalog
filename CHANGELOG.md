@@ -3,7 +3,10 @@ All notable changes to **DecaLog** are documented in this *changelog*.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [4.2.1] - 
+## [4.3.0] Not Yet Released
+
+### Added
+- It's now possible to change buffering behavior (for loggers supporting deferred forwarding). By default, the new behavior is: events batch at 1000 and no buffering for WP CLI. To modify it, you have to activate "advanced settings" in admin (see [hooks](HOOKS.md) for details).
 
 ### Changed
 - To avoid name collision with some third-party configurations, the version tag in Datadog, Loki and Grafana loggers is now named `wp_version` (it was previously `version`).

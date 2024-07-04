@@ -88,9 +88,11 @@ class Option {
 		self::$defaults['medium_query_ms']      = 10;
 		self::$defaults['trace_query']          = false;
 		self::$defaults['slow_query_warn']      = true;
+		self::$defaults['unbuffered_cli']       = true;
+		self::$defaults['buffer_size']          = 100;
 		self::$defaults['unknown_metrics_warn'] = true;
 		self::$defaults['env_substitution']     = false;
-		self::$network                          = [ 'version', 'earlyloading', 'use_cdn', 'download_favicons', 'script_in_footer', 'display_nag', 'respect_wp_debug', 'livelog', 'logger_autostart', 'autolisteners', 'pseudonymization', 'privileges', 'metrics_authent', 'adminbar', 'slow_query_ms', 'medium_query_ms', 'trace_query', 'slow_query_warn', 'unknown_metrics_warn', 'env_substitution' ];
+		self::$network                          = [ 'version', 'earlyloading', 'use_cdn', 'download_favicons', 'script_in_footer', 'display_nag', 'respect_wp_debug', 'livelog', 'logger_autostart', 'autolisteners', 'pseudonymization', 'privileges', 'metrics_authent', 'adminbar', 'slow_query_ms', 'medium_query_ms', 'trace_query', 'slow_query_warn', 'unknown_metrics_warn', 'env_substitution', 'unbuffered_cli', 'buffer_size' ];
 	}
 
 	/**
