@@ -10,7 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - name: WordPress Plugin Deploy
+      - name: Deploy plugin to WordPress official repository
+        id: wordpress_plugin_deploy
         uses: Pierre-Lannoy/wordpress-actions/dotorg-plugin-deploy@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -18,3 +19,8 @@ jobs:
           NAME: DecaLog
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
           SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+      - name: Adding plugin zip to release
+        uses: softprops/action-gh-release@v1
+        if: ${{startsWith(github.ref, 'refs/tags/') }}
+        with:
+          files: ${{ steps.wordpress_plugin_deploy.outputs.zip_file }}
