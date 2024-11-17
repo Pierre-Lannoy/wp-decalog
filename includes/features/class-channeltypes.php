@@ -61,15 +61,15 @@ class ChannelTypes {
 		self::$channel_names_en['FEED']    = 'Atom/RDF/RSS Feed';
 		self::$channel_names_en['WBACK']   = 'Site Backend';
 		self::$channel_names_en['WFRONT']  = 'Site Frontend';
-		self::$channel_names['UNKNOWN']    = esc_html__( 'Unknown', 'decalog' );
-		self::$channel_names['CLI']        = esc_html__( 'Command Line Interface', 'decalog' );
-		self::$channel_names['CRON']       = esc_html__( 'Cron Job', 'decalog' );
-		self::$channel_names['AJAX']       = esc_html__( 'Ajax Request', 'decalog' );
-		self::$channel_names['XMLRPC']     = esc_html__( 'XML-RPC Request', 'decalog' );
-		self::$channel_names['API']        = esc_html__( 'Rest API Request', 'decalog' );
-		self::$channel_names['FEED']       = esc_html__( 'Atom/RDF/RSS Feed', 'decalog' );
-		self::$channel_names['WBACK']      = esc_html__( 'Site Backend', 'decalog' );
-		self::$channel_names['WFRONT']     = esc_html__( 'Site Frontend', 'decalog' );
+		self::$channel_names['UNKNOWN']    = decalog_esc_html__( 'Unknown', 'decalog' );
+		self::$channel_names['CLI']        = decalog_esc_html__( 'Command Line Interface', 'decalog' );
+		self::$channel_names['CRON']       = decalog_esc_html__( 'Cron Job', 'decalog' );
+		self::$channel_names['AJAX']       = decalog_esc_html__( 'Ajax Request', 'decalog' );
+		self::$channel_names['XMLRPC']     = decalog_esc_html__( 'XML-RPC Request', 'decalog' );
+		self::$channel_names['API']        = decalog_esc_html__( 'Rest API Request', 'decalog' );
+		self::$channel_names['FEED']       = decalog_esc_html__( 'Atom/RDF/RSS Feed', 'decalog' );
+		self::$channel_names['WBACK']      = decalog_esc_html__( 'Site Backend', 'decalog' );
+		self::$channel_names['WFRONT']     = decalog_esc_html__( 'Site Frontend', 'decalog' );
 	}
 
 }

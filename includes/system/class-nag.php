@@ -102,7 +102,7 @@ class Nag {
 	 */
 	private function critical() {
 		if ( \Decalog\Plugin\Feature\LoggerFactory::$debugging ) {
-			$text = __( 'DecaLog is currently set to run a logger of the "debugging" class. This means that confidential information - including credentials, API keys, etc. - is visible to any browser using this site. <strong>This is a critical security issue!</strong> If this site is accessible to anyone other than developers, you should immediately pause this logger.', 'decalog ' );
+			$text =decalog__( 'DecaLog is currently set to run a logger of the "debugging" class. This means that confidential information - including credentials, API keys, etc. - is visible to any browser using this site. <strong>This is a critical security issue!</strong> If this site is accessible to anyone other than developers, you should immediately pause this logger.', 'decalog ' );
 			$html = '<div id="decalog-debugging-critical" class="notice notice-error"><p>' . $text . '</p></div>';
 			// phpcs:ignore
 			print( $html );

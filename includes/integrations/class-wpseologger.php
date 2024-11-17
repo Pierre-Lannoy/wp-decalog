@@ -53,7 +53,7 @@ class WpseoLogger implements \YoastSEO_Vendor\Psr\Log\LoggerInterface {
 	 * @return string
 	 */
 	public function get_description() {
-		return esc_html__( 'Log all events via DecaLog', 'decalog' );
+		return decalog_esc_html__( 'Log all events via DecaLog', 'decalog' );
 	}
 
 	/**

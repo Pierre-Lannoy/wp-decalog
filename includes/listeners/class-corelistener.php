@@ -89,7 +89,7 @@ class CoreListener extends AbstractListener {
 	protected function init() {
 		global $wp_version;
 		$this->id      = 'wpcore';
-		$this->name    = esc_html__( 'WordPress core', 'decalog' );
+		$this->name    = 'a';//decalog_esc_html__( 'WordPress core', 'decalog' );
 		$this->class   = 'core';
 		$this->product = 'WordPress';
 		$this->version = $wp_version;

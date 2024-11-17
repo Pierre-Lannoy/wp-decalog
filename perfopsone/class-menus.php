@@ -137,7 +137,7 @@ if ( ! class_exists( 'PerfOpsOne\Menus' ) ) {
 					self::$menus['settings'] = [];
 				}
 				add_menu_page( PERFOO_PRODUCT_NAME, PERFOO_PRODUCT_NAME, 'manage_options', 'perfopsone-dashboard', [ self::class, 'get_dashboard_page' ], Resources::get_menu_base64_logo(), 79 );
-				add_submenu_page( 'perfopsone-dashboard', esc_html__( 'Control Center', 'decalog' ), __( 'Control Center', 'decalog' ), 'manage_options', 'perfopsone-dashboard', [ self::class, 'get_dashboard_page' ] );
+				add_submenu_page( 'perfopsone-dashboard', decalog_esc_html__( 'Control Center', 'decalog' ),decalog__( 'Control Center', 'decalog' ), 'manage_options', 'perfopsone-dashboard', [ self::class, 'get_dashboard_page' ] );
 			}
 			if ( isset( self::$current_item ) && 'settings' === self::$current_menu ) {
 				if ( self::$current_item['activated'] ) {
@@ -152,19 +152,19 @@ if ( ! class_exists( 'PerfOpsOne\Menus' ) ) {
 				if ( ! self::$initialized ) {
 					switch ( $menu ) {
 						case 'analytics':
-							add_submenu_page( 'perfopsone-dashboard', esc_html__( 'Analytics', 'decalog' ), __( 'Analytics', 'decalog' ), 'manage_options', 'perfopsone-' . $menu, [ self::class, 'get_analytics_page' ] );
+							add_submenu_page( 'perfopsone-dashboard', decalog_esc_html__( 'Analytics', 'decalog' ),decalog__( 'Analytics', 'decalog' ), 'manage_options', 'perfopsone-' . $menu, [ self::class, 'get_analytics_page' ] );
 							break;
 						case 'tools':
-							add_submenu_page( 'perfopsone-dashboard', esc_html__( 'Tools', 'decalog' ), __( 'Tools', 'decalog' ), 'manage_options', 'perfopsone-' . $menu, [ self::class, 'get_tools_page' ] );
+							add_submenu_page( 'perfopsone-dashboard', decalog_esc_html__( 'Tools', 'decalog' ),decalog__( 'Tools', 'decalog' ), 'manage_options', 'perfopsone-' . $menu, [ self::class, 'get_tools_page' ] );
 							break;
 						case 'insights':
-							add_submenu_page( 'perfopsone-dashboard', esc_html__( 'Reports', 'decalog' ), __( 'Reports', 'decalog' ), 'manage_options', 'perfopsone-' . $menu, [ self::class, 'get_insights_page' ] );
+							add_submenu_page( 'perfopsone-dashboard', decalog_esc_html__( 'Reports', 'decalog' ),decalog__( 'Reports', 'decalog' ), 'manage_options', 'perfopsone-' . $menu, [ self::class, 'get_insights_page' ] );
 							break;
 						case 'records':
-							add_submenu_page( 'perfopsone-dashboard', esc_html__( 'Catalogs', 'decalog' ), __( 'Catalogs', 'decalog' ), 'manage_options', 'perfopsone-' . $menu, [ self::class, 'get_records_page' ] );
+							add_submenu_page( 'perfopsone-dashboard', decalog_esc_html__( 'Catalogs', 'decalog' ),decalog__( 'Catalogs', 'decalog' ), 'manage_options', 'perfopsone-' . $menu, [ self::class, 'get_records_page' ] );
 							break;
 						case 'consoles':
-							add_submenu_page( 'perfopsone-dashboard', esc_html__( 'Consoles', 'decalog' ), __( 'Consoles', 'decalog' ), 'manage_options', 'perfopsone-' . $menu, [ self::class, 'get_consoles_page' ] );
+							add_submenu_page( 'perfopsone-dashboard', decalog_esc_html__( 'Consoles', 'decalog' ),decalog__( 'Consoles', 'decalog' ), 'manage_options', 'perfopsone-' . $menu, [ self::class, 'get_consoles_page' ] );
 							break;
 					}
 				}
@@ -224,7 +224,7 @@ if ( ! class_exists( 'PerfOpsOne\Menus' ) ) {
 						$i['text'] = $item['description'];
 						$i['url']  = esc_url( admin_url( 'admin.php?page=' . $item['slug'] ) );
 					} else {
-						$i['text'] = esc_html__( 'This analytics feature is currently disabled. Click here to activate it.', 'decalog' );
+						$i['text'] = decalog_esc_html__( 'This analytics feature is currently disabled. Click here to activate it.', 'decalog' );
 						$i['url']  = $item['remedy'];
 					}
 					$items[] = $i;
@@ -319,7 +319,7 @@ if ( ! class_exists( 'PerfOpsOne\Menus' ) ) {
 						$i['text'] = $item['description'];
 						$i['url']  = esc_url( admin_url( 'admin.php?page=' . $item['slug'] ) );
 					} else {
-						$i['text'] = esc_html__( 'This console is currently unavailable. Click here to see why.', 'decalog' );
+						$i['text'] = decalog_esc_html__( 'This console is currently unavailable. Click here to see why.', 'decalog' );
 						$i['url']  = $item['remedy'];
 					}
 					$items[] = $i;
@@ -411,26 +411,26 @@ if ( ! class_exists( 'PerfOpsOne\Menus' ) ) {
 			$disp       .= '     );';
 			$disp       .= '   } );';
 			$disp       .= '  </script>';
-			$main_update = '<span class="poo-noneed-update">' . esc_html__( 'Up to date', 'decalog' ) . '</span>';
+			$main_update = '<span class="poo-noneed-update">' . decalog_esc_html__( 'Up to date', 'decalog' ) . '</span>';
 			foreach ( $items as $item ) {
 				if ( $item['need_update'] ) {
-					$update      = '<a href=" ' .admin_url( 'update-core.php' ) . '"><span class="poo-need-update">' . esc_html__( 'Need update', 'decalog' ) . '</span></a>';
+					$update      = '<a href=" ' .admin_url( 'update-core.php' ) . '"><span class="poo-need-update">' . decalog_esc_html__( 'Need update', 'decalog' ) . '</span></a>';
 					$main_update = $update;
 				} else {
-					$update = '<span class="poo-noneed-update">' . esc_html__( 'Up to date', 'decalog' ) . '</span>';
+					$update = '<span class="poo-noneed-update">' . decalog_esc_html__( 'Up to date', 'decalog' ) . '</span>';
 				}
 				if ( ! current_user_can( 'update_plugins' ) || ! wp_is_auto_update_enabled_for_type( 'plugin' ) || ( is_multisite() && ! is_network_admin() ) ) {
 					$auto = '';
 				} else {
-					$auto  = '<div class="poo-switch" data-value="' . $item['slug'] . '">' . esc_html__( 'auto-update', 'decalog' ) . ' &nbsp;';
+					$auto  = '<div class="poo-switch" data-value="' . $item['slug'] . '">' . decalog_esc_html__( 'auto-update', 'decalog' ) . ' &nbsp;';
 					$auto .= '<span id="poo-switch-toggle-' . $item['slug'] . '" class="poo-switch-toggle poo-switch-' . ( $item['auto_update'] ? 'on' : 'off' ) . '"><img style="width:17px;padding:0;margin-top: 3px;" src="' . \Feather\Icons::get_base64( 'toggle-left', '#7EA7E4', '#394486', 2 ) . '" /></span>';
 					$auto .= ' </div>';
 				}
-				$support  = '<a title="' . esc_html__( 'Get support', 'decalog' ) . '" alt="' . esc_html__( 'Get support', 'decalog' ) . '" class="poo-links-support" href="https://wordpress.org/support/plugin/' . $item['slug'] . '" target="_blank"><img style="width:16px;padding:0 4px;" src="' . \Feather\Icons::get_base64( 'message-circle', 'none', '#73879C', 3 ) . '" /></a>';
-				$contrib  = '<a title="' . esc_html__( 'Contribute', 'decalog' ) . '" alt="' . esc_html__( 'Contribute', 'decalog' ) . '" class="poo-links-contrib" href="https://github.com/Pierre-Lannoy/wp-' . $item['slug'] . '" target="_blank"><img style="width:16px;padding:0 4px;" src="' . \Feather\Icons::get_base64( 'github', 'none', '#73879C', 3 ) . '" /></a>';
-				$star     = '<a title="' . esc_html__( 'Make a review', 'decalog' ) . '" alt="' . esc_html__( 'Make a review', 'decalog' ) . '" class="poo-links-star" href="https://wordpress.org/support/plugin/' . $item['slug'] . '/reviews" target="_blank"><img style="width:16px;padding:0 4px;" src="' . \Feather\Icons::get_base64( 'star', 'none', '#73879C', 3 ) . '" /></a>';
-				$settings = '<a class="poo-action" href="' . $item['url'] . '"/><img style="width:18px;padding:0 4px;" src="' . \Feather\Icons::get_base64( 'settings', 'none', '#73879C', 3 ) . '" />' . esc_html__( 'settings', 'decalog' ) . '</a>';
-				$about    = '<a class="poo-action" href="' . $item['url'] . '&tab=about"/><img style="width:18px;padding:0 4px;" src="' . \Feather\Icons::get_base64( 'info', 'none', '#73879C', 3 ) . '" />' . esc_html__( 'about', 'decalog' ) . '</a>';
+				$support  = '<a title="' . decalog_esc_html__( 'Get support', 'decalog' ) . '" alt="' . decalog_esc_html__( 'Get support', 'decalog' ) . '" class="poo-links-support" href="https://wordpress.org/support/plugin/' . $item['slug'] . '" target="_blank"><img style="width:16px;padding:0 4px;" src="' . \Feather\Icons::get_base64( 'message-circle', 'none', '#73879C', 3 ) . '" /></a>';
+				$contrib  = '<a title="' . decalog_esc_html__( 'Contribute', 'decalog' ) . '" alt="' . decalog_esc_html__( 'Contribute', 'decalog' ) . '" class="poo-links-contrib" href="https://github.com/Pierre-Lannoy/wp-' . $item['slug'] . '" target="_blank"><img style="width:16px;padding:0 4px;" src="' . \Feather\Icons::get_base64( 'github', 'none', '#73879C', 3 ) . '" /></a>';
+				$star     = '<a title="' . decalog_esc_html__( 'Make a review', 'decalog' ) . '" alt="' . decalog_esc_html__( 'Make a review', 'decalog' ) . '" class="poo-links-star" href="https://wordpress.org/support/plugin/' . $item['slug'] . '/reviews" target="_blank"><img style="width:16px;padding:0 4px;" src="' . \Feather\Icons::get_base64( 'star', 'none', '#73879C', 3 ) . '" /></a>';
+				$settings = '<a class="poo-action" href="' . $item['url'] . '"/><img style="width:18px;padding:0 4px;" src="' . \Feather\Icons::get_base64( 'settings', 'none', '#73879C', 3 ) . '" />' . decalog_esc_html__( 'settings', 'decalog' ) . '</a>';
+				$about    = '<a class="poo-action" href="' . $item['url'] . '&tab=about"/><img style="width:18px;padding:0 4px;" src="' . \Feather\Icons::get_base64( 'info', 'none', '#73879C', 3 ) . '" />' . decalog_esc_html__( 'about', 'decalog' ) . '</a>';
 				$disp    .= '<div class="poo-container">';
 				$disp    .= ' <div class="poo-actionable">';
 				$disp    .= '   <div id="' . $item['id'] . '" style="display:flex;justify-content: center;">';
@@ -449,7 +449,7 @@ if ( ! class_exists( 'PerfOpsOne\Menus' ) ) {
 				$disp    .= ' </div>';
 				$disp    .= '</div>';
 			}
-			$site  = '<a class="poo-action" href="https://perfops.one" target="_blank"><img style="width:18px;padding:0 4px;vertical-align: bottom !important;" src="' . \Feather\Icons::get_base64( 'home', 'none', '#73879C', 3 ) . '" />' . esc_html__( 'all plugins', 'decalog' ) . '</a>';
+			$site  = '<a class="poo-action" href="https://perfops.one" target="_blank"><img style="width:18px;padding:0 4px;vertical-align: bottom !important;" src="' . \Feather\Icons::get_base64( 'home', 'none', '#73879C', 3 ) . '" />' . decalog_esc_html__( 'all plugins', 'decalog' ) . '</a>';
 			$disp .= '<div class="poo-container">';
 			$disp .= ' <div class="poo-actionable">';
 			$disp .= '   <div id="perfops-one" style="display:flex;justify-content: center;">';

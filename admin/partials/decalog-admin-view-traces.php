@@ -20,7 +20,7 @@ $traceListTable->prepare_items();
 ?>
 
 <div class="wrap">
-	<h2><?php echo sprintf( esc_html__( '%s Traces Viewer', 'decalog' ), DECALOG_PRODUCT_NAME );?></h2>
+	<h2><?php echo sprintf( decalog_esc_html__( '%s Traces Viewer', 'decalog' ), DECALOG_PRODUCT_NAME );?></h2>
 	<?php $traceListTable->views(); ?>
 	<form id="traces-filter" method="get" action="<?php echo admin_url('admin.php'); ?>">
 		<input type="hidden" name="page" value="decalog-tviewer" />

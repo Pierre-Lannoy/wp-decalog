@@ -89,13 +89,13 @@ class GenericHtmlFormatter implements FormatterInterface {
 				$extra = $record['extra'];
 				if ( array_key_exists( 'userid', $extra ) && array_key_exists( 'username', $extra ) && array_key_exists( 'siteid', $extra ) ) {
 					if ( 'anonymous' === $extra['username'] ) {
-						$result .= '<br/>' . esc_html__( 'Anonymous user', 'decalog' );
+						$result .= '<br/>' . decalog_esc_html__( 'Anonymous user', 'decalog' );
 					} elseif ( 0 === strpos( $extra['username'], '{' ) ) {
-						$result .= '<br/>' . esc_html__( 'Pseudonymized user', 'decalog' );
+						$result .= '<br/>' . decalog_esc_html__( 'Pseudonymized user', 'decalog' );
 					} elseif ( 0 !== (int) $extra['userid'] ) {
 						$result .= '<br/>' . User::get_user_string( (int) $extra['userid'] );
 					} else {
-						$result .= '<br/>' . esc_html__( 'Deleted user', 'decalog' );
+						$result .= '<br/>' . decalog_esc_html__( 'Deleted user', 'decalog' );
 					}
 					$result .= ' on ' . Blog::get_full_blog_name( (int) $extra['siteid'] );
 				}
@@ -124,7 +124,7 @@ class GenericHtmlFormatter implements FormatterInterface {
 	 * @since   3.4.0
 	 */
 	private function trace( $trace ): string {
-		$summary = esc_html__( 'WordPress backtrace', 'decalog' );
+		$summary = decalog_esc_html__( 'WordPress backtrace', 'decalog' );
 		if ( array_key_exists( 'error', $trace ) ) {
 			$details = '<span style="margin-left:24px;">⚠&nbsp;' . $trace['error'] . '</span>';
 		} elseif ( array_key_exists( 'wordpress', $trace ) && 0 < count( $trace['wordpress'] ) ) {
@@ -134,7 +134,7 @@ class GenericHtmlFormatter implements FormatterInterface {
 				$details .= ( 0 < $idx ? '<br/>' : '' ) . '<span style="margin-left:24px;">' . $str . '&nbsp;<code>' . $item . '</code></span>';
 			}
 		} else {
-			$details = '<span style="margin-left:24px;">⚠&nbsp;' . esc_html__( 'No backtrace available', 'decalog' ) . '</span>';
+			$details = '<span style="margin-left:24px;">⚠&nbsp;' . decalog_esc_html__( 'No backtrace available', 'decalog' ) . '</span>';
 		}
 		return '<details><summary>' . $summary . '</summary><div>' . $details . '</div></details>';
 	}
@@ -147,17 +147,17 @@ class GenericHtmlFormatter implements FormatterInterface {
 	 * @since   3.4.0
 	 */
 	private function introspection( $extra ): string {
-		$summary = esc_html__( 'PHP introspection', 'decalog' );
+		$summary = decalog_esc_html__( 'PHP introspection', 'decalog' );
 		if ( array_key_exists( 'file', $extra ) ) {
-			$details = '<span style="margin-left:24px;">' . esc_html__( 'Source: ', 'decalog' ) . '<code>' . PHP::normalized_file( $extra['file'] ) . ':' . ( $extra['line'] ?? '' ) . '</code></span>';
+			$details = '<span style="margin-left:24px;">' . decalog_esc_html__( 'Source: ', 'decalog' ) . '<code>' . PHP::normalized_file( $extra['file'] ) . ':' . ( $extra['line'] ?? '' ) . '</code></span>';
 		} else {
-			$details = '<span style="margin-left:24px;">' . esc_html__( 'Source: ', 'decalog' ) . esc_html__( 'Unknown', 'decalog' ) . '</span>';
+			$details = '<span style="margin-left:24px;">' . decalog_esc_html__( 'Source: ', 'decalog' ) . decalog_esc_html__( 'Unknown', 'decalog' ) . '</span>';
 		}
 		if ( array_key_exists( 'function', $extra ) ) {
-			$details .= '<br/><span style="margin-left:24px;">' . esc_html__( 'Function: ', 'decalog' ) . '<code>' . $extra['function'] . '</code></span>';
+			$details .= '<br/><span style="margin-left:24px;">' . decalog_esc_html__( 'Function: ', 'decalog' ) . '<code>' . $extra['function'] . '</code></span>';
 		}
 		if ( array_key_exists( 'class', $extra ) ) {
-			$details .= '<br/><span style="margin-left:24px;">' . esc_html__( 'Class: ', 'decalog' ) . '<code>' . $extra['class'] . '</code></span>';
+			$details .= '<br/><span style="margin-left:24px;">' . decalog_esc_html__( 'Class: ', 'decalog' ) . '<code>' . $extra['class'] . '</code></span>';
 		}
 		return '<details><summary>' . $summary . '</summary><div>' . $details . '</div></details>';
 	}
@@ -175,28 +175,28 @@ class GenericHtmlFormatter implements FormatterInterface {
 		if ( array_key_exists( 'ip', $extra ) && is_string( $extra['ip'] ) ) {
 			$icon = '';
 			if ( 0 === strpos( $extra['ip'], '{' ) ) {
-				$extra['ip'] = esc_html__( 'obfuscated IP', 'decalog' );
+				$extra['ip'] = decalog_esc_html__( 'obfuscated IP', 'decalog' );
 			} else {
 				if ( filter_var( $extra['ip'], FILTER_VALIDATE_IP, FILTER_FLAG_NO_RES_RANGE | FILTER_FLAG_NO_PRIV_RANGE ) ) {
 					$geoip = new GeoIP();
 					$icon  = EmojiFlag::get( $geoip->get_iso3166_alpha2( $extra['ip'] ) ) . '&nbsp;';
 				}
 			}
-			$summary = esc_html__( 'HTTP Request', 'decalog' );
+			$summary = decalog_esc_html__( 'HTTP Request', 'decalog' );
 			if ( array_key_exists( 'server', $extra ) && is_string( $extra['server'] ) ) {
 				$extra['server'] .= ' ';
 			} else {
 				$extra['server'] = '';
 			}
-			$details .= '<span style="margin-left:24px;">' . sprintf( esc_html__( '%s to %s from %s', 'decalog' ), $extra['http_method'] ?? 'UKN', $extra['server'], $icon . $extra['ip'] ) . '</span>';
+			$details .= '<span style="margin-left:24px;">' . sprintf( decalog_esc_html__( '%s to %s from %s', 'decalog' ), $extra['http_method'] ?? 'UKN', $extra['server'], $icon . $extra['ip'] ) . '</span>';
 		} else {
 			return '';
 		}
 		if ( array_key_exists( 'url', $extra ) ) {
-			$details .= '<br/><span style="margin-left:24px;">' . esc_html__( 'Url: ', 'decalog' ) . $extra['url'] . '</span>';
+			$details .= '<br/><span style="margin-left:24px;">' . decalog_esc_html__( 'Url: ', 'decalog' ) . $extra['url'] . '</span>';
 		}
 		if ( array_key_exists( 'referrer', $extra ) && is_string( $extra['referrer'] ) ) {
-			$details .= '<br/><span style="margin-left:24px;">' . esc_html__( 'Referrer: ', 'decalog' ) . $extra['referrer'] . '</span>';
+			$details .= '<br/><span style="margin-left:24px;">' . decalog_esc_html__( 'Referrer: ', 'decalog' ) . $extra['referrer'] . '</span>';
 		}
 		if ( '' !== $summary ) {
 			return '<details><summary>' . $summary . '</summary><div>' . $details . '</div></details>';
@@ -216,25 +216,25 @@ class GenericHtmlFormatter implements FormatterInterface {
 		$summary = '';
 		$details = '';
 		if ( $device->class_is_bot ) {
-			$summary = esc_html__( 'Bot details', 'decalog' );
+			$summary = decalog_esc_html__( 'Bot details', 'decalog' );
 			$details  .= '<span><img style="width:20px;float:left;padding-right:6px;margin-left:24px;padding-top:3px;" src="' . $device->bot_icon_base64() . '" />';
-			$details  .= ( 1 < strlen( $device->bot_name ) ? $device->bot_name : esc_html__( 'Unknown', 'decalog' ) ) . ' (' . ( 1 < strlen( $device->bot_producer_name ) ? $device->bot_producer_name : esc_html__( 'Unknown', 'decalog' ) ) . ')</span>';
+			$details  .= ( 1 < strlen( $device->bot_name ) ? $device->bot_name : decalog_esc_html__( 'Unknown', 'decalog' ) ) . ' (' . ( 1 < strlen( $device->bot_producer_name ) ? $device->bot_producer_name : decalog_esc_html__( 'Unknown', 'decalog' ) ) . ')</span>';
 		} elseif ( $device->class_is_desktop || $device->class_is_mobile ) {
-			$summary = esc_html__( 'Device details', 'decalog' );
+			$summary = decalog_esc_html__( 'Device details', 'decalog' );
 			$details  .= '<span><img style="width:20px;float:left;padding-right:6px;margin-left:24px;padding-top:3px;" src="' . $device->brand_icon_base64() . '" />';
-			$details  .= ( '-' !== $device->brand_name && '' !== $device->brand_name ? $device->brand_name : esc_html__( 'Generic', 'decalog' ) ) . ( '-' !== $device->model_name ? ' ' . $device->model_name : '' ) . '</span>';
+			$details  .= ( '-' !== $device->brand_name && '' !== $device->brand_name ? $device->brand_name : decalog_esc_html__( 'Generic', 'decalog' ) ) . ( '-' !== $device->model_name ? ' ' . $device->model_name : '' ) . '</span>';
 			$details  .= '<br/><span><img style="width:20px;float:left;padding-right:6px;margin-left:24px;padding-top:3px;" src="' . $device->os_icon_base64() . '" />';
-			$details  .= ( '-' !== $device->os_name ? $device->os_name : esc_html__( 'Unknown', 'decalog' ) ) . ( '-' !== $device->os_version ? ' ' . $device->os_version : '' ) . '</span>';
+			$details  .= ( '-' !== $device->os_name ? $device->os_name : decalog_esc_html__( 'Unknown', 'decalog' ) ) . ( '-' !== $device->os_version ? ' ' . $device->os_version : '' ) . '</span>';
 			if ( $device->client_is_browser ) {
 				$details .= '<br/><span><img style="width:20px;float:left;padding-right:6px;margin-left:24px;padding-top:3px" src="' . $device->browser_icon_base64() . '" />';
-				$details .= ( '-' !== $device->client_name ? $device->client_name : esc_html__( 'Generic', 'decalog' ) ) . ( '-' !== $device->client_version ? ' ' . $device->client_version : '' ) . '</span>';
+				$details .= ( '-' !== $device->client_name ? $device->client_name : decalog_esc_html__( 'Generic', 'decalog' ) ) . ( '-' !== $device->client_version ? ' ' . $device->client_version : '' ) . '</span>';
 			}
 		} elseif ( class_exists( 'PODeviceDetector\API\Device' ) ) {
-			$summary = esc_html__( 'Client details', 'decalog' );
+			$summary = decalog_esc_html__( 'Client details', 'decalog' );
 			if ( '' !== $device->client_name ) {
-				$details .= '<span style="margin-left:24px;">' . ( '-' !== $device->client_name ? $device->client_name : esc_html__( 'Generic', 'decalog' ) ) . ( '-' !== $device->client_version ? ' ' . $device->client_version : '' ) . ' (' . $device->client_full_type . ')</span>';
+				$details .= '<span style="margin-left:24px;">' . ( '-' !== $device->client_name ? $device->client_name : decalog_esc_html__( 'Generic', 'decalog' ) ) . ( '-' !== $device->client_version ? ' ' . $device->client_version : '' ) . ' (' . $device->client_full_type . ')</span>';
 			} else {
-				$details .= '<span style="margin-left:24px;">' . esc_html__( 'Local shell', 'decalog' ) . '</span>';
+				$details .= '<span style="margin-left:24px;">' . decalog_esc_html__( 'Local shell', 'decalog' ) . '</span>';
 			}
 		}
 		if ( '' !== $summary ) {

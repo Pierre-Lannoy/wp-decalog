@@ -352,7 +352,7 @@ class Wpcli {
 		$uuid             = UUID::generate_v4();
 		$logger           = [
 			'uuid'    => $uuid,
-			'name'    => esc_html__( 'New logger', 'decalog' ),
+			'name'    => decalog_esc_html__( 'New logger', 'decalog' ),
 			'handler' => $handler,
 			'running' => false,
 		];

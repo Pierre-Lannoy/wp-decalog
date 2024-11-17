@@ -43,7 +43,7 @@ class Markdown {
 		);
 		$style       = $_attributes['style'];
 		$mode        = $_attributes['mode'];
-		$error       = esc_html__( 'Sorry, unable to find or read the specified file.', 'decalog' );
+		$error       = decalog_esc_html__( 'Sorry, unable to find or read the specified file.', 'decalog' );
 		$result      = esc_html( $error );
 		$changelog   = DECALOG_PLUGIN_DIR . $file;
 		if ( file_exists( $changelog ) ) {

@@ -200,7 +200,7 @@ class DLogger {
 		if ( ! array_key_exists( DECALOG_SHM_ID, $loggers ) ) {
 			$persist_logger_update     = true;
 			$shm                       = [];
-			$shm['name']               = __( 'System events-logger', 'decalog' );
+			$shm['name']               =decalog__( 'System events-logger', 'decalog' );
 			$shm['handler']            = 'SharedMemoryHandler';
 			$shm['running']            = Option::network_get( 'livelog' );
 			$shm['level']              = Logger::INFO;

@@ -41,7 +41,7 @@ class WpmuListener extends AbstractListener {
 	protected function init() {
 		global $wp_version;
 		$this->id      = 'wpmu';
-		$this->name    = esc_html__( 'WordPress MU', 'decalog' );
+		$this->name    = 'a';//decalog_esc_html__( 'WordPress MU', 'decalog' );
 		$this->class   = 'core';
 		$this->product = 'WordPress MU';
 		$this->version = $wp_version;

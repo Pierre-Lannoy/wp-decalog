@@ -49,12 +49,12 @@ class HandlerTypes {
 	 */
 	public function __construct() {
 		$this->handlers_class = [
-			'alerting'  => esc_html__( 'Crash Analytics', 'decalog' ),
-			'analytics' => esc_html__( 'Alerting', 'decalog' ),
-			'debugging' => esc_html__( 'Debugging', 'decalog' ),
-			'logging'   => esc_html__( 'Logging', 'decalog' ),
-			'metrics'   => esc_html__( 'Monitoring', 'decalog' ),
-			'tracing'   => esc_html__( 'Tracing', 'decalog' ),
+			'alerting'  => decalog_esc_html__( 'Crash Analytics', 'decalog' ),
+			'analytics' => decalog_esc_html__( 'Alerting', 'decalog' ),
+			'debugging' => decalog_esc_html__( 'Debugging', 'decalog' ),
+			'logging'   => decalog_esc_html__( 'Logging', 'decalog' ),
+			'metrics'   => decalog_esc_html__( 'Monitoring', 'decalog' ),
+			'tracing'   => decalog_esc_html__( 'Tracing', 'decalog' ),
 		];
 
 		// TRACING
@@ -65,7 +65,7 @@ class HandlerTypes {
 			'class'         => 'tracing',
 			'minimal'       => Logger::EMERGENCY,
 			'name'          => 'Datadog Traces',
-			'help'          => esc_html__( 'Traces sent to Datadog via Datadog local agent.', 'decalog' ),
+			'help'          => decalog_esc_html__( 'Traces sent to Datadog via Datadog local agent.', 'decalog' ),
 			'icon'          => $this->get_base64_datadog_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -74,8 +74,8 @@ class HandlerTypes {
 				'sampling' => [
 					'type'    => 'integer',
 					'show'    => true,
-					'name'    => esc_html__( 'Sampling', 'decalog' ),
-					'help'    => esc_html__( 'Sampling rate to be chosen according to the site traffic.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Sampling', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Sampling rate to be chosen according to the site traffic.', 'decalog' ),
 					'default' => 100,
 					'control' => [
 						'type'    => 'field_select',
@@ -87,8 +87,8 @@ class HandlerTypes {
 				'format'   => [
 					'type'    => 'integer',
 					'show'    => true,
-					'name'    => esc_html__( 'Format', 'decalog' ),
-					'help'    => esc_html__( 'The format in which to push data.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Format', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The format in which to push data.', 'decalog' ),
 					'default' => 300,
 					'control' => [
 						'type'    => 'field_select',
@@ -100,8 +100,8 @@ class HandlerTypes {
 				'url'      => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Service URL', 'decalog' ),
-					'help'    => sprintf( esc_html__( 'URL where to send spans. Format: %s.', 'decalog' ), '<code>' . htmlentities( '<proto>://<host>[:<port>]' ) . '</code>' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'Service URL', 'decalog' ),
+					'help'    => sprintf( decalog_esc_html__( 'URL where to send spans. Format: %s.', 'decalog' ), '<code>' . htmlentities( '<proto>://<host>[:<port>]' ) . '</code>' ) . $this->get_substitution_note(),
 					'default' => 'http://localhost:8126',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -112,8 +112,8 @@ class HandlerTypes {
 				'ftags'      => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Custom tags', 'decalog' ),
-					'help'    => sprintf( esc_html__( 'Custom tags to add to each span. Format: %s.', 'decalog' ), '<code>' . htmlentities( 'key=value, key=value …' ) . '</code>' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'Custom tags', 'decalog' ),
+					'help'    => sprintf( decalog_esc_html__( 'Custom tags to add to each span. Format: %s.', 'decalog' ), '<code>' . htmlentities( 'key=value, key=value …' ) . '</code>' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -151,7 +151,7 @@ class HandlerTypes {
 			'class'         => 'tracing',
 			'minimal'       => Logger::EMERGENCY,
 			'name'          => 'Jaeger',
-			'help'          => esc_html__( 'Traces sent to a Jaeger collector.', 'decalog' ),
+			'help'          => decalog_esc_html__( 'Traces sent to a Jaeger collector.', 'decalog' ),
 			'icon'          => $this->get_base64_jaeger_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -160,8 +160,8 @@ class HandlerTypes {
 				'sampling' => [
 					'type'    => 'integer',
 					'show'    => true,
-					'name'    => esc_html__( 'Sampling', 'decalog' ),
-					'help'    => esc_html__( 'Sampling rate to be chosen according to the site traffic.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Sampling', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Sampling rate to be chosen according to the site traffic.', 'decalog' ),
 					'default' => 100,
 					'control' => [
 						'type'    => 'field_select',
@@ -173,8 +173,8 @@ class HandlerTypes {
 				'format'   => [
 					'type'    => 'integer',
 					'show'    => true,
-					'name'    => esc_html__( 'Format', 'decalog' ),
-					'help'    => esc_html__( 'The format in which to push data.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Format', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The format in which to push data.', 'decalog' ),
 					'default' => 200,
 					'control' => [
 						'type'    => 'field_select',
@@ -186,8 +186,8 @@ class HandlerTypes {
 				'url'      => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Service URL', 'decalog' ),
-					'help'    => sprintf( esc_html__( 'URL where to send spans. Format: %s.', 'decalog' ), '<code>' . htmlentities( '<proto>://<host>[:<port>]' ) . '</code>' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'Service URL', 'decalog' ),
+					'help'    => sprintf( decalog_esc_html__( 'URL where to send spans. Format: %s.', 'decalog' ), '<code>' . htmlentities( '<proto>://<host>[:<port>]' ) . '</code>' ) . $this->get_substitution_note(),
 					'default' => 'http://localhost:14268',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -198,9 +198,9 @@ class HandlerTypes {
 				'service'      => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Service name', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Service name', 'decalog' ),
 					/* translators: "Jaeger thrift over HTTP" must not be translated because it is a "product name". */
-					'help'    => esc_html__( 'Name of the service to use when "Jaeger thrift over HTTP" is the selected format.', 'decalog' ) . $this->get_substitution_note(),
+					'help'    => decalog_esc_html__( 'Name of the service to use when "Jaeger thrift over HTTP" is the selected format.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => 'WordPress',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -211,8 +211,8 @@ class HandlerTypes {
 				'ftags'      => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Custom tags', 'decalog' ),
-					'help'    => sprintf( esc_html__( 'Custom tags to add to each span. Format: %s.', 'decalog' ), '<code>' . htmlentities( 'key=value, key=value …' ) . '</code>' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'Custom tags', 'decalog' ),
+					'help'    => sprintf( decalog_esc_html__( 'Custom tags to add to each span. Format: %s.', 'decalog' ), '<code>' . htmlentities( 'key=value, key=value …' ) . '</code>' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -254,7 +254,7 @@ class HandlerTypes {
 			'class'         => 'tracing',
 			'minimal'       => Logger::EMERGENCY,
 			'name'          => 'Tempo',
-			'help'          => esc_html__( 'Traces sent to a Tempo instance.', 'decalog' ),
+			'help'          => decalog_esc_html__( 'Traces sent to a Tempo instance.', 'decalog' ),
 			'icon'          => $this->get_base64_tempo_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -263,8 +263,8 @@ class HandlerTypes {
 				'sampling' => [
 					'type'    => 'integer',
 					'show'    => true,
-					'name'    => esc_html__( 'Sampling', 'decalog' ),
-					'help'    => esc_html__( 'Sampling rate to be chosen according to the site traffic.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Sampling', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Sampling rate to be chosen according to the site traffic.', 'decalog' ),
 					'default' => 100,
 					'control' => [
 						'type'    => 'field_select',
@@ -276,8 +276,8 @@ class HandlerTypes {
 				'format'   => [
 					'type'    => 'integer',
 					'show'    => true,
-					'name'    => esc_html__( 'Format', 'decalog' ),
-					'help'    => esc_html__( 'The format in which to push data.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Format', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The format in which to push data.', 'decalog' ),
 					'default' => 100,
 					'control' => [
 						'type'    => 'field_select',
@@ -289,8 +289,8 @@ class HandlerTypes {
 				'url'      => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Service URL', 'decalog' ),
-					'help'    => sprintf( esc_html__( 'URL where to send spans. Format: %s.', 'decalog' ), '<code>' . htmlentities( '<proto>://<host>[:<port>]' ) . '</code>' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'Service URL', 'decalog' ),
+					'help'    => sprintf( decalog_esc_html__( 'URL where to send spans. Format: %s.', 'decalog' ), '<code>' . htmlentities( '<proto>://<host>[:<port>]' ) . '</code>' ) . $this->get_substitution_note(),
 					'default' => 'http://localhost:9411',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -301,9 +301,9 @@ class HandlerTypes {
 				'service'      => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Service name', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Service name', 'decalog' ),
 					/* translators: "Jaeger thrift over HTTP" must not be translated because it is a "product name". */
-					'help'    => esc_html__( 'Name of the service to use when "Jaeger thrift over HTTP" is the selected format.', 'decalog' ) . $this->get_substitution_note(),
+					'help'    => decalog_esc_html__( 'Name of the service to use when "Jaeger thrift over HTTP" is the selected format.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => 'WordPress',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -314,8 +314,8 @@ class HandlerTypes {
 				'ftags'      => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Custom tags', 'decalog' ),
-					'help'    => sprintf( esc_html__( 'Custom tags to add to each span. Format: %s.', 'decalog' ), '<code>' . htmlentities( 'key=value, key=value …' ) . '</code>' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'Custom tags', 'decalog' ),
+					'help'    => sprintf( decalog_esc_html__( 'Custom tags to add to each span. Format: %s.', 'decalog' ), '<code>' . htmlentities( 'key=value, key=value …' ) . '</code>' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -357,7 +357,7 @@ class HandlerTypes {
 			'class'         => 'tracing',
 			'minimal'       => Logger::EMERGENCY,
 			'name'          => 'Grafana Cloud Traces',
-			'help'          => esc_html__( 'Traces sent to Grafana Cloud via Grafana agent.', 'decalog' ),
+			'help'          => decalog_esc_html__( 'Traces sent to Grafana Cloud via Grafana agent.', 'decalog' ),
 			'icon'          => $this->get_base64_grafana_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -365,8 +365,8 @@ class HandlerTypes {
 				'sampling' => [
 					'type'    => 'integer',
 					'show'    => true,
-					'name'    => esc_html__( 'Sampling', 'decalog' ),
-					'help'    => esc_html__( 'Sampling rate to be chosen according to the site traffic.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Sampling', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Sampling rate to be chosen according to the site traffic.', 'decalog' ),
 					'default' => 100,
 					'control' => [
 						'type'    => 'field_select',
@@ -378,8 +378,8 @@ class HandlerTypes {
 				'format'   => [
 					'type'    => 'integer',
 					'show'    => true,
-					'name'    => esc_html__( 'Format', 'decalog' ),
-					'help'    => esc_html__( 'The format in which to push data.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Format', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The format in which to push data.', 'decalog' ),
 					'default' => 100,
 					'control' => [
 						'type'    => 'field_select',
@@ -391,8 +391,8 @@ class HandlerTypes {
 				'url'      => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Service URL', 'decalog' ),
-					'help'    => sprintf( esc_html__( 'URL where to send spans. Format: %s.', 'decalog' ), '<code>' . htmlentities( '<proto>://<host>[:<port>]' ) . '</code>' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'Service URL', 'decalog' ),
+					'help'    => sprintf( decalog_esc_html__( 'URL where to send spans. Format: %s.', 'decalog' ), '<code>' . htmlentities( '<proto>://<host>[:<port>]' ) . '</code>' ) . $this->get_substitution_note(),
 					'default' => 'http://localhost:9411',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -403,9 +403,9 @@ class HandlerTypes {
 				'service'      => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Service name', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Service name', 'decalog' ),
 					/* translators: "Jaeger thrift over HTTP" must not be translated because it is a "product name". */
-					'help'    => esc_html__( 'Name of the service to use when "Jaeger thrift over HTTP" is the selected format.', 'decalog' ) . $this->get_substitution_note(),
+					'help'    => decalog_esc_html__( 'Name of the service to use when "Jaeger thrift over HTTP" is the selected format.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => 'WordPress',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -416,8 +416,8 @@ class HandlerTypes {
 				'ftags'      => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Custom tags', 'decalog' ),
-					'help'    => sprintf( esc_html__( 'Custom tags to add to each span. Format: %s.', 'decalog' ), '<code>' . htmlentities( 'key=value, key=value …' ) . '</code>' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'Custom tags', 'decalog' ),
+					'help'    => sprintf( decalog_esc_html__( 'Custom tags to add to each span. Format: %s.', 'decalog' ), '<code>' . htmlentities( 'key=value, key=value …' ) . '</code>' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -459,7 +459,7 @@ class HandlerTypes {
 			'class'         => 'tracing',
 			'minimal'       => Logger::EMERGENCY,
 			'name'          => 'Zipkin',
-			'help'          => esc_html__( 'Traces sent to a Zipkin instance.', 'decalog' ),
+			'help'          => decalog_esc_html__( 'Traces sent to a Zipkin instance.', 'decalog' ),
 			'icon'          => $this->get_base64_zipkin_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -468,8 +468,8 @@ class HandlerTypes {
 				'sampling' => [
 					'type'    => 'integer',
 					'show'    => true,
-					'name'    => esc_html__( 'Sampling', 'decalog' ),
-					'help'    => esc_html__( 'Sampling rate to be chosen according to the site traffic.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Sampling', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Sampling rate to be chosen according to the site traffic.', 'decalog' ),
 					'default' => 100,
 					'control' => [
 						'type'    => 'field_select',
@@ -481,8 +481,8 @@ class HandlerTypes {
 				'format'   => [
 					'type'    => 'integer',
 					'show'    => true,
-					'name'    => esc_html__( 'Format', 'decalog' ),
-					'help'    => esc_html__( 'The format in which to push data.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Format', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The format in which to push data.', 'decalog' ),
 					'default' => 100,
 					'control' => [
 						'type'    => 'field_select',
@@ -494,8 +494,8 @@ class HandlerTypes {
 				'url'      => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Service URL', 'decalog' ),
-					'help'    => sprintf( esc_html__( 'URL where to send spans. Format: %s.', 'decalog' ), '<code>' . htmlentities( '<proto>://<host>[:<port>]' ) . '</code>' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'Service URL', 'decalog' ),
+					'help'    => sprintf( decalog_esc_html__( 'URL where to send spans. Format: %s.', 'decalog' ), '<code>' . htmlentities( '<proto>://<host>[:<port>]' ) . '</code>' ) . $this->get_substitution_note(),
 					'default' => 'http://localhost:9411',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -506,8 +506,8 @@ class HandlerTypes {
 				'ftags'      => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Custom tags', 'decalog' ),
-					'help'    => sprintf( esc_html__( 'Custom tags to add to each span. Format: %s.', 'decalog' ), '<code>' . htmlentities( 'key=value, key=value …' ) . '</code>' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'Custom tags', 'decalog' ),
+					'help'    => sprintf( decalog_esc_html__( 'Custom tags to add to each span. Format: %s.', 'decalog' ), '<code>' . htmlentities( 'key=value, key=value …' ) . '</code>' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -540,8 +540,8 @@ class HandlerTypes {
 			'namespace'     => 'Decalog\Handler',
 			'class'         => 'tracing',
 			'minimal'       => Logger::EMERGENCY,
-			'name'          => esc_html__( 'WordPress traces', 'decalog' ),
-			'help'          => esc_html__( 'Traces stored in WordPress and available right in your admin dashboard.', 'decalog' ),
+			'name'          => decalog_esc_html__( 'WordPress traces', 'decalog' ),
+			'help'          => decalog_esc_html__( 'Traces stored in WordPress and available right in your admin dashboard.', 'decalog' ),
 			'icon'          => $this->get_base64_wordpress_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -552,8 +552,8 @@ class HandlerTypes {
 				'sampling' => [
 					'type'    => 'integer',
 					'show'    => true,
-					'name'    => esc_html__( 'Sampling', 'decalog' ),
-					'help'    => esc_html__( 'Sampling rate to be chosen according to the site traffic.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Sampling', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Sampling rate to be chosen according to the site traffic.', 'decalog' ),
 					'default' => 100,
 					'control' => [
 						'type'    => 'field_select',
@@ -565,21 +565,21 @@ class HandlerTypes {
 				'constant-storage' => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Storage', 'decalog' ),
-					'help'    => esc_html__( 'Place where to store traces.', 'decalog' ) . '<br/>' . esc_html__( 'Note: it\'s not possible to change storage type after logger creation.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Storage', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Place where to store traces.', 'decalog' ) . '<br/>' . decalog_esc_html__( 'Note: it\'s not possible to change storage type after logger creation.', 'decalog' ),
 					'default' => 'db',
 					'control' => [
 						'type'    => 'field_select',
 						'cast'    => 'string',
 						'enabled' => Cache::$apcu_available,
-						'list'    => [ [ 'db', esc_html__( 'Database: persistent after a server restart', 'decalog' ) ], [ 'apcu', esc_html__( 'APCu: high performance but reset after each server reboot', 'decalog' ), Cache::$apcu_available ] ],
+						'list'    => [ [ 'db', decalog_esc_html__( 'Database: persistent after a server restart', 'decalog' ) ], [ 'apcu', decalog_esc_html__( 'APCu: high performance but reset after each server reboot', 'decalog' ), Cache::$apcu_available ] ],
 					],
 				],
 				'rotate'           => [
 					'type'    => 'integer',
 					'show'    => true,
-					'name'    => esc_html__( 'Traces', 'decalog' ),
-					'help'    => esc_html__( 'Maximum number of traces stored in this traces log (0 for no limit).', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Traces', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Maximum number of traces stored in this traces log (0 for no limit).', 'decalog' ),
 					'default' => 10000,
 					'control' => [
 						'type'    => 'field_input_integer',
@@ -593,8 +593,8 @@ class HandlerTypes {
 				'purge'            => [
 					'type'    => 'integer',
 					'show'    => true,
-					'name'    => esc_html__( 'Days', 'decalog' ),
-					'help'    => esc_html__( 'Maximum age of traces stored in this traces log (0 for no limit).', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Days', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Maximum age of traces stored in this traces log (0 for no limit).', 'decalog' ),
 					'default' => 5,
 					'control' => [
 						'type'    => 'field_input_integer',
@@ -608,8 +608,8 @@ class HandlerTypes {
 				'local'            => [
 					'type'    => 'boolean',
 					'show'    => is_multisite(),
-					'name'    => esc_html__( 'Multisite partitioning', 'decalog' ),
-					'help'    => esc_html__( 'Local administrators can view traces that relate to their site.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Multisite partitioning', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Local administrators can view traces that relate to their site.', 'decalog' ),
 					'default' => false,
 					'control' => [
 						'type'    => 'field_checkbox',
@@ -643,7 +643,7 @@ class HandlerTypes {
 			'class'         => 'tracing',
 			'minimal'       => Logger::EMERGENCY,
 			'name'          => 'New Relic Traces',
-			'help'          => esc_html__( 'Traces sent to New Relic (NR-Traces).', 'decalog' ),
+			'help'          => decalog_esc_html__( 'Traces sent to New Relic (NR-Traces).', 'decalog' ),
 			'icon'          => $this->get_base64_newrelic_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -652,8 +652,8 @@ class HandlerTypes {
 				'sampling' => [
 					'type'    => 'integer',
 					'show'    => true,
-					'name'    => esc_html__( 'Sampling', 'decalog' ),
-					'help'    => esc_html__( 'Sampling rate to be chosen according to the site traffic.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Sampling', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Sampling rate to be chosen according to the site traffic.', 'decalog' ),
 					'default' => 100,
 					'control' => [
 						'type'    => 'field_select',
@@ -665,8 +665,8 @@ class HandlerTypes {
 				'format'   => [
 					'type'    => 'integer',
 					'show'    => true,
-					'name'    => esc_html__( 'Format', 'decalog' ),
-					'help'    => esc_html__( 'The format in which to push data.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Format', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The format in which to push data.', 'decalog' ),
 					'default' => 100,
 					'control' => [
 						'type'    => 'field_select',
@@ -678,21 +678,21 @@ class HandlerTypes {
 				'host'     => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Location', 'decalog' ),
-					'help'    => esc_html__( 'The New Relic endpoint location.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Location', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The New Relic endpoint location.', 'decalog' ),
 					'default' => 'https://trace-api.newrelic.com/trace/v1',
 					'control' => [
 						'type'    => 'field_select',
 						'cast'    => 'string',
 						'enabled' => true,
-						'list'    => [ [ 'https://trace-api.eu.newrelic.com/trace/v1', esc_html__( 'Europe', 'decalog' ) ], [ 'https://trace-api.newrelic.com/trace/v1', esc_html__( 'United States', 'decalog' ) ] ],
+						'list'    => [ [ 'https://trace-api.eu.newrelic.com/trace/v1', decalog_esc_html__( 'Europe', 'decalog' ) ], [ 'https://trace-api.newrelic.com/trace/v1', decalog_esc_html__( 'United States', 'decalog' ) ] ],
 					],
 				],
 				'token'    => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'II key', 'decalog' ),
-					'help'    => esc_html__( 'An account\'s "Insights insert key".', 'decalog' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'II key', 'decalog' ),
+					'help'    => decalog_esc_html__( 'An account\'s "Insights insert key".', 'decalog' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -703,8 +703,8 @@ class HandlerTypes {
 				'ftags'      => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Custom tags', 'decalog' ),
-					'help'    => sprintf( esc_html__( 'Custom tags to add to each span. Format: %s.', 'decalog' ), '<code>' . htmlentities( 'key=value, key=value …' ) . '</code>' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'Custom tags', 'decalog' ),
+					'help'    => sprintf( decalog_esc_html__( 'Custom tags to add to each span. Format: %s.', 'decalog' ), '<code>' . htmlentities( 'key=value, key=value …' ) . '</code>' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -744,7 +744,7 @@ class HandlerTypes {
 			'class'         => 'metrics',
 			'minimal'       => Logger::EMERGENCY,
 			'name'          => 'New Relic Metrics',
-			'help'          => esc_html__( 'Metrics sent to New Relic (NR-Metrics).', 'decalog' ),
+			'help'          => decalog_esc_html__( 'Metrics sent to New Relic (NR-Metrics).', 'decalog' ),
 			'icon'          => $this->get_base64_newrelic_icon(),
 			'needs'         => [],
 			'params'        => [],
@@ -753,21 +753,21 @@ class HandlerTypes {
 				'profile'  => [
 					'type'    => 'integer',
 					'show'    => true,
-					'name'    => esc_html__( 'Profile', 'decalog' ),
-					'help'    => sprintf( __( 'The type of metrics to collect (%s). Choosing "Automatic" sets the profile to the current WordPress environment type.', 'decalog' ), sprintf( '<a href="https://github.com/Pierre-Lannoy/wp-decalog/blob/master/MONITORING.md" target="_blank">%s</a>', esc_html__( 'details', 'decalog' ) ) ),
+					'name'    => decalog_esc_html__( 'Profile', 'decalog' ),
+					'help'    => sprintf(decalog__( 'The type of metrics to collect (%s). Choosing "Automatic" sets the profile to the current WordPress environment type.', 'decalog' ), sprintf( '<a href="https://github.com/Pierre-Lannoy/wp-decalog/blob/master/MONITORING.md" target="_blank">%s</a>', decalog_esc_html__( 'details', 'decalog' ) ) ),
 					'default' => 500,
 					'control' => [
 						'type'    => 'field_select',
 						'cast'    => 'integer',
 						'enabled' => true,
-						'list'    => [ [ 500, esc_html__( 'Automatic', 'decalog' ) ], [ 600, esc_html__( 'Production', 'decalog' ) ], [ 550, esc_html__( 'Development', 'decalog' ) ] ],
+						'list'    => [ [ 500, decalog_esc_html__( 'Automatic', 'decalog' ) ], [ 600, decalog_esc_html__( 'Production', 'decalog' ) ], [ 550, decalog_esc_html__( 'Development', 'decalog' ) ] ],
 					],
 				],
 				'sampling' => [
 					'type'    => 'integer',
 					'show'    => true,
-					'name'    => esc_html__( 'Sampling', 'decalog' ),
-					'help'    => esc_html__( 'Sampling rate to be chosen according to the site traffic.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Sampling', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Sampling rate to be chosen according to the site traffic.', 'decalog' ),
 					'default' => 100,
 					'control' => [
 						'type'    => 'field_select',
@@ -779,8 +779,8 @@ class HandlerTypes {
 				'filter' => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Metrics filter', 'decalog' ),
-					'help'    => esc_html__( 'Exclude metrics to be collated by specifying them with regular expressions (one expression per line).', 'decalog' ) . '<br/>' . esc_html__( 'Example:', 'decalog' ) . ' <code>core_wordpress_content_status_(?:draft|pending|inherit)</code>',
+					'name'    => decalog_esc_html__( 'Metrics filter', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Exclude metrics to be collated by specifying them with regular expressions (one expression per line).', 'decalog' ) . '<br/>' . decalog_esc_html__( 'Example:', 'decalog' ) . ' <code>core_wordpress_content_status_(?:draft|pending|inherit)</code>',
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_textarea',
@@ -793,21 +793,21 @@ class HandlerTypes {
 				'host'     => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Location', 'decalog' ),
-					'help'    => esc_html__( 'The New Relic endpoint location.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Location', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The New Relic endpoint location.', 'decalog' ),
 					'default' => 'https://metric-api.newrelic.com/metric/v1',
 					'control' => [
 						'type'    => 'field_select',
 						'cast'    => 'string',
 						'enabled' => true,
-						'list'    => [ [ 'https://metric-api.eu.newrelic.com/metric/v1', esc_html__( 'Europe', 'decalog' ) ], [ 'https://metric-api.newrelic.com/metric/v1', esc_html__( 'United States', 'decalog' ) ] ],
+						'list'    => [ [ 'https://metric-api.eu.newrelic.com/metric/v1', decalog_esc_html__( 'Europe', 'decalog' ) ], [ 'https://metric-api.newrelic.com/metric/v1', decalog_esc_html__( 'United States', 'decalog' ) ] ],
 					],
 				],
 				'token'    => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'II key', 'decalog' ),
-					'help'    => esc_html__( 'An account\'s "Insights insert key".', 'decalog' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'II key', 'decalog' ),
+					'help'    => decalog_esc_html__( 'An account\'s "Insights insert key".', 'decalog' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -849,7 +849,7 @@ class HandlerTypes {
 			'class'         => 'metrics',
 			'minimal'       => Logger::EMERGENCY,
 			'name'          => 'Datadog Metrics',
-			'help'          => esc_html__( 'Metrics sent to Datadog.', 'decalog' ),
+			'help'          => decalog_esc_html__( 'Metrics sent to Datadog.', 'decalog' ),
 			'icon'          => $this->get_base64_datadog_icon(),
 			'needs'         => [],
 			'params'        => [],
@@ -858,21 +858,21 @@ class HandlerTypes {
 				'profile'  => [
 					'type'    => 'integer',
 					'show'    => true,
-					'name'    => esc_html__( 'Profile', 'decalog' ),
-					'help'    => sprintf( __( 'The type of metrics to collect (%s). Choosing "Automatic" sets the profile to the current WordPress environment type.', 'decalog' ), sprintf( '<a href="https://github.com/Pierre-Lannoy/wp-decalog/blob/master/MONITORING.md" target="_blank">%s</a>', esc_html__( 'details', 'decalog' ) ) ),
+					'name'    => decalog_esc_html__( 'Profile', 'decalog' ),
+					'help'    => sprintf(decalog__( 'The type of metrics to collect (%s). Choosing "Automatic" sets the profile to the current WordPress environment type.', 'decalog' ), sprintf( '<a href="https://github.com/Pierre-Lannoy/wp-decalog/blob/master/MONITORING.md" target="_blank">%s</a>', decalog_esc_html__( 'details', 'decalog' ) ) ),
 					'default' => 500,
 					'control' => [
 						'type'    => 'field_select',
 						'cast'    => 'integer',
 						'enabled' => true,
-						'list'    => [ [ 500, esc_html__( 'Automatic', 'decalog' ) ], [ 600, esc_html__( 'Production', 'decalog' ) ], [ 550, esc_html__( 'Development', 'decalog' ) ] ],
+						'list'    => [ [ 500, decalog_esc_html__( 'Automatic', 'decalog' ) ], [ 600, decalog_esc_html__( 'Production', 'decalog' ) ], [ 550, decalog_esc_html__( 'Development', 'decalog' ) ] ],
 					],
 				],
 				'sampling' => [
 					'type'    => 'integer',
 					'show'    => true,
-					'name'    => esc_html__( 'Sampling', 'decalog' ),
-					'help'    => esc_html__( 'Sampling rate to be chosen according to the site traffic.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Sampling', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Sampling rate to be chosen according to the site traffic.', 'decalog' ),
 					'default' => 100,
 					'control' => [
 						'type'    => 'field_select',
@@ -884,8 +884,8 @@ class HandlerTypes {
 				'filter' => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Metrics filter', 'decalog' ),
-					'help'    => esc_html__( 'Exclude metrics to be collated by specifying them with regular expressions (one expression per line).', 'decalog' ) . '<br/>' . esc_html__( 'Example:', 'decalog' ) . ' <code>core_wordpress_content_status_(?:draft|pending|inherit)</code>',
+					'name'    => decalog_esc_html__( 'Metrics filter', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Exclude metrics to be collated by specifying them with regular expressions (one expression per line).', 'decalog' ) . '<br/>' . decalog_esc_html__( 'Example:', 'decalog' ) . ' <code>core_wordpress_content_status_(?:draft|pending|inherit)</code>',
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_textarea',
@@ -898,21 +898,21 @@ class HandlerTypes {
 				'host'     => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Location', 'decalog' ),
-					'help'    => esc_html__( 'The Datadog cloud location.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Location', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The Datadog cloud location.', 'decalog' ),
 					'default' => 'https://http-intake.logs.datadoghq.com/v1/input',
 					'control' => [
 						'type'    => 'field_select',
 						'cast'    => 'string',
 						'enabled' => true,
-						'list'    => [ [ 'https://api.datadoghq.eu/api/v1/series', esc_html__( 'Europe', 'decalog' ) ], [ 'https://api.datadoghq.com/api/v1/series', esc_html__( 'United States', 'decalog' ) ] ],
+						'list'    => [ [ 'https://api.datadoghq.eu/api/v1/series', decalog_esc_html__( 'Europe', 'decalog' ) ], [ 'https://api.datadoghq.com/api/v1/series', decalog_esc_html__( 'United States', 'decalog' ) ] ],
 					],
 				],
 				'token'    => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'API key', 'decalog' ),
-					'help'    => esc_html__( 'The API key of the service.', 'decalog' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'API key', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The API key of the service.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -954,7 +954,7 @@ class HandlerTypes {
 			'class'         => 'metrics',
 			'minimal'       => Logger::EMERGENCY,
 			'name'          => 'InfluxDB 2',
-			'help'          => esc_html__( 'Metrics sent to InfluxDB Cloud or on-premise InfluxDB 2 instance or cluster.', 'decalog' ),
+			'help'          => decalog_esc_html__( 'Metrics sent to InfluxDB Cloud or on-premise InfluxDB 2 instance or cluster.', 'decalog' ),
 			'icon'          => $this->get_base64_infuxdb_icon(),
 			'needs'         => [],
 			'params'        => [],
@@ -963,21 +963,21 @@ class HandlerTypes {
 				'profile'  => [
 					'type'    => 'integer',
 					'show'    => true,
-					'name'    => esc_html__( 'Profile', 'decalog' ),
-					'help'    => sprintf( __( 'The type of metrics to collect (%s). Choosing "Automatic" sets the profile to the current WordPress environment type.', 'decalog' ), sprintf( '<a href="https://github.com/Pierre-Lannoy/wp-decalog/blob/master/MONITORING.md" target="_blank">%s</a>', esc_html__( 'details', 'decalog' ) ) ),
+					'name'    => decalog_esc_html__( 'Profile', 'decalog' ),
+					'help'    => sprintf(decalog__( 'The type of metrics to collect (%s). Choosing "Automatic" sets the profile to the current WordPress environment type.', 'decalog' ), sprintf( '<a href="https://github.com/Pierre-Lannoy/wp-decalog/blob/master/MONITORING.md" target="_blank">%s</a>', decalog_esc_html__( 'details', 'decalog' ) ) ),
 					'default' => 500,
 					'control' => [
 						'type'    => 'field_select',
 						'cast'    => 'integer',
 						'enabled' => true,
-						'list'    => [ [ 500, esc_html__( 'Automatic', 'decalog' ) ], [ 600, esc_html__( 'Production', 'decalog' ) ], [ 550, esc_html__( 'Development', 'decalog' ) ] ],
+						'list'    => [ [ 500, decalog_esc_html__( 'Automatic', 'decalog' ) ], [ 600, decalog_esc_html__( 'Production', 'decalog' ) ], [ 550, decalog_esc_html__( 'Development', 'decalog' ) ] ],
 					],
 				],
 				'sampling' => [
 					'type'    => 'integer',
 					'show'    => true,
-					'name'    => esc_html__( 'Sampling', 'decalog' ),
-					'help'    => esc_html__( 'Sampling rate to be chosen according to the site traffic.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Sampling', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Sampling rate to be chosen according to the site traffic.', 'decalog' ),
 					'default' => 100,
 					'control' => [
 						'type'    => 'field_select',
@@ -989,8 +989,8 @@ class HandlerTypes {
 				'filter' => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Metrics filter', 'decalog' ),
-					'help'    => esc_html__( 'Exclude metrics to be collated by specifying them with regular expressions (one expression per line).', 'decalog' ) . '<br/>' . esc_html__( 'Example:', 'decalog' ) . ' <code>core_wordpress_content_status_(?:draft|pending|inherit)</code>',
+					'name'    => decalog_esc_html__( 'Metrics filter', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Exclude metrics to be collated by specifying them with regular expressions (one expression per line).', 'decalog' ) . '<br/>' . decalog_esc_html__( 'Example:', 'decalog' ) . ' <code>core_wordpress_content_status_(?:draft|pending|inherit)</code>',
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_textarea',
@@ -1003,8 +1003,8 @@ class HandlerTypes {
 				'url'      => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Service URL', 'decalog' ),
-					'help'    => sprintf( esc_html__( 'URL where to send metrics. Format: %s.', 'decalog' ), '<code>' . htmlentities( '<proto>://<host>[:<port>]' ) . '</code>' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'Service URL', 'decalog' ),
+					'help'    => sprintf( decalog_esc_html__( 'URL where to send metrics. Format: %s.', 'decalog' ), '<code>' . htmlentities( '<proto>://<host>[:<port>]' ) . '</code>' ) . $this->get_substitution_note(),
 					'default' => 'http://localhost:8086',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -1015,8 +1015,8 @@ class HandlerTypes {
 				'org'      => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Organization', 'decalog' ),
-					'help'    => esc_html__( 'Organization name to use (must exist).', 'decalog' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'Organization', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Organization name to use (must exist).', 'decalog' ) . $this->get_substitution_note(),
 					'default' => 'my-org',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -1027,8 +1027,8 @@ class HandlerTypes {
 				'bucket'   => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Bucket', 'decalog' ),
-					'help'    => esc_html__( 'Bucket name to use (must exist).', 'decalog' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'Bucket', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Bucket name to use (must exist).', 'decalog' ) . $this->get_substitution_note(),
 					'default' => 'my-bucket',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -1039,8 +1039,8 @@ class HandlerTypes {
 				'token'    => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Token', 'decalog' ),
-					'help'    => esc_html__( 'Token value to write in bucket.', 'decalog' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'Token', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Token value to write in bucket.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => 'my-token',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -1090,7 +1090,7 @@ class HandlerTypes {
 			'class'         => 'metrics',
 			'minimal'       => Logger::EMERGENCY,
 			'name'          => 'Prometheus Endpoint',
-			'help'          => esc_html__( 'Metrics published on this site as polling endpoint.', 'decalog' ),
+			'help'          => decalog_esc_html__( 'Metrics published on this site as polling endpoint.', 'decalog' ),
 			'icon'          => $this->get_base64_prometheus_icon(),
 			'needs'         => [],
 			'params'        => [],
@@ -1099,21 +1099,21 @@ class HandlerTypes {
 				'profile'  => [
 					'type'    => 'integer',
 					'show'    => true,
-					'name'    => esc_html__( 'Profile', 'decalog' ),
-					'help'    => sprintf( __( 'The type of metrics to collect (%s). Choosing "Automatic" sets the profile to the current WordPress environment type.', 'decalog' ), sprintf( '<a href="https://github.com/Pierre-Lannoy/wp-decalog/blob/master/MONITORING.md" target="_blank">%s</a>', esc_html__( 'details', 'decalog' ) ) ),
+					'name'    => decalog_esc_html__( 'Profile', 'decalog' ),
+					'help'    => sprintf(decalog__( 'The type of metrics to collect (%s). Choosing "Automatic" sets the profile to the current WordPress environment type.', 'decalog' ), sprintf( '<a href="https://github.com/Pierre-Lannoy/wp-decalog/blob/master/MONITORING.md" target="_blank">%s</a>', decalog_esc_html__( 'details', 'decalog' ) ) ),
 					'default' => 500,
 					'control' => [
 						'type'    => 'field_select',
 						'cast'    => 'integer',
 						'enabled' => true,
-						'list'    => [ [ 500, esc_html__( 'Automatic', 'decalog' ) ], [ 600, esc_html__( 'Production', 'decalog' ) ], [ 550, esc_html__( 'Development', 'decalog' ) ] ],
+						'list'    => [ [ 500, decalog_esc_html__( 'Automatic', 'decalog' ) ], [ 600, decalog_esc_html__( 'Production', 'decalog' ) ], [ 550, decalog_esc_html__( 'Development', 'decalog' ) ] ],
 					],
 				],
 				'sampling' => [
 					'type'    => 'integer',
 					'show'    => true,
-					'name'    => esc_html__( 'Sampling', 'decalog' ),
-					'help'    => esc_html__( 'Sampling rate to be chosen according to the site traffic.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Sampling', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Sampling rate to be chosen according to the site traffic.', 'decalog' ),
 					'default' => 100,
 					'control' => [
 						'type'    => 'field_select',
@@ -1125,8 +1125,8 @@ class HandlerTypes {
 				'filter' => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Metrics filter', 'decalog' ),
-					'help'    => esc_html__( 'Exclude metrics to be collated by specifying them with regular expressions (one expression per line).', 'decalog' ) . '<br/>' . esc_html__( 'Example:', 'decalog' ) . ' <code>core_wordpress_content_status_(?:draft|pending|inherit)</code>',
+					'name'    => decalog_esc_html__( 'Metrics filter', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Exclude metrics to be collated by specifying them with regular expressions (one expression per line).', 'decalog' ) . '<br/>' . decalog_esc_html__( 'Example:', 'decalog' ) . ' <code>core_wordpress_content_status_(?:draft|pending|inherit)</code>',
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_textarea',
@@ -1162,7 +1162,7 @@ class HandlerTypes {
 			'class'         => 'metrics',
 			'minimal'       => Logger::EMERGENCY,
 			'name'          => 'Prometheus Pushgateway',
-			'help'          => esc_html__( 'Metrics sent to a Prometheus Pushgateway instance.', 'decalog' ),
+			'help'          => decalog_esc_html__( 'Metrics sent to a Prometheus Pushgateway instance.', 'decalog' ),
 			'icon'          => $this->get_base64_prometheus_icon(),
 			'needs'         => [],
 			'params'        => [],
@@ -1171,21 +1171,21 @@ class HandlerTypes {
 				'profile'  => [
 					'type'    => 'integer',
 					'show'    => true,
-					'name'    => esc_html__( 'Profile', 'decalog' ),
-					'help'    => sprintf( __( 'The type of metrics to collect (%s). Choosing "Automatic" sets the profile to the current WordPress environment type.', 'decalog' ), sprintf( '<a href="https://github.com/Pierre-Lannoy/wp-decalog/blob/master/MONITORING.md" target="_blank">%s</a>', esc_html__( 'details', 'decalog' ) ) ),
+					'name'    => decalog_esc_html__( 'Profile', 'decalog' ),
+					'help'    => sprintf(decalog__( 'The type of metrics to collect (%s). Choosing "Automatic" sets the profile to the current WordPress environment type.', 'decalog' ), sprintf( '<a href="https://github.com/Pierre-Lannoy/wp-decalog/blob/master/MONITORING.md" target="_blank">%s</a>', decalog_esc_html__( 'details', 'decalog' ) ) ),
 					'default' => 500,
 					'control' => [
 						'type'    => 'field_select',
 						'cast'    => 'integer',
 						'enabled' => true,
-						'list'    => [ [ 500, esc_html__( 'Automatic', 'decalog' ) ], [ 600, esc_html__( 'Production', 'decalog' ) ], [ 550, esc_html__( 'Development', 'decalog' ) ] ],
+						'list'    => [ [ 500, decalog_esc_html__( 'Automatic', 'decalog' ) ], [ 600, decalog_esc_html__( 'Production', 'decalog' ) ], [ 550, decalog_esc_html__( 'Development', 'decalog' ) ] ],
 					],
 				],
 				'sampling' => [
 					'type'    => 'integer',
 					'show'    => true,
-					'name'    => esc_html__( 'Sampling', 'decalog' ),
-					'help'    => esc_html__( 'Sampling rate to be chosen according to the site traffic.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Sampling', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Sampling rate to be chosen according to the site traffic.', 'decalog' ),
 					'default' => 100,
 					'control' => [
 						'type'    => 'field_select',
@@ -1197,8 +1197,8 @@ class HandlerTypes {
 				'filter' => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Metrics filter', 'decalog' ),
-					'help'    => esc_html__( 'Exclude metrics to be collated by specifying them with regular expressions (one expression per line).', 'decalog' ) . '<br/>' . esc_html__( 'Example:', 'decalog' ) . ' <code>core_wordpress_content_status_(?:draft|pending|inherit)</code>',
+					'name'    => decalog_esc_html__( 'Metrics filter', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Exclude metrics to be collated by specifying them with regular expressions (one expression per line).', 'decalog' ) . '<br/>' . decalog_esc_html__( 'Example:', 'decalog' ) . ' <code>core_wordpress_content_status_(?:draft|pending|inherit)</code>',
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_textarea',
@@ -1211,8 +1211,8 @@ class HandlerTypes {
 				'url'      => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Service URL', 'decalog' ),
-					'help'    => sprintf( esc_html__( 'URL where to send metrics. Format: %s.', 'decalog' ), '<code>' . htmlentities( '<proto>://<host>[:<port>]' ) . '</code>' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'Service URL', 'decalog' ),
+					'help'    => sprintf( decalog_esc_html__( 'URL where to send metrics. Format: %s.', 'decalog' ), '<code>' . htmlentities( '<proto>://<host>[:<port>]' ) . '</code>' ) . $this->get_substitution_note(),
 					'default' => 'http://localhost:9091',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -1223,21 +1223,21 @@ class HandlerTypes {
 				'model'    => [
 					'type'    => 'integer',
 					'show'    => true,
-					'name'    => esc_html__( 'Labels', 'decalog' ),
-					'help'    => esc_html__( 'Template for labels. If you are unsure of the implications on cardinality, choose the first one.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Labels', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Template for labels. If you are unsure of the implications on cardinality, choose the first one.', 'decalog' ),
 					'default' => 0,
 					'control' => [
 						'type'    => 'field_select',
 						'cast'    => 'string',
 						'enabled' => true,
-						'list'    => [ [ 0, '{job="x", instance="y"} - ' . esc_html__( 'Recommended in most cases', 'decalog' ) ], [ 1, '{job="x", instance="y", env="z"} - ' . esc_html__( 'Classical environment segmentation', 'decalog' ) ], [ 2, '{job="x", instance="y", version="z"} - ' . esc_html__( 'Classical version segmentation', 'decalog' ) ], [ 3, '{job="x", site="y"} - ' . esc_html__( 'WordPress Multisite segmentation', 'decalog' ) ] ],
+						'list'    => [ [ 0, '{job="x", instance="y"} - ' . decalog_esc_html__( 'Recommended in most cases', 'decalog' ) ], [ 1, '{job="x", instance="y", env="z"} - ' . decalog_esc_html__( 'Classical environment segmentation', 'decalog' ) ], [ 2, '{job="x", instance="y", version="z"} - ' . decalog_esc_html__( 'Classical version segmentation', 'decalog' ) ], [ 3, '{job="x", site="y"} - ' . decalog_esc_html__( 'WordPress Multisite segmentation', 'decalog' ) ] ],
 					],
 				],
 				'id'       => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Job', 'decalog' ),
-					'help'    => esc_html__( 'The fixed job name for some templates.', 'decalog' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'Job', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The fixed job name for some templates.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => 'wp_decalog',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -1283,7 +1283,7 @@ class HandlerTypes {
 			'class'         => 'metrics',
 			'minimal'       => Logger::EMERGENCY,
 			'name'          => 'Grafana Cloud Metrics',
-			'help'          => esc_html__( 'Metrics sent to Grafana Cloud via Grafana agent.', 'decalog' ),
+			'help'          => decalog_esc_html__( 'Metrics sent to Grafana Cloud via Grafana agent.', 'decalog' ),
 			'icon'          => $this->get_base64_grafana_icon(),
 			'needs'         => [],
 			'params'        => [],
@@ -1292,21 +1292,21 @@ class HandlerTypes {
 				'profile'  => [
 					'type'    => 'integer',
 					'show'    => true,
-					'name'    => esc_html__( 'Profile', 'decalog' ),
-					'help'    => sprintf( __( 'The type of metrics to collect (%s). Choosing "Automatic" sets the profile to the current WordPress environment type.', 'decalog' ), sprintf( '<a href="https://github.com/Pierre-Lannoy/wp-decalog/blob/master/MONITORING.md" target="_blank">%s</a>', esc_html__( 'details', 'decalog' ) ) ),
+					'name'    => decalog_esc_html__( 'Profile', 'decalog' ),
+					'help'    => sprintf(decalog__( 'The type of metrics to collect (%s). Choosing "Automatic" sets the profile to the current WordPress environment type.', 'decalog' ), sprintf( '<a href="https://github.com/Pierre-Lannoy/wp-decalog/blob/master/MONITORING.md" target="_blank">%s</a>', decalog_esc_html__( 'details', 'decalog' ) ) ),
 					'default' => 500,
 					'control' => [
 						'type'    => 'field_select',
 						'cast'    => 'integer',
 						'enabled' => true,
-						'list'    => [ [ 500, esc_html__( 'Automatic', 'decalog' ) ], [ 600, esc_html__( 'Production', 'decalog' ) ], [ 550, esc_html__( 'Development', 'decalog' ) ] ],
+						'list'    => [ [ 500, decalog_esc_html__( 'Automatic', 'decalog' ) ], [ 600, decalog_esc_html__( 'Production', 'decalog' ) ], [ 550, decalog_esc_html__( 'Development', 'decalog' ) ] ],
 					],
 				],
 				'sampling' => [
 					'type'    => 'integer',
 					'show'    => true,
-					'name'    => esc_html__( 'Sampling', 'decalog' ),
-					'help'    => esc_html__( 'Sampling rate to be chosen according to the site traffic.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Sampling', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Sampling rate to be chosen according to the site traffic.', 'decalog' ),
 					'default' => 100,
 					'control' => [
 						'type'    => 'field_select',
@@ -1318,8 +1318,8 @@ class HandlerTypes {
 				'host'   => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Prometheus host', 'decalog' ),
-					'help'    => sprintf( esc_html__( 'The host name portion of the Prometheus instance url. Something like %s.', 'decalog' ), '<code>prometheus-us-central1</code>' ),
+					'name'    => decalog_esc_html__( 'Prometheus host', 'decalog' ),
+					'help'    => sprintf( decalog_esc_html__( 'The host name portion of the Prometheus instance url. Something like %s.', 'decalog' ), '<code>prometheus-us-central1</code>' ),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -1330,8 +1330,8 @@ class HandlerTypes {
 				'user'     => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Username', 'decalog' ),
-					'help'    => sprintf( esc_html__( 'The user name for Basic Auth authentication. Something like %s.', 'decalog' ), '<code>21087</code>' ),
+					'name'    => decalog_esc_html__( 'Username', 'decalog' ),
+					'help'    => sprintf( decalog_esc_html__( 'The user name for Basic Auth authentication. Something like %s.', 'decalog' ), '<code>21087</code>' ),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -1342,8 +1342,8 @@ class HandlerTypes {
 				'key'     => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'API key', 'decalog' ),
-					'help'    => esc_html__( 'The Grafana.com API Key.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'API key', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The Grafana.com API Key.', 'decalog' ),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -1354,21 +1354,21 @@ class HandlerTypes {
 				'model' => [
 					'type'    => 'integer',
 					'show'    => true,
-					'name'    => esc_html__( 'Labels', 'decalog' ),
-					'help'    => esc_html__( 'Template for labels. If you are unsure of the implications on cardinality, choose the first one.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Labels', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Template for labels. If you are unsure of the implications on cardinality, choose the first one.', 'decalog' ),
 					'default' => 0,
 					'control' => [
 						'type'    => 'field_select',
 						'cast'    => 'string',
 						'enabled' => true,
-						'list'    => [ [ 0, '{job="x", instance="y"} - ' . esc_html__( 'Recommended in most cases', 'decalog' ) ], [ 1, '{job="x", instance="y", env="z"} - ' . esc_html__( 'Classical environment segmentation', 'decalog' ) ], [ 2, '{job="x", instance="y", version="z"} - ' . esc_html__( 'Classical version segmentation', 'decalog' ) ], [ 3, '{job="x", site="y"} - ' . esc_html__( 'WordPress Multisite segmentation', 'decalog' ) ] ],
+						'list'    => [ [ 0, '{job="x", instance="y"} - ' . decalog_esc_html__( 'Recommended in most cases', 'decalog' ) ], [ 1, '{job="x", instance="y", env="z"} - ' . decalog_esc_html__( 'Classical environment segmentation', 'decalog' ) ], [ 2, '{job="x", instance="y", version="z"} - ' . decalog_esc_html__( 'Classical version segmentation', 'decalog' ) ], [ 3, '{job="x", site="y"} - ' . decalog_esc_html__( 'WordPress Multisite segmentation', 'decalog' ) ] ],
 					],
 				],
 				'id'    => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Job', 'decalog' ),
-					'help'    => esc_html__( 'The fixed job name for some templates.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Job', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The fixed job name for some templates.', 'decalog' ),
 					'default' => 'wp_decalog',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -1420,7 +1420,7 @@ class HandlerTypes {
 			'class'         => 'logging',
 			'minimal'       => Logger::INFO,
 			'name'          => 'New Relic Logs',
-			'help'          => esc_html__( 'Events sent to New Relic (NR-Logs).', 'decalog' ),
+			'help'          => decalog_esc_html__( 'Events sent to New Relic (NR-Logs).', 'decalog' ),
 			'icon'          => $this->get_base64_newrelic_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -1431,21 +1431,21 @@ class HandlerTypes {
 				'host'   => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Location', 'decalog' ),
-					'help'    => esc_html__( 'The New Relic endpoint location.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Location', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The New Relic endpoint location.', 'decalog' ),
 					'default' => 'https://log-api.newrelic.com/log/v1',
 					'control' => [
 						'type'    => 'field_select',
 						'cast'    => 'string',
 						'enabled' => true,
-						'list'    => [ [ 'https://log-api.eu.newrelic.com/log/v1', esc_html__( 'Europe', 'decalog' ) ], [ 'https://log-api.newrelic.com/log/v1', esc_html__( 'United States', 'decalog' ) ] ],
+						'list'    => [ [ 'https://log-api.eu.newrelic.com/log/v1', decalog_esc_html__( 'Europe', 'decalog' ) ], [ 'https://log-api.newrelic.com/log/v1', decalog_esc_html__( 'United States', 'decalog' ) ] ],
 					],
 				],
 				'token'  => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'License key', 'decalog' ),
-					'help'    => esc_html__( 'The account\'s license key.', 'decalog' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'License key', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The account\'s license key.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -1456,8 +1456,8 @@ class HandlerTypes {
 				'buffer' => [
 					'type'    => 'boolean',
 					'show'    => true,
-					'name'    => esc_html__( 'Deferred forwarding', 'decalog' ),
-					'help'    => esc_html__( 'Wait for the full page is rendered before sending reports (recommended).', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Deferred forwarding', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Wait for the full page is rendered before sending reports (recommended).', 'decalog' ),
 					'default' => true,
 					'control' => [
 						'type'    => 'field_checkbox',
@@ -1489,7 +1489,7 @@ class HandlerTypes {
 			'class'         => 'logging',
 			'minimal'       => Logger::INFO,
 			'name'          => 'Datadog Events',
-			'help'          => esc_html__( 'Events sent to Datadog.', 'decalog' ),
+			'help'          => decalog_esc_html__( 'Events sent to Datadog.', 'decalog' ),
 			'icon'          => $this->get_base64_datadog_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -1497,21 +1497,21 @@ class HandlerTypes {
 				'host'   => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Location', 'decalog' ),
-					'help'    => esc_html__( 'The Datadog cloud location.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Location', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The Datadog cloud location.', 'decalog' ),
 					'default' => 'https://http-intake.logs.datadoghq.com/v1/input',
 					'control' => [
 						'type'    => 'field_select',
 						'cast'    => 'string',
 						'enabled' => true,
-						'list'    => [ [ 'https://http-intake.logs.datadoghq.eu/v1/input', esc_html__( 'Europe', 'decalog' ) ], [ 'https://http-intake.logs.datadoghq.com/v1/input', esc_html__( 'United States', 'decalog' ) ] ],
+						'list'    => [ [ 'https://http-intake.logs.datadoghq.eu/v1/input', decalog_esc_html__( 'Europe', 'decalog' ) ], [ 'https://http-intake.logs.datadoghq.com/v1/input', decalog_esc_html__( 'United States', 'decalog' ) ] ],
 					],
 				],
 				'token'  => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'API key', 'decalog' ),
-					'help'    => esc_html__( 'The API key of the service.', 'decalog' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'API key', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The API key of the service.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -1522,8 +1522,8 @@ class HandlerTypes {
 				'extended' => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Extended fields', 'decalog' ),
-					'help'    => esc_html__( 'Fields to add to each logged event (one pair of key=value per line).', 'decalog' ) . '<br/>' . esc_html__( 'Example:', 'decalog' ) . ' <code>hostname={HOSTNAME}</code> ' . esc_html__( 'or', 'decalog' ) . ' <code>foo=bar</code> ' . esc_html__( 'or', 'decalog' ) . ' <code>foobar=42</code>.' . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'Extended fields', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Fields to add to each logged event (one pair of key=value per line).', 'decalog' ) . '<br/>' . decalog_esc_html__( 'Example:', 'decalog' ) . ' <code>hostname={HOSTNAME}</code> ' . decalog_esc_html__( 'or', 'decalog' ) . ' <code>foo=bar</code> ' . decalog_esc_html__( 'or', 'decalog' ) . ' <code>foobar=42</code>.' . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_textarea',
@@ -1536,8 +1536,8 @@ class HandlerTypes {
 				'buffer' => [
 					'type'    => 'boolean',
 					'show'    => true,
-					'name'    => esc_html__( 'Deferred forwarding', 'decalog' ),
-					'help'    => esc_html__( 'Wait for the full page is rendered before sending reports (recommended).', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Deferred forwarding', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Wait for the full page is rendered before sending reports (recommended).', 'decalog' ),
 					'default' => true,
 					'control' => [
 						'type'    => 'field_checkbox',
@@ -1573,7 +1573,7 @@ class HandlerTypes {
 			'class'         => 'logging',
 			'minimal'       => Logger::DEBUG,
 			'name'          => 'Elastic Cloud - Events',
-			'help'          => esc_html__( 'Events sent to Elastic Cloud.', 'decalog' ),
+			'help'          => decalog_esc_html__( 'Events sent to Elastic Cloud.', 'decalog' ),
 			'icon'          => $this->get_base64_elasticcloud_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -1581,8 +1581,8 @@ class HandlerTypes {
 				'cloudid' => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Cloud ID', 'decalog' ),
-					'help'    => esc_html__( 'The generated cloud ID.', 'decalog' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'Cloud ID', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The generated cloud ID.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -1593,8 +1593,8 @@ class HandlerTypes {
 				'user'    => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Username', 'decalog' ),
-					'help'    => esc_html__( 'The username of the instance.', 'decalog' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'Username', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The username of the instance.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -1605,8 +1605,8 @@ class HandlerTypes {
 				'pass'    => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Password', 'decalog' ),
-					'help'    => esc_html__( 'The password of the instance.', 'decalog' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'Password', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The password of the instance.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -1617,8 +1617,8 @@ class HandlerTypes {
 				'index'   => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Index', 'decalog' ),
-					'help'    => esc_html__( 'The index name.', 'decalog' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'Index', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The index name.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => 'decalog',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -1629,8 +1629,8 @@ class HandlerTypes {
 				'extended' => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Extended fields', 'decalog' ),
-					'help'    => esc_html__( 'Fields to add to each logged event (one pair of key=value per line).', 'decalog' ) . '<br/>' . esc_html__( 'Example:', 'decalog' ) . ' <code>hostname={HOSTNAME}</code> ' . esc_html__( 'or', 'decalog' ) . ' <code>foo=bar</code> ' . esc_html__( 'or', 'decalog' ) . ' <code>foobar=42</code>.' . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'Extended fields', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Fields to add to each logged event (one pair of key=value per line).', 'decalog' ) . '<br/>' . decalog_esc_html__( 'Example:', 'decalog' ) . ' <code>hostname={HOSTNAME}</code> ' . decalog_esc_html__( 'or', 'decalog' ) . ' <code>foo=bar</code> ' . decalog_esc_html__( 'or', 'decalog' ) . ' <code>foobar=42</code>.' . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_textarea',
@@ -1676,7 +1676,7 @@ class HandlerTypes {
 			'class'         => 'logging',
 			'minimal'       => Logger::DEBUG,
 			'name'          => 'Elasticsearch - Events',
-			'help'          => esc_html__( 'Events sent to Elasticsearch.', 'decalog' ),
+			'help'          => decalog_esc_html__( 'Events sent to Elasticsearch.', 'decalog' ),
 			'icon'          => $this->get_base64_elasticsearch_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -1684,8 +1684,8 @@ class HandlerTypes {
 				'url'   => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Service URL', 'decalog' ),
-					'help'    => sprintf( esc_html__( 'URL where to send logs. Format: %s.', 'decalog' ), '<code>' . htmlentities( '<proto>://<host>:<port>' ) . '</code>' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'Service URL', 'decalog' ),
+					'help'    => sprintf( decalog_esc_html__( 'URL where to send logs. Format: %s.', 'decalog' ), '<code>' . htmlentities( '<proto>://<host>:<port>' ) . '</code>' ) . $this->get_substitution_note(),
 					'default' => 'http://localhost:9200',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -1696,8 +1696,8 @@ class HandlerTypes {
 				'user'  => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Username', 'decalog' ),
-					'help'    => esc_html__( 'The username of the instance.', 'decalog' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'Username', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The username of the instance.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -1708,8 +1708,8 @@ class HandlerTypes {
 				'pass'  => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Password', 'decalog' ),
-					'help'    => esc_html__( 'The password of the instance.', 'decalog' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'Password', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The password of the instance.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -1720,8 +1720,8 @@ class HandlerTypes {
 				'index' => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Index', 'decalog' ),
-					'help'    => esc_html__( 'The index name.', 'decalog' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'Index', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The index name.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => 'decalog',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -1732,8 +1732,8 @@ class HandlerTypes {
 				'extended' => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Extended fields', 'decalog' ),
-					'help'    => esc_html__( 'Fields to add to each logged event (one pair of key=value per line).', 'decalog' ) . '<br/>' . esc_html__( 'Example:', 'decalog' ) . ' <code>hostname={HOSTNAME}</code> ' . esc_html__( 'or', 'decalog' ) . ' <code>foo=bar</code> ' . esc_html__( 'or', 'decalog' ) . ' <code>foobar=42</code>.' . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'Extended fields', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Fields to add to each logged event (one pair of key=value per line).', 'decalog' ) . '<br/>' . decalog_esc_html__( 'Example:', 'decalog' ) . ' <code>hostname={HOSTNAME}</code> ' . decalog_esc_html__( 'or', 'decalog' ) . ' <code>foo=bar</code> ' . decalog_esc_html__( 'or', 'decalog' ) . ' <code>foobar=42</code>.' . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_textarea',
@@ -1779,7 +1779,7 @@ class HandlerTypes {
 			'class'         => 'logging',
 			'minimal'       => Logger::DEBUG,
 			'name'          => 'Fluentd',
-			'help'          => esc_html__( 'Events sent to a Fluentd collector.', 'decalog' ),
+			'help'          => decalog_esc_html__( 'Events sent to a Fluentd collector.', 'decalog' ),
 			'icon'          => $this->get_base64_fluentd_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -1787,8 +1787,8 @@ class HandlerTypes {
 				'host'    => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Connection string', 'decalog' ),
-					'help'    => esc_html__( 'Connection string to Fluentd. Can be something like "tcp://127.0.0.1:24224" or something like "unix:///var/run/td-agent/td-agent.sock".', 'decalog' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'Connection string', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Connection string to Fluentd. Can be something like "tcp://127.0.0.1:24224" or something like "unix:///var/run/td-agent/td-agent.sock".', 'decalog' ) . $this->get_substitution_note(),
 					'default' => 'tcp://localhost:24224',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -1799,8 +1799,8 @@ class HandlerTypes {
 				'timeout' => [
 					'type'    => 'integer',
 					'show'    => true,
-					'name'    => esc_html__( 'Socket timeout', 'decalog' ),
-					'help'    => esc_html__( 'Max number of milliseconds to wait for the socket.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Socket timeout', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Max number of milliseconds to wait for the socket.', 'decalog' ),
 					'default' => 800,
 					'control' => [
 						'type'    => 'field_input_integer',
@@ -1835,7 +1835,7 @@ class HandlerTypes {
 			'class'         => 'logging',
 			'minimal'       => Logger::INFO,
 			'name'          => 'Grafana Cloud Events',
-			'help'          => esc_html__( 'Events sent to Grafana Cloud (Loki).', 'decalog' ),
+			'help'          => decalog_esc_html__( 'Events sent to Grafana Cloud (Loki).', 'decalog' ),
 			'icon'          => $this->get_base64_grafana_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -1843,8 +1843,8 @@ class HandlerTypes {
 				'host'  => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Loki host', 'decalog' ),
-					'help'    => sprintf( esc_html__( 'The host name portion of the Loki instance url. Something like %s.', 'decalog' ), '<code>logs-prod-us-central1</code>' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'Loki host', 'decalog' ),
+					'help'    => sprintf( decalog_esc_html__( 'The host name portion of the Loki instance url. Something like %s.', 'decalog' ), '<code>logs-prod-us-central1</code>' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -1855,8 +1855,8 @@ class HandlerTypes {
 				'user'  => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Username', 'decalog' ),
-					'help'    => sprintf( esc_html__( 'The user name for Basic Auth authentication. Something like %s.', 'decalog' ), '<code>21087</code>' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'Username', 'decalog' ),
+					'help'    => sprintf( decalog_esc_html__( 'The user name for Basic Auth authentication. Something like %s.', 'decalog' ), '<code>21087</code>' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -1867,8 +1867,8 @@ class HandlerTypes {
 				'key'   => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'API key', 'decalog' ),
-					'help'    => esc_html__( 'The Grafana.com API Key.', 'decalog' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'API key', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The Grafana.com API Key.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -1879,21 +1879,21 @@ class HandlerTypes {
 				'model' => [
 					'type'    => 'integer',
 					'show'    => true,
-					'name'    => esc_html__( 'Labels', 'decalog' ),
-					'help'    => esc_html__( 'Template for labels. If you are unsure of the implications on cardinality, choose the first one.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Labels', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Template for labels. If you are unsure of the implications on cardinality, choose the first one.', 'decalog' ),
 					'default' => 0,
 					'control' => [
 						'type'    => 'field_select',
 						'cast'    => 'string',
 						'enabled' => true,
-						'list'    => [ [ 0, '{job="x", instance="y"} - ' . esc_html__( 'Recommended in most cases', 'decalog' ) ], [ 1, '{job="x", instance="y", level="z"} - ' . esc_html__( 'Classical level segmentation', 'decalog' ) ], [ 2, '{job="x", instance="y", env="z"} - ' . esc_html__( 'Classical environment segmentation', 'decalog' ) ], [ 3, '{job="x", instance="y", version="z"} - ' . esc_html__( 'Classical version segmentation', 'decalog' ) ], [ 4, '{job="x", level="y", env="z"} - ' . esc_html__( 'Double level / environment segmentation', 'decalog' ) ], [ 5, '{job="x", site="y"} - ' . esc_html__( 'WordPress Multisite segmentation', 'decalog' ) ] ],
+						'list'    => [ [ 0, '{job="x", instance="y"} - ' . decalog_esc_html__( 'Recommended in most cases', 'decalog' ) ], [ 1, '{job="x", instance="y", level="z"} - ' . decalog_esc_html__( 'Classical level segmentation', 'decalog' ) ], [ 2, '{job="x", instance="y", env="z"} - ' . decalog_esc_html__( 'Classical environment segmentation', 'decalog' ) ], [ 3, '{job="x", instance="y", version="z"} - ' . decalog_esc_html__( 'Classical version segmentation', 'decalog' ) ], [ 4, '{job="x", level="y", env="z"} - ' . decalog_esc_html__( 'Double level / environment segmentation', 'decalog' ) ], [ 5, '{job="x", site="y"} - ' . decalog_esc_html__( 'WordPress Multisite segmentation', 'decalog' ) ] ],
 					],
 				],
 				'id'    => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Job', 'decalog' ),
-					'help'    => esc_html__( 'The fixed job name for some templates.', 'decalog' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'Job', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The fixed job name for some templates.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => 'wp_decalog',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -1904,8 +1904,8 @@ class HandlerTypes {
 				'extended' => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Extended fields', 'decalog' ),
-					'help'    => esc_html__( 'Fields to add to each logged event (one pair of key=value per line).', 'decalog' ) . '<br/>' . esc_html__( 'Example:', 'decalog' ) . ' <code>hostname={HOSTNAME}</code> ' . esc_html__( 'or', 'decalog' ) . ' <code>foo=bar</code> ' . esc_html__( 'or', 'decalog' ) . ' <code>foobar=42</code>.' . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'Extended fields', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Fields to add to each logged event (one pair of key=value per line).', 'decalog' ) . '<br/>' . decalog_esc_html__( 'Example:', 'decalog' ) . ' <code>hostname={HOSTNAME}</code> ' . decalog_esc_html__( 'or', 'decalog' ) . ' <code>foo=bar</code> ' . decalog_esc_html__( 'or', 'decalog' ) . ' <code>foobar=42</code>.' . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_textarea',
@@ -1951,7 +1951,7 @@ class HandlerTypes {
 			'class'         => 'logging',
 			'minimal'       => Logger::DEBUG,
 			'name'          => 'Logentries & insightOps',
-			'help'          => esc_html__( 'Events sent to Logentries & insightOps service.', 'decalog' ),
+			'help'          => decalog_esc_html__( 'Events sent to Logentries & insightOps service.', 'decalog' ),
 			'icon'          => $this->get_base64_logentries_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -1959,21 +1959,21 @@ class HandlerTypes {
 				'host'    => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Log endpoint region', 'decalog' ),
-					'help'    => esc_html__( 'The region of remote host receiving messages.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Log endpoint region', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The region of remote host receiving messages.', 'decalog' ),
 					'default' => 'eu',
 					'control' => [
 						'type'    => 'field_select',
 						'cast'    => 'string',
 						'enabled' => true,
-						'list'    => [ [ 'eu', esc_html__( 'Europe', 'decalog' ) ], [ 'us', esc_html__( 'USA', 'decalog' ) ] ],
+						'list'    => [ [ 'eu', decalog_esc_html__( 'Europe', 'decalog' ) ], [ 'us', decalog_esc_html__( 'USA', 'decalog' ) ] ],
 					],
 				],
 				'token'   => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Log token', 'decalog' ),
-					'help'    => esc_html__( 'The token of the Logentries/insightOps log.', 'decalog' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'Log token', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The token of the Logentries/insightOps log.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -1984,8 +1984,8 @@ class HandlerTypes {
 				'timeout' => [
 					'type'    => 'integer',
 					'show'    => true,
-					'name'    => esc_html__( 'Socket timeout', 'decalog' ),
-					'help'    => esc_html__( 'Max number of milliseconds to wait for the socket.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Socket timeout', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Max number of milliseconds to wait for the socket.', 'decalog' ),
 					'default' => 800,
 					'control' => [
 						'type'    => 'field_input_integer',
@@ -2020,7 +2020,7 @@ class HandlerTypes {
 			'class'         => 'logging',
 			'minimal'       => Logger::WARNING,
 			'name'          => 'Loggly',
-			'help'          => esc_html__( 'Events sent to Solawinds Loggly service.', 'decalog' ),
+			'help'          => decalog_esc_html__( 'Events sent to Solawinds Loggly service.', 'decalog' ),
 			'icon'          => $this->get_base64_loggly_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -2028,8 +2028,8 @@ class HandlerTypes {
 				'token' => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Application token', 'decalog' ),
-					'help'    => esc_html__( 'The token of the Solawinds Loggly application.', 'decalog' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'Application token', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The token of the Solawinds Loggly application.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -2053,7 +2053,7 @@ class HandlerTypes {
 			'class'         => 'logging',
 			'minimal'       => Logger::INFO,
 			'name'          => 'Loki',
-			'help'          => esc_html__( 'Events sent to a Loki instance.', 'decalog' ),
+			'help'          => decalog_esc_html__( 'Events sent to a Loki instance.', 'decalog' ),
 			'icon'          => $this->get_base64_loki_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -2061,8 +2061,8 @@ class HandlerTypes {
 				'url'   => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Service URL', 'decalog' ),
-					'help'    => sprintf( esc_html__( 'URL where to send logs. Format: %s.', 'decalog' ), '<code>' . htmlentities( '<proto>://<host>:<port>' ) . '</code>' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'Service URL', 'decalog' ),
+					'help'    => sprintf( decalog_esc_html__( 'URL where to send logs. Format: %s.', 'decalog' ), '<code>' . htmlentities( '<proto>://<host>:<port>' ) . '</code>' ) . $this->get_substitution_note(),
 					'default' => 'http://localhost:3100',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -2073,21 +2073,21 @@ class HandlerTypes {
 				'model' => [
 					'type'    => 'integer',
 					'show'    => true,
-					'name'    => esc_html__( 'Labels', 'decalog' ),
-					'help'    => esc_html__( 'Template for labels. If you are unsure of the implications on cardinality, choose the first one.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Labels', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Template for labels. If you are unsure of the implications on cardinality, choose the first one.', 'decalog' ),
 					'default' => 0,
 					'control' => [
 						'type'    => 'field_select',
 						'cast'    => 'string',
 						'enabled' => true,
-						'list'    => [ [ 0, '{job="x", instance="y"} - ' . esc_html__( 'Recommended in most cases', 'decalog' ) ], [ 1, '{job="x", instance="y", level="z"} - ' . esc_html__( 'Classical level segmentation', 'decalog' ) ], [ 2, '{job="x", instance="y", env="z"} - ' . esc_html__( 'Classical environment segmentation', 'decalog' ) ], [ 3, '{job="x", instance="y", version="z"} - ' . esc_html__( 'Classical version segmentation', 'decalog' ) ], [ 4, '{job="x", level="y", env="z"} - ' . esc_html__( 'Double level / environment segmentation', 'decalog' ) ], [ 5, '{job="x", site="y"} - ' . esc_html__( 'WordPress Multisite segmentation', 'decalog' ) ] ],
+						'list'    => [ [ 0, '{job="x", instance="y"} - ' . decalog_esc_html__( 'Recommended in most cases', 'decalog' ) ], [ 1, '{job="x", instance="y", level="z"} - ' . decalog_esc_html__( 'Classical level segmentation', 'decalog' ) ], [ 2, '{job="x", instance="y", env="z"} - ' . decalog_esc_html__( 'Classical environment segmentation', 'decalog' ) ], [ 3, '{job="x", instance="y", version="z"} - ' . decalog_esc_html__( 'Classical version segmentation', 'decalog' ) ], [ 4, '{job="x", level="y", env="z"} - ' . decalog_esc_html__( 'Double level / environment segmentation', 'decalog' ) ], [ 5, '{job="x", site="y"} - ' . decalog_esc_html__( 'WordPress Multisite segmentation', 'decalog' ) ] ],
 					],
 				],
 				'id'    => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Job', 'decalog' ),
-					'help'    => esc_html__( 'The fixed job name for some templates.', 'decalog' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'Job', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The fixed job name for some templates.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => 'wp_decalog',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -2098,8 +2098,8 @@ class HandlerTypes {
 				'extended' => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Extended fields', 'decalog' ),
-					'help'    => esc_html__( 'Fields to add to each logged event (one pair of key=value per line).', 'decalog' ) . '<br/>' . esc_html__( 'Example:', 'decalog' ) . ' <code>hostname={HOSTNAME}</code> ' . esc_html__( 'or', 'decalog' ) . ' <code>foo=bar</code> ' . esc_html__( 'or', 'decalog' ) . ' <code>foobar=42</code>.' . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'Extended fields', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Fields to add to each logged event (one pair of key=value per line).', 'decalog' ) . '<br/>' . decalog_esc_html__( 'Example:', 'decalog' ) . ' <code>hostname={HOSTNAME}</code> ' . decalog_esc_html__( 'or', 'decalog' ) . ' <code>foo=bar</code> ' . decalog_esc_html__( 'or', 'decalog' ) . ' <code>foobar=42</code>.' . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_textarea',
@@ -2136,8 +2136,8 @@ class HandlerTypes {
 			'namespace'     => 'DLMonolog\\Handler',
 			'class'         => 'logging',
 			'minimal'       => Logger::DEBUG,
-			'name'          => esc_html__( 'PHP error log', 'decalog' ),
-			'help'          => esc_html__( 'Events stored in the standard PHP error log, as with the error_log() function, but more detailed.', 'decalog' ),
+			'name'          => decalog_esc_html__( 'PHP error log', 'decalog' ),
+			'help'          => decalog_esc_html__( 'Events stored in the standard PHP error log, as with the error_log() function, but more detailed.', 'decalog' ),
 			'icon'          => $this->get_base64_php_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -2160,8 +2160,8 @@ class HandlerTypes {
 			'namespace'     => 'DLMonolog\Handler',
 			'class'         => 'logging',
 			'minimal'       => Logger::DEBUG,
-			'name'          => esc_html__( 'Rotating files', 'decalog' ),
-			'help'          => esc_html__( 'Events sent to files that are rotated every day and a limited number of files are kept.', 'decalog' ),
+			'name'          => decalog_esc_html__( 'Rotating files', 'decalog' ),
+			'help'          => decalog_esc_html__( 'Events sent to files that are rotated every day and a limited number of files are kept.', 'decalog' ),
 			'icon'          => $this->get_base64_rotatingfiles_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -2169,8 +2169,8 @@ class HandlerTypes {
 				'filename' => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'File', 'decalog' ),
-					'help'    => esc_html__( 'The full absolute path and filename, like "/path/to/file".', 'decalog' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'File', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The full absolute path and filename, like "/path/to/file".', 'decalog' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -2181,8 +2181,8 @@ class HandlerTypes {
 				'maxfiles' => [
 					'type'    => 'integer',
 					'show'    => true,
-					'name'    => esc_html__( 'Maximum', 'decalog' ),
-					'help'    => esc_html__( 'The maximal number of files to keep (0 means unlimited).', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Maximum', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The maximal number of files to keep (0 means unlimited).', 'decalog' ),
 					'default' => 60,
 					'control' => [
 						'type'    => 'field_input_integer',
@@ -2221,7 +2221,7 @@ class HandlerTypes {
 			'class'         => 'logging',
 			'minimal'       => Logger::DEBUG,
 			'name'          => 'Sematext',
-			'help'          => esc_html__( 'Events sent to Sematext using Elasticsearch APIs.', 'decalog' ),
+			'help'          => decalog_esc_html__( 'Events sent to Sematext using Elasticsearch APIs.', 'decalog' ),
 			'icon'          => $this->get_base64_sematext_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -2229,21 +2229,21 @@ class HandlerTypes {
 				'host'  => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Location', 'decalog' ),
-					'help'    => esc_html__( 'The Sematext cloud location.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Location', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The Sematext cloud location.', 'decalog' ),
 					'default' => 'logsene-receiver.sematext.com',
 					'control' => [
 						'type'    => 'field_select',
 						'cast'    => 'string',
 						'enabled' => true,
-						'list'    => [ [ 'logsene-receiver.sematext.com', esc_html__( 'North America', 'decalog' ) ], [ 'logsene-receiver.eu.sematext.com', esc_html__( 'Europe', 'decalog' ) ] ],
+						'list'    => [ [ 'logsene-receiver.sematext.com', decalog_esc_html__( 'North America', 'decalog' ) ], [ 'logsene-receiver.eu.sematext.com', decalog_esc_html__( 'Europe', 'decalog' ) ] ],
 					],
 				],
 				'token' => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Application Token', 'decalog' ),
-					'help'    => esc_html__( 'The "Logs App Token" set in Sematext.', 'decalog' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'Application Token', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The "Logs App Token" set in Sematext.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -2254,8 +2254,8 @@ class HandlerTypes {
 				'extended' => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Extended fields', 'decalog' ),
-					'help'    => esc_html__( 'Fields to add to each logged event (one pair of key=value per line).', 'decalog' ) . '<br/>' . esc_html__( 'Example:', 'decalog' ) . ' <code>hostname={HOSTNAME}</code> ' . esc_html__( 'or', 'decalog' ) . ' <code>foo=bar</code> ' . esc_html__( 'or', 'decalog' ) . ' <code>foobar=42</code>.' . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'Extended fields', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Fields to add to each logged event (one pair of key=value per line).', 'decalog' ) . '<br/>' . decalog_esc_html__( 'Example:', 'decalog' ) . ' <code>hostname={HOSTNAME}</code> ' . decalog_esc_html__( 'or', 'decalog' ) . ' <code>foo=bar</code> ' . decalog_esc_html__( 'or', 'decalog' ) . ' <code>foobar=42</code>.' . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_textarea',
@@ -2293,7 +2293,7 @@ class HandlerTypes {
 			'class'         => 'logging',
 			'minimal'       => Logger::DEBUG,
 			'name'          => 'Google Cloud Logging',
-			'help'          => esc_html__( 'Events sent to Google Cloud Logging via a Google-Fluentd collector.', 'decalog' ),
+			'help'          => decalog_esc_html__( 'Events sent to Google Cloud Logging via a Google-Fluentd collector.', 'decalog' ),
 			'icon'          => $this->get_base64_stackdriver_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -2301,8 +2301,8 @@ class HandlerTypes {
 				'host'    => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Connection string', 'decalog' ),
-					'help'    => esc_html__( 'Connection string to Fluentd. Can be something like "tcp://127.0.0.1:24224" or something like "unix:///var/run/td-agent/td-agent.sock".', 'decalog' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'Connection string', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Connection string to Fluentd. Can be something like "tcp://127.0.0.1:24224" or something like "unix:///var/run/td-agent/td-agent.sock".', 'decalog' ) . $this->get_substitution_note(),
 					'default' => 'tcp://localhost:24224',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -2313,8 +2313,8 @@ class HandlerTypes {
 				'timeout' => [
 					'type'    => 'integer',
 					'show'    => true,
-					'name'    => esc_html__( 'Socket timeout', 'decalog' ),
-					'help'    => esc_html__( 'Max number of milliseconds to wait for the socket.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Socket timeout', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Max number of milliseconds to wait for the socket.', 'decalog' ),
 					'default' => 800,
 					'control' => [
 						'type'    => 'field_input_integer',
@@ -2349,7 +2349,7 @@ class HandlerTypes {
 			'class'         => 'logging',
 			'minimal'       => Logger::DEBUG,
 			'name'          => 'Sumo Logic cloud-syslog',
-			'help'          => esc_html__( 'Events sent to a Sumo Logic cloud-syslog source.', 'decalog' ),
+			'help'          => decalog_esc_html__( 'Events sent to a Sumo Logic cloud-syslog source.', 'decalog' ),
 			'icon'          => $this->get_base64_sumosys_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -2357,21 +2357,21 @@ class HandlerTypes {
 				'host'     => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Region', 'decalog' ),
-					'help'    => esc_html__( 'The deployment region of the cloud-syslog endpoint.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Region', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The deployment region of the cloud-syslog endpoint.', 'decalog' ),
 					'default' => 'syslog.collection.eu.sumologic.com',
 					'control' => [
 						'type'    => 'field_select',
 						'cast'    => 'string',
 						'enabled' => true,
-						'list'    => [ [ 'syslog.collection.au.sumologic.com', esc_html__( 'Australia', 'decalog' ) ], [ 'syslog.collection.ca.sumologic.com', esc_html__( 'Canada', 'decalog' ) ], [ 'syslog.collection.de.sumologic.com', esc_html__( 'Germany', 'decalog' ) ], [ 'syslog.collection.eu.sumologic.com', esc_html__( 'Europe', 'decalog' ) ], [ 'syslog.collection.jp.sumologic.com', esc_html__( 'Japan', 'decalog' ) ], [ 'syslog.collection.us1.sumologic.com', esc_html__( 'United States 1', 'decalog' ) ], [ 'syslog.collection.us2.sumologic.com', esc_html__( 'United States 2', 'decalog' ) ] ],
+						'list'    => [ [ 'syslog.collection.au.sumologic.com', decalog_esc_html__( 'Australia', 'decalog' ) ], [ 'syslog.collection.ca.sumologic.com', decalog_esc_html__( 'Canada', 'decalog' ) ], [ 'syslog.collection.de.sumologic.com', decalog_esc_html__( 'Germany', 'decalog' ) ], [ 'syslog.collection.eu.sumologic.com', decalog_esc_html__( 'Europe', 'decalog' ) ], [ 'syslog.collection.jp.sumologic.com', decalog_esc_html__( 'Japan', 'decalog' ) ], [ 'syslog.collection.us1.sumologic.com', decalog_esc_html__( 'United States 1', 'decalog' ) ], [ 'syslog.collection.us2.sumologic.com', decalog_esc_html__( 'United States 2', 'decalog' ) ] ],
 					],
 				],
 				'token'    => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Source token', 'decalog' ),
-					'help'    => esc_html__( 'The token of cloud-syslog source.', 'decalog' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'Source token', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The token of cloud-syslog source.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -2382,8 +2382,8 @@ class HandlerTypes {
 				'proto'    => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Protocol', 'decalog' ),
-					'help'    => esc_html__( 'The used cloud-syslog protocol.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Protocol', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The used cloud-syslog protocol.', 'decalog' ),
 					'default' => 'TCP',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -2394,8 +2394,8 @@ class HandlerTypes {
 				'port'     => [
 					'type'    => 'integer',
 					'show'    => true,
-					'name'    => esc_html__( 'Port', 'decalog' ),
-					'help'    => esc_html__( 'The opened port on remote host to receive cloud-syslog messages.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Port', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The opened port on remote host to receive cloud-syslog messages.', 'decalog' ),
 					'default' => 6514,
 					'control' => [
 						'type'    => 'field_input_integer',
@@ -2409,8 +2409,8 @@ class HandlerTypes {
 				'timeout'  => [
 					'type'    => 'integer',
 					'show'    => true,
-					'name'    => esc_html__( 'Socket timeout', 'decalog' ),
-					'help'    => esc_html__( 'Max number of milliseconds to wait for the socket.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Socket timeout', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Max number of milliseconds to wait for the socket.', 'decalog' ),
 					'default' => 800,
 					'control' => [
 						'type'    => 'field_input_integer',
@@ -2424,8 +2424,8 @@ class HandlerTypes {
 				'facility' => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Facility', 'decalog' ),
-					'help'    => esc_html__( 'The cloud-syslog facility for messages sent by DecaLog.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Facility', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The cloud-syslog facility for messages sent by DecaLog.', 'decalog' ),
 					'default' => 'LOG_USER',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -2436,8 +2436,8 @@ class HandlerTypes {
 				'ident'    => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Identifier', 'decalog' ),
-					'help'    => esc_html__( 'The program identifier for messages sent by DecaLog.', 'decalog' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'Identifier', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The program identifier for messages sent by DecaLog.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => 'DecaLog',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -2448,8 +2448,8 @@ class HandlerTypes {
 				'format'   => [
 					'type'    => 'integer',
 					'show'    => true,
-					'name'    => esc_html__( 'Message format', 'decalog' ),
-					'help'    => esc_html__( 'The syslog format standard to use.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Message format', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The syslog format standard to use.', 'decalog' ),
 					'default' => 1,
 					'control' => [
 						'type'    => 'field_select',
@@ -2503,7 +2503,7 @@ class HandlerTypes {
 			'class'         => 'logging',
 			'minimal'       => Logger::DEBUG,
 			'name'          => 'Syslog',
-			'help'          => esc_html__( 'Events sent to a remote syslogd server.', 'decalog' ),
+			'help'          => decalog_esc_html__( 'Events sent to a remote syslogd server.', 'decalog' ),
 			'icon'          => $this->get_base64_syslog_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -2511,8 +2511,8 @@ class HandlerTypes {
 				'host'     => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Host', 'decalog' ),
-					'help'    => esc_html__( 'The remote host receiving syslog messages.', 'decalog' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'Host', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The remote host receiving syslog messages.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => '127.0.0.1',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -2523,8 +2523,8 @@ class HandlerTypes {
 				'proto'    => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Protocol', 'decalog' ),
-					'help'    => esc_html__( 'The used syslog protocol.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Protocol', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The used syslog protocol.', 'decalog' ),
 					'default' => 'UDP',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -2535,8 +2535,8 @@ class HandlerTypes {
 				'port'     => [
 					'type'    => 'integer',
 					'show'    => true,
-					'name'    => esc_html__( 'Port', 'decalog' ),
-					'help'    => esc_html__( 'The opened port on remote host to receive syslog messages.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Port', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The opened port on remote host to receive syslog messages.', 'decalog' ),
 					'default' => 514,
 					'control' => [
 						'type'    => 'field_input_integer',
@@ -2550,8 +2550,8 @@ class HandlerTypes {
 				'facility' => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Facility', 'decalog' ),
-					'help'    => esc_html__( 'The syslog facility for messages sent by DecaLog.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Facility', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The syslog facility for messages sent by DecaLog.', 'decalog' ),
 					'default' => 'LOG_USER',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -2562,8 +2562,8 @@ class HandlerTypes {
 				'ident'    => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Identifier', 'decalog' ),
-					'help'    => esc_html__( 'The program identifier for messages sent by DecaLog.', 'decalog' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'Identifier', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The program identifier for messages sent by DecaLog.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => 'DecaLog',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -2574,8 +2574,8 @@ class HandlerTypes {
 				'format'   => [
 					'type'    => 'integer',
 					'show'    => true,
-					'name'    => esc_html__( 'Message format', 'decalog' ),
-					'help'    => esc_html__( 'The syslog format standard to use.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Message format', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The syslog format standard to use.', 'decalog' ),
 					'default' => 1,
 					'control' => [
 						'type'    => 'field_select',
@@ -2620,8 +2620,8 @@ class HandlerTypes {
 			'namespace'     => 'Decalog\Handler',
 			'class'         => 'logging',
 			'minimal'       => Logger::DEBUG,
-			'name'          => esc_html__( 'WordPress events log', 'decalog' ),
-			'help'          => esc_html__( 'Events stored in WordPress and available right in your admin dashboard.', 'decalog' ),
+			'name'          => decalog_esc_html__( 'WordPress events log', 'decalog' ),
+			'help'          => decalog_esc_html__( 'Events stored in WordPress and available right in your admin dashboard.', 'decalog' ),
 			'icon'          => $this->get_base64_wordpress_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -2632,21 +2632,21 @@ class HandlerTypes {
 				'constant-storage' => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Storage', 'decalog' ),
-					'help'    => esc_html__( 'Place where to store events.', 'decalog' ) . '<br/>' . esc_html__( 'Note: it\'s not possible to change storage type after logger creation.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Storage', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Place where to store events.', 'decalog' ) . '<br/>' . decalog_esc_html__( 'Note: it\'s not possible to change storage type after logger creation.', 'decalog' ),
 					'default' => 'db',
 					'control' => [
 						'type'    => 'field_select',
 						'cast'    => 'string',
 						'enabled' => Cache::$apcu_available,
-						'list'    => [ [ 'db', esc_html__( 'Database: persistent after a server restart', 'decalog' ) ], [ 'apcu', esc_html__( 'APCu: high performance but reset after each server reboot', 'decalog' ), Cache::$apcu_available ] ],
+						'list'    => [ [ 'db', decalog_esc_html__( 'Database: persistent after a server restart', 'decalog' ) ], [ 'apcu', decalog_esc_html__( 'APCu: high performance but reset after each server reboot', 'decalog' ), Cache::$apcu_available ] ],
 					],
 				],
 				'rotate'           => [
 					'type'    => 'integer',
 					'show'    => true,
-					'name'    => esc_html__( 'Events', 'decalog' ),
-					'help'    => esc_html__( 'Maximum number of events stored in this events log (0 for no limit).', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Events', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Maximum number of events stored in this events log (0 for no limit).', 'decalog' ),
 					'default' => 10000,
 					'control' => [
 						'type'    => 'field_input_integer',
@@ -2660,8 +2660,8 @@ class HandlerTypes {
 				'purge'            => [
 					'type'    => 'integer',
 					'show'    => true,
-					'name'    => esc_html__( 'Days', 'decalog' ),
-					'help'    => esc_html__( 'Maximum age of events stored in this events log (0 for no limit).', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Days', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Maximum age of events stored in this events log (0 for no limit).', 'decalog' ),
 					'default' => 15,
 					'control' => [
 						'type'    => 'field_input_integer',
@@ -2675,8 +2675,8 @@ class HandlerTypes {
 				'local'            => [
 					'type'    => 'boolean',
 					'show'    => is_multisite(),
-					'name'    => esc_html__( 'Multisite partitioning', 'decalog' ),
-					'help'    => esc_html__( 'Local administrators can view events that relate to their site.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Multisite partitioning', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Local administrators can view events that relate to their site.', 'decalog' ),
 					'default' => false,
 					'control' => [
 						'type'    => 'field_checkbox',
@@ -2711,7 +2711,7 @@ class HandlerTypes {
 			'class'         => 'debugging',
 			'minimal'       => Logger::DEBUG,
 			'name'          => 'Spatie Ray',
-			'help'          => esc_html__( 'Events sent to Ray application.', 'decalog' ),
+			'help'          => decalog_esc_html__( 'Events sent to Ray application.', 'decalog' ),
 			'icon'          => $this->get_base64_spatieray_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -2720,8 +2720,8 @@ class HandlerTypes {
 				'host'     => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Host', 'decalog' ),
-					'help'    => esc_html__( 'The host receiving messages.', 'decalog' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'Host', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The host receiving messages.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => 'localhost',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -2732,8 +2732,8 @@ class HandlerTypes {
 				'port'     => [
 					'type'    => 'integer',
 					'show'    => true,
-					'name'    => esc_html__( 'Port', 'decalog' ),
-					'help'    => esc_html__( 'The opened port to receive messages.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Port', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The opened port to receive messages.', 'decalog' ),
 					'default' => 23517,
 					'control' => [
 						'type'    => 'field_input_integer',
@@ -2747,14 +2747,14 @@ class HandlerTypes {
 				'format'   => [
 					'type'    => 'integer',
 					'show'    => true,
-					'name'    => esc_html__( 'Format', 'decalog' ),
-					'help'    => esc_html__( 'The entry format to use.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Format', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The entry format to use.', 'decalog' ),
 					'default' => 0,
 					'control' => [
 						'type'    => 'field_select',
 						'cast'    => 'integer',
 						'enabled' => true,
-						'list'    => [ [ 0, esc_html__( 'Summary', 'decalog' ) ], [ 1, esc_html__( 'Full', 'decalog' ) ] ],
+						'list'    => [ [ 0, decalog_esc_html__( 'Summary', 'decalog' ) ], [ 1, decalog_esc_html__( 'Full', 'decalog' ) ] ],
 					],
 				],
 			],
@@ -2785,7 +2785,7 @@ class HandlerTypes {
 			'class'         => 'debugging',
 			'minimal'       => Logger::DEBUG,
 			'name'          => 'Tracy',
-			'help'          => esc_html__( 'Events sent to the Tracy bar, right in the browser.', 'decalog' ),
+			'help'          => decalog_esc_html__( 'Events sent to the Tracy bar, right in the browser.', 'decalog' ),
 			'icon'          => $this->get_base64_tracy_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -2805,8 +2805,8 @@ class HandlerTypes {
 			'namespace'     => 'Decalog\\Handler',
 			'class'         => 'debugging',
 			'minimal'       => Logger::DEBUG,
-			'name'          => esc_html__( 'Browser console', 'decalog' ),
-			'help'          => esc_html__( 'Events sent to browser\'s javascript console with no browser extension required.', 'decalog' ),
+			'name'          => decalog_esc_html__( 'Browser console', 'decalog' ),
+			'help'          => decalog_esc_html__( 'Events sent to browser\'s javascript console with no browser extension required.', 'decalog' ),
 			'icon'          => $this->get_base64_browserconsole_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -2826,7 +2826,7 @@ class HandlerTypes {
 			'class'         => 'debugging',
 			'minimal'       => Logger::DEBUG,
 			'name'          => 'ChromePHP',
-			'help'          => esc_html__( 'Events sent to the ChromePHP extension (http://www.chromephp.com/).', 'decalog' ),
+			'help'          => decalog_esc_html__( 'Events sent to the ChromePHP extension (http://www.chromephp.com/).', 'decalog' ),
 			'icon'          => $this->get_base64_chrome_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -2848,7 +2848,7 @@ class HandlerTypes {
 			'class'         => 'alerting',
 			'minimal'       => Logger::WARNING,
 			'name'          => 'Slack',
-			'help'          => esc_html__( 'Event alerts sent through Slack Webhooks.', 'decalog' ),
+			'help'          => decalog_esc_html__( 'Event alerts sent through Slack Webhooks.', 'decalog' ),
 			'icon'          => $this->get_base64_slack_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -2859,8 +2859,8 @@ class HandlerTypes {
 				'webhook' => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Webhook URL', 'decalog' ),
-					'help'    => esc_html__( 'The Webhook URL set in the Slack application.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Webhook URL', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The Webhook URL set in the Slack application.', 'decalog' ),
 					'default' => 'https://hooks.slack.com/services/...',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -2871,8 +2871,8 @@ class HandlerTypes {
 				'short'   => [
 					'type'    => 'boolean',
 					'show'    => true,
-					'name'    => esc_html__( 'Short attachment', 'decalog' ),
-					'help'    => esc_html__( 'Use a shortened version for attachments sent in channel.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Short attachment', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Use a shortened version for attachments sent in channel.', 'decalog' ),
 					'default' => false,
 					'control' => [
 						'type'    => 'field_checkbox',
@@ -2883,8 +2883,8 @@ class HandlerTypes {
 				'data'    => [
 					'type'    => 'boolean',
 					'show'    => true,
-					'name'    => esc_html__( 'Full data', 'decalog' ),
-					'help'    => esc_html__( 'Whether the attachments should include context and extra data.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Full data', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Whether the attachments should include context and extra data.', 'decalog' ),
 					'default' => true,
 					'control' => [
 						'type'    => 'field_checkbox',
@@ -2935,8 +2935,8 @@ class HandlerTypes {
 			'namespace'     => 'Decalog\\Handler',
 			'class'         => 'alerting',
 			'minimal'       => Logger::WARNING,
-			'name'          => esc_html__( 'Mail', 'decalog' ),
-			'help'          => esc_html__( 'Event alerts sent by WordPress via mail.', 'decalog' ),
+			'name'          => decalog_esc_html__( 'Mail', 'decalog' ),
+			'help'          => decalog_esc_html__( 'Event alerts sent by WordPress via mail.', 'decalog' ),
 			'icon'          => $this->get_base64_mail_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -2944,8 +2944,8 @@ class HandlerTypes {
 				'recipients' => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Recipients', 'decalog' ),
-					'help'    => esc_html__( 'The recipients mail address, in coma separated list.', 'decalog' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'Recipients', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The recipients mail address, in coma separated list.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -2972,8 +2972,8 @@ class HandlerTypes {
 			'namespace'     => 'Decalog\\Handler',
 			'class'         => 'alerting',
 			'minimal'       => Logger::ERROR,
-			'name'          => esc_html__( 'PagerDuty', 'decalog' ),
-			'help'          => esc_html__( 'Event alerts triggered in PagerDuty.', 'decalog' ),
+			'name'          => decalog_esc_html__( 'PagerDuty', 'decalog' ),
+			'help'          => decalog_esc_html__( 'Event alerts triggered in PagerDuty.', 'decalog' ),
 			'icon'          => $this->get_base64_pagerduty_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -2981,8 +2981,8 @@ class HandlerTypes {
 				'recipients' => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Recipients', 'decalog' ),
-					'help'    => esc_html__( 'The recipients mail address, in coma separated list.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Recipients', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The recipients mail address, in coma separated list.', 'decalog' ),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -3010,7 +3010,7 @@ class HandlerTypes {
 			'class'         => 'alerting',
 			'minimal'       => Logger::WARNING,
 			'name'          => 'Pushover',
-			'help'          => esc_html__( 'Event alerts sent via Pushover service.', 'decalog' ),
+			'help'          => decalog_esc_html__( 'Event alerts sent via Pushover service.', 'decalog' ),
 			'icon'          => $this->get_base64_pushover_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -3018,8 +3018,8 @@ class HandlerTypes {
 				'token'   => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Application token', 'decalog' ),
-					'help'    => esc_html__( 'The token of the Pushover application.', 'decalog' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'Application token', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The token of the Pushover application.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -3030,8 +3030,8 @@ class HandlerTypes {
 				'users'   => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Recipient', 'decalog' ),
-					'help'    => esc_html__( 'The recipient key. It can be a "user key" or a "group key".', 'decalog' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'Recipient', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The recipient key. It can be a "user key" or a "group key".', 'decalog' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -3042,8 +3042,8 @@ class HandlerTypes {
 				'title'   => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Message title', 'decalog' ),
-					'help'    => esc_html__( 'The title of the message which will be sent.', 'decalog' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'Message title', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The title of the message which will be sent.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -3054,8 +3054,8 @@ class HandlerTypes {
 				'timeout' => [
 					'type'    => 'integer',
 					'show'    => true,
-					'name'    => esc_html__( 'Socket timeout', 'decalog' ),
-					'help'    => esc_html__( 'Max number of milliseconds to wait for the socket.', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Socket timeout', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Max number of milliseconds to wait for the socket.', 'decalog' ),
 					'default' => 800,
 					'control' => [
 						'type'    => 'field_input_integer',
@@ -3096,7 +3096,7 @@ class HandlerTypes {
 			'class'         => 'analytics',
 			'minimal'       => Logger::WARNING,
 			'name'          => 'Bugsnag',
-			'help'          => esc_html__( 'Crash reports sent to Bugsnag service.', 'decalog' ),
+			'help'          => decalog_esc_html__( 'Crash reports sent to Bugsnag service.', 'decalog' ),
 			'icon'          => $this->get_base64_bugsnag_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -3108,8 +3108,8 @@ class HandlerTypes {
 				'token'  => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'API key', 'decalog' ),
-					'help'    => esc_html__( 'The API key of the service.', 'decalog' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'API key', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The API key of the service.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -3120,8 +3120,8 @@ class HandlerTypes {
 				'buffer' => [
 					'type'    => 'boolean',
 					'show'    => true,
-					'name'    => esc_html__( 'Deferred forwarding', 'decalog' ),
-					'help'    => esc_html__( 'Wait for the full page is rendered before sending reports (recommended).', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Deferred forwarding', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Wait for the full page is rendered before sending reports (recommended).', 'decalog' ),
 					'default' => true,
 					'control' => [
 						'type'    => 'field_checkbox',
@@ -3149,7 +3149,7 @@ class HandlerTypes {
 			'class'         => 'analytics',
 			'minimal'       => Logger::WARNING,
 			'name'          => 'Google Universal Analytics',
-			'help'          => esc_html__( 'Exceptions sent to Google Universal Analytics service.', 'decalog' ),
+			'help'          => decalog_esc_html__( 'Exceptions sent to Google Universal Analytics service.', 'decalog' ),
 			'icon'          => $this->get_base64_ganalytics_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -3161,8 +3161,8 @@ class HandlerTypes {
 				'token'  => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'Tracking ID', 'decalog' ),
-					'help'    => esc_html__( 'The tracking ID / web property ID for Google Universal Analytics service. The format must be UA-XXXX-Y.', 'decalog' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'Tracking ID', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The tracking ID / web property ID for Google Universal Analytics service. The format must be UA-XXXX-Y.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -3173,8 +3173,8 @@ class HandlerTypes {
 				'buffer' => [
 					'type'    => 'boolean',
 					'show'    => true,
-					'name'    => esc_html__( 'Deferred forwarding', 'decalog' ),
-					'help'    => esc_html__( 'Wait for the full page is rendered before sending exceptions (recommended).', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Deferred forwarding', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Wait for the full page is rendered before sending exceptions (recommended).', 'decalog' ),
 					'default' => true,
 					'control' => [
 						'type'    => 'field_checkbox',
@@ -3202,7 +3202,7 @@ class HandlerTypes {
 			'class'         => 'analytics',
 			'minimal'       => Logger::WARNING,
 			'name'          => 'Raygun',
-			'help'          => esc_html__( 'Crash reports sent to Raygun service.', 'decalog' ),
+			'help'          => decalog_esc_html__( 'Crash reports sent to Raygun service.', 'decalog' ),
 			'icon'          => $this->get_base64_raygun_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
@@ -3214,8 +3214,8 @@ class HandlerTypes {
 				'token'  => [
 					'type'    => 'string',
 					'show'    => true,
-					'name'    => esc_html__( 'API key', 'decalog' ),
-					'help'    => esc_html__( 'The API key of the service.', 'decalog' ) . $this->get_substitution_note(),
+					'name'    => decalog_esc_html__( 'API key', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The API key of the service.', 'decalog' ) . $this->get_substitution_note(),
 					'default' => '',
 					'control' => [
 						'type'    => 'field_input_text',
@@ -3226,8 +3226,8 @@ class HandlerTypes {
 				'buffer' => [
 					'type'    => 'boolean',
 					'show'    => true,
-					'name'    => esc_html__( 'Deferred forwarding', 'decalog' ),
-					'help'    => esc_html__( 'Wait for the full page is rendered before sending reports (recommended).', 'decalog' ),
+					'name'    => decalog_esc_html__( 'Deferred forwarding', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Wait for the full page is rendered before sending reports (recommended).', 'decalog' ),
 					'default' => true,
 					'control' => [
 						'type'    => 'field_checkbox',
@@ -3256,8 +3256,8 @@ class HandlerTypes {
 			'namespace'     => 'DLMonolog\Handler',
 			'class'         => 'system',
 			'minimal'       => Logger::DEBUG,
-			'name'          => esc_html__( 'Blackhole', 'decalog' ),
-			'help'          => esc_html__( 'Any event it can handle will be thrown away.', 'decalog' ),
+			'name'          => decalog_esc_html__( 'Blackhole', 'decalog' ),
+			'help'          => decalog_esc_html__( 'Any event it can handle will be thrown away.', 'decalog' ),
 			'icon'          => $this->get_base64_php_icon(),
 			'needs'         => [],
 			'params'        => [],
@@ -3270,8 +3270,8 @@ class HandlerTypes {
 			'namespace'     => 'Decalog\\Handler',
 			'class'         => 'system',
 			'minimal'       => Logger::INFO,
-			'name'          => esc_html__( 'Shared memory', 'decalog' ),
-			'help'          => esc_html__( 'Automatic events log, stored in server shared memory.', 'decalog' ),
+			'name'          => decalog_esc_html__( 'Shared memory', 'decalog' ),
+			'help'          => decalog_esc_html__( 'Automatic events log, stored in server shared memory.', 'decalog' ),
 			'icon'          => $this->get_base64_ram_icon(),
 			'needs'         => [
 				'option'          => [ 'livelog' ],
@@ -3300,7 +3300,7 @@ class HandlerTypes {
 		if ( ! Option::network_get( 'env_substitution' ) ) {
 			return '';
 		}
-		return '<br/><small>ⓘ&nbsp;' . esc_html__( 'This field is eligible to environment variable and PHP-defined constant substitution.', 'decalog' ) . '</small>';
+		return '<br/><small>ⓘ&nbsp;' . decalog_esc_html__( 'This field is eligible to environment variable and PHP-defined constant substitution.', 'decalog' ) . '</small>';
 	}
 
 	/**

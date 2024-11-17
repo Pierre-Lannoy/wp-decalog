@@ -289,7 +289,7 @@ class LoggerFactory {
 	 */
 	private function standard_check( $logger, $handler ) {
 		if ( ! array_key_exists( 'name', $logger ) ) {
-			$logger['name'] = esc_html__( 'Unnamed logger', 'decalog' );
+			$logger['name'] = decalog_esc_html__( 'Unnamed logger', 'decalog' );
 		}
 		if ( ! array_key_exists( 'running', $logger ) ) {
 			$logger['running'] = false;

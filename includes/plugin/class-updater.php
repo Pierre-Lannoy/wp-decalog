@@ -42,15 +42,15 @@ class Updater {
 			if ( '0.0.0' === $old ) {
 				$this->install();
 				// phpcs:ignore
-				$message = sprintf( esc_html__( '%1$s has been correctly installed.', 'decalog' ), DECALOG_PRODUCT_NAME );
+				$message = sprintf( decalog_esc_html__( '%1$s has been correctly installed.', 'decalog' ), DECALOG_PRODUCT_NAME );
 			} else {
 				$this->update( $old );
 				// phpcs:ignore
-				$message = sprintf( esc_html__( '%1$s has been correctly updated from version %2$s to version %3$s.', 'decalog' ), DECALOG_PRODUCT_NAME, $old, DECALOG_VERSION );
+				$message = sprintf( decalog_esc_html__( '%1$s has been correctly updated from version %2$s to version %3$s.', 'decalog' ), DECALOG_PRODUCT_NAME, $old, DECALOG_VERSION );
 				$logger  = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
 				$logger->notice( $message );
 				// phpcs:ignore
-				$message .= ' ' . sprintf( __( 'See <a href="%s">what\'s new</a>.', 'decalog' ), admin_url( 'admin.php?page=decalog-settings&tab=about' ) );
+				$message .= ' ' . sprintf(decalog__( 'See <a href="%s">what\'s new</a>.', 'decalog' ), admin_url( 'admin.php?page=decalog-settings&tab=about' ) );
 			}
 			Nag::add( 'update', 'info', $message );
 		}

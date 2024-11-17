@@ -174,3 +174,38 @@ function decalog_normalize_extended_fields( string $extended ) {
 
 	return $result;
 }
+
+/**
+ * Retrieves the translation of $text.
+ *
+ * This function is a wrapper for the "real" WP function behind this.
+ *
+ * @since 4.3.0
+ *
+ * @param string $text   Text to translate.
+ * @param string $domain Optional. Text domain. Unique identifier for retrieving translated strings.
+ *                       Default 'default'.
+ * @return string Translated text.
+ */
+function decalog__( $text, $domain = 'default' ) {
+	if ( ! doing_action( 'after_setup_theme' ) && ! did_action( 'after_setup_theme' ) ) {
+		return $text;
+	}
+	return translate( $text, $domain );
+}
+
+/**
+ * Retrieves the translation of $text and escapes it for safe use in HTML output.
+ *
+ * This function is a wrapper for the "real" WP function behind this.
+ *
+ * @since 4.3.0
+ *
+ * @param string $text   Text to translate.
+ * @param string $domain Optional. Text domain. Unique identifier for retrieving translated strings.
+ *                       Default 'default'.
+ * @return string Translated text.
+ */
+function decalog_esc_html__( $text, $domain = 'default' ) {
+	return esc_html( decalog__( $text, $domain ) );
+}

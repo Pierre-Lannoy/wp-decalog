@@ -55,7 +55,7 @@ class OptimizeLogger extends \Updraft_Abstract_Logger {
 	 * @return string
 	 */
 	public function get_description() {
-		return esc_html__( 'Log all events via DecaLog', 'decalog' );
+		return decalog_esc_html__( 'Log all events via DecaLog', 'decalog' );
 	}
 
 	/**

@@ -14,7 +14,7 @@ use Decalog\Plugin\Feature\Loggers;
 $loggers = new Loggers();
 $loggers->prepare_items();
 
-$button = '<a href="#" class="page-title-action add-trigger">' . esc_html__( 'Add a Logger', 'decalog' ) . '</a>'
+$button = '<a href="#" class="page-title-action add-trigger">' . decalog_esc_html__( 'Add a Logger', 'decalog' ) . '</a>'
 
 ?>
 

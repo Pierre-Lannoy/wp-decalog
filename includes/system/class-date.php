@@ -54,10 +54,10 @@ class Date {
 	 */
 	public static function get_positive_time_diff_from_mysql_utc($from) {
 		if (strtotime($from) < time()) {
-			return sprintf( esc_html__('%s ago', 'decalog'), human_time_diff(strtotime($from)));
+			return sprintf( decalog_esc_html__('%s ago', 'decalog'), human_time_diff(strtotime($from)));
 		}
 		else {
-			return esc_html__('currently', 'decalog');
+			return decalog_esc_html__('currently', 'decalog');
 		}
 	}
 
@@ -70,10 +70,10 @@ class Date {
 	 */
 	public static function get_time_diff_from_mysql_utc($from) {
 		if (strtotime($from) < time()) {
-			return sprintf( esc_html__('%s ago', 'decalog'), human_time_diff(strtotime($from)));
+			return sprintf( decalog_esc_html__('%s ago', 'decalog'), human_time_diff(strtotime($from)));
 		}
 		else {
-			return sprintf( esc_html__('in %s', 'decalog'), human_time_diff(strtotime($from)));
+			return sprintf( decalog_esc_html__('in %s', 'decalog'), human_time_diff(strtotime($from)));
 		}
 	}
 

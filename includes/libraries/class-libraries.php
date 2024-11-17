@@ -62,7 +62,7 @@ class Libraries {
 			'base'    => DECALOG_VENDOR_DIR . 'monolog/',
 			'version' => DECALOG_MONOLOG_VERSION,
 			// phpcs:ignore
-			'author'  => sprintf( esc_html__( '%s & contributors', 'decalog' ), 'Jordi Boggiano' ),
+			'author'  => 'Jordi Boggiano',
 			'url'     => 'https://github.com/Seldaek/monolog',
 			'license' => 'mit',
 			'langs'   => 'en',
@@ -73,7 +73,7 @@ class Libraries {
 			'base'    => DECALOG_VENDOR_DIR . 'tracy/',
 			'version' => '2.10.7',
 			// phpcs:ignore
-			'author'  => sprintf( esc_html__( '%s & contributors', 'decalog' ), 'David Grudl' ),
+			'author'  => 'David Grudl',
 			'url'     => 'https://github.com/nette/tracy',
 			'license' => 'gpl3',
 			'langs'   => 'en',
@@ -84,7 +84,7 @@ class Libraries {
 			'base'    => DECALOG_VENDOR_DIR . 'prometheus/',
 			'version' => '2.2.1',
 			// phpcs:ignore
-			'author'  => sprintf( esc_html__( '%s, %s & contributors', 'decalog' ), 'Lukas Kämmerling', 'Rafael Dohms' ),
+			'author'  => 'Lukas Kämmerling, Rafael Dohms',
 			'url'     => 'https://github.com/PromPHP',
 			'license' => 'apl2',
 			'langs'   => 'en',
@@ -95,7 +95,7 @@ class Libraries {
 			'base'    => DECALOG_VENDOR_DIR . 'thrift/',
 			'version' => '0.13.01',
 			// phpcs:ignore
-			'author'  => sprintf( esc_html__( '%s & contributors', 'decalog' ), 'The Apache Software Foundation' ),
+			'author'  => 'The Apache Software Foundation',
 			'url'     => 'https://github.com/apache/thrift',
 			'license' => 'apl2',
 			'langs'   => 'en',
@@ -106,7 +106,7 @@ class Libraries {
 			'base'    => DECALOG_VENDOR_DIR . 'jaeger/',
 			'version' => '1.2.2',
 			// phpcs:ignore
-			'author'  => sprintf( esc_html__( '%s & contributors', 'decalog' ), 'Jonah George' ),
+			'author'  => 'Jonah George',
 			'url'     => 'https://github.com/jonahgeorge/jaeger-client-php',
 			'license' => 'mit',
 			'langs'   => 'en',
@@ -117,7 +117,7 @@ class Libraries {
 			'base'    => DECALOG_VENDOR_DIR . 'influxdb/',
 			'version' => '1.12.0',
 			// phpcs:ignore
-			'author'  => sprintf( esc_html__( '%s & contributors', 'decalog' ), 'InfluxData' ),
+			'author'  => 'InfluxData',
 			'url'     => 'https://github.com/influxdata/influxdb-client-php',
 			'license' => 'mit',
 			'langs'   => 'en',
@@ -128,7 +128,7 @@ class Libraries {
 			'base'    => DECALOG_VENDOR_DIR . 'lock/',
 			'version' => '2.2',
 			// phpcs:ignore
-			'author'  => sprintf( esc_html__( '%s & contributors', 'decalog' ), 'Willem Stuursma-Ruwen' ),
+			'author'  => 'Willem Stuursma-Ruwen',
 			'url'     => 'https://github.com/php-lock/lock',
 			'license' => 'wtpfl',
 			'langs'   => 'en',
@@ -139,7 +139,7 @@ class Libraries {
 			'base'    => DECALOG_VENDOR_DIR . 'elastic/elasticsearch/',
 			'version' => '8.13.0',
 			// phpcs:ignore
-			'author'  => sprintf( esc_html__( '%s & contributors', 'decalog' ), 'Elastic' ),
+			'author'  => 'Elastic',
 			'url'     => 'https://github.com/elastic/elasticsearch-php',
 			'license' => 'apl2',
 			'langs'   => 'en',
@@ -150,7 +150,7 @@ class Libraries {
 			'base'    => DECALOG_VENDOR_DIR . 'elastic/transport/',
 			'version' => '8.8.0',
 			// phpcs:ignore
-			'author'  => sprintf( esc_html__( '%s & contributors', 'decalog' ), 'Elastic' ),
+			'author'  => 'Elastic',
 			'url'     => 'https://github.com/elastic/elasticsearch-php',
 			'license' => 'apl2',
 			'langs'   => 'en',
@@ -161,7 +161,7 @@ class Libraries {
 			'base'    => DECALOG_VENDOR_DIR . 'guzzlehttp/',
 			'version' => '7.8.1',
 			// phpcs:ignore
-			'author'  => sprintf( esc_html__( '%s & contributors', 'decalog' ), 'Michael Dowling' ),
+			'author'  => 'Michael Dowling',
 			'url'     => 'https://github.com/elastic/elasticsearch-php',
 			'license' => 'mit',
 			'langs'   => 'en',
@@ -172,7 +172,7 @@ class Libraries {
 			'base'    => DECALOG_VENDOR_DIR . 'http/discovery/',
 			'version' => '1.19.4',
 			// phpcs:ignore
-			'author'  => sprintf( esc_html__( '%s & contributors', 'decalog' ), 'The PHP HTTP group' ),
+			'author'  => 'The PHP HTTP group',
 			'url'     => 'https://github.com/php-http',
 			'license' => 'mit',
 			'langs'   => 'en',
@@ -183,7 +183,7 @@ class Libraries {
 			'base'    => DECALOG_VENDOR_DIR . 'http/client/',
 			'version' => '2.4.0',
 			// phpcs:ignore
-			'author'  => sprintf( esc_html__( '%s & contributors', 'decalog' ), 'The PHP HTTP group' ),
+			'author'  => 'The PHP HTTP group',
 			'url'     => 'https://github.com/php-http',
 			'license' => 'mit',
 			'langs'   => 'en',
@@ -194,7 +194,7 @@ class Libraries {
 			'base'    => DECALOG_VENDOR_DIR . 'http/client-common/',
 			'version' => '2.7.1',
 			// phpcs:ignore
-			'author'  => sprintf( esc_html__( '%s & contributors', 'decalog' ), 'The PHP HTTP group' ),
+			'author'  => 'The PHP HTTP group',
 			'url'     => 'https://github.com/php-http',
 			'license' => 'mit',
 			'langs'   => 'en',
@@ -205,7 +205,7 @@ class Libraries {
 			'base'    => DECALOG_VENDOR_DIR . 'http/promise/',
 			'version' => '1.3.1',
 			// phpcs:ignore
-			'author'  => sprintf( esc_html__( '%s & contributors', 'decalog' ), 'The PHP HTTP group' ),
+			'author'  => 'The PHP HTTP group',
 			'url'     => 'https://github.com/php-http',
 			'license' => 'mit',
 			'langs'   => 'en',
@@ -217,7 +217,7 @@ class Libraries {
 			'base'    => DECALOG_VENDOR_DIR . 'symfony/OptionsResolver/',
 			'version' => '6.4',
 			// phpcs:ignore
-			'author'  => sprintf( esc_html__( '%s & contributors', 'decalog' ), 'Fabien Potencier' ),
+			'author'  => 'Fabien Potencier',
 			'url'     => 'https://github.com/symfony/symfony',
 			'license' => 'mit',
 			'langs'   => 'en',
@@ -228,7 +228,7 @@ class Libraries {
 			'base'    => DECALOG_VENDOR_DIR . 'react/',
 			'version' => '2.7.1',
 			// phpcs:ignore
-			'author'  => sprintf( esc_html__( '%s & contributors', 'decalog' ), 'ReactPHP' ),
+			'author'  => 'ReactPHP',
 			'url'     => 'https://github.com/elastic/elasticsearch-php',
 			'license' => 'mit',
 			'langs'   => 'en',
@@ -239,7 +239,7 @@ class Libraries {
 			'base'    => DECALOG_VENDOR_DIR . 'sentry/',
 			'version' => '3.1.5',
 			// phpcs:ignore
-			'author'  => sprintf( esc_html__( '%s & contributors', 'decalog' ), 'Michael Van Tellingen' ),
+			'author'  => 'Michael Van Tellingen',
 			'url'     => 'https://github.com/getsentry/sentry-php',
 			'license' => 'ukn',
 			'langs'   => 'en',
@@ -250,7 +250,7 @@ class Libraries {
 			'base'    => DECALOG_VENDOR_DIR . 'feather/',
 			'version' => '4.24.1',
 			// phpcs:ignore
-			'author'  => sprintf( esc_html__( '%s & contributors', 'decalog' ), 'Cole Bemis' ),
+			'author'  => 'Cole Bemis',
 			'url'     => 'https://feathericons.com',
 			'license' => 'mit',
 			'langs'   => 'en',
@@ -307,7 +307,7 @@ class Libraries {
 			'base'    => DECALOG_VENDOR_DIR . 'markdown/',
 			'version' => '1.2.1',
 			// phpcs:ignore
-			'author'  => sprintf( esc_html__( '%s & contributors', 'decalog' ), 'Carsten Brandt' ),
+			'author'  => 'Carsten Brandt',
 			'url'     => 'https://github.com/cebe/markdown',
 			'license' => 'mit',
 			'langs'   => 'en',
@@ -317,7 +317,7 @@ class Libraries {
 			'prefix'  => 'DLSpatie\\Ray',
 			'base'    => DECALOG_VENDOR_DIR . 'spatie/ray/src/',
 			'version' => '1.33.0',
-			'author'  => sprintf( esc_html__( '%s & contributors', 'decalog' ), 'Spatie' ),
+			'author'  => 'Spatie',
 			'url'     => 'https://github.com/spatie/ray',
 			'license' => 'mit',
 			'langs'   => 'en',
@@ -327,7 +327,7 @@ class Libraries {
 			'prefix'  => 'DLSpatie\\Macroable',
 			'base'    => DECALOG_VENDOR_DIR . 'spatie/macroable/src/',
 			'version' => '2.0.0',
-			'author'  => sprintf( esc_html__( '%s & contributors', 'decalog' ), 'Spatie' ),
+			'author'  => 'Spatie',
 			'url'     => 'https://github.com/spatie/macroable',
 			'license' => 'mit',
 			'langs'   => 'en',
@@ -337,7 +337,7 @@ class Libraries {
 			'prefix'  => 'DLSpatie\\Backtrace',
 			'base'    => DECALOG_VENDOR_DIR . 'spatie/backtrace/src/',
 			'version' => '1.2.1',
-			'author'  => sprintf( esc_html__( '%s & contributors', 'decalog' ), 'Spatie' ),
+			'author'  => 'Spatie',
 			'url'     => 'https://github.com/spatie/backtrace',
 			'license' => 'mit',
 			'langs'   => 'en',
@@ -349,7 +349,7 @@ class Libraries {
 			'base'    => DECALOG_VENDOR_DIR . 'spyc/',
 			'version' => '0.6.2',
 			// phpcs:ignore
-			'author'  => sprintf( esc_html__( '%s, %s & contributors', 'decalog' ), 'Vlad Andersen', 'Chris Wanstrath' ),
+			'author'  => 'Vlad Andersen, Chris Wanstrath',
 			'url'     => 'https://github.com/mustangostang/spyc/',
 			'license' => 'mit',
 			'langs'   => 'en',
@@ -398,22 +398,22 @@ class Libraries {
 	private function license_name( $license ) {
 		switch ( $license ) {
 			case 'mit':
-				$result = esc_html__( 'MIT license', 'decalog' );
+				$result = decalog_esc_html__( 'MIT license', 'decalog' );
 				break;
 			case 'wtpfl':
-				$result = esc_html__( 'WTFPL license', 'decalog' );
+				$result = decalog_esc_html__( 'WTFPL license', 'decalog' );
 				break;
 			case 'apl2':
-				$result = esc_html__( 'Apache license, version 2.0', 'decalog' );
+				$result = decalog_esc_html__( 'Apache license, version 2.0', 'decalog' );
 				break;
 			case 'gpl2':
-				$result = esc_html__( 'GPL-2.0 license', 'decalog' );
+				$result = decalog_esc_html__( 'GPL-2.0 license', 'decalog' );
 				break;
 			case 'gpl3':
-				$result = esc_html__( 'GPL-3.0 license', 'decalog' );
+				$result = decalog_esc_html__( 'GPL-3.0 license', 'decalog' );
 				break;
 			default:
-				$result = esc_html__( 'unknown license', 'decalog' );
+				$result = decalog_esc_html__( 'unknown license', 'decalog' );
 				break;
 		}
 		return $result;
@@ -465,7 +465,7 @@ class Libraries {
 			$items = [];
 			foreach ( $list as $library ) {
 				/* translators: as in the sentence "Product W version X by author Y (license Z)" */
-				$items[] = sprintf( __( '<a href="%1$s">%2$s %3$s</a>%4$s by %5$s (%6$s)', 'decalog' ), $library['url'], $library['name'], 'v' . $library['version'], $library['langs'], $library['author'], $library['license'] );
+				$items[] = sprintf(decalog__( '<a href="%1$s">%2$s %3$s</a>%4$s by %5$s & contributors (%6$s)', 'decalog' ), $library['url'], $library['name'], 'v' . $library['version'], $library['langs'], $library['author'], $library['license'] );
 			}
 			$result = implode( ', ', $items );
 		}

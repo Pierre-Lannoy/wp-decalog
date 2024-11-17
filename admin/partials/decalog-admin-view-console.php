@@ -34,7 +34,7 @@ wp_enqueue_script( DECALOG_LIVELOG_ID );
 ?>
 
 <div class="wrap">
-	<h2><?php echo sprintf( esc_html__( '%s Live Events', 'decalog' ), DECALOG_PRODUCT_NAME );?></h2>
+	<h2><?php echo sprintf( decalog_esc_html__( '%s Live Events', 'decalog' ), DECALOG_PRODUCT_NAME );?></h2>
     <div class="media-toolbar wp-filter decalog-pilot-toolbar" style="border-radius:4px;">
         <div class="media-toolbar-secondary" data-children-count="2">
             <div class="view-switch media-grid-view-switch">
@@ -42,14 +42,14 @@ wp_enqueue_script( DECALOG_LIVELOG_ID );
                 <span class="dashicons dashicons-controls-pause decalog-control decalog-control-inactive" id="decalog-control-pause"></span>
             </div>
             <select id="decalog-select-level" class="attachment-filters">
-                <option value="info"><?php echo esc_html__( 'All', 'decalog' );?></option>
-                <option value="notice"><?php echo esc_html__( 'Notices & beyond', 'decalog' );?></option>
-                <option value="error"><?php echo esc_html__( 'Errors & beyond', 'decalog' );?>
+                <option value="info"><?php echo decalog_esc_html__( 'All', 'decalog' );?></option>
+                <option value="notice"><?php echo decalog_esc_html__( 'Notices & beyond', 'decalog' );?></option>
+                <option value="error"><?php echo decalog_esc_html__( 'Errors & beyond', 'decalog' );?>
             </select>
             <select id="decalog-select-format" class="attachment-filters">
-                <option value="wp"><?php echo esc_html__( 'WordPress details', 'decalog' );?></option>
-                <option value="http"><?php echo esc_html__( 'HTTP request', 'decalog' );?></option>
-                <option value="php"><?php echo esc_html__( 'PHP introspection', 'decalog' );?></option>
+                <option value="wp"><?php echo decalog_esc_html__( 'WordPress details', 'decalog' );?></option>
+                <option value="http"><?php echo decalog_esc_html__( 'HTTP request', 'decalog' );?></option>
+                <option value="php"><?php echo decalog_esc_html__( 'PHP introspection', 'decalog' );?></option>
             </select>
             <div class="view-switch media-grid-view-switch" style="display: inline;">
                 <span class="decalog-control-hint" style="float: right">initializing&nbsp;&nbsp;&nbsp;⚪</span>

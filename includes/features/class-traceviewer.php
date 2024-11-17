@@ -165,7 +165,7 @@ class TraceViewer {
 	 */
 	public function get_options() {
 		$result  = '<fieldset class="metabox-prefs">';
-		$result .= '<legend>' . esc_html__( 'Boxes', 'decalog' ) . '</legend>';
+		$result .= '<legend>' . decalog_esc_html__( 'Boxes', 'decalog' ) . '</legend>';
 		$result .= $this->meta_box_prefs();
 		$result .= '</fieldset>';
 		return $result;
@@ -247,15 +247,15 @@ class TraceViewer {
 			echo '</div>';
 			echo '</form>';
 		} else {
-			echo '<h2>' . esc_html__( 'Forbidden', 'decalog' ) . '</h2>';
+			echo '<h2>' . decalog_esc_html__( 'Forbidden', 'decalog' ) . '</h2>';
 			settings_errors();
-			echo '<p>' . esc_html__( 'The trace or traces log you tried to access is out of your scope.', 'decalog' ) . '</p>';
-			echo '<p>' . esc_html__( 'If you think this is an error, please contact the network administrator with these details:', 'decalog' );
+			echo '<p>' . decalog_esc_html__( 'The trace or traces log you tried to access is out of your scope.', 'decalog' ) . '</p>';
+			echo '<p>' . decalog_esc_html__( 'If you think this is an error, please contact the network administrator with these details:', 'decalog' );
 			echo '<ul>';
 			// phpcs:ignore
-			echo '<li>' . sprintf( esc_html__( 'Traces log: %s', 'decalog' ), '<code>' . $this->logid . '</code>' ) . '</li>';
+			echo '<li>' . sprintf( decalog_esc_html__( 'Traces log: %s', 'decalog' ), '<code>' . $this->logid . '</code>' ) . '</li>';
 			// phpcs:ignore
-			echo '<li>' . sprintf( esc_html__( 'Trace: %s', 'decalog' ), '<code>' . $this->traceid . '</code>' ) . '</li>';
+			echo '<li>' . sprintf( decalog_esc_html__( 'Trace: %s', 'decalog' ), '<code>' . $this->traceid . '</code>' ) . '</li>';
 			echo '</ul>';
 			echo '</p>';
 			$this->logger->warning( sprintf( 'Trying to access out of scope trace #%s from traces log {%s}.', $this->traceid, $this->logid ), 403 );
@@ -373,9 +373,9 @@ class TraceViewer {
 	 */
 	public function add_metaboxes() {
 		// Full column.
-		add_meta_box( 'decalog-tspans', esc_html__( 'Spans', 'decalog' ), [ $this, 'get_spans' ], self::$screen_id, 'full' );
+		add_meta_box( 'decalog-tspans', decalog_esc_html__( 'Spans', 'decalog' ), [ $this, 'get_spans' ], self::$screen_id, 'full' );
 		// Left column.
-		add_meta_box( 'decalog-tmain', esc_html__( 'Trace', 'decalog' ), [ $this, 'trace_widget' ], self::$screen_id, 'advanced' );
+		add_meta_box( 'decalog-tmain', decalog_esc_html__( 'Trace', 'decalog' ), [ $this, 'trace_widget' ], self::$screen_id, 'advanced' );
 		// Right column.
 		add_meta_box( 'decalog-twordpress', 'WordPress', [ $this, 'wordpress_widget' ], self::$screen_id, 'side' );
 	}
@@ -503,7 +503,7 @@ class TraceViewer {
 	public function trace_widget() {
 		// Trace type.
 		$icon     = '<img style="width:18px;float:left;padding-right:6px;" src="' . Icons::get_base64( 'clock', '#ABCFF9', '#192783' ) . '" />';
-		$level    = esc_html__( 'Trace', 'decalog' );
+		$level    = decalog_esc_html__( 'Trace', 'decalog' );
 		$channel  = ChannelTypes::$channel_names[ strtoupper( $this->trace['channel'] ) ];
 		$content  = '<span style="width:40%;cursor: default;float:left">' . $icon . $level . '</span>';
 		$content .= '<span style="width:60%;cursor: default;">' . $this->get_icon( 'activity', 'none' ) . $channel . '</span>';
@@ -528,13 +528,13 @@ class TraceViewer {
 	public function wordpress_widget() {
 		// User detail.
 		if ( 'anonymous' === $this->trace['user_name'] ) {
-			$user = $this->get_section( '<span style="width:100%;cursor: default;word-break: break-all;">' . $this->get_icon( 'user' ) . esc_html__( 'Anonymous user', 'decalog' ) . '</span>' );
+			$user = $this->get_section( '<span style="width:100%;cursor: default;word-break: break-all;">' . $this->get_icon( 'user' ) . decalog_esc_html__( 'Anonymous user', 'decalog' ) . '</span>' );
 		} elseif ( 0 === strpos( $this->trace['user_name'], '{' ) ) {
-			$user = $this->get_section( '<span style="width:100%;cursor: default;word-break: break-all;">' . $this->get_icon( 'user' ) . esc_html__( 'Pseudonymized user', 'decalog' ) . '</span>' );
+			$user = $this->get_section( '<span style="width:100%;cursor: default;word-break: break-all;">' . $this->get_icon( 'user' ) . decalog_esc_html__( 'Pseudonymized user', 'decalog' ) . '</span>' );
 		} elseif ( 0 !== (int) $this->trace['user_id'] ) {
 			$user = $this->get_section( '<span style="width:100%;cursor: default;word-break: break-all;">' . $this->get_icon( 'user-check' ) . User::get_user_string( (int) $this->trace['user_id'] ) . '</span>' );
 		} else {
-			$user = $this->get_section( '<span style="width:100%;cursor: default;word-break: break-all;">' . $this->get_icon( 'user-x' ) . esc_html__( 'Deleted user', 'decalog' ) . '</span>' );
+			$user = $this->get_section( '<span style="width:100%;cursor: default;word-break: break-all;">' . $this->get_icon( 'user-x' ) . decalog_esc_html__( 'Deleted user', 'decalog' ) . '</span>' );
 		}
 		// Site detail.
 		$content = '<span style="width:100%;cursor: default;">' . $this->get_icon( 'layout' ) . $this->trace['site_name'] . '</span>';

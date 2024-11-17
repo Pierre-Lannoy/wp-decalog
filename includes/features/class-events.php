@@ -189,7 +189,7 @@ class Events extends \WP_List_Table {
 		$icon            = '<img style="width:18px;float:left;padding-right:6px;" src="' . EventTypes::$icons[ $item['level'] ] . '" />';
 		$name            = '<a href="' . $url . '">' . ChannelTypes::$channel_names[ strtoupper( $item['channel'] ) ] . '</a>' . $this->get_filter( 'channel', $item['channel'] ) . $this->get_actions( 'event', $item ) . '&nbsp;<span style="color:silver">#' . $item['id'] . '</span>';
 		/* translators: as in the sentence "Error code 501" or "Alert code 0" */
-		$code   = '<br /><span style="color:silver">' . sprintf( esc_html__( '%1$s code %2$s', 'decalog' ), ucfirst( $item['level'] ), $item['code'] ) . '</span>';
+		$code   = '<br /><span style="color:silver">' . sprintf( decalog_esc_html__( '%1$s code %2$s', 'decalog' ), ucfirst( $item['level'] ), $item['code'] ) . '</span>';
 		$result = $icon . $name . $code;
 		return $result;
 	}
@@ -231,7 +231,7 @@ class Events extends \WP_List_Table {
 	protected function column_site( $item ) {
 		$name = $item['site_name'] . $this->get_filter( 'site_id', $item['site_id'] );
 		// phpcs:ignore
-		$result = $name . '<br /><span style="color:silver">' . sprintf(esc_html__('Site ID %s', 'decalog'), $item['site_id']) . '</span>' . $this->get_actions( 'site', $item );
+		$result = $name . '<br /><span style="color:silver">' . sprintf(decalog_esc_html__('Site ID %s', 'decalog'), $item['site_id']) . '</span>' . $this->get_actions( 'site', $item );
 		return $result;
 	}
 
@@ -245,16 +245,16 @@ class Events extends \WP_List_Table {
 	protected function column_user( $item ) {
 		$user = $item['user_name'];
 		if ( 'anonymous' === $user ) {
-			$user = '<em>' . esc_html__( 'Anonymous user', 'decalog' ) . '</em>';
+			$user = '<em>' . decalog_esc_html__( 'Anonymous user', 'decalog' ) . '</em>';
 		}
 		$id = '';
 		$se = '';
 		if ( 0 === strpos( $item['user_name'], '{' ) ) {
-			$user = '<em>' . esc_html__( 'Pseudonymized user', 'decalog' ) . '</em>';
+			$user = '<em>' . decalog_esc_html__( 'Pseudonymized user', 'decalog' ) . '</em>';
 		} elseif ( 0 !== (int) $item['user_id'] ) {
 			// phpcs:ignore
-			$id = sprintf( esc_html__( ' (UID %s)', 'decalog' ), $item[ 'user_id' ] );
-			$se = '<br /><span style="color:silver">' . sprintf( esc_html__( 'Session #%1$s…%2$s', 'decalog' ), substr( $item['user_session'], 0, 2 ), substr( $item['user_session'], -2 ) ) . '</span>';
+			$id = sprintf( decalog_esc_html__( ' (UID %s)', 'decalog' ), $item[ 'user_id' ] );
+			$se = '<br /><span style="color:silver">' . sprintf( decalog_esc_html__( 'Session #%1$s…%2$s', 'decalog' ), substr( $item['user_session'], 0, 2 ), substr( $item['user_session'], -2 ) ) . '</span>';
 		}
 		$result = $user . $id . $this->get_filter( 'user_id', $item['user_id'] ) . $this->get_actions( 'user', $item ) . $se . ( '' !== $se ? $this->get_pose_shortcut( (int) $item['user_id'] ) : '' ) . ( '' !== $se ? $this->get_filter( 'user_session', $item['user_session'] ) : '' );
 		return '<span' . ( ( $item['user_session'] ?? '' ) === $this->selftoken ? ' class="decalog-selftoken"' : '' ) . '>' . $result . '</span>';
@@ -271,7 +271,7 @@ class Events extends \WP_List_Table {
 		$ip   = $item['remote_ip'];
 		$icon = '';
 		if ( 0 === strpos( $ip, '{' ) ) {
-			$ip = '<em>' . esc_html__( 'Obfuscated', 'decalog' ) . '</em>';
+			$ip = '<em>' . decalog_esc_html__( 'Obfuscated', 'decalog' ) . '</em>';
 		} else {
 			$icon = $this->geoip->get_flag( $ip, '', 'width:14px;padding-left:4px;padding-right:4px;vertical-align:baseline;', '', '', false, true );
 		}
@@ -388,13 +388,13 @@ class Events extends \WP_List_Table {
 		if ( array_key_exists( $filter, $this->filters ) ) {
 			unset( $this->filters[ $filter ] );
 			$url    = $this->get_page_url();
-			$alt    = esc_html__( 'Remove this filter', 'decalog' );
+			$alt    = decalog_esc_html__( 'Remove this filter', 'decalog' );
 			$fill   = '#9999FF';
 			$stroke = '#0000AA';
 		} else {
 			$this->filters[ $filter ] = $value;
 			$url                      = $this->get_page_url();
-			$alt                      = esc_html__( 'Add as filter', 'decalog' );
+			$alt                      = decalog_esc_html__( 'Add as filter', 'decalog' );
 			$fill                     = 'none';
 			if ( $soft ) {
 				$stroke = '#C0C0FF';
@@ -418,7 +418,7 @@ class Events extends \WP_List_Table {
 			return '';
 		}
 		$url    = esc_url( admin_url( 'admin.php?page=pose-manager&id=' ) . $uid );
-		$alt    = esc_html__( 'See all sessions', 'decalog' );
+		$alt    = decalog_esc_html__( 'See all sessions', 'decalog' );
 		$fill   = '#C0C0FF';
 		$stroke = '#3333AA';
 		return '&nbsp;<a target="_blank" href="' . $url . '"><img title="' . $alt . '" style="width:11px;vertical-align:baseline;" src="' . Icons::get_base64( 'users', $fill, $stroke ) . '" /></a>';
@@ -466,7 +466,7 @@ class Events extends \WP_List_Table {
 		$result = '';
 		foreach ( $actions as $action ) {
 			if ( isset( $action['url'] ) ) {
-				$result .= $this->get_action( $action['url'], isset( $action['hint'] ) ? $action['hint'] : __( 'Unknown action', 'decalog' ), isset( $action['icon'] ) ? $action['icon'] : '' );
+				$result .= $this->get_action( $action['url'], isset( $action['hint'] ) ? $action['hint'] :decalog__( 'Unknown action', 'decalog' ), isset( $action['icon'] ) ? $action['icon'] : '' );
 			}
 		}
 		return $result;
@@ -562,11 +562,11 @@ class Events extends \WP_List_Table {
 		$filters = $this->filters;
 		$level   = array_key_exists( 'level', $this->filters ) ? $this->filters['level'] : '';
 		unset( $this->filters['level'] );
-		$s1                     = '<a href="' . $this->get_page_url() . '"' . ( '' === $level ? ' class="current"' : '' ) . '>' . esc_html__( 'All', 'decalog' ) . ' <span class="count">(' . $this->get_count() . ')</span></a>';
+		$s1                     = '<a href="' . $this->get_page_url() . '"' . ( '' === $level ? ' class="current"' : '' ) . '>' . decalog_esc_html__( 'All', 'decalog' ) . ' <span class="count">(' . $this->get_count() . ')</span></a>';
 		$this->filters['level'] = 'notice';
-		$s2                     = '<a href="' . $this->get_page_url() . '"' . ( 'notice' === $level ? ' class="current"' : '' ) . '>' . esc_html__( 'Notices & beyond', 'decalog' ) . ' <span class="count">(' . $this->get_count() . ')</span></a>';
+		$s2                     = '<a href="' . $this->get_page_url() . '"' . ( 'notice' === $level ? ' class="current"' : '' ) . '>' . decalog_esc_html__( 'Notices & beyond', 'decalog' ) . ' <span class="count">(' . $this->get_count() . ')</span></a>';
 		$this->filters['level'] = 'error';
-		$s3                     = '<a href="' . $this->get_page_url() . '"' . ( 'error' === $level ? ' class="current"' : '' ) . '>' . esc_html__( 'Errors & beyond', 'decalog' ) . ' <span class="count">(' . $this->get_count() . ')</span></a>';
+		$s3                     = '<a href="' . $this->get_page_url() . '"' . ( 'error' === $level ? ' class="current"' : '' ) . '>' . decalog_esc_html__( 'Errors & beyond', 'decalog' ) . ' <span class="count">(' . $this->get_count() . ')</span></a>';
 		$status_links           = [
 			'all'     => $s1,
 			'notices' => $s2,
@@ -618,7 +618,7 @@ class Events extends \WP_List_Table {
 			$l          = [];
 			$l['value'] = $d;
 			// phpcs:ignore
-			$l['text']     = sprintf( esc_html__( 'Show %d lines per page', 'decalog' ), $d );
+			$l['text']     = sprintf( decalog_esc_html__( 'Show %d lines per page', 'decalog' ), $d );
 			$l['selected'] = ( $d === (int) $this->limit ? 'selected="selected" ' : '' );
 			$result[]      = $l;
 		}
@@ -690,14 +690,14 @@ class Events extends \WP_List_Table {
 	 */
 	private static function load_columns() {
 		self::$standard_columns            = [];
-		self::$standard_columns['event']   = esc_html__( 'Event', 'decalog' );
-		self::$standard_columns['time']    = esc_html__( 'Time', 'decalog' );
-		self::$standard_columns['message'] = esc_html__( 'Message', 'decalog' );
+		self::$standard_columns['event']   = decalog_esc_html__( 'Event', 'decalog' );
+		self::$standard_columns['time']    = decalog_esc_html__( 'Time', 'decalog' );
+		self::$standard_columns['message'] = decalog_esc_html__( 'Message', 'decalog' );
 		self::$extra_columns               = [];
-		self::$extra_columns['component']  = esc_html__( 'Source', 'decalog' );
-		self::$extra_columns['site']       = esc_html__( 'Site', 'decalog' );
-		self::$extra_columns['user']       = esc_html__( 'User', 'decalog' );
-		self::$extra_columns['ip']         = esc_html__( 'Remote IP', 'decalog' );
+		self::$extra_columns['component']  = decalog_esc_html__( 'Source', 'decalog' );
+		self::$extra_columns['site']       = decalog_esc_html__( 'Site', 'decalog' );
+		self::$extra_columns['user']       = decalog_esc_html__( 'User', 'decalog' );
+		self::$extra_columns['ip']         = decalog_esc_html__( 'Remote IP', 'decalog' );
 		self::$columns_order               = [ 'event', 'component', 'time', 'site', 'user', 'ip', 'message' ];
 		self::$user_columns                = [];
 		foreach ( self::$extra_columns as $key => $extra_column ) {

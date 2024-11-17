@@ -40,8 +40,6 @@ class Initializer {
 		\Decalog\System\Cache::init();
 		\Decalog\System\Sitehealth::init();
 		\Decalog\System\APCu::init();
-		unload_textdomain( DECALOG_SLUG );
-		load_plugin_textdomain( DECALOG_SLUG );
 	}
 
 	/**

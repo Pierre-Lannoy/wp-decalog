@@ -72,7 +72,7 @@ class Log {
 	 */
 	public static function get_levels( $minimal = Logger::DEBUG, $warn = false ) {
 		$result  = [];
-		$warning = ' (' . esc_html__( 'use this only if you know what you do', 'decalog' ) . ')';
+		$warning = ' (' . decalog_esc_html__( 'use this only if you know what you do', 'decalog' ) . ')';
 		foreach ( EventTypes::$level_names as $key => $name ) {
 			if ( $key >= $minimal ) {
 				if ( Logger::DEBUG == $key && $warn) {

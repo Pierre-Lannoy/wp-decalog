@@ -163,7 +163,7 @@ class EventViewer {
 	 */
 	public function get_options() {
 		$result  = '<fieldset class="metabox-prefs">';
-		$result .= '<legend>' . esc_html__( 'Boxes', 'decalog' ) . '</legend>';
+		$result .= '<legend>' . decalog_esc_html__( 'Boxes', 'decalog' ) . '</legend>';
 		$result .= $this->meta_box_prefs();
 		$result .= '</fieldset>';
 		return $result;
@@ -238,15 +238,15 @@ class EventViewer {
 			echo '</div>';
 			echo '</form>';
 		} else {
-			echo '<h2>' . esc_html__( 'Forbidden', 'decalog' ) . '</h2>';
+			echo '<h2>' . decalog_esc_html__( 'Forbidden', 'decalog' ) . '</h2>';
 			settings_errors();
-			echo '<p>' . esc_html__( 'The event or events log you tried to access is out of your scope.', 'decalog' ) . '</p>';
-			echo '<p>' . esc_html__( 'If you think this is an error, please contact the network administrator with these details:', 'decalog' );
+			echo '<p>' . decalog_esc_html__( 'The event or events log you tried to access is out of your scope.', 'decalog' ) . '</p>';
+			echo '<p>' . decalog_esc_html__( 'If you think this is an error, please contact the network administrator with these details:', 'decalog' );
 			echo '<ul>';
 			// phpcs:ignore
-			echo '<li>' . sprintf( esc_html__( 'Events log: %s', 'decalog' ), '<code>' . $this->logid . '</code>' ) . '</li>';
+			echo '<li>' . sprintf( decalog_esc_html__( 'Events log: %s', 'decalog' ), '<code>' . $this->logid . '</code>' ) . '</li>';
 			// phpcs:ignore
-			echo '<li>' . sprintf( esc_html__( 'Event: %s', 'decalog' ), '<code>' . $this->eventid . '</code>' ) . '</li>';
+			echo '<li>' . sprintf( decalog_esc_html__( 'Event: %s', 'decalog' ), '<code>' . $this->eventid . '</code>' ) . '</li>';
 			echo '</ul>';
 			echo '</p>';
 			$this->logger->warning( sprintf( 'Trying to access out of scope event #%s from events log {%s}.', $this->eventid, $this->logid ), 403 );
@@ -278,25 +278,25 @@ class EventViewer {
 	 */
 	public function add_metaboxes() {
 		// Left column.
-		add_meta_box( 'decalog-main', esc_html__( 'Event', 'decalog' ), [ $this, 'event_widget' ], self::$screen_id, 'advanced' );
-		add_meta_box( 'decalog-message', esc_html__( 'Content', 'decalog' ), [ $this, 'message_widget' ], self::$screen_id, 'advanced' );
+		add_meta_box( 'decalog-main', decalog_esc_html__( 'Event', 'decalog' ), [ $this, 'event_widget' ], self::$screen_id, 'advanced' );
+		add_meta_box( 'decalog-message', decalog_esc_html__( 'Content', 'decalog' ), [ $this, 'message_widget' ], self::$screen_id, 'advanced' );
 		add_meta_box( 'decalog-wordpress', 'WordPress', [ $this, 'wordpress_widget' ], self::$screen_id, 'advanced' );
 		if ( $this->device->class_is_bot ) {
-			add_meta_box( 'decalog-bot', esc_html__( 'Bot details', 'decalog' ), [ $this, 'bot_widget' ], self::$screen_id, 'advanced' );
+			add_meta_box( 'decalog-bot', decalog_esc_html__( 'Bot details', 'decalog' ), [ $this, 'bot_widget' ], self::$screen_id, 'advanced' );
 		} elseif ( $this->device->class_is_desktop || $this->device->class_is_mobile ) {
-			add_meta_box( 'decalog-device', esc_html__( 'Device details', 'decalog' ), [ $this, 'device_widget' ], self::$screen_id, 'advanced' );
+			add_meta_box( 'decalog-device', decalog_esc_html__( 'Device details', 'decalog' ), [ $this, 'device_widget' ], self::$screen_id, 'advanced' );
 		} elseif ( class_exists( 'PODeviceDetector\API\Device' ) ) {
-			add_meta_box( 'decalog-other', esc_html__( 'Client details', 'decalog' ), [ $this, 'call_widget' ], self::$screen_id, 'advanced' );
+			add_meta_box( 'decalog-other', decalog_esc_html__( 'Client details', 'decalog' ), [ $this, 'call_widget' ], self::$screen_id, 'advanced' );
 		}
 		if ( 'unknown' !== ( $this->event['verb'] ?? 'unknown' ) ) {
-			add_meta_box( 'decalog-http', esc_html__( 'HTTP request', 'decalog' ), [ $this, 'http_widget' ], self::$screen_id, 'advanced' );
+			add_meta_box( 'decalog-http', decalog_esc_html__( 'HTTP request', 'decalog' ), [ $this, 'http_widget' ], self::$screen_id, 'advanced' );
 		}
-		add_meta_box( 'decalog-php', esc_html__( 'PHP introspection', 'decalog' ), [ $this, 'php_widget' ], self::$screen_id, 'advanced' );
+		add_meta_box( 'decalog-php', decalog_esc_html__( 'PHP introspection', 'decalog' ), [ $this, 'php_widget' ], self::$screen_id, 'advanced' );
 		// Right column.
 		/* translators: like in the sentence "PHP backtrace" or "WordPress backtrace" */
-		add_meta_box( 'decalog-wpbacktrace', sprintf( esc_html__( '%s backtrace', 'decalog' ), 'WordPress' ), [ $this, 'wpbacktrace_widget' ], self::$screen_id, 'side' );
+		add_meta_box( 'decalog-wpbacktrace', sprintf( decalog_esc_html__( '%s backtrace', 'decalog' ), 'WordPress' ), [ $this, 'wpbacktrace_widget' ], self::$screen_id, 'side' );
 		/* translators: like in the sentence "PHP backtrace" or "WordPress backtrace" */
-		add_meta_box( 'decalog-phpbacktrace', sprintf( esc_html__( '%s backtrace', 'decalog' ), 'PHP' ), [ $this, 'phpbacktrace_widget' ], self::$screen_id, 'side' );
+		add_meta_box( 'decalog-phpbacktrace', sprintf( decalog_esc_html__( '%s backtrace', 'decalog' ), 'PHP' ), [ $this, 'phpbacktrace_widget' ], self::$screen_id, 'side' );
 	}
 
 	/**
@@ -489,13 +489,13 @@ class EventViewer {
 	public function wordpress_widget() {
 		// User detail.
 		if ( 'anonymous' === $this->event['user_name'] ) {
-			$user = $this->get_section( '<span style="width:100%;cursor: default;word-break: break-all;">' . $this->get_icon( 'user' ) . esc_html__( 'Anonymous user', 'decalog' ) . '</span>' );
+			$user = $this->get_section( '<span style="width:100%;cursor: default;word-break: break-all;">' . $this->get_icon( 'user' ) . decalog_esc_html__( 'Anonymous user', 'decalog' ) . '</span>' );
 		} elseif ( 0 === strpos( $this->event['user_name'], '{' ) ) {
-			$user = $this->get_section( '<span style="width:100%;cursor: default;word-break: break-all;">' . $this->get_icon( 'user' ) . esc_html__( 'Pseudonymized user', 'decalog' ) . '</span>' );
+			$user = $this->get_section( '<span style="width:100%;cursor: default;word-break: break-all;">' . $this->get_icon( 'user' ) . decalog_esc_html__( 'Pseudonymized user', 'decalog' ) . '</span>' );
 		} elseif ( 0 !== (int) $this->event['user_id'] ) {
 			$user = $this->get_section( '<span style="width:100%;cursor: default;word-break: break-all;">' . $this->get_icon( 'user-check' ) . User::get_user_string( (int) $this->event['user_id'] ) . '</span>' );
 		} else {
-			$user = $this->get_section( '<span style="width:100%;cursor: default;word-break: break-all;">' . $this->get_icon( 'user-x' ) . esc_html__( 'Deleted user', 'decalog' ) . '</span>' );
+			$user = $this->get_section( '<span style="width:100%;cursor: default;word-break: break-all;">' . $this->get_icon( 'user-x' ) . decalog_esc_html__( 'Deleted user', 'decalog' ) . '</span>' );
 		}
 		// Site detail.
 		$content = '<span style="width:100%;cursor: default;">' . $this->get_icon( 'layout' ) . $this->event['site_name'] . '</span>';
@@ -514,7 +514,7 @@ class EventViewer {
 		$ip   = $this->event['remote_ip'];
 		$icon = '';
 		if ( 0 === strpos( $ip, '{' ) ) {
-			$ip = esc_html__( 'obfuscated IP', 'decalog' );
+			$ip = decalog_esc_html__( 'obfuscated IP', 'decalog' );
 		} else {
 			if ( filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_RES_RANGE | FILTER_FLAG_NO_PRIV_RANGE ) ) {
 				$geoip = new GeoIP();
@@ -522,7 +522,7 @@ class EventViewer {
 			}
 		}
 		// phpcs:ignore
-		$ip      = sprintf( esc_html__( 'from %s', 'decalog' ), $icon . $ip );
+		$ip      = sprintf( decalog_esc_html__( 'from %s', 'decalog' ), $icon . $ip );
 		$content = '<span style="width:100%;cursor: default;word-break: break-all;">' . $this->get_icon( 'layout' ) . $this->event['server'] . ' ' .  $ip  . '</span>';
 		$server  = $this->get_section( $content );
 		// Request detail.
@@ -556,7 +556,7 @@ class EventViewer {
 				'id'   => $this->device->client_short_name,
 			];
 			$iclient = '<img style="width:16px;float:left;padding-right:6px;" src="' . $this->device->browser_icon_base64() . '" />';
-			$client  = $this->get_internal_link( UserAgent::get_analytics_url( $url ), ( '-' !== $this->device->client_name ? $this->device->client_name : esc_html__( 'Generic', 'decalog' ) ) ) . ( '-' !== $this->device->client_version ? ' ' . $this->device->client_version : '' );
+			$client  = $this->get_internal_link( UserAgent::get_analytics_url( $url ), ( '-' !== $this->device->client_name ? $this->device->client_name : decalog_esc_html__( 'Generic', 'decalog' ) ) ) . ( '-' !== $this->device->client_version ? ' ' . $this->device->client_version : '' );
 			$content = '<span style="width:100%;cursor: default;">' . $iclient . $client . '</span> <span style="color:silver">(' . $this->device->client_engine . ')</span>';
 			return $this->get_section( $content );
 		}
@@ -566,10 +566,10 @@ class EventViewer {
 			'id'   => $this->device->client_short_name,
 		];
 		if ( '' !== $this->device->client_name ) {
-			$client  = $this->get_internal_link( UserAgent::get_analytics_url( $url ), ( '-' !== $this->device->client_name ? $this->device->client_name : esc_html__( 'Generic', 'decalog' ) ) ) . ( '-' !== $this->device->client_version ? ' ' . $this->device->client_version : '' );
+			$client  = $this->get_internal_link( UserAgent::get_analytics_url( $url ), ( '-' !== $this->device->client_name ? $this->device->client_name : decalog_esc_html__( 'Generic', 'decalog' ) ) ) . ( '-' !== $this->device->client_version ? ' ' . $this->device->client_version : '' );
 			$content = '<span style="width:100%;cursor: default;">' . $this->get_icon( 'play-circle' ) . $client . '</span> <span style="color:silver">' . $this->device->client_full_type . '</span>';
 		} else {
-			$content = '<span style="width:100%;cursor: default;">' . $this->get_icon( 'play-circle' ) . esc_html__( 'Local shell', 'decalog' ) . '</span>';
+			$content = '<span style="width:100%;cursor: default;">' . $this->get_icon( 'play-circle' ) . decalog_esc_html__( 'Local shell', 'decalog' ) . '</span>';
 		}
 
 		return $this->get_section( $content );
@@ -593,7 +593,7 @@ class EventViewer {
 			'extended' => '' !== $this->device->model_name ? $this->device->model_name : '-',
 		];
 		$idevice  = '<img style="width:16px;float:left;padding-right:6px;" src="' . $this->device->brand_icon_base64() . '" />';
-		$device   = ( '-' !== $this->device->brand_name && '' !== $this->device->brand_name ? $this->device->brand_name : esc_html__( 'Generic', 'decalog' ) ) . ( '-' !== $this->device->model_name ? ' ' . $this->device->model_name : '' );
+		$device   = ( '-' !== $this->device->brand_name && '' !== $this->device->brand_name ? $this->device->brand_name : decalog_esc_html__( 'Generic', 'decalog' ) ) . ( '-' !== $this->device->model_name ? ' ' . $this->device->model_name : '' );
 		$device   = $this->get_internal_link( UserAgent::get_analytics_url( $url ), $device );
 		$url      = [
 			'site' => $this->event['site_id'],
@@ -601,7 +601,7 @@ class EventViewer {
 			'id'   => $this->device->os_short_name,
 		];
 		$ios      = '<img style="width:16px;float:left;padding-right:6px;" src="' . $this->device->os_icon_base64() . '" />';
-		$os       = ( '-' !== $this->device->os_name ? $this->get_internal_link( UserAgent::get_analytics_url( $url ), $this->device->os_name ) : esc_html__( 'Unknown', 'decalog' ) ) . ( '-' !== $this->device->os_version ? ' ' . $this->device->os_version : '' );
+		$os       = ( '-' !== $this->device->os_name ? $this->get_internal_link( UserAgent::get_analytics_url( $url ), $this->device->os_name ) : decalog_esc_html__( 'Unknown', 'decalog' ) ) . ( '-' !== $this->device->os_version ? ' ' . $this->device->os_version : '' );
 		$content  = '<span style="width:40%;cursor: default;float:left">' . $idevice . $device . '</span>';
 		$content .= '<span style="width:60%;cursor: default;">' . $ios . $os . '</span>';
 		$model    = $this->get_section( $content );
@@ -616,11 +616,11 @@ class EventViewer {
 	 */
 	public function bot_widget() {
 		$ibot     = '<img style="width:16px;float:left;padding-right:7px;padding-left:1px;" src="' . $this->device->bot_icon_base64() . '" />';
-		$bot      = ( 1 < strlen( $this->device->bot_name ) ? $this->device->bot_name : esc_html__( 'Unknown', 'decalog' ) );
+		$bot      = ( 1 < strlen( $this->device->bot_name ) ? $this->device->bot_name : decalog_esc_html__( 'Unknown', 'decalog' ) );
 		$content  = '<span style="width:100%;cursor: default;">' . $ibot . $bot . $this->get_external_link( $this->device->bot_url ) . '</span>';
 		$model    = $this->get_section( $content );
 		$imanuf   = $this->get_icon( 'home' );
-		$manuf    = ( 1 < strlen( $this->device->bot_producer_name ) ? $this->device->bot_producer_name : esc_html__( 'Unknown', 'decalog' ) );
+		$manuf    = ( 1 < strlen( $this->device->bot_producer_name ) ? $this->device->bot_producer_name : decalog_esc_html__( 'Unknown', 'decalog' ) );
 		$itype    = $this->get_icon( 'info' );
 		$type     = $this->device->bot_full_category;
 		$content  = '<span style="width:40%;cursor: default;float:left">' . $itype . $type . '</span>';
@@ -649,7 +649,7 @@ class EventViewer {
 		if ( array_key_exists( 'file', $this->event ) ) {
 			$element = PHP::normalized_file( $this->event['file'] ) . ':' . ( $this->event['line'] ?? '' );
 		} else {
-			$element = esc_html__( 'Unknown', 'decalog' );
+			$element = decalog_esc_html__( 'Unknown', 'decalog' );
 		}
 		$element = '<span style="width:100%;cursor: default;word-break: break-all;">' . $this->get_icon( 'file-text' ) . $element . '</span>';
 		$file    = $this->get_section( $element );
@@ -687,13 +687,13 @@ class EventViewer {
 							$element .= '<br/><span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="width:100%;cursor: default;">' . $this->get_icon( 'file-text' ) . $item['file'] . '</span>';
 						}
 					} else {
-						$element = '<span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="width:100%;cursor: default;">' . $this->get_icon( 'eye-off' ) . esc_html__( 'No backtrace available', 'decalog' ) . '</span>';
+						$element = '<span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="width:100%;cursor: default;">' . $this->get_icon( 'eye-off' ) . decalog_esc_html__( 'No backtrace available', 'decalog' ) . '</span>';
 					}
 					$content .= $this->get_section( $element );
 				}
 			}
 		} else {
-			$content = '<span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="width:100%;cursor: default;">' . $this->get_icon( 'eye-off' ) . esc_html__( 'No backtrace available', 'decalog' ) . '</span>';
+			$content = '<span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="width:100%;cursor: default;">' . $this->get_icon( 'eye-off' ) . decalog_esc_html__( 'No backtrace available', 'decalog' ) . '</span>';
 		}
 		$this->output_activity_block( $content, 'phpbacktrace' );
 	}
@@ -720,13 +720,13 @@ class EventViewer {
 							$element = '<span style="font-family:monospace;font-size:8px;font-weight: bold;vertical-align: middle;padding:3px;background-color:#F9F9F9;color:#9999BB;border:2px solid #9999BB;border-radius:50%;cursor: default;">' . $idx . '</span> &nbsp;' . $item;
 						}
 					} else {
-						$element = '<span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="width:100%;cursor: default;">' . $this->get_icon( 'eye-off' ) . esc_html__( 'No backtrace available', 'decalog' ) . '</span>';
+						$element = '<span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="width:100%;cursor: default;">' . $this->get_icon( 'eye-off' ) . decalog_esc_html__( 'No backtrace available', 'decalog' ) . '</span>';
 					}
 					$content .= $this->get_section( $element );
 				}
 			}
 		} else {
-			$content = '<span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="width:100%;cursor: default;">' . $this->get_icon( 'eye-off' ) . esc_html__( 'No backtrace available', 'decalog' ) . '</span>';
+			$content = '<span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="width:100%;cursor: default;">' . $this->get_icon( 'eye-off' ) . decalog_esc_html__( 'No backtrace available', 'decalog' ) . '</span>';
 		}
 		$this->output_activity_block( $content, 'wpbacktrace' );
 	}

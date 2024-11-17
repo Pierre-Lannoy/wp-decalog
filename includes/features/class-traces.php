@@ -179,7 +179,7 @@ class Traces extends \WP_List_Table {
 		$icon            = '<img style="width:18px;float:left;padding-right:6px;" src="' . Icons::get_base64( 'clock', '#ABCFF9', '#192783' ) . '" />';
 		$name            = '<a href="' . $url . '">' . ChannelTypes::$channel_names[ strtoupper( $item['channel'] ) ] . '</a>' . $this->get_filter( 'channel', $item['channel'] ) . $this->get_actions( 'trace', $item ) . '&nbsp;<span style="color:silver">#' . $item['id'] . '</span>';
 		/* translators: as in the sentence "TraceID xxxx" */
-		$code   = '<br /><span style="color:silver">' . sprintf( esc_html__( 'TraceID %s', 'decalog' ), $item['trace_id'] ) . '</span>';
+		$code   = '<br /><span style="color:silver">' . sprintf( decalog_esc_html__( 'TraceID %s', 'decalog' ), $item['trace_id'] ) . '</span>';
 		$result = $icon . $name . $code;
 		return $result;
 	}
@@ -193,7 +193,7 @@ class Traces extends \WP_List_Table {
 	 */
 	protected function column_duration( $item ) {
 		$name   = $item['duration'] . ' ms';
-		$result = $name . $this->get_actions( 'duration', $item ) . '<br /><span style="color:silver">' . sprintf( esc_html__( '%d spans', 'decalog' ), $item['scount'] ) . '</span>';
+		$result = $name . $this->get_actions( 'duration', $item ) . '<br /><span style="color:silver">' . sprintf( decalog_esc_html__( '%d spans', 'decalog' ), $item['scount'] ) . '</span>';
 		return $result;
 	}
 
@@ -220,7 +220,7 @@ class Traces extends \WP_List_Table {
 	protected function column_site( $item ) {
 		$name = $item['site_name'] . $this->get_filter( 'site_id', $item['site_id'] ) . $this->get_actions( 'site', $item );
 		// phpcs:ignore
-		$result = $name . '<br /><span style="color:silver">' . sprintf(esc_html__('Site ID %s', 'decalog'), $item['site_id'] ) . '</span>';
+		$result = $name . '<br /><span style="color:silver">' . sprintf(decalog_esc_html__('Site ID %s', 'decalog'), $item['site_id'] ) . '</span>';
 		return $result;
 	}
 
@@ -234,16 +234,16 @@ class Traces extends \WP_List_Table {
 	protected function column_user( $item ) {
 		$user = $item['user_name'];
 		if ( 'anonymous' === $user ) {
-			$user = '<em>' . esc_html__( 'Anonymous user', 'decalog' ) . '</em>';
+			$user = '<em>' . decalog_esc_html__( 'Anonymous user', 'decalog' ) . '</em>';
 		}
 		$id = '';
 		$se = '';
 		if ( 0 === strpos( $item['user_name'], '{' ) ) {
-			$user = '<em>' . esc_html__( 'Pseudonymized user', 'decalog' ) . '</em>';
+			$user = '<em>' . decalog_esc_html__( 'Pseudonymized user', 'decalog' ) . '</em>';
 		} elseif ( 0 !== (int) $item['user_id'] ) {
 			// phpcs:ignore
-			$id = sprintf( esc_html__( ' (UID %s)', 'decalog' ), $item[ 'user_id' ] );
-			$se = '<br /><span style="color:silver">' . sprintf( esc_html__( 'Session #%s…%s', 'decalog' ), substr( $item[ 'user_session' ], 0, 2 ), substr( $item[ 'user_session' ], -2 ) ) . '</span>';
+			$id = sprintf( decalog_esc_html__( ' (UID %s)', 'decalog' ), $item[ 'user_id' ] );
+			$se = '<br /><span style="color:silver">' . sprintf( decalog_esc_html__( 'Session #%s…%s', 'decalog' ), substr( $item[ 'user_session' ], 0, 2 ), substr( $item[ 'user_session' ], -2 ) ) . '</span>';
 		}
 		$result = $user . $id . $this->get_filter( 'user_id', $item['user_id'] ) . $this->get_actions( 'user', $item ) . $se . ( '' !== $se ? $this->get_pose_shortcut( (int) $item['user_id'] ) : '' ) . ( '' !== $se ? $this->get_filter( 'user_session', $item['user_session'] ) : '' );
 		return '<span' . ( ( $item['user_session'] ?? '') === $this->selftoken ? ' class="decalog-selftoken"' : '' ) . '>' . $result . '</span>';
@@ -338,13 +338,13 @@ class Traces extends \WP_List_Table {
 		if ( array_key_exists( $filter, $this->filters ) ) {
 			unset( $this->filters[ $filter ] );
 			$url    = $this->get_page_url();
-			$alt    = esc_html__( 'Remove this filter', 'decalog' );
+			$alt    = decalog_esc_html__( 'Remove this filter', 'decalog' );
 			$fill   = '#9999FF';
 			$stroke = '#0000AA';
 		} else {
 			$this->filters[ $filter ] = $value;
 			$url                      = $this->get_page_url();
-			$alt                      = esc_html__( 'Add as filter', 'decalog' );
+			$alt                      = decalog_esc_html__( 'Add as filter', 'decalog' );
 			$fill                     = 'none';
 			if ( $soft ) {
 				$stroke = '#C0C0FF';
@@ -368,7 +368,7 @@ class Traces extends \WP_List_Table {
 			return '';
 		}
 		$url    = esc_url( admin_url( 'admin.php?page=pose-manager&id=' ) . $uid );
-		$alt    = esc_html__( 'See all sessions', 'decalog' );
+		$alt    = decalog_esc_html__( 'See all sessions', 'decalog' );
 		$fill   = '#C0C0FF';
 		$stroke = '#3333AA';
 		return '&nbsp;<a target="_blank" href="' . $url . '"><img title="' . $alt . '" style="width:11px;vertical-align:baseline;" src="' . Icons::get_base64( 'users', $fill, $stroke ) . '" /></a>';
@@ -412,7 +412,7 @@ class Traces extends \WP_List_Table {
 		$result = '';
 		foreach ( $actions as $action ) {
 			if ( isset( $action['url'] ) ) {
-				$result .= $this->get_action( $action['url'], isset( $action['hint'] ) ? $action['hint'] : __( 'Unknown action', 'decalog' ), isset( $action['icon'] ) ? $action['icon'] : '' );
+				$result .= $this->get_action( $action['url'], isset( $action['hint'] ) ? $action['hint'] :decalog__( 'Unknown action', 'decalog' ), isset( $action['icon'] ) ? $action['icon'] : '' );
 			}
 		}
 		return $result;
@@ -541,7 +541,7 @@ class Traces extends \WP_List_Table {
 			$l          = [];
 			$l['value'] = $d;
 			// phpcs:ignore
-			$l['text']     = sprintf( esc_html__( 'Show %d lines per page', 'decalog' ), $d );
+			$l['text']     = sprintf( decalog_esc_html__( 'Show %d lines per page', 'decalog' ), $d );
 			$l['selected'] = ( $d === (int) $this->limit ? 'selected="selected" ' : '' );
 			$result[]      = $l;
 		}
@@ -613,12 +613,12 @@ class Traces extends \WP_List_Table {
 	 */
 	private static function load_columns() {
 		self::$standard_columns             = [];
-		self::$standard_columns['trace']    = esc_html__( 'Trace', 'decalog' );
-		self::$standard_columns['duration'] = esc_html__( 'Duration', 'decalog' );
-		self::$standard_columns['time']     = esc_html__( 'Time', 'decalog' );
+		self::$standard_columns['trace']    = decalog_esc_html__( 'Trace', 'decalog' );
+		self::$standard_columns['duration'] = decalog_esc_html__( 'Duration', 'decalog' );
+		self::$standard_columns['time']     = decalog_esc_html__( 'Time', 'decalog' );
 		self::$extra_columns                = [];
-		self::$extra_columns['site']        = esc_html__( 'Site', 'decalog' );
-		self::$extra_columns['user']        = esc_html__( 'User', 'decalog' );
+		self::$extra_columns['site']        = decalog_esc_html__( 'Site', 'decalog' );
+		self::$extra_columns['user']        = decalog_esc_html__( 'User', 'decalog' );
 		self::$columns_order                = [ 'trace', 'duration', 'time', 'site', 'user' ];
 		self::$user_columns                 = [];
 		foreach ( self::$extra_columns as $key => $extra_column ) {

@@ -29,7 +29,7 @@ class PsrListener extends AbstractListener {
 	 */
 	protected function init() {
 		$this->id      = 'psr3';
-		$this->name    = esc_html__( 'PSR-3 compliant listeners', 'decalog' );
+		$this->name    = 'a';//decalog_esc_html__( 'PSR-3 compliant listeners', 'decalog' );
 		$this->class   = 'psr3';
 		$this->product = DECALOG_PRODUCT_NAME;
 		$this->version = DECALOG_VERSION;

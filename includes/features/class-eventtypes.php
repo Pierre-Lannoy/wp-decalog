@@ -159,23 +159,23 @@ class EventTypes {
 		self::$icons['emergency'] = Feather\Icons::get_base64( 'x-circle', '#FFB7B7', '#AA0000' );
 		self::$level_texts        = [];
 		/* translators: definition of an event typed 'UNKNOWN' */
-		self::$level_texts['unknown'] = esc_html__( 'The event is not typed, this can\'t be a good news.', 'decalog' );
+		self::$level_texts['unknown'] = decalog_esc_html__( 'The event is not typed, this can\'t be a good news.', 'decalog' );
 		/* translators: definition of an event typed 'DEBUG', see https://github.com/Pierre-Lannoy/wp-decalog/blob/master/DEVELOPER.md for details*/
-		self::$level_texts['debug'] = esc_html__( 'An information for developers and testers. Only used for events related to application/system debugging.', 'decalog' );
+		self::$level_texts['debug'] = decalog_esc_html__( 'An information for developers and testers. Only used for events related to application/system debugging.', 'decalog' );
 		/* translators: definition of an event typed 'INFO', see https://github.com/Pierre-Lannoy/wp-decalog/blob/master/DEVELOPER.md for details*/
-		self::$level_texts['info'] = esc_html__( 'A standard information, just for you to know… and forget!', 'decalog' );
+		self::$level_texts['info'] = decalog_esc_html__( 'A standard information, just for you to know… and forget!', 'decalog' );
 		/* translators: definition of an event typed 'NOTICE', see https://github.com/Pierre-Lannoy/wp-decalog/blob/master/DEVELOPER.md for details*/
-		self::$level_texts['notice'] = esc_html__( 'A normal but significant condition. Now you know!', 'decalog' );
+		self::$level_texts['notice'] = decalog_esc_html__( 'A normal but significant condition. Now you know!', 'decalog' );
 		/* translators: definition of an event typed 'WARNING', see https://github.com/Pierre-Lannoy/wp-decalog/blob/master/DEVELOPER.md for details*/
-		self::$level_texts['warning'] = esc_html__( 'A significant condition indicating a situation that may lead to an error if recurring or if no action is taken. Does not usually affect the operations.', 'decalog' );
+		self::$level_texts['warning'] = decalog_esc_html__( 'A significant condition indicating a situation that may lead to an error if recurring or if no action is taken. Does not usually affect the operations.', 'decalog' );
 		/* translators: definition of an event typed 'ERROR', see https://github.com/Pierre-Lannoy/wp-decalog/blob/master/DEVELOPER.md for details*/
-		self::$level_texts['error'] = esc_html__( 'A minor operating error that may affects the operations. It requires investigation and preventive treatment.', 'decalog' );
+		self::$level_texts['error'] = decalog_esc_html__( 'A minor operating error that may affects the operations. It requires investigation and preventive treatment.', 'decalog' );
 		/* translators: definition of an event typed 'CRITICAL', see https://github.com/Pierre-Lannoy/wp-decalog/blob/master/DEVELOPER.md for details*/
-		self::$level_texts['critical'] = esc_html__( 'An operating error that undoubtedly affects the operations. It requires investigation and corrective treatment.', 'decalog' );
+		self::$level_texts['critical'] = decalog_esc_html__( 'An operating error that undoubtedly affects the operations. It requires investigation and corrective treatment.', 'decalog' );
 		/* translators: definition of an event typed 'ALERT', see https://github.com/Pierre-Lannoy/wp-decalog/blob/master/DEVELOPER.md for details*/
-		self::$level_texts['alert'] = esc_html__( 'A major operating error that undoubtedly affects the operations. It requires immediate investigation and corrective treatment.', 'decalog' );
+		self::$level_texts['alert'] = decalog_esc_html__( 'A major operating error that undoubtedly affects the operations. It requires immediate investigation and corrective treatment.', 'decalog' );
 		/* translators: definition of an event typed 'EMERGENCY', see https://github.com/Pierre-Lannoy/wp-decalog/blob/master/DEVELOPER.md for details*/
-		self::$level_texts['emergency'] = esc_html__( 'A panic condition. WordPress is unusable.', 'decalog' );
+		self::$level_texts['emergency'] = decalog_esc_html__( 'A panic condition. WordPress is unusable.', 'decalog' );
 	}
 
 	/**

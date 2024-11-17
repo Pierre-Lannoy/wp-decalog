@@ -190,25 +190,25 @@ class Loggers extends \WP_List_Table {
 		$handler           = $this->handler_types->get( $item['handler'] );
 		$icon              = '<img style="width:38px;float:left;padding-right:6px;" src="' . $handler['icon'] . '" />';
 		if ( 'system' !== $handler['class'] ) {
-			$actions['edit']   = sprintf( '<a href="%s">' . esc_html__( 'Edit', 'decalog' ) . '</a>', $edit );
-			$actions['delete'] = sprintf( '<a href="%s">' . esc_html__( 'Remove', 'decalog' ) . '</a>', $delete );
+			$actions['edit']   = sprintf( '<a href="%s">' . decalog_esc_html__( 'Edit', 'decalog' ) . '</a>', $edit );
+			$actions['delete'] = sprintf( '<a href="%s">' . decalog_esc_html__( 'Remove', 'decalog' ) . '</a>', $delete );
 			if ( $item['running'] ) {
-				$actions['pause'] = sprintf( '<a href="%s">' . esc_html__( 'Pause', 'decalog' ) . '</a>', $pause );
+				$actions['pause'] = sprintf( '<a href="%s">' . decalog_esc_html__( 'Pause', 'decalog' ) . '</a>', $pause );
 			} else {
-				$actions['start'] = sprintf( '<a href="%s">' . esc_html__( 'Start', 'decalog' ) . '</a>', $start );
+				$actions['start'] = sprintf( '<a href="%s">' . decalog_esc_html__( 'Start', 'decalog' ) . '</a>', $start );
 			}
 			if ( 'WordpressHandler' === $handler['id'] ) {
-				$actions['view'] = sprintf( '<a href="%s">' . esc_html__( 'View', 'decalog' ) . '</a>', $view );
+				$actions['view'] = sprintf( '<a href="%s">' . decalog_esc_html__( 'View', 'decalog' ) . '</a>', $view );
 			}
 			if ( 'WordpressTracingHandler' === $handler['id'] ) {
-				$actions['view'] = sprintf( '<a href="%s">' . esc_html__( 'View', 'decalog' ) . '</a>', $tview );
+				$actions['view'] = sprintf( '<a href="%s">' . decalog_esc_html__( 'View', 'decalog' ) . '</a>', $tview );
 			}
 			if ( 'PrometheusMetricsEPHandler' === $handler['id'] ) {
-				$actions['epview'] = sprintf( '<a href="%s" target="_blank">' . esc_html__( 'View', 'decalog' ) . '</a>', $epview );
+				$actions['epview'] = sprintf( '<a href="%s" target="_blank">' . decalog_esc_html__( 'View', 'decalog' ) . '</a>', $epview );
 			}
 		}
 		if ( $item['running'] && 'metrics' !== ( $this->handler_types->get( $item['handler'] ) )['class'] && 'tracing' !== ( $this->handler_types->get( $item['handler'] ) )['class'] ) {
-			$actions['test'] = sprintf( '<a href="%s">' . esc_html__( 'Send Test', 'decalog' ) . '</a>', $test );
+			$actions['test'] = sprintf( '<a href="%s">' . decalog_esc_html__( 'Send Test', 'decalog' ) . '</a>', $test );
 		}
 		return $icon . '&nbsp;' . sprintf( '<a href="%1$s">%2$s</a><br /><span style="color:silver">&nbsp;%3$s</span>%4$s', $edit, $item['name'], $handler['name'], $this->row_actions( $actions ) );
 	}
@@ -221,8 +221,8 @@ class Loggers extends \WP_List_Table {
 	 * @since    1.0.0
 	 */
 	protected function column_status( $item ) {
-		$running = '<span style="vertical-align: middle;font-size:10px;padding:2px 6px;display: inline-block;text-transform:uppercase;font-weight: bold;background-color:#4AA03E;color:#F9F9F9;border-radius:2px;cursor: default;word-break: break-word;">▶&nbsp;' . esc_html__( 'Running', 'decalog' ) . '</span>';
-		$paused  = '<span style="vertical-align: middle;font-size:10px;padding:2px 6px;display: inline-block;text-transform:uppercase;font-weight: bold;background-color:#E0E0E0;color:#AAAAAA;border-radius:2px;cursor: default;word-break: break-word;">❙❙&nbsp;' . esc_html__( 'Paused', 'decalog' ) . '</span>';
+		$running = '<span style="vertical-align: middle;font-size:10px;padding:2px 6px;display: inline-block;text-transform:uppercase;font-weight: bold;background-color:#4AA03E;color:#F9F9F9;border-radius:2px;cursor: default;word-break: break-word;">▶&nbsp;' . decalog_esc_html__( 'Running', 'decalog' ) . '</span>';
+		$paused  = '<span style="vertical-align: middle;font-size:10px;padding:2px 6px;display: inline-block;text-transform:uppercase;font-weight: bold;background-color:#E0E0E0;color:#AAAAAA;border-radius:2px;cursor: default;word-break: break-word;">❙❙&nbsp;' . decalog_esc_html__( 'Paused', 'decalog' ) . '</span>';
 		return ( $item['running'] ? $running : $paused );
 	}
 
@@ -236,7 +236,7 @@ class Loggers extends \WP_List_Table {
 	protected function column_details( $item ) {
 		$result = '';
 		$class  = ( $this->handler_types->get( $item['handler'] ) )['class'];
-		$list[] = '<span style="vertical-align: middle;font-size:9px;padding:2px 6px;text-transform:uppercase;font-weight: bold;background-color:#9999BB;color:#F9F9F9;border-radius:2px;cursor: default;word-break: break-word;">' . esc_html__( 'Standard', 'decalog' ) . '</span>';
+		$list[] = '<span style="vertical-align: middle;font-size:9px;padding:2px 6px;text-transform:uppercase;font-weight: bold;background-color:#9999BB;color:#F9F9F9;border-radius:2px;cursor: default;word-break: break-word;">' . decalog_esc_html__( 'Standard', 'decalog' ) . '</span>';
 		foreach ( $item['processors'] as $processor ) {
 			$list[] = '<span style="vertical-align: middle;font-size:9px;padding:2px 6px;text-transform:uppercase;font-weight: bold;background-color:#9999BB;color:#F9F9F9;border-radius:2px;cursor: default;word-break: break-word;">' . str_replace( ' ', '&nbsp;', $this->processor_types->get( $processor )['name'] ) . '</span>';
 		}
@@ -253,16 +253,16 @@ class Loggers extends \WP_List_Table {
 			if ( isset( $item['configuration']['profile'] ) ) {
 				switch ( $item['configuration']['profile'] ) {
 					case 550:
-						$level = esc_html__( 'Forced', 'decalog' ) . ' / ' . esc_html__( 'Development', 'decalog' );
+						$level = decalog_esc_html__( 'Forced', 'decalog' ) . ' / ' . decalog_esc_html__( 'Development', 'decalog' );
 						break;
 					case 600:
-						$level = esc_html__( 'Forced', 'decalog' ) . ' / ' . esc_html__( 'Production', 'decalog' );
+						$level = decalog_esc_html__( 'Forced', 'decalog' ) . ' / ' . decalog_esc_html__( 'Production', 'decalog' );
 						break;
 					default:
 						if ( 'production' === Environment::stage() ) {
-							$level = esc_html__( 'Automatic', 'decalog' ) . ' / ' . esc_html__( 'Production', 'decalog' );
+							$level = decalog_esc_html__( 'Automatic', 'decalog' ) . ' / ' . decalog_esc_html__( 'Production', 'decalog' );
 						} else {
-							$level = esc_html__( 'Automatic', 'decalog' ) . ' / ' . esc_html__( 'Development', 'decalog' );
+							$level = decalog_esc_html__( 'Automatic', 'decalog' ) . ' / ' . decalog_esc_html__( 'Development', 'decalog' );
 						}
 				}
 				$result .= '<br/><span style="vertical-align: middle;font-size:9px;padding:2px 6px;text-transform:uppercase;font-weight: bold;background-color:#9999BB;color:#F9F9F9;border-radius:2px;cursor: default;word-break: break-word;">' . str_replace( ' ', '&nbsp;', $level ) . '</span>';
@@ -302,10 +302,10 @@ class Loggers extends \WP_List_Table {
 	 */
 	public function get_columns() {
 		$columns = [
-			'name'    => esc_html__( 'Logger', 'decalog' ),
-			'status'  => esc_html__( 'Status', 'decalog' ),
-			'type'    => esc_html__( 'Type', 'decalog' ),
-			'details' => esc_html__( 'Settings', 'decalog' ),
+			'name'    => decalog_esc_html__( 'Logger', 'decalog' ),
+			'status'  => decalog_esc_html__( 'Status', 'decalog' ),
+			'type'    => decalog_esc_html__( 'Type', 'decalog' ),
+			'details' => decalog_esc_html__( 'Settings', 'decalog' ),
 		];
 		return $columns;
 	}

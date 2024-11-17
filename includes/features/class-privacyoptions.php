@@ -52,8 +52,8 @@ class PrivacyOptions {
 	 * @since    3.5.0
 	 */
 	public static function init() {
-		self::$options_names['obfuscation']       = esc_html__( 'Obfuscation', 'decalog' );
-		self::$options_names['pseudonymization']  = esc_html__( 'Pseudonymization', 'decalog' );
+		self::$options_names['obfuscation']       = decalog_esc_html__( 'Obfuscation', 'decalog' );
+		self::$options_names['pseudonymization']  = decalog_esc_html__( 'Pseudonymization', 'decalog' );
 		self::$options_icons['obfuscation']       = 'eye';
 		self::$options_icons['pseudonymization']  = 'user';
 	}

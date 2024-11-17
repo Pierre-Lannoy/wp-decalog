@@ -122,7 +122,7 @@ class Sitehealth {
 		$key = 'perfopsone_objectcache';
 		if ( ! array_key_exists( $key, $debug_info ) ) {
 			$debug_info[ $key ] = [
-				'label'  => 'PerfOps One - ' . esc_html__( 'Object cache', 'decalog' ),
+				'label'  => 'PerfOps One - ' . decalog_esc_html__( 'Object cache', 'decalog' ),
 				'fields' => Cache::debug_info(),
 			];
 		}
@@ -130,7 +130,7 @@ class Sitehealth {
 		if ( ! array_key_exists( $key, $debug_info ) ) {
 			$debug_info[ $key ] = [
 				'label'       => 'OPcache',
-				'description' => esc_html__( 'OPcache settings and status', 'decalog' ),
+				'description' => decalog_esc_html__( 'OPcache settings and status', 'decalog' ),
 				'fields'      => OPcache::debug_info(),
 			];
 		}
@@ -147,7 +147,7 @@ class Sitehealth {
 	public static function plugin_info( $debug_info ) {
 		$debug_info[ self::$slug ] = [
 			'label'       => DECALOG_PRODUCT_NAME,
-			'description' => esc_html__( 'Plugin diagnostic information', 'decalog' ),
+			'description' => decalog_esc_html__( 'Plugin diagnostic information', 'decalog' ),
 			'fields'      => Option::debug_info(),
 		];
 		return $debug_info;
@@ -163,8 +163,8 @@ class Sitehealth {
 	public static function loggers_info( $debug_info ) {
 		$maintener                              = new LoggerMaintainer();
 		$debug_info[ self::$slug . '_loggers' ] = [
-			'label'       => esc_html__( 'Loggers', 'decalog' ),
-			'description' => esc_html__( 'Loggers list', 'decalog' ),
+			'label'       => decalog_esc_html__( 'Loggers', 'decalog' ),
+			'description' => decalog_esc_html__( 'Loggers list', 'decalog' ),
 			'show_count'  => true,
 			'fields'      => $maintener->debug_info(),
 		];
@@ -182,7 +182,7 @@ class Sitehealth {
 		$key = 'perfopsone_objectcache';
 		if ( ! array_key_exists( $key, $tests['direct'] ) ) {
 			$tests['direct'][ $key ] = [
-				'label' => __( 'Object Cache Test', 'decalog' ),
+				'label' =>decalog__( 'Object Cache Test', 'decalog' ),
 				'test'  => [ self::class, 'perfopsone_test_objectcache_do' ],
 			];
 		}
@@ -200,38 +200,38 @@ class Sitehealth {
 		$analytics = Cache::get_analytics();
 		if ( 'apcu' === $analytics['type'] ) {
 			return [
-				'label'       => esc_html__( 'You should improve object caching', 'decalog' ),
+				'label'       => decalog_esc_html__( 'You should improve object caching', 'decalog' ),
 				'status'      => 'recommended',
 				'badge'       => [
-					'label' => esc_html__( 'Performance', 'decalog' ),
+					'label' => decalog_esc_html__( 'Performance', 'decalog' ),
 					'color' => 'blue',
 				],
-				'description' => sprintf( '<p>%s %s</p>', esc_html__( 'APCu is available on your site, but only PerfOps One suite and some few other plugins know how to take advantage of it.', 'decalog' ), sprintf( esc_html__( 'You should consider using %s to improve your site\'s speed.', 'decalog' ), '<a href="https://perfops.one/apcu-manager/">APCu Manager</a>' ) ),
+				'description' => sprintf( '<p>%s %s</p>', decalog_esc_html__( 'APCu is available on your site, but only PerfOps One suite and some few other plugins know how to take advantage of it.', 'decalog' ), sprintf( decalog_esc_html__( 'You should consider using %s to improve your site\'s speed.', 'decalog' ), '<a href="https://perfops.one/apcu-manager/">APCu Manager</a>' ) ),
 				'actions'     => '',
 				'test'        => $key,
 			];
 		}
 		if ( 'object_cache' === $analytics['type'] ) {
 			return [
-				'label'       => esc_html__( 'Your site uses object caching', 'decalog' ),
+				'label'       => decalog_esc_html__( 'Your site uses object caching', 'decalog' ),
 				'status'      => 'good',
 				'badge'       => [
-					'label' => esc_html__( 'Performance', 'decalog' ),
+					'label' => decalog_esc_html__( 'Performance', 'decalog' ),
 					'color' => 'blue',
 				],
-				'description' => sprintf( '<p>%s</p>', esc_html__( 'Your site uses a dedicated object caching mechanism. That\'s great.', 'decalog' ) ),
+				'description' => sprintf( '<p>%s</p>', decalog_esc_html__( 'Your site uses a dedicated object caching mechanism. That\'s great.', 'decalog' ) ),
 				'actions'     => '',
 				'test'        => $key,
 			];
 		}
 		return [
-			'label'       => esc_html__( 'You should use object caching', 'decalog' ),
+			'label'       => decalog_esc_html__( 'You should use object caching', 'decalog' ),
 			'status'      => 'recommended',
 			'badge'       => [
-				'label' => esc_html__( 'Performance', 'decalog' ),
+				'label' => decalog_esc_html__( 'Performance', 'decalog' ),
 				'color' => 'orange',
 			],
-			'description' => sprintf( '<p>%s %s</p>', esc_html__( 'Your site uses database transient.', 'decalog' ), esc_html__( 'You should consider using a dedicated object caching mechanism, like APCu, Memcached or Redis, to improve your site\'s speed.', 'decalog' ) ),
+			'description' => sprintf( '<p>%s %s</p>', decalog_esc_html__( 'Your site uses database transient.', 'decalog' ), decalog_esc_html__( 'You should consider using a dedicated object caching mechanism, like APCu, Memcached or Redis, to improve your site\'s speed.', 'decalog' ) ),
 			'actions'     => '',
 			'test'        => $key,
 		];
@@ -248,7 +248,7 @@ class Sitehealth {
 		$key = 'perfopsone_opcache';
 		if ( ! array_key_exists( $key, $tests['direct'] ) ) {
 			$tests['direct'][ $key ] = [
-				'label' => __( 'OPcache Test', 'decalog' ),
+				'label' =>decalog__( 'OPcache Test', 'decalog' ),
 				'test'  => [ self::class, 'perfopsone_test_opcache_do' ],
 			];
 		}
@@ -265,25 +265,25 @@ class Sitehealth {
 		$key = 'perfopsone_opcache';
 		if ( function_exists( 'opcache_invalidate' ) && function_exists( 'opcache_compile_file' ) && function_exists( 'opcache_is_script_cached' ) ) {
 			$result = [
-				'label'       => esc_html__( 'Your site uses OPcache', 'decalog' ),
+				'label'       => decalog_esc_html__( 'Your site uses OPcache', 'decalog' ),
 				'status'      => 'good',
 				'badge'       => [
-					'label' => esc_html__( 'Performance', 'decalog' ),
+					'label' => decalog_esc_html__( 'Performance', 'decalog' ),
 					'color' => 'blue',
 				],
-				'description' => sprintf( '<p>%s</p>', esc_html__( 'Your site uses OPcache to improve PHP performance. That\'s great.', 'decalog' ) ),
+				'description' => sprintf( '<p>%s</p>', decalog_esc_html__( 'Your site uses OPcache to improve PHP performance. That\'s great.', 'decalog' ) ),
 				'actions'     => '',
 				'test'        => $key,
 			];
 		} else {
 			$result = [
-				'label'       => esc_html__( 'You should use OPcache', 'decalog' ),
+				'label'       => decalog_esc_html__( 'You should use OPcache', 'decalog' ),
 				'status'      => 'recommended',
 				'badge'       => [
-					'label' => esc_html__( 'Performance', 'decalog' ),
+					'label' => decalog_esc_html__( 'Performance', 'decalog' ),
 					'color' => 'orange',
 				],
-				'description' => sprintf( '<p>%s</p>', esc_html__( 'You should consider using OPcache. It would improve PHP performance of your site.', 'decalog' ) ),
+				'description' => sprintf( '<p>%s</p>', decalog_esc_html__( 'You should consider using OPcache. It would improve PHP performance of your site.', 'decalog' ) ),
 				'actions'     => '',
 				'test'        => $key,
 			];
@@ -302,7 +302,7 @@ class Sitehealth {
 		$key = 'perfopsone_shmop';
 		if ( ! array_key_exists( $key, $tests['direct'] ) ) {
 			$tests['direct'][ $key ] = [
-				'label' => __( 'Shared Memory Test', 'decalog' ),
+				'label' =>decalog__( 'Shared Memory Test', 'decalog' ),
 				'test'  => [ self::class, 'perfopsone_test_shmop_do' ],
 			];
 		}
@@ -319,25 +319,25 @@ class Sitehealth {
 		$key = 'perfopsone_shmop';
 		if ( function_exists( 'shmop_open' ) && function_exists( 'shmop_read' ) && function_exists( 'shmop_write' ) && function_exists( 'shmop_delete' ) ) {
 			$result = [
-				'label'       => esc_html__( 'Your site can use shared memory', 'decalog' ),
+				'label'       => decalog_esc_html__( 'Your site can use shared memory', 'decalog' ),
 				'status'      => 'good',
 				'badge'       => [
-					'label' => esc_html__( 'Performance', 'decalog' ),
+					'label' => decalog_esc_html__( 'Performance', 'decalog' ),
 					'color' => 'blue',
 				],
-				'description' => sprintf( '<p>%s</p>', esc_html__( 'Your site can use shared memory to allow inter-process communication. That\'s great.', 'decalog' ) ),
+				'description' => sprintf( '<p>%s</p>', decalog_esc_html__( 'Your site can use shared memory to allow inter-process communication. That\'s great.', 'decalog' ) ),
 				'actions'     => '',
 				'test'        => $key,
 			];
 		} else {
 			$result = [
-				'label'       => esc_html__( 'You should allow inter-process communication', 'decalog' ),
+				'label'       => decalog_esc_html__( 'You should allow inter-process communication', 'decalog' ),
 				'status'      => 'recommended',
 				'badge'       => [
-					'label' => esc_html__( 'Performance', 'decalog' ),
+					'label' => decalog_esc_html__( 'Performance', 'decalog' ),
 					'color' => 'gray',
 				],
-				'description' => sprintf( '<p>%s</p>', esc_html__( 'You should consider using shared memory (PHP shmop) to allow inter-process communication.', 'decalog' ) ),
+				'description' => sprintf( '<p>%s</p>', decalog_esc_html__( 'You should consider using shared memory (PHP shmop) to allow inter-process communication.', 'decalog' ) ),
 				'actions'     => '',
 				'test'        => $key,
 			];
@@ -356,7 +356,7 @@ class Sitehealth {
 		$key = 'perfopsone_i18n';
 		if ( ! array_key_exists( $key, $tests['direct'] ) ) {
 			$tests['direct'][ $key ] = [
-				'label' => __( 'I18n Extension Test', 'decalog' ),
+				'label' =>decalog__( 'I18n Extension Test', 'decalog' ),
 				'test'  => [ self::class, 'perfopsone_test_i18n_do' ],
 			];
 		}
@@ -373,25 +373,25 @@ class Sitehealth {
 		$key = 'perfopsone_i18n';
 		if ( I18n::is_extension_loaded() ) {
 			$result = [
-				'label'       => esc_html__( 'Your site uses Intl extension', 'decalog' ),
+				'label'       => decalog_esc_html__( 'Your site uses Intl extension', 'decalog' ),
 				'status'      => 'good',
 				'badge'       => [
-					'label' => esc_html__( 'Internationalization', 'decalog' ),
+					'label' => decalog_esc_html__( 'Internationalization', 'decalog' ),
 					'color' => 'blue',
 				],
-				'description' => sprintf( '<p>%s</p>', esc_html__( 'Your site uses PHP Intl extension to improve localization features. That\'s great.', 'decalog' ) ),
+				'description' => sprintf( '<p>%s</p>', decalog_esc_html__( 'Your site uses PHP Intl extension to improve localization features. That\'s great.', 'decalog' ) ),
 				'actions'     => '',
 				'test'        => $key,
 			];
 		} else {
 			$result = [
-				'label'       => esc_html__( 'You should use Intl extension', 'decalog' ),
+				'label'       => decalog_esc_html__( 'You should use Intl extension', 'decalog' ),
 				'status'      => 'recommended',
 				'badge'       => [
-					'label' => esc_html__( 'Internationalization', 'decalog' ),
+					'label' => decalog_esc_html__( 'Internationalization', 'decalog' ),
 					'color' => 'blue',
 				],
-				'description' => sprintf( '<p>%s</p>', esc_html__( 'You should consider using PHP Intl extension. It would improve localization features on your site.', 'decalog' ) ),
+				'description' => sprintf( '<p>%s</p>', decalog_esc_html__( 'You should consider using PHP Intl extension. It would improve localization features on your site.', 'decalog' ) ),
 				'actions'     => '',
 				'test'        => $key,
 			];
