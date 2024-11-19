@@ -1,0 +1,7 @@
+{
+  "author" : "<a href='https://perfops.one'>Pierre Lannoy / PerfOps One</a>",
+  "author_profile" : "https://profiles.wordpress.org/pierrelannoy/",
+  "requires" : "6.2",
+  "tested" : "6.8",
+  "requires_php" : "8.1"
+}

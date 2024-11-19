@@ -89,7 +89,7 @@ class DatabaseListener extends AbstractListener {
 	 */
 	protected function init() {
 		$this->id              = 'wpdb';
-		$this->name            = 'a';//decalog_esc_html__( 'Database', 'decalog' );
+		$this->name            = decalog_esc_html__( 'Database', 'decalog' );
 		$this->class           = 'db';
 		$this->product         = Environment::mysql_model();
 		$this->version         = Environment::mysql_version();

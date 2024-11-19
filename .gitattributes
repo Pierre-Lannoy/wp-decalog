@@ -7,4 +7,5 @@
 /.gitignore export-ignore
 /.github export-ignore
 /.translations export-ignore
+/plugin.json
 /.3rd-party export-ignore

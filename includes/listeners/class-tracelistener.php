@@ -29,7 +29,7 @@ class TraceListener extends AbstractListener {
 	 */
 	protected function init() {
 		$this->id      = 'trace';
-		$this->name    = 'a';//decalog_esc_html__( 'Metatraces listener', 'decalog' );
+		$this->name    = decalog_esc_html__( 'Metatraces listener', 'decalog' );
 		$this->class   = 'trace';
 		$this->product = DECALOG_PRODUCT_NAME;
 		$this->version = DECALOG_VERSION;

@@ -29,7 +29,7 @@ class PromListener extends AbstractListener {
 	 */
 	protected function init() {
 		$this->id      = 'prom';
-		$this->name    = 'a';//decalog_esc_html__( 'Prometheus-compliant listener', 'decalog' );
+		$this->name    = decalog_esc_html__( 'Prometheus-compliant listener', 'decalog' );
 		$this->class   = 'prom';
 		$this->product = DECALOG_PRODUCT_NAME;
 		$this->version = DECALOG_VERSION;

@@ -67,6 +67,36 @@ class Markdown {
 	}
 
 	/**
+	 * Get the changelog.
+	 *
+	 * @param   string  $content     The filename.
+	 * @param   array   $attributes  'style' => 'markdown', 'html'.
+	 *                               'mode'  => 'raw', 'clean'.
+	 * @return  string  The output of the inline, ready to print.
+	 */
+	public function get_inline( $content, $attributes ) {
+		$_attributes = shortcode_atts(
+			[
+				'style' => 'html',
+				'mode'  => 'clean',
+			],
+			$attributes
+		);
+		$style       = $_attributes['style'];
+		$mode        = $_attributes['mode'];
+		if ( $content ) {
+			switch ( $style ) {
+				case 'html':
+					$result = '<div class="markdown">' . $this->html_from_markdown( $content, ( 'clean' === $mode ) ) . '</div>';
+					break;
+				default:
+					$result = esc_html( $content );
+			}
+		}
+		return $result;
+	}
+
+	/**
 	 * Format a changelog in html.
 	 *
 	 * @param   string  $content  The raw changelog in markdown.
