@@ -3,13 +3,25 @@ All notable changes to **DecaLog** are documented in this *changelog*.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [4.3.0] Not Yet Released
+## [4.3.0] - 2024-11-22
 
 ### Added
+- Compatibility with WordPress 6.6 & 6.7.
 - It's now possible to change buffering behavior (for loggers supporting deferred forwarding). By default, the new behavior is: events batch at 1000 and no buffering for WP CLI. To modify it, you have to activate "advanced settings" in admin (see [hooks](HOOKS.md) for details).
 
 ### Changed
 - To avoid name collision with some third-party configurations, the version tag in Datadog, Loki and Grafana loggers is now named `wp_version` (it was previously `version`).
+- Ability to self-update from Github.
+- The plugin user agent is now more consistent and "standard".
+
+### Fixed
+- There's a WordPress core "feature" which causes some PII to leak (to wp.org) during plugin and theme updates. This is no more the case for this plugin.
+- In some cases, a WordPress notice can be triggered concerning the loading sequence of translations.
+
+### Removed
+- Test site launching from wordpress.org plugin page.
+- All Databeam hooks and libraries, as the Databeam project is abandoned.
+- Dependency on wp.org for updates.
 
 ## [4.2.0] - 2024-06-16
 
