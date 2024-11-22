@@ -280,7 +280,7 @@ class Updater {
 	 */
 	public function info_reset( $upgrader, $options ) {
 		if ( 'update' === $options['action'] && 'plugin' === $options['type'] ) {
-			delete_transient( 'update-' . $this->slug );
+			Cache::delete_global( 'data_update-infos' );
 		}
 	}
 }
