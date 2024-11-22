@@ -186,7 +186,7 @@ class Http {
 	 * @since  1.0.0
 	 */
 	public static function user_agent() {
-		return DECALOG_PRODUCT_NAME . ' (' . Environment::wordpress_version_id() . '; ' . Environment::plugin_version_id() . '; +' . DECALOG_PRODUCT_URL . ')';
+		return 'PerfOps One - ' . DECALOG_PRODUCT_NAME . ' / ' . DECALOG_VERSION . ' (https://perfops.one/' . DECALOG_SLUG . ')';
 	}
 
 	/**
