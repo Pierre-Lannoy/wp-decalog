@@ -361,9 +361,25 @@ class L10n {
 	public static function get_main_lang_code( $country ) {
 		if ( I18n::is_extension_loaded() ) {
 			$subtags = \ResourceBundle::create( 'likelySubtags', 'ICUDATA', false );
-			$country = \Locale::canonicalize( 'und_' . $country );
-			$locale  = $subtags->get( $country ) ? $subtags->get( $country ) : $subtags->get( 'und' );
-			return \Locale::getPrimaryLanguage( $locale );
+			if ( $subtags instanceof \ResourceBundle ) {
+				// First try
+				$locale  = $subtags->get( \Locale::canonicalize( 'und_' . $country ) );
+				if ( $locale ) {
+					return \Locale::getPrimaryLanguage( $locale );
+				}
+				// Second try
+				$locale  = $subtags->get( 'und_' . $country );
+				if ( $locale ) {
+					return \Locale::getPrimaryLanguage( $locale );
+				}
+				// Third try
+				$locale  = $subtags->get( $country );
+				if ( $locale ) {
+					return \Locale::getPrimaryLanguage( $locale );
+				}
+			}
+			// Fallback
+			return 'en_US';
 		}
 		return '';
 	}
