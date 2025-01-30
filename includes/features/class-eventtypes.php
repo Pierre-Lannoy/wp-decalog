@@ -109,6 +109,22 @@ class EventTypes {
 	];
 
 	/**
+	 * List of the available Loki level names.
+	 *
+	 * @var string[] $loki_level_names Logging levels names.
+	 */
+	public static $loki_level_names = [
+		Logger::DEBUG     => 'DEBUG',
+		Logger::INFO      => 'INFO',
+		Logger::NOTICE    => 'INFO',
+		Logger::WARNING   => 'WARNING',
+		Logger::ERROR     => 'ERROR',
+		Logger::CRITICAL  => 'ERROR',
+		Logger::ALERT     => 'FATAL',
+		Logger::EMERGENCY => 'FATAL',
+	];
+
+	/**
 	 * List of the available level emojis.
 	 *
 	 * @var string[] $level_names Logging levels emojis.

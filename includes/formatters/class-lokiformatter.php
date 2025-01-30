@@ -72,7 +72,8 @@ class LokiFormatter implements FormatterInterface {
 	 */
 	public function format( array $record ): string {
 		if ( array_key_exists( 'level', $record ) ) {
-			$level_class = strtolower( EventTypes::$level_names[ $record['level'] ] );
+			$level_class = strtolower( EventTypes::$loki_level_names[ $record['level'] ] );
+			$record['level'] = $level_class;
 		} else {
 			$level_class = 'unknown';
 		}

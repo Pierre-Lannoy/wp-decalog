@@ -3,6 +3,14 @@ All notable changes to **DecaLog** are documented in this *changelog*.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.4.0] - Not Yet Released
+
+### Added
+- 
+
+### Changed
+- The levels are now mapped with Loki levels to allow correct detection in Grafana.
+
 ## [4.3.1] - 2024-12-04
 
 ### Fixed
