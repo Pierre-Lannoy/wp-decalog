@@ -10,6 +10,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 - The levels are now mapped with Loki levels to allow correct detection in Grafana.
+- [BC] The Loki's label `instance` have been renamed `host` for consistency and best practices.
+- There's now a persistent label named `transport` for Loki loggers.
+
+### Fixed
+- Plugin update process may be confused when it founds error in release file.
 
 ## [4.3.1] - 2024-12-04
 

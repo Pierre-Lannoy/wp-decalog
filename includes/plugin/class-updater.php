@@ -164,6 +164,9 @@ class Updater {
 				return false;
 			}
 			$release_info = json_decode( wp_remote_retrieve_body( $remote ), true );
+			if ( is_null( $release_info ) || ! is_array( $release_info ) ) {
+				return false;
+			}
 			if ( array_key_exists( 'tag_name', $release_info ) && array_key_exists( 'name', $release_info ) && array_key_exists( 'published_at', $release_info ) && array_key_exists( 'body', $release_info ) && array_key_exists( 'assets', $release_info ) && is_array( $release_info['assets'] ) ) {
 				$remotes->version      = $release_info['tag_name'];
 				$remotes->download_url = $release_info['assets'][0]['browser_download_url'] ?? '-';
