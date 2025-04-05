@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [4.4.0] - Not Yet Released
 
 ### Added
-- 
+- Compatibility with WordPress 6.8.
 
 ### Changed
 - The levels are now mapped with Loki levels to allow correct detection in Grafana.
@@ -15,6 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 - Plugin update process may be confused when it founds error in release file.
+- Pushover logger may trigger PHP warning (thanks to [Markus Birth](https://github.com/mbirth)).
 
 ## [4.3.1] - 2024-12-04
 

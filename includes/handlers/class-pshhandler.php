@@ -35,8 +35,8 @@ class PshHandler extends PushoverHandler {
 	 * @param int|string   $level             The minimum logging level at which this handler will be triggered.
 	 * @since   1.3.0
 	 */
-	public function __construct( $token, $users, $title = null, $timeout = 500, $level = Logger::CRITICAL ) {
-		$new_timeout = $timeout / 1000;
+	public function __construct( $token, $users, $title = null, $timeout = 1000, $level = Logger::CRITICAL ) {
+		$new_timeout = (int) round($timeout / 1000);
 		$old_timeout = ini_get( 'default_socket_timeout' );
 		// phpcs:ignore
 		ini_set( 'default_socket_timeout', (string) $new_timeout );
