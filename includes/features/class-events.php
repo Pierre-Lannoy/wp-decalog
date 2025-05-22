@@ -567,10 +567,13 @@ class Events extends \WP_List_Table {
 		$s2                     = '<a href="' . $this->get_page_url() . '"' . ( 'notice' === $level ? ' class="current"' : '' ) . '>' . decalog_esc_html__( 'Notices & beyond', 'decalog' ) . ' <span class="count">(' . $this->get_count() . ')</span></a>';
 		$this->filters['level'] = 'error';
 		$s3                     = '<a href="' . $this->get_page_url() . '"' . ( 'error' === $level ? ' class="current"' : '' ) . '>' . decalog_esc_html__( 'Errors & beyond', 'decalog' ) . ' <span class="count">(' . $this->get_count() . ')</span></a>';
+		$this->filters['level'] = 'debug';
+		$s4                     = '<a href="' . $this->get_page_url() . '"' . ( 'debug' === $level ? ' class="current"' : '' ) . '>' . decalog_esc_html__( 'Debug', 'decalog' ) . ' <span class="count">(' . $this->get_count() . ')</span></a>';
 		$status_links           = [
 			'all'     => $s1,
 			'notices' => $s2,
 			'errors'  => $s3,
+			'debugs'  => $s4,
 		];
 		$this->filters          = $filters;
 		return $status_links;
