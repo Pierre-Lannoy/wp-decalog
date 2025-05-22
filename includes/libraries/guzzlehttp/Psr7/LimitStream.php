@@ -105,7 +105,7 @@ final class LimitStream implements StreamInterface
      *
      * @param int $offset Offset to seek to and begin byte limiting from
      *
-     * @throws \RuntimeException if the stream cannot be seeked.
+     * @throws \RuntimeException if the stream cannot be sought.
      */
     public function setOffset(int $offset): void
     {

@@ -17,7 +17,7 @@ DecaLog lets you use command-line to view past and currents events. All is done 
 
 If you don't specify `<count>`, DecaLog will launch an interactive logging session: it will display events as soon as they occur on your site. To quit this session, hit `CTRL+C`.
 
-If you specifiy a value for `<count>` between 1 to 60, DecaLog will show you the *count* last events triggered on your site.
+If you specify a value for `<count>` between 1 to 60, DecaLog will show you the *count* last events triggered on your site.
 
 > Note the `tail` command needs shared memory support on your server, both for web server and command-line configuration. If it's not already the case, you must activate the ***shmop*** PHP module.
 

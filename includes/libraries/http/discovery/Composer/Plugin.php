@@ -27,7 +27,7 @@ use Http\Discovery\ClassDiscovery;
  * When a dependency requires both this package and one of the supported `*-implementation`
  * virtual packages, this plugin will auto-install a well-known implementation if none is
  * found. The plugin will first look at already installed packages and figure out the
- * preferred implementation to install based on the below stickyness rules (or on the first
+ * preferred implementation to install based on the below stickiness rules (or on the first
  * listed implementation if no rules match.)
  *
  * Don't miss updating src/Strategy/Common*Strategy.php when adding a new supported package.
@@ -89,7 +89,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
      * Describes which package should be preferred on the left side
      * depending on which one is already installed on the right side.
      */
-    private const STICKYNESS_RULES = [
+    private const STICKINESS_RULES = [
         'symfony/http-client' => 'symfony/framework-bundle',
         'php-http/guzzle7-adapter' => 'guzzlehttp/guzzle:^7',
         'php-http/guzzle6-adapter' => 'guzzlehttp/guzzle:^6',
@@ -338,7 +338,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface
                     }
                 }
 
-                foreach (array_intersect_key(self::STICKYNESS_RULES, $candidates) as $candidate => $stickyRule) {
+                foreach (array_intersect_key(self::STICKINESS_RULES, $candidates) as $candidate => $stickyRule) {
                     [$stickyName, $stickyVersion] = explode(':', $stickyRule, 2) + [1 => null];
                     if (!isset($allPackages[$stickyName]) || ($isProject && !$dev && isset($devPackages[$stickyName]))) {
                         continue;

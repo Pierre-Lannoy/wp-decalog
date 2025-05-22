@@ -26,7 +26,7 @@ abstract class Parser
 	 */
 	protected $context = [];
 	/**
-	 * @var array these are "escapeable" characters. When using one of these prefixed with a
+	 * @var array these are "escapable" characters. When using one of these prefixed with a
 	 * backslash, the character will be outputted without the backslash and is not interpreted
 	 * as markdown.
 	 */
@@ -129,7 +129,7 @@ abstract class Parser
 	}
 
 	/**
-	 * Given a set of lines and an index of a current line it uses the registed block types to
+	 * Given a set of lines and an index of a current line it uses the registered block types to
 	 * detect the type of this line.
 	 * @param array $lines
 	 * @param integer $current

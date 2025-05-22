@@ -661,7 +661,7 @@ class TJSONProtocol extends TProtocol
      *
      * @param string $name Function name
      * @param int $type message type TMessageType::CALL or TMessageType::REPLY
-     * @parem int $seqid The sequence id of this message
+     * @param int $seqid The sequence id of this message
      */
     public function readMessageBegin(&$name, &$type, &$seqid)
     {

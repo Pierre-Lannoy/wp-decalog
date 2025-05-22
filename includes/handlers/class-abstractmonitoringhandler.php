@@ -145,7 +145,7 @@ abstract class AbstractMonitoringHandler extends AbstractProcessingHandler {
 		$code    = wp_remote_retrieve_response_code( $result );
 		$message = wp_remote_retrieve_response_message( $result );
 		if ( '' === $message ) {
-			$message = 'Unknow error';
+			$message = 'Unknown error';
 		}
 		if ( $this->error_control ) {
 			$message = 'Pushing metrics to ' . $this->endpoint . ' => ' . $message;

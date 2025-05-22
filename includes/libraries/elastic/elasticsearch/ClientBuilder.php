@@ -51,7 +51,7 @@ class ClientBuilder
     private LoggerInterface $logger;
 
     /**
-     * The NodelPool
+     * The NodePool
      */
     private NodePoolInterface $nodePool;
 
@@ -384,7 +384,7 @@ class ClientBuilder
         // API key
         if (!empty($this->apiKey)) {
             if (!empty($this->username)) {
-                throw new AuthenticationException('You cannot use APIKey and Basic Authenication together');
+                throw new AuthenticationException('You cannot use APIKey and Basic Authentication together');
             }
             $transport->setHeader('Authorization', sprintf("ApiKey %s", $this->apiKey));
         }

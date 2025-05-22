@@ -78,7 +78,7 @@ class SharedMemory {
 	}
 
 	/**
-	 * Acquire a ressource.
+	 * Acquire a resource.
 	 *
 	 * @param   string  $flags     Optional. The flags for opening.
 	 * @param   integer $mode      Optional. The permissions needed.

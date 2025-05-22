@@ -15,7 +15,7 @@ class WriteRetry
     private $exponentialBase;
     private $jitterInterval;
     private $maxRetryTime;
-    private $retryTimout;
+    private $retryTimeout;
     /**
      * @var array
      */
@@ -57,8 +57,8 @@ class WriteRetry
         $this->jitterInterval = $jitterInterval;
         $this->options = $options;
 
-        //retry timout
-        $this->retryTimout = microtime(true) * 1000 + $maxRetryTime;
+        //retry timeout
+        $this->retryTimeout = microtime(true) * 1000 + $maxRetryTime;
     }
 
     /**
@@ -81,7 +81,7 @@ class WriteRetry
             }
 
             // throws exception when max retry time is exceeded
-            if (microtime(true) * 1000 > $this->retryTimout) {
+            if (microtime(true) * 1000 > $this->retryTimeout) {
                 DefaultApi::log("ERROR", "Maximum retry time $this->maxRetryTime ms exceeded", $this->options);
                 throw $e;
             }

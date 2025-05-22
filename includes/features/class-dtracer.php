@@ -38,7 +38,7 @@ class DTracer {
 	 * @since  3.0.0
 	 * @var    string    $class    Maintains the class of the component.
 	 */
-	protected $class = 'unknwon';
+	protected $class = 'unknown';
 
 	/**
 	 * The name of the component.

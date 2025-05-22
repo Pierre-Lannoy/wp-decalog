@@ -453,7 +453,7 @@ class EventViewer {
 		$content = '<span style="width:100%;cursor: default;">' . $this->get_icon( 'clock' ) . $time . '</span> <span style="color:silver">(' . $dif . ')</span>';
 		$hour    = $this->get_section( $content );
 		// Event source.
-		$class     = ClassTypes::$classe_names[ strtolower( $this->event['class'] ) ];
+		$class     = ClassTypes::$class_names[ strtolower( $this->event['class'] ) ];
 		$component = $this->event['component'] . ' ' . $this->event['version'];
 		$content   = '<span style="width:40%;cursor: default;float:left">' . $this->get_icon( 'folder' ) . $class . '</span>';
 		$content  .= '<span style="width:60%;cursor: default;">' . $this->get_component_icon( $this->event['component'] ) . $component . '</span>';

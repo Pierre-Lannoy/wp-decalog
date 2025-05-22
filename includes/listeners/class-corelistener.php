@@ -191,7 +191,7 @@ class CoreListener extends AbstractListener {
 			add_filter( 'pre_clear_scheduled_hook', [ $this, 'pre_clear_scheduled_hook' ], PHP_INT_MAX, 2 );
 			add_filter( 'pre_unschedule_hook', [ $this, 'pre_unschedule_hook' ], PHP_INT_MAX, 2 );
 		}
-		// Aplications Passwords
+		// Applications Passwords
 		add_action( 'wp_create_application_password', [ $this, 'wp_create_application_password' ], 10, 4 );
 		add_action( 'wp_update_application_password', [ $this, 'wp_update_application_password' ], 10, 3 );
 		add_action( 'wp_delete_application_password', [ $this, 'wp_delete_application_password' ], 10, 2 );

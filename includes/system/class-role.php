@@ -86,7 +86,7 @@ class Role {
 	 * Verify privileges overriding.
 	 *
 	 * @param   integer $user_id         Optional. The user id.
-	 * @return  boolean  True if privileges can be overridded, false otherwise.
+	 * @return  boolean  True if privileges can be overridden, false otherwise.
 	 * @since   2.4.0
 	 */
 	public static function override_privileges( $user_id = false ) {

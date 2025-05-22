@@ -418,7 +418,7 @@ class Cache {
 	 * @return integer Number of deleted items.
 	 * @since  1.0.0
 	 */
-	private static function delete_for_ful_name( $item_name ) {
+	private static function delete_for_full_name( $item_name ) {
 		$item_name = self::normalized_item_name( $item_name );
 		$result    = 0;
 		if ( self::$apcu_available && Option::network_get( 'use_apcu', true ) ) {
@@ -460,7 +460,7 @@ class Cache {
 	 * @return integer Number of deleted items.
 	 * @since  3.4.0
 	 */
-	private static function delete_apcu_for_ful_name( $item_name ) {
+	private static function delete_apcu_for_full_name( $item_name ) {
 		$item_name = self::normalized_item_name( $item_name );
 		$result    = 0;
 		if ( self::$apcu_available ) {
@@ -515,7 +515,7 @@ class Cache {
 	 * @since  1.0.0
 	 */
 	public static function delete_global( $item_name ) {
-		return self::delete_for_ful_name( self::full_item_name( $item_name ) );
+		return self::delete_for_full_name( self::full_item_name( $item_name ) );
 	}
 
 	/**
@@ -526,7 +526,7 @@ class Cache {
 	 * @since  3.4.0
 	 */
 	public static function delete_global_apcu( $item_name ) {
-		return self::delete_apcu_for_ful_name( self::full_item_name( $item_name ) );
+		return self::delete_apcu_for_full_name( self::full_item_name( $item_name ) );
 	}
 
 	/**
@@ -542,7 +542,7 @@ class Cache {
 	 * @since  1.0.0
 	 */
 	public static function delete( $item_name, $blog_aware = false, $locale_aware = false, $user_aware = false ) {
-		return self::delete_for_ful_name( self::full_item_name( $item_name, $blog_aware, $locale_aware, $user_aware ) );
+		return self::delete_for_full_name( self::full_item_name( $item_name, $blog_aware, $locale_aware, $user_aware ) );
 	}
 
 	/**

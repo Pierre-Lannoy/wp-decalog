@@ -22,7 +22,7 @@ As you already know, all events message handled by DecaLog are in English. But i
 
 To start to translate the DecaLog interface in your language, jump to the [official GlotPress section for DecaLog](https://translate.wordpress.org/projects/wp-plugins/decalog/) and pick the line for your language…
 
-To find ressources on translations, handbooks, guidelines, etc. your starting point is [The Polyglots Blog](https://make.wordpress.org/polyglots/). This blog is the central point of the translators community, either for the core of WordPress, the plugins or the themes.
+To find resources on translations, handbooks, guidelines, etc. your starting point is [The Polyglots Blog](https://make.wordpress.org/polyglots/). This blog is the central point of the translators community, either for the core of WordPress, the plugins or the themes.
 There are many interesting things on this blog that I let you discover, but the main documents – the ones I encourage you to read before you start – are:
 - [The General Expectations](https://make.wordpress.org/polyglots/handbook/translating/expectations/), the do’s and don’ts.
 - [The Glossaries and Style Guides](https://make.wordpress.org/polyglots/handbook/tools/glotpress-translate-wordpress-org/list-of-glossaries-per-locale/), per locale.

@@ -68,7 +68,7 @@ class Initializer {
 						\WP_CLI::set_logger( $instance );
 					} catch ( \Exception $e ) {
 						$logger = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );
-						$logger->critical( sprintf( 'Unable to instanciate `%s` class. DecaLog will not log following WP-CLI events.', $class ) );
+						$logger->critical( sprintf( 'Unable to instantiate `%s` class. DecaLog will not log following WP-CLI events.', $class ) );
 					}
 				} else {
 					$logger = Log::bootstrap( 'plugin', DECALOG_PRODUCT_SHORTNAME, DECALOG_VERSION );

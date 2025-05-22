@@ -28,7 +28,7 @@ namespace Thrift\Type;
 abstract class TConstant
 {
     /**
-     * Don't instanciate this class
+     * Don't instantiate this class
      */
     protected function __construct()
     {

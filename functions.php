@@ -85,10 +85,10 @@ function decalog_mb_str_pad( $input, $length, $padding = ' ', $padType = STR_PAD
  *
  * Functionally, the equivalent of the standard str_pad function, but is capable of successfully padding multibyte strings.
  *
- * @param string $input         The string to be fully trimed.
+ * @param string $input         The string to be fully trimmed.
  * @param string $replacement   Optional. The string replacement.
  *
- * @return string A fully trimed multibyte string.
+ * @return string A fully trimmed multibyte string.
  * @since   3.6.0
  */
 function decalog_mb_full_trim( $input, $replacement = '' ) {

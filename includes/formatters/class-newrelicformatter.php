@@ -68,7 +68,7 @@ class NewRelicFormatter extends JsonFormatter {
 			$event['message'] = str_replace( [ '"', '&ldquo;', '&rdquo;', ], '“', $record['message'] );
 			$event['message'] = str_replace( '\'', '`', $event['message'] );
 		} else {
-			$event['message'] = '<no messsage>';
+			$event['message'] = '<no message>';
 		}
 		if ( array_key_exists( 'level', $record ) ) {
 			if ( array_key_exists( $record['level'], self::$level_severities ) ) {

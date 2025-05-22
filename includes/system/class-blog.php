@@ -115,7 +115,7 @@ class Blog {
 		if ( $id instanceof \WP_Site ) {
 			return sprintf( '"%s" (site ID %s)', (string) $id->blogname, $id->id );
 		}
-		return 'unknow site';
+		return 'unknown site';
 	}
 
 	/**

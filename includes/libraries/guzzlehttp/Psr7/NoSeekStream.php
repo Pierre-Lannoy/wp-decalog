@@ -7,7 +7,7 @@ namespace DLGuzzleHttp\Psr7;
 use Psr\Http\Message\StreamInterface;
 
 /**
- * Stream decorator that prevents a stream from being seeked.
+ * Stream decorator that prevents a stream from being sought.
  */
 final class NoSeekStream implements StreamInterface
 {

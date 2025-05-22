@@ -5,7 +5,7 @@ namespace Thrift\Server;
 use Thrift\Exception\TTransportException;
 
 /**
- * Simple implemtation of a Thrift server.
+ * Simple implementation of a Thrift server.
  *
  * @package thrift.server
  */

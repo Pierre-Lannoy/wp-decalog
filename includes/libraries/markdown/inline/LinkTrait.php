@@ -11,7 +11,7 @@ namespace cebe\markdownparser\inline;
 defined('ENT_HTML401') || define('ENT_HTML401', 0);
 
 /**
- * Addes links and images as well as url markers.
+ * Adds links and images as well as url markers.
  *
  * This trait conflicts with the HtmlTrait. If both are used together,
  * you have to define a resolution, by defining the HtmlTrait::parseInlineHtml

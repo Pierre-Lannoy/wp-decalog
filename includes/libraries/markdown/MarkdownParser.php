@@ -44,7 +44,7 @@ class MarkdownParser extends Parser
 	public $html5 = false;
 
 	/**
-	 * @var array these are "escapeable" characters. When using one of these prefixed with a
+	 * @var array these are "escapable" characters. When using one of these prefixed with a
 	 * backslash, the character will be outputted without the backslash and is not interpreted
 	 * as markdown.
 	 */

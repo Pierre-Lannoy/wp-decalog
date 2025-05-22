@@ -11,7 +11,7 @@ use Psr\Http\Message\RequestInterface;
 /**
  * Set headers on the request.
  *
- * If the header does not exist it wil be set, if the header already exists it will be replaced.
+ * If the header does not exist it will be set, if the header already exists it will be replaced.
  *
  * @author Soufiane Ghzal <sghzal@gmail.com>
  */

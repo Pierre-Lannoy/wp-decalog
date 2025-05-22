@@ -52,7 +52,7 @@ class DatadogFormatter extends JsonFormatter {
 		if ( array_key_exists( 'message', $record ) ) {
 			$event['message'] = $record['message'];
 		} else {
-			$event['message'] = '<no messsage>';
+			$event['message'] = '<no message>';
 		}
 		if ( array_key_exists( 'level', $record ) ) {
 			if ( array_key_exists( $record['level'], EventTypes::$level_names ) ) {

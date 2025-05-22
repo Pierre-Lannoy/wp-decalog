@@ -117,7 +117,7 @@ class GenericHtmlFormatter implements FormatterInterface {
 	}
 
 	/**
-	 * Get tarce detail.
+	 * Get trace detail.
 	 *
 	 * @param  array   $trace     The trace records.
 	 * @return string   The trace detail.

@@ -37,7 +37,7 @@ abstract class TServerTransport
     abstract protected function acceptImpl();
 
     /**
-     * Uses the accept implemtation. If null is returned, an
+     * Uses the accept implementation. If null is returned, an
      * exception is thrown.
      *
      * @throws TTransportException

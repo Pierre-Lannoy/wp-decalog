@@ -441,14 +441,14 @@ msgstr ""
 
 #: admin/class-decalog-admin.php:1186
 msgid ""
-"APCu is available on your server: you can use high peformance storage "
+"APCu is available on your server: you can use high performance storage "
 "mechanism."
 msgstr ""
 
 #: admin/class-decalog-admin.php:1189
 #, php-format
 msgid ""
-"APCu is not available on your server. To use high peformance storage "
+"APCu is not available on your server. To use high performance storage "
 "mechanism you must activate %s PHP module."
 msgstr ""
 

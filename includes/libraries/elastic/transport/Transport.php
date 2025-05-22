@@ -152,7 +152,7 @@ final class Transport implements ClientInterface, HttpAsyncClient
             $this->purgePreReleaseTag($clientVersion),
             $phpSemVersion,
             $this->purgePreReleaseTag(self::VERSION),
-            $async ? 1 : 0 // 0=syncronous, 1=asynchronous
+            $async ? 1 : 0 // 0=synchronous, 1=asynchronous
         );
         $lib = $this->getClientLibraryInfo();
         if (!empty($lib)) {
