@@ -417,12 +417,12 @@ class Decalog_Admin {
 	 * @since 1.0.0
 	 */
 	public function add_actions_links( $actions, $plugin_file, $plugin_data, $context ) {
-		$actions[] = sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=decalog-settings' ), decalog_esc_html__( 'Settings', 'decalog' ) );
-		if ( Events::loggers_count() > 0 ) {
-			$actions[] = sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=decalog-viewer' ), decalog_esc_html__( 'Events', 'decalog' ) );
-		}
+		array_unshift( $actions, sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=decalog-settings' ), decalog_esc_html__( 'Settings', 'decalog' ) ) );
 		if ( Traces::loggers_count() > 0 ) {
-			$actions[] = sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=decalog-tviewer' ), decalog_esc_html__( 'Traces', 'decalog' ) );
+			array_unshift( $actions, sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=decalog-tviewer' ), decalog_esc_html__( 'Traces', 'decalog' ) ) );
+		}
+		if ( Events::loggers_count() > 0 ) {
+			array_unshift( $actions, sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=decalog-viewer' ), decalog_esc_html__( 'Events', 'decalog' ) ) );
 		}
 		return $actions;
 	}
