@@ -30,7 +30,7 @@ use function sprintf;
 trait EndpointTrait
 {
     /**
-     * Check if an array containts nested array
+     * Check if an array contains nested array
      */
     private function isNestedArray(array $a): bool
     {
@@ -110,7 +110,7 @@ trait EndpointTrait
     {
         if (strpos($contentType, 'application/x-ndjson') !== false ||
             strpos($contentType, 'application/vnd.elasticsearch+x-ndjson') !== false) {
-            return NDJsonSerializer::serialize($body, ['remove_null' => false]);
+            return ANDJsonSerializer::serialize($body, ['remove_null' => false]);
         }
         if (strpos($contentType, 'application/json') !== false ||
             strpos($contentType, 'application/vnd.elasticsearch+json') !== false) {
@@ -156,7 +156,7 @@ trait EndpointTrait
 
     /**
      * Build the API compatibility headers
-     * transfrom Content-Type and Accept adding vnd.elasticsearch+ and compatible-with
+     * transform Content-Type and Accept adding vnd.elasticsearch+ and compatible-with
      * 
      * @see https://github.com/elastic/elasticsearch-php/pull/1142
      */

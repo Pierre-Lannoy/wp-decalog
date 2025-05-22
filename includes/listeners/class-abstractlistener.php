@@ -58,7 +58,7 @@ abstract class AbstractListener {
 	 * An instance of DTracer to trace listener traces.
 	 *
 	 * @since  3.0.0
-	 * @var    \Decalog\Plugin\Feature\DTracer   $monitor    An instance of DTracer to trace listener tarces.
+	 * @var    \Decalog\Plugin\Feature\DTracer   $monitor    An instance of DTracer to trace listener traces.
 	 */
 	protected $tracer = null;
 

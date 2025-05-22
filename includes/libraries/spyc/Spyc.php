@@ -82,14 +82,14 @@ class Spyc {
   public $setting_dump_force_quotes = false;
 
   /**
-   * Setting this to true will forse YAMLLoad to use syck_load function when
+   * Setting this to true will force YAMLLoad to use syck_load function when
    * possible. False by default.
    * @var bool
    */
   public $setting_use_syck_is_possible = false;
 
   /**
-   * Setting this to true will forse YAMLLoad to use syck_load function when
+   * Setting this to true will force YAMLLoad to use syck_load function when
    * possible. False by default.
    * @var bool
    */

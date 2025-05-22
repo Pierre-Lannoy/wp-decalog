@@ -204,7 +204,7 @@ class Debugger
 		// php configuration
 		if (function_exists('ini_set')) {
 			ini_set('display_errors', '0'); // or 'stderr'
-			ini_set('html_errors', '0'); // additionally turns off stack trace displaing by xdebug
+			ini_set('html_errors', '0'); // additionally turns off stack trace displaying by xdebug
 			ini_set('log_errors', '0');
 			ini_set('zend.exception_ignore_args', '0');
 		}
@@ -428,7 +428,7 @@ class Debugger
 	{
 		if (empty(self::$logger)) {
 			self::$logger = new Logger(self::$logDirectory, self::$email, self::getBlueScreen());
-			self::$logger->directory = &self::$logDirectory; // back compatiblity
+			self::$logger->directory = &self::$logDirectory; // back compatibility
 			self::$logger->email = &self::$email;
 		}
 

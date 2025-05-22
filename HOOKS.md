@@ -10,7 +10,7 @@ For the list view, you can use the `decalog_events_list_actions_for_event`, `dec
 
 The format of the filtered value is an array of array(s). Each of the deepest array MUST contain 3 fields:
 
-* `url`: the full url of the action to perfom. This url is opened in a new tab of the user's browser.
+* `url`: the full url of the action to perform. This url is opened in a new tab of the user's browser.
 * `hint`: the text displayed while hovering the icon.
 * `icon`: the "index" of the icon. Since DecaLog embeds the [Feather icon library](https://feathericons.com/), you can choose any index of this library.
 
@@ -37,7 +37,7 @@ For the single event view, you can use the `decalog_event_view_actions_for_event
 
 The format of the filtered value is an array of array(s). Each of the deepest array MUST contain 2 fields:
 
-* `url`: the full url of the action to perfom. This url is opened in a new tab of the user's browser.
+* `url`: the full url of the action to perform. This url is opened in a new tab of the user's browser.
 * `text`: the text of the link anchor.
 
 #### Example

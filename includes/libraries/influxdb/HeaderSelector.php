@@ -92,7 +92,7 @@ class HeaderSelector
     /**
      * Return the content type based on an array of content-type provided
      *
-     * @param string[] $contentType Array fo content-type
+     * @param string[] $contentType Array of content-type
      *
      * @return string Content-Type (e.g. application/json)
      */

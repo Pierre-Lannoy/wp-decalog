@@ -39,7 +39,7 @@ final class Client implements ClientInterface
     protected LoggerInterface $logger;
 
     /**
-     * Specify is the request is asyncronous
+     * Specify is the request is asynchronous
      */
     protected bool $async = false;
     
