@@ -231,7 +231,7 @@ class Database {
 		}
 		$where_clause = '';
 		if ( count( $filters ) > 0 ) {
-			$whereas = [];
+			$wheres = [];
 			foreach ( $filters as $key => $filter ) {
 				if ( is_array( $filter ) ) {
 					$w = [];
@@ -242,15 +242,15 @@ class Database {
 							$w[] = "'" . $f . "'";
 						}
 					}
-					$whereas[] = '`' . $key . '` IN (' . implode( ',', $w ) . ')';
+					$wheres[] = '`' . $key . '` IN (' . implode( ',', $w ) . ')';
 				} elseif ( is_numeric( $filter ) ) {
-					$whereas[] = '`' . $key . '` = ' . $filter;
+					$wheres[] = '`' . $key . '` = ' . $filter;
 				} elseif ( is_string( $filter ) ) {
-					$whereas[] = '`' . $key . '` = \'' . $filter . '\'';
+					$wheres[] = '`' . $key . '` = \'' . $filter . '\'';
 				}
 			}
-			if ( count( $whereas ) > 0 ) {
-				$where_clause = ' WHERE ' . implode( ' AND ', $whereas );
+			if ( count( $wheres ) > 0 ) {
+				$where_clause = ' WHERE ' . implode( ' AND ', $wheres );
 			}
 		}
 		$sql = 'SELECT COUNT(*) as CNT FROM `' . $table_name . '`' . $where_clause . ';';
