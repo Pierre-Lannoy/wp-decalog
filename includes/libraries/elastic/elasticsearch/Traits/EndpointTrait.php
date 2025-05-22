@@ -110,7 +110,7 @@ trait EndpointTrait
     {
         if (strpos($contentType, 'application/x-ndjson') !== false ||
             strpos($contentType, 'application/vnd.elasticsearch+x-ndjson') !== false) {
-            return ANDJsonSerializer::serialize($body, ['remove_null' => false]);
+            return NDJsonSerializer::serialize($body, ['remove_null' => false]);
         }
         if (strpos($contentType, 'application/json') !== false ||
             strpos($contentType, 'application/vnd.elasticsearch+json') !== false) {
