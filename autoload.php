@@ -9,6 +9,23 @@
 
 spl_autoload_register(
 	function ( $class ) {
+		$paths = array(
+			'Decalog\\System\\'           => DECALOG_INCLUDES_DIR . 'system/',
+			'Decalog\\Plugin\\Feature\\'  => DECALOG_INCLUDES_DIR . 'features/',
+			'Decalog\\Plugin\\'           => DECALOG_INCLUDES_DIR . 'plugin/',
+			'Decalog\\Processor\\'        => DECALOG_INCLUDES_DIR . 'processors/',
+			'Decalog\\Handler\\'          => DECALOG_INCLUDES_DIR . 'handlers/',
+			'Decalog\\Storage\\'          => DECALOG_INCLUDES_DIR . 'storage/',
+			'Decalog\\Formatter\\'        => DECALOG_INCLUDES_DIR . 'formatters/',
+			'Decalog\\Listener\\WP_CLI\\' => DECALOG_INCLUDES_DIR . 'listeners/wp-cli/',
+			'Decalog\\Listener\\'         => DECALOG_INCLUDES_DIR . 'listeners/',
+			'Decalog\\Panel\\'            => DECALOG_INCLUDES_DIR . 'panels/',
+			'Decalog\\Library\\'          => DECALOG_VENDOR_DIR,
+			'Decalog\\Integration\\'      => DECALOG_INCLUDES_DIR . 'integrations/',
+			'Decalog\\API\\'              => DECALOG_INCLUDES_DIR . 'api/',
+			'Decalog\\'                   => DECALOG_INCLUDES_DIR . 'api/',
+		);
+
 		$classname = $class;
 		$filepath  = __DIR__ . '/';
 		if ( strpos( $classname, 'Decalog\\' ) === 0 ) {
@@ -16,34 +33,11 @@ spl_autoload_register(
 				$classname = substr( $classname, strpos( $classname, '\\' ) + 1, 1000 );
 			}
 			$filename = 'class-' . str_replace( '_', '-', strtolower( $classname ) ) . '.php';
-			if ( strpos( $class, 'Decalog\System\\' ) === 0 ) {
-				$filepath = DECALOG_INCLUDES_DIR . 'system/';
-			} elseif ( strpos( $class, 'Decalog\Plugin\Feature\\' ) === 0 ) {
-				$filepath = DECALOG_INCLUDES_DIR . 'features/';
-			} elseif ( strpos( $class, 'Decalog\Plugin\\' ) === 0 ) {
-				$filepath = DECALOG_INCLUDES_DIR . 'plugin/';
-			} elseif ( strpos( $class, 'Decalog\Processor\\' ) === 0 ) {
-				$filepath = DECALOG_INCLUDES_DIR . 'processors/';
-			} elseif ( strpos( $class, 'Decalog\Handler\\' ) === 0 ) {
-				$filepath = DECALOG_INCLUDES_DIR . 'handlers/';
-			} elseif ( strpos( $class, 'Decalog\Storage\\' ) === 0 ) {
-				$filepath = DECALOG_INCLUDES_DIR . 'storage/';
-			} elseif ( strpos( $class, 'Decalog\Formatter\\' ) === 0 ) {
-				$filepath = DECALOG_INCLUDES_DIR . 'formatters/';
-			} elseif ( strpos( $class, 'Decalog\Listener\WP_CLI\\' ) === 0 ) {
-				$filepath = DECALOG_INCLUDES_DIR . 'listeners/wp-cli/';
-			} elseif ( strpos( $class, 'Decalog\Listener\\' ) === 0 ) {
-				$filepath = DECALOG_INCLUDES_DIR . 'listeners/';
-			} elseif ( strpos( $class, 'Decalog\Panel\\' ) === 0 ) {
-				$filepath = DECALOG_INCLUDES_DIR . 'panels/';
-			} elseif ( strpos( $class, 'Decalog\Library\\' ) === 0 ) {
-				$filepath = DECALOG_VENDOR_DIR;
-			} elseif ( strpos( $class, 'Decalog\Integration\\' ) === 0 ) {
-				$filepath = DECALOG_INCLUDES_DIR . 'integrations/';
-			} elseif ( strpos( $class, 'Decalog\API\\' ) === 0 ) {
-				$filepath = DECALOG_INCLUDES_DIR . 'api/';
-			} elseif ( strpos( $class, 'Decalog\\' ) === 0 ) {
-				$filepath = DECALOG_INCLUDES_DIR . 'api/';
+			foreach ( $paths as $prefix => $dir ) {
+				if ( strpos( $class, $prefix ) === 0 ) {
+					$filepath = $dir;
+					break;
+				}
 			}
 			if ( strpos( $filename, '-public' ) !== false ) {
 				$filepath = DECALOG_PUBLIC_DIR;
