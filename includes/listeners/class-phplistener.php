@@ -47,10 +47,10 @@ class PhpListener extends AbstractListener {
 		E_COMPILE_WARNING   => Logger::WARNING,
 		E_USER_WARNING      => Logger::WARNING,
 		E_NOTICE            => Logger::NOTICE,
-		E_USER_NOTICE       => Logger::NOTICE,
-		E_STRICT            => Logger::NOTICE,
+		E_USER_NOTICE       => Logger::DEBUG,
+		E_STRICT            => Logger::DEBUG,
 		E_DEPRECATED        => Logger::INFO,
-		E_USER_DEPRECATED   => Logger::INFO,
+		E_USER_DEPRECATED   => Logger::DEBUG,
 	];
 
 	/**

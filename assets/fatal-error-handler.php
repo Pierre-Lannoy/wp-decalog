@@ -54,10 +54,10 @@ class Decalog_Error_Handler extends \WP_Fatal_Error_Handler {
 		E_COMPILE_WARNING   => 300,
 		E_USER_WARNING      => 300,
 		E_NOTICE            => 250,
-		E_USER_NOTICE       => 250,
-		E_STRICT            => 250,
+		E_USER_NOTICE       => 100,
+		E_STRICT            => 100,
 		E_DEPRECATED        => 200,
-		E_USER_DEPRECATED   => 200,
+		E_USER_DEPRECATED   => 100,
 	];
 
 	/**

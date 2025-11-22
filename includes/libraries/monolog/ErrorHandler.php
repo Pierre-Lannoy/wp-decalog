@@ -167,11 +167,11 @@ class ErrorHandler
             E_COMPILE_WARNING   => LogLevel::WARNING,
             E_USER_ERROR        => LogLevel::ERROR,
             E_USER_WARNING      => LogLevel::WARNING,
-            E_USER_NOTICE       => LogLevel::NOTICE,
-            E_STRICT            => LogLevel::NOTICE,
+            E_USER_NOTICE       => LogLevel::DEBUG,
+            E_STRICT            => LogLevel::DEBUG,
             E_RECOVERABLE_ERROR => LogLevel::ERROR,
-            E_DEPRECATED        => LogLevel::NOTICE,
-            E_USER_DEPRECATED   => LogLevel::NOTICE,
+            E_DEPRECATED        => LogLevel::INFO,
+            E_USER_DEPRECATED   => LogLevel::DEBUG,
         ];
     }
 
