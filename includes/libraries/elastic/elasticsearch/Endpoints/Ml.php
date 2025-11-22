@@ -1130,7 +1130,7 @@ class Ml extends AbstractEndpoint
 	 *     end: string, // end timestamp for the requested influencers
 	 *     influencer_score: double, // influencer score threshold for the requested influencers
 	 *     sort: string, // sort field for the requested influencers
-	 *     desc: boolean, // whether the results should be sorted in decending order
+	 *     desc: boolean, // whether the results should be sorted in descending order
 	 *     pretty: boolean, // Pretty format the returned JSON response. (DEFAULT: false)
 	 *     human: boolean, // Return human readable values for statistics. (DEFAULT: true)
 	 *     error_trace: boolean, // Include the stack trace of returned errors. (DEFAULT: false)

@@ -103,7 +103,7 @@ class TransactionalMutex extends Mutex
      *
      * @param callable $code The synchronized execution block.
      * @throws \Exception The execution block threw an exception.
-     * @throws LockAcquireException The transaction was not commited.
+     * @throws LockAcquireException The transaction was not committed.
      * @return mixed The return value of the execution block.
      * @SuppressWarnings(PHPMD)
      */

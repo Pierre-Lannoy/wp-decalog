@@ -30,7 +30,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 - To avoid name collision with some third-party configurations, the version tag in Datadog, Loki and Grafana loggers is now named `wp_version` (it was previously `version`).
-- Ability to self-update from Github.
+- Ability to self-update from GitHub.
 - The plugin user agent is now more consistent and "standard".
 
 ### Fixed
@@ -63,7 +63,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 > **Important note about this version:**
 > - **DecaLog 4 is a transition version to prepare DecaLog 5.**
-> - **No migration path wil be available to migrate from DecaLog 3.x to 5.x, so don't ignore this version 4: install it!**
+> - **No migration path will be available to migrate from DecaLog 3.x to 5.x, so don't ignore this version 4: install it!**
 > - **DecaLog 5 will be available in early 2025.**
 
 ### Added
@@ -945,7 +945,7 @@ This sponsoring is a way to keep PerfOps One plugins suite free, open source and
 - Events relating to HTTP error codes (outbound requests) are now classified according to their severity.
 - The word "blog" has been replaced by "site" in events messages.
 - Some help strings have been modified to be more clear.
-- Lower severity of serialized json messages (triggered by `wp_die` handler) from criticial to debug.
+- Lower severity of serialized json messages (triggered by `wp_die` handler) from critical to debug.
 
 ### Removed
 - "Switch Blog" event (for WPMU) because lack of documentation.

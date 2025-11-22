@@ -48,7 +48,7 @@ class Comment {
 		if ( $comment instanceof \WP_Comment ) {
 			return sprintf( '"%s" (comment ID %s)', wp_trim_words( wp_kses( $comment->comment_content, [] ), 8 ), $comment->comment_ID );
 		} else {
-			return 'unknow comment';
+			return 'unknown comment';
 		}
 	}
 

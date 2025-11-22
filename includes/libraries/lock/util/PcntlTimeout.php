@@ -52,10 +52,10 @@ final class PcntlTimeout
      * Runs the code and would eventually time out.
      *
      * This method has the side effect, that any signal handler for SIGALRM will
-     * be reset to the default hanlder (SIG_DFL). It also expects that there is
+     * be reset to the default handler (SIG_DFL). It also expects that there is
      * no previously scheduled alarm. If your application uses alarms
      * ({@link pcntl_alarm()}) or a signal handler for SIGALRM, don't use this
-     * method. It will interfer with your application and lead to unexpected
+     * method. It will interfere with your application and lead to unexpected
      * behaviour.
      *
      * @param  callable $code Executed code block

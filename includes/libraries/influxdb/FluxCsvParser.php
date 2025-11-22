@@ -291,7 +291,7 @@ class FluxCsvParser
         }
 
         if ('dateTime:RFC3339' == $column->dataType || 'dateTime:RFC3339Nano' == $column->dataType) {
-            ##todo nanoseconds precission, php datetime is only in microseconds precision
+            # @todo nanoseconds precision, php datetime is only in microseconds precision
             return $strVal;
         }
 

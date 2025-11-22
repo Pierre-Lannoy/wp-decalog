@@ -1196,10 +1196,10 @@ class Decalog_Admin {
 		);
 		if ( Cache::$apcu_available) {
 			$help  = '<img style="width:16px;vertical-align:text-bottom;" src="' . \Feather\Icons::get_base64( 'thumbs-up', 'none', '#00C800' ) . '" />&nbsp;';
-			$help .= decalog_esc_html__('APCu is available on your server: you can use high peformance storage mechanism.', 'decalog' );
+			$help .= decalog_esc_html__('APCu is available on your server: you can use high performance storage mechanism.', 'decalog' );
 		} else {
 			$help  = '<img style="width:16px;vertical-align:text-bottom;" src="' . \Feather\Icons::get_base64( 'alert-triangle', 'none', '#FF8C00' ) . '" />&nbsp;';
-			$help .= sprintf( decalog_esc_html__('APCu is not available on your server. To use high peformance storage mechanism you must activate %s PHP module.', 'decalog' ), '<code>apcu</code>' );
+			$help .= sprintf( decalog_esc_html__('APCu is not available on your server. To use high performance storage mechanism you must activate %s PHP module.', 'decalog' ), '<code>apcu</code>' );
 		}
 		add_settings_field(
 			'decalog_plugin_options_apcu',

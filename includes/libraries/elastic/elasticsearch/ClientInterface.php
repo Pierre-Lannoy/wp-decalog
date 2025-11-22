@@ -33,12 +33,12 @@ interface ClientInterface
     public function getLogger(): LoggerInterface;
 
      /**
-     * Set the asyncronous HTTP request
+     * Set the asynchronous HTTP request
      */
     public function setAsync(bool $async): self;
 
     /**
-     * Get the asyncronous HTTP request setting
+     * Get the asynchronous HTTP request setting
      */
     public function getAsync(): bool;
 
@@ -64,7 +64,7 @@ interface ClientInterface
 
     /**
      * Send the HTTP request using the Elastic Transport.
-     * It manages syncronous and asyncronus requests using Client::getAsync()
+     * It manages synchronous and asynchronous requests using Client::getAsync()
      * 
      * @return Elasticsearch|Promise
      */

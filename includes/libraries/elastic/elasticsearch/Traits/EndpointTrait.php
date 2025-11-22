@@ -30,7 +30,7 @@ use function sprintf;
 trait EndpointTrait
 {
     /**
-     * Check if an array containts nested array
+     * Check if an array contains nested array
      */
     private function isNestedArray(array $a): bool
     {
@@ -156,7 +156,7 @@ trait EndpointTrait
 
     /**
      * Build the API compatibility headers
-     * transfrom Content-Type and Accept adding vnd.elasticsearch+ and compatible-with
+     * transform Content-Type and Accept adding vnd.elasticsearch+ and compatible-with
      * 
      * @see https://github.com/elastic/elasticsearch-php/pull/1142
      */

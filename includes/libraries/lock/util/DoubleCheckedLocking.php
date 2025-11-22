@@ -49,7 +49,7 @@ class DoubleCheckedLocking
      *
      * If then returns boolean boolean false, the check did not pass before or
      * after acquiring the lock. A boolean false can also be returned from the
-     * critical code callback to indicate that processing did not occure or has
+     * critical code callback to indicate that processing did not occur or has
      * failed. It is up to the user to decide the last point.
      *
      * @param callable $code The critical code callback.
