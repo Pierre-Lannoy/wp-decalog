@@ -1386,9 +1386,9 @@ class CoreListener extends AbstractListener {
 	 */
 	public function pre_clear_scheduled_hook( $pre, $hook, $args = null, $wp_error = null ) {
 		if ( is_null( $pre ) ) {
-			$this->logger->info( sprintf( 'The "%s" event will be cleared.', $hook ) );
+			$this->logger->debug( sprintf( 'The "%s" event will be cleared.', $hook ) );
 		} else {
-			$this->logger->notice( sprintf( 'A plugin prevented the "%s" event to be cleared.', $hook ) );
+			$this->logger->info( sprintf( 'A plugin prevented the "%s" event to be cleared.', $hook ) );
 		}
 		return $pre;
 	}
