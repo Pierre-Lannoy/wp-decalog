@@ -126,7 +126,7 @@ class WordpressTracingHandler {
 	 * @since    1.0.0
 	 */
 	public function cron_clean() {
-		$this->storage->cron_clean( $this->logger );
+		return $this->storage->cron_clean( $this->logger );
 	}
 
 }
