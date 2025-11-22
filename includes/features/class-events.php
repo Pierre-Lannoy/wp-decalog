@@ -563,17 +563,17 @@ class Events extends \WP_List_Table {
 		$level   = array_key_exists( 'level', $this->filters ) ? $this->filters['level'] : '';
 		unset( $this->filters['level'] );
 		$s1                     = '<a href="' . $this->get_page_url() . '"' . ( '' === $level ? ' class="current"' : '' ) . '>' . decalog_esc_html__( 'All', 'decalog' ) . ' <span class="count">(' . $this->get_count() . ')</span></a>';
-		$this->filters['level'] = 'notice';
-		$s2                     = '<a href="' . $this->get_page_url() . '"' . ( 'notice' === $level ? ' class="current"' : '' ) . '>' . decalog_esc_html__( 'Notices & beyond', 'decalog' ) . ' <span class="count">(' . $this->get_count() . ')</span></a>';
-		$this->filters['level'] = 'error';
-		$s3                     = '<a href="' . $this->get_page_url() . '"' . ( 'error' === $level ? ' class="current"' : '' ) . '>' . decalog_esc_html__( 'Errors & beyond', 'decalog' ) . ' <span class="count">(' . $this->get_count() . ')</span></a>';
 		$this->filters['level'] = 'debug';
-		$s4                     = '<a href="' . $this->get_page_url() . '"' . ( 'debug' === $level ? ' class="current"' : '' ) . '>' . decalog_esc_html__( 'Debug', 'decalog' ) . ' <span class="count">(' . $this->get_count() . ')</span></a>';
+		$s2                     = '<a href="' . $this->get_page_url() . '"' . ( 'debug' === $level ? ' class="current"' : '' ) . '>' . decalog_esc_html__( 'Debug', 'decalog' ) . ' <span class="count">(' . $this->get_count() . ')</span></a>';
+		$this->filters['level'] = 'notice';
+		$s3                     = '<a href="' . $this->get_page_url() . '"' . ( 'notice' === $level ? ' class="current"' : '' ) . '>' . decalog_esc_html__( 'Notices & beyond', 'decalog' ) . ' <span class="count">(' . $this->get_count() . ')</span></a>';
+		$this->filters['level'] = 'error';
+		$s4                     = '<a href="' . $this->get_page_url() . '"' . ( 'error' === $level ? ' class="current"' : '' ) . '>' . decalog_esc_html__( 'Errors & beyond', 'decalog' ) . ' <span class="count">(' . $this->get_count() . ')</span></a>';
 		$status_links           = [
 			'all'     => $s1,
-			'notices' => $s2,
-			'errors'  => $s3,
-			'debugs'  => $s4,
+			'debugs'  => $s2,
+			'notices' => $s3,
+			'errors'  => $s4,
 		];
 		$this->filters          = $filters;
 		return $status_links;
