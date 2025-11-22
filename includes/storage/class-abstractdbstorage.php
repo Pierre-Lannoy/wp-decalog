@@ -126,6 +126,7 @@ abstract class AbstractDBStorage extends AbstractStorage {
 			}
 			return $count;
 		}
+		return 0;
 	}
 
 	/**
