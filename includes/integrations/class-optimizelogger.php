@@ -65,7 +65,7 @@ class OptimizeLogger extends \Updraft_Abstract_Logger {
 	 * @param  array  $context Optional. The context - only code will be set in DecaLog.
 	 * @since 1.9.0
 	 */
-	public function emergency( $message, array $context = [] ) {
+	public function emergency( $message, $context = [] ) {
 		$this->logger->emergency( (string) $message, is_array( $context ) && array_key_exists( 'code', $context ) && is_scalar( $context['code'] ) ? (int) $context['code'] : 0 );
 	}
 
@@ -76,7 +76,7 @@ class OptimizeLogger extends \Updraft_Abstract_Logger {
 	 * @param  array  $context Optional. The context - only code will be set in DecaLog.
 	 * @since 1.9.0
 	 */
-	public function alert( $message, array $context = [] ) {
+	public function alert( $message, $context = [] ) {
 		$this->logger->alert( (string) $message, is_array( $context ) && array_key_exists( 'code', $context ) && is_scalar( $context['code'] ) ? (int) $context['code'] : 0 );
 	}
 
@@ -87,7 +87,7 @@ class OptimizeLogger extends \Updraft_Abstract_Logger {
 	 * @param  array  $context Optional. The context - only code will be set in DecaLog.
 	 * @since 1.9.0
 	 */
-	public function critical( $message, array $context = [] ) {
+	public function critical( $message, $context = [] ) {
 		$this->logger->critical( (string) $message, is_array( $context ) && array_key_exists( 'code', $context ) && is_scalar( $context['code'] ) ? (int) $context['code'] : 0 );
 	}
 
@@ -99,7 +99,7 @@ class OptimizeLogger extends \Updraft_Abstract_Logger {
 	 * @param  array  $context Optional. The context - only code will be set in DecaLog.
 	 * @since 1.9.0
 	 */
-	public function error( $message, array $context = [] ) {
+	public function error( $message, $context = [] ) {
 		$this->logger->error( (string) $message, is_array( $context ) && array_key_exists( 'code', $context ) && is_scalar( $context['code'] ) ? (int) $context['code'] : 0 );
 	}
 
@@ -110,7 +110,7 @@ class OptimizeLogger extends \Updraft_Abstract_Logger {
 	 * @param  array  $context Optional. The context - only code will be set in DecaLog.
 	 * @since 1.9.0
 	 */
-	public function warning( $message, array $context = [] ) {
+	public function warning( $message, $context = [] ) {
 		$this->logger->warning( (string) $message, is_array( $context ) && array_key_exists( 'code', $context ) && is_scalar( $context['code'] ) ? (int) $context['code'] : 0 );
 	}
 
@@ -121,7 +121,7 @@ class OptimizeLogger extends \Updraft_Abstract_Logger {
 	 * @param  array  $context Optional. The context - only code will be set in DecaLog.
 	 * @since 1.9.0
 	 */
-	public function notice( $message, array $context = [] ) {
+	public function notice( $message, $context = [] ) {
 		$this->logger->notice( (string) $message, is_array( $context ) && array_key_exists( 'code', $context ) && is_scalar( $context['code'] ) ? (int) $context['code'] : 0 );
 	}
 
@@ -134,7 +134,7 @@ class OptimizeLogger extends \Updraft_Abstract_Logger {
 	 * @param  array  $context Optional. The context - only code will be set in DecaLog.
 	 * @since 1.9.0
 	 */
-	public function info( $message, array $context = [] ) {
+	public function info( $message, $context = [] ) {
 		$this->logger->info( (string) $message, is_array( $context ) && array_key_exists( 'code', $context ) && is_scalar( $context['code'] ) ? (int) $context['code'] : 0 );
 	}
 
@@ -145,7 +145,7 @@ class OptimizeLogger extends \Updraft_Abstract_Logger {
 	 * @param  array  $context Optional. The context - only code will be set in DecaLog.
 	 * @since 1.9.0
 	 */
-	public function debug( $message, array $context = [] ) {
+	public function debug( $message, $context = [] ) {
 		$this->logger->debug( (string) $message, is_array( $context ) && array_key_exists( 'code', $context ) && is_scalar( $context['code'] ) ? (int) $context['code'] : 0 );
 	}
 
@@ -157,7 +157,7 @@ class OptimizeLogger extends \Updraft_Abstract_Logger {
 	 * @param  array  $context Optional. The context - only code will be set in DecaLog.
 	 * @since 1.9.0
 	 */
-	public function log( $level, $message, array $context = [] ) {
+	public function log( $level, $message, $context = [] ) {
 		$this->logger->log( $level, (string) $message, is_array( $context ) && array_key_exists( 'code', $context ) && is_scalar( $context['code'] ) ? (int) $context['code'] : 0 );
 	}
 }
