@@ -222,7 +222,9 @@ class Updater {
 			return $res;
 		}
 		$md                           = new Markdown();
-		$res                          = new \stdClass();
+		if ( ! is_object( $res ) ) {
+			$res = new \stdClass();
+		}
 		$res->name                    = $this->name;
 		$res->homepage                = 'https://perfops.one/' . $this->slug;
 		$res->slug                    = $this->slug;
@@ -237,13 +239,22 @@ class Updater {
 		$res->version                 = $infos->version;
 		$res->download_link           = $infos->download_url;
 		$res->trunk                   = $infos->download_url;
-		$res->sections                = [
-			'changelog' => $md->get_inline( $infos->changelog, [] ) . '<br/><br/><p><a target="_blank" href="' . $res->homepage . '-changelog">CHANGELOG »</a></p>',
-		];
-		$res->banners                 = [
-			"low"  => str_replace( 'github.com', 'raw.githubusercontent.com', $this->product ) . '/refs/heads/master/.wordpress-org/banner-772x250.jpg',
-			"high" => str_replace( 'github.com', 'raw.githubusercontent.com', $this->product ) . '/refs/heads/master/.wordpress-org/banner-1544x500.jpg'
-		];
+		if ( isset( $res->sections['changelog'] ) ) {
+			$res->sections['changelog'] = $md->get_inline( $infos->changelog, [] ) . '<br/><br/><p><a target="_blank" href="' . $res->homepage . '-changelog">CHANGELOG »</a></p>';
+		} else {
+			$res->sections = [
+				'changelog' => $md->get_inline( $infos->changelog, [] ) . '<br/><br/><p><a target="_blank" href="' . $res->homepage . '-changelog">CHANGELOG »</a></p>',
+			];
+		}
+		if ( isset( $res->banners['low'] ) && isset( $res->banners['high'] )) {
+			$res->banners['low'] = str_replace( 'github.com', 'raw.githubusercontent.com', $this->product ) . '/refs/heads/master/.wordpress-org/banner-772x250.jpg';
+			$res->banners['high'] = str_replace( 'github.com', 'raw.githubusercontent.com', $this->product ) . '/refs/heads/master/.wordpress-org/banner-1544x500.jpg';
+		} else {
+			$res->banners                 = [
+				'low'  => str_replace( 'github.com', 'raw.githubusercontent.com', $this->product ) . '/refs/heads/master/.wordpress-org/banner-772x250.jpg',
+				'high' => str_replace( 'github.com', 'raw.githubusercontent.com', $this->product ) . '/refs/heads/master/.wordpress-org/banner-1544x500.jpg'
+			];
+		}
 		return $res;
 	}
 
