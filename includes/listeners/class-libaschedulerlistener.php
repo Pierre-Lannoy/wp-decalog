@@ -137,7 +137,7 @@ class LibASchedulerListener extends AbstractListener {
 	 * @since    2.4.0
 	 */
 	public function action_scheduler_deleted_action( $action_id ) {
-		$this->logger->notice( sprintf( 'Action "%s" (action ID %s) deleted.', \ActionScheduler::store()->fetch_action( $action_id )->get_hook(), $action_id ) );
+		$this->logger->info( sprintf( 'Action "%s" (action ID %s) deleted.', \ActionScheduler::store()->fetch_action( $action_id )->get_hook(), $action_id ) );
 	}
 
 	/**
@@ -191,7 +191,7 @@ class LibASchedulerListener extends AbstractListener {
 	 * @since    2.4.0
 	 */
 	public function action_scheduler_failed_old_action_deletion( $action_id, $exception ) {
-		$this->logger->error( sprintf( 'Unable to delete old action "%s" (action ID %s): %s.', \ActionScheduler::store()->fetch_action( $action_id )->get_hook(), $action_id, ( $exception instanceof \Throwable ? $exception->getMessage() : 'unknown error' ) ) );
+		$this->logger->notice( sprintf( 'Unable to delete old action "%s" (action ID %s): %s.', \ActionScheduler::store()->fetch_action( $action_id )->get_hook(), $action_id, ( $exception instanceof \Throwable ? $exception->getMessage() : 'unknown error' ) ) );
 	}
 
 	/**
