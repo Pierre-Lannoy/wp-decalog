@@ -3,8 +3,8 @@ Contributors: PierreLannoy, hosterra
 Tags: logs, error reporting, monitoring, tracing, logging
 Requires at least: 6.2
 Requires PHP: 8.1
-Tested up to: 6.8
-Stable tag: 4.4.0
+Tested up to: 6.9
+Stable tag: 4.5.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
