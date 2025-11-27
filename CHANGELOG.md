@@ -11,7 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 - [BC] Default PHP errors mapping has changed: now, `E_USER_NOTICE`, `E_STRICT` and `E_USER_DEPRECATED` are logged as `debug` events.
 - [BC] Some Action Scheduler events have a lower level (thanks to [Jan Thiel](https://github.com/JanThiel)).
-- [WP-CLI] Using `--quiet` now disables logging of events that are not errors. (thanks to [Jan Thiel](https://github.com/JanThiel)).
+- [WP-CLI] Using `--quiet` now disables logging of events that are not errors (thanks to [Jan Thiel](https://github.com/JanThiel)).
 - The levels of `pre_clear_scheduled_hook` are now debug/info to prevent excessive noise.
 - The level mapping is now usable earlyer while logging PHP errors (thanks to [s.protasov](https://github.com/pro2s)).
 - The auto loading sequence have been improved (thanks to [Viktor Szépe](https://github.com/szepeviktor)).
