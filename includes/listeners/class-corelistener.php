@@ -149,7 +149,7 @@ class CoreListener extends AbstractListener {
 		add_action( 'deleted_option', [ $this, 'deleted_option' ], 10, 1 );
 		add_action( 'add_site_option', [ $this, 'add_site_option' ], 10, 3 );
 		add_action( 'update_site_option', [ $this, 'update_site_option' ], 10, 3 );
-		add_action( 'delete_site_option', [ $this, 'delete_site_option' ], 10, 4 );
+		add_action( 'delete_site_option', [ $this, 'delete_site_option' ], 10, 2 );
 		// Users.
 		add_action( 'delete_user', [ $this, 'delete_user' ], 10, 2 );
 		add_action( 'user_register', [ $this, 'user_register' ], 10, 1 );
@@ -363,7 +363,7 @@ class CoreListener extends AbstractListener {
 		 *
 		 * @since 3.1.0
 		 *
-		 * @param (array) $this->posts_nolog The posts ids or titles.
+		 * @param array $posts The posts ids or titles.
 		 */
 		$this->posts_nolog = apply_filters( 'decalog_no_log_post_activity', [] );
 		return $this->posts_nolog;
