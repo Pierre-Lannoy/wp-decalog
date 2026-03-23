@@ -1,10 +1,10 @@
 === DecaLog ===
 Contributors: PierreLannoy, hosterra
 Tags: logs, error reporting, monitoring, tracing, logging
-Requires at least: 6.2
-Requires PHP: 8.1
-Tested up to: 6.9
-Stable tag: 4.5.0
+Requires at least: 6.4
+Requires PHP: 8.2
+Tested up to: 7.0
+Stable tag: 4.6.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -34,7 +34,7 @@ If you're a plugins / themes developer and want to take advantage of the logging
 
 This plugin is free and provided without warranty of any kind. Use it at your own risk, I'm not responsible for any improper use of this plugin, nor for any damage it might cause to your site. Always backup all your data before installing a new plugin.
 
-Anyway, I'll be glad to help you if you encounter issues when using this plugin. Just use the support section of this plugin page.
+Anyway, I'll be glad to help you if you encounter issues when using this plugin. Please read carefully the FAQ at the bottom of this page before requesting support.
 
 = Privacy =
 
@@ -70,17 +70,13 @@ If you like this plugin or find it useful and want to thank me for the work done
 
 == Frequently Asked Questions ==
 
-= What are the requirements for this plugin to work? =
-
-You need at least **WordPress 5.2** and **PHP 7.2**.
-
 = Can this plugin work on multisite? =
 
 Yes. It is designed to work on multisite too. Network Admins can configure the plugin and have access to all logs. Sites Admins have access to the logs of their own sites only.
 
 = Where can I get support? =
 
-Support is provided via the official [WordPress page](https://wordpress.org/support/plugin/decalog/).
+Support is provided via the official [WordPress page](https://wordpress.org/support/plugin/decalog/). Because I am human myself, please note that I only answer to support requests made by humans, who behave like humans. This excludes requests or bug reports written by AI or those that do not adhere to basic rules of courtesy.
 
 = Where can I find documentation? =
 

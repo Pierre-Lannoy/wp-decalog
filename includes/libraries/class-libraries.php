@@ -155,6 +155,17 @@ class Libraries {
 			'license' => 'apl2',
 			'langs'   => 'en',
 		];
+		self::$psr4_libraries['opensearch']   = [
+			'name'    => 'OpenSearch',
+			'prefix'  => 'OpenSearch',
+			'base'    => DECALOG_VENDOR_DIR . 'opensearch/',
+			'version' => '2.5.1',
+			// phpcs:ignore
+			'author'  => 'The OpenSearch Software Foundation',
+			'url'     => 'https://github.com/opensearch-project/opensearch-php',
+			'license' => 'apl2',
+			'langs'   => 'en',
+		];
 		self::$psr4_libraries['guzzlehttp']   = [
 			'name'    => 'GuzzleHttp',
 			'prefix'  => 'DLGuzzleHttp',
@@ -162,7 +173,7 @@ class Libraries {
 			'version' => '7.8.1',
 			// phpcs:ignore
 			'author'  => 'Michael Dowling',
-			'url'     => 'https://github.com/elastic/elasticsearch-php',
+			'url'     => 'https://github.com/guzzle/guzzle',
 			'license' => 'mit',
 			'langs'   => 'en',
 		];

@@ -51,7 +51,7 @@ class ElasticHandler extends ElasticsearchHandler {
 			$index = 'decalog';
 		}
 		$index   = strtolower( str_replace( [ ' ' ], '-', sanitize_text_field( $index ) ) );
-		$client  = \Elastic\Elasticsearch\ClientBuilder::create()->setHosts( [ $url ] )->setBasicAuthentication( $user, $pass )->build();
+		$client  = \Elastic\Elasticsearch\ClientBuilder::create()->setHosts( [ $url ] )->setSSLVerification(false)->setBasicAuthentication( $user, $pass )->build();
 		$options = [
 			'index' => $index
 		];

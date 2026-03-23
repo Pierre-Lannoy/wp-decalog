@@ -53,6 +53,28 @@ class UUID {
 	}
 
 	/**
+	 * Check if a string is a valid v4 UUID
+	 *
+	 * @param mixed $uuid The string to check
+	 * @return  boolean True if the string is a valid v4 UUID, false otherwise.
+	 * @since  2.0.0
+	 */
+	public static function is_valid_v4( $uuid ) {
+		return is_string( $uuid ) && preg_match( '/^[a-f\d]{8}(-[a-f\d]{4}){4}[a-f\d]{8}$/i', $uuid );
+	}
+
+	/**
+	 * Sanitize a v4 UUID
+	 *
+	 * @param mixed $uuid The string to sanitize
+	 * @return  string The sanitized v4 UUID.
+	 * @since  2.0.0
+	 */
+	public static function sanitize_v4( $uuid ) {
+		return self::is_valid_v4( $uuid ) ? (string) $uuid : '00000000-0000-4000-0000-000000000000';
+	}
+
+	/**
 	 * Generates a (pseudo) unique ID.
 	 * This function does not generate cryptographically secure values, and should not be used for cryptographic purposes.
 	 *

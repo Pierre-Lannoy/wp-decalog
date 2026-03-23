@@ -10,9 +10,9 @@
  * Plugin Name:       DecaLog
  * Plugin URI:        https://perfops.one/decalog
  * Description:       Capture and log events, metrics and traces on your site. Make WordPress observable – finally!
- * Version:           4.5.0
- * Requires at least: 6.2
- * Requires PHP:      8.1
+ * Version:           4.6.0
+ * Requires at least: 6.4
+ * Requires PHP:      8.2
  * Author:            Pierre Lannoy / PerfOps One
  * Author URI:        https://perfops.one
  * License:           GPLv3

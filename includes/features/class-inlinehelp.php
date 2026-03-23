@@ -15,6 +15,7 @@ use Decalog\System\Environment;
 use Decalog\System\L10n;
 use Decalog\System\Markdown;
 use Decalog\System\Role;
+use Decalog\System\UUID;
 
 /**
  * Define the inline help functionality.
@@ -93,6 +94,15 @@ class InlineHelp {
 		}
 		if ( ! ( $this->trace_id = filter_input( INPUT_GET, 'traceid', FILTER_SANITIZE_FULL_SPECIAL_CHARS ) ) ) {
 			$this->trace_id = filter_input( INPUT_POST, 'traceid', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+		}
+		if ( $this->log_id ) {
+			$this->log_id = UUID::sanitize_v4( $this->log_id );
+		}
+		if ( $this->event_id ) {
+			$this->event_id = (int) $this->event_id ;
+		}
+		if ( $this->trace_id ) {
+			$this->trace_id = (int) $this->trace_id ;
 		}
 	}
 

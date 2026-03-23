@@ -1669,6 +1669,8 @@ class HandlerTypes {
 				],
 			],
 		];
+
+
 		$this->handlers[] = [
 			'version'       => DECALOG_VERSION,
 			'id'            => 'ElasticHandler',
@@ -1678,6 +1680,111 @@ class HandlerTypes {
 			'name'          => 'Elasticsearch - Events',
 			'help'          => decalog_esc_html__( 'Events sent to Elasticsearch.', 'decalog' ),
 			'icon'          => $this->get_base64_elasticsearch_icon(),
+			'needs'         => [],
+			'params'        => [ 'processors', 'privacy' ],
+			'configuration' => [
+				'url'   => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => decalog_esc_html__( 'Service URL', 'decalog' ),
+					'help'    => sprintf( decalog_esc_html__( 'URL where to send logs. Format: %s.', 'decalog' ), '<code>' . htmlentities( '<proto>://<host>:<port>' ) . '</code>' ) . $this->get_substitution_note(),
+					'default' => 'http://localhost:9200',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
+				'user'  => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => decalog_esc_html__( 'Username', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The username of the instance.', 'decalog' ) . $this->get_substitution_note(),
+					'default' => '',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
+				'pass'  => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => decalog_esc_html__( 'Password', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The password of the instance.', 'decalog' ) . $this->get_substitution_note(),
+					'default' => '',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
+				'index' => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => decalog_esc_html__( 'Index', 'decalog' ),
+					'help'    => decalog_esc_html__( 'The index name.', 'decalog' ) . $this->get_substitution_note(),
+					'default' => 'decalog',
+					'control' => [
+						'type'    => 'field_input_text',
+						'cast'    => 'string',
+						'enabled' => true,
+					],
+				],
+				'extended' => [
+					'type'    => 'string',
+					'show'    => true,
+					'name'    => decalog_esc_html__( 'Extended fields', 'decalog' ),
+					'help'    => decalog_esc_html__( 'Fields to add to each logged event (one pair of key=value per line).', 'decalog' ) . '<br/>' . decalog_esc_html__( 'Example:', 'decalog' ) . ' <code>hostname={HOSTNAME}</code> ' . decalog_esc_html__( 'or', 'decalog' ) . ' <code>foo=bar</code> ' . decalog_esc_html__( 'or', 'decalog' ) . ' <code>foobar=42</code>.' . $this->get_substitution_note(),
+					'default' => '',
+					'control' => [
+						'type'    => 'field_input_textarea',
+						'cast'    => 'string',
+						'enabled' => true,
+						'columns' => 50,
+						'lines'   => 5,
+					],
+				],
+			],
+			'init'          => [
+				[
+					'type'  => 'configuration',
+					'value' => 'url',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'user',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'pass',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'index',
+				],
+				[
+					'type'  => 'configuration',
+					'value' => 'extended',
+				],
+				[ 'type' => 'level' ],
+				[
+					'type'  => 'literal',
+					'value' => true,
+				],
+			],
+		];
+
+
+		$this->handlers[] = [
+			'version'       => DECALOG_VERSION,
+			'id'            => 'OpensearchHandler',
+			'namespace'     => 'Decalog\\Handler',
+			'class'         => 'logging',
+			'minimal'       => Logger::DEBUG,
+			'name'          => 'OpenSearch - Events',
+			'help'          => decalog_esc_html__( 'Events sent to OpenSearch.', 'decalog' ),
+			'icon'          => $this->get_base64_opensearch_icon(),
 			'needs'         => [],
 			'params'        => [ 'processors', 'privacy' ],
 			'configuration' => [
@@ -3820,6 +3927,28 @@ class HandlerTypes {
 		$source .= '<style>.st0{clip-path:url(#SVGID_2_);fill:' . $color1 . '}.st1{clip-path:url(#SVGID_4_);fill:' . $color2 . '}.st2{clip-path:url(#SVGID_6_);fill:' . $color3 . '}.st3{clip-path:url(#SVGID_8_);fill:' . $color4 . '}.st4{fill:' . $color5 . '}.st5{fill:' . $color6 . '}.st6{fill:none}</style>';
 		$source .= '<defs><circle id="SVGID_1_" cx="40" cy="40" r="32"/></defs><clipPath id="SVGID_2_"><use xlink:href="#SVGID_1_" overflow="visible"/></clipPath><path class="st0" d="M53.7 26H10c-1.1 0-2-.9-2-2V10c0-1.1.9-2 2-2h57c1.1 0 2 .9 2 2v.7C68.9 19.1 62.1 26 53.7 26z"/><defs><circle id="SVGID_3_" cx="40" cy="40" r="32"/></defs><clipPath id="SVGID_4_"><use xlink:href="#SVGID_3_" overflow="visible"/></clipPath><path class="st1" d="M69.1 72H8.2V54h45.7c8.4 0 15.2 6.8 15.2 15.2V72z"/><g><defs><circle id="SVGID_5_" cx="40" cy="40" r="32"/></defs><clipPath id="SVGID_6_"><use xlink:href="#SVGID_5_" overflow="visible"/></clipPath><path class="st2" d="M50.1 49H4.8V31h45.3c5 0 9 4 9 9s-4.1 9-9 9z"/></g><g><defs><circle id="SVGID_7_" cx="40" cy="40" r="32"/></defs><clipPath id="SVGID_8_"><use xlink:href="#SVGID_7_" overflow="visible"/></clipPath><path class="st3" d="M36 31H6.4v18H36c.7-2.7 1.1-5.7 1.1-9s-.4-6.3-1.1-9z"/></g><path class="st4" d="M23.9 12.3c-5.4 3.2-9.9 8-12.7 13.7h23.6c-2.4-5.5-6.2-10.1-10.9-13.7z"/><path class="st5" d="M24.9 68.2c4.6-3.7 8.3-8.6 10.6-14.2H11.2c3 6 7.8 11 13.7 14.2z"/><path class="st6" d="M0 0h80v80H0z"/>';
 		$source .= '</svg>';
+		// phpcs:ignore
+		return 'data:image/svg+xml;base64,' . base64_encode( $source );
+	}
+
+	/**
+	 * Returns a base64 svg resource for the OpenSearch icon.
+	 *
+	 * @param string $color1 Optional. Color of the icon.
+	 * @param string $color2 Optional. Color of the icon.
+	 * @param string $color3 Optional. Color of the icon.
+	 * @param string $color4 Optional. Color of the icon.
+	 * @param string $color5 Optional. Color of the icon.
+	 * @param string $color6 Optional. Color of the icon.
+	 * @return string The svg resource as a base64.
+	 * @since 4.6.0
+	 */
+	private function get_base64_opensearch_icon( $color1 = '#005EB8', $color2 = '#003B5C' ) {
+		$source  = '<svg viewBox="-8 -8 78 78" fill="none" xmlns="http://www.w3.org/2000/svg">';
+		$source  .= '<path d="M61.7374 23.5C60.4878 23.5 59.4748 24.513 59.4748 25.7626C59.4748 44.3813 44.3813 59.4748 25.7626 59.4748C24.513 59.4748 23.5 60.4878 23.5 61.7374C23.5 62.987 24.513 64 25.7626 64C46.8805 64 64 46.8805 64 25.7626C64 24.513 62.987 23.5 61.7374 23.5Z" fill="' . $color1 . '"/>';
+		$source  .= '<path d="M48.0814 38C50.2572 34.4505 52.3615 29.7178 51.9475 23.0921C51.0899 9.36725 38.6589 -1.04463 26.9206 0.0837327C22.3253 0.525465 17.6068 4.2712 18.026 10.9805C18.2082 13.8961 19.6352 15.6169 21.9544 16.9399C24.1618 18.1992 26.9978 18.9969 30.2128 19.9011C34.0962 20.9934 38.6009 22.2203 42.063 24.7717C46.2125 27.8295 49.0491 31.3743 48.0814 38Z" fill="' . $color2 . '"/>';
+		$source  .= '<path d="M3.91861 14C1.74276 17.5495 -0.361506 22.2822 0.0524931 28.9079C0.910072 42.6327 13.3411 53.0446 25.0794 51.9163C29.6747 51.4745 34.3932 47.7288 33.974 41.0195C33.7918 38.1039 32.3647 36.3831 30.0456 35.0601C27.8382 33.8008 25.0022 33.0031 21.7872 32.0989C17.9038 31.0066 13.3991 29.7797 9.93694 27.2283C5.78746 24.1704 2.95092 20.6257 3.91861 14Z" fill="' . $color1 . '"/>';
+		$source  .= '</svg>';
 		// phpcs:ignore
 		return 'data:image/svg+xml;base64,' . base64_encode( $source );
 	}

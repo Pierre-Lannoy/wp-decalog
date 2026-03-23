@@ -160,9 +160,9 @@ class Decalog_Admin {
 	public function set_viewer_help( $hook_suffix ) {
 		$this->current_view = null;
 		add_action( 'load-' . $hook_suffix, [ new InlineHelp(), 'set_contextual_viewer' ] );
-		$logid   = filter_input( INPUT_GET, 'logid', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
-		$eventid = filter_input( INPUT_GET, 'eventid', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
-		$traceid = filter_input( INPUT_GET, 'traceid', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+		$logid   = UUID::sanitize_v4( filter_input( INPUT_GET, 'logid', FILTER_SANITIZE_FULL_SPECIAL_CHARS ) );
+		$eventid = (int) filter_input( INPUT_GET, 'eventid', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+		$traceid = (int) filter_input( INPUT_GET, 'traceid', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
 		if ( 'decalog-viewer' === filter_input( INPUT_GET, 'page', FILTER_SANITIZE_FULL_SPECIAL_CHARS ) ) {
 			if ( isset( $logid ) && isset( $eventid ) && 0 !== $eventid ) {
 				$this->current_view = new EventViewer( $logid, $eventid, $this->logger );

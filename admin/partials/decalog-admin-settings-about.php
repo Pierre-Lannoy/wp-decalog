@@ -32,7 +32,7 @@ if ( 3 !== decalog_get_psr_log_version() ) {
 $icon       = '<img class="decalog-about-logo" style="opacity:0;" src="' . Decalog\Plugin\Core::get_base64_logo() . '" />';
 $intro      = sprintf( decalog_esc_html__( '%1$s is a free and open source plugin for WordPress. It integrates other free and open source works (as-is or modified) like: %2$s.', 'decalog' ), '<em>' . DECALOG_PRODUCT_NAME . '</em>', do_shortcode( '[decalog-libraries]' ) );
 $trademarks = decalog_esc_html__( 'All brands, icons and graphic illustrations are registered trademarks of their respective owners.', 'decalog' );
-$brands     = [ 'Automattic', 'Bugsnag', 'Datadog', 'Elastic Cloud', 'Fluentd Project', 'Functional Software', 'Grafana Labs', 'Google', 'Hosterra', 'InfluxData', 'Nette Foundation', 'New Relic', 'Open Zipkin', 'PagerDuty', 'Pushover', 'Rapid7', 'Raygun', 'Sematext', 'Slack', 'Solarwinds', 'Spatie', 'Sumo Logic', 'The Linux Foundation', 'Uber' ];
+$brands     = [ 'Automattic', 'Bugsnag', 'Datadog', 'Elastic Cloud', 'Fluentd Project', 'Functional Software', 'Grafana Labs', 'Google', 'Hosterra', 'InfluxData', 'Nette Foundation', 'New Relic', 'Open Zipkin', 'PagerDuty', 'Pushover', 'Rapid7', 'Raygun', 'Sematext', 'Slack', 'Solarwinds', 'Spatie', 'Sumo Logic', 'The Linux Foundation', 'The OpenSearch Software Foundation','Uber' ];
 $official   = sprintf( decalog_esc_html__( 'This plugin is not an official software from %s and, as such, is not endorsed or supported by these companies.', 'decalog' ), implode( ', ', $brands ) );
 
 
