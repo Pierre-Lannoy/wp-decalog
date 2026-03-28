@@ -208,7 +208,7 @@ class EventTypes {
 				return 0;
 			}
 		}
-		if (  is_int( $level ) ) {
+		if ( is_int( $level ) ) {
 			return 0;
 		}
 	}
