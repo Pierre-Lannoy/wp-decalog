@@ -46,7 +46,7 @@ class DBStorage extends AbstractDBStorage {
 		}
 		$verbs = implode( ',', $cl );
 		if ( '' !== $this->bucket_name ) {
-			$charset_collate = 'DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci';
+			$charset_collate = 'DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci';
 			$sql             = 'CREATE TABLE IF NOT EXISTS ' . $wpdb->base_prefix . $this->bucket_name;
 			$sql            .= ' (`id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,';
 			$sql            .= " `timestamp` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',";
