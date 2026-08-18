@@ -1,7 +1,7 @@
 # DecaLog
 [![version](https://badgen.net/github/release/Pierre-Lannoy/wp-decalog/)](https://wordpress.org/plugins/decalog/)
-[![php](https://badgen.net/badge/php/7.2+/green)](https://wordpress.org/plugins/decalog/)
-[![wordpress](https://badgen.net/badge/wordpress/5.2+/green)](https://wordpress.org/plugins/decalog/)
+[![php](https://badgen.net/badge/php/8.2+/green)](https://wordpress.org/plugins/decalog/)
+[![wordpress](https://badgen.net/badge/wordpress/6.4+/green)](https://wordpress.org/plugins/decalog/)
 [![license](https://badgen.net/github/license/Pierre-Lannoy/wp-decalog/)](/license.txt)
 
 __Capture and log events, metrics and traces on your site. Make WordPress observable - finally!__
@@ -53,7 +53,3 @@ __DecaLog__ lets you use its logging features inside your ownplugins or themes. 
 Before submitting an issue or a pull request, please read the [contribution guidelines](CONTRIBUTING.md).
 
 > ⚠️ The `master` branch is the current development state of the plugin. If you want a stable, production-ready version, please pick the last official [release](https://github.com/Pierre-Lannoy/wp-decalog/releases).
-
-## Smoke tests
-[![WP compatibility](https://plugintests.com/plugins/decalog/wp-badge.svg)](https://plugintests.com/plugins/decalog/latest)
-[![PHP compatibility](https://plugintests.com/plugins/decalog/php-badge.svg)](https://plugintests.com/plugins/decalog/latest)
