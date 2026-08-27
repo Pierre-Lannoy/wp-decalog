@@ -405,6 +405,7 @@ class Traces extends \WP_List_Table {
 		 *
 		 * @See https://github.com/Pierre-Lannoy/wp-decalog/blob/master/HOOKS.md
 		 * @since 3.3.0
+		 * @param   array   $actions    Available actions.
 		 * @param   array   $item       The full trace with metadata.
 		 */
 		$actions = apply_filters( 'decalog_traces_list_actions_for_' . $column, [], $item );

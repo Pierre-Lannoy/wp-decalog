@@ -69,7 +69,7 @@ class WpmuListener extends AbstractListener {
 		add_action( 'wpmu_new_user', [ $this, 'new_user' ], 10, 1 );
 		add_action( 'network_site_new_created_user', [ $this, 'new_user' ], 10, 1 );
 		add_action( 'network_site_users_created_user', [ $this, 'new_user' ], 10, 1 );
-		add_action( 'wpmu_activate_user', [ $this, 'wpmu_activate_user' ], 10, 3 );
+		add_action( 'wpmu_activate_user', [ $this, 'wpmu_activate_user' ], 10, 1 );
 		add_action( 'wpmu_delete_user', [ $this, 'wpmu_delete_user' ], 10, 1 );
 		add_action( 'make_spam_user', [ $this, 'make_spam_user' ], 10, 1 );
 		add_action( 'make_ham_user', [ $this, 'make_ham_user' ], 10, 1 );

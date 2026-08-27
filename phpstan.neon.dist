@@ -1,0 +1,18 @@
+includes:
+    - vendor/szepeviktor/phpstan-wordpress/extension.neon
+parameters:
+    scanFiles:
+        - vendor/php-stubs/wp-cli-stubs/wp-cli-stubs.php
+    paths:
+        - decalog.php
+        - functions.php
+        - admin/
+        - includes/
+        - perfopsone/
+        - public/
+    excludePaths:
+        analyse:
+            - includes/libraries/*
+    level: 5
+    ignoreErrors:
+        - '#^Unsafe usage of new static#'
