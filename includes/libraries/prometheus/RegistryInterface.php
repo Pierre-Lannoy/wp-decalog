@@ -8,6 +8,13 @@ use Prometheus\Exception\MetricsRegistrationException;
 interface RegistryInterface
 {
     /**
+     * Removes all previously stored metrics from underlying storage adapter
+     *
+     * @return void
+     */
+    public function wipeStorage(): void;
+
+    /**
      * @return MetricFamilySamples[]
      */
     public function getMetricFamilySamples(): array;
@@ -79,7 +86,7 @@ interface RegistryInterface
      * @param string   $name e.g. duration_seconds
      * @param string   $help e.g. A histogram of the duration in seconds.
      * @param string[] $labels e.g. ['controller', 'action']
-     * @param float[]    $buckets e.g. [100, 200, 300]
+     * @param float[]|null $buckets e.g. [100, 200, 300]
      *
      * @return Histogram
      * @throws MetricsRegistrationException
@@ -89,7 +96,7 @@ interface RegistryInterface
         string $name,
         string $help,
         array $labels = [],
-        array $buckets = null
+        ?array $buckets = null
     ): Histogram;
 
     /**
@@ -106,10 +113,65 @@ interface RegistryInterface
      * @param string $name e.g. duration_seconds
      * @param string $help e.g. A histogram of the duration in seconds.
      * @param string[]  $labels e.g. ['controller', 'action']
-     * @param float[]  $buckets e.g. [100, 200, 300]
+     * @param float[]|null $buckets e.g. [100, 200, 300]
      *
      * @return Histogram
      * @throws MetricsRegistrationException
      */
-    public function getOrRegisterHistogram(string $namespace, string $name, string $help, array $labels = [], array $buckets = null): Histogram;
+    public function getOrRegisterHistogram(
+        string $namespace,
+        string $name,
+        string $help,
+        array $labels = [],
+        ?array $buckets = null
+    ): Histogram;
+
+    /**
+     * @param string   $namespace e.g. cms
+     * @param string   $name e.g. duration_seconds
+     * @param string   $help e.g. A histogram of the duration in seconds.
+     * @param string[] $labels e.g. ['controller', 'action']
+     * @param int $maxAgeSeconds e.g. 604800
+     * @param float[]|null $quantiles e.g. [0.01, 0.5, 0.99]
+     *
+     * @return Summary
+     * @throws MetricsRegistrationException
+     */
+    public function registerSummary(
+        string $namespace,
+        string $name,
+        string $help,
+        array $labels = [],
+        int $maxAgeSeconds = 86400,
+        ?array $quantiles = null
+    ): Summary;
+
+    /**
+     * @param string $namespace
+     * @param string $name
+     *
+     * @return Summary
+     * @throws MetricNotFoundException
+     */
+    public function getSummary(string $namespace, string $name): Summary;
+
+    /**
+     * @param string $namespace e.g. cms
+     * @param string $name e.g. duration_seconds
+     * @param string $help e.g. A histogram of the duration in seconds.
+     * @param string[]  $labels e.g. ['controller', 'action']
+     * @param int $maxAgeSeconds e.g. 604800
+     * @param float[]|null $quantiles e.g. [0.01, 0.5, 0.99]
+     *
+     * @return Summary
+     * @throws MetricsRegistrationException
+     */
+    public function getOrRegisterSummary(
+        string $namespace,
+        string $name,
+        string $help,
+        array $labels = [],
+        int $maxAgeSeconds = 86400,
+        ?array $quantiles = null
+    ): Summary;
 }

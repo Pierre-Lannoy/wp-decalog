@@ -82,7 +82,7 @@ class Libraries {
 			'name'    => 'Prometheus PHP',
 			'prefix'  => 'Prometheus',
 			'base'    => DECALOG_VENDOR_DIR . 'prometheus/',
-			'version' => '2.2.1',
+			'version' => '2.15.1',
 			// phpcs:ignore
 			'author'  => 'Lukas Kämmerling, Rafael Dohms',
 			'url'     => 'https://github.com/PromPHP',

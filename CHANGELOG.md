@@ -3,6 +3,15 @@ All notable changes to **DecaLog** are documented in this *changelog*.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and **DecaLog** adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.8.0] - 2026-11-24
+
+### Added
+- Compatibility with WordPress 7.2.
+
+### Fixed
+- [SEC006] SQL Injection vulnerability (thanks to [kta1kri](https://github.com/kta1kri)).
+- Some deprecated warning in Prometheus library.
+
 ## [4.7.1] - 2026-08-18
 
 ### Fixed

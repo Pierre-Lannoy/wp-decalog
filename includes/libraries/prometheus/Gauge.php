@@ -11,7 +11,7 @@ class Gauge extends Collector
     const TYPE = 'gauge';
 
     /**
-     * @param double $value e.g. 123
+     * @param float $value e.g. 123.0
      * @param string[] $labels e.g. ['status', 'opcode']
      */
     public function set(float $value, array $labels = []): void
@@ -77,10 +77,10 @@ class Gauge extends Collector
     }
 
     /**
-     * @param int $value
+     * @param int|float $value
      * @param string[] $labels
      */
-    public function decBy(int $value, array $labels = []): void
+    public function decBy($value, array $labels = []): void
     {
         $this->incBy(-$value, $labels);
     }
