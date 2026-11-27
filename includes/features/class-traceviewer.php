@@ -408,6 +408,7 @@ class TraceViewer {
 		 *
 		 * @See https://github.com/Pierre-Lannoy/wp-decalog/blob/master/HOOKS.md
 		 * @since 3.3.0
+		 * @param   array   $actions    Available actions.
 		 * @param   array   $item       The full trace with metadata.
 		 */
 		$actions = apply_filters( 'decalog_trace_view_actions_for_' . $box, [], $item );

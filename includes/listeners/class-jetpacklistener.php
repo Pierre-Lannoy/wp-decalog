@@ -58,7 +58,7 @@ class JetpackListener extends AbstractListener {
 	 * @since    1.6.0
 	 */
 	protected function launch() {
-		add_action( 'jetpack_log_entry', [ $this, 'jetpack_log_entry' ], 10, 2 );
+		add_action( 'jetpack_log_entry', [ $this, 'jetpack_log_entry' ], 10, 1 );
 		add_action( 'jpp_log_failed_attempt', [ $this, 'jpp_log_failed_attempt' ], 10, 1 );
 		add_action( 'jpp_kill_login', [ $this, 'jpp_kill_login' ], 10, 1 );
 		add_action( 'jetpack_site_registered', [ $this, 'jetpack_site_registered' ], 10, 3 );
